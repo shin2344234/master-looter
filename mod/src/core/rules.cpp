@@ -23,6 +23,18 @@ namespace ml::Rules
             if (kv.second < 0) { v.loot = false; v.rule = "tag never"; v.detail = kv.first; return v; }
             if (kv.second > 0 && !alwaysTag) alwaysTag = kv.first.c_str();
         }
+        // Protected by default: memory fragments start a memory scene when
+        // taken, and mechanism parts (puzzle pillars, power cores) break the
+        // puzzle they belong to. Only an explicit "always" on that very tag
+        // lifts the protection; an "always" on a broader tag does not.
+        static const char* protectedTags[] = { "memory-fragment", "gimmick" };
+        for (const char* tag : protectedTags)
+        {
+            if (!item.HasTag(tag)) continue;
+            auto t = cfg.tagRule.find(tag);
+            if (t != cfg.tagRule.end() && t->second > 0) continue;
+            v.loot = false; v.rule = "protected"; v.detail = tag; return v;
+        }
         if (alwaysTag) { v.loot = true; v.rule = "tag always"; v.detail = alwaysTag; return v; }
 
         if (item.klass == "dev") { v.loot = false; v.rule = "dev item"; return v; }

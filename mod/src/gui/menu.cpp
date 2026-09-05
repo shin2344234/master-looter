@@ -508,6 +508,7 @@ namespace ml::gui
         st.renderTid = GetCurrentThreadId();
         static bool s_wasOpen = false;
         if (st.menuOpen != s_wasOpen) { s_wasOpen = st.menuOpen; if (st.menuOpen) input::MenuOpened(); else input::MenuClosed(); }
+        if (st.menuOpen) input::FeedMouse(io);
 
         if (c.showHud) DrawNotice();
         if (!st.menuOpen) { st.textCapture = false; if (st.rebindCapture) { st.rebindCapture = false; g_rebindTarget = -1; } return; }

@@ -76,7 +76,10 @@ namespace ml::loot
     struct Done { DWORD when; int tries; };
     static std::unordered_map<uint64_t, Done>  g_done;      // recently sent
     static std::unordered_set<uint64_t>        g_searched;  // never again this session
-    static std::unordered_map<uint64_t, DWORD> g_armed;     // recently armed
+    struct ArmRec { DWORD at; int fails; bool judged; };
+    static std::unordered_map<uint64_t, ArmRec> g_armed;    // nodes we asked the game to fill
+    static std::unordered_map<uint32_t, const char*> g_why; // last logged verdict per entity
+    static int g_whyLines = 0;
     static std::unordered_map<uint32_t, DWORD> g_firstSeen; // eid -> when first listed
     static std::unordered_set<uint32_t>        g_containers;
     struct Spot { Vec3 p; uint16_t tid; DWORD when; };
@@ -87,17 +90,24 @@ namespace ml::loot
     static uintptr_t g_me = 0;
     static uint32_t  g_meEid = 0, g_meRoute = 0;
 
+    // An object gets up to four attempts, each waiting longer than the last
+    // (the game may refuse an event sent from too far away, and the object is
+    // still there when we come closer). Only after that is it given up for
+    // the session.
+    static constexpr int kMaxTries = 4;
     static bool RecentlyDone(uint64_t k, DWORD now, int retryMs)
     {
         auto it = g_done.find(k);
-        return it != g_done.end() && now - it->second.when < static_cast<DWORD>(retryMs);
+        if (it == g_done.end()) return false;
+        const DWORD wait = static_cast<DWORD>(retryMs) * static_cast<DWORD>(it->second.tries);
+        return now - it->second.when < wait;
     }
     static void MarkDone(uint64_t k, DWORD now)
     {
         auto it = g_done.find(k);
         if (it == g_done.end()) { g_done[k] = { now, 1 }; return; }
         it->second.when = now;
-        if (++it->second.tries >= 2) g_searched.insert(k); // does not disappear: give up on it
+        if (++it->second.tries > kMaxTries) g_searched.insert(k); // never disappears: give up on it
     }
     static bool SpotRecent(const Vec3& p, uint16_t tid, DWORD now, int retryMs)
     {
@@ -212,6 +222,8 @@ namespace ml::loot
         if (c.node[0])
         {
             if (IStr(c.node, "visione") || IStr(c.node, "quest") || IStr(c.node, "artifact")) return skip("quest or memory trigger");
+            if (IStr(c.node, "abyssruins")) return skip("fast-travel artifact");
+            if (IStr(c.node, "mission")) return skip("mission object");
             const bool container = IStr(c.node, "furniture") || IStr(c.node, "_chest") || IStr(c.node, "_box") || IStr(c.node, "dropset");
             if (container && !cfg.lootContainers) return skip("container (off)");
         }
@@ -445,6 +457,25 @@ namespace ml::loot
             }
         }
 
+        // Say once per object why it was skipped, so a wrong verdict can be
+        // read straight from the log without the verbose switch.
+        const float diagRange = std::max(std::max(cfg.lootRange, cfg.gatherRange), std::max(cfg.catchRange, cfg.corpseRange));
+        for (size_t i = 0; i < list.size() && g_whyLines < 600; ++i)
+        {
+            const Cand& k = list[i];
+            const Verdict& v = verdicts[i];
+            if (!k.filled || v.loot || k.d > diagRange) continue;
+            auto it = g_why.find(k.eid);
+            if (it != g_why.end() && it->second == v.why) continue;
+            g_why[k.eid] = v.why;
+            ++g_whyLines;
+            LOG("[why] %08X %.1fm %s: %s%s%s | type %u tag %02X cat %02X/%02X dead %u parent %08X %s%s%s%s%s%s%s",
+                k.eid, k.d, Label(k), v.why, v.detail[0] ? ": " : "", v.detail,
+                k.tid, k.type, k.cat, k.cat2, k.dead, k.parent,
+                k.inter ? "node " : "", k.item ? "item " : "", k.gather ? "gather " : "", k.ai ? "ai " : "",
+                k.twin ? "twin " : "", k.heap ? "heap " : "", k.node[0] ? k.node : "");
+        }
+
         int armedNow[32]; int armedN = 0;
         if (act && !settling)
         {
@@ -462,23 +493,33 @@ namespace ml::loot
                     if (!cfg.armContainers && g_containers.count(k.eid)) continue;
                     if (k.node[0] && !cfg.lootContainers && (IStr(k.node, "furniture") || IStr(k.node, "_chest") || IStr(k.node, "_box") || IStr(k.node, "dropset"))) continue;
                     const uint64_t key = Key(k);
+                    if (g_searched.count(key)) continue;
                     auto ar = g_armed.find(key);
-                    if ((ar != g_armed.end() && now - ar->second < 10000) || g_searched.count(key)) continue;
+                    if (ar != g_armed.end())
+                    {
+                        // Still empty after we armed it. Give the game two
+                        // seconds, then count a failure; three failures and
+                        // the node is not loot (a chest, a wardrobe).
+                        if (!ar->second.judged && now - ar->second.at > 2000)
+                        {
+                            ar->second.judged = true;
+                            if (++ar->second.fails >= 3) { g_searched.insert(key); if (cfg.debugLog) LOG("[arm] eid %08X never filled; ignoring it", k.eid); continue; }
+                        }
+                        if (!ar->second.judged || now - ar->second.at < 5000) continue; // wait, or cool down before re-arming
+                    }
                     const uintptr_t g = game::CompByClass(game::Comps(k.ent), kCls_Gimmick);
                     if (!g) continue;
-                    g_armed[key] = now;
+                    ArmRec& rec = g_armed[key];
+                    rec.at = now; rec.judged = false;
                     events::Arm(g, static_cast<uintptr_t>(hooks::ArmMode()), g_meEid);
                     if (armedN < 32) armedNow[armedN++] = k.eid;
                     if (cfg.debugLog) LOG("[arm] eid %08X %.1f m %s", k.eid, k.d, k.node[0] ? k.node : "");
                     if (++armed >= (cfg.perScan ? cfg.perScan : 8)) break;
                 }
             }
-            // Nodes armed on the previous scan that still have no data are not loot.
-            static std::vector<uint32_t> s_armedPrev;
-            for (uint32_t eid : s_armedPrev)
-                for (Cand& k : list)
-                    if (k.eid == eid && k.filled && !k.item && !k.gather && k.inter) { g_searched.insert(Key(k)); if (cfg.debugLog) LOG("[arm] eid %08X stayed empty; ignoring it from now on", eid); }
-            s_armedPrev.assign(armedNow, armedNow + armedN);
+            // A node that now carries data answered the arming: forget the record.
+            for (Cand& k : list)
+                if (k.filled && (k.item || k.gather)) g_armed.erase(Key(k));
 
             int taken = 0;
             const int cap = burst ? (cfg.burstPerKey ? cfg.burstPerKey : 64) : (cfg.perScan ? cfg.perScan : 64);
@@ -498,7 +539,7 @@ namespace ml::loot
                     if (RecentlyDone(key, now, cfg.retryAfterMs) || SpotRecent(k.pos, k.tid, now, cfg.retryAfterMs)) continue;
                     MarkDone(key, now);
                     SpotMark(k.pos, k.tid, now);
-                    if (g_searched.count(key) && v.act != Action::Search) continue;
+                    if (g_searched.count(key) && v.act != Action::Search) { if (cfg.debugLog) LOG("[loot] giving up on eid %08X after %d attempts", k.eid, kMaxTries); continue; }
                     if (v.act == Action::Search) g_searched.insert(key);
                     if (!events::Send(v.act, k.eid, g_meEid, route, 0)) continue;
                     ++taken;
