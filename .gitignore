@@ -1,0 +1,6 @@
+# game data extracted from the PAZ archives (regenerate with the paz tools, see README)
+extracted/
+# third-party repos cloned for reference (crimson-desert-unpacker, CrimsonDesertModdingTools, crimson-rs, pycrimson)
+tools/
+__pycache__/
+*.pyc

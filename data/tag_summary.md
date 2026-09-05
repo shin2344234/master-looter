@@ -1,0 +1,535 @@
+# Master Looter item tags, build 2.01.00
+
+6813 items parsed from iteminfo.staticinfobody; 6741 have an English name.
+
+## Class column (one per item, first match in priority order)
+
+- damaged-gear: 1637
+- keepsake: 464
+- weapon: 461
+- recipe: 311
+- document: 272
+- field-cooked: 192
+- abyss-gear: 190
+- container: 170
+- dev: 152
+- sealed-artifact: 150
+- book: 137
+- helm: 137
+- body-armor: 136
+- poster: 114
+- food: 112
+- furniture: 105
+- cloak: 99
+- boots: 91
+- accessory: 91
+- mount-gear: 89
+- gloves: 81
+- painting: 78
+- insect: 78
+- kuku-power-core: 78
+- shield: 77
+- bounty-notice: 62
+- household: 60
+- trade-good: 59
+- tool: 52
+- treasure: 51
+- key: 47
+- lamp: 46
+- skill-poster: 42
+- ornament: 42
+- fish: 40
+- catalyst: 35
+- currency: 35
+- flower-pot: 34
+- herb: 32
+- note: 31
+- cooking-facility: 30
+- necklace: 29
+- animal: 28
+- treasure-map: 27
+- light: 26
+- kuku-pot-item: 26
+- legendary-animal-report: 26
+- ring: 22
+- seed: 21
+- explosive: 19
+- ingredient: 19
+- bag: 19
+- earring: 19
+- recipe-book: 17
+- junk: 17
+- mount-feed: 16
+- kuku-core: 16
+- vehicle-part: 16
+- pet-gear: 16
+- elixir: 15
+- vegetable: 14
+- drink: 13
+- abyss-gear-box: 13
+- decoration: 12
+- arrow: 10
+- seafood: 10
+- magic-bullet: 9
+- fruit: 9
+- armor: 8
+- cannonball: 7
+- storage: 7
+- meat: 7
+- store-food: 7
+- chest: 7
+- key-item: 7
+- ammo-bundle: 6
+- grain: 6
+- eyewear: 6
+- crafting-material: 5
+- wood: 5
+- stat-boost: 5
+- bullet: 4
+- amphibian: 4
+- alchemy-material: 4
+- honey: 4
+- cooking-basic: 4
+- mount-utility: 4
+- ammo: 3
+- abyss-item: 3
+- artifact: 3
+- kuku-pot: 3
+- gimmick: 2
+- kuku-currency: 2
+- potion: 2
+- bait: 2
+- goods: 1
+- mask: 1
+
+## All tags
+
+- tier-0: 3442
+- stackable: 2409
+- armor: 2196
+- goods: 1704
+- damaged-gear: 1637
+- wild: 1495
+- equipment: 1412
+- tier-1: 1197
+- knowledge: 1105
+- no-sell: 1052
+- body-armor: 1015
+- extractable: 1008
+- document: 1006
+- leather: 872
+- tier-2: 872
+- tier-3: 783
+- important: 654
+- quest: 646
+- furniture: 627
+- weapon: 542
+- plate: 529
+- cloth: 523
+- keepsake: 464
+- decoration: 413
+- memory-fragment: 412
+- docking: 392
+- no-discard: 378
+- collectible: 375
+- helm: 369
+- gloves: 362
+- restores-hp: 345
+- boots: 344
+- npc-weapon-pool: 340
+- consumable: 336
+- food: 324
+- recipe: 311
+- tier-4: 307
+- material: 291
+- gimmick: 270
+- household: 230
+- two-hand: 224
+- tier-5: 212
+- special: 209
+- field-cooked: 192
+- abyss-gear: 190
+- accessory: 177
+- container: 170
+- reagent: 157
+- poster: 156
+- one-hand: 155
+- dev: 152
+- sealed-artifact: 150
+- book: 137
+- ingredient: 128
+- cloak: 125
+- kuku-pot-item: 120
+- trade-good: 119
+- alchemy-material: 118
+- housing-only: 108
+- backpack: 100
+- mount-gear: 93
+- recipe-abyss-gear: 93
+- use-immediately: 92
+- banner: 84
+- pike: 84
+- sword: 80
+- insect: 78
+- kuku-power-core: 78
+- painting: 78
+- shield: 78
+- recipe-food: 75
+- light: 72
+- stealth-gear: 71
+- recipe-furniture: 69
+- restores-mp: 69
+- recipe-book: 68
+- contribution-reward: 66
+- ranged: 63
+- bounty-notice: 62
+- dye: 60
+- packaged: 59
+- tool: 58
+- ammo: 55
+- treasure: 51
+- seafood: 50
+- key: 47
+- spear: 47
+- lamp: 46
+- preorder: 46
+- crafting-material: 45
+- ornament: 42
+- skill-poster: 42
+- fish: 40
+- necklace: 40
+- mace: 38
+- boss-reward: 37
+- catalyst: 37
+- ring: 37
+- storage: 37
+- currency: 36
+- restores-stamina: 36
+- flower-pot: 34
+- kuku-gear: 33
+- buff: 32
+- herb: 32
+- note: 31
+- cooking-facility: 30
+- animal: 28
+- hidden: 27
+- treasure-map: 27
+- cube-key: 26
+- legendary-animal-report: 26
+- longsword: 24
+- warhammer: 24
+- potion: 23
+- greataxe: 22
+- large-shield: 22
+- platform-bonus: 22
+- npc-tool: 21
+- seed: 21
+- bow: 20
+- axe: 19
+- bag: 19
+- earring: 19
+- explosive: 19
+- fruit: 17
+- junk: 17
+- rapier: 17
+- vehicle-part: 17
+- atag: 16
+- kuku-core: 16
+- mount-feed: 16
+- pet-gear: 16
+- elixir: 15
+- recipe-potion: 15
+- vegetable: 15
+- dagger: 14
+- abyss-gear-box: 13
+- drink: 13
+- halberd: 13
+- mount-summon: 12
+- blaster: 11
+- fan: 11
+- musket: 11
+- rare-gather: 11
+- rest-area: 11
+- visione: 11
+- arrow: 10
+- greathammer: 10
+- lantern: 10
+- legendary: 9
+- magic-bullet: 9
+- character-exclusive: 8
+- currency-pack: 8
+- grain: 8
+- legendary-animal: 8
+- shotgun: 8
+- stat-boost: 8
+- token: 8
+- wood: 8
+- cannonball: 7
+- chest: 7
+- fist: 7
+- key-item: 7
+- kuku-currency: 7
+- meat: 7
+- pistol: 7
+- refinement-token: 7
+- store-food: 7
+- abyss-item: 6
+- ammo-bundle: 6
+- contribution: 6
+- eyewear: 6
+- greatsword: 6
+- minigame: 6
+- thrower: 6
+- camp-resource: 5
+- cannon: 5
+- fabric: 5
+- hide: 5
+- amphibian: 4
+- bone: 4
+- bullet: 4
+- cooking-basic: 4
+- honey: 4
+- jewel: 4
+- mount-utility: 4
+- stone: 4
+- artifact: 3
+- bracelet: 3
+- drill: 3
+- kuku-pot: 3
+- npc-only: 3
+- quest-reward: 3
+- recipe-armor: 3
+- sprayer: 3
+- bait: 2
+- crossbow: 2
+- animal-spirit: 1
+- blowpipe: 1
+- chainsaw: 1
+- hidden-equip: 1
+- mask: 1
+- torch: 1
+
+## Rules
+
+Group rules (item gets the tags of every group in its ancestry):
+
+- ItemGroup_Category_Equipment -> equipment
+- ItemGroup_Category_Food -> consumable
+- ItemGroup_Category_Material -> material
+- ItemGroup_Category_Document -> document
+- ItemGroup_Equip_Weapon -> weapon
+- ItemGroup_Equip_Weapon_OneHand -> one-hand
+- ItemGroup_Equip_Weapon_TwoHand -> two-hand
+- ItemGroup_Equip_Weapon_Range -> ranged
+- ItemGroup_Equip_Weapon_Shield -> shield
+- ItemGroup_Equip_SpecialWeapon -> weapon, special
+- ItemGroup_Equip_Armor -> armor
+- ItemGroup_Equip_Armor_Mon -> armor, damaged-gear
+- ItemGroup_Equip_SpecialArmor -> armor, special
+- ItemGroup_Equip_Armor_Player_Helm -> helm
+- ItemGroup_Equip_Armor_Player_Armor -> body-armor
+- ItemGroup_Equip_Armor_Player_Gloves -> gloves
+- ItemGroup_Equip_Armor_Player_Boots -> boots
+- ItemGroup_Equip_Armor_Player_Cloak -> cloak
+- ItemGroup_Equip_Armor_All_Plate -> plate
+- ItemGroup_Equip_Armor_All_Leather -> leather
+- ItemGroup_Equip_Armor_All_Fabric -> cloth
+- ItemGroup_Equip_accessory -> accessory
+- ItemGroup_equip_accessory_Necklace -> necklace
+- ItemGroup_Equip_accessory_Earring -> earring
+- ItemGroup_equip_accessory_Ring -> ring
+- ItemGroup_Equip_BackPack -> backpack
+- ItemGroup_Equip_Tool -> tool
+- ItemGroup_Equip_Tool_NPC -> tool, npc-tool
+- ItemGroup_Equip_Riding -> mount-gear
+- ItemGroup_Equip_Horse -> mount-gear
+- ItemGroup_Equip_Pet_Armor -> pet-gear
+- ItemGroup_Vehicle_Special -> vehicle-part
+- ItemGroup_ETC_Quest_Equip -> equipment, quest
+- ItemGroup_ETC_Quest_Equip_Armor -> equipment, quest
+- ItemGroup_ETC_Quest_Equip_Accessory -> equipment, quest
+- ItemGroup_ETC_Quest_Equip_Special -> equipment, quest
+- ItemGroup_ETC_Quest_Equip_Horse -> mount-gear, quest
+- ItemGroup_KoreaFood -> food
+- ItemGroup_Food_Drink -> drink
+- ItemGroup_Food_WildFryingpan -> field-cooked
+- ItemGroup_Food_WildPot -> field-cooked
+- ItemGroup_potion -> potion
+- ItemGroup_Alchemy_New -> potion, elixir
+- ItemGroup_Food_Horse -> mount-feed
+- ItemGroup_Vehicle_Cooltime_Group -> mount-utility
+- ItemGroup_Material_Food -> ingredient
+- ItemGroup_Material_Food_Fish -> fish
+- ItemGroup_Material_Food_SeaFood -> seafood
+- ItemGroup_Material_Food_Vegetable -> vegetable
+- ItemGroup_Material_Food_Fruit -> fruit
+- ItemGroup_Material_Food_Grain -> grain
+- ItemGroup_Material_Food_Honey -> honey
+- ItemGroup_Material_Food_Meat -> meat
+- ItemGroup_Material_Food_Additive -> cooking-basic
+- ItemGroup_Metarial_Medical -> alchemy-material
+- ItemGroup_Material_Medical -> herb
+- ItemGroup_Material_Medical_Insect -> insect
+- ItemGroup_Material_Medical_Amphibians -> amphibian
+- ItemGroup_Material_Alchemy_Sub -> catalyst
+- ItemGroup_Metarial_Object -> crafting-material
+- ItemGroup_Material_Object_Ore -> ore
+- ItemGroup_Material_Object_Jewel -> jewel
+- ItemGroup_ETC_Document -> document
+- ItemGroup_ETC_Quest_Document -> quest
+- ItemGroup_ETC_LegendaryAnimal_Report -> legendary-animal-report
+- ItemGroup_ETC_Document_WallPaper -> poster
+- ItemGroup_ETC_Paper_SkillLearn -> skill-poster
+- ItemGroup_ETC_Paper_Quest -> quest
+- ItemGroup_ETC_Paper_Empty_Quest -> quest
+- ItemGroup_ETC_Paper_Normal -> note
+- ItemGroup_ETC_Document_Wanted -> bounty-notice
+- ItemGroup_ETC_Book -> book
+- ItemGroup_ETC_Book_Quest -> quest
+- ItemGroup_ETC_Craft_Recipe -> recipe
+- ItemGroup_ETC_Recipe_Food -> recipe-food
+- ItemGroup_ETC_Recipe_Potion -> recipe-potion
+- ItemGroup_ETC_Recipe_AbyssGear -> recipe-abyss-gear
+- ItemGroup_ETC_Recipe_ResistanceArmor -> recipe-armor
+- ItemGroup_ETC_TreasureMap -> treasure-map
+- ItemGroup_ETC_TreasureMap_Quest -> quest
+- ItemGroup_ETC_Book_Recipe -> recipe-book
+- ItemGroup_EquipRecipe_Book -> recipe-book
+- ItemGroup_AbyssItem_KuKuPot -> kuku-pot-item
+- ItemGroup_AbyssItem_KuKuPot_Core -> kuku-core
+- ItemGroup_AbyssItem_KuKuPot_PowerCore -> kuku-power-core
+- ItemGroup_Control -> abyss-item
+- ItemGroup_AbyssItem -> abyss-item
+- ItemGroup_Housing -> seed
+- ItemGroup_Housing_Seed -> seed
+- ItemGroup_Animal_Item -> animal
+- ItemGroup_Animal -> animal
+- ItemGroup_ETC_Key -> key
+- ItemGroup_ETC_Key_Quest -> quest
+- ItemGroup_ETC_Key_Cube -> cube-key
+- ItemGroup_Ammo -> ammo
+- ItemGroup_Ammo_Explosion -> explosive
+- ItemGroup_Bomb_Bullet -> explosive
+- ItemGroup_Ammo_Arrow -> arrow
+- ItemGroup_Ammo_Arrow_Monster -> arrow, npc-only
+- ItemGroup_Ammo_Bullet -> bullet
+- ItemGroup_Ammo_CannonBall -> cannonball
+- ItemGroup_Ammo_MagicBullet -> magic-bullet
+- ItemGroup_Ammo_Package -> ammo-bundle
+- ItemGroup_bag -> bag
+- ItemGroup_Collection_Chest_Tier1 -> chest
+- ItemGroup_AbyssGear -> abyss-gear
+- ItemGroup_Collection -> furniture
+- ItemGroup_Collection_Deco -> decoration
+- ItemGroup_Collection_Light -> light
+- ItemGroup_Collection_Storage -> storage
+- ItemGroup_trade_Unpack -> trade-good
+- ItemGroup_trade_Packed -> trade-good, packaged
+- ItemGroup_Unique_Disaster_Trade -> trade-good, special
+- ItemGroup_ETC_Quest_Equip_Special_Boss -> treasure
+- ItemGroup_Boss_Reward -> treasure, boss-reward
+- ItemGroup_Riding_Animal -> mount-summon
+- ItemGroup_ETC_KuKuPot_All -> kuku-pot
+- ItemGroup_ETC_KuKuPot -> kuku-pot
+- ItemGroup_ETC_Quest_Memory -> keepsake
+- ItemGroup_ETC_Visione_Memory_Quest -> memory-fragment
+- ItemGroup_ETC_Quest_Normal -> quest
+- ItemGroup_Collection_Quest_Reward -> quest-reward
+- ItemGroup_ETC_Customize_Damian -> character-exclusive
+- ItemGroup_ETC_Customize_Kliff -> character-exclusive
+- ItemGroup_ETC_Enchant_Coin -> token
+- ItemGroup_Enchant_Coin -> refinement-token
+- ItemGroup_money -> currency
+- ItemGroup_Camp_Money -> camp-resource
+- ItemGroup_Money_Contribution -> contribution
+- ItemGroup_Kuku_Money -> kuku-currency
+- ItemGroup_Money_Pack -> currency-pack
+- ItemGroup_Sealed_Artifact -> sealed-artifact
+- ItemGroup_ETC_Artifact -> artifact
+- ItemGroup_ETC_Visione_Equip -> visione
+- ItemGroup_ETC_Visione_Immediately_Quest -> visione, quest
+- ItemGroup_Equip_SpecialArmor_Important -> key-item
+- ItemGroup_Equip_SpecialArmor_Important_Band -> key-item
+- ItemGroup_Goods -> goods
+- ItemGroup_Collection_DyeWater -> dye
+- ItemGroup_Material_Object_Bone -> bone
+- ItemGroup_Material_Object_WoodBranch -> wood
+- ItemGroup_Material_Food_BirdMeat -> meat
+- ItemGroup_Meat_Disaster_Trade -> trade-good
+- ItemGroup_ETC_Book_Normal_Blank -> book
+- ItemGroup_ETC_Criminal_DropItem -> document
+- ItemGroup_ETC_Lure -> bait
+- ItemGroup_Tumble_Weed -> gimmick
+- ItemGroup_Equip_AnimalSpirit -> animal-spirit
+- ItemGroup_Collection_viewingstone_Tier1 -> decoration
+- ItemGroup_System_Consume_HP -> restores-hp
+- ItemGroup_System_Consume_MP -> restores-mp
+- ItemGroup_System_Consume_Stamina -> restores-stamina
+- ItemGroup_System_Consume_Buff -> buff
+- ItemGroup_Collection_LifeDeco -> household
+- ItemGroup_Collection_Picture -> painting
+- ItemGroup_Collection_Bottle -> container
+- ItemGroup_Collection_Ceramic -> container
+- ItemGroup_Collection_Bowl -> container
+- ItemGroup_Collection_Cup -> container
+- ItemGroup_Collection_Lamp -> lamp
+- ItemGroup_Collection_Glasscraft -> ornament
+- ItemGroup_Collection_FlowerPot -> flower-pot
+- ItemGroup_Collection_FlowerPot_Low_Friendly -> flower-pot
+- ItemGroup_Collection_DecoObject -> junk
+- ItemGroup_Collection_Tool -> junk
+- ItemGroup_Collection_Cook -> cooking-facility
+- ItemGroup_Equip_Dev_Armor -> dev
+- ItemGroup_Equip_Dev_Acc -> dev
+- ItemGroup_Equip_Special -> special
+- ItemGroup_Equip_Special_Pack -> special
+- ItemGroup_Equip_Special_KuKu -> kuku-gear
+- ItemGroup_Equip_contributionitem -> contribution-reward
+- ItemGroup_Equip_Horse_Armor -> mount-gear
+- ItemGroup_Equip_Horse_Parts -> mount-gear
+- ItemGroup_Material_Medical_Curative -> herb
+- ItemGroup_Platform_Special -> platform-bonus
+- ItemGroup_trade -> trade-good
+- ItemGroup_Unique_Trade -> trade-good, special
+- ItemGroup_Food_Horse_Add -> mount-feed
+- ItemGroup_Equip_Weapon_TwoHandFlag -> banner
+
+Group prefix rules:
+
+- ItemGroup_Material_Alchemy_* -> reagent
+- ItemGroup_ETC_Recipe_Furniture* -> recipe-furniture
+- ItemGroup_Material_Object_Wood* -> wood
+- ItemGroup_Material_Object_Leather* -> hide
+- ItemGroup_Material_Object_Metal* -> metal
+- ItemGroup_Material_Object_Stone* -> stone
+- ItemGroup_Material_Object_Fabric* -> fabric
+- ItemGroup_Collection_Dye* -> dye
+- ItemGroup_Equip_StealthArmor* -> stealth-gear
+- ItemGroup_Item_Contributionitem* -> contribution-reward
+- ItemGroup_Equip_SpecialArmor_KuKu* -> kuku-gear
+- ItemGroup_Equip_SpecialWeapon_TwoHandSpear_KuKu* -> kuku-gear
+- ItemGroup_Equip_KuKubird* -> kuku-gear
+- ItemGroup_Equip_Weapon_TwoHandSpear_Flag* -> banner
+- ItemGroup_Equip_Vehicle_Special_ATAG* -> atag
+- ItemGroup_Legendary* -> legendary
+- ItemGroup_Food_Store* -> store-food
+- ItemGroup_Rare_Collect* -> rare-gather
+- ItemGroup_Furniture* -> furniture
+- ItemGroup_Equip_Human_* -> npc-weapon-pool
+- ItemGroup_Equip_Dwarf_* -> npc-weapon-pool
+- ItemGroup_Equip_Goblin_* -> npc-weapon-pool
+- ItemGroup_Equip_Orc_* -> npc-weapon-pool
+- ItemGroup_Equip_Troll_* -> npc-weapon-pool
+- ItemGroup_AbyssGear* -> abyss-gear
+- ItemGroup_RestArea* -> food, rest-area
+- ItemGroup_AbyssArtifact_buff* -> stat-boost
+- ItemGroup_Random_AbyssBox* -> abyss-gear-box
+- ItemGroup_Equip_Weapon* -> weapon
+- ItemGroup_Equip_SpecialWeapon* -> weapon
+- ItemGroup_Collection_Dye* -> dye
+
+Name rules: Quest_/_Quest_ -> quest; Item_gimmick_/Item_puzzle_/Item_cd_ -> gimmick; Recipe_ -> recipe; Money_ or a money definition -> currency; Trade_ -> trade-good; Collection_Prop_ -> collectible; Legendary_Animal_ -> legendary-animal; Test/Dev/QA names, no English name, or is_editor_usable=0 -> dev.
+
+Equip-type rules: the equiptypeinfo string_key maps to a weapon or slot tag (sword, bow, helm, ...).
+
+Flag tags: tier-N, stackable (max stack > 1), important, no-sell, no-discard, housing-only, wild, preorder, extractable, use-immediately, hidden, knowledge (grants a knowledge entry), docking, blocked.
