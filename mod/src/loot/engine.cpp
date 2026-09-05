@@ -210,9 +210,7 @@ namespace ml::loot
             if (c.dead == 1) return skip("corpse already searched");
             if (!c.item && !c.gather) return skip("does not respond");
         }
-        if (c.cat == 0x01) return skip("quest object");
-        if (c.cat == 0x0F) return skip("shop goods");
-        if (c.cat == 0x11) return skip("decoration");
+        // The legacy category byte (cat) is garbage on current builds; only cat2 is used.
         if (c.locked == 1) return skip("locked");
         if (c.twin) return skip("empty twin node");
         if (c.d < cfg.minRange) return skip("on the player");
@@ -460,7 +458,7 @@ namespace ml::loot
         // Say once per object why it was skipped, so a wrong verdict can be
         // read straight from the log without the verbose switch.
         const float diagRange = std::max(std::max(cfg.lootRange, cfg.gatherRange), std::max(cfg.catchRange, cfg.corpseRange));
-        for (size_t i = 0; i < list.size() && g_whyLines < 600; ++i)
+        for (size_t i = 0; i < list.size() && g_whyLines < 4000; ++i)
         {
             const Cand& k = list[i];
             const Verdict& v = verdicts[i];
@@ -503,7 +501,8 @@ namespace ml::loot
                         if (!ar->second.judged && now - ar->second.at > 2000)
                         {
                             ar->second.judged = true;
-                            if (++ar->second.fails >= 3) { g_searched.insert(key); if (cfg.debugLog) LOG("[arm] eid %08X never filled; ignoring it", k.eid); continue; }
+                            static int s_failLogs = 0;
+                            if (++ar->second.fails >= 3) { g_searched.insert(key); if (s_failLogs < 30) { ++s_failLogs; LOG("[arm] eid %08X %.1f m never filled after 3 arms (tag %02X cat2 %02X%s%s)", k.eid, k.d, k.type, k.cat2, k.node[0] ? " node " : "", k.node); } continue; }
                         }
                         if (!ar->second.judged || now - ar->second.at < 5000) continue; // wait, or cool down before re-arming
                     }
@@ -511,6 +510,8 @@ namespace ml::loot
                     if (!g) continue;
                     ArmRec& rec = g_armed[key];
                     rec.at = now; rec.judged = false;
+                    static int s_armLogs = 0;
+                    if (s_armLogs < 20) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d (tag %02X cat2 %02X%s%s)", k.eid, k.d, hooks::ArmMode(), k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
                     events::Arm(g, static_cast<uintptr_t>(hooks::ArmMode()), g_meEid);
                     if (armedN < 32) armedNow[armedN++] = k.eid;
                     if (cfg.debugLog) LOG("[arm] eid %08X %.1f m %s", k.eid, k.d, k.node[0] ? k.node : "");
@@ -519,7 +520,14 @@ namespace ml::loot
             }
             // A node that now carries data answered the arming: forget the record.
             for (Cand& k : list)
-                if (k.filled && (k.item || k.gather)) g_armed.erase(Key(k));
+            {
+                if (!k.filled || (!k.item && !k.gather)) continue;
+                auto it = g_armed.find(Key(k));
+                if (it == g_armed.end()) continue;
+                static int s_okLogs = 0;
+                if (s_okLogs < 20) { ++s_okLogs; LOG("[arm] eid %08X filled %lu ms after arming (%s, type %u)", k.eid, static_cast<unsigned long>(now - it->second.at), k.gather ? "gather" : "item", k.tid); }
+                g_armed.erase(it);
+            }
 
             int taken = 0;
             const int cap = burst ? (cfg.burstPerKey ? cfg.burstPerKey : 64) : (cfg.perScan ? cfg.perScan : 64);

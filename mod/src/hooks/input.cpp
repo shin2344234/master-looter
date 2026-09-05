@@ -157,8 +157,10 @@ namespace ml::input
             if (msg == WM_INPUT)
             {
                 OnRawInput(reinterpret_cast<HRAWINPUT>(lParam));
+                SetCursor(nullptr); // the menu draws its own cursor; the OS one stays hidden
                 return DefWindowProcW(hwnd, msg, wParam, lParam); // the game never sees mouse look; DefWindowProc frees the buffer
             }
+            if (msg == WM_SETCURSOR) { SetCursor(nullptr); return TRUE; }
             if (msg == WM_MOUSEMOVE || msg == WM_NCMOUSEMOVE || msg == WM_MOUSELEAVE || msg == WM_NCMOUSELEAVE)
                 return 0; // the OS cursor position is meaningless here; the virtual cursor is fed each frame
             if (IsMouse(msg))

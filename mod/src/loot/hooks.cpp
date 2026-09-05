@@ -70,26 +70,39 @@ namespace ml::loot::hooks
 
     static uint64_t hkOwn(void* ctx, void* me, void* target, void* tag, uint64_t a5, uint64_t a6)
     {
-        InterlockedIncrement(&g_ownCalls);
-        if (!InterlockedCompareExchange(&g_ownCaptured, 0, 0) && ctx && tag)
+        const LONG n = InterlockedIncrement(&g_ownCalls);
+        const uint64_t r = oOwn(ctx, me, target, tag, a5, a6);
+        uint32_t eid = 0, teid = 0;
+        const bool playerArg = mem::Read32(reinterpret_cast<uintptr_t>(me) + 0x60, &eid) && (eid >> 24) == game::kTagPlayer;
+        mem::Read32(reinterpret_cast<uintptr_t>(target) + 0x60, &teid);
+        if (ctx && tag && (playerArg || n > 30))
         {
-            // The second argument should be the player entity: check its id tag.
-            uint32_t eid = 0;
-            const bool playerArg = mem::Read32(reinterpret_cast<uintptr_t>(me) + 0x60, &eid) && (eid >> 24) == game::kTagPlayer;
-            if (playerArg || g_ownCalls > 30)
+            // Follow the game's latest context: it is what the game itself is
+            // using right now, so it cannot go stale on us.
+            const bool changed = ctx != g_ownCtx || tag != g_ownTag;
+            g_ownCtx = ctx; g_ownTag = tag;
+            if (!InterlockedCompareExchange(&g_ownCaptured, 0, 0))
             {
-                g_ownCtx = ctx; g_ownTag = tag;
                 InterlockedExchange(&g_ownCaptured, 1);
                 LOG_OK("[owner] oracle context captured (%s)", playerArg ? "player argument confirmed" : "after 30 calls, unconfirmed");
             }
+            else if (changed) { static int s_chg = 0; if (s_chg < 10) { ++s_chg; LOG("[owner] oracle context changed (call %ld)", n); } }
         }
-        return oOwn(ctx, me, target, tag, a5, a6);
+        // The game's own verdicts, for comparison with ours in the log.
+        static int s_logged = 0;
+        if (s_logged < 40) { ++s_logged; LOG("[owner] game asked: target %08X a5 %llu -> %s (%llu)", teid, static_cast<unsigned long long>(a5), (r & 0xFF) ? "STEAL" : "take", static_cast<unsigned long long>(r)); }
+        return r;
     }
 
     static uint64_t hkArm(uint64_t a1, uint64_t a2, uint64_t a3, uint64_t a4, uint64_t a5, uint64_t a6, uint64_t a7, uint64_t a8)
     {
-        InterlockedIncrement(&g_armCalls);
+        const LONG n = InterlockedIncrement(&g_armCalls);
         InterlockedExchange(&g_armMode, static_cast<LONG>(a2 & 0xFF));
+        if (n <= 6)
+        {
+            const char* cls = mem::RttiShort(static_cast<uintptr_t>(a1));
+            LOG("[arm] game armed %s mode %u eid %08X (call %ld)", cls ? cls : "?", static_cast<unsigned>(a2 & 0xFF), static_cast<uint32_t>(a4), n);
+        }
         return oArm(a1, a2, a3, a4, a5, a6, a7, a8);
     }
 
@@ -140,12 +153,26 @@ namespace ml::loot::hooks
     bool ArmObserved() { return InterlockedCompareExchange(&g_armMode, 0, 0) >= 0; }
     long ArmCalls() { return g_armCalls; }
 
+    static uint64_t CallOracle(uintptr_t me, uintptr_t target, bool* boom)
+    {
+        *boom = false;
+        __try { return oOwn(g_ownCtx, reinterpret_cast<void*>(me), reinterpret_cast<void*>(target), g_ownTag, 7, 0); }
+        __except (EXCEPTION_EXECUTE_HANDLER) { *boom = true; return 0; }
+    }
+
     int WouldSteal(uintptr_t me, uintptr_t target)
     {
         if (!oOwn || !OwnerCaptured() || !me || !target) return -1;
-        uint64_t r = 0;
-        __try { r = oOwn(g_ownCtx, reinterpret_cast<void*>(me), reinterpret_cast<void*>(target), g_ownTag, 7, 0); }
-        __except (EXCEPTION_EXECUTE_HANDLER) { return -1; }
+        bool boom = false;
+        const uint64_t r = CallOracle(me, target, &boom);
+        if (boom) return -1;
+        static int s_logged = 0;
+        if (s_logged < 40)
+        {
+            ++s_logged;
+            uint32_t teid = 0; mem::Read32(target + 0x60, &teid);
+            LOG("[owner] we asked:   target %08X -> %s (%llu)", teid, (r & 0xFF) ? "STEAL" : "take", static_cast<unsigned long long>(r));
+        }
         return (r & 0xFF) ? 1 : 0;
     }
 }
