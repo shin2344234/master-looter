@@ -13,13 +13,21 @@
 #include "../core/rules.h"
 #include "../core/settings.h"
 #include "../core/state.h"
+#include "../loot/engine.h"
+#include "../loot/events.h"
+#include "../loot/game.h"
+#include "../loot/mem.h"
 #include "../version.h"
 
 namespace ml::gui
 {
     static float g_scale = 1.0f;
+    static int   g_rebindTarget = -1; // 0 menu key, 1 toggle key, 2 burst key
 
     static ImVec4 Accent(float a = 1.0f) { return ImVec4(0.66f, 0.14f, 0.17f, a); }
+    static const ImVec4 kGood(0.55f, 0.85f, 0.55f, 1);
+    static const ImVec4 kWarn(0.9f, 0.6f, 0.45f, 1);
+    static const ImVec4 kMuted(0.6f, 0.6f, 0.62f, 1);
 
     void InitStyle(float scale)
     {
@@ -28,7 +36,6 @@ namespace ml::gui
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.IniFilename = nullptr;
 
-        // A real Windows font at the right size instead of a scaled bitmap font.
         ImFontConfig cfg;
         cfg.SizePixels = 16.0f * g_scale;
         char path[MAX_PATH] = {};
@@ -39,13 +46,8 @@ namespace ml::gui
 
         ImGui::StyleColorsDark();
         ImGuiStyle& s = ImGui::GetStyle();
-        s.WindowRounding = 4.0f;
-        s.FrameRounding  = 3.0f;
-        s.GrabRounding   = 3.0f;
-        s.TabRounding    = 3.0f;
-        s.WindowPadding  = ImVec2(12, 10);
-        s.FramePadding   = ImVec2(8, 4);
-        s.ItemSpacing    = ImVec2(8, 6);
+        s.WindowRounding = 4.0f; s.FrameRounding = 3.0f; s.GrabRounding = 3.0f; s.TabRounding = 3.0f;
+        s.WindowPadding = ImVec2(12, 10); s.FramePadding = ImVec2(8, 4); s.ItemSpacing = ImVec2(8, 6);
         ImVec4* c = s.Colors;
         c[ImGuiCol_WindowBg]          = ImVec4(0.08f, 0.09f, 0.10f, 0.96f);
         c[ImGuiCol_TitleBg]           = ImVec4(0.11f, 0.12f, 0.13f, 1.0f);
@@ -95,10 +97,7 @@ namespace ml::gui
         s_escWas = esc;
     }
 
-    bool WantsDraw()
-    {
-        return State::Get().menuOpen || Settings::Get().showHud;
-    }
+    bool WantsDraw() { return State::Get().menuOpen || Settings::Get().showHud; }
 
     // --- helpers ------------------------------------------------------------
     static std::string Lower(std::string s)
@@ -106,12 +105,10 @@ namespace ml::gui
         for (char& ch : s) ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
         return s;
     }
-
     static bool Contains(const std::string& hay, const std::string& needleLower)
     {
         return needleLower.empty() || Lower(hay).find(needleLower) != std::string::npos;
     }
-
     static void Help(const char* text)
     {
         ImGui::SameLine();
@@ -124,10 +121,8 @@ namespace ml::gui
             ImGui::EndTooltip();
         }
     }
-
     static bool TriState(const char* id, int& value)
     {
-        // value: 0 default, 1 always, -1 never
         bool changed = false;
         ImGui::PushID(id);
         if (ImGui::RadioButton("default", value == 0)) { value = 0; changed = true; }
@@ -138,54 +133,109 @@ namespace ml::gui
         ImGui::PopID();
         return changed;
     }
+    static void OnOff(const char* label, bool on, const char* onText = "yes", const char* offText = "no")
+    {
+        ImGui::TextUnformatted(label);
+        ImGui::SameLine(220 * g_scale);
+        ImGui::TextColored(on ? kGood : kWarn, "%s", on ? onText : offText);
+    }
+
+    // One row of the key table: name, current key, rebind button, capture state.
+    static bool KeyRow(const char* label, int& vk, int target)
+    {
+        State& st = State::Get();
+        bool dirty = false;
+        ImGui::PushID(target);
+        ImGui::TextUnformatted(label);
+        ImGui::SameLine(260 * g_scale);
+        ImGui::Text("%s", Settings::KeyName(vk));
+        ImGui::SameLine(400 * g_scale);
+        if (st.rebindCapture && g_rebindTarget == target)
+        {
+            ImGui::TextColored(Accent(), "press a key (Escape cancels)");
+            for (int k = 0x08; k < 0xFF; ++k)
+            {
+                if (k == VK_LBUTTON || k == VK_RBUTTON || k == VK_SHIFT || k == VK_CONTROL || k == VK_MENU) continue;
+                if (!KeyDown(k)) continue;
+                if (k != VK_ESCAPE) { vk = k; dirty = true; }
+                st.rebindCapture = false; g_rebindTarget = -1;
+                break;
+            }
+        }
+        else if (!st.rebindCapture && ImGui::SmallButton("Rebind")) { st.rebindCapture = true; g_rebindTarget = target; }
+        ImGui::PopID();
+        return dirty;
+    }
 
     // --- tabs ---------------------------------------------------------------
     static void TabGeneral(Config& c)
     {
-        State& st = State::Get();
         bool dirty = false;
-
-        dirty |= ImGui::Checkbox("Master Looter enabled", &c.enabled);
-        Help("Master switch for automatic looting. The menu and HUD keep working when this is off.");
+        dirty |= ImGui::Checkbox("Auto-loot enabled", &c.enabled);
+        Help("The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.");
+        ImGui::SameLine(300 * g_scale);
+        if (ImGui::Button("Loot everything in range now")) loot::RequestBurst();
         dirty |= ImGui::Checkbox("Show HUD line when the menu is closed", &c.showHud);
 
-        ImGui::SeparatorText("Menu key");
-        ImGui::Text("Open and close: %s", Settings::KeyName(c.menuKey));
-        ImGui::SameLine();
-        if (!st.rebindCapture)
-        {
-            if (ImGui::Button("Rebind")) st.rebindCapture = true;
-        }
-        else
-        {
-            ImGui::TextColored(Accent(), "press the new key (Escape cancels)");
-            for (int vk = 0x08; vk < 0xFF; ++vk)
-            {
-                if (vk == VK_LBUTTON || vk == VK_RBUTTON || vk == VK_MBUTTON || vk == VK_SHIFT || vk == VK_CONTROL || vk == VK_MENU) continue;
-                if (!KeyDown(vk)) continue;
-                if (vk != VK_ESCAPE) { c.menuKey = vk; dirty = true; }
-                st.rebindCapture = false;
-                break;
-            }
-        }
+        ImGui::SeparatorText("Keys");
+        dirty |= KeyRow("Open and close this menu", c.menuKey, 0);
+        dirty |= KeyRow("Auto-loot on / off", c.keyToggle, 1);
+        dirty |= KeyRow("Loot everything in range once", c.keyBurst, 2);
 
-        ImGui::SeparatorText("Looting");
-        dirty |= ImGui::SliderFloat("Range (m)", &c.lootRange, 1.0f, 50.0f, "%.0f");
-        Help("How far from the player the mod looks for loot.");
-        dirty |= ImGui::SliderInt("Max loots per second", &c.maxLootsPerSec, 1, 30);
-        dirty |= ImGui::Checkbox("Loot corpses", &c.lootCorpses);
-        dirty |= ImGui::Checkbox("Pick up items on the ground", &c.pickUpItems);
-        dirty |= ImGui::Checkbox("Gather plants", &c.gatherPlants);
-        dirty |= ImGui::Checkbox("Catch insects and small animals", &c.catchInsects);
-        dirty |= ImGui::Checkbox("Open containers", &c.lootContainers);
+        ImGui::SeparatorText("Pace");
+        dirty |= ImGui::SliderInt("Scans per second", &c.scansPerSec, 1, 30);
+        Help("How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.");
+        dirty |= ImGui::SliderInt("Objects per scan", &c.perScan, 0, 64, c.perScan ? "%d" : "no limit");
+        dirty |= ImGui::SliderInt("Objects per burst press", &c.burstPerKey, 0, 64, c.burstPerKey ? "%d" : "everything in range");
+        dirty |= ImGui::SliderInt("Retry the same object after (ms)", &c.retryAfterMs, 500, 30000);
+        Help("The game removes taken objects with a delay. This stops the same object being sent twice while it fades.");
 
         ImGui::SeparatorText("Filters");
         dirty |= ImGui::Checkbox("Skip quest items", &c.skipQuestItems);
         Help("Items tagged quest are left alone so puzzles and story pickups are never auto-taken.");
         dirty |= ImGui::Checkbox("Skip items shops refuse to buy", &c.skipNoSell);
-        dirty |= ImGui::SliderInt("Minimum value (copper)", &c.minValueCopper, 0, 500);
-        Help("0 turns the floor off. Items with an unknown value are never filtered by it.");
+        dirty |= ImGui::SliderInt("Minimum value (copper)", &c.minValueCopper, 0, 500, c.minValueCopper ? "%d" : "off");
+        Help("Items with an unknown value are never filtered by it.");
+        dirty |= ImGui::Checkbox("Take items the database cannot name", &c.takeUnknownItems);
+        Help("Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.");
+        dirty |= ImGui::Checkbox("Verbose log", &c.debugLog);
+        if (dirty) Settings::MarkDirty();
+    }
 
+    static void TabLooting(Config& c)
+    {
+        bool dirty = false;
+        ImGui::SeparatorText("What to collect");
+        dirty |= ImGui::Checkbox("Search animal carcasses", &c.lootCorpses);
+        Help("The skinning interaction, once per carcass. Human corpses drop ordinary loot on the ground instead; that is handled by pick up.");
+        dirty |= ImGui::Checkbox("Pick up items on the ground", &c.pickUpItems);
+        dirty |= ImGui::Checkbox("Gather plants, ore and stone", &c.gatherPlants);
+        dirty |= ImGui::Checkbox("Catch insects, fish and small animals", &c.catchCreatures);
+        dirty |= ImGui::Checkbox("Try containers and furniture nodes", &c.lootContainers);
+        Help("Chests and crates rarely respond to the loot event, and furniture is mostly clutter. Off by default.");
+
+        ImGui::SeparatorText("Ranges (metres)");
+        dirty |= ImGui::SliderFloat("Scan radius", &c.scanRange, 5.0f, 200.0f, "%.0f");
+        Help("What enters the working list at all. The ranges below are clamped to it.");
+        dirty |= ImGui::SliderFloat("Items on the ground", &c.lootRange, 0.0f, 100.0f, c.lootRange > 0 ? "%.0f" : "no limit");
+        dirty |= ImGui::SliderFloat("Gathering", &c.gatherRange, 0.0f, 100.0f, c.gatherRange > 0 ? "%.0f" : "no limit");
+        dirty |= ImGui::SliderFloat("Catching", &c.catchRange, 0.0f, 100.0f, c.catchRange > 0 ? "%.0f" : "no limit");
+        dirty |= ImGui::SliderFloat("Carcasses", &c.corpseRange, 0.0f, 100.0f, c.corpseRange > 0 ? "%.0f" : "no limit");
+        dirty |= ImGui::SliderFloat("Dead zone around you", &c.minRange, 0.0f, 2.0f, "%.2f");
+        Help("Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.");
+
+        ImGui::SeparatorText("Reaching nodes");
+        dirty |= ImGui::Checkbox("Arm nodes ourselves", &c.autoArm);
+        Help("The game fills a node's data only when it thinks you can reach it; for an ore vein that means standing on it. Arming asks the game to do it from a distance.");
+        dirty |= ImGui::SliderFloat("Arming range", &c.armRange, 0.0f, 60.0f, c.armRange > 0 ? "%.0f" : "same as gathering");
+        Help("Arming ignores walls. Keep it short or you will gather through the wall of the next room.");
+        dirty |= ImGui::Checkbox("Arm mechanism containers too", &c.armContainers);
+        Help("A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.");
+
+        ImGui::SeparatorText("Ownership");
+        dirty |= ImGui::Checkbox("Take goods that belong to someone", &c.lootOwned);
+        if (c.lootOwned) ImGui::TextColored(kWarn, "The game treats this as stealing and will put a bounty on you.");
+        else ImGui::TextDisabled("Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.");
         if (dirty) Settings::MarkDirty();
     }
 
@@ -202,7 +252,7 @@ namespace ml::gui
         ImGui::TextDisabled("%d classes", static_cast<int>(ItemDb::Classes().size()));
 
         const std::string f = Lower(filter);
-        if (ImGui::BeginTable("classes", 3, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH, ImVec2(0, 0)))
+        if (ImGui::BeginTable("classes", 3, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
             ImGui::TableSetupScrollFreeze(0, 1);
             ImGui::TableSetupColumn("Loot", ImGuiTableColumnFlags_WidthFixed, 60 * g_scale);
@@ -254,17 +304,12 @@ namespace ml::gui
                 ImGui::TableSetColumnIndex(0);
                 auto it = c.tagRule.find(kv.first);
                 const int cur = it == c.tagRule.end() ? 0 : it->second;
-                if (cur) ImGui::TextColored(Accent(), "%s", kv.first.c_str());
-                else ImGui::TextUnformatted(kv.first.c_str());
+                if (cur) ImGui::TextColored(Accent(), "%s", kv.first.c_str()); else ImGui::TextUnformatted(kv.first.c_str());
                 ImGui::TableSetColumnIndex(1);
                 ImGui::Text("%d", kv.second);
                 ImGui::TableSetColumnIndex(2);
                 int v = cur;
-                if (TriState(kv.first.c_str(), v))
-                {
-                    if (v == 0) c.tagRule.erase(kv.first); else c.tagRule[kv.first] = v;
-                    Settings::MarkDirty();
-                }
+                if (TriState(kv.first.c_str(), v)) { if (v == 0) c.tagRule.erase(kv.first); else c.tagRule[kv.first] = v; Settings::MarkDirty(); }
             }
             ImGui::EndTable();
         }
@@ -285,20 +330,12 @@ namespace ml::gui
         if (q.size() >= 3)
         {
             for (const Item& it : ItemDb::All())
-            {
-                if (Contains(it.name, q) || Contains(it.stringKey, q) || it.klass == q)
-                {
-                    rows.push_back(&it);
-                    if (rows.size() >= 250) break;
-                }
-            }
+                if (Contains(it.name, q) || Contains(it.stringKey, q) || it.klass == q) { rows.push_back(&it); if (rows.size() >= 250) break; }
         }
         else
         {
-            for (const auto& kv : c.itemRule)
-                if (const Item* it = ItemDb::Find(kv.first)) rows.push_back(it);
+            for (const auto& kv : c.itemRule) if (const Item* it = ItemDb::Find(kv.first)) rows.push_back(it);
         }
-
         if (q.size() < 3) ImGui::TextDisabled("Showing current overrides. Type to search all %d items.", ItemDb::Count());
         else ImGui::TextDisabled("%d match%s%s", static_cast<int>(rows.size()), rows.size() == 1 ? "" : "es", rows.size() >= 250 ? " (first 250)" : "");
 
@@ -316,26 +353,58 @@ namespace ml::gui
                 ImGui::TableNextRow();
                 ImGui::PushID(static_cast<int>(it->key));
                 ImGui::TableSetColumnIndex(0);
-                ImGui::TextUnformatted(it->name.empty() ? it->stringKey.c_str() : it->name.c_str());
-                if (!it->name.empty() && ImGui::BeginItemTooltip()) { ImGui::Text("%s (key %u, tier %d)", it->stringKey.c_str(), it->key, it->tier); ImGui::TextWrapped("%s", it->tags.c_str()); ImGui::EndTooltip(); }
+                ImGui::TextUnformatted(it->Label());
+                if (ImGui::BeginItemTooltip()) { ImGui::Text("%s (key %u, row %d, tier %d)", it->stringKey.c_str(), it->key, it->row, it->tier); ImGui::TextWrapped("%s", it->tags.c_str()); ImGui::EndTooltip(); }
                 ImGui::TableSetColumnIndex(1);
                 ImGui::TextUnformatted(it->klass.c_str());
                 ImGui::TableSetColumnIndex(2);
                 if (it->value >= 0) ImGui::Text("%lld", it->value); else ImGui::TextDisabled("-");
                 ImGui::TableSetColumnIndex(3);
                 const Rules::Verdict v = Rules::Decide(*it, c);
-                if (v.loot) ImGui::TextColored(ImVec4(0.55f, 0.85f, 0.55f, 1), "loot: %s", v.rule);
-                else ImGui::TextColored(ImVec4(0.9f, 0.6f, 0.45f, 1), "skip: %s", v.rule);
+                if (v.loot) ImGui::TextColored(kGood, "loot: %s", v.rule); else ImGui::TextColored(kWarn, "skip: %s", v.rule);
                 if (!v.detail.empty() && ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(v.detail.c_str()); ImGui::EndTooltip(); }
                 ImGui::TableSetColumnIndex(4);
                 auto ov = c.itemRule.find(it->key);
                 int cur = ov == c.itemRule.end() ? 0 : ov->second;
-                if (TriState("ov", cur))
-                {
-                    if (cur == 0) c.itemRule.erase(it->key); else c.itemRule[it->key] = cur;
-                    Settings::MarkDirty();
-                }
+                if (TriState("ov", cur)) { if (cur == 0) c.itemRule.erase(it->key); else c.itemRule[it->key] = cur; Settings::MarkDirty(); }
                 ImGui::PopID();
+            }
+            ImGui::EndTable();
+        }
+    }
+
+    static void TabNearby()
+    {
+        const loot::Status s = loot::GetStatus();
+        if (!s.started) { ImGui::TextColored(kWarn, "Loot engine not started."); return; }
+        if (!s.resolved) { ImGui::TextColored(kWarn, "Game functions did not resolve; see Status."); return; }
+        if (!s.actorManager) { ImGui::TextDisabled("Waiting for the world to load."); return; }
+        if (!s.playerFound) { ImGui::TextDisabled("Player not found in the scene yet."); return; }
+        ImGui::Text("%d objects within scan range, %d lootable now.", s.candidates, s.lootable);
+        ImGui::SameLine();
+        if (s.settling) ImGui::TextColored(kWarn, "paused: scene changing");
+        else ImGui::TextDisabled("scan %.1f ms", s.lastScanMs);
+        ImGui::TextDisabled("Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them.");
+
+        static loot::Nearby rows[48];
+        const int n = loot::CopyNearby(rows, 48);
+        if (ImGui::BeginTable("nearby", 4, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
+        {
+            ImGui::TableSetupScrollFreeze(0, 1);
+            ImGui::TableSetupColumn("m", ImGuiTableColumnFlags_WidthFixed, 50 * g_scale);
+            ImGui::TableSetupColumn("Object", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("Class", ImGuiTableColumnFlags_WidthFixed, 130 * g_scale);
+            ImGui::TableSetupColumn("Decision", ImGuiTableColumnFlags_WidthFixed, 300 * g_scale);
+            ImGui::TableHeadersRow();
+            for (int i = 0; i < n; ++i)
+            {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0); ImGui::Text("%.1f", rows[i].dist);
+                ImGui::TableSetColumnIndex(1); ImGui::TextUnformatted(rows[i].name);
+                if (ImGui::BeginItemTooltip()) { ImGui::Text("entity %08X", rows[i].eid); ImGui::EndTooltip(); }
+                ImGui::TableSetColumnIndex(2); ImGui::TextDisabled("%s", rows[i].klass);
+                ImGui::TableSetColumnIndex(3);
+                ImGui::TextColored(rows[i].loot ? kGood : kMuted, "%s", rows[i].verdict);
             }
             ImGui::EndTable();
         }
@@ -344,21 +413,51 @@ namespace ml::gui
     static void TabStatus()
     {
         const State& st = State::Get();
+        const loot::Status s = loot::GetStatus();
         ImGui::Text("Master Looter v%s for game build %s", ML_VERSION, ML_GAME_BUILD);
-        ImGui::Text("DX12 hooks: %s", st.hooksOk ? "installed" : "failed");
-        ImGui::Text("Overlay: %s", st.overlayReady ? "ready" : "waiting for first frame");
-        ImGui::Text("Item database: %s", ItemDb::Loaded() ? "loaded" : "missing (MasterLooter.items.tsv)");
-        if (ItemDb::Loaded()) ImGui::Text("  %d items, %d classes, %d tags", ItemDb::Count(), static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size()));
         ImGui::Text("Settings: %ls", Settings::Path().c_str());
         ImGui::SameLine();
         if (ImGui::SmallButton("Reload now")) Settings::Load();
         ImGui::SameLine();
         if (ImGui::SmallButton("Save now")) Settings::Save();
-        ImGui::TextDisabled("Loot engine: not wired in this build. Rules are evaluated live in the Items tab.");
+
+        ImGui::SeparatorText("Overlay");
+        OnOff("DirectX 12 hooks", st.hooksOk, "installed", "failed");
+        OnOff("Item database", ItemDb::Loaded(), "loaded", "missing MasterLooter.items.tsv");
+        if (ItemDb::Loaded()) { ImGui::SameLine(); ImGui::TextDisabled("%d items, %d classes, %d tags", ItemDb::Count(), static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size())); }
+
+        ImGui::SeparatorText("Loot engine");
+        OnOff("Engine", s.started, s.note, "not started");
+        OnOff("Game functions", s.resolved, "resolved", "missing");
+        OnOff("Game-thread pump", s.hooked, s.pump, "none");
+        OnOff("World (actor manager)", s.actorManager, "found", "waiting");
+        if (s.playerFound) { ImGui::TextUnformatted("Player"); ImGui::SameLine(220 * g_scale); ImGui::TextColored(kGood, "entity %08X, %d items in bag", s.playerEid, s.inventoryItems); }
+        else OnOff("Player", false, "", "not found yet");
+        OnOff("Event descriptors", s.descriptors == 3, "3 of 3", s.descriptors ? "incomplete" : "not resolved yet");
+        OnOff("Sending events", s.sendAllowed, "allowed", "not yet");
+        OnOff("Route id", s.routeKnown, "learned from the game", "using the player's own field");
+        OnOff("Ownership oracle", s.ownerOracle, "captured", "waiting for the game to check an item");
+        const char* tbl = s.itemTable == 1 ? "rows verified against our database" : s.itemTable == 2 ? "names readable, rows differ" : s.itemTable == -1 ? "unavailable" : "not probed yet";
+        OnOff("Item table", s.itemTable > 0, tbl, tbl);
+        ImGui::Text("Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld", s.scans, s.sent, s.pumpTicks, s.faults);
+        ImGui::Text("This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses",
+                    loot::SessionCount(static_cast<int>(events::Action::Take)), loot::SessionCount(static_cast<int>(events::Action::Gather)),
+                    loot::SessionCount(static_cast<int>(events::Action::Catch)), loot::SessionCount(static_cast<int>(events::Action::Search)));
+
+        if (ImGui::TreeNode("Signatures"))
+        {
+            for (int i = 0; i < game::SigCount(); ++i)
+            {
+                const game::SigResult& r = game::Sig(i);
+                if (r.addr) ImGui::TextColored(kGood, "%-18s +0x%llX", r.name, static_cast<unsigned long long>(mem::Rva(r.addr)));
+                else ImGui::TextColored(r.required ? kWarn : kMuted, "%-18s %s (%zu hits)%s", r.name, r.hits ? "ambiguous" : "missing", r.hits, r.required ? "  required" : "  optional");
+            }
+            ImGui::TreePop();
+        }
 
         ImGui::SeparatorText("Log");
         static std::vector<std::string> lines;
-        Log::Snapshot(lines, 60);
+        Log::Snapshot(lines, 80);
         if (ImGui::BeginChild("log", ImVec2(0, 0), ImGuiChildFlags_Borders))
         {
             for (const auto& l : lines) ImGui::TextUnformatted(l.c_str());
@@ -374,9 +473,23 @@ namespace ml::gui
         if (ImGui::Begin("##mlhud", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize |
                                                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoNav))
         {
+            const long total = loot::SessionCount(0) + loot::SessionCount(1) + loot::SessionCount(2) + loot::SessionCount(3);
             ImGui::TextColored(Accent(), "Master Looter");
             ImGui::SameLine();
-            ImGui::Text("%s  |  %s opens the menu", c.enabled ? "on" : "off", Settings::KeyName(c.menuKey));
+            ImGui::Text("%s  |  %ld looted  |  %s toggle  %s menu", c.enabled ? "on" : "off", total,
+                        Settings::KeyName(c.keyToggle), Settings::KeyName(c.menuKey));
+            static loot::Recent recent[6];
+            const int n = loot::CopyRecent(recent, 6);
+            const DWORD now = GetTickCount();
+            int shown = 0;
+            for (int i = 0; i < n && shown < 4; ++i)
+            {
+                const DWORD age = now - recent[i].when;
+                if (age > 6000) continue;
+                const float a = age < 4000 ? 1.0f : 1.0f - (age - 4000) / 2000.0f;
+                ImGui::TextColored(ImVec4(0.85f, 0.85f, 0.85f, a), "%s", recent[i].text);
+                ++shown;
+            }
         }
         ImGui::End();
     }
@@ -385,14 +498,13 @@ namespace ml::gui
     {
         State& st = State::Get();
         Config& c = Settings::Get();
-
         ImGuiIO& io = ImGui::GetIO();
         io.MouseDrawCursor = st.menuOpen;
 
         if (c.showHud && !st.menuOpen) DrawHud(c);
-        if (!st.menuOpen) { st.textCapture = false; return; }
+        if (!st.menuOpen) { st.textCapture = false; if (st.rebindCapture) { st.rebindCapture = false; g_rebindTarget = -1; } return; }
 
-        ImGui::SetNextWindowSize(ImVec2(820 * g_scale, 600 * g_scale), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(860 * g_scale, 620 * g_scale), ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowPos(ImVec2(80 * g_scale, 80 * g_scale), ImGuiCond_FirstUseEver);
         bool open = true;
         if (ImGui::Begin("Master Looter", &open, ImGuiWindowFlags_NoCollapse))
@@ -400,9 +512,11 @@ namespace ml::gui
             if (ImGui::BeginTabBar("tabs"))
             {
                 if (ImGui::BeginTabItem("General")) { TabGeneral(c); ImGui::EndTabItem(); }
+                if (ImGui::BeginTabItem("Looting")) { TabLooting(c); ImGui::EndTabItem(); }
                 if (ImGui::BeginTabItem("Classes")) { TabClasses(c); ImGui::EndTabItem(); }
                 if (ImGui::BeginTabItem("Tags"))    { TabTags(c);    ImGui::EndTabItem(); }
                 if (ImGui::BeginTabItem("Items"))   { TabItems(c);   ImGui::EndTabItem(); }
+                if (ImGui::BeginTabItem("Nearby"))  { TabNearby();   ImGui::EndTabItem(); }
                 if (ImGui::BeginTabItem("Status"))  { TabStatus();   ImGui::EndTabItem(); }
                 ImGui::EndTabBar();
             }

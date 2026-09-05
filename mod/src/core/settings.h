@@ -8,19 +8,40 @@ namespace ml
     struct Config
     {
         // [MasterLooter]
-        bool  enabled        = true;
+        bool  enabled        = true;   // auto-loot on
         int   menuKey        = 0x2D;   // VK_INSERT
         bool  showHud        = true;
-        float lootRange      = 15.0f;  // metres
-        int   maxLootsPerSec = 5;
+        int   keyToggle      = 0x79;   // VK_F10: auto-loot on/off
+        int   keyBurst       = 0x7A;   // VK_F11: loot everything in range once
+        // pace
+        int   scansPerSec    = 5;      // how often the scene is read (1..30)
+        int   perScan        = 0;      // objects taken per scan, 0 = no limit
+        int   burstPerKey    = 0;      // objects per burst press, 0 = all
+        int   retryAfterMs   = 6000;   // before the same object may be tried again
+        // what to collect
         bool  lootCorpses    = true;
         bool  pickUpItems    = true;
         bool  gatherPlants   = true;
-        bool  catchInsects   = true;
-        bool  lootContainers = true;
-        int   minValueCopper = 0;      // 0 = no value floor
+        bool  catchCreatures = true;
+        bool  lootContainers = false;
+        // ranges in metres
+        float scanRange      = 40.0f;
+        float lootRange      = 15.0f;
+        float gatherRange    = 20.0f;
+        float catchRange     = 8.0f;
+        float corpseRange    = 12.0f;
+        float minRange       = 0.35f;
+        // node arming
+        bool  autoArm        = true;
+        float armRange       = 8.0f;
+        bool  armContainers  = true;
+        // safety and filters
+        bool  lootOwned      = false;  // take goods the game would call stealing
         bool  skipQuestItems = true;
         bool  skipNoSell     = false;
+        int   minValueCopper = 0;      // 0 = no value floor
+        bool  takeUnknownItems = true; // items our database cannot name
+        bool  debugLog       = false;
 
         // [Classes] class -> 1 loot / 0 skip. Absent means loot.
         std::map<std::string, int> classRule;

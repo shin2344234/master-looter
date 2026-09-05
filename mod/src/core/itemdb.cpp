@@ -14,6 +14,8 @@ namespace ml::ItemDb
 {
     static std::vector<Item>                            g_items;
     static std::unordered_map<uint32_t, size_t>         g_byKey;
+    static std::unordered_map<std::string, size_t>      g_byName;
+    static std::vector<int>                             g_byRow; // row -> index, -1 when absent
     static std::vector<std::pair<std::string, int>>     g_classes;
     static std::vector<std::pair<std::string, int>>     g_tags;
     static bool                                         g_loaded = false;
@@ -45,8 +47,10 @@ namespace ml::ItemDb
         std::vector<std::string> cols;
         g_items.clear();
         g_byKey.clear();
+        g_byName.clear();
         size_t pos = 0;
-        bool header = true;
+        bool header = true, hasRow = false;
+        int maxRow = -1;
         while (pos < text.size())
         {
             size_t nl = text.find('\n', pos);
@@ -54,18 +58,21 @@ namespace ml::ItemDb
             std::string line = text.substr(pos, nl - pos);
             pos = nl + 1;
             if (!line.empty() && line.back() == '\r') line.pop_back();
-            if (header) { header = false; continue; } // key string_key name class tags tier value
+            if (header) { header = false; hasRow = line.rfind("row\t", 0) == 0; continue; }
             if (line.empty()) continue;
             Split(line, cols);
-            if (cols.size() < 7) continue;
+            size_t c = 0;
             Item it;
-            it.key       = static_cast<uint32_t>(strtoul(cols[0].c_str(), nullptr, 10));
-            it.stringKey = cols[1];
-            it.name      = cols[2];
-            it.klass     = cols[3];
-            it.tags      = " " + cols[4] + " ";
-            it.tier      = atoi(cols[5].c_str());
-            it.value     = cols[6].empty() ? -1 : atoll(cols[6].c_str());
+            if (hasRow) { if (cols.size() < 8) continue; it.row = atoi(cols[c++].c_str()); }
+            else if (cols.size() < 7) continue;
+            it.key       = static_cast<uint32_t>(strtoul(cols[c++].c_str(), nullptr, 10));
+            it.stringKey = cols[c++];
+            it.name      = cols[c++];
+            it.klass     = cols[c++];
+            it.tags      = " " + cols[c++] + " ";
+            it.tier      = atoi(cols[c++].c_str());
+            it.value     = cols[c].empty() ? -1 : atoll(cols[c].c_str());
+            if (it.row > maxRow) maxRow = it.row;
             classCount[it.klass]++;
             size_t a = 1;
             while (a < it.tags.size())
@@ -76,12 +83,18 @@ namespace ml::ItemDb
                 a = b + 1;
             }
             g_byKey[it.key] = g_items.size();
+            if (!it.stringKey.empty()) g_byName.emplace(it.stringKey, g_items.size());
             g_items.push_back(std::move(it));
         }
+        g_byRow.assign(maxRow >= 0 ? static_cast<size_t>(maxRow) + 1 : 0, -1);
+        for (size_t i = 0; i < g_items.size(); ++i)
+            if (g_items[i].row >= 0) g_byRow[g_items[i].row] = static_cast<int>(i);
         g_classes.assign(classCount.begin(), classCount.end());
         std::sort(g_classes.begin(), g_classes.end(), [](const auto& x, const auto& y) { return x.second != y.second ? x.second > y.second : x.first < y.first; });
         g_tags.assign(tagCount.begin(), tagCount.end());
         g_loaded = !g_items.empty();
+        if (g_loaded && !hasRow)
+            LOG_ERR("MasterLooter.items.tsv has no row column; regenerate it with scripts/make_itemdb_tsv.py. Items will be matched by name only.");
         return g_loaded;
     }
 
@@ -92,6 +105,19 @@ namespace ml::ItemDb
     {
         auto it = g_byKey.find(key);
         return it == g_byKey.end() ? nullptr : &g_items[it->second];
+    }
+
+    const Item* ByRow(int row)
+    {
+        if (row < 0 || static_cast<size_t>(row) >= g_byRow.size() || g_byRow[row] < 0) return nullptr;
+        return &g_items[g_byRow[row]];
+    }
+
+    const Item* ByStringKey(const char* stringKey)
+    {
+        if (!stringKey || !*stringKey) return nullptr;
+        auto it = g_byName.find(stringKey);
+        return it == g_byName.end() ? nullptr : &g_items[it->second];
     }
 
     const std::vector<Item>& All() { return g_items; }

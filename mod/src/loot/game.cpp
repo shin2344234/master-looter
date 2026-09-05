@@ -1,0 +1,314 @@
+#include "game.h"
+
+#include <Windows.h>
+#include <cmath>
+#include <cstring>
+
+#include "mem.h"
+#include "signatures.h"
+#include "../core/itemdb.h"
+#include "../core/log.h"
+
+namespace ml::game
+{
+    using namespace ml::sig;
+
+    // ------------------------------------------------------------ resolve ----
+    static Fns      g_f;
+    static SigResult g_sigs[16];
+    static int       g_sigN = 0;
+    static bool      g_requiredOk = false;
+
+    static uintptr_t Scan(const char* name, const char* pattern, bool required)
+    {
+        size_t hits = 0;
+        const uintptr_t a = mem::FindUnique(pattern, &hits);
+        if (g_sigN < 16) g_sigs[g_sigN++] = { name, a, hits, required };
+        if (a) LOG("[sig] %-14s +0x%llX", name, static_cast<unsigned long long>(mem::Rva(a)));
+        else   LOG_ERR("[sig] %-14s %s (%zu hits)%s", name, hits ? "AMBIGUOUS" : "not found", hits, required ? " - required" : "");
+        return a;
+    }
+
+    // Table resolvers are clones; the one we want references its table-name
+    // string with `lea r8,[rip+..]` and has the 16-bit-key prologue above it.
+    struct TableHunt { const char* name; uintptr_t fn; };
+    static bool TableVisit(uintptr_t hit, void* ctx)
+    {
+        auto* h = static_cast<TableHunt*>(ctx);
+        const uintptr_t str = mem::RipAt(hit, 7);
+        char buf[32];
+        if (!mem::ReadCString(str, buf, sizeof buf) || strcmp(buf, h->name) != 0) return false;
+        for (uintptr_t p = hit; p + kMax_LeaToPrologue > hit && p > mem::Game().base; --p)
+            if (mem::MatchAt(p, kSig_TableResolver16)) { h->fn = p; return true; }
+        return false;
+    }
+    static uintptr_t TableGlobal(const char* name)
+    {
+        TableHunt h{ name, 0 };
+        mem::FindIf(kSig_LeaR8Rip, TableVisit, &h);
+        if (!h.fn) return 0;
+        const uintptr_t g = mem::RipAt(h.fn + kOff_TableResolver_MovGlobal, 7);
+        return mem::InImage(g) ? g : 0;
+    }
+
+    bool ResolveAll()
+    {
+        g_sigN = 0;
+        g_f = Fns{};
+        const uintptr_t tls = Scan("tls+desc", kSig_TlsDesc, true);
+        if (tls) { g_f.tlsInit = tls; g_f.descLookup = tls + kOff_TlsDesc_DescLookup; }
+        g_f.allocEvent = Scan("alloc_event", kSig_AllocEvent, true);
+        g_f.enqueue    = Scan("enqueue", kSig_Enqueue, true);
+        const uintptr_t dq = Scan("desc_mask+queue", kSig_DescMaskQueue, true);
+        if (dq)
+        {
+            g_f.descMask = mem::RipAt(dq + kOff_DescMask_Mov, 7);
+            g_f.queue    = mem::RipAt(dq + kOff_Queue_Mov, 7);
+            if (!mem::InImage(g_f.descMask) || !mem::InImage(g_f.queue))
+            {
+                LOG_ERR("[sig] DESC_MASK or queue resolved outside the image; sending disabled");
+                g_f.descMask = g_f.queue = 0;
+            }
+            else LOG("[sig] DESC_MASK +0x%llX queue +0x%llX", static_cast<unsigned long long>(mem::Rva(g_f.descMask)),
+                     static_cast<unsigned long long>(mem::Rva(g_f.queue)));
+        }
+        g_f.moveUpdate   = Scan("move_update", kSig_MoveUpdate, false);
+        g_f.areaSweepHit = Scan("area_sweep", kSig_AreaSweep, false);
+        g_f.ownCheck     = Scan("own_check", kSig_OwnCheck, false);
+        g_f.armFn        = Scan("node_arm", kSig_ArmDispatch, false);
+        g_f.itemTableGlobal    = TableGlobal(kStr_ItemInfoTable);
+        g_f.gimmickTableGlobal = TableGlobal(kStr_GimmickInfoTable);
+        if (g_sigN < 16) g_sigs[g_sigN++] = { "iteminfo table", g_f.itemTableGlobal, g_f.itemTableGlobal ? 1u : 0u, false };
+        if (g_sigN < 16) g_sigs[g_sigN++] = { "gimmickinfo table", g_f.gimmickTableGlobal, g_f.gimmickTableGlobal ? 1u : 0u, false };
+        LOG("[sig] iteminfo global %s, gimmickinfo global %s",
+            g_f.itemTableGlobal ? "found" : "missing", g_f.gimmickTableGlobal ? "found" : "missing");
+
+        g_requiredOk = g_f.tlsInit && g_f.allocEvent && g_f.enqueue && g_f.descMask && g_f.queue &&
+                       (g_f.moveUpdate || g_f.areaSweepHit);
+        return g_requiredOk;
+    }
+
+    const Fns& F() { return g_f; }
+    int SigCount() { return g_sigN; }
+    const SigResult& Sig(int i) { return g_sigs[i]; }
+    bool RequiredOk() { return g_requiredOk; }
+
+    // ------------------------------------------------------ actor manager ----
+    static uintptr_t g_mgrVt[4];
+    static int       g_mgrVtN = 0;
+    static bool      g_mgrVtDone = false;
+    static uintptr_t g_mgrSlot = 0;
+    static DWORD     g_mgrNextTry = 0;
+
+    uintptr_t ActorManager()
+    {
+        if (!g_mgrSlot)
+        {
+            const DWORD now = GetTickCount();
+            if (g_mgrNextTry && static_cast<LONG>(now - g_mgrNextTry) < 0) return 0;
+            g_mgrNextTry = now + 3000;
+            if (!g_mgrVtDone)
+            {
+                g_mgrVtDone = true;
+                g_mgrVtN = mem::FindVtablesByName(kRtti_ActorManager, g_mgrVt, 4);
+                LOG("[mgr] ClientActorManager vtables: %d%s", g_mgrVtN,
+                    g_mgrVtN ? "" : " (class not found in image)");
+            }
+            if (!g_mgrVtN) return 0;
+            long cand = 0;
+            g_mgrSlot = mem::FindGlobalHoldingVtable(g_mgrVt, g_mgrVtN, &cand);
+            if (!g_mgrSlot) { static bool told = false; if (!told) { told = true; LOG("[mgr] not in memory yet (%ld pointers checked); retrying", cand); } return 0; }
+            LOG_OK("[mgr] ClientActorManager global +0x%llX", static_cast<unsigned long long>(mem::Rva(g_mgrSlot)));
+        }
+        uintptr_t p = 0;
+        if (!mem::ReadPtr(g_mgrSlot, &p)) return 0;
+        return mem::Readable(p, kOff_Mgr_ListsEnd) ? p : 0;
+    }
+    bool ActorManagerFound() { return g_mgrSlot != 0; }
+
+    // ----------------------------------------------------------- entities ----
+    bool Eid(uintptr_t e, uint32_t* out) { return mem::Read32(e + kOff_Ent_Eid, out); }
+    uint32_t Route(uintptr_t e) { uint32_t r = 0; mem::Read32(e + kOff_Ent_Route, &r); return r; }
+    uint8_t TypeTag(uintptr_t e)
+    {
+        const uintptr_t ti = mem::Deref(e, kOff_Ent_TypeInfo);
+        uint8_t t = 0xFF;
+        if (!ti || !mem::Read8(ti + 1, &t)) return 0xFF;
+        return t;
+    }
+    uintptr_t Comps(uintptr_t e) { return mem::Deref(e, kOff_Ent_Comps); }
+
+    // Component slots are fixed but may move between patches; the class name
+    // never does. The first successful RTTI match per class caches the slot
+    // and vtable so later lookups are one pointer compare.
+    struct SlotCache { const char* cls; int off; uintptr_t vt; };
+    static SlotCache g_slots[3] = { { kCls_Status, -1, 0 }, { kCls_Gimmick, -1, 0 }, { kCls_Ai, -1, 0 } };
+
+    uintptr_t CompByClass(uintptr_t comps, const char* cls)
+    {
+        if (!comps) return 0;
+        SlotCache* sc = nullptr;
+        for (auto& s : g_slots) if (strcmp(s.cls, cls) == 0) { sc = &s; break; }
+        if (sc && sc->off >= 0)
+        {
+            const uintptr_t c = mem::Deref(comps, static_cast<unsigned>(sc->off));
+            if (!c) return 0;                       // slot empty: this actor lacks the component
+            uintptr_t vt = 0;
+            if (mem::ReadPtr(c, &vt) && vt == sc->vt) return c;
+        }
+        if (!mem::Readable(comps, kComps_SlotsEnd)) return 0;
+        for (unsigned off = 0; off < kComps_SlotsEnd; off += 8)
+        {
+            const uintptr_t c = mem::Deref(comps, off);
+            if (!c) continue;
+            const char* n = mem::RttiName(c);
+            if (!n || !strstr(n, cls)) continue;
+            if (sc) { uintptr_t vt = 0; if (mem::ReadPtr(c, &vt)) { sc->off = static_cast<int>(off); sc->vt = vt; } }
+            return c;
+        }
+        return 0;
+    }
+
+    uintptr_t Transform(uintptr_t comps) { return comps ? mem::Deref(comps, kOff_Comps_Transform) : 0; }
+
+    bool WorldPos(uintptr_t e, Vec3* out)
+    {
+        const uintptr_t tf = Transform(Comps(e));
+        if (!tf || !mem::Readable(tf, kOff_Tf_ParentPos + 12)) return false;
+        float v[3], pw[3];
+        uint32_t parent = 0;
+        if (!mem::ReadF32x3(tf + kOff_Tf_Pos, v) || !mem::Read32(tf + kOff_Tf_ParentEid, &parent)) return false;
+        if (parent != 0xFFFFFFFF && parent != 0 && mem::ReadF32x3(tf + kOff_Tf_ParentPos, pw))
+        {
+            if (std::isfinite(pw[0]) && std::isfinite(pw[1]) && std::isfinite(pw[2]))
+            { v[0] += pw[0]; v[1] += pw[1]; v[2] += pw[2]; }
+        }
+        if (!std::isfinite(v[0]) || !std::isfinite(v[1]) || !std::isfinite(v[2])) return false;
+        out->x = v[0]; out->y = v[1]; out->z = v[2];
+        return true;
+    }
+
+    uint32_t ParentEid(uintptr_t e)
+    {
+        const uintptr_t tf = Transform(Comps(e));
+        uint32_t p = 0;
+        if (!tf || !mem::Read32(tf + kOff_Tf_ParentEid, &p)) return 0;
+        return p == 0xFFFFFFFF ? 0 : p;
+    }
+
+    // ---------------------------------------------------------- inventory ----
+    static uint32_t g_inv[2048];
+    static int      g_invN = 0;
+    static DWORD    g_invAt = 0;
+
+    void InventoryRefresh(uintptr_t me, bool force)
+    {
+        const DWORD now = GetTickCount();
+        if (!me || (!force && g_invN && now - g_invAt < 500)) return;
+        g_invAt = now;
+        int n = 0;
+        const uintptr_t comps  = Comps(me);
+        const uintptr_t holder = comps ? mem::Deref(comps, kOff_Comps_InvHolder) : 0;
+        if (!holder) { g_invN = 0; return; }
+        uintptr_t barr = 0; uint32_t bn = 0;
+        if (!mem::ReadPtr(holder + kOff_Inv_Buckets, &barr) || !mem::Read32(holder + kOff_Inv_BucketN, &bn) || bn > 64) { g_invN = 0; return; }
+        for (uint32_t b = 0; b < bn && n < 2048; ++b)
+        {
+            uintptr_t bk = 0, slots = 0; uint16_t sn = 0;
+            if (!mem::ReadPtr(barr + 8ull * b, &bk)) continue;
+            if (!mem::ReadPtr(bk + kOff_Bucket_Slots, &slots) || !mem::Read16(bk + kOff_Bucket_SlotN, &sn) || sn > 4096) continue;
+            if (!mem::Readable(slots, static_cast<size_t>(sn) * kInv_SlotStride)) continue;
+            for (uint16_t i = 0; i < sn && n < 2048; ++i)
+            {
+                const uintptr_t s = slots + static_cast<uintptr_t>(i) * kInv_SlotStride;
+                uint16_t type = 0; uint32_t iid = 0;
+                if (!mem::Read16(s + kOff_Slot_TypeId, &type) || type == 0xFFFF || type == 0) continue;
+                if (!mem::Read32(s, &iid) || !iid || iid == 0xFFFFFFFF) continue;
+                g_inv[n++] = iid;
+            }
+        }
+        g_invN = n;
+    }
+    bool InventoryHas(uint32_t iid)
+    {
+        if (!iid) return false;
+        for (int i = 0; i < g_invN; ++i) if (g_inv[i] == iid) return true;
+        return false;
+    }
+    int InventoryCount() { return g_invN; }
+
+    // ------------------------------------------------------------- tables ----
+    static int      g_tableState = 0;
+    static unsigned g_defsOff = kOff_Table_DefsA;
+
+    static uintptr_t DefFor(uintptr_t global, uint32_t row, unsigned defsOff)
+    {
+        uintptr_t table = 0, defs = 0, def = 0; uint32_t count = 0;
+        if (!global || !mem::ReadPtr(global, &table)) return 0;
+        if (!mem::Read32(table + kOff_Table_Count, &count) || !count || count > 0x40000 || row >= count) return 0;
+        if (!mem::ReadPtr(table + defsOff, &defs)) return 0;
+        if (!mem::ReadPtr(defs + 8ull * row, &def)) return 0;
+        return def;
+    }
+    static bool KeyAt(uintptr_t global, uint32_t row, unsigned defsOff, char* out, size_t n)
+    {
+        const uintptr_t def = DefFor(global, row, defsOff);
+        return def && mem::ReadEngineString(def + kOff_Def_StringKey, out, n) && strlen(out) >= 2;
+    }
+
+    uint32_t ItemTableCount()
+    {
+        uintptr_t table = 0; uint32_t count = 0;
+        if (!g_f.itemTableGlobal || !mem::ReadPtr(g_f.itemTableGlobal, &table)) return 0;
+        if (!mem::Read32(table + kOff_Table_Count, &count)) return 0;
+        return count;
+    }
+
+    int ProbeItemTable()
+    {
+        if (g_tableState != 0) return g_tableState;
+        if (!g_f.itemTableGlobal || !ItemDb::Loaded()) { g_tableState = -1; return g_tableState; }
+        const uint32_t count = ItemTableCount();
+        if (!count) return 0; // table not built yet; try again later
+        const int dbN = ItemDb::Count();
+        const int sample[] = { 0, 1, 2, 10, 100, 500, 1000, 2500, 4000, dbN - 1 };
+        const unsigned offs[] = { kOff_Table_DefsA, kOff_Table_DefsB };
+        int bestOff = -1, bestMatch = -1, bestReadable = -1;
+        for (unsigned off : offs)
+        {
+            int match = 0, readable = 0;
+            for (int row : sample)
+            {
+                if (row < 0 || static_cast<uint32_t>(row) >= count) continue;
+                char key[96];
+                if (!KeyAt(g_f.itemTableGlobal, static_cast<uint32_t>(row), off, key, sizeof key)) continue;
+                ++readable;
+                const Item* it = ItemDb::ByRow(row);
+                if (it && it->stringKey == key) ++match;
+            }
+            if (match > bestMatch) { bestMatch = match; bestOff = static_cast<int>(off); bestReadable = readable; }
+        }
+        if (bestReadable <= 0) { g_tableState = -1; LOG_ERR("[table] iteminfo: no readable string keys at +0x50 or +0x58; item names unavailable"); return g_tableState; }
+        g_defsOff = static_cast<unsigned>(bestOff);
+        if (bestMatch >= 8) { g_tableState = 1; LOG_OK("[table] iteminfo: %u rows, defs at +0x%X, row ids match our database (%d/%d samples)", count, g_defsOff, bestMatch, bestReadable); }
+        else { g_tableState = 2; LOG("[table] iteminfo: %u rows, defs at +0x%X, row ids differ from our database (%d/%d); matching by name", count, g_defsOff, bestMatch, bestReadable); }
+        return g_tableState;
+    }
+    int ItemTableState() { return g_tableState; }
+
+    bool ItemKeyForType(uint16_t typeId, char* out, size_t n)
+    {
+        if (!typeId || g_tableState <= 0) return false;
+        return KeyAt(g_f.itemTableGlobal, typeId, g_defsOff, out, n);
+    }
+    bool GimmickKeyForType(uint16_t typeId, char* out, size_t n)
+    {
+        if (!typeId || !g_f.gimmickTableGlobal || g_tableState <= 0) return false;
+        return KeyAt(g_f.gimmickTableGlobal, typeId, g_defsOff, out, n);
+    }
+    bool NodeName(uintptr_t gimmick, char* out, size_t n)
+    {
+        if (!gimmick) return false;
+        return mem::ReadEngineString(gimmick + kOff_Gimmick_NodeName, out, n) && strlen(out) >= 4;
+    }
+}

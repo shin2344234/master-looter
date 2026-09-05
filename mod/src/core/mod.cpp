@@ -1,6 +1,7 @@
 #include "mod.h"
 
 #include <MinHook.h>
+#include <cstring>
 
 #include "itemdb.h"
 #include "log.h"
@@ -8,11 +9,21 @@
 #include "settings.h"
 #include "state.h"
 #include "../hooks/dx12_hook.h"
+#include "../loot/engine.h"
 #include "../version.h"
 
 namespace ml::Mod
 {
     static bool g_initialized = false;
+
+    static bool HostIsGame()
+    {
+        char exe[MAX_PATH] = "";
+        GetModuleFileNameA(nullptr, exe, MAX_PATH);
+        const char* name = strrchr(exe, '\\');
+        name = name ? name + 1 : exe;
+        return _stricmp(name, "CrimsonDesert.exe") == 0;
+    }
 
     void Initialize(HMODULE module)
     {
@@ -57,12 +68,17 @@ namespace ml::Mod
         else
             LOG_ERR("Item database not found next to the plugin (MasterLooter.items.tsv); class and tag rules will be empty.");
         State::Get().overlayReady = true;
+
+        // The loot engine touches game memory and game functions: only in the game itself.
+        if (HostIsGame()) loot::Start();
+        else LOG("Host is not CrimsonDesert.exe; loot engine not started.");
     }
 
     void Shutdown()
     {
         if (!g_initialized)
             return;
+        loot::Stop();
         Settings::Save();
         hooks::RemoveDX12Hooks();
         MH_Uninitialize();

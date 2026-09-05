@@ -1,0 +1,23 @@
+#pragma once
+#include <cstdint>
+
+// MinHook detours on the game functions the engine needs: a per-frame pump on
+// the game thread (drains queued sends and arms), the event queue (learns the
+// player's route id), the ownership oracle (captures its context so we can ask
+// it ourselves) and the node-arming dispatcher (captures its mode argument).
+namespace ml::loot::hooks
+{
+    bool Install();   // after game::ResolveAll; MinHook must be initialised
+    void Remove();
+
+    const char* PumpName();   // "movement tick", "scene sweep", "event queue" or "none"
+    long  PumpTicks();
+    bool  OwnerCaptured();
+    long  OwnerCalls();
+    int   ArmMode();          // mode byte seen on the game's own arming calls; 0 until observed
+    bool  ArmObserved();
+    long  ArmCalls();
+
+    // 1 = taking it would be theft, 0 = free to take, -1 = cannot tell yet.
+    int WouldSteal(uintptr_t playerEnt, uintptr_t targetEnt);
+}
