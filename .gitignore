@@ -4,3 +4,5 @@ extracted/
 tools/
 __pycache__/
 *.pyc
+mod/build/
+mod/dist/
