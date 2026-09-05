@@ -7,20 +7,21 @@ An ASI plugin for Crimson Desert 2.01.00: an auto-looter driven by the tagged it
 - `MasterLooter.asi`: the plugin. Draws a Dear ImGui menu over the game through a DirectX 12 present hook (adapted from Trinity, see THIRD_PARTY_NOTICES.md), so it works with DLSS frame generation and HDR.
 - `MasterLooter.items.tsv`: the item database (6,813 items with runtime row id, class, tags, tier and sell value), generated from `data/items_tagged.csv` by `scripts/make_itemdb_tsv.py`.
 - `MasterLooter.ini`: written next to the plugin on first run, rewritten whenever a setting changes in the menu, and reloaded within a second if edited by hand while the game runs.
-- `MasterLooter.log`: rewritten every launch. Signature resolution, hook installation, the event self test and every item taken are logged there.
+- `MasterLooter.log`: rewritten every launch. Signature resolution, hook installation, the event self test, every item taken and, once per object, why anything within range was skipped.
+- `MasterLooter.learned.tsv`: what each gather node type yields, learned by watching the bag after a gather. It is what tells plants, ore, stone and wood apart; delete it to relearn.
 
 ## Controls
 
 - Insert opens and closes the menu (rebindable under General). Escape also closes it.
 - F10 turns auto-loot on and off, F11 loots everything in range once. Both rebindable.
 - While the menu is open the game does not see the keyboard, mouse or controller. Key releases still pass through so nothing sticks.
-- Tabs: General (switches, keys, pace, filters), Looting (what to collect, ranges, node arming, ownership), Classes, Tags, Items (search any item, set an override, see the live verdict), Nearby (every object around you with the rule that decided it), Status (signatures, hooks, event path, counters, log).
+- Tabs: General (switches, keys, pace, filters), Looting (one toggle each for ground items, carcasses, plants, ore, stone, wood, unidentified nodes, insects and small animals, fish, containers and furniture nodes; ranges; node arming; ownership), Classes (one-click groups such as Weapons and armor or Food and drink above the full class table, plus quest, unsellable and protected-item switches), Tags, Items (search any item, set an override, see the live verdict), Nearby (every object around you with the rule that decided it), Status (signatures, hooks, event path, counters, recent loot, log).
 
 ## How looting works
 
 A worker thread finds the game's actor manager by its RTTI class name, reads every world object around the player (position, components, node data), and decides per object. Decisions that pass are queued and the game-thread pump sends the game's own loot events (pick up, gather, catch, search carcass), exactly as the game does when you press the interaction key. Empty nodes such as ore veins are armed first so the game fills their data without you standing on them.
 
-Rule order for an identified item: item override, tag never, tag always, dev/quest/unsellable filters, copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, locked nodes, your own equipment and bag contents, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's own Take-or-Steal check calls theft (unless you opt in).
+Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters, copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, locked nodes, your own equipment and bag contents, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's own Take-or-Steal check calls theft (unless you opt in).
 
 ## Compatibility and patches
 

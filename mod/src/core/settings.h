@@ -21,9 +21,15 @@ namespace ml
         // what to collect
         bool  lootCorpses    = true;
         bool  pickUpItems    = true;
-        bool  gatherPlants   = true;
-        bool  catchCreatures = true;
+        bool  gatherPlants   = true;   // herbs, mushrooms, crops: any material a node yields that is not below
+        bool  gatherOre      = true;
+        bool  gatherStone    = true;
+        bool  gatherWood     = true;
+        bool  gatherUnknown  = true;   // nodes whose yield has not been seen yet
+        bool  catchCreatures = true;   // insects and small animals
+        bool  catchFish      = true;
         bool  lootContainers = false;
+        bool  lootFurniture  = false;
         // ranges in metres
         float scanRange      = 40.0f;
         float lootRange      = 15.0f;

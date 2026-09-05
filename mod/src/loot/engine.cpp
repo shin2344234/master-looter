@@ -17,6 +17,7 @@
 #include "signatures.h"
 #include "../core/itemdb.h"
 #include "../core/log.h"
+#include "../core/paths.h"
 #include "../core/rules.h"
 #include "../core/settings.h"
 #include "../core/state.h"
@@ -89,6 +90,112 @@ namespace ml::loot
 
     static uintptr_t g_me = 0;
     static uint32_t  g_meEid = 0, g_meRoute = 0;
+
+    // --- what a gather node yields --------------------------------------------
+    // Gather nodes carry a type number the static tables do not explain. The
+    // bag tells us instead: after a gather, whichever item count rose is what
+    // that node type yields. Learned pairs persist in MasterLooter.learned.tsv.
+    static std::unordered_map<uint16_t, uint16_t> g_learn;   // node type -> item row
+    struct PendSend { DWORD at; Action act; uint16_t nodeType; int itemRow; };
+    static std::vector<PendSend> g_pend;
+    static std::vector<std::pair<uint16_t, long long>> g_invPrev;
+    static bool g_invPrevValid = false;
+
+    static void LoadLearned()
+    {
+        FILE* f = _wfopen(Paths::File(L"MasterLooter.learned.tsv").c_str(), L"rb");
+        if (!f) return;
+        char line[256];
+        while (fgets(line, sizeof line, f))
+        {
+            unsigned node = 0, row = 0;
+            if (sscanf(line, "%u\t%u", &node, &row) == 2 && node && node < 65536 && row < 65536)
+                g_learn[static_cast<uint16_t>(node)] = static_cast<uint16_t>(row);
+        }
+        fclose(f);
+        LOG("[learn] %d node yields loaded", static_cast<int>(g_learn.size()));
+    }
+    static void SaveLearned()
+    {
+        FILE* f = _wfopen(Paths::File(L"MasterLooter.learned.tsv").c_str(), L"wb");
+        if (!f) return;
+        fputs("node_type\titem_row\titem_key\titem_name\n", f);
+        for (const auto& kv : g_learn)
+        {
+            const Item* it = ItemDb::ByRow(kv.second);
+            fprintf(f, "%u\t%u\t%s\t%s\n", kv.first, kv.second, it ? it->stringKey.c_str() : "", it ? it->name.c_str() : "");
+        }
+        fclose(f);
+    }
+    static const Item* LearnedYield(uint16_t nodeType)
+    {
+        auto it = g_learn.find(nodeType);
+        return it == g_learn.end() ? nullptr : ItemDb::ByRow(it->second);
+    }
+
+    // Diff the bag against the last scan and attribute every rise to a pending send.
+    static void LearnFromInventory(DWORD now)
+    {
+        static uint16_t types[2048]; static long long qty[2048];
+        const int n = game::InventoryTypes(types, qty, 2048);
+        std::vector<std::pair<uint16_t, long long>> cur(n);
+        for (int i = 0; i < n; ++i) cur[i] = { types[i], qty[i] };
+        std::vector<uint16_t> rose;
+        if (g_invPrevValid)
+        {
+            size_t j = 0;
+            for (const auto& e : cur)
+            {
+                while (j < g_invPrev.size() && g_invPrev[j].first < e.first) ++j;
+                const long long before = (j < g_invPrev.size() && g_invPrev[j].first == e.first) ? g_invPrev[j].second : 0;
+                if (e.second > before) rose.push_back(e.first);
+            }
+        }
+        g_invPrev.swap(cur);
+        g_invPrevValid = true;
+        // Expire stale sends.
+        g_pend.erase(std::remove_if(g_pend.begin(), g_pend.end(), [now](const PendSend& p) { return now - p.at > 4000; }), g_pend.end());
+        if (rose.empty() || g_pend.empty()) return;
+        for (uint16_t type : rose)
+        {
+            // A send whose item we already knew explains the rise.
+            auto known = std::find_if(g_pend.begin(), g_pend.end(), [type](const PendSend& p) { return p.itemRow == type; });
+            if (known != g_pend.end()) { g_pend.erase(known); continue; }
+            // Otherwise every pending gather of one node type is the source.
+            std::vector<size_t> unknown;
+            for (size_t i = 0; i < g_pend.size(); ++i)
+                if (g_pend[i].act == Action::Gather && g_pend[i].itemRow < 0 && g_pend[i].nodeType) unknown.push_back(i);
+            if (unknown.empty()) continue;
+            const uint16_t nodeType = g_pend[unknown[0]].nodeType;
+            bool same = true;
+            for (size_t i : unknown) if (g_pend[i].nodeType != nodeType) same = false;
+            if (!same || rose.size() > 1) continue; // ambiguous: wait for a cleaner sample
+            if (!g_learn.count(nodeType))
+            {
+                g_learn[nodeType] = type;
+                const Item* it = ItemDb::ByRow(type);
+                LOG("[learn] node type %u yields %s (%s)", nodeType, it ? it->Label() : "?", it ? it->klass.c_str() : "");
+                SaveLearned();
+            }
+            for (size_t k = unknown.size(); k-- > 0;) g_pend.erase(g_pend.begin() + static_cast<long>(unknown[k]));
+        }
+    }
+
+    // What kind of thing a gather node is, from what it yields.
+    enum class GatherKind { Unknown, Plant, Ore, Stone, Wood, Item };
+    static GatherKind KindOf(const Item* y)
+    {
+        if (!y) return GatherKind::Unknown;
+        if (y->HasTag("wood"))  return GatherKind::Wood;
+        if (y->HasTag("stone")) return GatherKind::Stone;
+        const std::string& nm = y->name;
+        const bool ore = y->klass == "catalyst" || (nm.size() >= 3 && nm.compare(nm.size() - 3, 3, "Ore") == 0) || nm.find(" Ore ") != std::string::npos;
+        if (ore) return GatherKind::Ore;
+        static const char* plantClasses[] = { "herb", "vegetable", "fruit", "grain", "seed", "ingredient", "alchemy-material", "honey", "crafting-material", "cooking-basic", "mount-feed" };
+        for (const char* c : plantClasses) if (y->klass == c) return GatherKind::Plant;
+        if (y->HasTag("material")) return GatherKind::Plant;
+        return GatherKind::Item;
+    }
 
     // An object gets up to four attempts, each waiting longer than the last
     // (the game may refuse an event sent from too far away, and the object is
@@ -222,8 +329,10 @@ namespace ml::loot
             if (IStr(c.node, "visione") || IStr(c.node, "quest") || IStr(c.node, "artifact")) return skip("quest or memory trigger");
             if (IStr(c.node, "abyssruins")) return skip("fast-travel artifact");
             if (IStr(c.node, "mission")) return skip("mission object");
-            const bool container = IStr(c.node, "furniture") || IStr(c.node, "_chest") || IStr(c.node, "_box") || IStr(c.node, "dropset");
+            const bool container = IStr(c.node, "_chest") || IStr(c.node, "_box") || IStr(c.node, "dropset");
+            const bool furniture = IStr(c.node, "furniture");
             if (container && !cfg.lootContainers) return skip("container (off)");
+            if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
         }
         if (c.tid == 52920 || g_containers.count(c.eid)) return skip("mechanism part");
         if (c.heap) return skip("stack in one spot (container contents)");
@@ -261,10 +370,26 @@ namespace ml::loot
 
         switch (v.act)
         {
-        case Action::Search: if (!cfg.lootCorpses)    return skip("corpses off"); break;
-        case Action::Catch:  if (!cfg.catchCreatures) return skip("catching off"); break;
-        case Action::Gather: if (!cfg.gatherPlants)   return skip("gathering off"); break;
-        default:             if (!cfg.pickUpItems)    return skip("pick up off"); break;
+        case Action::Search: if (!cfg.lootCorpses) return skip("carcasses off"); break;
+        case Action::Catch:
+            if (c.cat2 == 0x05) { if (!cfg.catchFish) return skip("fish off"); }
+            else if (!cfg.catchCreatures) return skip("insects and small animals off");
+            break;
+        case Action::Gather:
+        {
+            const GatherKind kind = KindOf(c.db ? c.db : LearnedYield(c.tid));
+            switch (kind)
+            {
+            case GatherKind::Plant:   if (!cfg.gatherPlants)  return skip("plants off"); break;
+            case GatherKind::Ore:     if (!cfg.gatherOre)     return skip("ore off"); break;
+            case GatherKind::Stone:   if (!cfg.gatherStone)   return skip("stone off"); break;
+            case GatherKind::Wood:    if (!cfg.gatherWood)    return skip("wood off"); break;
+            case GatherKind::Item:    if (!cfg.pickUpItems)   return skip("pick up off"); break;
+            default:                  if (!cfg.gatherUnknown) return skip("unidentified nodes off"); break;
+            }
+            break;
+        }
+        default: if (!cfg.pickUpItems) return skip("pick up off"); break;
         }
         const float lim = v.act == Action::Search ? cfg.corpseRange : v.act == Action::Catch ? cfg.catchRange
                         : v.act == Action::Gather ? cfg.gatherRange : cfg.lootRange;
@@ -284,6 +409,13 @@ namespace ml::loot
     static const char* Label(const Cand& c)
     {
         if (c.db) return c.db->Label();
+        if (c.gather && c.tid)
+        {
+            static char buf[80];
+            if (const Item* y = LearnedYield(c.tid)) snprintf(buf, sizeof buf, "%s node", y->Label());
+            else snprintf(buf, sizeof buf, "node type %u", c.tid);
+            return buf;
+        }
         if (c.key[0]) return c.key;
         if (c.node[0]) return c.node;
         if (c.dead == 1) return "corpse";
@@ -340,7 +472,8 @@ namespace ml::loot
             return;
         }
         g_meRoute = game::Route(g_me);
-        game::InventoryRefresh(g_me, false);
+        game::InventoryRefresh(g_me, !g_pend.empty());
+        LearnFromInventory(now);
         if (game::ItemTableState() == 0) game::ProbeItemTable();
 
         // Collect world objects in scan range.
@@ -502,7 +635,8 @@ namespace ml::loot
                     if (!k.filled || k.item || k.gather || !k.inter) continue;
                     if (k.parent == g_meEid || k.twin || k.heap || k.d > armLim) continue;
                     if (!cfg.armContainers && g_containers.count(k.eid)) continue;
-                    if (k.node[0] && !cfg.lootContainers && (IStr(k.node, "furniture") || IStr(k.node, "_chest") || IStr(k.node, "_box") || IStr(k.node, "dropset"))) continue;
+                    if (k.node[0] && !cfg.lootContainers && (IStr(k.node, "_chest") || IStr(k.node, "_box") || IStr(k.node, "dropset"))) continue;
+                    if (k.node[0] && !cfg.lootFurniture && IStr(k.node, "furniture")) continue;
                     const uint64_t key = Key(k);
                     if (g_searched.count(key)) continue;
                     auto ar = g_armed.find(key);
@@ -568,6 +702,8 @@ namespace ml::loot
                     if (v.act == Action::Search) g_searched.insert(key);
                     if (!events::Send(v.act, k.eid, g_meEid, route, 0)) continue;
                     ++taken;
+                    if (v.act == Action::Gather || v.act == Action::Take)
+                        g_pend.push_back({ now, v.act, k.tid, k.db ? k.db->row : -1 });
                     InterlockedIncrement(&g_session[static_cast<int>(v.act)]);
                     char line[80];
                     snprintf(line, sizeof line, "%s %s (%.1f m)", events::ActionName(v.act), Label(k), k.d);
@@ -588,6 +724,7 @@ namespace ml::loot
         g_status.settling = settling;
         snprintf(g_status.hold, sizeof g_status.hold, "%s", settling ? s_holdWhy : "");
         g_status.inventoryItems = game::InventoryCount();
+        g_status.learned = static_cast<int>(g_learn.size());
         g_status.lastScanMs = static_cast<float>((t1.QuadPart - t0.QuadPart) * 1000.0 / fq.QuadPart);
         ++g_status.scans;
     }
@@ -604,6 +741,7 @@ namespace ml::loot
         const bool hooked = hooks::Install();
         { std::lock_guard<std::mutex> lk(g_mu); g_status.hooked = hooked; g_status.pump = hooks::PumpName(); }
         if (!hooked) { Note("no game-thread pump; looting disabled"); return 0; }
+        LoadLearned();
         Note("waiting for the world");
         LOG_OK("[loot] engine ready; pump: %s", hooks::PumpName());
 

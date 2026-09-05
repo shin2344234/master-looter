@@ -1,8 +1,11 @@
 #include "game.h"
 
 #include <Windows.h>
+#include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <utility>
+#include <vector>
 
 #include "mem.h"
 #include "signatures.h"
@@ -200,6 +203,32 @@ namespace ml::game
     static uint32_t g_inv[2048];
     static int      g_invN = 0;
     static DWORD    g_invAt = 0;
+    static unsigned g_slotStride = 0;   // 0xC0 (Trinity) or 0xC8 (CDLoot); probed on the live data
+    static std::vector<std::pair<uint16_t, long long>> g_qty;
+
+    // The two references disagree on the slot stride. Count slots that look
+    // valid (type id inside the item table or the empty marker) under each
+    // and keep the one that fits.
+    static unsigned ProbeStride(uintptr_t slots, uint16_t sn)
+    {
+        const uint32_t tableN = ItemTableCount();
+        const unsigned cands[2] = { 0xC0, 0xC8 };
+        int best = -1; unsigned bestStride = 0xC8;
+        for (unsigned st : cands)
+        {
+            if (!mem::Readable(slots, static_cast<size_t>(sn) * st)) continue;
+            int ok = 0;
+            for (uint16_t i = 0; i < sn && i < 64; ++i)
+            {
+                uint16_t type = 0;
+                if (!mem::Read16(slots + static_cast<uintptr_t>(i) * st + kOff_Slot_TypeId, &type)) break;
+                if (type == 0xFFFF || (tableN && type < tableN)) ++ok;
+            }
+            if (ok > best) { best = ok; bestStride = st; }
+        }
+        LOG("[inv] slot stride 0x%X (%d of %u slots plausible)", bestStride, best, sn < 64 ? sn : 64);
+        return bestStride;
+    }
 
     void InventoryRefresh(uintptr_t me, bool force)
     {
@@ -207,6 +236,7 @@ namespace ml::game
         if (!me || (!force && g_invN && now - g_invAt < 500)) return;
         g_invAt = now;
         int n = 0;
+        std::vector<std::pair<uint16_t, long long>> qty;
         const uintptr_t comps  = Comps(me);
         const uintptr_t holder = comps ? mem::Deref(comps, kOff_Comps_InvHolder) : 0;
         if (!holder) { g_invN = 0; return; }
@@ -217,17 +247,36 @@ namespace ml::game
             uintptr_t bk = 0, slots = 0; uint16_t sn = 0;
             if (!mem::ReadPtr(barr + 8ull * b, &bk)) continue;
             if (!mem::ReadPtr(bk + kOff_Bucket_Slots, &slots) || !mem::Read16(bk + kOff_Bucket_SlotN, &sn) || sn > 4096) continue;
-            if (!mem::Readable(slots, static_cast<size_t>(sn) * kInv_SlotStride)) continue;
+            if (!g_slotStride && sn >= 8) g_slotStride = ProbeStride(slots, sn);
+            const unsigned stride = g_slotStride ? g_slotStride : kInv_SlotStride;
+            if (!mem::Readable(slots, static_cast<size_t>(sn) * stride)) continue;
             for (uint16_t i = 0; i < sn && n < 2048; ++i)
             {
-                const uintptr_t s = slots + static_cast<uintptr_t>(i) * kInv_SlotStride;
+                const uintptr_t s = slots + static_cast<uintptr_t>(i) * stride;
                 uint16_t type = 0; uint32_t iid = 0;
                 if (!mem::Read16(s + kOff_Slot_TypeId, &type) || type == 0xFFFF || type == 0) continue;
                 if (!mem::Read32(s, &iid) || !iid || iid == 0xFFFFFFFF) continue;
                 g_inv[n++] = iid;
+                uint64_t q = 0;
+                long long count = (mem::Read64(s + 0x10, &q) && q > 0 && q < 100000000ull) ? static_cast<long long>(q) : 1;
+                qty.emplace_back(type, count);
             }
         }
         g_invN = n;
+        std::sort(qty.begin(), qty.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
+        std::vector<std::pair<uint16_t, long long>> merged;
+        for (const auto& e : qty)
+        {
+            if (!merged.empty() && merged.back().first == e.first) merged.back().second += e.second;
+            else merged.push_back(e);
+        }
+        g_qty.swap(merged);
+    }
+    int InventoryTypes(uint16_t* types, long long* qty, int max)
+    {
+        const int n = static_cast<int>(g_qty.size()) < max ? static_cast<int>(g_qty.size()) : max;
+        for (int i = 0; i < n; ++i) { types[i] = g_qty[i].first; qty[i] = g_qty[i].second; }
+        return n;
     }
     bool InventoryHas(uint32_t iid)
     {

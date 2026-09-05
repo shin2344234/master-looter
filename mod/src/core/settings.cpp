@@ -70,8 +70,14 @@ namespace ml::Settings
         else if (k == "LootCorpses")      c.lootCorpses = Flag(v);
         else if (k == "PickUpItems")      c.pickUpItems = Flag(v);
         else if (k == "GatherPlants")     c.gatherPlants = Flag(v);
+        else if (k == "GatherOre")        c.gatherOre = Flag(v);
+        else if (k == "GatherStone")      c.gatherStone = Flag(v);
+        else if (k == "GatherWood")       c.gatherWood = Flag(v);
+        else if (k == "GatherUnknown")    c.gatherUnknown = Flag(v);
         else if (k == "CatchCreatures")   c.catchCreatures = Flag(v);
+        else if (k == "CatchFish")        c.catchFish = Flag(v);
         else if (k == "LootContainers")   c.lootContainers = Flag(v);
+        else if (k == "LootFurniture")    c.lootFurniture = Flag(v);
         else if (k == "ScanRange")        c.scanRange = Range(v, 5, 200, 40);
         else if (k == "LootRange")        c.lootRange = Range(v, 0, 200, 15);
         else if (k == "GatherRange")      c.gatherRange = Range(v, 0, 200, 20);
@@ -142,8 +148,10 @@ namespace ml::Settings
                  c.enabled, c.menuKey, c.showHud, c.keyToggle, c.keyBurst); s += b;
         snprintf(b, sizeof b, "ScansPerSec=%d\nPerScan=%d\nBurstPerKey=%d\nRetryAfterMs=%d\n",
                  c.scansPerSec, c.perScan, c.burstPerKey, c.retryAfterMs); s += b;
-        snprintf(b, sizeof b, "LootCorpses=%d\nPickUpItems=%d\nGatherPlants=%d\nCatchCreatures=%d\nLootContainers=%d\n",
-                 c.lootCorpses, c.pickUpItems, c.gatherPlants, c.catchCreatures, c.lootContainers); s += b;
+        snprintf(b, sizeof b, "LootCorpses=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherOre=%d\nGatherStone=%d\nGatherWood=%d\nGatherUnknown=%d\n",
+                 c.lootCorpses, c.pickUpItems, c.gatherPlants, c.gatherOre, c.gatherStone, c.gatherWood, c.gatherUnknown); s += b;
+        snprintf(b, sizeof b, "CatchCreatures=%d\nCatchFish=%d\nLootContainers=%d\nLootFurniture=%d\n",
+                 c.catchCreatures, c.catchFish, c.lootContainers, c.lootFurniture); s += b;
         snprintf(b, sizeof b, "ScanRange=%.1f\nLootRange=%.1f\nGatherRange=%.1f\nCatchRange=%.1f\nCorpseRange=%.1f\nMinRange=%.2f\n",
                  c.scanRange, c.lootRange, c.gatherRange, c.catchRange, c.corpseRange, c.minRange); s += b;
         snprintf(b, sizeof b, "AutoArm=%d\nArmRange=%.1f\nArmContainers=%d\n", c.autoArm, c.armRange, c.armContainers); s += b;

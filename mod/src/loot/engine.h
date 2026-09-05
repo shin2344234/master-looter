@@ -11,7 +11,7 @@ namespace ml::loot
     {
         bool  started = false, resolved = false, hooked = false, actorManager = false, playerFound = false;
         bool  sendAllowed = false, ownerOracle = false, routeKnown = false, settling = false;
-        int   descriptors = 0, itemTable = 0, inventoryItems = 0, candidates = 0, lootable = 0;
+        int   descriptors = 0, itemTable = 0, inventoryItems = 0, candidates = 0, lootable = 0, learned = 0;
         uint32_t playerEid = 0;
         long  scans = 0, sent = 0, faults = 0, pumpTicks = 0;
         float lastScanMs = 0;

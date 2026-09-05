@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <imgui.h>
+#include <imgui_internal.h> // ImGuiItemFlags_MixedValue for the group checkboxes
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
@@ -22,13 +23,43 @@
 
 namespace ml::gui
 {
-    static float g_scale = 1.0f;
-    static int   g_rebindTarget = -1; // 0 menu key, 1 toggle key, 2 burst key
+    static float   g_scale = 1.0f;
+    static int     g_rebindTarget = -1; // 0 menu key, 1 toggle key, 2 burst key
+    static ImFont* g_fontBody = nullptr;
+    static ImFont* g_fontHead = nullptr;   // serif, for the title, tabs and section names
 
-    static ImVec4 Accent(float a = 1.0f) { return ImVec4(0.66f, 0.14f, 0.17f, a); }
-    static const ImVec4 kGood(0.55f, 0.85f, 0.55f, 1);
-    static const ImVec4 kWarn(0.9f, 0.6f, 0.45f, 1);
-    static const ImVec4 kMuted(0.6f, 0.6f, 0.62f, 1);
+    // The game's own language: warm near-black panels, thin bronze rules, gold
+    // for what is selected or important, crimson kept for the active tab.
+    static const ImVec4 kBg      (0.055f, 0.050f, 0.045f, 0.96f);
+    static const ImVec4 kPanel   (0.105f, 0.095f, 0.085f, 1.0f);
+    static const ImVec4 kFrame   (0.150f, 0.135f, 0.118f, 1.0f);
+    static const ImVec4 kFrameHi (0.205f, 0.185f, 0.160f, 1.0f);
+    static const ImVec4 kFrameAct(0.255f, 0.225f, 0.190f, 1.0f);
+    static const ImVec4 kBronze  (0.470f, 0.380f, 0.230f, 0.85f);
+    static const ImVec4 kBronzeDim(0.330f, 0.270f, 0.170f, 0.70f);
+    static const ImVec4 kGold    (0.820f, 0.690f, 0.440f, 1.0f);
+    static const ImVec4 kGoldDim (0.640f, 0.540f, 0.350f, 1.0f);
+    static const ImVec4 kCrimson (0.560f, 0.115f, 0.140f, 1.0f);
+    static const ImVec4 kCrimsonHi(0.720f, 0.170f, 0.190f, 1.0f);
+    static const ImVec4 kText    (0.885f, 0.855f, 0.795f, 1.0f);
+    static const ImVec4 kTextDim (0.560f, 0.525f, 0.470f, 1.0f);
+    static const ImVec4 kGood    (0.640f, 0.760f, 0.470f, 1.0f);
+    static const ImVec4 kWarn    (0.860f, 0.560f, 0.360f, 1.0f);
+    static const ImVec4 kMuted   (0.560f, 0.525f, 0.470f, 1.0f);
+    static ImVec4 Accent(float a = 1.0f) { return ImVec4(kCrimsonHi.x, kCrimsonHi.y, kCrimsonHi.z, a); }
+
+    // A section heading in the serif face with a bronze rule after it.
+    static void Section(const char* label)
+    {
+        ImGui::Dummy(ImVec2(0, 4 * g_scale));
+        ImGui::PushFont(g_fontHead);
+        ImGui::TextColored(kGold, "%s", label);
+        ImGui::PopFont();
+        const ImVec2 a = ImGui::GetCursorScreenPos();
+        const float w = ImGui::GetContentRegionAvail().x;
+        ImGui::GetWindowDrawList()->AddLine(ImVec2(a.x, a.y + 1), ImVec2(a.x + w, a.y + 1), ImGui::GetColorU32(kBronzeDim), 1.0f);
+        ImGui::Dummy(ImVec2(0, 6 * g_scale));
+    }
 
     void InitStyle(float scale)
     {
@@ -37,40 +68,76 @@ namespace ml::gui
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.IniFilename = nullptr;
 
-        ImFontConfig cfg;
-        cfg.SizePixels = 16.0f * g_scale;
-        char path[MAX_PATH] = {};
-        GetWindowsDirectoryA(path, MAX_PATH);
-        std::string segoe = std::string(path) + "\\Fonts\\segoeui.ttf";
-        if (!io.Fonts->AddFontFromFileTTF(segoe.c_str(), cfg.SizePixels))
-            io.Fonts->AddFontDefault(&cfg);
+        char win[MAX_PATH] = {};
+        GetWindowsDirectoryA(win, MAX_PATH);
+        const std::string fonts = std::string(win) + "\\Fonts\\";
+        ImFontConfig body; body.SizePixels = 16.0f * g_scale;
+        g_fontBody = io.Fonts->AddFontFromFileTTF((fonts + "segoeui.ttf").c_str(), body.SizePixels);
+        if (!g_fontBody) g_fontBody = io.Fonts->AddFontDefault(&body);
+        ImFontConfig head; head.SizePixels = 20.0f * g_scale;
+        const char* serifs[] = { "georgia.ttf", "constan.ttf", "cambria.ttc", "times.ttf" };
+        for (const char* f : serifs)
+        {
+            g_fontHead = io.Fonts->AddFontFromFileTTF((fonts + f).c_str(), head.SizePixels);
+            if (g_fontHead) break;
+        }
+        if (!g_fontHead) g_fontHead = g_fontBody;
 
         ImGui::StyleColorsDark();
         ImGuiStyle& s = ImGui::GetStyle();
-        s.WindowRounding = 4.0f; s.FrameRounding = 3.0f; s.GrabRounding = 3.0f; s.TabRounding = 3.0f;
-        s.WindowPadding = ImVec2(12, 10); s.FramePadding = ImVec2(8, 4); s.ItemSpacing = ImVec2(8, 6);
+        s.WindowRounding = 1.0f; s.ChildRounding = 1.0f; s.FrameRounding = 1.0f; s.GrabRounding = 1.0f;
+        s.TabRounding = 0.0f; s.PopupRounding = 1.0f; s.ScrollbarRounding = 1.0f;
+        s.WindowBorderSize = 1.0f; s.FrameBorderSize = 1.0f; s.ChildBorderSize = 1.0f; s.PopupBorderSize = 1.0f; s.TabBorderSize = 0.0f;
+        s.WindowPadding = ImVec2(16, 12); s.FramePadding = ImVec2(9, 5); s.ItemSpacing = ImVec2(10, 7); s.CellPadding = ImVec2(8, 4);
+        s.ScrollbarSize = 12.0f; s.GrabMinSize = 10.0f;
+        s.TabBarBorderSize = 1.0f;
         ImVec4* c = s.Colors;
-        c[ImGuiCol_WindowBg]          = ImVec4(0.08f, 0.09f, 0.10f, 0.96f);
-        c[ImGuiCol_TitleBg]           = ImVec4(0.11f, 0.12f, 0.13f, 1.0f);
-        c[ImGuiCol_TitleBgActive]     = ImVec4(0.16f, 0.17f, 0.19f, 1.0f);
-        c[ImGuiCol_FrameBg]           = ImVec4(0.15f, 0.16f, 0.18f, 1.0f);
-        c[ImGuiCol_FrameBgHovered]    = ImVec4(0.21f, 0.22f, 0.25f, 1.0f);
-        c[ImGuiCol_FrameBgActive]     = ImVec4(0.26f, 0.27f, 0.30f, 1.0f);
-        c[ImGuiCol_CheckMark]         = ImVec4(0.90f, 0.35f, 0.38f, 1.0f);
-        c[ImGuiCol_SliderGrab]        = Accent();
-        c[ImGuiCol_SliderGrabActive]  = ImVec4(0.85f, 0.27f, 0.31f, 1.0f);
-        c[ImGuiCol_Button]            = ImVec4(0.20f, 0.21f, 0.24f, 1.0f);
-        c[ImGuiCol_ButtonHovered]     = Accent(0.8f);
-        c[ImGuiCol_ButtonActive]      = Accent();
-        c[ImGuiCol_Header]            = Accent(0.35f);
-        c[ImGuiCol_HeaderHovered]     = Accent(0.6f);
-        c[ImGuiCol_HeaderActive]      = Accent(0.8f);
-        c[ImGuiCol_Tab]               = ImVec4(0.14f, 0.15f, 0.17f, 1.0f);
-        c[ImGuiCol_TabHovered]        = Accent(0.7f);
-        c[ImGuiCol_TabSelected]       = Accent();
-        c[ImGuiCol_TabDimmedSelected] = Accent(0.6f);
-        c[ImGuiCol_TableHeaderBg]     = ImVec4(0.14f, 0.15f, 0.17f, 1.0f);
-        c[ImGuiCol_NavCursor]         = ImVec4(0.90f, 0.35f, 0.38f, 0.8f);
+        c[ImGuiCol_Text]                 = kText;
+        c[ImGuiCol_TextDisabled]         = kTextDim;
+        c[ImGuiCol_WindowBg]             = kBg;
+        c[ImGuiCol_ChildBg]              = ImVec4(0, 0, 0, 0.18f);
+        c[ImGuiCol_PopupBg]              = ImVec4(kBg.x, kBg.y, kBg.z, 0.98f);
+        c[ImGuiCol_Border]               = kBronze;
+        c[ImGuiCol_BorderShadow]         = ImVec4(0, 0, 0, 0);
+        c[ImGuiCol_FrameBg]              = kFrame;
+        c[ImGuiCol_FrameBgHovered]       = kFrameHi;
+        c[ImGuiCol_FrameBgActive]        = kFrameAct;
+        c[ImGuiCol_TitleBg]              = kPanel;
+        c[ImGuiCol_TitleBgActive]        = kPanel;
+        c[ImGuiCol_TitleBgCollapsed]     = kPanel;
+        c[ImGuiCol_ScrollbarBg]          = ImVec4(0, 0, 0, 0.25f);
+        c[ImGuiCol_ScrollbarGrab]        = kBronzeDim;
+        c[ImGuiCol_ScrollbarGrabHovered] = kBronze;
+        c[ImGuiCol_ScrollbarGrabActive]  = kGoldDim;
+        c[ImGuiCol_CheckMark]            = kGold;
+        c[ImGuiCol_SliderGrab]           = kGoldDim;
+        c[ImGuiCol_SliderGrabActive]     = kGold;
+        c[ImGuiCol_Button]               = kFrame;
+        c[ImGuiCol_ButtonHovered]        = kFrameHi;
+        c[ImGuiCol_ButtonActive]         = kCrimson;
+        c[ImGuiCol_Header]               = ImVec4(kCrimson.x, kCrimson.y, kCrimson.z, 0.40f);
+        c[ImGuiCol_HeaderHovered]        = ImVec4(kCrimson.x, kCrimson.y, kCrimson.z, 0.60f);
+        c[ImGuiCol_HeaderActive]         = kCrimson;
+        c[ImGuiCol_Separator]            = kBronzeDim;
+        c[ImGuiCol_SeparatorHovered]     = kBronze;
+        c[ImGuiCol_SeparatorActive]      = kGold;
+        c[ImGuiCol_ResizeGrip]           = ImVec4(kBronze.x, kBronze.y, kBronze.z, 0.30f);
+        c[ImGuiCol_ResizeGripHovered]    = kBronze;
+        c[ImGuiCol_ResizeGripActive]     = kGold;
+        c[ImGuiCol_Tab]                  = ImVec4(0, 0, 0, 0);
+        c[ImGuiCol_TabHovered]           = ImVec4(kCrimson.x, kCrimson.y, kCrimson.z, 0.55f);
+        c[ImGuiCol_TabSelected]          = kCrimson;
+        c[ImGuiCol_TabSelectedOverline]  = kGold;
+        c[ImGuiCol_TabDimmed]            = ImVec4(0, 0, 0, 0);
+        c[ImGuiCol_TabDimmedSelected]    = ImVec4(kCrimson.x, kCrimson.y, kCrimson.z, 0.7f);
+        c[ImGuiCol_TabDimmedSelectedOverline] = kGoldDim;
+        c[ImGuiCol_TableHeaderBg]        = kPanel;
+        c[ImGuiCol_TableBorderStrong]    = kBronzeDim;
+        c[ImGuiCol_TableBorderLight]     = ImVec4(kBronzeDim.x, kBronzeDim.y, kBronzeDim.z, 0.35f);
+        c[ImGuiCol_TableRowBg]           = ImVec4(0, 0, 0, 0);
+        c[ImGuiCol_TableRowBgAlt]        = ImVec4(1, 1, 1, 0.025f);
+        c[ImGuiCol_TextSelectedBg]       = ImVec4(kCrimson.x, kCrimson.y, kCrimson.z, 0.45f);
+        c[ImGuiCol_NavCursor]            = ImVec4(kGold.x, kGold.y, kGold.z, 0.7f);
         s.ScaleAllSizes(g_scale);
     }
 
@@ -184,12 +251,12 @@ namespace ml::gui
         dirty |= ImGui::Checkbox("Show a brief notice when auto-loot is toggled", &c.showHud);
         Help("Nothing else is drawn while the menu is closed.");
 
-        ImGui::SeparatorText("Keys");
+        Section("Keys");
         dirty |= KeyRow("Open and close this menu", c.menuKey, 0);
         dirty |= KeyRow("Auto-loot on / off", c.keyToggle, 1);
         dirty |= KeyRow("Loot everything in range once", c.keyBurst, 2);
 
-        ImGui::SeparatorText("Pace");
+        Section("Pace");
         dirty |= ImGui::SliderInt("Scans per second", &c.scansPerSec, 1, 30);
         Help("How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.");
         dirty |= ImGui::SliderInt("Objects per scan", &c.perScan, 0, 64, c.perScan ? "%d" : "no limit");
@@ -197,7 +264,7 @@ namespace ml::gui
         dirty |= ImGui::SliderInt("Retry the same object after (ms)", &c.retryAfterMs, 500, 30000);
         Help("The game removes taken objects with a delay. This stops the same object being sent twice while it fades.");
 
-        ImGui::SeparatorText("Filters");
+        Section("Filters");
         dirty |= ImGui::Checkbox("Skip quest items", &c.skipQuestItems);
         Help("Items tagged quest are left alone so puzzles and story pickups are never auto-taken.");
         dirty |= ImGui::Checkbox("Skip items shops refuse to buy", &c.skipNoSell);
@@ -212,16 +279,37 @@ namespace ml::gui
     static void TabLooting(Config& c)
     {
         bool dirty = false;
-        ImGui::SeparatorText("What to collect");
-        dirty |= ImGui::Checkbox("Search animal carcasses", &c.lootCorpses);
-        Help("The skinning interaction, once per carcass. Human corpses drop ordinary loot on the ground instead; that is handled by pick up.");
-        dirty |= ImGui::Checkbox("Pick up items on the ground", &c.pickUpItems);
-        dirty |= ImGui::Checkbox("Gather plants, ore and stone", &c.gatherPlants);
-        dirty |= ImGui::Checkbox("Catch insects, fish and small animals", &c.catchCreatures);
-        dirty |= ImGui::Checkbox("Try containers and furniture nodes", &c.lootContainers);
-        Help("Chests and crates rarely respond to the loot event, and furniture is mostly clutter. Off by default.");
+        Section("What to collect");
+        struct Toggle { const char* label; bool* value; const char* help; };
+        const Toggle toggles[] = {
+            { "Ground items",   &c.pickUpItems,    "Items lying in the world, including drops from enemies." },
+            { "Carcasses",      &c.lootCorpses,    "The skinning interaction, once per carcass. Human corpses drop ordinary loot instead." },
+            { "Plants",         &c.gatherPlants,   "Herbs, mushrooms, crops and other materials a node yields." },
+            { "Ore",            &c.gatherOre,      "Nodes that yield ore." },
+            { "Stone",          &c.gatherStone,    "Nodes that yield stone." },
+            { "Wood",           &c.gatherWood,     "Nodes that yield branches and stalks." },
+            { "Unidentified nodes", &c.gatherUnknown, "A node's kind is learned from what it yields the first time. Until then it is an unidentified node; leave this on so new node types get identified." },
+            { "Insects and small animals", &c.catchCreatures, "Everything the game puts in the bag whole: bugs, chickens, coots." },
+            { "Fish",           &c.catchFish,      "Fish in reach of the catch interaction." },
+            { "Containers",     &c.lootContainers, "Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default." },
+            { "Furniture nodes", &c.lootFurniture, "Furniture with an interaction node. Mostly clutter. Off by default." },
+        };
+        if (ImGui::BeginTable("collect", 3, ImGuiTableFlags_SizingStretchSame))
+        {
+            for (const Toggle& t : toggles)
+            {
+                ImGui::TableNextColumn();
+                dirty |= ImGui::Checkbox(t.label, t.value);
+                if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted(t.help); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
+            }
+            ImGui::EndTable();
+        }
+        {
+            const loot::Status s = loot::GetStatus();
+            ImGui::TextDisabled("%d node kinds learned so far. A node is identified the first time it yields something; the list is kept in MasterLooter.learned.tsv.", s.learned);
+        }
 
-        ImGui::SeparatorText("Ranges (metres)");
+        Section("Ranges (metres)");
         dirty |= ImGui::SliderFloat("Scan radius", &c.scanRange, 5.0f, 200.0f, "%.0f");
         Help("What enters the working list at all. The ranges below are clamped to it.");
         dirty |= ImGui::SliderFloat("Items on the ground", &c.lootRange, 0.0f, 100.0f, c.lootRange > 0 ? "%.0f" : "no limit");
@@ -231,7 +319,7 @@ namespace ml::gui
         dirty |= ImGui::SliderFloat("Dead zone around you", &c.minRange, 0.0f, 2.0f, "%.2f");
         Help("Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.");
 
-        ImGui::SeparatorText("Reaching nodes");
+        Section("Reaching nodes");
         dirty |= ImGui::Checkbox("Arm nodes ourselves", &c.autoArm);
         Help("The game fills a node's data only when it thinks you can reach it; for an ore vein that means standing on it. Arming asks the game to do it from a distance.");
         dirty |= ImGui::SliderFloat("Arming range", &c.armRange, 0.0f, 60.0f, c.armRange > 0 ? "%.0f" : "same as gathering");
@@ -239,15 +327,109 @@ namespace ml::gui
         dirty |= ImGui::Checkbox("Arm mechanism containers too", &c.armContainers);
         Help("A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.");
 
-        ImGui::SeparatorText("Ownership");
+        Section("Ownership");
         dirty |= ImGui::Checkbox("Take goods that belong to someone", &c.lootOwned);
         if (c.lootOwned) ImGui::TextColored(kWarn, "The game treats this as stealing and will put a bounty on you.");
         else ImGui::TextDisabled("Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.");
         if (dirty) Settings::MarkDirty();
     }
 
+    // Named groups of classes, so a whole family can be switched with one click.
+    struct ClassGroup { const char* name; const char* classes; const char* help; };
+    static const ClassGroup kGroups[] = {
+        { "Weapons and armor",   "weapon shield helm body-armor gloves boots cloak armor mask eyewear", "Player equipment." },
+        { "Damaged gear",        "damaged-gear", "Worn gear that enemies drop as they die. Cheap and heavy, but plentiful." },
+        { "Accessories",         "accessory necklace ring earring bag", "" },
+        { "Abyss and Kuku",      "abyss-gear abyss-gear-box abyss-item kuku-power-core kuku-core kuku-pot-item kuku-pot kuku-currency stat-boost", "Abyss gear, Kuku pots and their parts." },
+        { "Food and drink",      "food field-cooked drink elixir potion store-food honey meat seafood fruit vegetable grain cooking-basic", "" },
+        { "Materials",           "catalyst crafting-material alchemy-material herb wood ingredient seed trade-good goods junk bait", "Ore, herbs, wood, trade goods and other crafting input." },
+        { "Creatures",           "insect fish animal amphibian", "Caught creatures as bag items." },
+        { "Ammunition",          "arrow ammo ammo-bundle bullet magic-bullet cannonball explosive", "" },
+        { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report recipe recipe-book", "" },
+        { "Furniture and decor", "furniture household lamp light ornament painting flower-pot decoration cooking-facility storage chest container", "Household clutter, most of it worthless." },
+        { "Mounts and vehicles", "mount-gear mount-feed mount-utility pet-gear vehicle-part", "" },
+        { "Treasure and keepsakes", "treasure sealed-artifact artifact keepsake currency", "" },
+        { "Keys and tools",      "key key-item tool gimmick", "" },
+    };
+
+    // 1 all on, 0 all off, 2 mixed.
+    static int GroupState(const Config& c, const ClassGroup& g)
+    {
+        int on = 0, off = 0;
+        std::string cls;
+        for (const char* p = g.classes;; ++p)
+        {
+            if (*p && *p != ' ') { cls += *p; continue; }
+            if (!cls.empty())
+            {
+                auto it = c.classRule.find(cls);
+                ((it == c.classRule.end() || it->second != 0) ? on : off)++;
+                cls.clear();
+            }
+            if (!*p) break;
+        }
+        return off == 0 ? 1 : on == 0 ? 0 : 2;
+    }
+    static void SetGroup(Config& c, const ClassGroup& g, bool loot)
+    {
+        std::string cls;
+        for (const char* p = g.classes;; ++p)
+        {
+            if (*p && *p != ' ') { cls += *p; continue; }
+            if (!cls.empty()) { c.classRule[cls] = loot ? 1 : 0; cls.clear(); }
+            if (!*p) break;
+        }
+    }
+
     static void TabClasses(Config& c)
     {
+        Section("Groups");
+        ImGui::TextDisabled("One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.");
+        if (ImGui::BeginTable("groups", 3, ImGuiTableFlags_SizingStretchSame))
+        {
+            for (const ClassGroup& g : kGroups)
+            {
+                ImGui::TableNextColumn();
+                const int st = GroupState(c, g);
+                bool v = st == 1;
+                if (st == 2) ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, true);
+                if (ImGui::Checkbox(g.name, &v)) { SetGroup(c, g, st != 1); Settings::MarkDirty(); }
+                if (st == 2) ImGui::PopItemFlag();
+                if (ImGui::BeginItemTooltip())
+                {
+                    ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f);
+                    if (g.help[0]) ImGui::TextUnformatted(g.help);
+                    ImGui::TextDisabled("%s", g.classes);
+                    ImGui::PopTextWrapPos();
+                    ImGui::EndTooltip();
+                }
+            }
+            // Cross-cutting switches that live on tags rather than classes.
+            ImGui::TableNextColumn();
+            bool quest = !c.skipQuestItems;
+            if (ImGui::Checkbox("Quest items", &quest)) { c.skipQuestItems = !quest; Settings::MarkDirty(); }
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands."); ImGui::EndTooltip(); }
+            ImGui::TableNextColumn();
+            bool nosell = !c.skipNoSell;
+            if (ImGui::Checkbox("Unsellable items", &nosell)) { c.skipNoSell = !nosell; Settings::MarkDirty(); }
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Items no shop will buy, across every class."); ImGui::EndTooltip(); }
+            ImGui::TableNextColumn();
+            auto mf = c.tagRule.find("memory-fragment"); auto gm = c.tagRule.find("gimmick");
+            const bool mfOn = mf != c.tagRule.end() && mf->second > 0, gmOn = gm != c.tagRule.end() && gm->second > 0;
+            bool prot = mfOn && gmOn;
+            if (mfOn != gmOn) ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, true);
+            if (ImGui::Checkbox("Memory chips and puzzle parts", &prot))
+            {
+                if (prot) { c.tagRule["memory-fragment"] = 1; c.tagRule["gimmick"] = 1; }
+                else { c.tagRule.erase("memory-fragment"); c.tagRule.erase("gimmick"); }
+                Settings::MarkDirty();
+            }
+            if (mfOn != gmOn) ImGui::PopItemFlag();
+            if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted("Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken."); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
+            ImGui::EndTable();
+        }
+
+        Section("Classes");
         static char filter[64] = "";
         ImGui::SetNextItemWidth(260 * g_scale);
         ImGui::InputTextWithHint("##classfilter", "filter classes", filter, sizeof filter);
@@ -428,12 +610,12 @@ namespace ml::gui
         ImGui::SameLine();
         if (ImGui::SmallButton("Save now")) Settings::Save();
 
-        ImGui::SeparatorText("Overlay");
+        Section("Overlay");
         OnOff("DirectX 12 hooks", st.hooksOk, "installed", "failed");
         OnOff("Item database", ItemDb::Loaded(), "loaded", "missing MasterLooter.items.tsv");
         if (ItemDb::Loaded()) { ImGui::SameLine(); ImGui::TextDisabled("%d items, %d classes, %d tags", ItemDb::Count(), static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size())); }
 
-        ImGui::SeparatorText("Loot engine");
+        Section("Loot engine");
         OnOff("Engine", s.started, s.note, "not started");
         OnOff("Game functions", s.resolved, "resolved", "missing");
         OnOff("Game-thread pump", s.hooked, s.pump, "none");
@@ -446,7 +628,7 @@ namespace ml::gui
         OnOff("Ownership oracle", s.ownerOracle, "captured", "waiting for the game to check an item");
         const char* tbl = s.itemTable == 1 ? "rows verified against our database" : s.itemTable == 2 ? "names readable, rows differ" : s.itemTable == -1 ? "unavailable" : "not probed yet";
         OnOff("Item table", s.itemTable > 0, tbl, tbl);
-        ImGui::Text("Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld", s.scans, s.sent, s.pumpTicks, s.faults);
+        ImGui::Text("Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d", s.scans, s.sent, s.pumpTicks, s.faults, s.learned);
         ImGui::Text("This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses",
                     loot::SessionCount(static_cast<int>(events::Action::Take)), loot::SessionCount(static_cast<int>(events::Action::Gather)),
                     loot::SessionCount(static_cast<int>(events::Action::Catch)), loot::SessionCount(static_cast<int>(events::Action::Search)));
@@ -462,13 +644,13 @@ namespace ml::gui
             ImGui::TreePop();
         }
 
-        ImGui::SeparatorText("Recent loot");
+        Section("Recent loot");
         static loot::Recent recent[12];
         const int rn = loot::CopyRecent(recent, 12);
         if (!rn) ImGui::TextDisabled("nothing taken yet this session");
         for (int i = 0; i < rn; ++i) ImGui::TextUnformatted(recent[i].text);
 
-        ImGui::SeparatorText("Log");
+        Section("Log");
         static std::vector<std::string> lines;
         Log::Snapshot(lines, 80);
         if (ImGui::BeginChild("log", ImVec2(0, 0), ImGuiChildFlags_Borders))
@@ -490,13 +672,18 @@ namespace ml::gui
         const ImVec2 size = ImGui::CalcTextSize(st.notice);
         const ImVec2 disp = ImGui::GetIO().DisplaySize;
         ImGui::SetNextWindowPos(ImVec2((disp.x - size.x) * 0.5f - 14 * g_scale, disp.y * 0.12f));
-        ImGui::SetNextWindowBgAlpha(0.55f * alpha);
+        ImGui::SetNextWindowBgAlpha(0.70f * alpha);
         ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(18 * g_scale, 9 * g_scale));
         if (ImGui::Begin("##mlnotice", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize |
                                                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoNav))
-            ImGui::TextUnformatted(st.notice);
+        {
+            ImGui::PushFont(g_fontHead);
+            ImGui::TextColored(kGold, "%s", st.notice);
+            ImGui::PopFont();
+        }
         ImGui::End();
-        ImGui::PopStyleVar();
+        ImGui::PopStyleVar(2);
     }
 
     void Render()
@@ -513,20 +700,43 @@ namespace ml::gui
         if (c.showHud) DrawNotice();
         if (!st.menuOpen) { st.textCapture = false; if (st.rebindCapture) { st.rebindCapture = false; g_rebindTarget = -1; } return; }
 
-        ImGui::SetNextWindowSize(ImVec2(860 * g_scale, 620 * g_scale), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(900 * g_scale, 640 * g_scale), ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowPos(ImVec2(80 * g_scale, 80 * g_scale), ImGuiCond_FirstUseEver);
         bool open = true;
-        if (ImGui::Begin("Master Looter", &open, ImGuiWindowFlags_NoCollapse))
+        if (ImGui::Begin("Master Looter", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar))
         {
-            if (ImGui::BeginTabBar("tabs"))
+            // Title strip: serif name in gold, version and close on the right, bronze rule.
+            ImGui::PushFont(g_fontHead);
+            ImGui::TextColored(kGold, "MASTER LOOTER");
+            ImGui::PopFont();
+            ImGui::SameLine();
+            ImGui::TextColored(kTextDim, "  v%s", ML_VERSION);
+            const float closeW = ImGui::CalcTextSize("Close").x + ImGui::GetStyle().FramePadding.x * 2;
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - closeW);
+            if (ImGui::SmallButton("Close")) open = false;
             {
-                if (ImGui::BeginTabItem("General")) { TabGeneral(c); ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Looting")) { TabLooting(c); ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Classes")) { TabClasses(c); ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Tags"))    { TabTags(c);    ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Items"))   { TabItems(c);   ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Nearby"))  { TabNearby();   ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Status"))  { TabStatus();   ImGui::EndTabItem(); }
+                const ImVec2 a = ImGui::GetCursorScreenPos();
+                const float w = ImGui::GetContentRegionAvail().x;
+                ImDrawList* dl = ImGui::GetWindowDrawList();
+                dl->AddLine(ImVec2(a.x, a.y + 2), ImVec2(a.x + w, a.y + 2), ImGui::GetColorU32(kBronze), 1.0f);
+                dl->AddLine(ImVec2(a.x, a.y + 5), ImVec2(a.x + w * 0.35f, a.y + 5), ImGui::GetColorU32(kGoldDim), 1.0f);
+                ImGui::Dummy(ImVec2(0, 8 * g_scale));
+            }
+            struct TabDef { const char* name; void (*fn)(Config&); };
+            static const TabDef tabs[] = {
+                { "General", TabGeneral }, { "Looting", TabLooting }, { "Classes", TabClasses }, { "Tags", TabTags },
+                { "Items", TabItems }, { "Nearby", [](Config&) { TabNearby(); } }, { "Status", [](Config&) { TabStatus(); } },
+            };
+            if (ImGui::BeginTabBar("tabs", ImGuiTabBarFlags_DrawSelectedOverline))
+            {
+                for (const TabDef& t : tabs)
+                {
+                    ImGui::PushFont(g_fontHead);
+                    const bool sel = ImGui::BeginTabItem(t.name);
+                    ImGui::PopFont();
+                    if (sel) { ImGui::Dummy(ImVec2(0, 4 * g_scale)); t.fn(c); ImGui::EndTabItem(); }
+                }
                 ImGui::EndTabBar();
             }
         }
