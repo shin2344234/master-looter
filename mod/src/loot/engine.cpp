@@ -76,7 +76,7 @@ namespace ml::loot
     struct Done { DWORD when; int tries; };
     static std::unordered_map<uint64_t, Done>  g_done;      // recently sent
     static std::unordered_set<uint64_t>        g_searched;  // never again this session
-    struct ArmRec { DWORD at; int fails; bool judged; };
+    struct ArmRec { DWORD at; int fails; bool judged; int mode; };
     static std::unordered_map<uint64_t, ArmRec> g_armed;    // nodes we asked the game to fill
     static std::unordered_map<uint32_t, const char*> g_why; // last logged verdict per entity
     static int g_whyLines = 0;
@@ -522,10 +522,14 @@ namespace ml::loot
                     const uintptr_t g = game::CompByClass(game::Comps(k.ent), kCls_Gimmick);
                     if (!g) continue;
                     ArmRec& rec = g_armed[key];
+                    // The game arms with mode 1 when the player closes in and
+                    // mode 0 when leaving; bushes answered 0, ore did not. Start
+                    // with 1 and alternate on each retry.
+                    rec.mode = (rec.fails % 2 == 0) ? 1 : 0;
                     rec.at = now; rec.judged = false;
                     static int s_armLogs = 0;
-                    if (s_armLogs < 20) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d (tag %02X cat2 %02X%s%s)", k.eid, k.d, hooks::ArmMode(), k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
-                    events::Arm(g, static_cast<uintptr_t>(hooks::ArmMode()), g_meEid);
+                    if (s_armLogs < 40) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
+                    events::Arm(g, static_cast<uintptr_t>(rec.mode), g_meEid);
                     if (armedN < 32) armedNow[armedN++] = k.eid;
                     if (cfg.debugLog) LOG("[arm] eid %08X %.1f m %s", k.eid, k.d, k.node[0] ? k.node : "");
                     if (++armed >= (cfg.perScan ? cfg.perScan : 8)) break;
@@ -538,7 +542,7 @@ namespace ml::loot
                 auto it = g_armed.find(Key(k));
                 if (it == g_armed.end()) continue;
                 static int s_okLogs = 0;
-                if (s_okLogs < 20) { ++s_okLogs; LOG("[arm] eid %08X filled %lu ms after arming (%s, type %u)", k.eid, static_cast<unsigned long>(now - it->second.at), k.gather ? "gather" : "item", k.tid); }
+                if (s_okLogs < 40) { ++s_okLogs; LOG("[arm] eid %08X filled %lu ms after arming with mode %d (%s, type %u)", k.eid, static_cast<unsigned long>(now - it->second.at), it->second.mode, k.gather ? "gather" : "item", k.tid); }
                 g_armed.erase(it);
             }
 
