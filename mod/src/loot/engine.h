@@ -17,6 +17,7 @@ namespace ml::loot
         float lastScanMs = 0;
         const char* pump = "none";
         char  note[96] = "";
+        char  hold[96] = "";     // why actions are paused right now, empty when not
     };
 
     struct Nearby

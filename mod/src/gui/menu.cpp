@@ -389,7 +389,7 @@ namespace ml::gui
         if (!s.playerFound) { ImGui::TextDisabled("Player not found in the scene yet."); return; }
         ImGui::Text("%d objects within scan range, %d lootable now.", s.candidates, s.lootable);
         ImGui::SameLine();
-        if (s.settling) ImGui::TextColored(kWarn, "paused: scene changing");
+        if (s.settling) ImGui::TextColored(kWarn, "paused: %s", s.hold);
         else ImGui::TextDisabled("scan %.1f ms", s.lastScanMs);
         ImGui::TextDisabled("Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them.");
 

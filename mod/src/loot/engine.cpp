@@ -392,19 +392,32 @@ namespace ml::loot
 
         // Scene transitions: the list is swapped before positions settle, and a
         // dozen objects can all read as "0.6 m away" for a moment. Hold fire.
-        static Vec3 s_lastPos; static uintptr_t s_lastMe = 0; static int s_lastTotal = 0; static bool s_havePrev = false; static DWORD s_holdUntil = 0;
+        // Only two triggers: a position jump and a player-actor swap. The list
+        // size is not one: the manager's lists breathe from scan to scan, and a
+        // hold that re-arms itself on every scan froze the engine for good. Any
+        // hold ends after five seconds no matter what.
+        static Vec3 s_lastPos; static uintptr_t s_lastMe = 0; static bool s_havePrev = false;
+        static DWORD s_holdUntil = 0, s_holdSince = 0, s_holdLogAt = 0;
+        static char  s_holdWhy[96] = "";
         if (s_havePrev)
         {
             const float jx = mp.x - s_lastPos.x, jy = mp.y - s_lastPos.y, jz = mp.z - s_lastPos.z;
             const float jump2 = jx * jx + jy * jy + jz * jz;
-            const char* why = nullptr; DWORD hold = 3000;
+            const char* why = nullptr; DWORD hold = 2000;
             if (jump2 > 400.0f) why = "player moved more than 20 m in one scan";
             else if (g_me != s_lastMe) { why = "player actor changed (mount, cutscene or area)"; hold = 800; }
-            else if (s_lastTotal > 20 && (total < s_lastTotal / 2 || total > s_lastTotal * 2)) why = "scene list replaced";
-            if (why) { s_holdUntil = now + hold; g_done.clear(); if (cfg.debugLog) LOG("[scan] %s; pausing %.1f s", why, hold / 1000.0); }
+            if (why)
+            {
+                const bool wasHeld = now < s_holdUntil;
+                if (!wasHeld) s_holdSince = now;
+                if (now - s_holdSince <= 5000) { s_holdUntil = now + hold; snprintf(s_holdWhy, sizeof s_holdWhy, "%s", why); }
+                g_done.clear();
+                if (now - s_holdLogAt > 5000) { s_holdLogAt = now; LOG("[scan] paused: %s", why); }
+            }
         }
-        s_lastPos = mp; s_lastMe = g_me; s_lastTotal = total; s_havePrev = true;
+        s_lastPos = mp; s_lastMe = g_me; s_havePrev = true;
         const bool settling = now < s_holdUntil;
+        (void)total;
 
         // Details for everything close enough to matter.
         float maxRange = std::max(std::max(cfg.lootRange, cfg.gatherRange), std::max(cfg.catchRange, cfg.corpseRange));
@@ -569,6 +582,7 @@ namespace ml::loot
         g_status.candidates = static_cast<int>(list.size());
         g_status.lootable = lootable;
         g_status.settling = settling;
+        snprintf(g_status.hold, sizeof g_status.hold, "%s", settling ? s_holdWhy : "");
         g_status.inventoryItems = game::InventoryCount();
         g_status.lastScanMs = static_cast<float>((t1.QuadPart - t0.QuadPart) * 1000.0 / fq.QuadPart);
         ++g_status.scans;
