@@ -10,7 +10,7 @@ namespace ml
         // [MasterLooter]
         bool  enabled        = true;   // auto-loot on
         int   menuKey        = 0x2D;   // VK_INSERT
-        bool  showHud        = true;
+        bool  showHud        = true;   // brief on-screen notice when auto-loot is toggled
         int   keyToggle      = 0x79;   // VK_F10: auto-loot on/off
         int   keyBurst       = 0x7A;   // VK_F11: loot everything in range once
         // pace

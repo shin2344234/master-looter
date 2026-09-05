@@ -59,9 +59,10 @@ add_library(MasterLooter SHARED
     src/loot/events.cpp
     src/loot/hooks.cpp
     src/loot/engine.cpp
+    src/loot/farhook.cpp
 )
 
-target_include_directories(MasterLooter PRIVATE src)
+target_include_directories(MasterLooter PRIVATE src ${minhook_SOURCE_DIR}/src/hde)
 target_link_libraries(MasterLooter PRIVATE imgui minhook d3d12 dxgi dwmapi imm32 xinput9_1_0)
 target_compile_definitions(MasterLooter PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX _CRT_SECURE_NO_WARNINGS)
 target_compile_options(MasterLooter PRIVATE /utf-8 /W3)

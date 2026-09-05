@@ -1,9 +1,9 @@
 #include "hooks.h"
 
 #include <Windows.h>
-#include <MinHook.h>
 
 #include "engine.h"
+#include "farhook.h"
 #include "events.h"
 #include "game.h"
 #include "mem.h"
@@ -20,8 +20,6 @@ namespace ml::loot::hooks
     static Fn8       oMove = nullptr,  oArea = nullptr, oArm = nullptr;
     static FnEnqueue oEnq  = nullptr;
     static FnOwn     oOwn  = nullptr;
-    static void*     g_targets[4] = {};
-    static int       g_targetN = 0;
 
     static const char* g_pump = "none";
     static volatile LONG g_pumpTicks = 0, g_lastPumpAt = 0;
@@ -98,12 +96,12 @@ namespace ml::loot::hooks
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original)
     {
         if (!target) return false;
-        void* t = reinterpret_cast<void*>(target);
-        const MH_STATUS c = MH_CreateHook(t, detour, original);
-        if (c != MH_OK) { LOG_ERR("[hook] %s: create failed (%s)", what, MH_StatusToString(c)); return false; }
-        const MH_STATUS e = MH_EnableHook(t);
-        if (e != MH_OK) { LOG_ERR("[hook] %s: enable failed (%s)", what, MH_StatusToString(e)); MH_RemoveHook(t); return false; }
-        if (g_targetN < 4) g_targets[g_targetN++] = t;
+        char why[96];
+        if (!farhook::Install(what, target, detour, original, why, sizeof why))
+        {
+            LOG_ERR("[hook] %s: %s", what, why);
+            return false;
+        }
         LOG("[hook] %s hooked at +0x%llX", what, static_cast<unsigned long long>(mem::Rva(target)));
         return true;
     }
@@ -129,8 +127,7 @@ namespace ml::loot::hooks
 
     void Remove()
     {
-        for (int i = 0; i < g_targetN; ++i) { MH_DisableHook(g_targets[i]); MH_RemoveHook(g_targets[i]); }
-        g_targetN = 0;
+        farhook::RemoveAll();
         oMove = oArea = oArm = nullptr; oEnq = nullptr; oOwn = nullptr;
         g_pump = "none";
     }

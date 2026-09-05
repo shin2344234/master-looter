@@ -548,10 +548,10 @@ namespace ml::loot
             if (!st.menuOpen)
             {
                 const bool t = KeyDown(cfg.keyToggle);
-                if (t && !toggleWas) { cfg.enabled = !cfg.enabled; Settings::MarkDirty(); PushRecent(cfg.enabled ? "auto-loot on" : "auto-loot off"); }
+                if (t && !toggleWas) { cfg.enabled = !cfg.enabled; Settings::MarkDirty(); State::Get().Notify(cfg.enabled ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
                 toggleWas = t;
                 const bool b = KeyDown(cfg.keyBurst);
-                if (b && !burstWas) InterlockedExchange(&g_burst, 1);
+                if (b && !burstWas) { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
                 burstWas = b;
             }
             const bool burst = InterlockedExchange(&g_burst, 0) != 0;
@@ -608,6 +608,6 @@ namespace ml::loot
         return n;
     }
     long SessionCount(int action) { return (action >= 0 && action < 4) ? g_session[action] : 0; }
-    void RequestBurst() { InterlockedExchange(&g_burst, 1); }
-    void SetAuto(bool on) { Settings::Get().enabled = on; Settings::MarkDirty(); }
+    void RequestBurst() { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
+    void SetAuto(bool on) { Settings::Get().enabled = on; Settings::MarkDirty(); State::Get().Notify(on ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
 }

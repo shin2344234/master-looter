@@ -13,6 +13,7 @@
 #include "../core/rules.h"
 #include "../core/settings.h"
 #include "../core/state.h"
+#include "../hooks/input.h"
 #include "../loot/engine.h"
 #include "../loot/events.h"
 #include "../loot/game.h"
@@ -97,7 +98,12 @@ namespace ml::gui
         s_escWas = esc;
     }
 
-    bool WantsDraw() { return State::Get().menuOpen || Settings::Get().showHud; }
+    bool WantsDraw()
+    {
+        const State& st = State::Get();
+        if (st.menuOpen) return true;
+        return Settings::Get().showHud && st.notice[0] && static_cast<LONG>(st.noticeUntil - GetTickCount()) > 0;
+    }
 
     // --- helpers ------------------------------------------------------------
     static std::string Lower(std::string s)
@@ -171,11 +177,12 @@ namespace ml::gui
     static void TabGeneral(Config& c)
     {
         bool dirty = false;
-        dirty |= ImGui::Checkbox("Auto-loot enabled", &c.enabled);
+        if (ImGui::Checkbox("Auto-loot enabled", &c.enabled)) { dirty = true; State::Get().Notify(c.enabled ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
         Help("The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.");
         ImGui::SameLine(300 * g_scale);
         if (ImGui::Button("Loot everything in range now")) loot::RequestBurst();
-        dirty |= ImGui::Checkbox("Show HUD line when the menu is closed", &c.showHud);
+        dirty |= ImGui::Checkbox("Show a brief notice when auto-loot is toggled", &c.showHud);
+        Help("Nothing else is drawn while the menu is closed.");
 
         ImGui::SeparatorText("Keys");
         dirty |= KeyRow("Open and close this menu", c.menuKey, 0);
@@ -455,6 +462,12 @@ namespace ml::gui
             ImGui::TreePop();
         }
 
+        ImGui::SeparatorText("Recent loot");
+        static loot::Recent recent[12];
+        const int rn = loot::CopyRecent(recent, 12);
+        if (!rn) ImGui::TextDisabled("nothing taken yet this session");
+        for (int i = 0; i < rn; ++i) ImGui::TextUnformatted(recent[i].text);
+
         ImGui::SeparatorText("Log");
         static std::vector<std::string> lines;
         Log::Snapshot(lines, 80);
@@ -466,32 +479,24 @@ namespace ml::gui
         ImGui::EndChild();
     }
 
-    static void DrawHud(const Config& c)
+    // The only thing drawn while the menu is closed: a notice that fades out.
+    static void DrawNotice()
     {
-        ImGui::SetNextWindowPos(ImVec2(12 * g_scale, 12 * g_scale));
-        ImGui::SetNextWindowBgAlpha(0.45f);
-        if (ImGui::Begin("##mlhud", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize |
-                                                ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoNav))
-        {
-            const long total = loot::SessionCount(0) + loot::SessionCount(1) + loot::SessionCount(2) + loot::SessionCount(3);
-            ImGui::TextColored(Accent(), "Master Looter");
-            ImGui::SameLine();
-            ImGui::Text("%s  |  %ld looted  |  %s toggle  %s menu", c.enabled ? "on" : "off", total,
-                        Settings::KeyName(c.keyToggle), Settings::KeyName(c.menuKey));
-            static loot::Recent recent[6];
-            const int n = loot::CopyRecent(recent, 6);
-            const DWORD now = GetTickCount();
-            int shown = 0;
-            for (int i = 0; i < n && shown < 4; ++i)
-            {
-                const DWORD age = now - recent[i].when;
-                if (age > 6000) continue;
-                const float a = age < 4000 ? 1.0f : 1.0f - (age - 4000) / 2000.0f;
-                ImGui::TextColored(ImVec4(0.85f, 0.85f, 0.85f, a), "%s", recent[i].text);
-                ++shown;
-            }
-        }
+        const State& st = State::Get();
+        const DWORD now = GetTickCount();
+        if (!st.notice[0] || static_cast<LONG>(st.noticeUntil - now) <= 0) return;
+        const LONG left = static_cast<LONG>(st.noticeUntil - now);
+        const float alpha = left < 600 ? left / 600.0f : 1.0f;
+        const ImVec2 size = ImGui::CalcTextSize(st.notice);
+        const ImVec2 disp = ImGui::GetIO().DisplaySize;
+        ImGui::SetNextWindowPos(ImVec2((disp.x - size.x) * 0.5f - 14 * g_scale, disp.y * 0.12f));
+        ImGui::SetNextWindowBgAlpha(0.55f * alpha);
+        ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
+        if (ImGui::Begin("##mlnotice", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize |
+                                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoNav))
+            ImGui::TextUnformatted(st.notice);
         ImGui::End();
+        ImGui::PopStyleVar();
     }
 
     void Render()
@@ -500,8 +505,11 @@ namespace ml::gui
         Config& c = Settings::Get();
         ImGuiIO& io = ImGui::GetIO();
         io.MouseDrawCursor = st.menuOpen;
+        st.renderTid = GetCurrentThreadId();
+        static bool s_wasOpen = false;
+        if (st.menuOpen != s_wasOpen) { s_wasOpen = st.menuOpen; if (st.menuOpen) input::MenuOpened(); else input::MenuClosed(); }
 
-        if (c.showHud && !st.menuOpen) DrawHud(c);
+        if (c.showHud) DrawNotice();
         if (!st.menuOpen) { st.textCapture = false; if (st.rebindCapture) { st.rebindCapture = false; g_rebindTarget = -1; } return; }
 
         ImGui::SetNextWindowSize(ImVec2(860 * g_scale, 620 * g_scale), ImGuiCond_FirstUseEver);
