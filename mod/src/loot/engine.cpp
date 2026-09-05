@@ -750,7 +750,7 @@ namespace ml::loot
         {
             Config& cfg = Settings::Get();
             const State& st = State::Get();
-            if (!st.menuOpen)
+            if (!st.Captures())
             {
                 const bool t = KeyDown(cfg.keyToggle);
                 if (t && !toggleWas) { cfg.enabled = !cfg.enabled; Settings::MarkDirty(); State::Get().Notify(cfg.enabled ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }

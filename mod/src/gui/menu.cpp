@@ -151,16 +151,29 @@ namespace ml::gui
         const Config& c = Settings::Get();
         static bool s_keyWas = false, s_escWas = false;
 
+        static bool s_watchWas = false;
         const bool key = KeyDown(c.menuKey);
         if (key && !s_keyWas && !st.rebindCapture)
         {
-            st.menuOpen = !st.menuOpen;
-            if (!st.menuOpen) st.textCapture = false;
+            // Insert: closed -> interactive; watching -> interactive; interactive -> closed.
+            if (!st.menuOpen) { st.menuOpen = true; st.menuWatch = false; }
+            else if (st.menuWatch) st.menuWatch = false;
+            else { st.menuOpen = false; st.textCapture = false; }
         }
         s_keyWas = key;
 
+        const bool watch = KeyDown(c.keyWatch);
+        if (watch && !s_watchWas && !st.rebindCapture && !st.textCapture)
+        {
+            // Home: closed -> watching; interactive -> watching; watching -> closed.
+            if (!st.menuOpen) { st.menuOpen = true; st.menuWatch = true; }
+            else if (!st.menuWatch) st.menuWatch = true;
+            else { st.menuOpen = false; st.menuWatch = false; }
+        }
+        s_watchWas = watch;
+
         const bool esc = KeyDown(VK_ESCAPE);
-        if (esc && !s_escWas && st.menuOpen && !st.textCapture && !st.rebindCapture)
+        if (esc && !s_escWas && st.Captures() && !st.textCapture && !st.rebindCapture)
             st.menuOpen = false;
         s_escWas = esc;
     }
@@ -255,6 +268,7 @@ namespace ml::gui
         dirty |= KeyRow("Open and close this menu", c.menuKey, 0);
         dirty |= KeyRow("Auto-loot on / off", c.keyToggle, 1);
         dirty |= KeyRow("Loot everything in range once", c.keyBurst, 2);
+        dirty |= KeyRow("Watch mode (menu stays up, you keep playing)", c.keyWatch, 3);
 
         Section("Pace");
         dirty |= ImGui::SliderInt("Scans per second", &c.scansPerSec, 1, 30);
@@ -691,11 +705,13 @@ namespace ml::gui
         State& st = State::Get();
         Config& c = Settings::Get();
         ImGuiIO& io = ImGui::GetIO();
-        io.MouseDrawCursor = st.menuOpen;
+        const bool capt = st.Captures();
+        io.MouseDrawCursor = capt;
         st.renderTid = GetCurrentThreadId();
-        static bool s_wasOpen = false;
-        if (st.menuOpen != s_wasOpen) { s_wasOpen = st.menuOpen; if (st.menuOpen) input::MenuOpened(); else input::MenuClosed(); }
-        if (st.menuOpen) input::FeedMouse(io);
+        static bool s_wasCapt = false;
+        if (capt != s_wasCapt) { s_wasCapt = capt; if (capt) input::MenuOpened(); else input::MenuClosed(); }
+        if (capt) input::FeedMouse(io);
+        else { io.AddMousePosEvent(-FLT_MAX, -FLT_MAX); io.AddFocusEvent(capt); } // nothing hovers or reacts while watching
 
         if (c.showHud) DrawNotice();
         if (!st.menuOpen) { st.textCapture = false; if (st.rebindCapture) { st.rebindCapture = false; g_rebindTarget = -1; } return; }
@@ -703,7 +719,9 @@ namespace ml::gui
         ImGui::SetNextWindowSize(ImVec2(900 * g_scale, 640 * g_scale), ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowPos(ImVec2(80 * g_scale, 80 * g_scale), ImGuiCond_FirstUseEver);
         bool open = true;
-        if (ImGui::Begin("Master Looter", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar))
+        const ImGuiWindowFlags watchFlags = st.menuWatch ? (ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus) : 0;
+        if (st.menuWatch) ImGui::SetNextWindowBgAlpha(0.72f);
+        if (ImGui::Begin("Master Looter", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | watchFlags))
         {
             // Title strip: serif name in gold, version and close on the right, bronze rule.
             ImGui::PushFont(g_fontHead);
@@ -711,10 +729,15 @@ namespace ml::gui
             ImGui::PopFont();
             ImGui::SameLine();
             ImGui::TextColored(kTextDim, "  v%s", ML_VERSION);
-            const float closeW = ImGui::CalcTextSize("Close").x + ImGui::GetStyle().FramePadding.x * 2;
+            const float closeW = ImGui::CalcTextSize("Close").x + ImGui::CalcTextSize("Watch").x + ImGui::GetStyle().FramePadding.x * 4 + ImGui::GetStyle().ItemSpacing.x;
             ImGui::SameLine();
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - closeW);
+            if (ImGui::SmallButton("Watch")) st.menuWatch = true;
+            if (ImGui::BeginItemTooltip()) { ImGui::Text("Keep the menu on screen while you play. %s brings it back, %s closes it.", Settings::KeyName(c.menuKey), Settings::KeyName(c.keyWatch)); ImGui::EndTooltip(); }
+            ImGui::SameLine();
             if (ImGui::SmallButton("Close")) open = false;
+            if (st.menuWatch)
+                ImGui::TextColored(kGoldDim, "Watch mode: the game has your controls. %s to interact, %s to close.", Settings::KeyName(c.menuKey), Settings::KeyName(c.keyWatch));
             {
                 const ImVec2 a = ImGui::GetCursorScreenPos();
                 const float w = ImGui::GetContentRegionAvail().x;
@@ -741,7 +764,7 @@ namespace ml::gui
             }
         }
         ImGui::End();
-        if (!open) st.menuOpen = false;
-        st.textCapture = io.WantTextInput;
+        if (!open) { st.menuOpen = false; st.menuWatch = false; }
+        st.textCapture = capt && io.WantTextInput;
     }
 }

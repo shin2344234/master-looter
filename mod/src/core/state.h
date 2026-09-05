@@ -9,6 +9,7 @@ namespace ml
     struct State
     {
         bool menuOpen      = false;
+        bool menuWatch     = false; // menu drawn but every input goes to the game (watch mode)
         bool textCapture   = false; // an ImGui text field has focus: every key belongs to the menu
         bool rebindCapture = false; // the General tab is waiting for the next key to bind
         bool hooksOk       = false;
@@ -18,6 +19,9 @@ namespace ml
         // A short on-screen notice ("auto-loot on"), drawn until `noticeUntil`.
         char  notice[96]   = "";
         DWORD noticeUntil  = 0;
+
+        // True while the menu owns keyboard, mouse and pad.
+        bool Captures() const { return menuOpen && !menuWatch; }
 
         void Notify(const char* text, DWORD ms = 2500)
         {

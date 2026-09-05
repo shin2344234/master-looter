@@ -100,7 +100,7 @@ namespace ml::input
     static BOOL WINAPI hkGetCursorPos(LPPOINT p)
     {
         const State& st = State::Get();
-        if (p && st.menuOpen && st.renderTid && GetCurrentThreadId() == st.renderTid && g_hwnd)
+        if (p && st.Captures() && st.renderTid && GetCurrentThreadId() == st.renderTid && g_hwnd)
         {
             Lock();
             POINT c = { static_cast<LONG>(g_vx), static_cast<LONG>(g_vy) };
@@ -152,7 +152,7 @@ namespace ml::input
 
     static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
-        if (State::Get().menuOpen)
+        if (State::Get().Captures())
         {
             if (msg == WM_INPUT)
             {

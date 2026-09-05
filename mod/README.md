@@ -14,6 +14,7 @@ An ASI plugin for Crimson Desert 2.01.00: an auto-looter driven by the tagged it
 
 - Insert opens and closes the menu (rebindable under General). Escape also closes it.
 - F10 turns auto-loot on and off, F11 loots everything in range once. Both rebindable.
+- Home is watch mode: the menu stays on screen but the game keeps every input, so the Status log or the Nearby list can be watched while playing. Home from a closed menu opens it straight into watch mode, Insert makes it interactive again, Home again closes it. The Watch button in the title strip does the same.
 - While the menu is open the game does not see the keyboard, mouse or controller. Key releases still pass through so nothing sticks.
 - Tabs: General (switches, keys, pace, filters), Looting (one toggle each for ground items, carcasses, plants, ore, stone, wood, unidentified nodes, insects and small animals, fish, containers and furniture nodes; ranges; node arming; ownership), Classes (one-click groups such as Weapons and armor or Food and drink above the full class table, plus quest, unsellable and protected-item switches), Tags, Items (search any item, set an override, see the live verdict), Nearby (every object around you with the rule that decided it), Status (signatures, hooks, event path, counters, recent loot, log).
 

@@ -35,7 +35,7 @@ namespace ml::hooks
         static DWORD WINAPI NAME(DWORD i, XINPUT_STATE* s)                 \
         {                                                                  \
             const DWORD r = ORIG(i, s);                                    \
-            if (r == ERROR_SUCCESS && s && State::Get().menuOpen)         \
+            if (r == ERROR_SUCCESS && s && State::Get().Captures())       \
                 Neutralize(s);                                             \
             return r;                                                      \
         }
