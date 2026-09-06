@@ -27,13 +27,13 @@ Uninstall by deleting the `MasterLooter.*` files from `bin64` (the plugin writes
 
 - Insert opens and closes the menu (rebindable under General). Escape also closes it.
 - F10 turns auto-loot on and off, F11 loots everything in range once. Both rebindable.
-- Home is watch mode: the menu stays on screen but the game keeps every input, so the Status log or the Nearby list can be watched while playing. Home from a closed menu opens it straight into watch mode, Insert makes it interactive again, Home again closes it. The Watch button in the title strip does the same.
+- Home is watch mode: the menu stays on screen but the game keeps every input, so the Status log or the Nearby list can be watched while playing. Home from a closed menu opens it straight into watch mode. Insert then makes it interactive, and a second Home closes it. The Watch button in the title strip does the same.
 - While the menu is open the game does not see the keyboard, mouse or controller. Key releases still pass through so nothing sticks.
 - Tabs: General (switches, keys, pace, filters), Looting (one toggle each for ground items, carcasses, plants, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers and furniture nodes; ranges; node arming; ownership), Classes (one-click groups such as Weapons and armor or Food and drink above the full class table, plus quest, unsellable and protected-item switches), Tags, Items (search any item, set an override, see the live verdict), Nearby (every object around you with the rule that decided it), Status (signatures, hooks, event path, counters, recent loot, log).
 
 ## How looting works
 
-A worker thread finds the game's actor manager by its RTTI class name, reads every world object around the player (position, components, node data), and decides per object. Decisions that pass are queued and the game-thread pump sends the game's own loot events (pick up, gather, catch, search carcass), exactly as the game does when you press the interaction key. Empty nodes such as ore veins are armed first so the game fills their data without you standing on them.
+A worker thread finds the game's actor manager by its RTTI class name and reads every world object around the player (position, components, node data). Each object gets its own verdict. Verdicts that pass are queued and the game-thread pump sends the game's own loot events (pick up, gather, catch, search carcass), exactly as the game does when you press the interaction key. Empty nodes such as ore veins are armed first so the game fills their data without you standing on them.
 
 Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters, copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, locked nodes, your own equipment and bag contents, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's own Take-or-Steal check calls theft (unless you opt in).
 
@@ -79,5 +79,5 @@ MIT, see the LICENSE file in the repository root. Third-party terms are in THIRD
 ## Credits
 
 - Trinity by XeTrinityz (MIT): the DirectX 12 present hook, swapchain wrapper and HDR composite are adapted from it, and its signature-first approach shaped the rest. See THIRD_PARTY_NOTICES.md.
-- CDLoot: the reverse engineering behind the loot engine. The event protocol, the entity and component layout, the ownership oracle and node arming were worked out there and are used here by that knowledge, with the code written anew.
+- CDLoot: the reverse engineering behind the loot engine. The event protocol, the entity and component layout, the ownership oracle and node arming were worked out there. This engine uses that knowledge; its code is new.
 - Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time.

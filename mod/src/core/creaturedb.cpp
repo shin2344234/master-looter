@@ -67,7 +67,7 @@ namespace ml::CreatureDb
         std::vector<std::string> toks;
         for (size_t i = 0; i < g_rows.size(); ++i)
         {
-            if (g_rows[i].itemRow < 0) continue;   // monsters, mounts and ambient wildlife: no catch item, no vote
+            if (g_rows[i].itemRow < 0) continue;   // rows without a catch item (monsters, mounts, wildlife) do not vote
             toks.clear(); Tokens(g_rows[i].name, toks);
             for (size_t t = toks.size(); t-- > 0;)
                 if (!Stop(toks[t])) { AddWord(toks[t], g_rows[i].klass, static_cast<int>(i)); break; }
