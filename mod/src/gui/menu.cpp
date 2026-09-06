@@ -421,7 +421,7 @@ namespace ml::gui
         if (ImGui::Button("Loot everything in range now")) loot::RequestBurst();
         dirty |= ImGui::Checkbox("Show a brief notice when auto-loot is toggled", &c.showHud);
         dirty |= ImGui::Checkbox("Say so on screen when the bag stops taking things", &c.notifyBagFull);
-        Help("The game does not announce a full bag, so this watches what happens after a pick-up. An item that is coming arrives in well under a second, so a send that has reached nothing after 1.2 seconds counts against it, and three in a row raise the notice. One of them landing clears it. It can only tell while the mod is picking things up, so standing still with a full bag says nothing.");
+        Help("How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.");
         Help("Nothing else is drawn while the menu is closed.");
 
         Section("Keys");
@@ -803,8 +803,9 @@ namespace ml::gui
         if (s.playerFound)
         {
             ImGui::TextUnformatted("Player"); ImGui::SameLine(220 * g_scale);
-            ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, %d items across every store", s.playerEid, s.inventoryItems);
-            if (s.bagFull) { ImGui::SameLine(); ImGui::TextColored(kWarn, "  bag full: pick-ups are not landing"); }
+            if (s.bagSlots > 0) ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, bag %d of %d slots, %d items across every store", s.playerEid, s.bagUsed, s.bagSlots, s.inventoryItems);
+            else ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, %d items across every store", s.playerEid, s.inventoryItems);
+            if (s.bagFull) { ImGui::SameLine(); ImGui::TextColored(kWarn, "  bag full"); }
         }
         else OnOff("Player", false, "", "not found yet");
         OnOff("Event descriptors", s.descriptors == 3, "3 of 3", s.descriptors ? "incomplete" : "not resolved yet");
