@@ -1077,12 +1077,43 @@ namespace ml::hooks
                _stricmp(mod, "d3d12core.dll") == 0 || _stricmp(mod, "dxgi.DLL") == 0;
     }
 
+    // A function whose first bytes are already a jump has been detoured in
+    // place by someone else. The owning module stays the system DLL in that
+    // case, so the module name alone cannot see it; only the bytes can.
+    static const char* ExistingDetour(const uint8_t* p)
+    {
+        if (p[0] == 0xE9) return "jmp rel32";
+        if (p[0] == 0xFF && p[1] == 0x25) return "jmp [rip+disp]";
+        if (p[0] == 0xEB) return "jmp short";
+        if (p[0] == 0x68 && p[5] == 0xC3) return "push/ret";
+        if (p[0] == 0x48 && p[1] == 0xB8 && p[10] == 0xFF && p[11] == 0xE0) return "mov rax, imm64; jmp rax";
+        return nullptr;
+    }
+
     static void LogHookTarget(const char* what, void* addr)
     {
         char mod[64];
         OwningModule(addr, mod, sizeof mod);
-        if (IsSystemOwner(mod)) LOG("[hook] %s @ %p in %s", what, addr, mod);
-        else LOG_ERR("[hook] %s @ %p in %s, which is not a system DLL: another mod is already on it, and the two may not survive each other", what, addr, mod);
+
+        // First bytes, so a detour that was already there is on the record even
+        // when this mod goes on to hook over the top of it.
+        uint8_t b[16] = {};
+        char bytes[64] = "";
+        const char* detour = nullptr;
+        if (addr && !IsBadReadPtr(addr, sizeof b))
+        {
+            memcpy(b, addr, sizeof b);
+            int w = 0;
+            for (int i = 0; i < 8; ++i) w += snprintf(bytes + w, sizeof bytes - w, "%02X ", b[i]);
+            detour = ExistingDetour(b);
+        }
+
+        if (detour)
+            LOG_ERR("[hook] %s @ %p in %s starts with %s (%s): another mod hooked it first, and the two may not survive each other", what, addr, mod, detour, bytes);
+        else if (!IsSystemOwner(mod))
+            LOG_ERR("[hook] %s @ %p in %s (%s), which is not a system DLL: another mod is already on it, and the two may not survive each other", what, addr, mod, bytes);
+        else
+            LOG("[hook] %s @ %p in %s (%s)", what, addr, mod, bytes);
     }
 
     // --- COM wrapper: draw the overlay before Streamline interpolates --------
