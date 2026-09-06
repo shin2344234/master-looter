@@ -73,6 +73,9 @@ namespace ml::game
     bool ItemKeyForType(uint16_t typeId, char* out, size_t n);
     bool GimmickKeyForType(uint16_t typeId, char* out, size_t n);
     bool NodeName(uintptr_t gimmickComp, char* out, size_t n);
+    // The path of the prefab the node was placed from, e.g.
+    // ".../collect/socket/gimmick_socket_collection_peony_01.prefab".
+    bool NodePrefab(uintptr_t gimmickComp, char* out, size_t n);
 
     // Every static table in the image, found by the shared index prologue.
     // `name` is the table's own name string when one is reachable from the

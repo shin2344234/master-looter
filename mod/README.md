@@ -12,7 +12,7 @@ By hand:
 2. Copy `MasterLooter.asi` into `bin64` next to `winmm.dll`, with the game closed. The item database and the creature table are compiled into the plugin.
 3. Start the game. Press Insert for the menu; the Status tab shows whether every hook and signature resolved. `MasterLooter.log` next to the plugin says the same in more detail.
 
-Uninstall by deleting the `MasterLooter.*` files from `bin64` (the plugin writes `MasterLooter.ini`, `MasterLooter.log` and `MasterLooter.learned.tsv` next to itself). No game file is modified and nothing is written to a save.
+Uninstall by deleting the `MasterLooter.*` files from `bin64` (the plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself). No game file is modified and nothing is written to a save.
 
 ## What is in the box
 
@@ -21,7 +21,7 @@ Uninstall by deleting the `MasterLooter.*` files from `bin64` (the plugin writes
 - `MasterLooter.ini`: written next to the plugin on first run, rewritten whenever a setting changes in the menu, and reloaded within a second if edited by hand while the game runs.
 - `MasterLooter.log`: rewritten every launch. Signature resolution, hook installation, the event self test, every item taken and, once per object, why anything within range was skipped.
 - `MasterLooter.creatures.tsv`: every creature the player can catch with the class of the item it becomes, compiled into the plugin the same way, generated from the character data by `scripts/make_creatures_tsv.py`. It is how insects, fish, seafood and small animals are told apart; crabs, shrimp, squid, starfish and seahorses count as fish for the Fish toggle, and rows without an item (monsters, mounts) only serve name matching.
-- `MasterLooter.learned.tsv`: what each gather node type yields, learned by watching the bag after a gather, yours or the mod's. It is what tells plants, ore, stone and wood apart; delete it or press Forget to relearn.
+- The gather node table, compiled in, is what tells plants, ore, stone and wood apart. A node is identified by the prefab it was placed from, which is the only name it keeps between sessions. Nodes the table does not cover fall back to watching the bag after a gather, yours or the mod's, and that part is forgotten when you quit.
 
 ## Controls
 
@@ -45,7 +45,7 @@ Rule order for an identified item: item override, tag never, protected tags (mem
 - A carcass is searched once per session and never again, whatever the retry setting: searching an empty carcass has been seen to duplicate items, and duplicates are how saves get corrupted.
 - There is no line-of-sight check. The ranges are distances, not visibility; keep the arming range short or a node behind a thin wall can be gathered.
 - Creatures the species table cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified.
-- Gather nodes are identified by what lands in your bag. A node type the mod has never seen yield anything is left alone until you harvest one by hand or turn Unidentified nodes on.
+- Gather nodes are identified by their prefab, matched against a table of 1,042 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 - Chests and storage boxes open a window rather than hand over an item; they are off by default and rarely respond.
 
 ## Compatibility and patches

@@ -304,7 +304,7 @@ namespace ml::gui
             { "Ore",            &c.gatherOre,      "Ore chunks on the ground and any node that yields ore. Veins are broken with a pickaxe by hand; the chunks are picked up here." },
             { "Stone",          &c.gatherStone,    "Stone on the ground and nodes that yield stone." },
             { "Wood",           &c.gatherWood,     "Timber and branches on the ground and nodes that yield them." },
-            { "Unidentified nodes", &c.gatherUnknown, "Nodes whose yield is not known yet. Off (the default) leaves them alone; gather one by hand and its kind is learned from what lands in your bag. On makes the mod gather them to find out, which means a plant can be taken while Plants is off." },
+            { "Unidentified nodes", &c.gatherUnknown, "Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off." },
             { "Insects",        &c.catchInsects,   "Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird)." },
             { "Fish",           &c.catchFish,      "Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses." },
             { "Small animals",  &c.catchAnimals,   "Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole." },
@@ -323,10 +323,10 @@ namespace ml::gui
         }
         {
             const loot::Status s = loot::GetStatus();
-            ImGui::TextDisabled("%d node kinds learned so far. A node is identified the first time it yields something; the list is kept in MasterLooter.learned.tsv.", s.learned);
+            ImGui::TextDisabled("%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.", s.learned);
             ImGui::SameLine();
             if (ImGui::SmallButton("Forget")) loot::ForgetLearned();
-            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Clears the learned list so every node type is identified again from scratch."); ImGui::EndTooltip(); }
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected."); ImGui::EndTooltip(); }
         }
 
         Section("Ranges (metres)");

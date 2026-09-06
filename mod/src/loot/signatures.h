@@ -123,6 +123,13 @@ namespace ml::sig
     inline constexpr unsigned kOff_Gimmick_ItemData   = 0xC0; // -> {u32 instanceId, .., u16 typeId @+8}
     inline constexpr unsigned kOff_Gimmick_GatherData = 0xE0; // -> {u16 typeId, .., u8 kind @+5}
     inline constexpr unsigned kOff_Gimmick_NodeName   = 0x68; // -> string object -> char*
+    // The node's own prefab path, the only durable name it has: the reported
+    // type id changes between sessions. Two routes to the same string; the
+    // first is the one every node in the 2026-09-06 probe answered on.
+    inline constexpr unsigned kOff_Gimmick_Prefab     = 0x18; // -> object
+    inline constexpr unsigned kOff_Prefab_Path        = 0x38; // -> string object -> char*
+    inline constexpr unsigned kOff_Gimmick_PrefabAlt  = 0x58;
+    inline constexpr unsigned kOff_PrefabAlt_Path     = 0x18;
     inline constexpr unsigned kOff_Gimmick_Locked     = 0x3E2; // u8
     inline constexpr unsigned kOff_Mgr_ListsBegin = 0x100; // {u32 count, u32 cap, ptr} triples probed in
     inline constexpr unsigned kOff_Mgr_ListsEnd   = 0x200; // this window; the entity list sat at +0x190
