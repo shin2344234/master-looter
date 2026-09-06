@@ -1,0 +1,208 @@
+# Master Looter menu text.
+# One string per line: the English, a tab, then your translation.
+# \n is a line break. Lines starting with # are ignored. A line with
+# nothing after the tab is left in English, so a part-finished file is
+# perfectly usable.
+# Keep every %d, %s and %.1f exactly as they appear and in the same
+# order: they are replaced with numbers and names at runtime, and a
+# line that changes them is ignored rather than risked.
+# Save as MasterLooter.<language>.txt beside the plugin, for example
+# MasterLooter.de.txt, then set Language=de in MasterLooter.ini or type
+# the language into General, Language.
+
+  bag full	
+%-18s %s (%zu hits)%s	
+%d classes	
+%d items, %d classes, %d tags	
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	
+%d match%s%s	
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	
+%d objects within scan range, %d lootable now.	
+%d overrides	
+%s (key %u, row %d, tier %d)	
+%s (never looted)	
+%s, let go to keep it	
+\"%s\" already exists. Saving over it asks first.	
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	
+already in your bag	
+always	
+always beats the class rule; never beats always	
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	
+Arm mechanism containers too	
+Arm nodes ourselves	
+Arming ignores walls. Keep it short or you will gather through the wall of the next room.	
+Arming range	
+Auto-loot enabled	
+Backups	
+blank for English	
+Carcasses	
+carcasses off	
+Catching	
+Class	
+Classes	
+Clear	
+Clear overrides	
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	
+Close	
+container (off)	
+Controller	
+Copper	
+Copy	
+Copy path	
+Copy to the clipboard.	
+corpse	
+corpse already searched	
+corpse: loot drops separately	
+creature	
+Dead zone around you	
+Decision	
+default	
+does not respond	
+English. %d line(s) seen this session.	
+entity	
+entity %08X	
+entity %08X, %d items across every store	
+entity %08X, bag %d of %d slots, %d items across every store	
+fast-travel artifact	
+filter classes	
+filter tags	
+Filters	
+fish off	
+Forget	
+furniture node (off)	
+Game functions did not resolve; see Status.	
+gather node	
+Gathering	
+Groups	
+hold two buttons (Escape cancels)	
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	
+insects off	
+Item	
+Items	
+Items no shop will buy, across every class.	
+Items on the ground	
+Items tagged quest are left alone so puzzles and story pickups are never auto-taken.	
+Items with an unknown value are never filtered by it.	
+Keep the menu on screen while you play. %s brings it back, %s closes it.	
+Keys	
+Language	
+Language \"%s\": %d line(s) translated, %d seen this session.	
+Load	
+locked	
+Log	
+Log: %ls	
+Loot	
+Loot all	
+Loot engine	
+Loot engine not started.	
+Loot everything in range now	
+loot: %s	
+MASTER LOOTER	
+Master Looter v%s for game build %s	
+mechanism part	
+Memory chips and puzzle parts	
+Minimum value (copper)	
+mission object	
+name a new preset	
+never	
+no interaction node	
+not in item database	
+not ready (node empty)	
+Nothing else is drawn while the menu is closed.	
+nothing taken yet this session	
+Object	
+object	
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	
+Objects per burst press	
+Objects per scan	
+on the player	
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	
+Open folder	
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	
+ore off	
+out of range	
+Overlay	
+Override	
+owned by someone (theft)	
+Ownership	
+Pace	
+paused: %s	
+pick up off	
+plants off	
+Player	
+Player not found in the scene yet.	
+Presets	
+press a key (Escape cancels)	
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	
+protected item name	
+Puts every setting and rule back to what it was at that moment.	
+Quest items	
+quest or memory trigger	
+Ranges (metres)	
+Reaching nodes	
+Rebind	
+Recent loot	
+Refresh	
+Reload now	
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	
+Reset all tags	
+Retry the same object after (ms)	
+Rule	
+Save now	
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	
+Say so on screen when the bag stops taking things	
+scan %.1f ms	
+Scan radius	
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	
+Scans per second	
+search item name or key (3+ letters)	
+Set	
+Settings: %ls	
+Show a brief notice when auto-loot is toggled	
+Showing current overrides. Type to search all %d items.	
+Showing the nearest %d of %d. The rest are further away.	
+Skip all	
+Skip items shops refuse to buy	
+Skip quest items	
+skip: %s	
+small animals off	
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	
+stack at one point (storage contents)	
+stone off	
+Tag	
+Take goods that belong to someone	
+Take items the database cannot name	
+takes effect next launch	
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	
+The game fills a node's data only when it thinks you can reach it; for an ore vein that means standing on it. Arming asks the game to do it from a distance.	
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	
+The game treats this as stealing and will put a bounty on you.	
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	
+unidentified nodes off	
+unidentified: could be a fish, a flying insect or a bird	
+unidentified: could be an insect or a small animal	
+unnamed item	
+Unsellable items	
+Use this language	
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	
+Verbose log	
+Verdict	
+waiting for the game to check ownership once	
+Waiting for the world to load.	
+Watch	
+Watch mode: the game has your controls. %s to interact, %s to close.	
+What enters the working list at all. The ranges below are clamped to it.	
+What to collect	
+wood off	
+worn by someone	
+worn or carried by you	
+Wrap the swapchain	
+Write translation template	
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	
+Writes the settings as they are now, named %s.	
