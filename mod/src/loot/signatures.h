@@ -73,6 +73,15 @@ namespace ml::sig
     inline constexpr const char* kSig_TableResolver16 =
         "48 89 5C 24 10 48 89 6C 24 18 56 57 41 56 48 83 EC ?? 0F B7 39 48 8B 1D";
     inline constexpr unsigned kOff_TableResolver_MovGlobal = 0x15; // `mov rbx, cs:<table global>`
+
+    // Every static table is addressed the same way: a u16 row index is read
+    // from the handle, bounds-checked against the count at +8, then used to
+    // index the def array. Anchoring on that sequence instead of one function
+    // prologue enumerates every table in the image (123 on 2760), which is how
+    // an unknown id can be tried against all of them.
+    //   movzx r32, word ptr [rcx] | mov r64, cs:<table> | cmp r32, [r64+8] | jae
+    inline constexpr const char* kSig_TableIndex = "0F B7 ?? 48 8B ?? ?? ?? ?? ?? 3B ?? 08 0F 83";
+    inline constexpr unsigned kOff_TableIndex_MovGlobal = 3;   // 7-byte `mov r64, [rip+disp]`
     inline constexpr unsigned kMax_LeaToPrologue = 0x180;
 
     inline constexpr const char* kStr_ItemInfoTable    = "iteminfo";

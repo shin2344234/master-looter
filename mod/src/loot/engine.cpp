@@ -506,6 +506,81 @@ namespace ml::loot
     }
 
     // Reads components, node data and names for one candidate.
+    // A gather node reports a 16-bit id that nothing in the shipped data maps
+    // to an item, so an unlearned node cannot be named. For one node of each
+    // unknown type this dumps the gather block, tries every 16-bit field in it
+    // as a row of every static table in the image, and lists every string
+    // within two hops of the component. The item block is dumped the same way
+    // as a control: its type id is known to be an iteminfo row, so a correct
+    // sweep must find it. Debug logging only.
+    static std::unordered_set<uint16_t> g_probed;
+
+    static void SweepBlock(const char* what, uintptr_t block, unsigned len)
+    {
+        uint8_t b[0x40] = {};
+        if (len > sizeof b) len = sizeof b;
+        if (!mem::ReadBytes(block, b, len)) { LOG("[node]   %s block unreadable", what); return; }
+        char hex[3 * sizeof b + 1] = ""; int w = 0;
+        for (unsigned i = 0; i < len; ++i) w += snprintf(hex + w, sizeof hex - w, "%02X ", b[i]);
+        LOG("[node]   %s block: %s", what, hex);
+
+        const game::TableRef* tables = nullptr;
+        const int n = game::EnumTables(&tables);
+        int shown = 0;
+        for (unsigned off = 0; off + 1 < len && shown < 40; off += 2)
+        {
+            const uint16_t v = static_cast<uint16_t>(b[off] | (b[off + 1] << 8));
+            if (v < 64) continue;                       // small values are a row of everything
+            int hits = 0;
+            for (int i = 0; i < n && hits < 3 && shown < 40; ++i)
+            {
+                if (v >= tables[i].count) continue;
+                char key[96];
+                if (!game::KeyInTable(tables[i].global, v, key, sizeof key)) continue;
+                ++hits; ++shown;
+                LOG("[node]     %s+%X = %u is row of %s (%u rows): \"%s\"", what, off, v,
+                    tables[i].name[0] ? tables[i].name : "?", tables[i].count, key);
+            }
+        }
+        if (!shown) LOG("[node]     no field of the %s block is a named row of any table", what);
+    }
+
+    static void ProbeNodeIdentity(const Cand& k, uintptr_t inter, uintptr_t idata, uintptr_t gdata)
+    {
+        if (!inter || !gdata || !k.tid) return;
+        if (g_probed.size() >= 10 || !g_probed.insert(k.tid).second) return;
+
+        char nodeName[96] = "";
+        game::NodeName(inter, nodeName, sizeof nodeName);
+        LOG("[node] type %u kind %02X eid %08X %.1f m cat %02X/%02X name \"%s\"",
+            k.tid, k.gkind, k.eid, k.d, k.cat, k.cat2, nodeName);
+        SweepBlock("gather", gdata, 0x40);
+        if (idata) SweepBlock("item", idata, 0x20);
+
+        // Anything reachable that spells the node out: a prefab path, a socket
+        // name, the gimmick key. Two hops, with the offset that found it, so a
+        // hit can be turned into a direct read.
+        char seen[1600] = ""; int sw = 0;
+        const uintptr_t objs[2] = { inter, gdata };
+        const unsigned  lens[2] = { 0x400, 0x80 };
+        for (int o = 0; o < 2; ++o)
+        {
+            if (!mem::Readable(objs[o], lens[o])) continue;
+            for (unsigned off = 0; off < lens[o] && sw < 1400; off += 8)
+            {
+                char buf[160];
+                if (mem::ReadEngineString(objs[o] + off, buf, sizeof buf) && strlen(buf) >= 4)
+                    sw += snprintf(seen + sw, sizeof seen - sw, " %s+%X=\"%s\"", o ? "g" : "c", off, buf);
+                const uintptr_t mid = mem::Deref(objs[o], off);
+                if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x100)) continue;
+                for (unsigned off2 = 0; off2 < 0x100 && sw < 1400; off2 += 8)
+                    if (mem::ReadEngineString(mid + off2, buf, sizeof buf) && strlen(buf) >= 4)
+                        sw += snprintf(seen + sw, sizeof seen - sw, " %s+%X+%X=\"%s\"", o ? "g" : "c", off, off2, buf);
+            }
+        }
+        LOG("[node]   strings:%s", seen[0] ? seen : " (none)");
+    }
+
     static void Fill(Cand& k)
     {
         if (k.filled) return;
@@ -583,6 +658,7 @@ namespace ml::loot
                 LOG("%s", line);
             }
         }
+        if (g_debugLog && k.gather && k.tid && !LearnedYield(k.tid)) ProbeNodeIdentity(k, inter, idata, gdata);
         if (k.tid)
         {
             if (!game::ItemKeyForType(k.tid, k.key, sizeof k.key)) game::GimmickKeyForType(k.tid, k.key, sizeof k.key);
