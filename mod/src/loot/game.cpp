@@ -360,4 +360,65 @@ namespace ml::game
         if (!gimmick) return false;
         return mem::ReadEngineString(gimmick + kOff_Gimmick_NodeName, out, n) && strlen(out) >= 4;
     }
+
+    // ------------------------------------------------------- table sweep ----
+    // The engine reaches every static table through the same three
+    // instructions, so one scan lists them all with their row counts. Used to
+    // ask what an unknown id could be a row of.
+    static TableRef g_tables[192];
+    static int      g_tableN = -1;
+
+    static void NameTable(uintptr_t resolver, char* out, size_t n)
+    {
+        out[0] = '\0';
+        // The miss path formats the table's own name; it is the first
+        // lower-case identifier the function points at.
+        for (uintptr_t p = resolver; p < resolver + 0x180; ++p)
+        {
+            if (!mem::MatchAt(p, "4C 8D 05") && !mem::MatchAt(p, "48 8D 15") && !mem::MatchAt(p, "48 8D 0D")) continue;
+            char buf[32];
+            if (!mem::ReadCString(mem::RipAt(p, 7), buf, sizeof buf)) continue;
+            size_t len = strlen(buf);
+            if (len < 4 || len > 30) continue;
+            bool ok = true;
+            for (size_t i = 0; i < len; ++i)
+                if (!((buf[i] >= 'a' && buf[i] <= 'z') || (buf[i] >= '0' && buf[i] <= '9') || buf[i] == '_')) { ok = false; break; }
+            if (!ok) continue;
+            strncpy(out, buf, n - 1); out[n - 1] = '\0';
+            return;
+        }
+    }
+
+    static bool CollectTable(uintptr_t hit, void*)
+    {
+        if (g_tableN >= static_cast<int>(sizeof g_tables / sizeof g_tables[0])) return true;
+        const uintptr_t g = mem::RipAt(hit + kOff_TableIndex_MovGlobal, 7);
+        if (!mem::InImage(g)) return false;
+        for (int i = 0; i < g_tableN; ++i) if (g_tables[i].global == g) return false;
+        uintptr_t table = 0; uint32_t count = 0;
+        if (!mem::ReadPtr(g, &table) || !mem::Read32(table + kOff_Table_Count, &count) || !count || count > 0x40000) return false;
+        TableRef& t = g_tables[g_tableN++];
+        t.global = g; t.count = count;
+        NameTable(hit, t.name, sizeof t.name);
+        return false;
+    }
+
+    int EnumTables(const TableRef** out)
+    {
+        if (g_tableN < 0)
+        {
+            g_tableN = 0;
+            mem::FindIf(kSig_TableIndex, CollectTable, nullptr);
+            LOG("[table] %d static tables found in the image", g_tableN);
+        }
+        if (out) *out = g_tables;
+        return g_tableN;
+    }
+
+    bool KeyInTable(uintptr_t global, uint32_t row, char* out, size_t n)
+    {
+        for (unsigned off : { kOff_Table_DefsA, kOff_Table_DefsB })
+            if (KeyAt(global, row, off, out, n)) return true;
+        return false;
+    }
 }

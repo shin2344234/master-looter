@@ -73,4 +73,12 @@ namespace ml::game
     bool ItemKeyForType(uint16_t typeId, char* out, size_t n);
     bool GimmickKeyForType(uint16_t typeId, char* out, size_t n);
     bool NodeName(uintptr_t gimmickComp, char* out, size_t n);
+
+    // Every static table in the image, found by the shared index prologue.
+    // `name` is the table's own name string when one is reachable from the
+    // resolver, otherwise empty. Scanned once and cached.
+    struct TableRef { uintptr_t global; uint32_t count; char name[32]; };
+    int  EnumTables(const TableRef** out);
+    // Reads the string key of one row, trying both def-array offsets.
+    bool KeyInTable(uintptr_t global, uint32_t row, char* out, size_t n);
 }
