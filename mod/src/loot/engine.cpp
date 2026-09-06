@@ -78,12 +78,25 @@ namespace ml::loot
     // entity so a creature is only searched once.
     static int s_spObj = -1, s_spOff = -1, s_spOff2 = -1;   // object 0 entity, 1 actor, 2 status, 3 ai; second hop offset
     static std::unordered_set<uint32_t> g_speciesMiss;
-    static const Creature* ReadSpeciesAt(uintptr_t obj, unsigned off)
+    // A pointer slot may lead to a data row (string key at +0x08), to a string
+    // object itself, or to something holding a string a little further in.
+    static int s_spField = -1;
+    static const Creature* ReadSpeciesAt(uintptr_t obj, unsigned off, char* probe = nullptr, size_t probeLen = 0)
     {
-        const uintptr_t row = mem::Deref(obj, off);
-        char buf[64];
-        if (!row || !mem::ReadEngineString(row + 0x08, buf, sizeof buf)) return nullptr;
-        return CreatureDb::ByKey(buf);
+        const uintptr_t q = mem::Deref(obj, off);
+        if (!q || mem::InImage(q)) return nullptr;
+        static const unsigned fields[] = { 0x08, 0x00, 0x10, 0x18, 0x20 };
+        char buf[96];
+        for (unsigned f : fields)
+        {
+            if (s_spField >= 0 && static_cast<unsigned>(s_spField) != f && !probe) continue;
+            if (!mem::ReadEngineString(q + f, buf, sizeof buf)) continue;
+            if (probe && probeLen > strlen(buf) + 4) { strncat(probe, buf, probeLen - strlen(probe) - 2); strncat(probe, " ", probeLen - strlen(probe) - 1); }
+            const Creature* c = CreatureDb::ByKey(buf);
+            if (!c) c = CreatureDb::InText(buf);
+            if (c) { s_spField = static_cast<int>(f); return c; }
+        }
+        return nullptr;
     }
     static const Creature* FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai)
     {
@@ -96,12 +109,17 @@ namespace ml::loot
         }
         if (g_speciesMiss.count(eid)) return nullptr;
         static const char* names[4] = { "entity", "actor", "status component", "ai component" };
+        // Diagnostic: every string reachable within two hops of the first few
+        // creatures, so the object graph is visible even when nothing matches.
+        static int s_dumped = 0;
+        char probe[900] = "";
+        const bool dump = s_dumped < 6;
         for (int o = 0; o < 4; ++o)
         {
             if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
             for (unsigned off = 0; off < lens[o]; off += 8)
             {
-                const Creature* c = ReadSpeciesAt(objs[o], off);
+                const Creature* c = ReadSpeciesAt(objs[o], off, dump ? probe : nullptr, sizeof probe);
                 if (!c) continue;
                 if (s_spObj != o || s_spOff != static_cast<int>(off))
                 {
@@ -126,13 +144,20 @@ namespace ml::loot
                 if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x180)) continue;
                 for (unsigned off2 = 0; off2 < 0x180; off2 += 8)
                 {
-                    const Creature* c = ReadSpeciesAt(mid, off2);
+                    const Creature* c = ReadSpeciesAt(mid, off2, dump ? probe : nullptr, sizeof probe);
                     if (!c) continue;
                     s_spObj = o; s_spOff = static_cast<int>(off); s_spOff2 = static_cast<int>(off2);
                     LOG_OK("[species] creature rows are reachable from the %s at +0x%X then +0x%X (%s is %s)", names[o], off, off2, c->stringKey.c_str(), c->name.c_str());
                     return c;
                 }
             }
+        }
+        if (dump)
+        {
+            ++s_dumped;
+            uintptr_t vt = 0, ti = 0; mem::ReadPtr(ent, &vt); mem::ReadPtr(ent + kOff_Ent_TypeInfo, &ti);
+            LOG("[species] no match for %08X (vtable +0x%llX typeinfo %llX); strings seen: %s", eid,
+                static_cast<unsigned long long>(mem::Rva(vt)), static_cast<unsigned long long>(ti), probe[0] ? probe : "(none)");
         }
         if (g_speciesMiss.size() > 4096) g_speciesMiss.clear();
         g_speciesMiss.insert(eid);
@@ -331,9 +356,9 @@ namespace ml::loot
                           || (nm.size() >= 3 && nm.compare(nm.size() - 3, 3, "Ore") == 0) || nm.find(" Ore ") != std::string::npos
                           || key == "Item_Rare_Collect_Platinum";
         if (mineral) return GatherKind::Ore;
-        static const char* plantClasses[] = { "herb", "vegetable", "fruit", "grain", "seed", "ingredient", "alchemy-material", "honey", "cooking-basic", "mount-feed", "seafood" };
+        static const char* plantClasses[] = { "herb", "vegetable", "fruit", "grain", "seed", "alchemy-material" };
         for (const char* c : plantClasses) if (y->klass == c) return GatherKind::Plant;
-        if (y->HasTag("material")) return GatherKind::Plant;
+        if (y->HasTag("rare-gather")) return GatherKind::Plant;
         return GatherKind::Item;
     }
 
@@ -589,6 +614,7 @@ namespace ml::loot
             // the same toggles cover the chunks.
             switch (KindOf(c.db))
             {
+            case GatherKind::Plant: if (!cfg.gatherPlants) return skip("plants off"); break;
             case GatherKind::Ore:   if (!cfg.gatherOre)   return skip("ore off"); break;
             case GatherKind::Stone: if (!cfg.gatherStone) return skip("stone off"); break;
             case GatherKind::Wood:  if (!cfg.gatherWood)  return skip("wood off"); break;

@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <unordered_map>
 #include <vector>
 
@@ -46,6 +47,19 @@ namespace ml::CreatureDb
 
     bool Loaded() { return g_loaded; }
     int  Count()  { return static_cast<int>(g_rows.size()); }
+
+    const Creature* InText(const char* text)
+    {
+        if (!text || !*text) return nullptr;
+        const Creature* best = nullptr;
+        for (const Creature& c : g_rows)
+        {
+            if (c.stringKey.size() < 8) continue;
+            if (!strstr(text, c.stringKey.c_str())) continue;
+            if (!best || c.stringKey.size() > best->stringKey.size()) best = &c;
+        }
+        return best;
+    }
 
     const Creature* ByKey(const char* stringKey)
     {

@@ -21,5 +21,8 @@ namespace ml
         bool Loaded();
         int  Count();
         const Creature* ByKey(const char* stringKey);
+        // The creature whose string key appears inside `text` (longest wins), e.g.
+        // an animation or behaviour asset name that embeds it. Null when none.
+        const Creature* InText(const char* text);
     }
 }
