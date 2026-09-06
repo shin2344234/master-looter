@@ -47,6 +47,7 @@ Rule order for an identified item: item override, tag never, protected tags (mem
 - Creatures the species table cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified.
 - Gather nodes are identified by their prefab, matched against a table of 1,042 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 - Chests and storage boxes open a window rather than hand over an item; they are off by default and rarely respond.
+- A full bag is inferred, not reported: the game says nothing, so the mod watches what happens after each pick-up. Five sent with nothing arriving raises the notice, and anything landing clears it. Only pick-ups count, since an empty carcass or a node that gives nothing is ordinary.
 
 ## Compatibility and patches
 

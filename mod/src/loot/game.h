@@ -58,6 +58,8 @@ namespace ml::game
     void InventoryRefresh(uintptr_t player, bool force);
     bool InventoryHas(uint32_t instanceId);
     int  InventoryCount();
+    // Slots across every bucket the reader can see, 0 when it cannot tell.
+    int  InventoryCapacity();
     // Quantity per item type id across every storage, sorted by type. Returns
     // the number of entries copied.
     int  InventoryTypes(uint16_t* types, long long* qty, int max);

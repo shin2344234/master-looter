@@ -203,6 +203,7 @@ namespace ml::game
     static uint32_t g_inv[2048];
     static int      g_invN = 0;
     static DWORD    g_invAt = 0;
+    static int      g_invCap = 0;       // slots across the buckets we can read, 0 when unknown
     static unsigned g_slotStride = 0;   // 0xC0 (Trinity) or 0xC8 (CDLoot); probed on the live data
     static std::vector<std::pair<uint16_t, long long>> g_qty;
 
@@ -235,7 +236,7 @@ namespace ml::game
         const DWORD now = GetTickCount();
         if (!me || (!force && g_invN && now - g_invAt < 500)) return;
         g_invAt = now;
-        int n = 0;
+        int n = 0, cap = 0;
         std::vector<std::pair<uint16_t, long long>> qty;
         const uintptr_t comps  = Comps(me);
         const uintptr_t holder = comps ? mem::Deref(comps, kOff_Comps_InvHolder) : 0;
@@ -250,6 +251,7 @@ namespace ml::game
             if (!g_slotStride && sn >= 8) g_slotStride = ProbeStride(slots, sn);
             const unsigned stride = g_slotStride ? g_slotStride : kInv_SlotStride;
             if (!mem::Readable(slots, static_cast<size_t>(sn) * stride)) continue;
+            cap += sn;
             for (uint16_t i = 0; i < sn && n < 2048; ++i)
             {
                 const uintptr_t s = slots + static_cast<uintptr_t>(i) * stride;
@@ -263,6 +265,9 @@ namespace ml::game
             }
         }
         g_invN = n;
+        g_invCap = cap;
+        static bool s_capLogged = false;
+        if (!s_capLogged && cap) { s_capLogged = true; LOG("[inv] %u buckets, %d slots in total, %d of them holding something", bn, cap, n); }
         std::sort(qty.begin(), qty.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
         std::vector<std::pair<uint16_t, long long>> merged;
         for (const auto& e : qty)
@@ -285,6 +290,7 @@ namespace ml::game
         return false;
     }
     int InventoryCount() { return g_invN; }
+    int InventoryCapacity() { return g_invCap; }
 
     // ------------------------------------------------------------- tables ----
     static int      g_tableState = 0;
