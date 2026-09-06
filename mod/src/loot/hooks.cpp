@@ -7,6 +7,7 @@
 #include "events.h"
 #include "game.h"
 #include "mem.h"
+#include "signatures.h"
 #include "../core/log.h"
 
 namespace ml::loot::hooks
@@ -70,6 +71,8 @@ namespace ml::loot::hooks
         if (events::OnGameThread() || !events::SelfTested() || g_enqueuePump) Pump();
     }
 
+    static DWORD g_startedAt = GetTickCount();
+
     static uint64_t hkOwn(void* ctx, void* me, void* target, void* tag, uint64_t a5, uint64_t a6)
     {
         const LONG n = InterlockedIncrement(&g_ownCalls);
@@ -77,6 +80,35 @@ namespace ml::loot::hooks
         uint32_t eid = 0, teid = 0;
         const bool playerArg = mem::Read32(reinterpret_cast<uintptr_t>(me) + 0x60, &eid) && (eid >> 24) == game::kTagPlayer;
         mem::Read32(reinterpret_cast<uintptr_t>(target) + 0x60, &teid);
+        // Why capture waits is worth knowing: a call with a null context or
+        // tag does not count, and neither does one that is not about the
+        // player until thirty have gone by.
+        static int s_early = 0;
+        if (!InterlockedCompareExchange(&g_ownCaptured, 0, 0) && s_early < 12)
+        {
+            ++s_early;
+            LOG("[owner] call %ld before capture: ctx %s, tag %s, subject is %s", n,
+                ctx ? "set" : "null", tag ? "set" : "null", playerArg ? "the player" : "someone else");
+        }
+
+        // Does the context the game passed match what the chain from the actor
+        // gives? If it does, a later build can work the context out at load and
+        // stop making everyone wait. Observation only: nothing here uses it.
+        if (ctx && me)
+        {
+            constexpr unsigned kCtxHolder = 0x68, kCtxField = 0x120;
+            const uintptr_t holder = mem::Deref(reinterpret_cast<uintptr_t>(me), kCtxHolder);
+            const uintptr_t derived = holder ? mem::Deref(holder, kCtxField) : 0;
+            static int s_cmp = 0;
+            if (s_cmp < 6)
+            {
+                ++s_cmp;
+                LOG("[owner] context chain check: game passed %p, actor+0x68+0x120 gives %p, %s",
+                    ctx, reinterpret_cast<void*>(derived),
+                    derived == reinterpret_cast<uintptr_t>(ctx) ? "MATCH" : "different");
+            }
+        }
+
         if (ctx && tag && (playerArg || n > 30))
         {
             // Follow the game's latest context: it is what the game itself is
@@ -86,7 +118,9 @@ namespace ml::loot::hooks
             if (!InterlockedCompareExchange(&g_ownCaptured, 0, 0))
             {
                 InterlockedExchange(&g_ownCaptured, 1);
-                LOG_OK("[owner] oracle context captured (%s)", playerArg ? "player argument confirmed" : "after 30 calls, unconfirmed");
+                LOG_OK("[owner] ownership check armed after %ld call(s) and %lu ms (%s). Until now nothing could be looted.",
+                       n, static_cast<unsigned long>(GetTickCount() - g_startedAt),
+                       playerArg ? "player argument confirmed" : "after 30 calls, unconfirmed");
             }
             else if (changed) { static int s_chg = 0; if (s_chg < 10) { ++s_chg; LOG("[owner] oracle context changed (call %ld)", n); } }
         }
@@ -178,6 +212,43 @@ namespace ml::loot::hooks
     }
     long ArmCalls() { return g_armCalls; }
 
+    // The fourth argument of the ownership call, read out of the game's own
+    // code rather than waited for. Every call site that builds the context the
+    // way we do passes the same pointer, so any one of them will do.
+    // The fourth argument of the ownership call, read out of the game's own
+    // code rather than waited for. Every call site that builds the context the
+    // way we do passes the same pointer, so any one of them will do. The
+    // instruction pair the pattern matches is common, so each match is checked
+    // for actually calling the routine we mean.
+    struct TagHunt { uintptr_t ownFn; void* tag; };
+
+    static bool TagVisit(uintptr_t hit, void* ctxv)
+    {
+        auto* h = static_cast<TagHunt*>(ctxv);
+        const uintptr_t call = hit + ml::sig::kOff_OwnCallSite_Call;
+        if (mem::RipAt(call, 5) != h->ownFn) return false;
+        for (uintptr_t p = call; p + ml::sig::kMax_OwnCallSite_Back > call && p > mem::Game().base; --p)
+        {
+            if (!mem::MatchAt(p, "4C 8D 0D")) continue;
+            const uintptr_t tag = mem::RipAt(p, 7);
+            if (!mem::InImage(tag)) continue;
+            h->tag = reinterpret_cast<void*>(tag);
+            LOG("[owner] ownership tag found at +0x%llX, from the call site at +0x%llX",
+                static_cast<unsigned long long>(mem::Rva(tag)), static_cast<unsigned long long>(mem::Rva(call)));
+            return true;
+        }
+        return false;
+    }
+
+    static void* FindOwnTag(uintptr_t ownFn)
+    {
+        if (!ownFn) return nullptr;
+        TagHunt h{ ownFn, nullptr };
+        mem::FindIf(ml::sig::kSig_OwnCallSite, TagVisit, &h);
+        if (!h.tag) LOG_ERR("[owner] could not find the ownership tag in the game's code; the mod will wait for the game to ask instead.");
+        return h.tag;
+    }
+
     static uint64_t CallOracle(uintptr_t me, uintptr_t target, bool* boom)
     {
         *boom = false;
@@ -185,9 +256,35 @@ namespace ml::loot::hooks
         __except (EXCEPTION_EXECUTE_HANDLER) { *boom = true; return 0; }
     }
 
+    // The game only runs its ownership check when the player goes near
+    // something it can be asked about, which on a fresh load took 87 seconds
+    // here. Waiting for that meant the mod took nothing at all until then, and
+    // told the player their wild flowers belonged to someone. Both halves of
+    // the call can be worked out instead: the context is the same chain off the
+    // player that the game itself walks, confirmed against the game's own
+    // argument, and the tag is a fixed pointer read out of its code.
+    static bool ArmFromPlayer(uintptr_t me)
+    {
+        if (g_ownCtx && g_ownTag) return true;
+        if (!me) return false;
+        static void* s_tag = nullptr;
+        static bool  s_looked = false;
+        if (!s_looked) { s_looked = true; s_tag = FindOwnTag(game::F().ownCheck); }
+        if (!s_tag) return false;
+        const uintptr_t holder = mem::Deref(me, ml::sig::kOff_Own_CtxHolder);
+        const uintptr_t ctx = holder ? mem::Deref(holder, ml::sig::kOff_Own_CtxField) : 0;
+        if (!ctx) return false;
+        g_ownCtx = reinterpret_cast<void*>(ctx);
+        g_ownTag = s_tag;
+        InterlockedExchange(&g_ownCaptured, 1);
+        LOG_OK("[owner] ownership check armed from the player, without waiting for the game to ask.");
+        return true;
+    }
+
     int WouldSteal(uintptr_t me, uintptr_t target)
     {
-        if (!oOwn || !OwnerCaptured() || !me || !target) return -1;
+        if (!oOwn || !me || !target) return -1;
+        if (!OwnerCaptured() && !ArmFromPlayer(me)) return -1;
         bool boom = false;
         const uint64_t r = CallOracle(me, target, &boom);
         if (boom) return -1;
