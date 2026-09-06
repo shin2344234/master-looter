@@ -54,6 +54,7 @@ namespace ml::CreatureDb
         std::vector<std::string> toks;
         for (size_t i = 0; i < g_rows.size(); ++i)
         {
+            if (g_rows[i].itemRow < 0) continue;   // monsters, mounts and ambient wildlife: no catch item, no vote
             toks.clear(); Tokens(g_rows[i].name, toks); Tokens(g_rows[i].stringKey, toks);
             for (const std::string& w : toks) AddWord(w, g_rows[i].klass, static_cast<int>(i));
         }
@@ -63,9 +64,10 @@ namespace ml::CreatureDb
             { "fish", "fish" }, { "carp", "fish" }, { "trout", "fish" }, { "bass", "fish" }, { "salmon", "fish" }, { "catfish", "fish" }, { "eel", "fish" }, { "perch", "fish" }, { "pike", "fish" },
             { "butterfly", "insect" }, { "beetle", "insect" }, { "dragonfly", "insect" }, { "moth", "insect" }, { "bee", "insect" }, { "bug", "insect" }, { "mantis", "insect" },
             { "grasshopper", "insect" }, { "cicada", "insect" }, { "firefly", "insect" }, { "ladybug", "insect" }, { "cricket", "insect" }, { "locust", "insect" }, { "wasp", "insect" }, { "fly", "insect" },
-            { "frog", "amphibian" }, { "toad", "amphibian" }, { "salamander", "amphibian" }, { "newt", "amphibian" },
+            { "crab", "seafood" }, { "shrimp", "seafood" }, { "crayfish", "seafood" }, { "lobster", "seafood" }, { "squid", "seafood" }, { "starfish", "seafood" }, { "seahorse", "seafood" }, { "clam", "seafood" },
+            { "frog", "amphibian" }, { "toad", "amphibian" }, { "salamander", "amphibian" }, { "axolotl", "amphibian" }, { "newt", "amphibian" },
             { "bird", "animal" }, { "goose", "animal" }, { "duck", "animal" }, { "chicken", "animal" }, { "hen", "animal" }, { "rooster", "animal" }, { "coot", "animal" },
-            { "rat", "animal" }, { "mouse", "animal" }, { "squirrel", "animal" }, { "rabbit", "animal" }, { "hare", "animal" }, { "hedgehog", "animal" }, { "turtle", "animal" }, { "lizard", "animal" }, { "crab", "animal" },
+            { "rat", "animal" }, { "mouse", "animal" }, { "squirrel", "animal" }, { "rabbit", "animal" }, { "hare", "animal" }, { "hedgehog", "animal" }, { "turtle", "animal" }, { "lizard", "animal" }, { "snake", "animal" },
         };
         for (const G& g : generic) { auto it = g_words.find(g.w); if (it == g_words.end()) g_words[g.w] = { g.k, -1, 1 }; }
     }
@@ -116,7 +118,7 @@ namespace ml::CreatureDb
         }
         if (!best) return nullptr;
         if (creature && best->row >= 0) *creature = &g_rows[static_cast<size_t>(best->row)];
-        static const char* kNames[] = { "insect", "fish", "animal", "amphibian" };
+        static const char* kNames[] = { "insect", "fish", "seafood", "animal", "amphibian" };
         for (const char* k : kNames) if (best->klass == k) return k;
         return nullptr;
     }

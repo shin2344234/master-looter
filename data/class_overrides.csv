@@ -1,0 +1,55 @@
+string_key,class,add_tags,remove_tags,note
+Item_Rare_Collect_Rubber,crafting-material,rare-gather,ore,the game files rubber under ore; it is tapped from rubber trees
+Item_Rare_Collect_Mercury,ore,mineral,,liquid metal collected from ore nodes
+Item_Rare_Collect_SulfurStone,ore,mineral,,brimstone
+Item_Salamander,amphibian,amphibian,,filed under animals by the game
+Item_Giant_Salamander,amphibian,amphibian,,burrowing salamander
+Item_Axolotl,amphibian,amphibian,,
+Item_BlueJay,animal,bird,,
+Item_Sparrow,animal,bird,,
+Item_Oriole,animal,bird,,
+Item_Snowy_Plover,animal,bird,,Kentish plover
+Item_Bunting_Bird,animal,bird,,
+Item_BlackTail_Flycatcher,animal,bird,,desert wheatear
+Item_Oxpecker,animal,bird,,
+Item_Wood_Pecker,animal,bird,,
+Item_WhiteWing_Flycatcher,animal,bird,,white-winged redstart
+Item_Longtailedtit,animal,bird,,
+Item_Goanna,animal,reptile,,
+Item_Iguana,animal,reptile,,
+Item_Chameleon,animal,reptile,,
+Item_Hila_Lizard,animal,reptile,,heloderma lizard
+Item_Frilled_Lizard,animal,reptile,,
+Item_Rat,animal,mammal,,
+Item_Muskrat,animal,mammal,,
+Item_Possum,animal,mammal,,
+Item_Squirrel,animal,mammal,,chipmunk
+Item_Snow_Chipmunk,animal,mammal,,
+Item_Red_Squirrel,animal,mammal,,
+Item_Flying_Squirrel,animal,mammal,,
+Item_Mole,animal,mammal,,
+Item_Meerkat,animal,mammal,,
+Item_Baby_Hedgehog,animal,mammal,,
+Item_Rare_Collect_Chaya,vegetable,vegetable,,rare gather; leaves cooked as a vegetable
+Item_Rare_Collect_Ensete,fruit,fruit,,enset
+Item_Rare_Collect_jijeongta_leaf,herb,herb,,palmar leaf
+Item_Rare_Collect_Kudzu,vegetable,vegetable,,skyroot
+Item_Rare_Collect_Dulse,vegetable,vegetable seaweed,,red seaweed
+Item_Rare_Collect_amaranth,grain,grain,,
+Item_Rare_Collect_opuntia,fruit,fruit,,prickly pear
+Item_Rare_Collect_Taro,vegetable,vegetable,,
+Item_Rare_Collect_chlorella,ingredient,algae,,green algae
+SmallAnimal_Poop,crafting-material,fertilizer,seed,manure is a cultivation item but not a seed
+HorseFeed_Hay,mount-feed,,,horse-only feed
+HorseFeed_Sugar_Beet,mount-feed,,,horse-only feed
+HorseFeed_Lump_Sugar,mount-feed,,,horse-only feed
+HorseFeed_Hp_Potion,mount-feed,,,horse tonic
+HorseFeed_Speed_Potion,mount-feed,,,horse stimulant
+Item_Kuku_Egg,keepsake,kuku egg,,old kuku bird's egg
+Item_gimmick_birdfeeder_0001,furniture,furniture,,sotdae of bond; a placeable perch
+Item_gimmick_tumbleweed_0001,crafting-material,material,,tumbleweed
+Collection_Prop_Chest_0010,decoration,decoration furniture,,a collectible box; not a reward chest
+Item_AbyssArtifact_Chest_2_7,chest,abyss-item reward-box,,
+Item_AbyssArtifact_Chest_3,chest,abyss-item reward-box,,
+Item_AbyssArtifact_Chest_5,chest,abyss-item reward-box,,
+Item_Pinball_Coin_Reward_Bag,chest,reward-box,,box of fortune

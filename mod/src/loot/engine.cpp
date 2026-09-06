@@ -69,7 +69,7 @@ namespace ml::loot
         char node[64] = "";  // gimmick node name
         const Item* db = nullptr;
         const Creature* species = nullptr;   // a specific creature, when one is named
-        const char* speciesClass = nullptr;  // "insect", "fish", "animal", "amphibian" or null
+        const char* speciesClass = nullptr;  // "insect", "fish", "seafood", "animal", "amphibian" or null
     };
 
     // --- creature species -------------------------------------------------------
@@ -78,6 +78,12 @@ namespace ml::loot
     // every game data row keeps its key at +0x08. Every string reachable within
     // two hops of the creature is read and classified by the species words it
     // contains. The result is cached per entity; a miss is remembered too.
+    // Items that only ever come from a catch, never from a gather node.
+    static bool IsCreatureItem(const Item* it)
+    {
+        return it && (it->klass == "insect" || it->klass == "fish" || it->klass == "animal" || it->klass == "amphibian" || it->HasTag("shellfish"));
+    }
+
     struct Species { const Creature* row; const char* klass; };
     static std::unordered_map<uint32_t, Species> g_speciesByEid;
     static std::unordered_set<uint32_t> g_speciesMiss;
@@ -94,7 +100,13 @@ namespace ml::loot
             if (probe && probeLen > strlen(probe) + strlen(buf) + 4) { strncat(probe, buf, probeLen - strlen(probe) - 2); strncat(probe, " ", probeLen - strlen(probe) - 1); }
             const Creature* row = CreatureDb::ByKey(buf);
             if (!row) row = CreatureDb::InText(buf);
-            if (row) { out->row = row; out->klass = row->klass == "insect" ? "insect" : row->klass == "fish" ? "fish" : row->klass == "amphibian" ? "amphibian" : "animal"; return true; }
+            if (row)
+            {
+                static const char* kNames[] = { "insect", "fish", "seafood", "amphibian" };
+                out->row = row; out->klass = "animal";
+                for (const char* k : kNames) if (row->klass == k) out->klass = k;
+                return true;
+            }
             const Creature* named = nullptr;
             const char* klass = CreatureDb::Classify(buf, &named);
             if (klass) { out->row = named; out->klass = klass; return true; }
@@ -195,7 +207,7 @@ namespace ml::loot
             unsigned node = 0, row = 0;
             if (sscanf(line, "%u\t%u", &node, &row) != 2 || !node || node >= 65536 || row >= 65536) continue;
             const Item* it = ItemDb::ByRow(static_cast<int>(row));
-            if (it && (it->klass == "insect" || it->klass == "fish" || it->klass == "animal" || it->klass == "amphibian"))
+            if (IsCreatureItem(it))
             { LOG("[learn] dropping node %u -> %s: a creature cannot be a node yield", node, it->Label()); continue; }
             g_learn[static_cast<uint16_t>(node)] = static_cast<uint16_t>(row);
         }
@@ -276,7 +288,7 @@ namespace ml::loot
             if (unknown.empty() || other) continue;
             {
                 const Item* it = ItemDb::ByRow(type);
-                if (it && (it->klass == "insect" || it->klass == "fish" || it->klass == "animal" || it->klass == "amphibian")) continue; // a creature came from a catch
+                if (IsCreatureItem(it)) continue; // a creature came from a catch
             }
             const uint16_t nodeType = g_pend[unknown[0]].nodeType;
             bool same = true;
@@ -326,31 +338,22 @@ namespace ml::loot
 
     // What kind of thing a gather node is, from what it yields.
     enum class GatherKind { Unknown, Plant, Ore, Stone, Wood, Item };
+    // What an item counts as for the kind toggles. The classes come straight
+    // from the item database (scripts/build_item_db.py): ore and jewel are
+    // minerals from veins, stone from quarries, wood from trees and branches.
     // `onGround`: an item lying in the world rather than a node's yield. On the
     // ground "plant" means herbs, flowers and mushrooms; crops such as barley
     // or a potato are ordinary items there, governed by their class.
     static GatherKind KindOf(const Item* y, bool onGround = false)
     {
         if (!y) return GatherKind::Unknown;
-        const std::string& nm = y->name;
-        const std::string& key = y->stringKey;
-        // Timber is filed under the same class as ore; the name tells them apart.
-        if (y->HasTag("wood") || nm.find("Timber") != std::string::npos || key.rfind("Wood", 0) == 0 || key == "Fine_Wood" || key == "Premium_Wood") return GatherKind::Wood;
-        if (y->HasTag("stone")) return GatherKind::Stone;
-        // Minerals: ores, gems, mercury, brimstone, platinum. Hides, bones and
-        // fabric share the class but come from carcasses, never from nodes.
-        const bool mineral = (y->klass == "catalyst" && !y->HasTag("hide") && !y->HasTag("bone") && !y->HasTag("fabric"))
-                          || (nm.size() >= 3 && nm.compare(nm.size() - 3, 3, "Ore") == 0) || nm.find(" Ore ") != std::string::npos
-                          || key == "Item_Rare_Collect_Platinum";
-        if (mineral) return GatherKind::Ore;
-        if (onGround)
-        {
-            if (y->klass == "herb") return GatherKind::Plant;
-            if (y->klass == "alchemy-material" && nm.find("Mushroom") != std::string::npos) return GatherKind::Plant;
-            return GatherKind::Item;
-        }
+        const std::string& k = y->klass;
+        if (k == "wood"  || y->HasTag("wood"))  return GatherKind::Wood;
+        if (k == "stone" || y->HasTag("stone")) return GatherKind::Stone;
+        if (k == "ore" || k == "jewel" || y->HasTag("ore") || y->HasTag("mineral")) return GatherKind::Ore;
+        if (onGround) return k == "herb" ? GatherKind::Plant : GatherKind::Item;
         static const char* plantClasses[] = { "herb", "vegetable", "fruit", "grain", "seed", "alchemy-material" };
-        for (const char* c : plantClasses) if (y->klass == c) return GatherKind::Plant;
+        for (const char* c : plantClasses) if (k == c) return GatherKind::Plant;
         if (y->HasTag("rare-gather")) return GatherKind::Plant;
         return GatherKind::Item;
     }
@@ -576,9 +579,9 @@ namespace ml::loot
             if (c.speciesClass)
             {
                 const std::string cl = c.speciesClass;
-                if (cl == "insect")    { if (!cfg.catchInsects) return skip("insects off"); }
-                else if (cl == "fish") { if (!cfg.catchFish)    return skip("fish off"); }
-                else                   { if (!cfg.catchAnimals) return skip("small animals off"); }
+                if (cl == "insect")                       { if (!cfg.catchInsects) return skip("insects off"); }
+                else if (cl == "fish" || cl == "seafood") { if (!cfg.catchFish)    return skip("fish off"); }
+                else                                      { if (!cfg.catchAnimals) return skip("small animals off"); }
                 if (c.species)
                     if (const Item* it = ItemDb::ByRow(c.species->itemRow))
                     {

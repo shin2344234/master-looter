@@ -634,23 +634,23 @@ row	key	string_key	name	class	tags	tier	value_copper
 632	1003545	Collection_Prop_Statue_0001	Woman Holding a Water Bottle	ornament	collectible decoration furniture knowledge ornament stackable tier-0	0	600
 633	1003546	Collection_Prop_Statue_0003	Priest in a Mask	ornament	collectible decoration furniture knowledge ornament stackable tier-0	0	200
 634	1004049	Item_Collection_Prop_Statue_0002	The Sitting Lion	ornament	decoration furniture knowledge ornament stackable tier-0	0	500
-635	1001713	Collection_Prop_Tool_0010	Pile of Clothing Materials	junk	collectible decoration furniture junk knowledge stackable tier-0	0	8
-636	1000727	Collection_Prop_Tool_0001	Cast Iron Pan	junk	collectible decoration furniture junk knowledge stackable tier-0	0	8
-637	1001714	Collection_Prop_Tool_0011	Pile of Cloth	junk	collectible decoration furniture junk knowledge stackable tier-0	0	8
-638	1001694	Collection_Prop_Tool_0008	Magnifying Glass	junk	collectible decoration furniture junk knowledge stackable tier-0	0	15
-639	1001690	Collection_Prop_Tool_0004	Teapot	junk	collectible decoration furniture junk knowledge stackable tier-0	0	15
-640	1001153	Collection_Prop_Tool_0002	Pot	junk	collectible decoration furniture junk knowledge stackable tier-0	0	15
-641	1004019	Item_gimmick_item_tool_bookstand_0001	Book Stand	junk	decoration furniture gimmick housing-only junk stackable tier-0	0	12
-642	1003941	Item_gimmick_item_tool_book_0001	Book	junk	decoration furniture gimmick housing-only junk stackable tier-0	0	20
-643	1005600	Item_Background_Breakable_Wood_339	Book Stand	junk	decoration furniture junk knowledge stackable tier-0	0	5
-644	1005601	Item_Background_Breakable_Wood_340	Book Stand	junk	decoration furniture junk knowledge stackable tier-0	0	5
-645	1001695	Collection_Prop_Tool_0009	Scales	junk	collectible decoration furniture junk knowledge stackable tier-0	0	38
-646	1001692	Collection_Prop_Tool_0006	Hourglass	junk	collectible decoration furniture junk knowledge stackable tier-0	0	38
-647	1001693	Collection_Prop_Tool_0007	Ornate Magnifying Glass	junk	collectible decoration furniture junk knowledge stackable tier-0	0	63
-648	1001691	Collection_Prop_Tool_0005	Iron Basin	junk	collectible decoration furniture junk knowledge stackable tier-0	0	63
-649	1001206	Collection_Prop_Tool_0003	Gilded Mirror	junk	collectible decoration furniture junk knowledge stackable tier-0	0	200
-650	1004016	Item_gimmick_alchemy_globe_0002	Large Rotating Globe	junk	decoration furniture gimmick housing-only junk stackable tier-0	0	200
-651	1004015	Item_gimmick_alchemy_globe_0001	Medium Rotating Globe	junk	decoration furniture gimmick housing-only junk stackable tier-0	0	800
+635	1001713	Collection_Prop_Tool_0010	Pile of Clothing Materials	household	collectible decoration furniture household knowledge stackable tier-0	0	8
+636	1000727	Collection_Prop_Tool_0001	Cast Iron Pan	household	collectible decoration furniture household knowledge stackable tier-0	0	8
+637	1001714	Collection_Prop_Tool_0011	Pile of Cloth	household	collectible decoration furniture household knowledge stackable tier-0	0	8
+638	1001694	Collection_Prop_Tool_0008	Magnifying Glass	household	collectible decoration furniture household knowledge stackable tier-0	0	15
+639	1001690	Collection_Prop_Tool_0004	Teapot	household	collectible decoration furniture household knowledge stackable tier-0	0	15
+640	1001153	Collection_Prop_Tool_0002	Pot	household	collectible decoration furniture household knowledge stackable tier-0	0	15
+641	1004019	Item_gimmick_item_tool_bookstand_0001	Book Stand	household	decoration furniture gimmick household housing-only stackable tier-0	0	12
+642	1003941	Item_gimmick_item_tool_book_0001	Book	household	decoration furniture gimmick household housing-only stackable tier-0	0	20
+643	1005600	Item_Background_Breakable_Wood_339	Book Stand	household	decoration furniture household knowledge stackable tier-0	0	5
+644	1005601	Item_Background_Breakable_Wood_340	Book Stand	household	decoration furniture household knowledge stackable tier-0	0	5
+645	1001695	Collection_Prop_Tool_0009	Scales	household	collectible decoration furniture household knowledge stackable tier-0	0	38
+646	1001692	Collection_Prop_Tool_0006	Hourglass	household	collectible decoration furniture household knowledge stackable tier-0	0	38
+647	1001693	Collection_Prop_Tool_0007	Ornate Magnifying Glass	household	collectible decoration furniture household knowledge stackable tier-0	0	63
+648	1001691	Collection_Prop_Tool_0005	Iron Basin	household	collectible decoration furniture household knowledge stackable tier-0	0	63
+649	1001206	Collection_Prop_Tool_0003	Gilded Mirror	household	collectible decoration furniture household knowledge stackable tier-0	0	200
+650	1004016	Item_gimmick_alchemy_globe_0002	Large Rotating Globe	household	decoration furniture gimmick household housing-only stackable tier-0	0	200
+651	1004015	Item_gimmick_alchemy_globe_0001	Medium Rotating Globe	household	decoration furniture gimmick household housing-only stackable tier-0	0	800
 652	1002112	Collection_Prop_Doll_0001	Simple Dress Doll	ornament	collectible decoration furniture knowledge ornament stackable tier-0	0	285
 653	1002113	Collection_Prop_Doll_0002	Fine Blue Bonnet Doll	ornament	collectible decoration furniture knowledge ornament stackable tier-0	0	1420
 654	1002116	Collection_Prop_Doll_0005	Brown Dress Doll	ornament	collectible decoration furniture knowledge ornament stackable tier-0	0	404
@@ -1077,112 +1077,112 @@ row	key	string_key	name	class	tags	tier	value_copper
 1075	1004620	item_Collection_Prop_Luxury_0008_index01	Chalice of Moondrop	ornament	decoration furniture knowledge no-discard ornament stackable tier-0	0	
 1076	1004606	Item_catwheel_01	Pororin Cat Wheel	storage	furniture knowledge no-discard storage tier-0	0	50000
 1077	1004607	Item_catwheel_02	Marni Cat Wheel	storage	furniture knowledge no-discard storage tier-0	0	100000
-1078	1001335	Item_Rat	Rat	animal	animal knowledge stackable tier-0	0	2
-1079	1001338	Item_Muskrat	Muskrat	animal	animal knowledge stackable tier-0	0	2
-1080	1001411	Item_Possum	Opossum	animal	animal knowledge stackable tier-0	0	2
-1081	1001416	Item_Squirrel	Chipmunk	animal	animal knowledge stackable tier-0	0	2
-1082	1001431	Item_Snow_Chipmunk	Snowfield Chipmunk	animal	animal knowledge stackable tier-0	0	2
-1083	1001432	Item_Red_Squirrel	Red Squirrel	animal	animal knowledge stackable tier-0	0	2
-1084	1001434	Item_Flying_Squirrel	Flying Squirrel	animal	animal knowledge stackable tier-0	0	2
-1085	1001488	Item_Mole	Mole	animal	animal knowledge stackable tier-0	0	2
-1086	1001850	Item_Meerkat	Meerkat	animal	animal knowledge no-sell stackable tier-0	0	1
-1087	1001784	Item_Baby_Hedgehog	Baby Hedgehog	animal	animal knowledge stackable tier-0	0	2
-1088	1001865	Item_Giant_Salamander	Burrowing Salamander	animal	animal knowledge stackable tier-0	0	3
-1089	1001866	Item_Salamander	Salamander	animal	animal knowledge stackable tier-0	0	3
-1090	1001867	Item_Axolotl	Axolotl	animal	animal knowledge stackable tier-0	0	3
-1091	1001868	Item_Goanna	Goanna	animal	animal knowledge stackable tier-0	0	3
-1092	1001869	Item_Iguana	Iguana	animal	animal knowledge stackable tier-0	0	3
-1093	1001298	Item_Chameleon	Chameleon	animal	animal knowledge stackable tier-0	0	3
-1094	1001870	Item_Hila_Lizard	Heloderma Lizard	animal	animal knowledge stackable tier-0	0	3
-1095	1001872	Item_Frilled_Lizard	Frilled-neck Lizard	animal	animal knowledge stackable tier-0	0	3
-1096	1001775	Item_BlueJay	Blue Jay	animal	animal knowledge no-sell stackable tier-0	0	1
-1097	1001779	Item_Sparrow	Sparrow	animal	animal knowledge no-sell stackable tier-0	0	1
-1098	1001780	Item_Oriole	Black-Naped Oriole	animal	animal knowledge no-sell stackable tier-0	0	1
-1099	1001781	Item_Snowy_Plover	Kentish Plover	animal	animal knowledge no-sell stackable tier-0	0	1
-1100	1001782	Item_Bunting_Bird	Meadow Bunting	animal	animal knowledge no-sell stackable tier-0	0	1
-1101	1001851	Item_BlackTail_Flycatcher	Desert Wheatear	animal	animal knowledge no-sell stackable tier-0	0	1
-1102	1001852	Item_Oxpecker	Yellow-Billed Oxpecker	animal	animal knowledge no-sell stackable tier-0	0	1
-1103	1001855	Item_Wood_Pecker	Three-Toed Woodpecker	animal	animal knowledge no-sell stackable tier-0	0	1
-1104	1001856	Item_WhiteWing_Flycatcher	White-winged Redstart	animal	animal knowledge no-sell stackable tier-0	0	1
-1105	1002853	Item_Longtailedtit	Long-Tailed Tit	animal	animal knowledge no-sell stackable tier-0	0	1
-1106	1001245	Item_dragonfly	Dragonfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1107	1000583	Item_DiademSpider	Golden Silk Spider	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1108	1002082	Item_Silkworm_Moth	Silkworm Moth	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1109	1002083	Item_Luna_Moth	Wild Silkworm Moth	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1110	1000020	Item_Eastern_Tiger_Swallowtail	Swallowtail	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1111	1000025	Item_Ornythion_Swallowtail	Ornythion Swallowtail Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1112	1000055	Item_Polydamas_Swallowtail	Polydamas Swallowtail Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1113	1000056	Item_Zebra_Swallowtail	Zebra Swallowtail	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1114	1000694	Item_Zebra_Heliconian	Zebra Longwing Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1115	1001933	Item_Kallima_Inachus	Orange Oakleaf Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1116	1001919	Item_Common_Nawab	Nawab Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1117	1001917	Item_Purple_Emperor	Purple Emperor Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	100
-1118	1001929	Item_Colias_Nastes	Green Sulphur Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1119	1001007	Item_Malachite	Malachite Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1120	1001932	Item_Myscelia_Ethusa	Bluewing Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1121	1000223	Item_Blue_Copper	Blue Lycaenid Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1122	1000227	Item_Eastern_Tailed_Blue	Blue Tailed Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1123	1000254	Item_Theona_Checkerspot	Theona Checkerspot Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1124	1000561	Item_Little_Metalmark	Little Metalmark Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1125	1001915	Item_Guava_Skipper	Guava Skipper Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1126	1001918	Item_Blue_Pansy_Butterfly	Southern Blue Peacock Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1127	1000147	Item_Great_Purple_Hairstreak	Great Purple Hairstreak Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1128	1000035	Item_Spicebush_Swallowtail	Spicebush Swallowtail Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1129	1000042	Item_Pipevine_Swallowtail	Pipevine Swallowtail Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
+1078	1001335	Item_Rat	Rat	animal	animal knowledge mammal stackable tier-0	0	2
+1079	1001338	Item_Muskrat	Muskrat	animal	animal knowledge mammal stackable tier-0	0	2
+1080	1001411	Item_Possum	Opossum	animal	animal knowledge mammal stackable tier-0	0	2
+1081	1001416	Item_Squirrel	Chipmunk	animal	animal knowledge mammal stackable tier-0	0	2
+1082	1001431	Item_Snow_Chipmunk	Snowfield Chipmunk	animal	animal knowledge mammal stackable tier-0	0	2
+1083	1001432	Item_Red_Squirrel	Red Squirrel	animal	animal knowledge mammal stackable tier-0	0	2
+1084	1001434	Item_Flying_Squirrel	Flying Squirrel	animal	animal knowledge mammal stackable tier-0	0	2
+1085	1001488	Item_Mole	Mole	animal	animal knowledge mammal stackable tier-0	0	2
+1086	1001850	Item_Meerkat	Meerkat	animal	animal knowledge mammal no-sell stackable tier-0	0	1
+1087	1001784	Item_Baby_Hedgehog	Baby Hedgehog	animal	animal knowledge mammal stackable tier-0	0	2
+1088	1001865	Item_Giant_Salamander	Burrowing Salamander	amphibian	amphibian animal knowledge stackable tier-0	0	3
+1089	1001866	Item_Salamander	Salamander	amphibian	amphibian animal knowledge stackable tier-0	0	3
+1090	1001867	Item_Axolotl	Axolotl	amphibian	amphibian animal knowledge stackable tier-0	0	3
+1091	1001868	Item_Goanna	Goanna	animal	animal knowledge reptile stackable tier-0	0	3
+1092	1001869	Item_Iguana	Iguana	animal	animal knowledge reptile stackable tier-0	0	3
+1093	1001298	Item_Chameleon	Chameleon	animal	animal knowledge reptile stackable tier-0	0	3
+1094	1001870	Item_Hila_Lizard	Heloderma Lizard	animal	animal knowledge reptile stackable tier-0	0	3
+1095	1001872	Item_Frilled_Lizard	Frilled-neck Lizard	animal	animal knowledge reptile stackable tier-0	0	3
+1096	1001775	Item_BlueJay	Blue Jay	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1097	1001779	Item_Sparrow	Sparrow	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1098	1001780	Item_Oriole	Black-Naped Oriole	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1099	1001781	Item_Snowy_Plover	Kentish Plover	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1100	1001782	Item_Bunting_Bird	Meadow Bunting	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1101	1001851	Item_BlackTail_Flycatcher	Desert Wheatear	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1102	1001852	Item_Oxpecker	Yellow-Billed Oxpecker	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1103	1001855	Item_Wood_Pecker	Three-Toed Woodpecker	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1104	1001856	Item_WhiteWing_Flycatcher	White-winged Redstart	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1105	1002853	Item_Longtailedtit	Long-Tailed Tit	animal	animal bird knowledge no-sell stackable tier-0	0	1
+1106	1001245	Item_dragonfly	Dragonfly	insect	alchemy-material dragonfly insect knowledge material reagent stackable tier-0	0	10
+1107	1000583	Item_DiademSpider	Golden Silk Spider	insect	alchemy-material arachnid insect knowledge material reagent stackable tier-0	0	10
+1108	1002082	Item_Silkworm_Moth	Silkworm Moth	insect	alchemy-material insect knowledge material moth reagent stackable tier-0	0	10
+1109	1002083	Item_Luna_Moth	Wild Silkworm Moth	insect	alchemy-material insect knowledge material moth reagent stackable tier-0	0	10
+1110	1000020	Item_Eastern_Tiger_Swallowtail	Swallowtail	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1111	1000025	Item_Ornythion_Swallowtail	Ornythion Swallowtail Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1112	1000055	Item_Polydamas_Swallowtail	Polydamas Swallowtail Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1113	1000056	Item_Zebra_Swallowtail	Zebra Swallowtail	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1114	1000694	Item_Zebra_Heliconian	Zebra Longwing Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1115	1001933	Item_Kallima_Inachus	Orange Oakleaf Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1116	1001919	Item_Common_Nawab	Nawab Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1117	1001917	Item_Purple_Emperor	Purple Emperor Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	100
+1118	1001929	Item_Colias_Nastes	Green Sulphur Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1119	1001007	Item_Malachite	Malachite Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1120	1001932	Item_Myscelia_Ethusa	Bluewing Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1121	1000223	Item_Blue_Copper	Blue Lycaenid Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1122	1000227	Item_Eastern_Tailed_Blue	Blue Tailed Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1123	1000254	Item_Theona_Checkerspot	Theona Checkerspot Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1124	1000561	Item_Little_Metalmark	Little Metalmark Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1125	1001915	Item_Guava_Skipper	Guava Skipper Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1126	1001918	Item_Blue_Pansy_Butterfly	Southern Blue Peacock Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1127	1000147	Item_Great_Purple_Hairstreak	Great Purple Hairstreak Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1128	1000035	Item_Spicebush_Swallowtail	Spicebush Swallowtail Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1129	1000042	Item_Pipevine_Swallowtail	Pipevine Swallowtail Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
 1130	1001292	Item_Firefly	Firefly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
 1131	1000680	Item_GrassHopper	Grasshopper	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1132	1001859	Item_Bee	Honeybee	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1133	1001860	Item_Hornet	Hornet	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1134	1001861	Item_Bumblebee	Bumblebee	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1135	1001006	Item_Banded_Peacock	Banded Peacock Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1136	1001920	Item_Common_Green_Birdwing	Green Birdwing Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1137	1001307	Item_JijeongLeaf_Insect	Palmar Beetle	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	100
+1132	1001859	Item_Bee	Honeybee	insect	alchemy-material bee insect knowledge material reagent stackable tier-0	0	30
+1133	1001860	Item_Hornet	Hornet	insect	alchemy-material bee insect knowledge material reagent stackable tier-0	0	30
+1134	1001861	Item_Bumblebee	Bumblebee	insect	alchemy-material bee insect knowledge material reagent stackable tier-0	0	30
+1135	1001006	Item_Banded_Peacock	Banded Peacock Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1136	1001920	Item_Common_Green_Birdwing	Green Birdwing Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1137	1001307	Item_JijeongLeaf_Insect	Palmar Beetle	insect	alchemy-material beetle insect knowledge material reagent stackable tier-0	0	100
 1138	1001794	Item_WaterStrider	Water Strider	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1139	1001231	Item_House_Centipede	House Centipede	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
+1139	1001231	Item_House_Centipede	House Centipede	insect	alchemy-material centipede insect knowledge material reagent stackable tier-0	0	10
 1140	1000145	Item_White_M_Hairstreak	White Streaked butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1141	1001930	Item_Hypaurotis_Crysalus	Violet Hairstreak Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1142	1000222	Item_Lustrous_Copper	Red Lycaenid Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1143	1001237	Item_Butterfly	Meadow Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1144	1000075	Item_Checkered_White	Checkered White Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1145	1001238	Item_Gnat	Fruit Fly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1146	1001323	Item_GnatWide	Medium Fly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1147	1000226	Item_Grizzled_Skipper	Grizzled Skipper Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1148	1001914	Item_Little_Wood_Satyr	Little Wood Satyr Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1149	1001928	Item_Neophasia_Terlooii	White Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1150	1001244	Item_Moth	Mountain Moth	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1151	1001005	Item_White_Peacock	White Peacock Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1152	1001065	Item_Painted_Lady	Painted Lady Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1153	1001921	Item_88_Butterfly	Eighty-eight Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	100
-1154	1000079	Item_Orange_Barred_Sulphur	Orange-Barred Sulphur Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1155	1000126	Item_Desert_Orange_tip	Scarlet Leafwing Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1156	1001931	Item_Lycaena_Phlaeas	Spotted Lycaenid Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1157	1001004	Item_Crimson_Patch	Crimson Patch Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1158	1001882	Item_Red_Spotted_Purple	Red-spotted Purple Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1159	1000883	Item_Regal_Fritillary	Regal Fritillary Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1160	1001003	Item_Diana_Fritillary	Diana Fritillary Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1161	1000172	Item_Common_Buckeye	Buckeye Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1162	1000213	Item_Eastern_Comma	Yellow Comma Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1163	1001008	Item_Rusty_Tipped_Page	Rusty Tipped Page Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1164	1000119	Item_Sleepy_Orange	Sleepy Scarlet Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1165	1001913	Item_Ruddy_Daggerwing	Ruddy Daggerwing Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1166	1000185	Item_Milbert_Tortoiseshell	Flame-Bordered Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1167	1000797	Item_Tiger_Mimic_Queen	Tiger Mimic Queen Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1168	1001253	Item_Viceroy	Commander Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1169	1001254	Item_Monarch	Monarch Butterfly	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	100
+1141	1001930	Item_Hypaurotis_Crysalus	Violet Hairstreak Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1142	1000222	Item_Lustrous_Copper	Red Lycaenid Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1143	1001237	Item_Butterfly	Meadow Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1144	1000075	Item_Checkered_White	Checkered White Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1145	1001238	Item_Gnat	Fruit Fly	insect	alchemy-material fly insect knowledge material reagent stackable tier-0	0	10
+1146	1001323	Item_GnatWide	Medium Fly	insect	alchemy-material fly insect knowledge material reagent stackable tier-0	0	10
+1147	1000226	Item_Grizzled_Skipper	Grizzled Skipper Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1148	1001914	Item_Little_Wood_Satyr	Little Wood Satyr Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1149	1001928	Item_Neophasia_Terlooii	White Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1150	1001244	Item_Moth	Mountain Moth	insect	alchemy-material insect knowledge material moth reagent stackable tier-0	0	10
+1151	1001005	Item_White_Peacock	White Peacock Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1152	1001065	Item_Painted_Lady	Painted Lady Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1153	1001921	Item_88_Butterfly	Eighty-eight Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	100
+1154	1000079	Item_Orange_Barred_Sulphur	Orange-Barred Sulphur Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1155	1000126	Item_Desert_Orange_tip	Scarlet Leafwing Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1156	1001931	Item_Lycaena_Phlaeas	Spotted Lycaenid Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1157	1001004	Item_Crimson_Patch	Crimson Patch Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1158	1001882	Item_Red_Spotted_Purple	Red-spotted Purple Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1159	1000883	Item_Regal_Fritillary	Regal Fritillary Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1160	1001003	Item_Diana_Fritillary	Diana Fritillary Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1161	1000172	Item_Common_Buckeye	Buckeye Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1162	1000213	Item_Eastern_Comma	Yellow Comma Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1163	1001008	Item_Rusty_Tipped_Page	Rusty Tipped Page Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	10
+1164	1000119	Item_Sleepy_Orange	Sleepy Scarlet Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1165	1001913	Item_Ruddy_Daggerwing	Ruddy Daggerwing Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1166	1000185	Item_Milbert_Tortoiseshell	Flame-Bordered Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1167	1000797	Item_Tiger_Mimic_Queen	Tiger Mimic Queen Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1168	1001253	Item_Viceroy	Commander Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	30
+1169	1001254	Item_Monarch	Monarch Butterfly	insect	alchemy-material butterfly insect knowledge material reagent stackable tier-0	0	100
 1170	1001239	Item_Cockroach	Cockroach	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
 1171	1001198	Item_Camel_Cricket	Camel Cricket	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1172	1001243	Item_Sea_Siater	Wharf Roach	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1173	1002085	Item_Jewel_Beetle	Jewel Beetle	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1174	1001741	Item_Snail	Snail	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1175	1000582	Item_BananaSpider	Yellow Garden Spider	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	10
-1176	1002095	Item_Beetle	Beetle	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1177	1002081	Item_Stag_Beetle	Stag Beetle	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1178	1002084	Item_Longhorn_Beetle	Longhorn Beetle	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1179	1001421	Item_Rhinoceros_Beetle	Rhinoceros Beetle	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	100
-1180	1001134	scorpion	Scorpion	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1181	1001312	Spider	Spider	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1182	1001135	centipede	Centipede	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
-1183	1001233	Item_Black_Centipede	Black Centipede	insect	alchemy-material insect knowledge material reagent stackable tier-0	0	30
+1172	1001243	Item_Sea_Siater	Wharf Roach	insect	alchemy-material crustacean insect knowledge material reagent stackable tier-0	0	10
+1173	1002085	Item_Jewel_Beetle	Jewel Beetle	insect	alchemy-material beetle insect knowledge material reagent stackable tier-0	0	10
+1174	1001741	Item_Snail	Snail	insect	alchemy-material insect knowledge material mollusc reagent stackable tier-0	0	10
+1175	1000582	Item_BananaSpider	Yellow Garden Spider	insect	alchemy-material arachnid insect knowledge material reagent stackable tier-0	0	10
+1176	1002095	Item_Beetle	Beetle	insect	alchemy-material beetle insect knowledge material reagent stackable tier-0	0	30
+1177	1002081	Item_Stag_Beetle	Stag Beetle	insect	alchemy-material beetle insect knowledge material reagent stackable tier-0	0	30
+1178	1002084	Item_Longhorn_Beetle	Longhorn Beetle	insect	alchemy-material beetle insect knowledge material reagent stackable tier-0	0	30
+1179	1001421	Item_Rhinoceros_Beetle	Rhinoceros Beetle	insect	alchemy-material beetle insect knowledge material reagent stackable tier-0	0	100
+1180	1001134	scorpion	Scorpion	insect	alchemy-material arachnid insect knowledge material reagent stackable tier-0	0	30
+1181	1001312	Spider	Spider	insect	alchemy-material arachnid insect knowledge material reagent stackable tier-0	0	30
+1182	1001135	centipede	Centipede	insect	alchemy-material centipede insect knowledge material reagent stackable tier-0	0	30
+1183	1001233	Item_Black_Centipede	Black Centipede	insect	alchemy-material centipede insect knowledge material reagent stackable tier-0	0	30
 1184	1001154	frog	Poison Frog	amphibian	alchemy-material amphibian knowledge material reagent stackable tier-0	0	30
 1185	1001155	greenfrog	Tree Frog	amphibian	alchemy-material amphibian knowledge material reagent stackable tier-0	0	30
 1186	1001156	toad	Toad	amphibian	alchemy-material amphibian knowledge material reagent stackable tier-0	0	30
@@ -1221,49 +1221,49 @@ row	key	string_key	name	class	tags	tier	value_copper
 1219	1001252	GoldenGoose_Egg	Golden Goose Egg	alchemy-material	alchemy-material material stackable tier-0 wild	0	30000
 1220	22009	HolyWater	Holy Water	drink	catalyst consumable drink food knowledge reagent stackable tier-0	0	300
 1221	1000476	High_HolyWater	Solumen's Holy Water	drink	catalyst consumable drink food knowledge reagent stackable tier-0	0	2000
-1222	756701	Umbrella_Mushroom	Grisette Mushroom	alchemy-material	alchemy-material material stackable tier-0	0	120
-1223	756703	RedDeerHorn_Mushroom	Poison Fire Coral Mushroom	alchemy-material	alchemy-material material stackable tier-0	0	120
-1224	1000689	Stone_Quarry	Stone	catalyst	catalyst crafting-material knowledge material reagent stackable stone tier-0	0	10
-1225	1000555	Fine_Stone	Fine Stone	catalyst	catalyst crafting-material knowledge material reagent stackable stone tier-0	0	25
-1226	1000610	Premium_Stone	Flawless Stone	catalyst	catalyst crafting-material knowledge material reagent stackable stone tier-0	0	75
-1227	1000541	Item_Rare_Collect_Stalactites	Stalactite	catalyst	catalyst crafting-material knowledge material reagent stackable stone tier-0	0	150
-1228	720001	IronStone	Iron Ore	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	18
-1229	720004	CopperOre	Copper Ore	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	45
-1230	720002	SilverOre	Silver Ore	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	135
-1231	721505	RedStone	Bloodstone	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	135
-1232	720003	GoldOre	Gold Ore	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	270
-1233	721506	WhiteStone	Scolecite Ore	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	270
-1234	720010	BismuthOre	Bismuth Ore	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	270
-1235	1000538	Item_Rare_Collect_SulfurStone	Brimstone	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	540
-1236	1000543	Item_Rare_Collect_Mercury	Mercury	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	540
-1237	1000544	Item_Rare_Collect_Rubber	Rubber	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0	0	540
-1238	1002870	Item_Rare_Collect_Platinum	Platinum	crafting-material	crafting-material knowledge material stackable tier-0	0	100000
-1239	721501	Ruby	Garnet	catalyst	catalyst crafting-material jewel knowledge material reagent stackable tier-0	0	250
-1240	721503	BlueStone	Azurite	catalyst	catalyst crafting-material jewel knowledge material reagent stackable tier-0	0	250
-1241	721502	GreenStone	Epidote	catalyst	catalyst crafting-material jewel knowledge material reagent stackable tier-0	0	250
-1242	721504	Diamond	Diamond	catalyst	catalyst crafting-material jewel knowledge material reagent stackable tier-0	0	600
-1243	710001	Wood	Timber	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0 wood	0	10
-1244	1000081	Fine_Wood	Fine Timber	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0 wood	0	25
-1245	1000489	Premium_Wood	Flawless Timber	catalyst	catalyst crafting-material knowledge material reagent stackable tier-0 wood	0	75
+1222	756701	Umbrella_Mushroom	Grisette Mushroom	herb	alchemy-material herb material mushroom poisonous stackable tier-0	0	120
+1223	756703	RedDeerHorn_Mushroom	Poison Fire Coral Mushroom	herb	alchemy-material herb material mushroom poisonous stackable tier-0	0	120
+1224	1000689	Stone_Quarry	Stone	stone	catalyst crafting-material knowledge material reagent stackable stone tier-0	0	10
+1225	1000555	Fine_Stone	Fine Stone	stone	catalyst crafting-material knowledge material reagent stackable stone tier-0	0	25
+1226	1000610	Premium_Stone	Flawless Stone	stone	catalyst crafting-material knowledge material reagent stackable stone tier-0	0	75
+1227	1000541	Item_Rare_Collect_Stalactites	Stalactite	stone	catalyst crafting-material knowledge material reagent stackable stone tier-0	0	150
+1228	720001	IronStone	Iron Ore	ore	catalyst crafting-material knowledge material ore reagent stackable tier-0	0	18
+1229	720004	CopperOre	Copper Ore	ore	catalyst crafting-material knowledge material ore reagent stackable tier-0	0	45
+1230	720002	SilverOre	Silver Ore	ore	catalyst crafting-material knowledge material ore reagent stackable tier-0	0	135
+1231	721505	RedStone	Bloodstone	ore	catalyst crafting-material knowledge material ore reagent stackable tier-0	0	135
+1232	720003	GoldOre	Gold Ore	ore	catalyst crafting-material knowledge material ore reagent stackable tier-0	0	270
+1233	721506	WhiteStone	Scolecite Ore	ore	catalyst crafting-material knowledge material ore reagent stackable tier-0	0	270
+1234	720010	BismuthOre	Bismuth Ore	ore	catalyst crafting-material knowledge material ore reagent stackable tier-0	0	270
+1235	1000538	Item_Rare_Collect_SulfurStone	Brimstone	ore	catalyst crafting-material knowledge material mineral ore reagent stackable tier-0	0	540
+1236	1000543	Item_Rare_Collect_Mercury	Mercury	ore	catalyst crafting-material knowledge material mineral ore reagent stackable tier-0	0	540
+1237	1000544	Item_Rare_Collect_Rubber	Rubber	crafting-material	catalyst crafting-material knowledge material rare-gather reagent stackable tier-0	0	540
+1238	1002870	Item_Rare_Collect_Platinum	Platinum	ore	crafting-material knowledge material ore stackable tier-0	0	100000
+1239	721501	Ruby	Garnet	jewel	catalyst crafting-material jewel knowledge material reagent stackable tier-0	0	250
+1240	721503	BlueStone	Azurite	jewel	catalyst crafting-material jewel knowledge material reagent stackable tier-0	0	250
+1241	721502	GreenStone	Epidote	jewel	catalyst crafting-material jewel knowledge material reagent stackable tier-0	0	250
+1242	721504	Diamond	Diamond	jewel	catalyst crafting-material jewel knowledge material reagent stackable tier-0	0	600
+1243	710001	Wood	Timber	wood	catalyst crafting-material knowledge material reagent stackable tier-0 wood	0	10
+1244	1000081	Fine_Wood	Fine Timber	wood	catalyst crafting-material knowledge material reagent stackable tier-0 wood	0	25
+1245	1000489	Premium_Wood	Flawless Timber	wood	catalyst crafting-material knowledge material reagent stackable tier-0 wood	0	75
 1246	1004459	Wood_Branch_Usable	Rough Tree Branch	wood	crafting-material material stackable tier-0 wood	0	2
 1247	1004461	Bamboo_Branch_Usable	Rough Bamboo Stalk	wood	crafting-material material stackable tier-0 wood	0	2
 1248	1004460	Wood_Branch_Hard_Usable	Rough and Sturdy Tree Branch	wood	crafting-material material stackable tier-0 wood	0	2
 1249	1004462	Bamboo_Branch_Hard_Usable	Rough and Sturdy Bamboo Stalk	wood	crafting-material material stackable tier-0 wood	0	2
 1250	1004463	Wood_Branch_WildSpirit	Divine Tree Branch	wood	crafting-material knowledge material stackable tier-0 wood	0	108
-1251	740001	Leather	Thin Hide	catalyst	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	8
-1252	740002	Deer_Leather	Short Hair Hide	catalyst	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	8
-1253	740004	Bear_Leather	Thick Hide	catalyst	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	20
-1254	740003	Wolf_Leather	Long Hair Hide	catalyst	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	60
-1255	740005	Crocodile_Skin	Sturdy Hide	catalyst	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	60
-1256	754006	Spider_Web	Spider Web	catalyst	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	8
-1257	700001	Clout	Cloth Piece	catalyst	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	8
-1258	1001117	Wool	Fleece	catalyst	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	20
-1259	1000659	Feather	Feather	catalyst	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	8
-1260	1000265	Harpy_Feather	Harpy Feather	catalyst	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	60
-1261	795009	Animal_Bone	Small Bone	catalyst	bone catalyst crafting-material knowledge material reagent stackable tier-0	0	8
-1262	1000853	Fang	Fang	catalyst	bone catalyst crafting-material knowledge material reagent stackable tier-0	0	20
-1263	1000660	Large_Bone	Large Bone	catalyst	bone catalyst crafting-material knowledge material reagent stackable tier-0	0	60
-1264	1000662	Ivory	Ivory	catalyst	bone catalyst crafting-material knowledge material reagent stackable tier-0	0	120
+1251	740001	Leather	Thin Hide	hide	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	8
+1252	740002	Deer_Leather	Short Hair Hide	hide	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	8
+1253	740004	Bear_Leather	Thick Hide	hide	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	20
+1254	740003	Wolf_Leather	Long Hair Hide	hide	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	60
+1255	740005	Crocodile_Skin	Sturdy Hide	hide	catalyst crafting-material hide knowledge material reagent stackable tier-0	0	60
+1256	754006	Spider_Web	Spider Web	fabric	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	8
+1257	700001	Clout	Cloth Piece	fabric	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	8
+1258	1001117	Wool	Fleece	fabric	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	20
+1259	1000659	Feather	Feather	fabric	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	8
+1260	1000265	Harpy_Feather	Harpy Feather	fabric	catalyst crafting-material fabric knowledge material reagent stackable tier-0	0	60
+1261	795009	Animal_Bone	Small Bone	bone	bone catalyst crafting-material knowledge material reagent stackable tier-0	0	8
+1262	1000853	Fang	Fang	bone	bone catalyst crafting-material knowledge material reagent stackable tier-0	0	20
+1263	1000660	Large_Bone	Large Bone	bone	bone catalyst crafting-material knowledge material reagent stackable tier-0	0	60
+1264	1000662	Ivory	Ivory	bone	bone catalyst crafting-material knowledge material reagent stackable tier-0	0	120
 1265	30010	Gun_Powder	Gunpowder	crafting-material	crafting-material knowledge material stackable tier-0	0	5
 1266	790002	Empty_Bottle	Empty Bottle	crafting-material	crafting-material knowledge material stackable tier-0	0	2
 1267	752021	High_Meat	Tough Meat	meat	ingredient knowledge material meat restores-hp stackable tier-0	0	10
@@ -1279,22 +1279,22 @@ row	key	string_key	name	class	tags	tier	value_copper
 1277	1001670	Barley	Barley	grain	grain ingredient knowledge material restores-hp stackable tier-0	0	5
 1278	750002	Wheat	Wheat	grain	grain ingredient knowledge material restores-hp stackable tier-0	0	5
 1279	1000469	Buckwheat	Buckwheat	grain	grain ingredient knowledge material restores-hp stackable tier-0	0	5
-1280	750019	Corn	Corn	mount-feed	grain ingredient knowledge material mount-feed restores-hp stackable tier-0	0	5
-1281	750018	Oats	Oats	mount-feed	grain ingredient knowledge material mount-feed restores-hp stackable tier-0	0	5
+1280	750019	Corn	Corn	grain	grain ingredient knowledge material mount-feed restores-hp stackable tier-0	0	5
+1281	750018	Oats	Oats	grain	grain ingredient knowledge material mount-feed restores-hp stackable tier-0	0	5
 1282	751128	Rasberry	Raspberry	fruit	fruit ingredient knowledge material restores-mp stackable tier-0	0	8
 1283	1001672	Elderberry	Elderberry	fruit	fruit ingredient knowledge material restores-mp stackable tier-0	0	8
-1284	751134	Blackberry	Blackberry	mount-feed	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	8
-1285	751127	Blueberry	Blueberry	mount-feed	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	8
+1284	751134	Blackberry	Blackberry	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	8
+1285	751127	Blueberry	Blueberry	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	8
 1286	1001673	Pomegranate	Pomegranate	fruit	fruit ingredient knowledge material restores-mp stackable tier-0	0	24
 1287	1001674	Figs	Fig	fruit	fruit ingredient knowledge material restores-mp stackable tier-0	0	24
 1288	750030	Peach	Peach	fruit	fruit ingredient knowledge material restores-mp stackable tier-0	0	24
 1289	750035	Tomato	Tomato	fruit	fruit ingredient knowledge material restores-mp stackable tier-0	0	24
-1290	750006	Apple	Apple	mount-feed	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	24
-1291	1001671	Strawberry	Strawberry	mount-feed	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	24
-1292	750008	Grape	Grape	mount-feed	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	24
-1293	750025	Orange	Orange	mount-feed	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	24
+1290	750006	Apple	Apple	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	24
+1291	1001671	Strawberry	Strawberry	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	24
+1292	750008	Grape	Grape	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	24
+1293	750025	Orange	Orange	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	24
 1294	1001675	Pineapple	Pineapple	fruit	fruit ingredient knowledge material restores-mp stackable tier-0	0	72
-1295	751118	Desert_Watermelon	Desert Melon	mount-feed	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	72
+1295	751118	Desert_Watermelon	Desert Melon	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	72
 1296	1001676	Coffee	Coffee Cherry	fruit	fruit ingredient knowledge material restores-mp stackable tier-0	0	144
 1297	1001677	Cacao	Cacao	fruit	fruit ingredient knowledge material restores-hp stackable tier-0	0	144
 1298	750024	Onion	Onion	vegetable	ingredient knowledge material restores-mp stackable tier-0 vegetable	0	6
@@ -1308,31 +1308,31 @@ row	key	string_key	name	class	tags	tier	value_copper
 1306	1000565	Pumpkin	Pumpkin	vegetable	ingredient knowledge material restores-mp stackable tier-0 vegetable	0	12
 1307	1000564	Cabbage	Cabbage	vegetable	ingredient knowledge material restores-mp stackable tier-0 vegetable	0	12
 1308	1001570	Parsley	Parsley	vegetable	ingredient knowledge material restores-mp stackable tier-0 vegetable	0	12
-1309	750003	Carrot	Carrot	mount-feed	ingredient knowledge material mount-feed restores-mp stackable tier-0 vegetable	0	12
+1309	750003	Carrot	Carrot	vegetable	ingredient knowledge material mount-feed restores-mp stackable tier-0 vegetable	0	12
 1310	1001190	Victorialis	Wild Garlic	vegetable	ingredient knowledge material restores-mp stackable tier-0 vegetable	0	24
 1311	1001187	Asparagus	Asparagus	vegetable	ingredient knowledge material restores-mp stackable tier-0 vegetable	0	24
 1312	1001668	Fennel	Fennel	vegetable	ingredient knowledge material restores-mp stackable tier-0 vegetable	0	24
 1313	1000518	Item_Rare_Collect_RazorClam	Razor Clam	seafood	ingredient knowledge material rare-gather seafood stackable tier-0	0	170
 1314	1001892	Item_Chocolate	Chocolate	food	consumable food ingredient knowledge material rare-gather restores-hp stackable tier-0	0	96
-1315	1000398	Item_Rare_Collect_Chaya	Chaya	ingredient	ingredient knowledge material rare-gather reagent restores-mp stackable tier-0	0	130
-1316	1000396	Item_Rare_Collect_Ensete	Enset	ingredient	ingredient knowledge material rare-gather reagent restores-mp stackable tier-0	0	130
-1317	1002080	Item_Rare_Collect_chlorella	Green Algae	ingredient	ingredient knowledge material rare-gather reagent restores-mp stackable tier-0	0	150
-1318	1001330	Item_Rare_Collect_jijeongta_leaf	Palmar Leaf	ingredient	ingredient knowledge material rare-gather reagent restores-mp stackable tier-0	0	400
-1319	1000750	Item_Rare_Collect_Kudzu	Skyroot	ingredient	ingredient knowledge material rare-gather reagent restores-stamina stackable tier-0	0	500
-1320	1000642	Item_Rare_Collect_Dulse	Red Seaweed	ingredient	ingredient knowledge material rare-gather reagent restores-stamina stackable tier-0	0	130
-1321	1000400	Item_Rare_Collect_amaranth	Amaranth	ingredient	ingredient knowledge material rare-gather reagent stackable tier-0	0	120
-1322	1000397	Item_Rare_Collect_opuntia	Prickly Pear	ingredient	ingredient knowledge material rare-gather reagent stackable tier-0	0	130
-1323	1002090	Item_Rare_Collect_Taro	Taro	ingredient	ingredient knowledge material rare-gather reagent stackable tier-0	0	90
+1315	1000398	Item_Rare_Collect_Chaya	Chaya	vegetable	ingredient knowledge material rare-gather reagent restores-mp stackable tier-0 vegetable	0	130
+1316	1000396	Item_Rare_Collect_Ensete	Enset	fruit	fruit ingredient knowledge material rare-gather reagent restores-mp stackable tier-0	0	130
+1317	1002080	Item_Rare_Collect_chlorella	Green Algae	ingredient	algae ingredient knowledge material rare-gather reagent restores-mp stackable tier-0	0	150
+1318	1001330	Item_Rare_Collect_jijeongta_leaf	Palmar Leaf	herb	herb ingredient knowledge material rare-gather reagent restores-mp stackable tier-0	0	400
+1319	1000750	Item_Rare_Collect_Kudzu	Skyroot	vegetable	ingredient knowledge material rare-gather reagent restores-stamina stackable tier-0 vegetable	0	500
+1320	1000642	Item_Rare_Collect_Dulse	Red Seaweed	vegetable	ingredient knowledge material rare-gather reagent restores-stamina seaweed stackable tier-0 vegetable	0	130
+1321	1000400	Item_Rare_Collect_amaranth	Amaranth	grain	grain ingredient knowledge material rare-gather reagent stackable tier-0	0	120
+1322	1000397	Item_Rare_Collect_opuntia	Prickly Pear	fruit	fruit ingredient knowledge material rare-gather reagent stackable tier-0	0	130
+1323	1002090	Item_Rare_Collect_Taro	Taro	vegetable	ingredient knowledge material rare-gather reagent stackable tier-0 vegetable	0	90
 1324	10033	Honey	Honey	honey	honey ingredient knowledge material restores-stamina stackable tier-0	0	20
 1325	756512	HoneyComb	Beehive	honey	honey ingredient knowledge material restores-stamina stackable tier-0	0	40
 1326	750041	Stone_Honey	Wild Rock Honey	honey	honey ingredient knowledge material restores-stamina stackable tier-0	0	120
 1327	750040	Wild_Honey	Wild Honey	honey	honey ingredient knowledge material restores-stamina stackable tier-0	0	200
-1328	751004	Ssari_Mushroom	Coral Mushroom	herb	alchemy-material herb knowledge material restores-stamina stackable tier-0	0	12
+1328	751004	Ssari_Mushroom	Coral Mushroom	herb	alchemy-material herb knowledge material mushroom restores-stamina stackable tier-0	0	12
 1329	756604	Pyogo_Mushroom	Oakwood Mushroom	herb	alchemy-material herb knowledge material restores-stamina stackable tier-0	0	20
 1330	756601	Songyi_Mushroom	Pine Mushroom	herb	alchemy-material herb knowledge material restores-stamina stackable tier-0	0	28
-1331	755015	Egg	Egg	ingredient	ingredient knowledge material restores-hp stackable tier-0	0	5
-1332	21018	Milk	Milk	ingredient	ingredient knowledge material restores-hp stackable tier-0	0	10
-1333	750049	Cheese	Cheese	ingredient	ingredient knowledge material restores-hp stackable tier-0	0	10
+1331	755015	Egg	Egg	ingredient	egg ingredient knowledge material restores-hp stackable tier-0	0	5
+1332	21018	Milk	Milk	ingredient	dairy ingredient knowledge material restores-hp stackable tier-0	0	10
+1333	750049	Cheese	Cheese	ingredient	dairy ingredient knowledge material restores-hp stackable tier-0	0	10
 1334	750009	Acorn	Acorn	ingredient	ingredient knowledge material restores-hp stackable tier-0	0	5
 1335	752001	Salt	Salt	cooking-basic	cooking-basic ingredient knowledge material restores-mp stackable tier-0	0	3
 1336	752003	Sugar	Sugar	cooking-basic	cooking-basic ingredient knowledge material restores-mp stackable tier-0	0	3
@@ -1378,17 +1378,17 @@ row	key	string_key	name	class	tags	tier	value_copper
 1376	29501	Food_SpatulaSturgeon	Paddlefish	fish	fish ingredient knowledge material restores-hp seafood stackable tier-0	0	19200
 1377	29502	Food_SevenStarShark	Broadnose Sevengill Shark	fish	fish ingredient knowledge material restores-hp seafood stackable tier-0	0	19200
 1378	29506	Food_Sailfish	Sailfish	fish	fish ingredient knowledge material restores-hp seafood stackable tier-0	0	16800
-1379	29507	Food_GoldTenchi	Golden Tench	ingredient	ingredient knowledge material no-discard no-sell stackable tier-0	0	30000
-1380	29509	Food_GoldCarp	Golden Carp	ingredient	ingredient knowledge material no-discard no-sell stackable tier-0	0	30000
-1381	1001293	Food_Golden_Coelacanth	Golden Coelacanth	ingredient	ingredient knowledge material no-discard no-sell stackable tier-0	0	30000
-1382	29508	Food_Coelacanth	Coelacanth	ingredient	ingredient knowledge material no-discard no-sell stackable tier-0	0	30000
-1383	29820	Food_MechanicFish	Clockwork Fish	ingredient	ingredient knowledge material no-discard no-sell stackable tier-0	0	30000
-1384	1001952	Food_HexeFish	Hexe Earthen Fish	ingredient	ingredient material stackable tier-0	0	30
+1379	29507	Food_GoldTenchi	Golden Tench	fish	fish ingredient knowledge legendary-fish material no-discard no-sell stackable tier-0	0	30000
+1380	29509	Food_GoldCarp	Golden Carp	fish	fish ingredient knowledge legendary-fish material no-discard no-sell stackable tier-0	0	30000
+1381	1001293	Food_Golden_Coelacanth	Golden Coelacanth	fish	fish ingredient knowledge legendary-fish material no-discard no-sell stackable tier-0	0	30000
+1382	29508	Food_Coelacanth	Coelacanth	fish	fish ingredient knowledge legendary-fish material no-discard no-sell stackable tier-0	0	30000
+1383	29820	Food_MechanicFish	Clockwork Fish	fish	fish ingredient knowledge legendary-fish material no-discard no-sell stackable tier-0	0	30000
+1384	1001952	Food_HexeFish	Hexe Earthen Fish	fish	fish ingredient legendary-fish material stackable tier-0	0	30
 1385	1000730	Food_Fish_Meat	Fish Fillet	seafood	ingredient knowledge material restores-hp seafood stackable tier-0	0	5
-1386	1000431	Item_Rare_Collect_RazorClam_01	Freshwater Clam	seafood	ingredient knowledge material restores-hp seafood stackable tier-0	0	18
-1387	1000875	Food_BlueCrab	Blue Crab	seafood	ingredient knowledge material restores-hp seafood stackable tier-0	0	18
-1388	1001242	Food_river_Crab	Freshwater Crab	seafood	ingredient knowledge material restores-hp seafood stackable tier-0	0	18
-1389	29821	Food_Crayfish	Crayfish	seafood	ingredient knowledge material restores-hp seafood stackable tier-0	0	18
+1386	1000431	Item_Rare_Collect_RazorClam_01	Freshwater Clam	seafood	clam ingredient knowledge material restores-hp seafood stackable tier-0	0	18
+1387	1000875	Food_BlueCrab	Blue Crab	seafood	ingredient knowledge material restores-hp seafood shellfish stackable tier-0	0	18
+1388	1001242	Food_river_Crab	Freshwater Crab	seafood	ingredient knowledge material restores-hp seafood shellfish stackable tier-0	0	18
+1389	29821	Food_Crayfish	Crayfish	seafood	ingredient knowledge material restores-hp seafood shellfish stackable tier-0	0	18
 1390	29616	Food_Squid	Squid	seafood	ingredient knowledge material restores-hp seafood stackable tier-0	0	25
 1391	29615	Food_Starfish	Starfish	seafood	ingredient knowledge material restores-hp seafood stackable tier-0	0	10
 1392	29613	Food_Seahorse	Seahorse	seafood	ingredient knowledge material restores-hp seafood stackable tier-0	0	10
@@ -1723,72 +1723,72 @@ row	key	string_key	name	class	tags	tier	value_copper
 1721	22006	Fruit_Wine	Wine	drink	consumable drink food restores-stamina stackable tier-1	1	32
 1722	25922	Berry_Juice	Fruit Juice	drink	consumable drink food restores-stamina stackable tier-1	1	15
 1723	1001783	Vegetable_Juice	Vegetable Juice	drink	consumable drink food restores-stamina stackable tier-1	1	15
-1724	1001615	Collection_Prop_Dyewater_0001	Bright Red Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1725	1001616	Collection_Prop_Dyewater_0002	Rich Red Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1726	1001617	Collection_Prop_Dyewater_0003	Red Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1727	1001618	Collection_Prop_Dyewater_0004	Dark Red Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1728	1001619	Collection_Prop_Dyewater_0005	Deep Red Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1729	1001620	Collection_Prop_Dyewater_0006	Bright Violet Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1730	1001621	Collection_Prop_Dyewater_0007	Rich Violet Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1731	1001622	Collection_Prop_Dyewater_0008	Violet Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1732	1001623	Collection_Prop_Dyewater_0009	Dark Violet Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1733	1001624	Collection_Prop_Dyewater_0010	Deep Violet Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1734	1001625	Collection_Prop_Dyewater_0011	Bright Purple Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1735	1001626	Collection_Prop_Dyewater_0012	Rich Purple Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1736	1001627	Collection_Prop_Dyewater_0013	Purple Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1737	1001628	Collection_Prop_Dyewater_0014	Dark Purple Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1738	1001629	Collection_Prop_Dyewater_0015	Deep Purple Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1739	1001630	Collection_Prop_Dyewater_0016	Bright Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1740	1001631	Collection_Prop_Dyewater_0017	Rich Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1741	1001632	Collection_Prop_Dyewater_0018	Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1742	1001633	Collection_Prop_Dyewater_0019	Dark Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1743	1001634	Collection_Prop_Dyewater_0020	Deep Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1744	1001635	Collection_Prop_Dyewater_0021	Bright Sky Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1745	1001636	Collection_Prop_Dyewater_0022	Rich Sky Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1746	1001637	Collection_Prop_Dyewater_0023	Sky Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1747	1001638	Collection_Prop_Dyewater_0024	Dark Sky Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1748	1001639	Collection_Prop_Dyewater_0025	Deep Sky Blue Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1749	1001640	Collection_Prop_Dyewater_0026	Bright Teal Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1750	1001641	Collection_Prop_Dyewater_0027	Rich Teal Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1751	1001642	Collection_Prop_Dyewater_0028	Teal Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1752	1001643	Collection_Prop_Dyewater_0029	Dark Teal Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1753	1001644	Collection_Prop_Dyewater_0030	Deep Teal Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1754	1001645	Collection_Prop_Dyewater_0031	Bright Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1755	1001646	Collection_Prop_Dyewater_0032	Rich Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1756	1001647	Collection_Prop_Dyewater_0033	Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1757	1001648	Collection_Prop_Dyewater_0034	Dark Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1758	1001649	Collection_Prop_Dyewater_0035	Deep Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1759	1001650	Collection_Prop_Dyewater_0036	Bright Spring Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1760	1001651	Collection_Prop_Dyewater_0037	Rich Spring Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1761	1001652	Collection_Prop_Dyewater_0038	Spring Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1762	1001653	Collection_Prop_Dyewater_0039	Dark Spring Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1763	1001654	Collection_Prop_Dyewater_0040	Deep Spring Green Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1764	1001655	Collection_Prop_Dyewater_0041	Bright Yellow Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1765	1001656	Collection_Prop_Dyewater_0042	Rich Yellow Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1766	1001657	Collection_Prop_Dyewater_0043	Yellow Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1767	1001658	Collection_Prop_Dyewater_0044	Dark Yellow Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1768	1001659	Collection_Prop_Dyewater_0045	Deep Yellow Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1769	1001660	Collection_Prop_Dyewater_0046	Bright Orange Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1770	1001661	Collection_Prop_Dyewater_0047	Rich Orange Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1771	1001662	Collection_Prop_Dyewater_0048	Orange Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1772	1001663	Collection_Prop_Dyewater_0049	Dark Orange Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1773	1001664	Collection_Prop_Dyewater_0050	Deep Orange Dye	household	collectible decoration dye furniture household knowledge stackable tier-0	0	150
-1774	1001175	Collection_Prop_Dyewater_Grey_0001	Pure White Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1775	1001260	Collection_Prop_Dyewater_Grey_0002	Bright Grey Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1776	1001308	Collection_Prop_Dyewater_Grey_0003	Silver Grey Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1777	1001324	Collection_Prop_Dyewater_Grey_0004	Medium Grey Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1778	1001336	Collection_Prop_Dyewater_Grey_0005	Grey Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1779	1001433	Collection_Prop_Dyewater_Grey_0006	Shadow Grey Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1780	1001712	Collection_Prop_Dyewater_Grey_0007	Cloud Grey Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1781	1001749	Collection_Prop_Dyewater_Grey_0008	Deep Grey Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1782	1001789	Collection_Prop_Dyewater_Grey_0009	Dark Grey Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
-1783	1001858	Collection_Prop_Dyewater_Grey_0010	Black Dye	household	collectible decoration dye furniture household stackable tier-0	0	1500
+1724	1001615	Collection_Prop_Dyewater_0001	Bright Red Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1725	1001616	Collection_Prop_Dyewater_0002	Rich Red Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1726	1001617	Collection_Prop_Dyewater_0003	Red Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1727	1001618	Collection_Prop_Dyewater_0004	Dark Red Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1728	1001619	Collection_Prop_Dyewater_0005	Deep Red Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1729	1001620	Collection_Prop_Dyewater_0006	Bright Violet Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1730	1001621	Collection_Prop_Dyewater_0007	Rich Violet Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1731	1001622	Collection_Prop_Dyewater_0008	Violet Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1732	1001623	Collection_Prop_Dyewater_0009	Dark Violet Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1733	1001624	Collection_Prop_Dyewater_0010	Deep Violet Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1734	1001625	Collection_Prop_Dyewater_0011	Bright Purple Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1735	1001626	Collection_Prop_Dyewater_0012	Rich Purple Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1736	1001627	Collection_Prop_Dyewater_0013	Purple Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1737	1001628	Collection_Prop_Dyewater_0014	Dark Purple Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1738	1001629	Collection_Prop_Dyewater_0015	Deep Purple Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1739	1001630	Collection_Prop_Dyewater_0016	Bright Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1740	1001631	Collection_Prop_Dyewater_0017	Rich Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1741	1001632	Collection_Prop_Dyewater_0018	Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1742	1001633	Collection_Prop_Dyewater_0019	Dark Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1743	1001634	Collection_Prop_Dyewater_0020	Deep Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1744	1001635	Collection_Prop_Dyewater_0021	Bright Sky Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1745	1001636	Collection_Prop_Dyewater_0022	Rich Sky Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1746	1001637	Collection_Prop_Dyewater_0023	Sky Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1747	1001638	Collection_Prop_Dyewater_0024	Dark Sky Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1748	1001639	Collection_Prop_Dyewater_0025	Deep Sky Blue Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1749	1001640	Collection_Prop_Dyewater_0026	Bright Teal Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1750	1001641	Collection_Prop_Dyewater_0027	Rich Teal Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1751	1001642	Collection_Prop_Dyewater_0028	Teal Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1752	1001643	Collection_Prop_Dyewater_0029	Dark Teal Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1753	1001644	Collection_Prop_Dyewater_0030	Deep Teal Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1754	1001645	Collection_Prop_Dyewater_0031	Bright Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1755	1001646	Collection_Prop_Dyewater_0032	Rich Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1756	1001647	Collection_Prop_Dyewater_0033	Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1757	1001648	Collection_Prop_Dyewater_0034	Dark Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1758	1001649	Collection_Prop_Dyewater_0035	Deep Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1759	1001650	Collection_Prop_Dyewater_0036	Bright Spring Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1760	1001651	Collection_Prop_Dyewater_0037	Rich Spring Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1761	1001652	Collection_Prop_Dyewater_0038	Spring Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1762	1001653	Collection_Prop_Dyewater_0039	Dark Spring Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1763	1001654	Collection_Prop_Dyewater_0040	Deep Spring Green Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1764	1001655	Collection_Prop_Dyewater_0041	Bright Yellow Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1765	1001656	Collection_Prop_Dyewater_0042	Rich Yellow Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1766	1001657	Collection_Prop_Dyewater_0043	Yellow Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1767	1001658	Collection_Prop_Dyewater_0044	Dark Yellow Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1768	1001659	Collection_Prop_Dyewater_0045	Deep Yellow Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1769	1001660	Collection_Prop_Dyewater_0046	Bright Orange Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1770	1001661	Collection_Prop_Dyewater_0047	Rich Orange Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1771	1001662	Collection_Prop_Dyewater_0048	Orange Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1772	1001663	Collection_Prop_Dyewater_0049	Dark Orange Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1773	1001664	Collection_Prop_Dyewater_0050	Deep Orange Dye	dye	collectible decoration dye furniture household knowledge stackable tier-0	0	150
+1774	1001175	Collection_Prop_Dyewater_Grey_0001	Pure White Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1775	1001260	Collection_Prop_Dyewater_Grey_0002	Bright Grey Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1776	1001308	Collection_Prop_Dyewater_Grey_0003	Silver Grey Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1777	1001324	Collection_Prop_Dyewater_Grey_0004	Medium Grey Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1778	1001336	Collection_Prop_Dyewater_Grey_0005	Grey Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1779	1001433	Collection_Prop_Dyewater_Grey_0006	Shadow Grey Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1780	1001712	Collection_Prop_Dyewater_Grey_0007	Cloud Grey Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1781	1001749	Collection_Prop_Dyewater_Grey_0008	Deep Grey Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1782	1001789	Collection_Prop_Dyewater_Grey_0009	Dark Grey Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
+1783	1001858	Collection_Prop_Dyewater_Grey_0010	Black Dye	dye	collectible decoration dye furniture household stackable tier-0	0	1500
 1784	1002631	Item_ETC_CooltimeReduce_Dragon	Dragon Claw Horn	mount-utility	consumable mount-utility potion stackable tier-0	0	1000
 1785	1002632	Item_ETC_CooltimeReduce_ATAG	A.T.A.G. Emergency Power Device	mount-utility	consumable mount-utility potion stackable tier-0	0	1000
 1786	1003772	Item_ETC_CooltimeReduce_DragonII	Narima's Horn	mount-utility	consumable mount-utility potion stackable tier-0	0	2000
 1787	1003773	Item_ETC_CooltimeReduce_ATAGII	A.T.A.G. Power Module	mount-utility	consumable mount-utility potion stackable tier-0	0	2000
-1788	1000146	Item_Kuku_Egg	Old Kuku Bird's Egg	goods	goods stackable tier-0	0	264
-1789	1003915	Item_gimmick_birdfeeder_0001	Sotdae of Bond	gimmick	gimmick important no-sell tier-0	0	1
+1788	1000146	Item_Kuku_Egg	Old Kuku Bird's Egg	keepsake	egg goods keepsake kuku stackable tier-0	0	264
+1789	1003915	Item_gimmick_birdfeeder_0001	Sotdae of Bond	furniture	furniture gimmick important no-sell tier-0	0	1
 1790	1002096	Condola	Contola	abyss-item	abyss-item no-sell tier-0 wild	0	1
 1791	1002519	Item_Abyss_Artifact_Maker	Abyss Artifact Fabricator	abyss-item	abyss-item no-sell tier-0	0	1
 1792	1000309	Item_troll_academy_Core	Dimensional Fusion Experimental Power Core	abyss-item	abyss-item no-sell tier-0	0	1
@@ -1912,7 +1912,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 1910	1002825	Item_gimmick_attach_abyss_core_05	Power Core - Spire of Defiance	kuku-pot-item	gimmick important kuku-pot-item no-sell tier-0 wild	0	1
 1911	1002826	Item_gimmick_attach_abyss_core_06	Power Core - Verse of Sowing	kuku-pot-item	gimmick important kuku-pot-item no-sell tier-0 wild	0	1
 1912	1003827	Item_gimmick_nature_rock_dissolve_stone_core_01	Abyss Cell: No. 0	kuku-pot-item	gimmick kuku-pot-item no-sell tier-0 wild	0	1
-1913	1004112	Item_gimmick_tumbleweed_0001	Tumbleweed	gimmick	gimmick goods knowledge stackable tier-0	0	5
+1913	1004112	Item_gimmick_tumbleweed_0001	Tumbleweed	crafting-material	crafting-material gimmick goods knowledge material stackable tier-0	0	5
 1914	6001	Inventory_Expansion_1	Small Bag	bag	bag stackable tier-0 use-immediately wild	0	50
 1915	6002	Inventory_Expansion_2	Medium Bag	bag	bag stackable tier-0 use-immediately wild	0	150
 1916	6005	Inventory_Expansion_3	Large Bag	bag	bag stackable tier-0 use-immediately wild	0	250
@@ -3406,7 +3406,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 3404	1002496	Item_Skill_AbyssGear_Titan	Lightning God's Affliction	abyss-gear	abyss-gear no-discard stackable tier-0	0	1627
 3405	1002855	Item_Skill_AbyssGear_EnergyBurst_LV1	Kinetic Burst	abyss-gear	abyss-gear no-discard stackable tier-0	0	1593
 3406	1002510	Item_Skill_AbyssGear_Muscan	The Showstopper	abyss-gear	abyss-gear no-discard stackable tier-0	0	1580
-3407	752751	SmallAnimal_Poop	Manure	seed	seed stackable tier-0	0	50
+3407	752751	SmallAnimal_Poop	Manure	crafting-material	crafting-material fertilizer stackable tier-0	0	50
 3408	53001	AppleTree_Seed	Apple Seed	seed	buff seed stackable tier-0	0	20
 3409	1001836	PearTree_Seed	Pear Tree Seed	seed	buff seed stackable tier-0	0	40
 3410	1001837	Ginseng_Seed	Wild Ginseng Seed	seed	buff seed stackable tier-0	0	200
@@ -3429,7 +3429,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 3427	1000731	Chaya_seed	Chaya Seed	seed	buff seed stackable tier-0	0	40
 3428	1001777	Glow_Fruit	Shineberry	ammo	ammo stackable tier-0	0	50
 3429	756513	Wild_Insam	Wild Ginseng	herb	alchemy-material herb knowledge material reagent restores-mp stackable tier-0	0	300
-3430	1001843	Pear	Pear	mount-feed	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	50
+3430	1001843	Pear	Pear	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	50
 3431	1000634	RevivalItem	Refined Palmar Pill	potion	consumable no-sell potion stackable tier-0 wild	0	1080
 3432	1001959	RevivalItemPartialRecovery	Palmar Pill	potion	consumable no-sell potion stackable tier-0 wild	0	360
 3433	1002138	Boss_Reward_SuperWeapon	Axe of the Apocalypse	treasure	equipment no-sell npc-weapon-pool one-hand tier-0 tool treasure weapon	0	1
@@ -3502,11 +3502,11 @@ row	key	string_key	name	class	tags	tier	value_copper
 3500	1004382	Item_AbyssGear_Recipe_Box_IV	Unidentified Abyss Gear Recipe	abyss-gear-box	abyss-gear-box no-sell stackable tier-0 use-immediately wild	0	1
 3501	1004383	Item_AbyssGear_Recipe_Box_V	Unidentified Abyss Gear Recipe	abyss-gear-box	abyss-gear-box no-sell stackable tier-0 use-immediately wild	0	1
 3502	1004384	Item_AbyssGear_Recipe_Box_VI	Unidentified Abyss Gear Recipe	abyss-gear-box	abyss-gear-box no-sell stackable tier-0 use-immediately wild	0	1
-3503	1002266	Collection_Prop_Chest_0010	Cylindrical Wooden Box	chest	chest collectible goods knowledge stackable tier-0	0	243
-3504	1004503	Item_AbyssArtifact_Chest_2_7	Unstable Artifact Chest	chest	chest goods stackable tier-0	0	
-3505	1004504	Item_AbyssArtifact_Chest_3	Small Artifact Chest	chest	chest goods stackable tier-0	0	
-3506	1004505	Item_AbyssArtifact_Chest_5	Medium Artifact Chest	chest	chest goods stackable tier-0	0	
-3507	1004506	Item_Pinball_Coin_Reward_Bag	Box of Fortune	chest	chest goods stackable tier-0	0	10000
+3503	1002266	Collection_Prop_Chest_0010	Cylindrical Wooden Box	decoration	chest collectible decoration furniture goods knowledge stackable tier-0	0	243
+3504	1004503	Item_AbyssArtifact_Chest_2_7	Unstable Artifact Chest	chest	abyss-item chest goods reward-box stackable tier-0	0	
+3505	1004504	Item_AbyssArtifact_Chest_3	Small Artifact Chest	chest	abyss-item chest goods reward-box stackable tier-0	0	
+3506	1004505	Item_AbyssArtifact_Chest_5	Medium Artifact Chest	chest	abyss-item chest goods reward-box stackable tier-0	0	
+3507	1004506	Item_Pinball_Coin_Reward_Bag	Box of Fortune	chest	chest goods reward-box stackable tier-0	0	10000
 3508	1004827	DropItem_Quest_Paper_Cult_Order	Antumbra Order Directive Box	chest	chest goods no-sell quest stackable tier-0 use-immediately wild	0	1
 3509	1004880	Item_FireFly_Box	Firefly Colony	chest	chest goods no-sell stackable tier-0 use-immediately wild	0	1
 3510	1000667	Trade_Cheese_03	Well-Aged Cheese	trade-good	stackable tier-0 trade-good	0	7

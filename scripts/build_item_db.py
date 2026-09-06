@@ -6,12 +6,16 @@ Reads the extracted 2.01.00 tables via cdtables.py and writes to ../data:
   tag_summary.md        tag vocabulary, rule list, counts
   unmapped_groups.txt   item groups no rule touches (for refining the rules)
 
-Tags come from four sources, in this order:
+Tags come from five sources, in this order:
   1. item-group membership (every item lists its whole group ancestry, so rules
      on a parent group reach all of its children),
   2. string_key patterns (Quest_, Item_gimmick_, Test/Dev names ...),
   3. the equip-type table (weapon class, armor slot),
-  4. record flags (important, no-sell, housing-only, stackable, tier ...).
+  4. record flags (important, no-sell, housing-only, stackable, tier ...),
+  5. data/class_overrides.csv: hand-made corrections per item (a class, tags
+     to add, tags to remove) for the items the rules get wrong.
+The class column is the first tag present in CLASS_ORDER unless an override
+names one.
 """
 import collections
 import csv
@@ -195,8 +199,8 @@ GROUP_TAGS = {
     "ItemGroup_Collection_Glasscraft": ["ornament"],
     "ItemGroup_Collection_FlowerPot": ["flower-pot"],
     "ItemGroup_Collection_FlowerPot_Low_Friendly": ["flower-pot"],
-    "ItemGroup_Collection_DecoObject": ["junk"],
-    "ItemGroup_Collection_Tool": ["junk"],
+    "ItemGroup_Collection_DecoObject": ["household"],
+    "ItemGroup_Collection_Tool": ["household"],
     "ItemGroup_Collection_Cook": ["cooking-facility"],
     "ItemGroup_Equip_Dev_Armor": ["dev"],
     "ItemGroup_Equip_Dev_Acc": ["dev"],
@@ -212,6 +216,17 @@ GROUP_TAGS = {
     "ItemGroup_Unique_Trade": ["trade-good", "special"],
     "ItemGroup_Food_Horse_Add": ["mount-feed"],
     "ItemGroup_Equip_Weapon_TwoHandFlag": ["banner"],
+    "ItemGroup_Material_Food_Fish_Tier5": ["fish", "legendary-fish"],
+    "ItemGroup_Material_UnTakeable": ["herb", "mushroom", "poisonous"],
+    "ItemGroup_Material_Food_Mushroom_Tier1": ["mushroom"],
+    "ItemGroup_Material_Food_SeaFood_ShellFish_Tier2": ["shellfish"],
+    "ItemGroup_Material_Food_SeaFood_Clam": ["clam"],
+    "ItemGroup_Material_Food_egg_Tier1": ["egg"],
+    "ItemGroup_Material_Food_Dairy_Tier1": ["dairy"],
+    "ItemGroup_Housing_Fertilizer": ["fertilizer"],
+    "ItemGroup_Food_Horse_Only": ["mount-feed"],
+    "ItemGroup_ExpansionBag": ["bag"],
+    "ItemGroup_ExpansionFarmSlot": ["bag"],
 }
 
 # prefix rules (group string_key startswith) -> tags; applied after exact matches
@@ -223,6 +238,9 @@ GROUP_PREFIX_TAGS = [
     ("ItemGroup_Material_Object_Metal", ["metal"]),
     ("ItemGroup_Material_Object_Stone", ["stone"]),
     ("ItemGroup_Material_Object_Fabric", ["fabric"]),
+    ("ItemGroup_Material_Object_Ore", ["ore"]),
+    ("ItemGroup_Material_Object_Jewel", ["jewel"]),
+    ("ItemGroup_Material_Object_Bone", ["bone"]),
     ("ItemGroup_Collection_Dye", ["dye"]),
     ("ItemGroup_Equip_StealthArmor", ["stealth-gear"]),
     ("ItemGroup_Item_Contributionitem", ["contribution-reward"]),
@@ -301,17 +319,29 @@ CLASS_ORDER = [
     "ammo-bundle", "explosive", "arrow", "bullet", "cannonball", "magic-bullet", "ammo",
     "damaged-gear", "shield", "weapon", "helm", "body-armor", "gloves", "boots", "cloak", "armor",
     "necklace", "earring", "ring", "bracelet", "eyewear", "mask", "accessory",
-    "backpack", "sprayer", "bag", "tool", "npc-tool", "mount-gear", "mount-feed", "mount-utility", "mount-summon",
+    "backpack", "sprayer", "bag", "tool", "npc-tool", "mount-gear", "mount-utility", "mount-summon",
     "pet-gear", "vehicle-part", "atag", "visione",
     "drink", "field-cooked", "store-food", "food", "elixir", "potion", "stat-boost", "consumable",
-    "fish", "seafood", "meat", "vegetable", "fruit", "grain", "honey", "cooking-basic", "ingredient",
-    "insect", "amphibian", "herb", "catalyst", "reagent", "alchemy-material",
-    "ore", "jewel", "wood", "hide", "metal", "stone", "fabric", "bone", "crafting-material", "material",
-    "painting", "container", "lamp", "ornament", "flower-pot", "household", "junk", "cooking-facility",
-    "decoration", "light", "storage", "chest", "furniture", "dye", "bait", "animal-spirit",
+    # food before mount feed: an apple is a fruit that horses also eat
+    "fish", "seafood", "meat", "vegetable", "fruit", "grain", "honey", "cooking-basic", "ingredient", "mount-feed",
+    "insect", "amphibian", "herb",
+    # the specific material classes before the alchemy buckets, so Iron Ore is ore and Stone is stone
+    "ore", "jewel", "wood", "hide", "metal", "stone", "fabric", "bone",
+    "catalyst", "reagent", "alchemy-material", "crafting-material", "material",
+    "dye", "painting", "container", "lamp", "ornament", "flower-pot", "household", "cooking-facility",
+    "decoration", "light", "storage", "chest", "furniture", "bait", "animal-spirit",
     "sealed-artifact", "artifact", "abyss-gear-box", "abyss-gear", "kuku-power-core", "kuku-core", "kuku-pot-item", "kuku-pot",
     "kuku-gear", "abyss-item", "trade-good", "animal", "seed", "gimmick",
     "quest", "quest-reward", "platform-bonus", "special", "goods", "equipment",
+]
+
+# species detail for caught creatures, from the English name of insect-class items
+INSECT_NAME_TAGS = [
+    (re.compile(r"Butterfly|Swallowtail$"), "butterfly"), (re.compile(r"Moth\b"), "moth"),
+    (re.compile(r"Beetle"), "beetle"), (re.compile(r"Dragonfly"), "dragonfly"),
+    (re.compile(r"bee\b|Hornet", re.I), "bee"), (re.compile(r"\bFly$"), "fly"),
+    (re.compile(r"Centipede"), "centipede"), (re.compile(r"Spider|Scorpion"), "arachnid"),
+    (re.compile(r"Snail"), "mollusc"), (re.compile(r"Wharf Roach"), "crustacean"),
 ]
 
 DEV_RE = re.compile(r"(^|_)(Test|Dev|QA|Specialty|Dummy|Debug|Sample)(_|$)|_QA$|_T\d_QA|^TestNeck|^Testarmor|^Socket_Test", re.I)
@@ -376,6 +406,10 @@ def tag_item(it, groups, equip_types, name_en):
             tags.add("tool")
         if et.startswith("Robot"):
             tags.add("atag")
+    if "insect" in tags and name_en:
+        for pat, t in INSECT_NAME_TAGS:
+            if pat.search(name_en):
+                tags.add(t)
     # attribute tags
     tags.add("tier-%d" % it["item_tier"])
     if it["max_stack_count"] > 1:
@@ -407,6 +441,24 @@ def tag_item(it, groups, equip_types, name_en):
     return tags
 
 
+def load_overrides():
+    """data/class_overrides.csv: per-item corrections applied after every rule.
+    Columns: string_key, class (empty keeps the computed one), add_tags,
+    remove_tags (both space separated), note."""
+    path = os.path.join(DATA, "class_overrides.csv")
+    out = {}
+    if not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        for r in csv.DictReader(f):
+            sk = (r.get("string_key") or "").strip()
+            if not sk:
+                continue
+            out[sk] = dict(klass=(r.get("class") or "").strip(), add=set((r.get("add_tags") or "").split()),
+                           remove=set((r.get("remove_tags") or "").split()))
+    return out
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     os.makedirs(DATA, exist_ok=True)
@@ -417,6 +469,8 @@ def main():
     equip_types = load_equip_types()
     cats = load_categories()
     parent = {c: k for k, g in groups.items() for c in g["subs"]}
+    overrides = load_overrides()
+    used = set()
 
     rows = []
     tag_counter = collections.Counter()
@@ -426,7 +480,14 @@ def main():
         name_en = loc.get((key << 32) | 0x70)
         desc_en = loc.get((key << 32) | 0x71) or ""
         tags = tag_item(it, groups, equip_types, name_en)
-        klass = next((t for t in CLASS_ORDER if t in tags), "other")
+        ov = overrides.get(it["string_key"])
+        if ov:
+            used.add(it["string_key"])
+            tags |= ov["add"]
+            tags -= ov["remove"]
+            if ov["klass"]:
+                tags.add(ov["klass"])   # the class is always one of the tags
+        klass = (ov["klass"] if ov and ov["klass"] else None) or next((t for t in CLASS_ORDER if t in tags), "other")
         gs = [g for g in it["item_group_info_list"] if g in groups]
         leaf = [g for g in gs if not (groups[g]["subs"] & set(gs))]
         roots = sorted({groups[g]["name"] for g in gs if g not in parent})
@@ -457,6 +518,13 @@ def main():
         rows.append(row)
         tag_counter.update(tags)
         class_counter[klass] += 1
+
+    for sk, ov in overrides.items():
+        if sk not in used:
+            print("class_overrides.csv names an unknown item:", sk)
+        if ov["klass"] and ov["klass"] not in CLASS_ORDER:
+            print("class_overrides.csv uses a class outside CLASS_ORDER:", sk, ov["klass"])
+    print("overrides applied:", len(used), "of", len(overrides))
 
     # CSV
     fields = list(rows[0].keys())

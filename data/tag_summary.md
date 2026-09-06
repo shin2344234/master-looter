@@ -5,7 +5,7 @@
 ## Class column (one per item, first match in priority order)
 
 - damaged-gear: 1637
-- keepsake: 464
+- keepsake: 465
 - weapon: 461
 - recipe: 311
 - document: 272
@@ -19,7 +19,7 @@
 - body-armor: 136
 - poster: 114
 - food: 112
-- furniture: 105
+- furniture: 106
 - cloak: 99
 - boots: 91
 - accessory: 91
@@ -30,64 +30,68 @@
 - kuku-power-core: 78
 - shield: 77
 - bounty-notice: 62
-- household: 60
+- dye: 60
 - trade-good: 59
 - tool: 52
 - treasure: 51
 - key: 47
 - lamp: 46
+- fish: 46
 - skill-poster: 42
 - ornament: 42
-- fish: 40
-- catalyst: 35
+- herb: 35
 - currency: 35
 - flower-pot: 34
-- herb: 32
 - note: 31
 - cooking-facility: 30
 - necklace: 29
-- animal: 28
 - treasure-map: 27
 - light: 26
 - kuku-pot-item: 26
 - legendary-animal-report: 26
+- animal: 25
 - ring: 22
-- seed: 21
+- seed: 20
 - explosive: 19
-- ingredient: 19
+- fruit: 19
+- vegetable: 19
 - bag: 19
 - earring: 19
 - recipe-book: 17
-- junk: 17
-- mount-feed: 16
+- household: 17
 - kuku-core: 16
 - vehicle-part: 16
 - pet-gear: 16
 - elixir: 15
-- vegetable: 14
+- decoration: 13
 - drink: 13
 - abyss-gear-box: 13
-- decoration: 12
 - arrow: 10
+- ore: 10
 - seafood: 10
 - magic-bullet: 9
-- fruit: 9
+- grain: 9
+- wood: 8
 - armor: 8
 - cannonball: 7
 - storage: 7
+- amphibian: 7
+- crafting-material: 7
 - meat: 7
 - store-food: 7
-- chest: 7
 - key-item: 7
 - ammo-bundle: 6
-- grain: 6
+- chest: 6
 - eyewear: 6
-- crafting-material: 5
-- wood: 5
+- hide: 5
+- fabric: 5
+- ingredient: 5
+- mount-feed: 5
 - stat-boost: 5
 - bullet: 4
-- amphibian: 4
-- alchemy-material: 4
+- stone: 4
+- jewel: 4
+- bone: 4
 - honey: 4
 - cooking-basic: 4
 - mount-utility: 4
@@ -95,11 +99,10 @@
 - abyss-item: 3
 - artifact: 3
 - kuku-pot: 3
-- gimmick: 2
+- alchemy-material: 2
 - kuku-currency: 2
 - potion: 2
 - bait: 2
-- goods: 1
 - mask: 1
 
 ## All tags
@@ -122,12 +125,12 @@
 - tier-3: 783
 - important: 654
 - quest: 646
-- furniture: 627
+- furniture: 629
 - weapon: 542
 - plate: 529
 - cloth: 523
-- keepsake: 464
-- decoration: 413
+- keepsake: 465
+- decoration: 414
 - memory-fragment: 412
 - docking: 392
 - no-discard: 378
@@ -141,9 +144,9 @@
 - food: 324
 - recipe: 311
 - tier-4: 307
-- material: 291
+- material: 292
 - gimmick: 270
-- household: 230
+- household: 247
 - two-hand: 224
 - tier-5: 212
 - special: 209
@@ -189,14 +192,15 @@
 - ammo: 55
 - treasure: 51
 - seafood: 50
+- butterfly: 48
+- crafting-material: 47
 - key: 47
 - spear: 47
+- fish: 46
 - lamp: 46
 - preorder: 46
-- crafting-material: 45
 - ornament: 42
 - skill-poster: 42
-- fish: 40
 - necklace: 40
 - mace: 38
 - boss-reward: 37
@@ -205,10 +209,10 @@
 - storage: 37
 - currency: 36
 - restores-stamina: 36
+- herb: 35
 - flower-pot: 34
 - kuku-gear: 33
 - buff: 32
-- herb: 32
 - note: 31
 - cooking-facility: 30
 - animal: 28
@@ -223,14 +227,14 @@
 - large-shield: 22
 - platform-bonus: 22
 - npc-tool: 21
-- seed: 21
 - bow: 20
+- seed: 20
 - axe: 19
 - bag: 19
 - earring: 19
 - explosive: 19
-- fruit: 17
-- junk: 17
+- fruit: 19
+- vegetable: 19
 - rapier: 17
 - vehicle-part: 17
 - atag: 16
@@ -239,31 +243,35 @@
 - pet-gear: 16
 - elixir: 15
 - recipe-potion: 15
-- vegetable: 15
 - dagger: 14
 - abyss-gear-box: 13
 - drink: 13
 - halberd: 13
 - mount-summon: 12
+- rare-gather: 12
 - blaster: 11
 - fan: 11
 - musket: 11
-- rare-gather: 11
 - rest-area: 11
 - visione: 11
 - arrow: 10
+- bird: 10
 - greathammer: 10
 - lantern: 10
+- mammal: 10
+- ore: 10
+- abyss-item: 9
+- grain: 9
 - legendary: 9
 - magic-bullet: 9
 - character-exclusive: 8
 - currency-pack: 8
-- grain: 8
 - legendary-animal: 8
 - shotgun: 8
 - stat-boost: 8
 - token: 8
 - wood: 8
+- amphibian: 7
 - cannonball: 7
 - chest: 7
 - fist: 7
@@ -273,40 +281,61 @@
 - pistol: 7
 - refinement-token: 7
 - store-food: 7
-- abyss-item: 6
 - ammo-bundle: 6
+- beetle: 6
 - contribution: 6
 - eyewear: 6
 - greatsword: 6
+- legendary-fish: 6
 - minigame: 6
 - thrower: 6
 - camp-resource: 5
 - cannon: 5
 - fabric: 5
 - hide: 5
-- amphibian: 4
+- reptile: 5
+- arachnid: 4
 - bone: 4
 - bullet: 4
 - cooking-basic: 4
 - honey: 4
 - jewel: 4
 - mount-utility: 4
+- reward-box: 4
 - stone: 4
 - artifact: 3
+- bee: 3
 - bracelet: 3
+- centipede: 3
 - drill: 3
 - kuku-pot: 3
+- moth: 3
+- mushroom: 3
 - npc-only: 3
 - quest-reward: 3
 - recipe-armor: 3
+- shellfish: 3
 - sprayer: 3
 - bait: 2
 - crossbow: 2
+- dairy: 2
+- egg: 2
+- fly: 2
+- mineral: 2
+- poisonous: 2
+- algae: 1
 - animal-spirit: 1
 - blowpipe: 1
 - chainsaw: 1
+- clam: 1
+- crustacean: 1
+- dragonfly: 1
+- fertilizer: 1
 - hidden-equip: 1
+- kuku: 1
 - mask: 1
+- mollusc: 1
+- seaweed: 1
 - torch: 1
 
 ## Rules
@@ -476,8 +505,8 @@ Group rules (item gets the tags of every group in its ancestry):
 - ItemGroup_Collection_Glasscraft -> ornament
 - ItemGroup_Collection_FlowerPot -> flower-pot
 - ItemGroup_Collection_FlowerPot_Low_Friendly -> flower-pot
-- ItemGroup_Collection_DecoObject -> junk
-- ItemGroup_Collection_Tool -> junk
+- ItemGroup_Collection_DecoObject -> household
+- ItemGroup_Collection_Tool -> household
 - ItemGroup_Collection_Cook -> cooking-facility
 - ItemGroup_Equip_Dev_Armor -> dev
 - ItemGroup_Equip_Dev_Acc -> dev
@@ -493,6 +522,17 @@ Group rules (item gets the tags of every group in its ancestry):
 - ItemGroup_Unique_Trade -> trade-good, special
 - ItemGroup_Food_Horse_Add -> mount-feed
 - ItemGroup_Equip_Weapon_TwoHandFlag -> banner
+- ItemGroup_Material_Food_Fish_Tier5 -> fish, legendary-fish
+- ItemGroup_Material_UnTakeable -> herb, mushroom, poisonous
+- ItemGroup_Material_Food_Mushroom_Tier1 -> mushroom
+- ItemGroup_Material_Food_SeaFood_ShellFish_Tier2 -> shellfish
+- ItemGroup_Material_Food_SeaFood_Clam -> clam
+- ItemGroup_Material_Food_egg_Tier1 -> egg
+- ItemGroup_Material_Food_Dairy_Tier1 -> dairy
+- ItemGroup_Housing_Fertilizer -> fertilizer
+- ItemGroup_Food_Horse_Only -> mount-feed
+- ItemGroup_ExpansionBag -> bag
+- ItemGroup_ExpansionFarmSlot -> bag
 
 Group prefix rules:
 
@@ -503,6 +543,9 @@ Group prefix rules:
 - ItemGroup_Material_Object_Metal* -> metal
 - ItemGroup_Material_Object_Stone* -> stone
 - ItemGroup_Material_Object_Fabric* -> fabric
+- ItemGroup_Material_Object_Ore* -> ore
+- ItemGroup_Material_Object_Jewel* -> jewel
+- ItemGroup_Material_Object_Bone* -> bone
 - ItemGroup_Collection_Dye* -> dye
 - ItemGroup_Equip_StealthArmor* -> stealth-gear
 - ItemGroup_Item_Contributionitem* -> contribution-reward

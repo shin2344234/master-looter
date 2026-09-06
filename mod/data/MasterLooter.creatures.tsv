@@ -430,11 +430,11 @@ character_key	string_key	name	item_row	item_class
 32431	Animal_BurrowingToad_Wild_32431	Burrowing Toad	1187	amphibian
 1003945	Animal_BurrowingToad_Wild_32432	Burrowing Toad	1187	amphibian
 1003946	Animal_BurrowingToad_Wild_32433	Burrowing Toad	1187	amphibian
-32428	Animal_Giant_Salamander_Wild_32428	Burrowing Salamander	1088	animal
-32429	Animal_Salamander_Wild_32429	Salamander	1089	animal
-32430	Animal_Axolotl_Wild_32430	Axolotl	1090	animal
-1003947	Animal_Axolotl_Wild_32431	Axolotl	1090	animal
-1003948	Animal_Axolotl_Wild_32432	Axolotl	1090	animal
+32428	Animal_Giant_Salamander_Wild_32428	Burrowing Salamander	1088	amphibian
+32429	Animal_Salamander_Wild_32429	Salamander	1089	amphibian
+32430	Animal_Axolotl_Wild_32430	Axolotl	1090	amphibian
+1003947	Animal_Axolotl_Wild_32431	Axolotl	1090	amphibian
+1003948	Animal_Axolotl_Wild_32432	Axolotl	1090	amphibian
 31404	Animal_Goanna_Wild_31404	Goanna	1091	animal
 30069	Animal_Iguana_Wild_30069	Iguana	1092	animal
 1003594	Animal_Chameleon_Wild_30070	Chameleon	1093	animal
@@ -477,12 +477,12 @@ character_key	string_key	name	item_row	item_class
 1000969	Animal_Insect_firefly	Firefly	1130	insect
 1001051	Animal_Insect_Moth	Mountain Moth	1150	insect
 1000886	Animal_Insect_Butterfly	Meadow Butterfly	1143	insect
-1001151	Animal_Insect_Eastern_Tiger_Swallowtail	Swallowtail Butterfly	-1	insect
+1001151	Animal_Insect_Eastern_Tiger_Swallowtail	Swallowtail Butterfly	1110	insect
 1001153	Animal_Insect_Ornythion_Swallowtail	Ornythion Swallowtail Butterfly	1111	insect
 1001163	Animal_Insect_Spicebush_Swallowtail	Spicebush Swallowtail Butterfly	1128	insect
 1001164	Animal_Insect_Pipevine_Swallowtail	Pipevine Swallowtail Butterfly	1129	insect
 1001166	Animal_Insect_Polydamas_Swallowtail	Polydamas Swallowtail Butterfly	1112	insect
-1001174	Animal_Insect_Zebra_Swallowtail	Zebra Swallowtail Butterfly	-1	insect
+1001174	Animal_Insect_Zebra_Swallowtail	Zebra Swallowtail Butterfly	1113	insect
 1001177	Animal_Insect_Orange_Barred_Sulphur	Orange-Barred Sulphur Butterfly	1154	insect
 1001179	Animal_Insect_Sleepy_Orange	Sleepy Scarlet Butterfly	1164	insect
 1001220	Animal_Insect_White_M_Hairstreak	White Streaked butterfly	1140	insect
@@ -527,8 +527,8 @@ character_key	string_key	name	item_row	item_class
 1001254	Animal_Insect_Theona_Checkerspot	Theona Checkerspot Butterfly	1123	insect
 1000811	Animal_Insect_JijeongLeaf_Insect	Palmar Beetle	1137	insect
 1000942	Animal_RatsSwarm	Swarm of Rats	-1	animal
-1000953	Animal_SpiderSwarm	Spider Colony	-1	animal
-1000964	Animal_GrassHopperSwarm	Grasshopper Colony	-1	animal
+1000953	Animal_SpiderSwarm	Spider Colony	-1	insect
+1000964	Animal_GrassHopperSwarm	Grasshopper Colony	-1	insect
 1000965	Animal_CrowSwarm	Murder of Crows	-1	animal
 1000966	Animal_CrowSwarm_Dome	Murder of Crows	-1	animal
 1001139	Animal_Insect_Bee	Swarm of Honeybees	-1	insect
@@ -536,15 +536,15 @@ character_key	string_key	name	item_row	item_class
 1001148	Animal_Insect_Bumblebee	Swarm of Bumblebees	-1	insect
 1002062	Animal_Insect_firefly_cluster	Firefly Colony	-1	insect
 1000782	Animal_Insect_Sea_Slater	Wharf Roach	1172	insect
-1001240	Animal_Insect_Lobster	Crayfish	-1	insect
+1001240	Animal_Insect_Lobster	Crayfish	1389	seafood
 1000786	Animal_RiceFish	Ricefish	1339	fish
 1000905	Animal_WaterStrider	Water Strider	1138	insect
-1001713	Animal_Insect_Crab	Blue Crab	-1	insect
-1000372	Animal_Insect_StarFish	Starfish	-1	insect
-1001239	Animal_Insect_Shrimp	Shrimp	-1	insect
-1001241	Animal_Insect_Seahorse	Seahorse	-1	insect
-1001242	Animal_Insect_Squid	Squid	-1	insect
-1000779	Animal_Insect_river_Crab	Freshwater Crab	-1	insect
+1001713	Animal_Insect_Crab	Blue Crab	1387	seafood
+1000372	Animal_Insect_StarFish	Starfish	1391	seafood
+1001239	Animal_Insect_Shrimp	Shrimp	1393	seafood
+1001241	Animal_Insect_Seahorse	Seahorse	1392	seafood
+1001242	Animal_Insect_Squid	Squid	1390	seafood
+1000779	Animal_Insect_river_Crab	Freshwater Crab	1388	seafood
 30015	Animal_Rooster_Domestic_30015	Rooster	-1	animal
 30023	Animal_Hen_Domestic_30023	Hen	-1	animal
 30004	Animal_Hairless_Rooster_Domestic_30004	Featherless Rooster	-1	animal
@@ -667,11 +667,11 @@ character_key	string_key	name	item_row	item_class
 33121	Animal_Condor_Wild_33121	Condor Carcass	-1	animal
 33122	Animal_Crow_Wild_33122	Crow Carcass	-1	animal
 33124	Animal_Crocodile_Wild_33124	Crocodile Carcass	-1	animal
-1001343	Animal_Dune_Coelacanth	Coelacanth	-1	animal
-1001353	Animal_Dune_Golden_Coelacanth	Golden Coelacanth	-1	animal
-39107	Animal_GoldenTench_Wild_39107	Golden Tench	-1	animal
-39109	Animal_GoldenCarp_Wild_39109	Golden Carp	-1	animal
-35223	Animal_Marni_MachineFish_Wild_35223	Clockwork Fish	-1	fish
+1001343	Animal_Dune_Coelacanth	Coelacanth	1382	fish
+1001353	Animal_Dune_Golden_Coelacanth	Golden Coelacanth	1381	fish
+39107	Animal_GoldenTench_Wild_39107	Golden Tench	1379	fish
+39109	Animal_GoldenCarp_Wild_39109	Golden Carp	1380	fish
+35223	Animal_Marni_MachineFish_Wild_35223	Clockwork Fish	1383	fish
 1000190	Animal_BlueWhale_Wild_35018	Blue Whale	-1	animal
 30161	Animal_White_Bear_Wild_30161	White Bear	-1	animal
 31377	Animal_White_Horse_Wild_31377	Royler	-1	animal
@@ -745,14 +745,14 @@ character_key	string_key	name	item_row	item_class
 2026840629	Animal_Bismuth_LandSpider_4	Bismuth Oreback Crab	-1	animal
 2026840627	Animal_Bismuth_LandSpider_2	Large Bismuth Oreback Crab	-1	animal
 1644215552	Animal_HexePot_LandSpider_1	Jarback Crab	-1	animal
-32270	Animal_Acid_Spider_32270	Ambush Acid Spider	-1	animal
-32280	Animal_Acid_Spider_32280	Acid Spider	-1	animal
-3653044009	Animal_StoneLampExplosion_Spider_1	Stone Lantern Spider	-1	animal
+32270	Animal_Acid_Spider_32270	Ambush Acid Spider	-1	insect
+32280	Animal_Acid_Spider_32280	Acid Spider	-1	insect
+3653044009	Animal_StoneLampExplosion_Spider_1	Stone Lantern Spider	-1	insect
 30507	Animal_Wyvern_30507	Wyvern	-1	animal
 1000691	Animal_visione_Wyvern_1	Wyvern	-1	animal
 30508	Animal_Wyvern_30508	Wyvern	-1	animal
 1000407	Animal_Abyss_Dimension_Wyvern_1	Dimensional Wyvern	-1	animal
-1001687	Animal_Venomous_Bee	Tropical Hornet	-1	animal
+1001687	Animal_Venomous_Bee	Tropical Hornet	-1	insect
 1001445	Animal_Sulfur_LandSpider_Wild_2	Hexe Brimstoneback Crab	-1	animal
 38035	Animal_Black_Bear_Wild_38035	Lava Bear	-1	animal
 1000368	Animal_Dog_Hernand_Unique_1	Brown Dog	-1	animal

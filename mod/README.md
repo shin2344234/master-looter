@@ -5,10 +5,10 @@ An ASI plugin for Crimson Desert 2.01.00: an auto-looter driven by the tagged it
 ## What is in the box
 
 - `MasterLooter.asi`: the plugin. Draws a Dear ImGui menu over the game through a DirectX 12 present hook (adapted from Trinity, see THIRD_PARTY_NOTICES.md), so it works with DLSS frame generation and HDR.
-- `MasterLooter.items.tsv`: the item database (6,813 items with runtime row id, class, tags, tier and sell value), generated from `data/items_tagged.csv` by `scripts/make_itemdb_tsv.py`.
+- `MasterLooter.items.tsv`: the item database (6,813 items with runtime row id, class, tags, tier and sell value), generated from `data/items_tagged.csv` by `scripts/make_itemdb_tsv.py`. Classes and tags come from the group rules in `scripts/build_item_db.py`; the hand-made corrections for items the rules get wrong (legendary fish, salamanders, ores, horse feed) live in `data/class_overrides.csv`.
 - `MasterLooter.ini`: written next to the plugin on first run, rewritten whenever a setting changes in the menu, and reloaded within a second if edited by hand while the game runs.
 - `MasterLooter.log`: rewritten every launch. Signature resolution, hook installation, the event self test, every item taken and, once per object, why anything within range was skipped.
-- `MasterLooter.creatures.tsv`: every creature the player can catch with the class of the item it becomes, generated from the character data by `scripts/make_creatures_tsv.py`. It is how insects, fish and small animals are told apart.
+- `MasterLooter.creatures.tsv`: every creature the player can catch with the class of the item it becomes, generated from the character data by `scripts/make_creatures_tsv.py`. It is how insects, fish, seafood and small animals are told apart; crabs, shrimp, squid, starfish and seahorses count as fish for the Fish toggle, and rows without an item (monsters, mounts) only serve name matching.
 - `MasterLooter.learned.tsv`: what each gather node type yields, learned by watching the bag after a gather, yours or the mod's. It is what tells plants, ore, stone and wood apart; delete it or press Forget to relearn.
 
 ## Controls
@@ -33,10 +33,12 @@ Every game address comes from a byte pattern or an RTTI name resolved at load; n
 
 Needs Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come with it) and internet on the first configure (Dear ImGui and MinHook are fetched).
 
+    py -3 ..\scripts\build_item_db.py
     py -3 ..\scripts\make_itemdb_tsv.py
+    py -3 ..\scripts\make_creatures_tsv.py
     build.bat
 
-Output lands in `dist\`. Copy `MasterLooter.asi` and `MasterLooter.items.tsv` into the game's `bin64\` next to the ASI loader (`winmm.dll`), or into the DMM mods folder, while the game is closed.
+Output lands in `dist\`. Copy `MasterLooter.asi`, `MasterLooter.items.tsv` and `MasterLooter.creatures.tsv` into the game's `bin64\` next to the ASI loader (`winmm.dll`), or into the DMM mods folder, while the game is closed.
 
 ## Files
 
