@@ -130,7 +130,7 @@ function apply(){
   shown = 0; $("body").innerHTML = ""; more();
   $("match").textContent = view.length.toLocaleString();
 }
-function qty(e){ return e.min === e.max ? e.min : e.min + "–" + e.max; }
+function qty(e){ return e.min === e.max ? e.min : e.min + "-" + e.max; }
 function render(v){
   const s = v.s, q = v.q;
   let used = "";

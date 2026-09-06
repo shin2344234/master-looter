@@ -2,7 +2,7 @@
 
 Auto-loot for Crimson Desert 2.01.00 with an in-game menu.
 
-Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch, every item is filtered through a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game.
+Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch. Every item is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game.
 
 [Releases](https://github.com/shin2344234/master-looter/releases) · [Plugin manual](mod/README.md) · [Data pipeline](scripts/README.md) · [Nexus description](docs/nexus-description.bbcode)
 
@@ -14,14 +14,18 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
 - Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
 - A Nearby tab lists every object around you with the rule that decided it; a Status tab shows every hook and signature.
-- Watch mode keeps the menu on screen while you play. Keys are rebindable. Works with DLSS frame generation and HDR.
+- Watch mode keeps the menu on screen while you play, and every key is rebindable. The overlay works with DLSS frame generation and HDR.
 - Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, and `sigcheck.py` reports what a game patch broke without launching the game.
 
 ## Installing
 
-**With Definitive Mod Manager (DMM).** Import `MasterLooter-<version>-DMM.zip` from the [releases](https://github.com/shin2344234/master-looter/releases) (drag it onto the DMM window). DMM registers `MasterLooter.asi` as an ASI add-on, deploys it with its own loader and removes it on uninstall. Disable any other auto-loot mod first: two of them hook the same game functions and the second one to load does nothing.
+### With Definitive Mod Manager
 
-**By hand.** Ultimate ASI Loader (`winmm.dll`) must be in the game's `bin64` folder. Copy `MasterLooter.asi` from `MasterLooter-<version>.zip` into `bin64` next to it while the game is closed. The item database and the creature table are compiled into the plugin. Start the game and press Insert.
+Import `MasterLooter-<version>-DMM.zip` from the [releases](https://github.com/shin2344234/master-looter/releases) (drag it onto the DMM window). DMM registers `MasterLooter.asi` as an ASI add-on, deploys it with its own loader and removes it on uninstall. Disable any other auto-loot mod first: two of them hook the same game functions and the second one to load does nothing.
+
+### By hand
+
+Ultimate ASI Loader (`winmm.dll`) must be in the game's `bin64` folder. Copy `MasterLooter.asi` from `MasterLooter-<version>.zip` into `bin64` next to it while the game is closed. The item database and the creature table are compiled into the plugin. Start the game and press Insert.
 
 Uninstall by deleting the `MasterLooter.*` files from `bin64`. The plugin writes `MasterLooter.ini`, `MasterLooter.log` and `MasterLooter.learned.tsv` next to itself; no game file is modified and nothing is written to a save.
 
@@ -34,7 +38,7 @@ Uninstall by deleting the `MasterLooter.*` files from `bin64`. The plugin writes
 
 ## How it decides
 
-A worker thread finds the game's actor manager by its RTTI class name, reads every world object around the player and decides per object. Decisions that pass are queued, and a hook on the game's own per-frame tick sends the game's own loot events (pick up, gather, catch, search carcass), the same events the game sends when you press the interaction key.
+A worker thread finds the game's actor manager by its RTTI class name and reads every world object around the player. Each object gets a verdict of its own. Verdicts that pass are queued, and a hook on the game's own per-frame tick sends the game's own loot events (pick up, gather, catch, search carcass), the same events the game sends when you press the interaction key.
 
 Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters, copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, locked nodes, your own equipment and bag contents, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's Take-or-Steal check calls theft. The [plugin manual](mod/README.md) has the details, the safety notes and the known limits.
 

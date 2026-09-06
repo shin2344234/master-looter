@@ -20,6 +20,6 @@ Fetched at build time from https://github.com/ocornut/imgui (MIT License, Copyri
 Fetched at build time from https://github.com/TsudaKageyu/minhook (BSD 2-Clause License, Copyright (C) 2009-2017 Tsuda Kageyu). Its bundled HDE disassembler is used by `src/loot/farhook.cpp` to measure function prologues.
 
 ## Research credits
-The loot engine in `src/loot` follows the reverse engineering published with CDLoot for Crimson Desert: the loot event protocol and descriptors, the entity and component layout, the ownership (Take or Steal) oracle and the node-arming call. `src/loot/signatures.h` records which of its patterns and offsets came from there. No CDLoot code is included; what was taken is where to look and what shape the answer has.
+The loot engine in `src/loot` follows the reverse engineering published with CDLoot for Crimson Desert: the loot event protocol and descriptors, the entity and component layout, the ownership (Take or Steal) oracle and the node-arming call. `src/loot/signatures.h` records which of its patterns and offsets came from there. No CDLoot code is included. The debt is knowing where to look.
 
 Ultimate ASI Loader (winmm.dll) is required to load the plugin but is not part of this repository.
