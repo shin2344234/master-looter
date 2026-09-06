@@ -34,6 +34,7 @@ namespace ml::Mod
 
         Paths::Init(module);
         LOG("Master Looter v%s for Crimson Desert %s starting (built %s %s).", ML_VERSION, ML_GAME_BUILD, __DATE__, __TIME__);
+        LOG("Mod page %s | source %s", ML_MOD_PAGE, ML_SOURCE_URL);
 
         Settings::Load();
 
