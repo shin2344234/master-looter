@@ -1,0 +1,9 @@
+Fixes nothing being picked up until the game got around to running its own ownership check, which for some players never happened at all.
+
+- Before taking anything the mod asks the game whether it would count as stealing, and it could only ask after watching the game make that call itself. The game only makes it when there is something nearby worth asking about, so out in the wild it can be minutes away, or never. One reported log ran eight minutes without a single one. Until then everything was refused, and the reason given was "owner unknown yet", which is nonsense for a wild blueberry bush.
+- The mod now works the question out from the player and is ready the moment you load in. Verified on a session where the game never made the call at all, which would have collected nothing on the old build.
+- The wording is fixed too. Nothing tells you a wild plant belongs to someone any more.
+
+Thanks to lzmbrow for the report and the log.
+
+Built for Crimson Desert 2.01.00 (exe 1.0.0.2760). Source and issues: https://github.com/shin2344234/master-looter
