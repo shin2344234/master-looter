@@ -13,6 +13,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
 - Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
 - Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
+- Presets: every setting and every rule saved under a name, swapped in two clicks. The settings file is also backed up each time the game starts, so a version with different defaults is one button to undo.
 - A notice appears when the bag stops taking things. The game does not announce a full bag, so this watches what happens after a pick-up: five sent in a row with nothing arriving raises it, and it clears as soon as something lands. Turn it off under General.
 - A Nearby tab lists every object around you with the rule that decided it; a Status tab shows every hook and signature.
 - Watch mode keeps the menu on screen while you play, and every key is rebindable. The overlay works with DLSS frame generation and HDR.
@@ -28,7 +29,7 @@ Import `MasterLooter-<version>-DMM.zip` from the [releases](https://github.com/s
 
 Ultimate ASI Loader (`winmm.dll`) must be in the game's `bin64` folder. Copy `MasterLooter.asi` from `MasterLooter-<version>.zip` into `bin64` next to it while the game is closed. The item database and the creature table are compiled into the plugin. Start the game and press Insert.
 
-Uninstall by deleting the `MasterLooter.*` files from `bin64`. The plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself; no game file is modified and nothing is written to a save.
+Uninstall by deleting the `MasterLooter.*` files from `bin64`. The plugin writes `MasterLooter.ini`, `MasterLooter.ini.bak`, `MasterLooter.log` and a `MasterLooter.presets` folder next to itself; no game file is modified and nothing is written to a save.
 
 ## Controls
 
