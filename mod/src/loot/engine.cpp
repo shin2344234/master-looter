@@ -85,7 +85,7 @@ namespace ml::loot
         return it && (it->klass == "insect" || it->klass == "fish" || it->klass == "animal" || it->klass == "amphibian" || it->HasTag("shellfish"));
     }
 
-    struct Species { const Creature* row = nullptr; const char* klass = nullptr; bool exact = false; std::string word, from; };
+    struct Species { const Creature* row = nullptr; const char* klass = nullptr; bool exact = false; int trust = 0; std::string word, from; };
     static std::unordered_map<uint32_t, Species> g_speciesByEid;
     static std::unordered_set<uint32_t> g_speciesMiss;
 
@@ -95,43 +95,80 @@ namespace ml::loot
     // false match; a byte-05 "animal" is only believed when it is a bird.
     static bool IsBird(const Species& sp)
     {
-        static const char* words[] = { "bird", "smallbird", "embriza" };
+        static const char* words[] = { "bird", "smallbird", "embriza", "goose", "duck", "chicken", "hen", "rooster", "coot", "crow", "pigeon" };
         for (const char* w : words) if (sp.word == w) return true;
         if (sp.row) if (const Item* it = ItemDb::ByRow(sp.row->itemRow)) return it->HasTag("bird");
         return false;
     }
+    // Byte 05 turned out to be a movement state rather than a family: a goose
+    // on a pond and a rat crossing a stream are 05 too. An animal is believed
+    // there when it is a bird or when its own model string says so.
     static bool Plausible(uint8_t cat2, const Species& sp)
     {
         if (!sp.klass) return false;
         const std::string k = sp.klass;
-        if (cat2 == 0x05) return k == "fish" || k == "seafood" || k == "insect" || (k == "animal" && IsBird(sp));
+        if (cat2 == 0x05) return k == "fish" || k == "seafood" || k == "insect" || (k == "animal" && (IsBird(sp) || sp.trust >= 3));
         if (cat2 == 0x09) return k == "insect" || k == "animal" || k == "amphibian" || k == "seafood";
         return true;
     }
 
-    static bool ReadStringsAt(uintptr_t obj, unsigned off, Species* out, char* probe, size_t probeLen)
+    // How far a string may be believed about the creature it hangs off. The
+    // creature's own model, appearance and motion assets name its species
+    // outright (cd_m0002_rat, cd_fish, character/model/2_mon/.../m0003_00_crow);
+    // shared action tables mention several species (upperaction/...,
+    // schedule_action_goose); UI strings name none, and one of them,
+    // common_icon_keyguide_pc_mouse_x1, taught 0.3.9 that beetles were mice.
+    static bool HasNoCase(const char* s, const char* sub)
+    {
+        const size_t n = strlen(sub);
+        for (; *s; ++s) if (_strnicmp(s, sub, n) == 0) return true;
+        return false;
+    }
+    static int Trust(const char* s)
+    {
+        if (strchr(s, '-') || strchr(s, ',') || strchr(s, ' ')) return 0;   // CSS-like UI class names
+        static const char* ui[] = { "icon", "keyguide", "effect", "click", "font", "texture", "ui/", ".dds", "hud", "preset", "cutscene" };
+        for (const char* u : ui) if (HasNoCase(s, u)) return 0;
+        if (!strncmp(s, "cd_", 3) || !strncmp(s, "character/", 10)) return 3;
+        if (!strncmp(s, "upperaction/", 12) || strstr(s, "schedule_action")) return 2;
+        return 1;
+    }
+
+    // Reads the strings a slot leads to and keeps the best-trusted species
+    // match in `best`. Returns true when `best` improved.
+    static bool ReadStringsAt(uintptr_t obj, unsigned off, Species* best, char* probe, size_t probeLen)
     {
         const uintptr_t q = mem::Deref(obj, off);
         if (!q || mem::InImage(q)) return false;
         static const unsigned fields[] = { 0x00, 0x08, 0x10, 0x18, 0x20 };
         char buf[128];
+        bool improved = false;
         for (unsigned f : fields)
         {
             if (!mem::ReadEngineString(q + f, buf, sizeof buf)) continue;
             if (probe && probeLen > strlen(probe) + strlen(buf) + 4) { strncat(probe, buf, probeLen - strlen(probe) - 2); strncat(probe, " ", probeLen - strlen(probe) - 1); }
+            const int trust = Trust(buf);
+            if (trust <= 0 || trust <= best->trust) continue;
+            Species sp;
             const Creature* row = CreatureDb::ByKey(buf);
             if (!row) row = CreatureDb::InText(buf);
             if (row)
             {
                 static const char* kNames[] = { "insect", "fish", "seafood", "amphibian" };
-                out->row = row; out->klass = "animal"; out->exact = true; out->word = row->stringKey; out->from = buf;
-                for (const char* k : kNames) if (row->klass == k) out->klass = k;
-                return true;
+                sp.row = row; sp.klass = "animal"; sp.exact = true; sp.word = row->stringKey; sp.trust = 4;
+                for (const char* k : kNames) if (row->klass == k) sp.klass = k;
             }
-            const CreatureDb::Match m = CreatureDb::Classify(buf);
-            if (m.klass) { out->row = m.row; out->klass = m.klass; out->exact = m.exact; out->word = m.word; out->from = buf; return true; }
+            else
+            {
+                const CreatureDb::Match m = CreatureDb::Classify(buf);
+                if (!m.klass) continue;
+                sp.row = m.row; sp.klass = m.klass; sp.exact = m.exact; sp.word = m.word; sp.trust = trust;
+            }
+            sp.from = buf;
+            *best = sp;
+            improved = true;
         }
-        return false;
+        return improved;
     }
 
     static Species FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai, uint8_t cat2)
@@ -147,23 +184,26 @@ namespace ml::loot
         char probe[1400] = "";
         const uintptr_t objs[4] = { ent, actor, status, ai };
         const unsigned  lens[4] = { 0x300, 0x300, 0x400, 0x300 };
-        bool found = false;
-        for (int o = 0; o < 4 && !found; ++o)
+        // Every string within two hops is read and the best-trusted match
+        // wins: the creature's own model beats a shared action table, and an
+        // exact creature key (trust 4) ends the search.
+        for (int o = 0; o < 4 && sp.trust < 4; ++o)
         {
             if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
-            for (unsigned off = 0; off < lens[o] && !found; off += 8)
+            for (unsigned off = 0; off < lens[o] && sp.trust < 4; off += 8)
             {
-                if (ReadStringsAt(objs[o], off, &sp, dump ? probe : nullptr, sizeof probe)) { found = true; break; }
+                ReadStringsAt(objs[o], off, &sp, dump ? probe : nullptr, sizeof probe);
                 const uintptr_t mid = mem::Deref(objs[o], off);
                 if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x200)) continue;
-                for (unsigned off2 = 0; off2 < 0x200; off2 += 8)
-                    if (ReadStringsAt(mid, off2, &sp, dump ? probe : nullptr, sizeof probe)) { found = true; break; }
+                for (unsigned off2 = 0; off2 < 0x200 && sp.trust < 4; off2 += 8)
+                    ReadStringsAt(mid, off2, &sp, dump ? probe : nullptr, sizeof probe);
             }
         }
+        bool found = sp.klass != nullptr;
         if (found && !Plausible(cat2, sp))
         {
             static int s_rejected = 0;
-            if (s_rejected < 20) { ++s_rejected; LOG("[species] %08X (byte %02X) cannot be %s (%s): word '%s' in \"%s\"; treated as unidentified", eid, cat2, sp.klass, sp.row ? sp.row->name.c_str() : "-", sp.word.c_str(), sp.from.c_str()); }
+            if (s_rejected < 20) { ++s_rejected; LOG("[species] %08X (byte %02X) cannot be %s (%s): word '%s' in \"%s\" (trust %d); treated as unidentified", eid, cat2, sp.klass, sp.row ? sp.row->name.c_str() : "-", sp.word.c_str(), sp.from.c_str(), sp.trust); }
             found = false;
             sp = Species();
         }
@@ -172,7 +212,7 @@ namespace ml::loot
             if (g_speciesByEid.size() > 4096) g_speciesByEid.clear();
             g_speciesByEid[eid] = sp;
             static int s_hits = 0;
-            if (s_hits < 30) { ++s_hits; LOG("[species] %08X (byte %02X) is %s%s%s: word '%s' in \"%s\"", eid, cat2, sp.klass, sp.row ? (sp.exact ? ", " : ", e.g. ") : "", sp.row ? sp.row->name.c_str() : "", sp.word.c_str(), sp.from.c_str()); }
+            if (s_hits < 30) { ++s_hits; LOG("[species] %08X (byte %02X) is %s%s%s: word '%s' in \"%s\" (trust %d)", eid, cat2, sp.klass, sp.row ? (sp.exact ? ", " : ", e.g. ") : "", sp.row ? sp.row->name.c_str() : "", sp.word.c_str(), sp.from.c_str(), sp.trust); }
             return sp;
         }
         if (dump)

@@ -81,7 +81,7 @@ namespace ml::CreatureDb
             { "crab", "seafood" }, { "shrimp", "seafood" }, { "crayfish", "seafood" }, { "lobster", "seafood" }, { "squid", "seafood" }, { "starfish", "seafood" }, { "seahorse", "seafood" }, { "clam", "seafood" },
             { "frog", "amphibian" }, { "toad", "amphibian" }, { "salamander", "amphibian" }, { "axolotl", "amphibian" }, { "newt", "amphibian" },
             { "bird", "animal" }, { "smallbird", "animal" }, { "embriza", "animal" }, { "goose", "animal" }, { "duck", "animal" }, { "chicken", "animal" }, { "hen", "animal" }, { "rooster", "animal" }, { "coot", "animal" },
-            { "rat", "animal" }, { "mouse", "animal" }, { "squirrel", "animal" }, { "rabbit", "animal" }, { "hare", "animal" }, { "hedgehog", "animal" }, { "turtle", "animal" }, { "lizard", "animal" }, { "snake", "animal" },
+            { "rat", "animal" }, { "squirrel", "animal" }, { "crow", "animal" }, { "pigeon", "animal" }, { "rabbit", "animal" }, { "hare", "animal" }, { "hedgehog", "animal" }, { "turtle", "animal" }, { "lizard", "animal" }, { "snake", "animal" },
         };
         for (const G& g : generic) { auto it = g_words.find(g.w); if (it == g_words.end()) g_words[g.w] = { g.k, -1, 1, false }; }
     }
