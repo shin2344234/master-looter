@@ -60,7 +60,12 @@ namespace ml::game
     int  InventoryCount();
     // Slots across every bucket the reader can see, 0 when it cannot tell.
     int  InventoryCapacity();
-    // Samples the inventory holder looking for whatever holds the bag's limit.
+    // How full the carried bag is. False when the fields do not read sanely,
+    // in which case there is nothing to report and the behaviour check is all
+    // there is.
+    bool BagSlots(int* used, int* cap);
+    // Samples the inventory holder. This is how the two fields above were
+    // found; keep it for doing the same again after a game patch.
     void DumpInventoryShape(uintptr_t me, bool bagFull);
     // Quantity per item type id across every storage, sorted by type. Returns
     // the number of entries copied.

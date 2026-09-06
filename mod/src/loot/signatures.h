@@ -140,6 +140,15 @@ namespace ml::sig
     inline constexpr unsigned kOff_Bucket_Slots  = 0x00;
     inline constexpr unsigned kOff_Bucket_SlotN  = 0x08; // u16
     inline constexpr unsigned kInv_SlotStride    = 0xC8;
+    // The carried bag is bucket 0: the only one whose contents move as the
+    // player picks things up. How full it is sits in two u16 fields side by
+    // side, found on 2.01.00 by sampling the structure while the bag filled
+    // and emptied (the bag stopped at 98 every time, and 98 is what +0x14
+    // holds). Both are validated before use and the behaviour check stands in
+    // when they read as nonsense.
+    inline constexpr unsigned kInv_BagBucket    = 0;
+    inline constexpr unsigned kOff_Bucket_Used  = 0x12; // u16, occupied slots
+    inline constexpr unsigned kOff_Bucket_Cap   = 0x14; // u16, how many it holds
     inline constexpr unsigned kOff_Slot_TypeId   = 0x08; // u16, 0xFFFF empty
 
     // --- Event body layout --------------------------------------------------

@@ -12,8 +12,8 @@ namespace ml::loot
         bool  started = false, resolved = false, hooked = false, actorManager = false, playerFound = false;
         bool  sendAllowed = false, ownerOracle = false, routeKnown = false, settling = false;
         int   descriptors = 0, itemTable = 0, inventoryItems = 0, candidates = 0, lootable = 0, learned = 0;
-        int   inventorySlots = 0;   // 0 when the reader cannot tell
-        bool  bagFull = false;      // sends stopped landing in the bag
+        int   bagUsed = 0, bagSlots = 0;   // the carried bag; 0 when unreadable
+        bool  bagFull = false;             // no room, or sends stopped landing
         uint32_t playerEid = 0;
         long  scans = 0, sent = 0, faults = 0, pumpTicks = 0;
         float lastScanMs = 0;

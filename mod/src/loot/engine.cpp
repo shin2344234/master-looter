@@ -294,14 +294,14 @@ namespace ml::loot
     static std::vector<std::pair<uint16_t, long long>> g_invPrev;
     static bool g_invPrevValid = false;
 
-    // A full bag is not something the game tells us, so it is inferred: the mod
-    // sent pick-ups, they were accepted, and nothing arrived. One failure means
-    // little (an item can be snatched, an event refused), a run of them means
-    // the bag has no room, and one landing clears it again.
-    //
-    // An item that is going to arrive does so in well under a second, so a send
-    // is judged at 1.2 s rather than waiting out the four seconds the yield
-    // learning wants. Three in a row is enough to say something.
+    // How full the bag is is read straight from it: the carried bag keeps its
+    // used count and its limit side by side. When those do not read sanely the
+    // behaviour check below stands in, which infers a full bag from pick-ups
+    // that reach nothing. One failure means little (an item can be snatched, an
+    // event refused), three in a row mean the bag has no room, and one landing
+    // clears it. An item that is going to arrive does so in well under a
+    // second, so a send is judged at 1.2 s rather than waiting out the four
+    // seconds the yield learning wants.
     static constexpr int   kBagFullStreak = 3;
     static constexpr DWORD kBagVerdictMs  = 1200;
     static int   g_noRise = 0;
@@ -387,16 +387,40 @@ namespace ml::loot
         if (missed)
         {
             g_noRise += missed;
-            if (g_noRise >= kBagFullStreak && !g_bagFull)
+            if (g_noRise >= kBagFullStreak && !g_bagFull && !game::BagSlots(nullptr, nullptr))
             {
                 g_bagFull = true;
                 LOG("[bag] %d pick-ups in a row reached nothing: the bag is full, or those items cannot be carried", g_noRise);
             }
         }
+        // The bag's own numbers win when they are there. They also say so while
+        // the player stands still, which the behaviour check never can.
+        int used = 0, cap = 0;
+        if (game::BagSlots(&used, &cap))
+        {
+            const bool full = used >= cap;
+            if (full != g_bagFull)
+            {
+                if (full) LOG("[bag] full: %d of %d slots", used, cap);
+                else { LOG("[bag] room again: %d of %d slots", used, cap); g_noRise = 0; }
+                g_bagFull = full;
+            }
+            // Worth knowing if the two ever disagree: the fields were found by
+            // watching one bag fill, and a wrong guess should not go unnoticed.
+            if (!full && g_noRise >= kBagFullStreak)
+            {
+                static int s_odd = 0;
+                if (s_odd < 5) { ++s_odd; LOG("[bag] %d pick-ups reached nothing while the bag reads %d of %d: something else is refusing them", g_noRise, used, cap); }
+                g_noRise = 0;
+            }
+        }
         if (g_bagFull && Settings::Get().notifyBagFull && now - g_bagFullSaid > 30000)
         {
             g_bagFullSaid = now;
-            State::Get().Notify("Master Looter: bag full, nothing is being picked up", 5000, true);
+            char msg[96];
+            if (cap) snprintf(msg, sizeof msg, "Master Looter: bag full, %d of %d slots", used, cap);
+            else     snprintf(msg, sizeof msg, "Master Looter: bag full, nothing is being picked up");
+            State::Get().Notify(msg, 5000, true);
         }
         if (rose.empty() || g_pend.empty()) return;
         for (uint16_t type : rose)
@@ -1263,8 +1287,10 @@ namespace ml::loot
         g_status.settling = settling;
         snprintf(g_status.hold, sizeof g_status.hold, "%s", settling ? s_holdWhy : "");
         g_status.inventoryItems = game::InventoryCount();
-        g_status.inventorySlots = game::InventoryCapacity();
         g_status.bagFull = g_bagFull;
+        int bagUsed = 0, bagCap = 0;
+        if (game::BagSlots(&bagUsed, &bagCap)) { g_status.bagUsed = bagUsed; g_status.bagSlots = bagCap; }
+        else { g_status.bagUsed = g_status.bagSlots = 0; }
         g_status.learned = static_cast<int>(g_learn.size());
         g_status.lastScanMs = static_cast<float>((t1.QuadPart - t0.QuadPart) * 1000.0 / fq.QuadPart);
         ++g_status.scans;

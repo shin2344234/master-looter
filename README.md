@@ -14,7 +14,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
 - Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
 - Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up each time the game starts and the last twelve are kept, so a version with different defaults is one button to undo. Anything that overwrites or discards asks first.
-- A notice appears when the bag stops taking things. The game does not announce a full bag, so this watches what happens after a pick-up: five sent in a row with nothing arriving raises it, and it clears as soon as something lands. Turn it off under General.
+- A notice appears when the bag is full, read from the bag's own slot count, so it shows the moment it fills whether or not you are looting. Turn it off under General.
 - A Nearby tab lists every object around you with the rule that decided it; a Status tab shows every hook and signature.
 - Watch mode keeps the menu on screen while you play, and every key is rebindable. The overlay works with DLSS frame generation and HDR.
 - Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, and `sigcheck.py` reports what a game patch broke without launching the game.

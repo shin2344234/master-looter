@@ -205,6 +205,7 @@ namespace ml::game
     static DWORD    g_invAt = 0;
     static int      g_invCap = 0;       // slots across the buckets we can read, 0 when unknown
     static std::vector<std::pair<int, int>> g_invEach;   // per bucket: slots, occupied
+    static int      g_bagUsed = 0, g_bagCap = 0;        // the carried bag, 0 when unreadable
     static unsigned g_slotStride = 0;   // 0xC0 (Trinity) or 0xC8 (CDLoot); probed on the live data
     static std::vector<std::pair<uint16_t, long long>> g_qty;
 
@@ -250,6 +251,17 @@ namespace ml::game
             uintptr_t bk = 0, slots = 0; uint16_t sn = 0;
             if (!mem::ReadPtr(barr + 8ull * b, &bk)) continue;
             if (!mem::ReadPtr(bk + kOff_Bucket_Slots, &slots) || !mem::Read16(bk + kOff_Bucket_SlotN, &sn) || sn > 4096) continue;
+            if (b == kInv_BagBucket)
+            {
+                uint16_t used = 0, cap = 0;
+                if (mem::Read16(bk + kOff_Bucket_Used, &used) && mem::Read16(bk + kOff_Bucket_Cap, &cap) &&
+                    cap >= 8 && cap <= 4096 && used <= cap + 512)
+                {
+                    if (!g_bagCap) LOG("[inv] carried bag holds %u slots, %u in use", cap, used);
+                    g_bagUsed = used; g_bagCap = cap;
+                }
+                else g_bagUsed = g_bagCap = 0;
+            }
             if (!g_slotStride && sn >= 8) g_slotStride = ProbeStride(slots, sn);
             const unsigned stride = g_slotStride ? g_slotStride : kInv_SlotStride;
             if (!mem::Readable(slots, static_cast<size_t>(sn) * stride)) continue;
@@ -307,6 +319,14 @@ namespace ml::game
     }
     int InventoryCount() { return g_invN; }
     int InventoryCapacity() { return g_invCap; }
+
+    bool BagSlots(int* used, int* cap)
+    {
+        if (!g_bagCap) return false;
+        if (used) *used = g_bagUsed;
+        if (cap)  *cap  = g_bagCap;
+        return true;
+    }
 
     // ------------------------------------------------- inventory shape ----
     // Where the bag's limit is kept is not known. It is not a slot count: all
