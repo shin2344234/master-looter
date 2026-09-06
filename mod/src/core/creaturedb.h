@@ -24,12 +24,14 @@ namespace ml
         // The creature whose string key appears inside `text` (longest wins), e.g.
         // an animation or behaviour asset name that embeds it. Null when none.
         const Creature* InText(const char* text);
-        // Classify by the species words in `text` ("cd_m0002_rat" -> animal, Rat).
-        // Words come from the name and key of every creature that becomes an
-        // item (monsters and mounts do not vote) plus a short generic list.
-        // Returns the class ("insect", "fish", "seafood", "animal", "amphibian")
-        // or null; `creature` gets a representative row when the word names a
-        // specific one.
-        const char* Classify(const char* text, const Creature** creature);
+        // Classify by a species word in `text` ("cd_m0002_rat" -> animal, Rat).
+        // Words are the head noun of every catchable creature's English name
+        // ("Red Tonguesole" -> tonguesole, "Tree Frog" -> frog) plus a short
+        // generic list; key tokens do not take part (see BuildWords). `klass`
+        // is null when nothing matched. `row` is the creature the word names
+        // when `exact`, otherwise a representative of several sharing the word
+        // (every butterfly says "butterfly").
+        struct Match { const char* klass = nullptr; const Creature* row = nullptr; bool exact = false; std::string word; };
+        Match Classify(const char* text);
     }
 }

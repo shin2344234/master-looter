@@ -68,7 +68,8 @@ namespace ml::loot
         char key[64] = "";   // engine string key from the live table
         char node[64] = "";  // gimmick node name
         const Item* db = nullptr;
-        const Creature* species = nullptr;   // a specific creature, when one is named
+        const Creature* species = nullptr;   // the creature named, or a representative of its species word
+        bool speciesExact = false;           // `species` is the creature itself, not a stand-in
         const char* speciesClass = nullptr;  // "insect", "fish", "seafood", "animal", "amphibian" or null
     };
 
@@ -84,9 +85,21 @@ namespace ml::loot
         return it && (it->klass == "insect" || it->klass == "fish" || it->klass == "animal" || it->klass == "amphibian" || it->HasTag("shellfish"));
     }
 
-    struct Species { const Creature* row; const char* klass; };
+    struct Species { const Creature* row = nullptr; const char* klass = nullptr; bool exact = false; std::string word, from; };
     static std::unordered_map<uint32_t, Species> g_speciesByEid;
     static std::unordered_set<uint32_t> g_speciesMiss;
+
+    // The category byte narrows what a creature can be: 05 swims or flies
+    // (fish, seafood, butterflies), 09 walks (ground insects, small animals,
+    // frogs, geese). A species word that contradicts it is a false match.
+    static bool Plausible(uint8_t cat2, const char* klass)
+    {
+        if (!klass) return false;
+        const std::string k = klass;
+        if (cat2 == 0x05) return k == "fish" || k == "seafood" || k == "insect";
+        if (cat2 == 0x09) return k == "insect" || k == "animal" || k == "amphibian" || k == "seafood";
+        return true;
+    }
 
     static bool ReadStringsAt(uintptr_t obj, unsigned off, Species* out, char* probe, size_t probeLen)
     {
@@ -103,20 +116,19 @@ namespace ml::loot
             if (row)
             {
                 static const char* kNames[] = { "insect", "fish", "seafood", "amphibian" };
-                out->row = row; out->klass = "animal";
+                out->row = row; out->klass = "animal"; out->exact = true; out->word = row->stringKey; out->from = buf;
                 for (const char* k : kNames) if (row->klass == k) out->klass = k;
                 return true;
             }
-            const Creature* named = nullptr;
-            const char* klass = CreatureDb::Classify(buf, &named);
-            if (klass) { out->row = named; out->klass = klass; return true; }
+            const CreatureDb::Match m = CreatureDb::Classify(buf);
+            if (m.klass) { out->row = m.row; out->klass = m.klass; out->exact = m.exact; out->word = m.word; out->from = buf; return true; }
         }
         return false;
     }
 
     static Species FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai, uint8_t cat2)
     {
-        Species sp{ nullptr, nullptr };
+        Species sp;
         if (!CreatureDb::Loaded()) return sp;
         auto hit = g_speciesByEid.find(eid);
         if (hit != g_speciesByEid.end()) return hit->second;
@@ -140,12 +152,19 @@ namespace ml::loot
                     if (ReadStringsAt(mid, off2, &sp, dump ? probe : nullptr, sizeof probe)) { found = true; break; }
             }
         }
+        if (found && !Plausible(cat2, sp.klass))
+        {
+            static int s_rejected = 0;
+            if (s_rejected < 20) { ++s_rejected; LOG("[species] %08X (byte %02X) cannot be %s (%s): word '%s' in \"%s\"; treated as unidentified", eid, cat2, sp.klass, sp.row ? sp.row->name.c_str() : "-", sp.word.c_str(), sp.from.c_str()); }
+            found = false;
+            sp = Species();
+        }
         if (found)
         {
             if (g_speciesByEid.size() > 4096) g_speciesByEid.clear();
             g_speciesByEid[eid] = sp;
             static int s_hits = 0;
-            if (s_hits < 30) { ++s_hits; LOG("[species] %08X (byte %02X) is %s: %s", eid, cat2, sp.klass, sp.row ? sp.row->name.c_str() : "species word only"); }
+            if (s_hits < 30) { ++s_hits; LOG("[species] %08X (byte %02X) is %s%s%s: word '%s' in \"%s\"", eid, cat2, sp.klass, sp.row ? (sp.exact ? ", " : ", e.g. ") : "", sp.row ? sp.row->name.c_str() : "", sp.word.c_str(), sp.from.c_str()); }
             return sp;
         }
         if (dump)
@@ -471,7 +490,7 @@ namespace ml::loot
         if (k.ai && !k.inter && k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
         {
             const Species sp = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai), k.cat2);
-            k.species = sp.row; k.speciesClass = sp.klass;
+            k.species = sp.row; k.speciesClass = sp.klass; k.speciesExact = sp.exact;
         }
         if (k.gather && k.tid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.tid; }
         if (g_actorEid.size() > 4096) g_actorEid.clear();
@@ -651,7 +670,7 @@ namespace ml::loot
         if (c.key[0]) return c.key;
         if (c.node[0]) return c.node;
         if (c.dead == 1) return "corpse";
-        if (c.species) return c.species->name.c_str();
+        if (c.species && c.speciesExact) return c.species->name.c_str();
         if (c.speciesClass) return c.speciesClass;
         if (c.ai) return "creature";
         return c.inter ? "object" : "entity";
