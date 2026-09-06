@@ -33,6 +33,12 @@ namespace ml::Mod
             return;
 
         Paths::Init(module);
+        // The log goes to disk now, not at the first rendered frame. A crash
+        // before anything is presented is exactly when someone needs the file,
+        // and waiting meant that case left nothing behind at all. Only in the
+        // game itself: this plugin gets loaded by other processes too, and one
+        // of those must not truncate a real session's log.
+        if (HostIsGame()) Log::Claim();
         LOG("Master Looter v%s for Crimson Desert %s starting (built %s %s).", ML_VERSION, ML_GAME_BUILD, __DATE__, __TIME__);
         LOG("Mod page %s | source %s", ML_MOD_PAGE, ML_SOURCE_URL);
 
@@ -41,7 +47,7 @@ namespace ml::Mod
         if (MH_Initialize() != MH_OK)
         {
             LOG_ERR("MinHook initialization failed.");
-            Log::Claim();   // the failure must reach the disk even though no frame will ever be presented
+            Log::Claim();   // in case this is not the game and nothing claimed it above
             return;
         }
 
