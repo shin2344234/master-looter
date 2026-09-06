@@ -1090,7 +1090,9 @@ namespace ml::hooks
         return nullptr;
     }
 
-    static void LogHookTarget(const char* what, void* addr)
+    // Returns false when someone else has already detoured this function, in
+    // which case stacking a second detour on top is what we must not do.
+    static bool LogHookTarget(const char* what, void* addr)
     {
         char mod[64];
         OwningModule(addr, mod, sizeof mod);
@@ -1109,11 +1111,17 @@ namespace ml::hooks
         }
 
         if (detour)
-            LOG_ERR("[hook] %s @ %p in %s starts with %s (%s): another mod hooked it first, and the two may not survive each other", what, addr, mod, detour, bytes);
-        else if (!IsSystemOwner(mod))
-            LOG_ERR("[hook] %s @ %p in %s (%s), which is not a system DLL: another mod is already on it, and the two may not survive each other", what, addr, mod, bytes);
-        else
-            LOG("[hook] %s @ %p in %s (%s)", what, addr, mod, bytes);
+        {
+            LOG("[hook] %s @ %p in %s starts with %s (%s): another mod detoured it first, so this one is left alone", what, addr, mod, detour, bytes);
+            return false;
+        }
+        if (!IsSystemOwner(mod))
+        {
+            LOG("[hook] %s @ %p in %s (%s), which is not a system DLL: another mod owns it, so this one is left alone", what, addr, mod, bytes);
+            return false;
+        }
+        LOG("[hook] %s @ %p in %s (%s)", what, addr, mod, bytes);
+        return true;
     }
 
     // --- COM wrapper: draw the overlay before Streamline interpolates --------
@@ -1359,8 +1367,16 @@ namespace ml::hooks
             }
         }
 
+        // Unlike the four above, this replaces a vtable pointer rather than
+        // detouring code, so sitting on top of another mod's detour is fine:
+        // ours runs, then theirs, then the real one. Still worth naming who is
+        // underneath.
         void** vt = *reinterpret_cast<void***>(factory);
-        LogHookTarget("Factory CreateSwapChainForHwnd", vt[15]);
+        {
+            char mod[64];
+            OwningModule(vt[15], mod, sizeof mod);
+            LOG("[hook] Factory CreateSwapChainForHwnd @ %p in %s (the slot is replaced, so anything already there still runs)", vt[15], mod);
+        }
         if (PatchVtableSlot(vt, 15, reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd),
                             reinterpret_cast<void**>(&oFactoryCreateSwapChainForHwnd)))
             LOG("FG: CreateSwapChainForHwnd patched - new swapchains will be wrapped.");
@@ -1497,21 +1513,31 @@ namespace ml::hooks
         InitializeCriticalSection(&g_queueLock);
         g_queueLockReady = true;
 
-        // Say who owns each address before touching it. A launch crash with
-        // several ASI mods is unreadable without this.
-        LogHookTarget("Present", presentAddr);
-        LogHookTarget("ResizeBuffers", resizeAddr);
-        LogHookTarget("ExecuteCommandLists", execAddr);
-        LogHookTarget("SetColorSpace1", colorSpaceAddr);
-
-        if (MH_CreateHook(presentAddr, &hkPresent, reinterpret_cast<void**>(&oPresent)) != MH_OK ||
-            MH_CreateHook(resizeAddr,  &hkResizeBuffers, reinterpret_cast<void**>(&oResizeBuffers)) != MH_OK ||
-            MH_CreateHook(execAddr,    &hkExecuteCommandLists, reinterpret_cast<void**>(&oExecuteCommandLists)) != MH_OK ||
-            MH_CreateHook(colorSpaceAddr, &hkSetColorSpace1, reinterpret_cast<void**>(&oSetColorSpace1)) != MH_OK)
+        // These four are hooked one at a time rather than all or nothing,
+        // because another overlay mod detouring the same DXGI functions is
+        // ordinary and stacking a second detour on an existing one is where
+        // this goes wrong. A skipped hook costs nothing while the swapchain
+        // wrapper is doing the drawing, which is the normal case: the wrapper
+        // overrides Present, ResizeBuffers and SetColorSpace1 itself, and these
+        // are only the fallback for a swapchain that never got wrapped.
+        struct Target { const char* name; void* addr; void* detour; void** orig; };
+        const Target targets[] = {
+            { "Present",             presentAddr,    reinterpret_cast<void*>(&hkPresent),             reinterpret_cast<void**>(&oPresent) },
+            { "ResizeBuffers",       resizeAddr,     reinterpret_cast<void*>(&hkResizeBuffers),       reinterpret_cast<void**>(&oResizeBuffers) },
+            { "ExecuteCommandLists", execAddr,       reinterpret_cast<void*>(&hkExecuteCommandLists), reinterpret_cast<void**>(&oExecuteCommandLists) },
+            { "SetColorSpace1",      colorSpaceAddr, reinterpret_cast<void*>(&hkSetColorSpace1),      reinterpret_cast<void**>(&oSetColorSpace1) },
+        };
+        int hooked = 0, skipped = 0;
+        for (const Target& t : targets)
         {
-            LOG_ERR("MH_CreateHook failed.");
-            return false;
+            if (!LogHookTarget(t.name, t.addr)) { ++skipped; continue; }
+            if (MH_CreateHook(t.addr, t.detour, t.orig) != MH_OK) { LOG_ERR("MH_CreateHook failed for %s.", t.name); ++skipped; continue; }
+            ++hooked;
         }
+        if (skipped)
+            LOG("%d of %d DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped, hooked + skipped);
+        if (!hooked && skipped == 4)
+            LOG_ERR("Every DirectX function was already hooked by something else. The overlay depends entirely on the swapchain wrapper now.");
 
         if (MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
         {
