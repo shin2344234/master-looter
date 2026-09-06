@@ -289,16 +289,21 @@ namespace ml::loot
     static const char* LastVerdict(uint32_t eid);
 
     static std::unordered_map<uint16_t, uint16_t> g_learn;   // node type -> item row
-    struct PendSend { DWORD at; Action act; uint16_t nodeType; int itemRow; };
+    struct PendSend { DWORD at; Action act; uint16_t nodeType; int itemRow; bool counted = false; };
     static std::vector<PendSend> g_pend;
     static std::vector<std::pair<uint16_t, long long>> g_invPrev;
     static bool g_invPrevValid = false;
 
     // A full bag is not something the game tells us, so it is inferred: the mod
     // sent pick-ups, they were accepted, and nothing arrived. One failure means
-    // little (an item can be snatched, an event refused), a run of them across
-    // different objects means the bag has no room. Any rise clears it.
-    static constexpr int kBagFullStreak = 5;
+    // little (an item can be snatched, an event refused), a run of them means
+    // the bag has no room, and one landing clears it again.
+    //
+    // An item that is going to arrive does so in well under a second, so a send
+    // is judged at 1.2 s rather than waiting out the four seconds the yield
+    // learning wants. Three in a row is enough to say something.
+    static constexpr int   kBagFullStreak = 3;
+    static constexpr DWORD kBagVerdictMs  = 1200;
     static int   g_noRise = 0;
     static bool  g_bagFull = false;
     static DWORD g_bagFullSaid = 0;
@@ -329,7 +334,7 @@ namespace ml::loot
             const Item* known = nullptr;
             if (seen[i].act == Action::Gather && nodeType) known = LearnedYield(nodeType);
             if (known) continue; // nothing new to learn from it
-            g_pend.push_back({ static_cast<DWORD>(seen[i].at), seen[i].act, nodeType, -1 });
+            g_pend.push_back({ static_cast<DWORD>(seen[i].at), seen[i].act, nodeType, -1, false });
             // Anything the player takes by hand that the mod passed over is worth
             // a line: it is the only way a missed object leaves a trace at all,
             // and it separates "never scanned" from "scanned and skipped".
@@ -367,15 +372,21 @@ namespace ml::loot
         // The streak is cleared when one of our own pick-ups lands, not when
         // anything at all rises. The reader watches every store the player
         // owns, so unrelated changes are common and used to clear it wrongly.
-        int expired = 0;
-        g_pend.erase(std::remove_if(g_pend.begin(), g_pend.end(), [now, &expired](const PendSend& p) {
-            if (now - p.at <= 4000) return false;
-            if (p.act == Action::Take && p.itemRow >= 0) ++expired;
-            return true;
-        }), g_pend.end());
-        if (expired)
+        // A pick-up old enough to have landed and still unaccounted for is one
+        // the bag did not take. Judged here and left in place, since the yield
+        // learning below has its own use for it.
+        int missed = 0;
+        for (PendSend& p : g_pend)
         {
-            g_noRise += expired;
+            if (p.counted || p.act != Action::Take || p.itemRow < 0) continue;
+            if (now - p.at < kBagVerdictMs) continue;
+            p.counted = true;
+            ++missed;
+        }
+        g_pend.erase(std::remove_if(g_pend.begin(), g_pend.end(), [now](const PendSend& p) { return now - p.at > 4000; }), g_pend.end());
+        if (missed)
+        {
+            g_noRise += missed;
             if (g_noRise >= kBagFullStreak && !g_bagFull)
             {
                 g_bagFull = true;
@@ -1230,7 +1241,7 @@ namespace ml::loot
                     if (v.act == Action::Search) g_searched.insert(key);
                     if (!events::Send(v.act, k.eid, g_meEid, route, 0)) { held("the game refused the event"); continue; }
                     ++taken;
-                    g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.tid : static_cast<uint16_t>(0), k.db ? k.db->row : -1 });
+                    g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.gtid : static_cast<uint16_t>(0), k.db ? k.db->row : -1, false });
                     InterlockedIncrement(&g_session[static_cast<int>(v.act)]);
                     char line[80];
                     snprintf(line, sizeof line, "%s %s (%.1f m)", events::ActionName(v.act), Label(k), k.d);
