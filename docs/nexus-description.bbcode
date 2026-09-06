@@ -19,7 +19,7 @@ Gather nodes are armed from a distance, so a bush fills its data without you sta
 
 [size=4][b]What it leaves alone[/b][/size]
 [list]
-[*]Anything the game would call stealing. The mod asks the same routine the game uses to decide between "Take" and "Steal", and walks past whatever would put a bounty on you. You can opt in under Looting, Ownership.
+[*]Anything the game would call stealing. The mod asks the same routine the game uses to decide between "Take" and "Steal", and walks past whatever would put a bounty on you. It works that question out from the player, so it is ready the moment you load in rather than waiting for the game to ask first. You can opt in under Looting, Ownership.
 [*]Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment. The Classes and Items tabs can lift most of that on purpose, per class or per item.
 [*]Fast-travel artifacts, memory triggers, locked nodes, gear worn by others and the contents of storage stacks, always.
 [/list]
@@ -79,6 +79,7 @@ All keys are rebindable under General. Each of the four also takes a controller 
 [*]Creatures the mod cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified and be left alone.
 [*]Gather nodes are identified by the prefab they were placed from, matched against a table of 1,042 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 [*]Chests and storage boxes open a window rather than hand over an item; they are off by default.
+[*]Ownership is answered by the game's own routine, not by a guess here. If the mod ever cannot get an answer it refuses the object and says so rather than risking a bounty.
 [*]Single player. Do not use it anywhere it would give you an advantage over other people.
 [/list]
 
