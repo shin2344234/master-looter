@@ -1,19 +1,40 @@
 [size=5][b]Master Looter[/b][/size]
 [i]Auto-loot for Crimson Desert 2.01.00 with an in-game menu.[/i]
 
-Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch. Every item is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game; no ini editing needed.
+Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch. Every item is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game; there is no ini to edit.
 
-[size=4][b]Features[/b][/size]
+[size=4][b]What it collects[/b][/size]
+Twelve switches under Looting, each on its own:
 [list]
-[*]Twelve switches for what to collect: ground items, carcasses, plants, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers, furniture nodes.
-[*]Class groups with one click (weapons and armor, damaged gear, food and drink, materials, books and papers, furniture, treasure and keepsakes, and more), a full class table, tag rules and per-item overrides with a live verdict.
-[*]Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
-[*]Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
-[*]Reaches nodes for you: bushes and other gather nodes are armed from a distance, so you do not have to stand on them.
-[*]A Nearby tab that lists every object around you with the rule that decided it, and a Status tab with every hook and signature.
-[*]Watch mode keeps the menu on screen while you play, and every key is rebindable. The overlay works with DLSS frame generation and HDR.
-[*]Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, so a small game update does not necessarily break it, and the Status tab tells you if it did.
+[*]Ground items, including what enemies drop.
+[*]Animal carcasses, skinned once each. Human corpses drop ordinary loot instead.
+[*]Plants: herb, flower and mushroom nodes, and the same lying loose. Crops such as barley or sweet potatoes count as ground items whether on the plant or on the ground.
+[*]Ore, stone and wood, as chunks on the ground and as nodes that yield them. Ore veins are still broken with your pickaxe; the chunks are picked up for you.
+[*]Insects: butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the rest of what the game files as insects.
+[*]Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish, seahorses.
+[*]Small animals: rats, squirrels, birds, lizards, frogs, salamanders.
+[*]Unidentified nodes, containers and furniture nodes, all off by default.
 [/list]
+Gather nodes are armed from a distance, so a bush fills its data without you standing on it. Each kind has its own range, and the scan pace is yours to set.
+
+[size=4][b]What it leaves alone[/b][/size]
+[list]
+[*]Anything the game would call stealing. The mod asks the same routine the game uses to decide between "Take" and "Steal", and walks past whatever would put a bounty on you. You can opt in under Looting, Ownership.
+[*]Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment. The Classes and Items tabs can lift most of that on purpose, per class or per item.
+[*]Fast-travel artifacts, memory triggers, locked nodes, gear worn by others and the contents of storage stacks, always.
+[/list]
+
+[size=4][b]The menu[/b][/size]
+[list]
+[*]General: the auto-loot switch, a burst button, keys, scan pace and the filters (quest items, unsellable items, a copper value floor, unnamed items).
+[*]Looting: the twelve switches, ranges, node arming and the ownership opt-in.
+[*]Classes: one-click groups such as Weapons and armor, Damaged gear, Food and drink, Materials, Books and papers or Treasure and keepsakes, above a table of every class with its item count.
+[*]Tags: always or never per tag; never beats always, and both beat the class rule.
+[*]Items: search any of the 6,813 items, set an override, and see the verdict the rules give it right now.
+[*]Nearby: every object around you with its distance, class and the rule that decided it.
+[*]Status: every signature and hook, the event path, counters, recent loot and the log.
+[/list]
+Watch mode keeps the menu on screen while you play, so you can read the Nearby list or the log with the controls still yours.
 
 [size=4][b]Installation[/b][/size]
 [b]With Definitive Mod Manager (DMM)[/b]
@@ -37,7 +58,15 @@ Uninstall by deleting the MasterLooter.* files from bin64 (the plugin writes Mas
 [*]Home is watch mode: the menu stays up while the game keeps every input. Insert makes it interactive again.
 [*]While the menu is interactive the game does not see keyboard, mouse or controller; key releases still pass so nothing sticks.
 [/list]
-All keys are rebindable under General.
+All keys are rebindable under General. Hotkeys are ignored while the game window is not in front.
+
+[size=4][b]Compatibility[/b][/size]
+[list]
+[*]Built for Crimson Desert 2.01.00 (exe 1.0.0.2760). Every game address comes from a byte pattern or a class name resolved at load, so a small update does not necessarily break it; the Status tab shows what resolved and what did not, and the log says the same in more detail.
+[*]Works with DLSS frame generation and HDR. The menu is drawn before frame generation and composited for the swap chain's colour space.
+[*]Keyboard, mouse and controller are all handled while the menu is up.
+[*]Requires Ultimate ASI Loader (winmm.dll) in bin64. DMM installs it for you.
+[/list]
 
 [size=4][b]Safety and known limits[/b][/size]
 [list]
@@ -51,7 +80,7 @@ All keys are rebindable under General.
 [/list]
 
 [size=4][b]If something is wrong[/b][/size]
-MasterLooter.log next to the plugin is rewritten every launch. It lists which signatures resolved, and for every object within range that was skipped, once, the rule that skipped it. Post the relevant lines with a report: what was taken or left, where you were, and what you expected.
+MasterLooter.log next to the plugin is rewritten every launch. It lists which signatures resolved, and for every object within range that was skipped, once, the rule that skipped it. Post the relevant lines with a report: what was taken or left, where you were, and what you expected. Both directions matter, something taken that should have stayed and something left that should have been taken.
 
 [size=4][b]Source and licence[/b][/size]
 MIT licensed. Source, build instructions and the data pipeline are on GitHub: [url=https://github.com/shin2344234/master-looter]github.com/shin2344234/master-looter[/url]
