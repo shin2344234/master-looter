@@ -264,6 +264,8 @@ namespace ml::gui
         ImGui::SameLine(300 * g_scale);
         if (ImGui::Button("Loot everything in range now")) loot::RequestBurst();
         dirty |= ImGui::Checkbox("Show a brief notice when auto-loot is toggled", &c.showHud);
+        dirty |= ImGui::Checkbox("Say so on screen when the bag stops taking things", &c.notifyBagFull);
+        Help("The game does not announce a full bag, so this watches what happens after a pick-up: when five in a row are sent and nothing arrives, you get a notice. It repeats at most every 30 seconds and clears itself as soon as something lands.");
         Help("Nothing else is drawn while the menu is closed.");
 
         Section("Keys");
@@ -640,7 +642,13 @@ namespace ml::gui
         OnOff("Game functions", s.resolved, "resolved", "missing");
         OnOff("Game-thread pump", s.hooked, s.pump, "none");
         OnOff("World (actor manager)", s.actorManager, "found", "waiting");
-        if (s.playerFound) { ImGui::TextUnformatted("Player"); ImGui::SameLine(220 * g_scale); ImGui::TextColored(kGood, "entity %08X, %d items in bag", s.playerEid, s.inventoryItems); }
+        if (s.playerFound)
+        {
+            ImGui::TextUnformatted("Player"); ImGui::SameLine(220 * g_scale);
+            if (s.inventorySlots > 0) ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, %d of %d slots used", s.playerEid, s.inventoryItems, s.inventorySlots);
+            else ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, %d items in bag", s.playerEid, s.inventoryItems);
+            if (s.bagFull) { ImGui::SameLine(); ImGui::TextColored(kWarn, "  bag full"); }
+        }
         else OnOff("Player", false, "", "not found yet");
         OnOff("Event descriptors", s.descriptors == 3, "3 of 3", s.descriptors ? "incomplete" : "not resolved yet");
         OnOff("Sending events", s.sendAllowed, "allowed", "not yet");

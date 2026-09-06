@@ -294,6 +294,15 @@ namespace ml::loot
     static std::vector<std::pair<uint16_t, long long>> g_invPrev;
     static bool g_invPrevValid = false;
 
+    // A full bag is not something the game tells us, so it is inferred: the mod
+    // sent pick-ups, they were accepted, and nothing arrived. One failure means
+    // little (an item can be snatched, an event refused), a run of them across
+    // different objects means the bag has no room. Any rise clears it.
+    static constexpr int kBagFullStreak = 5;
+    static int   g_noRise = 0;
+    static bool  g_bagFull = false;
+    static DWORD g_bagFullSaid = 0;
+
     static void DropLearnedFile()
     {
         const std::wstring path = Paths::File(L"MasterLooter.learned.tsv");
@@ -350,8 +359,37 @@ namespace ml::loot
         }
         g_invPrev.swap(cur);
         g_invPrevValid = true;
-        // Expire stale sends.
-        g_pend.erase(std::remove_if(g_pend.begin(), g_pend.end(), [now](const PendSend& p) { return now - p.at > 4000; }), g_pend.end());
+        // Expire stale sends. One that expires with nothing to show for it is
+        // what a full bag looks like from here.
+        // Only pick-ups count. An empty carcass and a node that gives nothing
+        // are ordinary, and would otherwise read as a full bag.
+        int expired = 0;
+        g_pend.erase(std::remove_if(g_pend.begin(), g_pend.end(), [now, &expired](const PendSend& p) {
+            if (now - p.at <= 4000) return false;
+            if (p.act == Action::Take) ++expired;
+            return true;
+        }), g_pend.end());
+        if (!rose.empty()) { g_noRise = 0; if (g_bagFull) { g_bagFull = false; LOG("[bag] something reached the bag again"); } }
+        else if (expired)
+        {
+            g_noRise += expired;
+            if (g_noRise >= kBagFullStreak && !g_bagFull)
+            {
+                g_bagFull = true;
+                const int used = game::InventoryCount(), cap = game::InventoryCapacity();
+                if (cap > 0 && used >= cap) LOG("[bag] nothing is reaching the bag: %d of %d slots used", used, cap);
+                else LOG("[bag] nothing is reaching the bag after %d sends: it is full, or the items cannot be carried", g_noRise);
+            }
+        }
+        if (g_bagFull && Settings::Get().notifyBagFull && now - g_bagFullSaid > 30000)
+        {
+            g_bagFullSaid = now;
+            const int used = game::InventoryCount(), cap = game::InventoryCapacity();
+            char msg[96];
+            if (cap > 0 && used >= cap) snprintf(msg, sizeof msg, "Master Looter: bag full, %d of %d slots", used, cap);
+            else snprintf(msg, sizeof msg, "Master Looter: nothing is reaching the bag");
+            State::Get().Notify(msg, 4000);
+        }
         if (rose.empty() || g_pend.empty()) return;
         for (uint16_t type : rose)
         {
@@ -1207,6 +1245,8 @@ namespace ml::loot
         g_status.settling = settling;
         snprintf(g_status.hold, sizeof g_status.hold, "%s", settling ? s_holdWhy : "");
         g_status.inventoryItems = game::InventoryCount();
+        g_status.inventorySlots = game::InventoryCapacity();
+        g_status.bagFull = g_bagFull;
         g_status.learned = static_cast<int>(g_learn.size());
         g_status.lastScanMs = static_cast<float>((t1.QuadPart - t0.QuadPart) * 1000.0 / fq.QuadPart);
         ++g_status.scans;
