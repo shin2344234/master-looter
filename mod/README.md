@@ -4,6 +4,8 @@ An ASI plugin for Crimson Desert 2.01.00: an auto-looter driven by the tagged it
 
 ## Installing
 
+Downloads are on [Nexus Mods](https://www.nexusmods.com/crimsondesert/mods/3402) and in the [GitHub releases](https://github.com/shin2344234/master-looter/releases).
+
 With Definitive Mod Manager (DMM): import `MasterLooter-<version>-DMM.zip` (drag it onto the DMM window). DMM registers `MasterLooter.asi` as an ASI add-on, deploys it with its own loader and removes it again on uninstall. Disable any other auto-loot mod first: two of them hook the same game functions and the second one to load does nothing.
 
 By hand:

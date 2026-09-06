@@ -4,7 +4,7 @@ Auto-loot for Crimson Desert 2.01.00 with an in-game menu.
 
 Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch. Every item is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game.
 
-[Releases](https://github.com/shin2344234/master-looter/releases) · [Plugin manual](mod/README.md) · [Data pipeline](scripts/README.md) · [Nexus description](docs/nexus-description.bbcode)
+[Nexus Mods page](https://www.nexusmods.com/crimsondesert/mods/3402) · [Releases](https://github.com/shin2344234/master-looter/releases) · [Plugin manual](mod/README.md) · [Data pipeline](scripts/README.md)
 
 ## What it does
 
@@ -23,7 +23,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 
 ### With Definitive Mod Manager
 
-Import `MasterLooter-<version>-DMM.zip` from the [releases](https://github.com/shin2344234/master-looter/releases) (drag it onto the DMM window). DMM registers `MasterLooter.asi` as an ASI add-on, deploys it with its own loader and removes it on uninstall. Disable any other auto-loot mod first: two of them hook the same game functions and the second one to load does nothing.
+Import `MasterLooter-<version>-DMM.zip` from [Nexus Mods](https://www.nexusmods.com/crimsondesert/mods/3402) or the [releases](https://github.com/shin2344234/master-looter/releases) (drag it onto the DMM window). DMM registers `MasterLooter.asi` as an ASI add-on, deploys it with its own loader and removes it on uninstall. Disable any other auto-loot mod first: two of them hook the same game functions and the second one to load does nothing.
 
 ### By hand
 
@@ -59,7 +59,7 @@ Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come with 
 - `mod/`: the plugin. `src/core` (paths, log, settings, item and creature databases, rules), `src/hooks` (DirectX 12 present hook and swapchain wrapper, window procedure, XInput), `src/gui` (menu), `src/loot` (signatures, guarded memory access, game structures, event protocol, hooks, engine), `data/` (the two tables), `scripts/` (sigcheck, packaging, the Trinity adaptation script).
 - `scripts/`: the data pipeline that parses the game tables and tags every item.
 - `data/`: the hand-made class overrides and the pipeline summaries. The full generated dumps stay local; see the pipeline README.
-- `docs/`: the Nexus Mods description.
+- `docs/`: the [Nexus Mods](https://www.nexusmods.com/crimsondesert/mods/3402) page text, header images and changelogs.
 
 ## Licence and credits
 
