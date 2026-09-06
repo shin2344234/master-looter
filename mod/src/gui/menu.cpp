@@ -779,11 +779,28 @@ namespace ml::gui
         }
     }
 
+    // An address and a button that copies it. The overlay cannot show a web
+    // page and pulling the player out to a browser mid-game would be worse, so
+    // the clipboard is the useful half of a link here.
+    static void LinkRow(const char* label, const char* url)
+    {
+        ImGui::TextDisabled("%s", label);
+        ImGui::SameLine(110 * g_scale);
+        ImGui::TextColored(kGoldDim, "%s", url);
+        ImGui::SameLine();
+        ImGui::PushID(url);
+        if (ImGui::SmallButton("Copy")) ImGui::SetClipboardText(url);
+        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Copy to the clipboard."); ImGui::EndTooltip(); }
+        ImGui::PopID();
+    }
+
     static void TabStatus()
     {
         const State& st = State::Get();
         const loot::Status s = loot::GetStatus();
         ImGui::Text("Master Looter v%s for game build %s", ML_VERSION, ML_GAME_BUILD);
+        LinkRow("Mod page", ML_MOD_PAGE);
+        LinkRow("Source", ML_SOURCE_URL);
         ImGui::Text("Settings: %ls", Settings::Path().c_str());
         ImGui::SameLine();
         if (ImGui::SmallButton("Reload now")) Settings::Load();
