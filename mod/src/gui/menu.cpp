@@ -303,7 +303,7 @@ namespace ml::gui
             { "Stone",          &c.gatherStone,    "Stone on the ground and nodes that yield stone." },
             { "Wood",           &c.gatherWood,     "Timber and branches on the ground and nodes that yield them." },
             { "Unidentified nodes", &c.gatherUnknown, "Nodes whose yield is not known yet. Off (the default) leaves them alone; gather one by hand and its kind is learned from what lands in your bag. On makes the mod gather them to find out, which means a plant can be taken while Plants is off." },
-            { "Insects",        &c.catchInsects,   "Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on." },
+            { "Insects",        &c.catchInsects,   "Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird)." },
             { "Fish",           &c.catchFish,      "Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses." },
             { "Small animals",  &c.catchAnimals,   "Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole." },
             { "Containers",     &c.lootContainers, "Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default." },

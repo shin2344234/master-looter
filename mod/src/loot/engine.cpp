@@ -90,13 +90,21 @@ namespace ml::loot
     static std::unordered_set<uint32_t> g_speciesMiss;
 
     // The category byte narrows what a creature can be: 05 swims or flies
-    // (fish, seafood, butterflies), 09 walks (ground insects, small animals,
-    // frogs, geese). A species word that contradicts it is a false match.
-    static bool Plausible(uint8_t cat2, const char* klass)
+    // (fish, seafood, butterflies, small birds), 09 walks (ground insects,
+    // small animals, frogs, geese). A species word that contradicts it is a
+    // false match; a byte-05 "animal" is only believed when it is a bird.
+    static bool IsBird(const Species& sp)
     {
-        if (!klass) return false;
-        const std::string k = klass;
-        if (cat2 == 0x05) return k == "fish" || k == "seafood" || k == "insect";
+        static const char* words[] = { "bird", "smallbird", "embriza" };
+        for (const char* w : words) if (sp.word == w) return true;
+        if (sp.row) if (const Item* it = ItemDb::ByRow(sp.row->itemRow)) return it->HasTag("bird");
+        return false;
+    }
+    static bool Plausible(uint8_t cat2, const Species& sp)
+    {
+        if (!sp.klass) return false;
+        const std::string k = sp.klass;
+        if (cat2 == 0x05) return k == "fish" || k == "seafood" || k == "insect" || (k == "animal" && IsBird(sp));
         if (cat2 == 0x09) return k == "insect" || k == "animal" || k == "amphibian" || k == "seafood";
         return true;
     }
@@ -135,10 +143,10 @@ namespace ml::loot
         if (g_speciesMiss.count(eid)) return sp;
         static int s_dumped05 = 0, s_dumped09 = 0;
         int& dumped = cat2 == 0x05 ? s_dumped05 : s_dumped09;
-        const bool dump = dumped < 6;
-        char probe[900] = "";
+        const bool dump = dumped < 10;
+        char probe[1400] = "";
         const uintptr_t objs[4] = { ent, actor, status, ai };
-        const unsigned  lens[4] = { 0x200, 0x200, 0x300, 0x200 };
+        const unsigned  lens[4] = { 0x300, 0x300, 0x400, 0x300 };
         bool found = false;
         for (int o = 0; o < 4 && !found; ++o)
         {
@@ -147,12 +155,12 @@ namespace ml::loot
             {
                 if (ReadStringsAt(objs[o], off, &sp, dump ? probe : nullptr, sizeof probe)) { found = true; break; }
                 const uintptr_t mid = mem::Deref(objs[o], off);
-                if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x180)) continue;
-                for (unsigned off2 = 0; off2 < 0x180; off2 += 8)
+                if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x200)) continue;
+                for (unsigned off2 = 0; off2 < 0x200; off2 += 8)
                     if (ReadStringsAt(mid, off2, &sp, dump ? probe : nullptr, sizeof probe)) { found = true; break; }
             }
         }
-        if (found && !Plausible(cat2, sp.klass))
+        if (found && !Plausible(cat2, sp))
         {
             static int s_rejected = 0;
             if (s_rejected < 20) { ++s_rejected; LOG("[species] %08X (byte %02X) cannot be %s (%s): word '%s' in \"%s\"; treated as unidentified", eid, cat2, sp.klass, sp.row ? sp.row->name.c_str() : "-", sp.word.c_str(), sp.from.c_str()); }
@@ -608,7 +616,7 @@ namespace ml::loot
                         if (!r.loot) { snprintf(v.detail, sizeof v.detail, "%s", r.detail.c_str()); v.loot = false; v.why = r.rule; return v; }
                     }
             }
-            else if (c.cat2 == 0x05) { if (!cfg.catchFish || !cfg.catchInsects) return skip("unidentified: could be a fish or a flying insect"); }
+            else if (c.cat2 == 0x05) { if (!cfg.catchFish || !cfg.catchInsects || !cfg.catchAnimals) return skip("unidentified: could be a fish, a flying insect or a bird"); }
             else                     { if (!cfg.catchInsects || !cfg.catchAnimals) return skip("unidentified: could be an insect or a small animal"); }
             break;
         }

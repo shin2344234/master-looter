@@ -75,11 +75,12 @@ namespace ml::CreatureDb
         struct G { const char* w; const char* k; };
         static const G generic[] = {
             { "fish", "fish" }, { "carp", "fish" }, { "trout", "fish" }, { "bass", "fish" }, { "salmon", "fish" }, { "catfish", "fish" }, { "eel", "fish" }, { "perch", "fish" }, { "pike", "fish" },
+            { "underwateronly", "fish" },   // the movement flag fish carry when their model string is out of reach
             { "butterfly", "insect" }, { "beetle", "insect" }, { "dragonfly", "insect" }, { "moth", "insect" }, { "bee", "insect" }, { "bug", "insect" }, { "mantis", "insect" },
             { "grasshopper", "insect" }, { "cicada", "insect" }, { "firefly", "insect" }, { "ladybug", "insect" }, { "cricket", "insect" }, { "locust", "insect" }, { "wasp", "insect" }, { "fly", "insect" },
             { "crab", "seafood" }, { "shrimp", "seafood" }, { "crayfish", "seafood" }, { "lobster", "seafood" }, { "squid", "seafood" }, { "starfish", "seafood" }, { "seahorse", "seafood" }, { "clam", "seafood" },
             { "frog", "amphibian" }, { "toad", "amphibian" }, { "salamander", "amphibian" }, { "axolotl", "amphibian" }, { "newt", "amphibian" },
-            { "bird", "animal" }, { "goose", "animal" }, { "duck", "animal" }, { "chicken", "animal" }, { "hen", "animal" }, { "rooster", "animal" }, { "coot", "animal" },
+            { "bird", "animal" }, { "smallbird", "animal" }, { "embriza", "animal" }, { "goose", "animal" }, { "duck", "animal" }, { "chicken", "animal" }, { "hen", "animal" }, { "rooster", "animal" }, { "coot", "animal" },
             { "rat", "animal" }, { "mouse", "animal" }, { "squirrel", "animal" }, { "rabbit", "animal" }, { "hare", "animal" }, { "hedgehog", "animal" }, { "turtle", "animal" }, { "lizard", "animal" }, { "snake", "animal" },
         };
         for (const G& g : generic) { auto it = g_words.find(g.w); if (it == g_words.end()) g_words[g.w] = { g.k, -1, 1, false }; }
