@@ -26,15 +26,16 @@ namespace ml
         bool  gatherOre      = true;
         bool  gatherStone    = true;
         bool  gatherWood     = true;
-        bool  gatherUnknown  = true;   // nodes whose yield has not been seen yet
-        bool  catchCreatures = true;   // insects and small animals
+        bool  gatherUnknown  = false;  // nodes whose yield has not been seen yet (learned from what you gather by hand)
+        bool  catchInsects   = true;
         bool  catchFish      = true;
+        bool  catchAnimals   = true;   // chickens, coots, frogs and other small animals
         bool  lootContainers = false;
         bool  lootFurniture  = false;
         // ranges in metres
         float scanRange      = 40.0f;
         float lootRange      = 15.0f;
-        float gatherRange    = 20.0f;
+        float gatherRange    = 6.0f;   // the game ignores gathers from far away
         float catchRange     = 8.0f;
         float corpseRange    = 12.0f;
         float minRange       = 0.35f;
@@ -49,6 +50,7 @@ namespace ml
         int   minValueCopper = 0;      // 0 = no value floor
         bool  takeUnknownItems = true; // items our database cannot name
         bool  debugLog       = false;
+        int   configVersion  = 2;      // bumps when a default changes in a way old files should follow
 
         // [Classes] class -> 1 loot / 0 skip. Absent means loot.
         std::map<std::string, int> classRule;

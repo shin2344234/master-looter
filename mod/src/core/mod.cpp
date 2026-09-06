@@ -3,6 +3,7 @@
 #include <MinHook.h>
 #include <cstring>
 
+#include "creaturedb.h"
 #include "itemdb.h"
 #include "log.h"
 #include "paths.h"
@@ -67,6 +68,8 @@ namespace ml::Mod
                    static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size()));
         else
             LOG_ERR("Item database not found next to the plugin (MasterLooter.items.tsv); class and tag rules will be empty.");
+        if (CreatureDb::Load()) LOG_OK("Creature table loaded: %d creatures.", CreatureDb::Count());
+        else LOG_ERR("Creature table not found next to the plugin (MasterLooter.creatures.tsv); creatures cannot be told apart by species.");
         State::Get().overlayReady = true;
 
         // The loot engine touches game memory and game functions: only in the game itself.

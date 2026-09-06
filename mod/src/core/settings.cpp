@@ -75,8 +75,10 @@ namespace ml::Settings
         else if (k == "GatherStone")      c.gatherStone = Flag(v);
         else if (k == "GatherWood")       c.gatherWood = Flag(v);
         else if (k == "GatherUnknown")    c.gatherUnknown = Flag(v);
-        else if (k == "CatchCreatures")   c.catchCreatures = Flag(v);
+        else if (k == "CatchCreatures")   { c.catchInsects = Flag(v); c.catchAnimals = Flag(v); } // pre-0.3.4 key
+        else if (k == "CatchInsects")     c.catchInsects = Flag(v);
         else if (k == "CatchFish")        c.catchFish = Flag(v);
+        else if (k == "CatchAnimals")     c.catchAnimals = Flag(v);
         else if (k == "LootContainers")   c.lootContainers = Flag(v);
         else if (k == "LootFurniture")    c.lootFurniture = Flag(v);
         else if (k == "ScanRange")        c.scanRange = Range(v, 5, 200, 40);
@@ -94,11 +96,13 @@ namespace ml::Settings
         else if (k == "MinValueCopper")   c.minValueCopper = std::max(0, atoi(v.c_str()));
         else if (k == "TakeUnknownItems") c.takeUnknownItems = Flag(v);
         else if (k == "DebugLog")         c.debugLog = Flag(v);
+        else if (k == "ConfigVersion")    c.configVersion = atoi(v.c_str());
     }
 
     void Load()
     {
         Config c;
+        c.configVersion = 1; // a file that predates the version key
         std::string text;
         const bool present = ReadFile(text);
         if (present)
@@ -124,6 +128,17 @@ namespace ml::Settings
                 else if (section == "Items") { const int r = atoi(v.c_str()); const unsigned long key = strtoul(k.c_str(), nullptr, 10); if (key && (r == 1 || r == -1)) c.itemRule[static_cast<uint32_t>(key)] = r; }
             }
         }
+        // Files written before version 2 carried a 20 m gather range the game
+        // ignores and gathered unidentified nodes by default; bring both in line.
+        if (present && c.configVersion < 2)
+        {
+            c.gatherRange = std::min(c.gatherRange, 6.0f);
+            c.gatherUnknown = false;
+            c.configVersion = 2;
+            g_dirty = true; g_dirtyAt = GetTickCount64();
+            LOG("Settings migrated to version 2: gather range %.0f m, unidentified nodes off (learned from your own gathering).", c.gatherRange);
+        }
+        if (!present) c.configVersion = 2;
         // Working ranges beyond the scan range can never trigger.
         c.lootRange = std::min(c.lootRange, c.scanRange); c.gatherRange = std::min(c.gatherRange, c.scanRange);
         c.catchRange = std::min(c.catchRange, c.scanRange); c.corpseRange = std::min(c.corpseRange, c.scanRange);
@@ -151,13 +166,13 @@ namespace ml::Settings
                  c.scansPerSec, c.perScan, c.burstPerKey, c.retryAfterMs); s += b;
         snprintf(b, sizeof b, "LootCorpses=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherOre=%d\nGatherStone=%d\nGatherWood=%d\nGatherUnknown=%d\n",
                  c.lootCorpses, c.pickUpItems, c.gatherPlants, c.gatherOre, c.gatherStone, c.gatherWood, c.gatherUnknown); s += b;
-        snprintf(b, sizeof b, "CatchCreatures=%d\nCatchFish=%d\nLootContainers=%d\nLootFurniture=%d\n",
-                 c.catchCreatures, c.catchFish, c.lootContainers, c.lootFurniture); s += b;
+        snprintf(b, sizeof b, "CatchInsects=%d\nCatchFish=%d\nCatchAnimals=%d\nLootContainers=%d\nLootFurniture=%d\n",
+                 c.catchInsects, c.catchFish, c.catchAnimals, c.lootContainers, c.lootFurniture); s += b;
         snprintf(b, sizeof b, "ScanRange=%.1f\nLootRange=%.1f\nGatherRange=%.1f\nCatchRange=%.1f\nCorpseRange=%.1f\nMinRange=%.2f\n",
                  c.scanRange, c.lootRange, c.gatherRange, c.catchRange, c.corpseRange, c.minRange); s += b;
         snprintf(b, sizeof b, "AutoArm=%d\nArmRange=%.1f\nArmContainers=%d\n", c.autoArm, c.armRange, c.armContainers); s += b;
-        snprintf(b, sizeof b, "LootOwned=%d\nSkipQuestItems=%d\nSkipNoSell=%d\nMinValueCopper=%d\nTakeUnknownItems=%d\nDebugLog=%d\n",
-                 c.lootOwned, c.skipQuestItems, c.skipNoSell, c.minValueCopper, c.takeUnknownItems, c.debugLog); s += b;
+        snprintf(b, sizeof b, "LootOwned=%d\nSkipQuestItems=%d\nSkipNoSell=%d\nMinValueCopper=%d\nTakeUnknownItems=%d\nDebugLog=%d\nConfigVersion=%d\n",
+                 c.lootOwned, c.skipQuestItems, c.skipNoSell, c.minValueCopper, c.takeUnknownItems, c.debugLog, c.configVersion); s += b;
         s += "\n; class -> 1 loot, 0 skip (classes not listed are looted)\n[Classes]\n";
         for (const auto& kv : c.classRule) { s += kv.first; s += kv.second ? "=1\n" : "=0\n"; }
         s += "\n; tag -> 1 always loot, -1 never loot (wins over the class rule)\n[Tags]\n";

@@ -43,6 +43,7 @@ namespace ml::events
     static bool g_selfTested = false, g_sendAllowed = false;
     static int  g_descFound = 0;
     static volatile LONG g_route = 0, g_routeKnown = 0, g_sendTid = 0, g_sent = 0, g_draining = 0;
+    static Seen g_seen[32]; static volatile LONG g_seenN = 0;
 
     struct PendAct { Action act; uint32_t eid, player, route; uint8_t mode; };
     struct PendArm { uintptr_t node, mode, ctx; };
@@ -253,15 +254,38 @@ namespace ml::events
 
     void SpyEnqueue(uintptr_t ev)
     {
-        if (RouteKnown() || !ev) return;
-        if (static_cast<DWORD>(InterlockedCompareExchange(&g_sendTid, 0, 0)) == GetCurrentThreadId()) return;
+        if (!ev) return;
+        if (static_cast<DWORD>(InterlockedCompareExchange(&g_sendTid, 0, 0)) == GetCurrentThreadId()) return; // ours
         uint32_t who = 0, rt = 0;
         if (!mem::Read32(ev + kOff_Ev_Player, &who) || !mem::Read32(ev + kOff_Ev_Route, &rt)) return;
-        if ((who >> 24) == game::kTagPlayer && rt)
+        if ((who >> 24) != game::kTagPlayer) return;
+        if (!RouteKnown() && rt)
         {
             InterlockedExchange(&g_route, static_cast<LONG>(rt));
             InterlockedExchange(&g_routeKnown, 1);
             LOG("[route] learned from the game: player %08X route %08X", who, rt);
         }
+        // What did the player just do by hand? Same payload layout as ours.
+        uintptr_t buf = 0; uint16_t size = 0;
+        if (!mem::ReadPtr(ev + kOff_Ev_Buffer, &buf) || !mem::Read16(ev + kOff_Ev_Size, &size) || size < 7) return;
+        uint16_t id = 0; uint8_t b3 = 0; uint32_t target = 0;
+        if (!mem::Read16(buf, &id) || !mem::Read8(buf + 3, &b3)) return;
+        Action act; bool known = false;
+        if (id == g_desc[Row(Action::Take)].id && size >= 8)   { known = mem::Read32(buf + 4, &target); act = (b3 == 0x05) ? Action::Gather : Action::Take; }
+        else if (id == g_desc[Row(Action::Catch)].id)          { known = mem::Read32(buf + 3, &target); act = Action::Catch; }
+        else if (id == g_desc[Row(Action::Search)].id)         { known = mem::Read32(buf + 3, &target); act = Action::Search; }
+        if (!known || (target >> 24) != game::kTagWorld) return;
+        const LONG n = InterlockedCompareExchange(&g_seenN, 0, 0);
+        if (n >= 32) return;
+        g_seen[n] = { target, act, GetTickCount() };
+        InterlockedExchange(&g_seenN, n + 1);
+    }
+
+    int DrainSeen(Seen* out, int max)
+    {
+        const LONG n = InterlockedExchange(&g_seenN, 0);
+        const int k = n < max ? static_cast<int>(n) : max;
+        for (int i = 0; i < k; ++i) out[i] = g_seen[i];
+        return k;
     }
 }

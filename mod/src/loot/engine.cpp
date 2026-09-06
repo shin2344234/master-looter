@@ -15,6 +15,7 @@
 #include "hooks.h"
 #include "mem.h"
 #include "signatures.h"
+#include "../core/creaturedb.h"
 #include "../core/itemdb.h"
 #include "../core/log.h"
 #include "../core/paths.h"
@@ -67,7 +68,53 @@ namespace ml::loot
         char key[64] = "";   // engine string key from the live table
         char node[64] = "";  // gimmick node name
         const Item* db = nullptr;
+        const Creature* species = nullptr;
     };
+
+    // --- creature species -------------------------------------------------------
+    // Nothing in the entity says what a creature is, but somewhere it points at
+    // its CharacterInfo row, and every row keeps its string key at +0x08. The
+    // first hit fixes which object and slot to read; a miss is remembered per
+    // entity so a creature is only searched once.
+    static int s_spObj = -1, s_spOff = -1;   // object 0 entity, 1 actor, 2 status, 3 ai
+    static std::unordered_set<uint32_t> g_speciesMiss;
+    static const Creature* ReadSpeciesAt(uintptr_t obj, unsigned off)
+    {
+        const uintptr_t row = mem::Deref(obj, off);
+        char buf[64];
+        if (!row || !mem::ReadEngineString(row + 0x08, buf, sizeof buf)) return nullptr;
+        return CreatureDb::ByKey(buf);
+    }
+    static const Creature* FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai)
+    {
+        if (!CreatureDb::Loaded()) return nullptr;
+        const uintptr_t objs[4] = { ent, actor, status, ai };
+        const unsigned  lens[4] = { 0x200, 0x200, 0x300, 0x200 };
+        if (s_spObj >= 0)
+        {
+            if (const Creature* c = ReadSpeciesAt(objs[s_spObj], static_cast<unsigned>(s_spOff))) return c;
+        }
+        if (g_speciesMiss.count(eid)) return nullptr;
+        for (int o = 0; o < 4; ++o)
+        {
+            if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
+            for (unsigned off = 0; off < lens[o]; off += 8)
+            {
+                const Creature* c = ReadSpeciesAt(objs[o], off);
+                if (!c) continue;
+                if (s_spObj < 0 || s_spObj != o || s_spOff != static_cast<int>(off))
+                {
+                    s_spObj = o; s_spOff = static_cast<int>(off);
+                    static const char* names[4] = { "entity", "actor", "status component", "ai component" };
+                    LOG_OK("[species] creature rows are reachable from the %s at +0x%X (%s is %s)", names[o], off, c->stringKey.c_str(), c->name.c_str());
+                }
+                return c;
+            }
+        }
+        if (g_speciesMiss.size() > 4096) g_speciesMiss.clear();
+        g_speciesMiss.insert(eid);
+        return nullptr;
+    }
 
     struct Verdict { bool loot = false; Action act = Action::Take; const char* why = ""; char detail[40] = ""; };
 
@@ -77,7 +124,7 @@ namespace ml::loot
     struct Done { DWORD when; int tries; };
     static std::unordered_map<uint64_t, Done>  g_done;      // recently sent
     static std::unordered_set<uint64_t>        g_searched;  // never again this session
-    struct ArmRec { DWORD at; int fails; bool judged; int mode; };
+    struct ArmRec { DWORD at; int fails; bool judged; int mode; int ctxKind; };
     static std::unordered_map<uint64_t, ArmRec> g_armed;    // nodes we asked the game to fill
     static std::unordered_map<uint32_t, const char*> g_why; // last logged verdict per entity
     static int g_whyLines = 0;
@@ -87,6 +134,7 @@ namespace ml::loot
     static std::vector<Spot> g_spots;                       // recently sent, by place and type
     struct Seen { uintptr_t ent; Vec3 pos; DWORD when; };
     static std::unordered_map<uint32_t, Seen>  g_seen;      // merges the game's partial lists
+    static std::unordered_map<uint32_t, uint16_t> g_nodeType; // eid -> gather node type, from the last scans
 
     static uintptr_t g_me = 0;
     static uint32_t  g_meEid = 0, g_meRoute = 0;
@@ -141,6 +189,20 @@ namespace ml::loot
     // Diff the bag against the last scan and attribute every rise to a pending send.
     static void LearnFromInventory(DWORD now)
     {
+        // What the player gathered or caught by hand counts as a pending send
+        // too, so nodes get identified without the mod ever gathering them.
+        static events::Seen seen[32];
+        const int sn = events::DrainSeen(seen, 32);
+        for (int i = 0; i < sn; ++i)
+        {
+            uint16_t nodeType = 0;
+            if (seen[i].act == Action::Gather) { auto it = g_nodeType.find(seen[i].eid); if (it != g_nodeType.end()) nodeType = it->second; }
+            const Item* known = nullptr;
+            if (seen[i].act == Action::Gather && nodeType) known = LearnedYield(nodeType);
+            if (known) continue; // nothing new to learn from it
+            g_pend.push_back({ static_cast<DWORD>(seen[i].at), seen[i].act, nodeType, -1 });
+            if (Settings::Get().debugLog) LOG("[learn] player %s eid %08X (node type %u)", events::ActionName(seen[i].act), seen[i].eid, nodeType);
+        }
         static uint16_t types[2048]; static long long qty[2048];
         const int n = game::InventoryTypes(types, qty, 2048);
         std::vector<std::pair<uint16_t, long long>> cur(n);
@@ -351,35 +413,10 @@ namespace ml::loot
             mem::Read8(inter + kOff_Gimmick_Locked, &k.locked);
             game::NodeName(inter, k.node, sizeof k.node);
         }
-        // Probe: dump the raw words of the first creatures of each kind so the
-        // species id can be located offline (it is not in any offset we know).
+        // Live creatures: which species, from the CharacterInfo row they point at.
         if (k.ai && !k.inter && k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
-        {
-            static int s_probe05 = 0, s_probe09 = 0;
-            int& n = (k.cat2 == 0x05) ? s_probe05 : s_probe09;
-            if (n < 4)
-            {
-                ++n;
-                char line[1400]; int w = 0;
-                w += snprintf(line + w, sizeof line - w, "[probe] creature %08X cat2 %02X entity:", k.eid, k.cat2);
-                for (unsigned off = 0; off < 0x200 && w < 1300; off += 4) { uint32_t v = 0; mem::Read32(k.ent + off, &v); w += snprintf(line + w, sizeof line - w, " %X", v); }
-                LOG("%s", line);
-                w = 0;
-                w += snprintf(line + w, sizeof line - w, "[probe] creature %08X status:", k.eid);
-                for (unsigned off = 0; off < 0x300 && w < 1300; off += 4) { uint32_t v = 0; if (status) mem::Read32(status + off, &v); w += snprintf(line + w, sizeof line - w, " %X", v); }
-                LOG("%s", line);
-                const uintptr_t ai = game::CompByClass(comps, kCls_Ai);
-                w = 0;
-                w += snprintf(line + w, sizeof line - w, "[probe] creature %08X ai:", k.eid);
-                for (unsigned off = 0; off < 0x200 && w < 1300; off += 4) { uint32_t v = 0; if (ai) mem::Read32(ai + off, &v); w += snprintf(line + w, sizeof line - w, " %X", v); }
-                LOG("%s", line);
-                const uintptr_t ti = mem::Deref(k.ent, kOff_Ent_TypeInfo);
-                w = 0;
-                w += snprintf(line + w, sizeof line - w, "[probe] creature %08X typeinfo %s:", k.eid, ti ? (mem::RttiShort(ti) ? mem::RttiShort(ti) : "?") : "none");
-                for (unsigned off = 0; off < 0x100 && w < 1300; off += 4) { uint32_t v = 0; if (ti) mem::Read32(ti + off, &v); w += snprintf(line + w, sizeof line - w, " %X", v); }
-                LOG("%s", line);
-            }
-        }
+            k.species = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai));
+        if (k.gather && k.tid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.tid; }
         if (k.tid)
         {
             if (!game::ItemKeyForType(k.tid, k.key, sizeof k.key)) game::GimmickKeyForType(k.tid, k.key, sizeof k.key);
@@ -458,9 +495,23 @@ namespace ml::loot
         {
         case Action::Search: if (!cfg.lootCorpses) return skip("carcasses off"); break;
         case Action::Catch:
-            if (c.cat2 == 0x05) { if (!cfg.catchFish) return skip("fish and flying insects off"); }
-            else if (!cfg.catchCreatures) return skip("ground creatures off");
+        {
+            if (c.species)
+            {
+                const std::string& cl = c.species->klass;
+                if (cl == "insect")    { if (!cfg.catchInsects) return skip("insects off"); }
+                else if (cl == "fish") { if (!cfg.catchFish)    return skip("fish off"); }
+                else                   { if (!cfg.catchAnimals) return skip("small animals off"); }
+                if (const Item* it = ItemDb::ByRow(c.species->itemRow))
+                {
+                    const Rules::Verdict r = Rules::Decide(*it, cfg);
+                    if (!r.loot) { snprintf(v.detail, sizeof v.detail, "%s", r.detail.c_str()); v.loot = false; v.why = r.rule; return v; }
+                }
+            }
+            else if (c.cat2 == 0x05) { if (!cfg.catchFish || !cfg.catchInsects) return skip("unidentified: could be a fish or a flying insect"); }
+            else                     { if (!cfg.catchInsects || !cfg.catchAnimals) return skip("unidentified: could be an insect or a small animal"); }
             break;
+        }
         case Action::Gather:
         {
             const GatherKind kind = KindOf(c.db ? c.db : LearnedYield(c.tid));
@@ -505,6 +556,7 @@ namespace ml::loot
         if (c.key[0]) return c.key;
         if (c.node[0]) return c.node;
         if (c.dead == 1) return "corpse";
+        if (c.species) return c.species->name.c_str();
         if (c.ai) return "creature";
         return c.inter ? "object" : "entity";
     }
@@ -680,7 +732,7 @@ namespace ml::loot
             {
                 Nearby n{}; n.eid = list[i].eid; n.dist = list[i].d; n.loot = verdicts[i].loot;
                 strncpy(n.name, Label(list[i]), sizeof n.name - 1);
-                strncpy(n.klass, list[i].db ? list[i].db->klass.c_str() : (list[i].gather ? "gather node" : list[i].dead == 1 ? "corpse" : ""), sizeof n.klass - 1);
+                strncpy(n.klass, list[i].db ? list[i].db->klass.c_str() : list[i].species ? list[i].species->klass.c_str() : (list[i].gather ? "gather node" : list[i].dead == 1 ? "corpse" : ""), sizeof n.klass - 1);
                 if (verdicts[i].detail[0]) snprintf(n.verdict, sizeof n.verdict, "%s: %s", verdicts[i].why, verdicts[i].detail);
                 else strncpy(n.verdict, verdicts[i].why, sizeof n.verdict - 1);
                 nearby.push_back(n);
@@ -745,15 +797,17 @@ namespace ml::loot
                     // The game arms with mode 1 when the player closes in and
                     // mode 0 when leaving; bushes answered 0, ore did not. Start
                     // with 1 and alternate on each retry.
-                    rec.mode = (rec.fails % 2 == 0) ? 1 : 0;
+                    rec.mode = 1;
                     rec.at = now; rec.judged = false;
                     static int s_armLogs = 0;
-                    // The game's own 4th argument when we have seen one; the player
-                    // id was a guess that bushes tolerated and ore did not. A pointer
-                    // the game used a while ago may be dead by now, so it is only
-                    // handed back when it still looks like a live object, and when
-                    // it belongs to the player it is re-derived fresh each time.
-                    const uintptr_t armCtx = ArmContextNow();
+                    // The game's own 4th argument is an actor and differs on every
+                    // call, which fits the node's own actor (the object that owns the
+                    // gimmick component) rather than the player. Try that first, the
+                    // player's actor second, and log which one a node answers to.
+                    const uintptr_t nodeActor = game::Comps(k.ent);
+                    const uintptr_t meActor   = game::Comps(g_me);
+                    const uintptr_t armCtx = (rec.fails % 2 == 0) ? (nodeActor ? nodeActor : ArmContextNow()) : (meActor ? meActor : ArmContextNow());
+                    rec.ctxKind = (rec.fails % 2 == 0) ? 0 : 1;
                     if (s_armLogs < 40) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d ctx %llX (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, static_cast<unsigned long long>(armCtx), k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
                     events::Arm(g, static_cast<uintptr_t>(rec.mode), armCtx);
                     if (armedN < 32) armedNow[armedN++] = k.eid;
@@ -768,7 +822,7 @@ namespace ml::loot
                 auto it = g_armed.find(Key(k));
                 if (it == g_armed.end()) continue;
                 static int s_okLogs = 0;
-                if (s_okLogs < 40) { ++s_okLogs; LOG("[arm] eid %08X filled %lu ms after arming with mode %d (%s, type %u)", k.eid, static_cast<unsigned long>(now - it->second.at), it->second.mode, k.gather ? "gather" : "item", k.tid); }
+                if (s_okLogs < 40) { ++s_okLogs; LOG("[arm] eid %08X filled %lu ms after arming with mode %d and the %s actor (%s, type %u)", k.eid, static_cast<unsigned long>(now - it->second.at), it->second.mode, it->second.ctxKind ? "player's" : "node's", k.gather ? "gather" : "item", k.tid); }
                 g_armed.erase(it);
             }
 

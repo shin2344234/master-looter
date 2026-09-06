@@ -50,6 +50,7 @@ add_library(MasterLooter SHARED
     src/core/settings.cpp
     src/core/itemdb.cpp
     src/core/rules.cpp
+    src/core/creaturedb.cpp
     src/hooks/dx12_hook.cpp
     src/hooks/input.cpp
     src/hooks/xinput_hook.cpp
@@ -79,5 +80,6 @@ add_custom_command(TARGET MasterLooter POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/dist"
     COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:MasterLooter>" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv" "${CMAKE_SOURCE_DIR}/dist/"
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv" "${CMAKE_SOURCE_DIR}/dist/"
     COMMENT "Staging dist/"
 )

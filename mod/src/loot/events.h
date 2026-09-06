@@ -32,4 +32,10 @@ namespace ml::events
 
     long SentCount();
     long QueuedCount();
+
+    // The player's own interactions, seen on the game's event queue (not ours):
+    // gather/pick-up and catch targets. The engine drains these to learn what
+    // a node yields from what the player does by hand.
+    struct Seen { uint32_t eid; Action act; unsigned long at; };
+    int  DrainSeen(Seen* out, int max);
 }

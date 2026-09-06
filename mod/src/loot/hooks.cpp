@@ -107,8 +107,10 @@ namespace ml::loot::hooks
         {
             const char* cls = mem::RttiShort(static_cast<uintptr_t>(a1));
             const char* c4  = mem::Plausible(static_cast<uintptr_t>(a4)) ? mem::RttiShort(static_cast<uintptr_t>(a4)) : nullptr;
-            LOG("[arm] game armed %s mode %u a3 %llX a4 %llX (%s) (call %ld)", cls ? cls : "?", static_cast<unsigned>(a2 & 0xFF),
-                static_cast<unsigned long long>(a3), static_cast<unsigned long long>(a4), c4 ? c4 : "not an object", n);
+            uintptr_t owner = 0; mem::ReadPtr(static_cast<uintptr_t>(a1) + 0x08, &owner);
+            LOG("[arm] game armed %s mode %u a3 %llX a4 %llX (%s) owner %llX%s (call %ld)", cls ? cls : "?", static_cast<unsigned>(a2 & 0xFF),
+                static_cast<unsigned long long>(a3), static_cast<unsigned long long>(a4), c4 ? c4 : "not an object",
+                static_cast<unsigned long long>(owner), owner == static_cast<uintptr_t>(a4) ? " = a4" : "", n);
         }
         return oArm(a1, a2, a3, a4, a5, a6, a7, a8);
     }
