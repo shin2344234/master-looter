@@ -324,12 +324,22 @@ namespace ml::gui
         ImGui::SameLine();
         const bool have = s_sel >= 0 && s_sel < s_count;
         ImGui::BeginDisabled(!have);
-        if (ConfirmButton("preset.load", "Load", "Replace all settings?", true))
+        // Loading is cheap and undoable by loading another, so it just happens.
+        // Saving over one cannot be undone, so that is the click that asks.
+        if (ImGui::Button("Load"))
         {
+            s_armed.clear();
             if (Settings::LoadPreset(s_names[s_sel].c_str())) say("Preset loaded.");
             else say("That preset could not be read.");
         }
-        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Your current settings are not kept, so back them up first if you want them."); ImGui::EndTooltip(); }
+        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them."); ImGui::EndTooltip(); }
+        ImGui::SameLine();
+        if (ConfirmButton("preset.over", "Save over", "Overwrite it?", true))
+        {
+            if (Settings::SavePreset(s_names[s_sel].c_str())) say("Preset updated with the current settings.");
+            else say("That preset could not be written.");
+        }
+        if (ImGui::BeginItemTooltip()) { ImGui::Text("Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.", have ? s_names[s_sel].c_str() : ""); ImGui::EndTooltip(); }
         ImGui::SameLine();
         if (ConfirmButton("preset.delete", "Delete", "Delete for good?", true))
         {
@@ -340,12 +350,12 @@ namespace ml::gui
         if (ImGui::Button("Refresh")) { refresh(); s_armed.clear(); }
 
         ImGui::SetNextItemWidth(240 * g_scale);
-        if (ImGui::InputTextWithHint("##presetname", "name for a new preset", s_name, sizeof s_name)) s_armed.clear();
+        if (ImGui::InputTextWithHint("##presetname", "name a new preset", s_name, sizeof s_name)) s_armed.clear();
         ImGui::SameLine();
         const std::string clean = Settings::CleanPresetName(s_name);
         const bool exists = !clean.empty() && Settings::PresetExists(s_name);
         ImGui::BeginDisabled(clean.empty());
-        if (ConfirmButton("preset.save", exists ? "Overwrite preset" : "Save as preset", "Overwrite it?", exists))
+        if (ConfirmButton("preset.save", exists ? "Overwrite preset" : "Save as new preset", "Overwrite it?", exists))
         {
             if (Settings::SavePreset(s_name)) { say(exists ? "Preset overwritten." : "Preset saved."); s_name[0] = 0; refresh(); }
             else say("That name cannot be used.");
@@ -411,7 +421,7 @@ namespace ml::gui
         if (ImGui::Button("Loot everything in range now")) loot::RequestBurst();
         dirty |= ImGui::Checkbox("Show a brief notice when auto-loot is toggled", &c.showHud);
         dirty |= ImGui::Checkbox("Say so on screen when the bag stops taking things", &c.notifyBagFull);
-        Help("The game does not announce a full bag, so this watches what happens after a pick-up: when five in a row reach nothing, you get a notice. It repeats at most every 30 seconds and clears as soon as one of them lands. It can only tell while the mod is picking things up, so standing still with a full bag says nothing.");
+        Help("The game does not announce a full bag, so this watches what happens after a pick-up. An item that is coming arrives in well under a second, so a send that has reached nothing after 1.2 seconds counts against it, and three in a row raise the notice. One of them landing clears it. It can only tell while the mod is picking things up, so standing still with a full bag says nothing.");
         Help("Nothing else is drawn while the menu is closed.");
 
         Section("Keys");
