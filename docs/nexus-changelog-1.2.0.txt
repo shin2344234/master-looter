@@ -1,0 +1,13 @@
+Fixes the launch crash some of you hit when running this alongside another overlay mod, and no longer needs a workaround for it.
+
+- Launch crash with other ASI mods. Crimson Route and this mod were both detouring the same four DirectX functions, one on top of the other, and which one survived depended on load order. That is why it crashed for some people and not others. Master Looter now checks whether a function has already been detoured and leaves it alone if so, rather than stacking a second detour on the first. The overlay is unaffected: it is drawn from the wrapped swapchain, and that path is untouched. Thanks to aifunc for narrowing it down, and to lsimo and Torsten for the reports.
+- The log now names who owns every DirectX function before touching it, and prints the first bytes, so a conflict with another mod shows up in the log instead of having to be guessed at.
+- The log is written from the moment the plugin loads rather than at the first frame, so a crash during startup finally leaves a file behind. It lives in the game's bin64 folder; the Status tab prints the full path and has buttons to open the folder and copy it.
+- Controller shortcuts. Each of the four actions takes a pad binding of two buttons at once, never one, since every single button already does something in this game. Bind one by holding the pair and letting go. The mod only reads the pad, so the game still sees both buttons; pick a pair that does nothing together, such as the two shoulder buttons.
+- The menu can be translated. Write a template of every line the menu shows from the Language section, translate the right-hand side, save it as MasterLooter.<language>.txt beside the plugin and set the language. A partial translation leaves the rest in English. Thanks to notSupp0rt for asking.
+- The Nearby tab stopped blanking at random. The game hands out its entity lists in pieces and a scan that caught one mid-resize read as an empty world.
+- The Nearby tab no longer spends half its rows on the gear you are wearing, which was pushing everything in the world off the list. In a field of flowers it now shows 31 nodes where it showed 11, and reaches 10 m instead of 5. It holds 96 rows and says when there are more.
+- The mod page and source addresses are in the plugin, on the second line of the log and in the Status tab.
+- WrapSwapChain=0 in MasterLooter.ini leaves the swapchain alone if you ever need it. It should not be needed now; the overlay only stops appearing under DLSS frame generation with it off.
+
+Built for Crimson Desert 2.01.00 (exe 1.0.0.2760). Source and issues: https://github.com/shin2344234/master-looter
