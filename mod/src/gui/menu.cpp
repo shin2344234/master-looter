@@ -360,7 +360,7 @@ namespace ml::gui
         { "Abyss and Kuku",      "abyss-gear abyss-gear-box abyss-item kuku-power-core kuku-core kuku-pot-item kuku-pot kuku-currency stat-boost", "Abyss gear, Kuku pots and their parts." },
         { "Food and drink",      "food field-cooked drink elixir potion store-food honey meat seafood fruit vegetable grain cooking-basic", "" },
         { "Materials",           "catalyst crafting-material alchemy-material herb wood ingredient seed trade-good goods junk bait", "Ore, herbs, wood, trade goods and other crafting input." },
-        { "Creatures",           "insect fish animal amphibian", "Caught creatures as bag items." },
+        { "Creatures",           "insect fish animal amphibian", "Creature items lying around. Catching live creatures is set on the Looting tab until species detection lands." },
         { "Ammunition",          "arrow ammo ammo-bundle bullet magic-bullet cannonball explosive", "" },
         { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report recipe recipe-book", "" },
         { "Furniture and decor", "furniture household lamp light ornament painting flower-pot decoration cooking-facility storage chest container", "Household clutter, most of it worthless." },

@@ -196,17 +196,54 @@ namespace ml::loot
         }
     }
 
+    // The arming context the game passes (4th argument) is a pointer. If it is
+    // the player entity, its component array or one of its component slots, the
+    // same thing is looked up again at call time so it can never be stale.
+    static int s_armSlot = -2;          // -2 unknown, -1 raw pointer, 0.. component slot, 100 entity, 101 comps
+    static uintptr_t ArmContextNow()
+    {
+        const uintptr_t raw = hooks::ArmContext();
+        if (!raw || !g_me) return static_cast<uintptr_t>(g_meEid);
+        const uintptr_t comps = game::Comps(g_me);
+        static uintptr_t s_lastRaw = 0;
+        if (raw != s_lastRaw)
+        {
+            s_lastRaw = raw; s_armSlot = -1;
+            if (raw == g_me) s_armSlot = 100;
+            else if (comps && raw == comps) s_armSlot = 101;
+            else if (comps)
+                for (unsigned off = 0; off < kComps_SlotsEnd; off += 8)
+                    if (mem::Deref(comps, off) == raw) { s_armSlot = static_cast<int>(off / 8); break; }
+            const char* cls = mem::RttiShort(raw);
+            LOG("[arm] context %llX is %s (%s)", static_cast<unsigned long long>(raw),
+                s_armSlot == 100 ? "the player entity" : s_armSlot == 101 ? "the player's component array" : s_armSlot >= 0 ? "a player component" : "an unrelated object",
+                cls ? cls : "no class");
+        }
+        if (s_armSlot == 100) return g_me;
+        if (s_armSlot == 101) return comps ? comps : static_cast<uintptr_t>(g_meEid);
+        if (s_armSlot >= 0) { const uintptr_t c = comps ? mem::Deref(comps, static_cast<unsigned>(s_armSlot) * 8) : 0; if (c) return c; }
+        // Unrelated object: only while it still carries a class vtable.
+        if (mem::RttiName(raw)) return raw;
+        return static_cast<uintptr_t>(g_meEid);
+    }
+
     // What kind of thing a gather node is, from what it yields.
     enum class GatherKind { Unknown, Plant, Ore, Stone, Wood, Item };
     static GatherKind KindOf(const Item* y)
     {
         if (!y) return GatherKind::Unknown;
-        if (y->HasTag("wood"))  return GatherKind::Wood;
-        if (y->HasTag("stone")) return GatherKind::Stone;
         const std::string& nm = y->name;
-        const bool ore = y->klass == "catalyst" || (nm.size() >= 3 && nm.compare(nm.size() - 3, 3, "Ore") == 0) || nm.find(" Ore ") != std::string::npos;
-        if (ore) return GatherKind::Ore;
-        static const char* plantClasses[] = { "herb", "vegetable", "fruit", "grain", "seed", "ingredient", "alchemy-material", "honey", "crafting-material", "cooking-basic", "mount-feed" };
+        const std::string& key = y->stringKey;
+        // Timber is filed under the same class as ore; the name tells them apart.
+        if (y->HasTag("wood") || nm.find("Timber") != std::string::npos || key.rfind("Wood", 0) == 0 || key == "Fine_Wood" || key == "Premium_Wood") return GatherKind::Wood;
+        if (y->HasTag("stone")) return GatherKind::Stone;
+        // Minerals: ores, gems, mercury, brimstone, platinum. Hides, bones and
+        // fabric share the class but come from carcasses, never from nodes.
+        const bool mineral = (y->klass == "catalyst" && !y->HasTag("hide") && !y->HasTag("bone") && !y->HasTag("fabric"))
+                          || (nm.size() >= 3 && nm.compare(nm.size() - 3, 3, "Ore") == 0) || nm.find(" Ore ") != std::string::npos
+                          || key == "Item_Rare_Collect_Platinum";
+        if (mineral) return GatherKind::Ore;
+        static const char* plantClasses[] = { "herb", "vegetable", "fruit", "grain", "seed", "ingredient", "alchemy-material", "honey", "cooking-basic", "mount-feed", "seafood" };
         for (const char* c : plantClasses) if (y->klass == c) return GatherKind::Plant;
         if (y->HasTag("material")) return GatherKind::Plant;
         return GatherKind::Item;
@@ -363,7 +400,8 @@ namespace ml::loot
         }
         // The legacy category byte (cat) is garbage on current builds; only cat2 is used.
         if (c.locked == 1) return skip("locked");
-        if (c.twin) return skip("empty twin node");
+        // (Twin nodes are not skipped here: an empty node next to a filled
+        // one is armed like any other and proves itself by filling or not.)
         if (c.d < cfg.minRange) return skip("on the player");
         if (c.parent && c.parent == g_meEid) return skip("worn or carried by you");
         if (c.item && c.parent && c.cat2 == 0x11) return skip("worn by someone");
@@ -380,7 +418,9 @@ namespace ml::loot
         }
         if (c.tid == 52920 || g_containers.count(c.eid)) return skip("mechanism part");
         if (c.heap) return skip("stack in one spot (container contents)");
-        if (c.mine) return skip("references you");
+        // (A pointer to the player inside the object used to mean "yours"; the
+        // parent and bag checks above cover that, and arming can plant such a
+        // pointer in a node we just touched.)
 
         const bool catchable = (c.cat2 == 0x09 || c.cat2 == 0x05) && c.type == 0x06 && !c.inter;
         const bool beastCorpse = c.dead == 1 && (c.cat2 == 0x0C || c.ai);
@@ -395,12 +435,14 @@ namespace ml::loot
         else return skip("not ready (node empty)");
 
         // Item rules from the database. A live key that our table knows gets the
-        // full class/tag/item verdict; unknown names fall back to name checks.
+        // full class/tag/item verdict; a node whose yield has been learned gets
+        // the same verdict on the yield; unknown names fall back to name checks.
         if ((v.act == Action::Take || v.act == Action::Gather) && c.tid)
         {
-            if (c.db)
+            const Item* ruled = c.db ? c.db : (v.act == Action::Gather ? LearnedYield(c.tid) : nullptr);
+            if (ruled)
             {
-                const Rules::Verdict r = Rules::Decide(*c.db, cfg);
+                const Rules::Verdict r = Rules::Decide(*ruled, cfg);
                 if (!r.loot) { snprintf(v.detail, sizeof v.detail, "%s", r.detail.c_str()); v.loot = false; v.why = r.rule; return v; }
             }
             else if (c.key[0])
@@ -677,7 +719,7 @@ namespace ml::loot
                 for (Cand& k : list)
                 {
                     if (!k.filled || k.item || k.gather || !k.inter) continue;
-                    if (k.parent == g_meEid || k.twin || k.heap || k.d > armLim) continue;
+                    if (k.parent == g_meEid || k.heap || k.d > armLim) continue;
                     if (!cfg.armContainers && g_containers.count(k.eid)) continue;
                     if (k.node[0] && !cfg.lootContainers && (IStr(k.node, "_chest") || IStr(k.node, "_box") || IStr(k.node, "dropset"))) continue;
                     if (k.node[0] && !cfg.lootFurniture && IStr(k.node, "furniture")) continue;
@@ -707,8 +749,11 @@ namespace ml::loot
                     rec.at = now; rec.judged = false;
                     static int s_armLogs = 0;
                     // The game's own 4th argument when we have seen one; the player
-                    // id was a guess that bushes tolerated and ore did not.
-                    const uintptr_t armCtx = hooks::ArmContext() ? hooks::ArmContext() : static_cast<uintptr_t>(g_meEid);
+                    // id was a guess that bushes tolerated and ore did not. A pointer
+                    // the game used a while ago may be dead by now, so it is only
+                    // handed back when it still looks like a live object, and when
+                    // it belongs to the player it is re-derived fresh each time.
+                    const uintptr_t armCtx = ArmContextNow();
                     if (s_armLogs < 40) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d ctx %llX (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, static_cast<unsigned long long>(armCtx), k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
                     events::Arm(g, static_cast<uintptr_t>(rec.mode), armCtx);
                     if (armedN < 32) armedNow[armedN++] = k.eid;
@@ -742,9 +787,10 @@ namespace ml::loot
                     if (justArmed) continue;
                     if (v.act == Action::Gather && k.tid == 0 && AgeMs(k.eid, now) < 700) continue; // let the node finish filling
                     const uint64_t key = Key(k);
-                    if (RecentlyDone(key, now, cfg.retryAfterMs) || SpotRecent(k.pos, k.tid, now, cfg.retryAfterMs)) continue;
+                    if (RecentlyDone(key, now, cfg.retryAfterMs)) continue;
+                    if (v.act != Action::Catch && SpotRecent(k.pos, k.tid, now, cfg.retryAfterMs)) continue;
                     MarkDone(key, now);
-                    SpotMark(k.pos, k.tid, now);
+                    if (v.act != Action::Catch) SpotMark(k.pos, k.tid, now);
                     if (g_searched.count(key) && v.act != Action::Search) { if (cfg.debugLog) LOG("[loot] giving up on eid %08X after %d attempts", k.eid, kMaxTries); continue; }
                     if (v.act == Action::Search) g_searched.insert(key);
                     if (!events::Send(v.act, k.eid, g_meEid, route, 0)) continue;
