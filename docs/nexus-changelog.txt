@@ -1,0 +1,15 @@
+1.0.0 (2026-09-06), for Crimson Desert 2.01.00 (exe 1.0.0.2760)
+
+First release.
+
+- Auto-loot with an in-game menu (Insert). Twelve switches for what to collect: ground items, carcasses, plants, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers and furniture nodes, each with its own range.
+- Item database of 6,813 items with classes and tags, compiled into the plugin. Class groups with one click, a full class table, tag rules, per-item overrides and a live verdict per item.
+- Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default and can be released per class or per item.
+- Owned goods are skipped through the game's own Take-or-Steal check unless you opt in.
+- Gather nodes are armed from a distance; node yields are learned from your bag and remembered between sessions.
+- Creature table for telling insects, fish, seafood and small animals apart at catch time.
+- Nearby tab with every object around you and the rule that decided it; Status tab with signatures, hooks, counters, recent loot and the log.
+- Watch mode (Home), auto-loot toggle (F10), loot everything in range once (F11). All keys rebindable. Hotkeys ignored while the game window is not in front.
+- Works with DLSS frame generation and HDR. Keyboard, mouse and controller are held back from the game while the menu is interactive.
+- Settings live in MasterLooter.ini next to the plugin, saved from the menu and reloaded when edited by hand. MasterLooter.log explains every skipped object once.
+- Single-file install: MasterLooter.asi only. Two downloads, one for Definitive Mod Manager and one for installing by hand.
