@@ -963,6 +963,7 @@ namespace ml::loot
         }
         g_meRoute = game::Route(g_me);
         game::InventoryRefresh(g_me, !g_pend.empty());
+        if (g_debugLog) game::DumpInventoryShape(g_me, g_bagFull);
         LearnFromInventory(now);
         {
             // What the game armed by itself since the last scan, with the node it belongs to.

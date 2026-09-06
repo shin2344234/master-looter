@@ -60,6 +60,8 @@ namespace ml::game
     int  InventoryCount();
     // Slots across every bucket the reader can see, 0 when it cannot tell.
     int  InventoryCapacity();
+    // Samples the inventory holder looking for whatever holds the bag's limit.
+    void DumpInventoryShape(uintptr_t me, bool bagFull);
     // Quantity per item type id across every storage, sorted by type. Returns
     // the number of entries copied.
     int  InventoryTypes(uint16_t* types, long long* qty, int max);
