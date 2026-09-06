@@ -12,7 +12,7 @@ By hand:
 2. Copy `MasterLooter.asi` into `bin64` next to `winmm.dll`, with the game closed. The item database and the creature table are compiled into the plugin.
 3. Start the game. Press Insert for the menu; the Status tab shows whether every hook and signature resolved. `MasterLooter.log` next to the plugin says the same in more detail.
 
-Uninstall by deleting the `MasterLooter.*` files from `bin64` (the plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself). No game file is modified and nothing is written to a save.
+Uninstall by deleting the `MasterLooter.*` files from `bin64` (the plugin writes `MasterLooter.ini`, `MasterLooter.ini.bak`, `MasterLooter.log` and a `MasterLooter.presets` folder next to itself). No game file is modified and nothing is written to a save.
 
 ## What is in the box
 
@@ -67,7 +67,8 @@ Output lands in `dist\`, with the README, licence and notices alongside; `packag
 
 ## Files
 
-- `src/core`: paths, log, settings (INI load, debounced save, hot reload), item database, rules.
+- `src/core`: paths, log, settings (INI load, debounced save, hot reload, presets and the session backup), item database, gather node table, creature table, rules.
+- Next to the plugin at runtime: `MasterLooter.ini`, `MasterLooter.ini.bak` (the settings as they were when the game started, rewritten once per session), `MasterLooter.ini.v1.bak` (only if a migration ran), `MasterLooter.log`, and `MasterLooter.presets\` holding one ini per preset.
 - `src/hooks`: DX12 present hook and swapchain wrapper, window procedure subclass, XInput neutraliser.
 - `src/gui`: style, menu key polling, the menu and HUD.
 - `src/loot`: signatures, guarded memory and pattern scanning, game structures, the event protocol, MinHook detours, and the engine itself.

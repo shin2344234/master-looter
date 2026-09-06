@@ -70,6 +70,21 @@ namespace ml
         void Claim();                // this process owns the file; writes defaults if missing
         void MarkDirty();            // save soon (debounced)
         void Poll();                 // once per frame: debounced save, reload after an external edit
+
+        // Presets: the whole config, rules included, kept as a named file in
+        // MasterLooter.presets next to the plugin. Loading one replaces
+        // everything and rewrites the live file, so a swap survives a restart.
+        int  ListPresets(std::string* out, int max);   // names, sorted; returns how many
+        bool SavePreset(const char* name);
+        bool LoadPreset(const char* name);
+        bool DeletePreset(const char* name);
+        std::string CleanPresetName(const char* raw);  // what the name will become as a file
+
+        // The settings file as it was when the game started, written once per
+        // session before anything could change it. A migration also leaves a
+        // copy stamped with the version it came from.
+        bool BackupExists(char* whenOut, size_t n);    // `whenOut` gets its date and time
+        bool RestoreBackup();
         const std::wstring& Path();
         int  Generation();           // bumps on every load
         const char* KeyName(int vk); // human name for a virtual-key code

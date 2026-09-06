@@ -256,6 +256,68 @@ namespace ml::gui
     }
 
     // --- tabs ---------------------------------------------------------------
+    // Presets and the session backup. A preset is every setting and every rule
+    // under a name; the backup is the settings file as it was when the game
+    // started, which is what a version with different defaults undoes against.
+    static void DrawPresets()
+    {
+        Section("Presets and backup");
+        static std::string s_names[64];
+        static int   s_count = -1;
+        static int   s_sel = -1;
+        static char  s_name[48] = "";
+        static char  s_said[96] = "";
+        static DWORD s_saidUntil = 0;
+        auto refresh = [&] { s_count = Settings::ListPresets(s_names, 64); if (s_sel >= s_count) s_sel = s_count - 1; };
+        auto say = [&](const char* what) { snprintf(s_said, sizeof s_said, "%s", what); s_saidUntil = GetTickCount() + 4000; };
+        if (s_count < 0) refresh();
+
+        ImGui::SetNextItemWidth(240 * g_scale);
+        const char* label = (s_sel >= 0 && s_sel < s_count) ? s_names[s_sel].c_str() : (s_count ? "pick one" : "none saved yet");
+        if (ImGui::BeginCombo("##preset", label))
+        {
+            for (int i = 0; i < s_count; ++i)
+                if (ImGui::Selectable(s_names[i].c_str(), i == s_sel)) s_sel = i;
+            ImGui::EndCombo();
+        }
+        ImGui::SameLine();
+        const bool have = s_sel >= 0 && s_sel < s_count;
+        ImGui::BeginDisabled(!have);
+        if (ImGui::Button("Load")) { if (Settings::LoadPreset(s_names[s_sel].c_str())) say("Preset loaded."); else say("That preset could not be read."); }
+        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini."); ImGui::EndTooltip(); }
+        ImGui::SameLine();
+        if (ImGui::Button("Delete")) { if (Settings::DeletePreset(s_names[s_sel].c_str())) { say("Preset deleted."); refresh(); } }
+        ImGui::EndDisabled();
+        ImGui::SameLine();
+        if (ImGui::Button("Refresh")) refresh();
+
+        ImGui::SetNextItemWidth(240 * g_scale);
+        ImGui::InputTextWithHint("##presetname", "name for a new preset", s_name, sizeof s_name);
+        ImGui::SameLine();
+        const std::string clean = Settings::CleanPresetName(s_name);
+        ImGui::BeginDisabled(clean.empty());
+        if (ImGui::Button("Save as preset"))
+        {
+            if (Settings::SavePreset(s_name)) { say("Preset saved."); s_name[0] = '\0'; refresh(); }
+            else say("That name cannot be used.");
+        }
+        ImGui::EndDisabled();
+        if (!clean.empty() && clean != s_name)
+            ImGui::TextDisabled("Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.", clean.c_str());
+
+        char when[32] = "";
+        const bool haveBak = Settings::BackupExists(when, sizeof when);
+        ImGui::BeginDisabled(!haveBak);
+        if (ImGui::Button("Restore the backup")) { if (Settings::RestoreBackup()) say("Settings restored from the backup."); else say("The backup could not be read."); }
+        ImGui::EndDisabled();
+        ImGui::SameLine();
+        if (haveBak) ImGui::TextDisabled("MasterLooter.ini as it was at %s, before this session touched it.", when);
+        else ImGui::TextDisabled("No backup yet. One is written each time the game starts.");
+
+        if (s_said[0] && static_cast<LONG>(s_saidUntil - GetTickCount()) > 0) ImGui::TextColored(kGold, "%s", s_said);
+        else ImGui::TextDisabled("Presets live in MasterLooter.presets next to the plugin. Copy the folder to keep them across a reinstall.");
+    }
+
     static void TabGeneral(Config& c)
     {
         bool dirty = false;
@@ -353,6 +415,8 @@ namespace ml::gui
         dirty |= ImGui::Checkbox("Take goods that belong to someone", &c.lootOwned);
         if (c.lootOwned) ImGui::TextColored(kWarn, "The game treats this as stealing and will put a bounty on you.");
         else ImGui::TextDisabled("Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.");
+
+        DrawPresets();
         if (dirty) Settings::MarkDirty();
     }
 
