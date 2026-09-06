@@ -1,0 +1,1 @@
+Auto-loot with an in-game menu. Ground items, plants, ore, stone, wood, insects, fish, small animals and carcasses, each behind its own switch, filtered by class, tag and item rules. Quest items and other people's property are left alone.
