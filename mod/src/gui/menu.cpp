@@ -305,8 +305,15 @@ namespace ml::gui
         if (!clean.empty() && clean != s_name)
             ImGui::TextDisabled("Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.", clean.c_str());
 
-        char when[32] = "";
-        const bool haveBak = Settings::BackupExists(when, sizeof when);
+        // Asking the file system every frame for a file that changes once a
+        // session is wasteful; a second's cache is plenty.
+        static char  s_when[32] = "";
+        static bool  s_haveBak = false;
+        static DWORD s_bakAt = 0;
+        const DWORD nowb = GetTickCount();
+        if (!s_bakAt || nowb - s_bakAt > 1000) { s_bakAt = nowb; s_haveBak = Settings::BackupExists(s_when, sizeof s_when); }
+        const char* when = s_when;
+        const bool haveBak = s_haveBak;
         ImGui::BeginDisabled(!haveBak);
         if (ImGui::Button("Restore the backup")) { if (Settings::RestoreBackup()) say("Settings restored from the backup."); else say("The backup could not be read."); }
         ImGui::EndDisabled();
