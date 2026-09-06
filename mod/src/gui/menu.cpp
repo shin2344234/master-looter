@@ -18,6 +18,7 @@
 #include "../core/settings.h"
 #include "../core/state.h"
 #include "../hooks/input.h"
+#include "../hooks/xinput_hook.h"
 #include "../loot/engine.h"
 #include "../loot/events.h"
 #include "../loot/game.h"
@@ -156,7 +157,7 @@ namespace ml::gui
 
         static bool s_watchWas = false;
         const bool front = State::ForegroundIsOurs();
-        const bool key = front && KeyDown(c.menuKey);
+        const bool key = front && (KeyDown(c.menuKey) || hooks::PadChordHeld(c.padMenu));
         if (key && !s_keyWas && !st.rebindCapture)
         {
             // Insert: closed -> interactive; watching -> interactive; interactive -> closed.
@@ -166,7 +167,7 @@ namespace ml::gui
         }
         s_keyWas = key;
 
-        const bool watch = front && KeyDown(c.keyWatch);
+        const bool watch = front && (KeyDown(c.keyWatch) || hooks::PadChordHeld(c.padWatch));
         if (watch && !s_watchWas && !st.rebindCapture && !st.textCapture)
         {
             // Home: closed -> watching; interactive -> watching; watching -> closed.
@@ -231,6 +232,40 @@ namespace ml::gui
     }
 
     // One row of the key table: name, current key, rebind button, capture state.
+    // Capturing a pad shortcut: hold two buttons, let go, and whatever was
+    // held at the widest point is the shortcut. Waiting for the release is what
+    // lets someone press them slightly apart, which everyone does.
+    static bool PadRow(const char* label, unsigned& mask, int target)
+    {
+        State& st = State::Get();
+        bool dirty = false;
+        ImGui::PushID(target);
+        ImGui::TextUnformatted(label);
+        ImGui::SameLine(260 * g_scale);
+        ImGui::TextDisabled("%s", hooks::PadChordName(mask));
+        ImGui::SameLine(400 * g_scale);
+        if (st.rebindCapture && g_rebindTarget == target)
+        {
+            static unsigned s_widest = 0;
+            const unsigned held = hooks::PadButtons();
+            if (held) s_widest |= held;
+            int bits = 0;
+            for (unsigned v = s_widest; v; v &= v - 1) ++bits;
+            if (KeyDown(VK_ESCAPE)) { s_widest = 0; st.rebindCapture = false; g_rebindTarget = -1; }
+            else if (!held && bits >= 2) { mask = s_widest; s_widest = 0; dirty = true; st.rebindCapture = false; g_rebindTarget = -1; }
+            else if (!held && bits == 1) { s_widest = 0; }   // one button is not a shortcut, start over
+            else if (bits) ImGui::TextColored(Accent(), "%s, let go to keep it", hooks::PadChordName(s_widest));
+            else ImGui::TextColored(Accent(), "hold two buttons (Escape cancels)");
+        }
+        else if (!st.rebindCapture)
+        {
+            if (ImGui::SmallButton("Set")) { st.rebindCapture = true; g_rebindTarget = target; }
+            if (mask) { ImGui::SameLine(); if (ImGui::SmallButton("Clear")) { mask = 0; dirty = true; } }
+        }
+        ImGui::PopID();
+        return dirty;
+    }
+
     static bool KeyRow(const char* label, int& vk, int target)
     {
         State& st = State::Get();
@@ -431,6 +466,15 @@ namespace ml::gui
         dirty |= KeyRow("Auto-loot on / off", c.keyToggle, 1);
         dirty |= KeyRow("Loot everything in range once", c.keyBurst, 2);
         dirty |= KeyRow("Watch mode (menu stays up, you keep playing)", c.keyWatch, 3);
+
+        Section("Controller");
+        ImGui::TextDisabled("Two buttons at once, never one: every single button already does something in this game. "
+                            "The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, "
+                            "like the two shoulder buttons, or Back and a face button.");
+        dirty |= PadRow("Open and close this menu", c.padMenu, 10);
+        dirty |= PadRow("Auto-loot on / off", c.padToggle, 11);
+        dirty |= PadRow("Loot everything in range once", c.padBurst, 12);
+        dirty |= PadRow("Watch mode", c.padWatch, 13);
 
         Section("Pace");
         dirty |= ImGui::SliderInt("Scans per second", &c.scansPerSec, 1, 30);

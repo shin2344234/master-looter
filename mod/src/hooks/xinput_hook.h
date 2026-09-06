@@ -21,4 +21,19 @@ namespace ml::hooks
     // Real pad state, bypassing the menu-open neutralisation applied to the
     // game. Falls back to the plain export until the hooks are up.
     DWORD XInputReadReal(DWORD userIndex, XINPUT_STATE* state);
+
+    // --- pad shortcuts ------------------------------------------------------
+    // A shortcut on the pad is two buttons at once, never one. Every single
+    // button already does something in this game, so a one-button shortcut
+    // would fire while playing; a pair that the game does not use itself will
+    // not. The mod only reads the pad, so the game still sees both buttons.
+    // That is why the pair matters: pick two that do nothing together.
+
+    // Buttons held right now, across whichever pad is connected. 0 when none.
+    unsigned PadButtons();
+    // True while every button in `mask` is held. A mask with fewer than two
+    // buttons counts as unbound and is never held.
+    bool PadChordHeld(unsigned mask);
+    // "LB + RB", or "not set" when unbound. Points at a static buffer.
+    const char* PadChordName(unsigned mask);
 }

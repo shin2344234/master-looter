@@ -52,6 +52,7 @@ add_library(MasterLooter SHARED
     src/core/rules.cpp
     src/core/creaturedb.cpp
     src/core/nodedb.cpp
+    src/core/text.cpp
     src/hooks/dx12_hook.cpp
     src/hooks/input.cpp
     src/hooks/xinput_hook.cpp

@@ -2,6 +2,7 @@
 // MIT License, Copyright (c) 2026 XeTrinityz. See THIRD_PARTY_NOTICES.md.
 // Changes: Master Looter namespaces, logger, settings and menu hooks; icon atlas code removed.
 #include "xinput_hook.h"
+#include <cstdio>
 
 #include <MinHook.h>
 
@@ -127,5 +128,63 @@ namespace ml::hooks
         if (g_read)
             return g_read(userIndex, state);
         return XInputGetState(userIndex, state); // hooks not up yet
+    }
+
+    // --- pad shortcuts ------------------------------------------------------
+    // Reading a disconnected slot costs about a millisecond, so the pad that
+    // answered last is asked first and the others are only swept occasionally.
+    static DWORD g_padIndex = 0;
+    static DWORD g_padProbeAt = 0;
+
+    unsigned PadButtons()
+    {
+        XINPUT_STATE st{};
+        if (XInputReadReal(g_padIndex, &st) == ERROR_SUCCESS) return st.Gamepad.wButtons;
+        const DWORD now = GetTickCount();
+        if (now - g_padProbeAt < 2000) return 0;
+        g_padProbeAt = now;
+        for (DWORD i = 0; i < 4; ++i)
+        {
+            if (i == g_padIndex) continue;
+            if (XInputReadReal(i, &st) == ERROR_SUCCESS) { g_padIndex = i; return st.Gamepad.wButtons; }
+        }
+        return 0;
+    }
+
+    static int PopCount(unsigned v)
+    {
+        int n = 0;
+        while (v) { v &= v - 1; ++n; }
+        return n;
+    }
+
+    bool PadChordHeld(unsigned mask)
+    {
+        if (PopCount(mask) < 2) return false;
+        const unsigned held = PadButtons();
+        return (held & mask) == mask;
+    }
+
+    const char* PadChordName(unsigned mask)
+    {
+        static char name[96];
+        name[0] = '\0';
+        if (PopCount(mask) < 2) return "not set";
+        static const struct { unsigned bit; const char* text; } kButtons[] = {
+            { XINPUT_GAMEPAD_A, "A" }, { XINPUT_GAMEPAD_B, "B" },
+            { XINPUT_GAMEPAD_X, "X" }, { XINPUT_GAMEPAD_Y, "Y" },
+            { XINPUT_GAMEPAD_LEFT_SHOULDER, "LB" }, { XINPUT_GAMEPAD_RIGHT_SHOULDER, "RB" },
+            { XINPUT_GAMEPAD_BACK, "Back" }, { XINPUT_GAMEPAD_START, "Start" },
+            { XINPUT_GAMEPAD_LEFT_THUMB, "LS" }, { XINPUT_GAMEPAD_RIGHT_THUMB, "RS" },
+            { XINPUT_GAMEPAD_DPAD_UP, "D-pad up" }, { XINPUT_GAMEPAD_DPAD_DOWN, "D-pad down" },
+            { XINPUT_GAMEPAD_DPAD_LEFT, "D-pad left" }, { XINPUT_GAMEPAD_DPAD_RIGHT, "D-pad right" },
+        };
+        int w = 0;
+        for (const auto& b : kButtons)
+        {
+            if (!(mask & b.bit)) continue;
+            w += snprintf(name + w, sizeof name - w, "%s%s", w ? " + " : "", b.text);
+        }
+        return name[0] ? name : "not set";
     }
 }
