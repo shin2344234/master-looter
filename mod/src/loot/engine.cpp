@@ -17,6 +17,7 @@
 #include "signatures.h"
 #include "../core/creaturedb.h"
 #include "../core/nodedb.h"
+#include "../hooks/xinput_hook.h"
 #include "../core/itemdb.h"
 #include "../core/log.h"
 #include "../core/paths.h"
@@ -1305,13 +1306,30 @@ namespace ml::loot
 
         QueryPerformanceCounter(&t1);
         std::lock_guard<std::mutex> lk(g_mu);
-        g_nearby.swap(nearby);
+        // The actor manager keeps its entities in several arrays and hands out
+        // a count and a capacity for each. A sweep that catches one being
+        // resized sees a count of zero, or a count past the capacity, and skips
+        // it, so a scan now and then comes back with nothing while the world is
+        // plainly still there. Publishing that emptied the Nearby table for a
+        // frame, which is the blinking people see.
+        //
+        // A sweep that finds nothing is therefore not believed straight away.
+        // The last list that had something in it stays up, with the counts that
+        // went with it, until two seconds of nothing agree that the world
+        // really is empty, which is what loading a new area looks like.
+        static DWORD s_lastGood = 0;
+        const bool nothingFound = nearby.empty() && list.empty();
+        if (!nothingFound || now - s_lastGood > 2000)
+        {
+            if (!nothingFound) s_lastGood = now;
+            g_nearby.swap(nearby);
+            g_status.candidates = static_cast<int>(list.size());
+            g_status.listed = listed;
+            g_status.lootable = lootable;
+        }
         g_status.actorManager = true;
         g_status.playerFound = true;
         g_status.playerEid = g_meEid;
-        g_status.candidates = static_cast<int>(list.size());
-        g_status.listed = listed;
-        g_status.lootable = lootable;
         g_status.settling = settling;
         snprintf(g_status.hold, sizeof g_status.hold, "%s", settling ? s_holdWhy : "");
         g_status.inventoryItems = game::InventoryCount();
@@ -1348,10 +1366,11 @@ namespace ml::loot
             const State& st = State::Get();
             if (!st.Captures() && State::ForegroundIsOurs())
             {
-                const bool t = KeyDown(cfg.keyToggle);
+                // Either the key or the pad shortcut, whichever the player set.
+                const bool t = KeyDown(cfg.keyToggle) || ml::hooks::PadChordHeld(cfg.padToggle);
                 if (t && !toggleWas) { SetAuto(!cfg.enabled); cfg.enabled = !cfg.enabled; }
                 toggleWas = t;
-                const bool b = KeyDown(cfg.keyBurst);
+                const bool b = KeyDown(cfg.keyBurst) || ml::hooks::PadChordHeld(cfg.padBurst);
                 if (b && !burstWas) { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
                 burstWas = b;
             }

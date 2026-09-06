@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "creaturedb.h"
+#include "text.h"
 #include "nodedb.h"
 #include "itemdb.h"
 #include "log.h"
@@ -43,6 +44,7 @@ namespace ml::Mod
         LOG("Mod page %s | source %s", ML_MOD_PAGE, ML_SOURCE_URL);
 
         Settings::Load();
+        Text::Load(Settings::Get().language.c_str());
 
         if (MH_Initialize() != MH_OK)
         {

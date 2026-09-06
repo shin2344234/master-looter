@@ -66,6 +66,11 @@ namespace ml::Settings
         else if (k == "ShowHud")          c.showHud = Flag(v);
         else if (k == "NotifyBagFull")    c.notifyBagFull = Flag(v);
         else if (k == "WrapSwapChain")    c.wrapSwapChain = Flag(v);
+        else if (k == "Language")         c.language = v;
+        else if (k == "PadMenu")          c.padMenu   = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
+        else if (k == "PadToggle")        c.padToggle = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
+        else if (k == "PadBurst")         c.padBurst  = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
+        else if (k == "PadWatch")         c.padWatch  = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
         else if (k == "KeyToggle")        c.keyToggle = Key(v, 0x79);
         else if (k == "KeyBurst")         c.keyBurst = Key(v, 0x7A);
         else if (k == "KeyWatch")         c.keyWatch = Key(v, 0x24);
@@ -274,6 +279,9 @@ namespace ml::Settings
         snprintf(b, sizeof b, "Enabled=%d\nMenuKey=%d\nShowHud=%d\nNotifyBagFull=%d\nKeyToggle=%d\nKeyBurst=%d\nKeyWatch=%d\n",
                  c.enabled, c.menuKey, c.showHud, c.notifyBagFull, c.keyToggle, c.keyBurst, c.keyWatch); s += b;
         snprintf(b, sizeof b, "WrapSwapChain=%d\n", c.wrapSwapChain); s += b;
+        snprintf(b, sizeof b, "Language=%s\n", c.language.c_str()); s += b;
+        snprintf(b, sizeof b, "PadMenu=%u\nPadToggle=%u\nPadBurst=%u\nPadWatch=%u\n",
+                 c.padMenu, c.padToggle, c.padBurst, c.padWatch); s += b;
         snprintf(b, sizeof b, "ScansPerSec=%d\nPerScan=%d\nBurstPerKey=%d\nRetryAfterMs=%d\n",
                  c.scansPerSec, c.perScan, c.burstPerKey, c.retryAfterMs); s += b;
         snprintf(b, sizeof b, "LootCorpses=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherOre=%d\nGatherStone=%d\nGatherWood=%d\nGatherUnknown=%d\n",
