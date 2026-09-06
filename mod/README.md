@@ -12,7 +12,7 @@ By hand:
 2. Copy `MasterLooter.asi` into `bin64` next to `winmm.dll`, with the game closed. The item database and the creature table are compiled into the plugin.
 3. Start the game. Press Insert for the menu; the Status tab shows whether every hook and signature resolved. `MasterLooter.log` next to the plugin says the same in more detail.
 
-Uninstall by deleting the `MasterLooter.*` files from `bin64` (the plugin writes `MasterLooter.ini`, `MasterLooter.ini.bak`, `MasterLooter.log` and a `MasterLooter.presets` folder next to itself). No game file is modified and nothing is written to a save.
+Uninstall by deleting the `MasterLooter.*` files and folders from `bin64` (the plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself, plus `MasterLooter.presets` and `MasterLooter.backups`). No game file is modified and nothing is written to a save.
 
 ## What is in the box
 
@@ -47,7 +47,8 @@ Rule order for an identified item: item override, tag never, protected tags (mem
 - Creatures the species table cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified.
 - Gather nodes are identified by their prefab, matched against a table of 1,042 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 - Chests and storage boxes open a window rather than hand over an item; they are off by default and rarely respond.
-- A full bag is inferred, not reported: the game says nothing, so the mod watches what happens after each pick-up. Five sent with nothing arriving raises the notice, and anything landing clears it. Only pick-ups count, since an empty carcass or a node that gives nothing is ordinary.
+- A full bag is inferred, not reported: the game says nothing, so the mod watches what happens after each pick-up. Five in a row that reach nothing raise the notice, and one of them landing clears it. Only pick-ups of items the database can name count, since an empty carcass, a node that gives nothing and an unnamed item would all read as a full bag otherwise. It can only tell while the mod is picking things up, so a full bag while you stand still says nothing.
+- The inventory reader sees every store the player owns, 18 buckets and 26,280 slots on 2.01.00, not one bag. There is no slot count to report until one of those buckets is known to be the bag; the log writes the shape of them once per session.
 
 ## Compatibility and patches
 
@@ -68,7 +69,7 @@ Output lands in `dist\`, with the README, licence and notices alongside; `packag
 ## Files
 
 - `src/core`: paths, log, settings (INI load, debounced save, hot reload, presets and the session backup), item database, gather node table, creature table, rules.
-- Next to the plugin at runtime: `MasterLooter.ini`, `MasterLooter.ini.bak` (the settings as they were when the game started, rewritten once per session), `MasterLooter.ini.v1.bak` (only if a migration ran), `MasterLooter.log`, and `MasterLooter.presets\` holding one ini per preset.
+- Next to the plugin at runtime: `MasterLooter.ini`, `MasterLooter.log`, `MasterLooter.presets\` holding one ini per preset, and `MasterLooter.backups\` holding one dated ini per backup. A backup is written every time the game starts, a migration leaves one of its own, and the last twelve are kept.
 - `src/hooks`: DX12 present hook and swapchain wrapper, window procedure subclass, XInput neutraliser.
 - `src/gui`: style, menu key polling, the menu and HUD.
 - `src/loot`: signatures, guarded memory and pattern scanning, game structures, the event protocol, MinHook detours, and the engine itself.

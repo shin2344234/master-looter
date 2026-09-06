@@ -80,11 +80,19 @@ namespace ml
         bool DeletePreset(const char* name);
         std::string CleanPresetName(const char* raw);  // what the name will become as a file
 
-        // The settings file as it was when the game started, written once per
-        // session before anything could change it. A migration also leaves a
-        // copy stamped with the version it came from.
-        bool BackupExists(char* whenOut, size_t n);    // `whenOut` gets its date and time
-        bool RestoreBackup();
+        bool PresetExists(const char* name);
+
+        // Backups: one dated file each in MasterLooter.backups next to the
+        // plugin. One is written every time the game starts, before anything
+        // can change the settings, and a migration leaves one of its own. The
+        // oldest are dropped once there are more than a dozen.
+        int  ListBackups(std::string* out, int max);   // stamps, newest first
+        std::string BackupLabel(const char* stamp);    // "20260906-0850" -> "2026-09-06 08:50"
+        std::string NextBackupStamp();                 // what BackupNow would write
+        bool BackupExists(const char* stamp);
+        bool BackupNow();
+        bool RestoreBackup(const char* stamp);
+        bool DeleteBackup(const char* stamp);
         const std::wstring& Path();
         int  Generation();           // bumps on every load
         const char* KeyName(int vk); // human name for a virtual-key code
