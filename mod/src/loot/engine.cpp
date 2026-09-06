@@ -691,10 +691,16 @@ namespace ml::loot
             if (IStr(c.node, "visione") || IStr(c.node, "quest") || IStr(c.node, "artifact")) return skip("quest or memory trigger");
             if (IStr(c.node, "abyssruins")) return skip("fast-travel artifact");
             if (IStr(c.node, "mission")) return skip("mission object");
-            const bool container = IStr(c.node, "_chest") || IStr(c.node, "_box") || IStr(c.node, "dropset");
-            const bool furniture = IStr(c.node, "furniture");
-            if (container && !cfg.lootContainers) return skip("container (off)");
-            if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
+            // These read the prefab path, so a gather node whose name happens to
+            // carry one of the words is not a container: cd_box_mushroom_02 is a
+            // plant. A node the table has already classified keeps its kind.
+            if (!c.nodeType)
+            {
+                const bool container = IStr(c.node, "_chest") || IStr(c.node, "_box") || IStr(c.node, "dropset");
+                const bool furniture = IStr(c.node, "furniture");
+                if (container && !cfg.lootContainers) return skip("container (off)");
+                if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
+            }
         }
         if (c.tid == 52920 || g_containers.count(c.eid)) return skip("mechanism part");
         if (c.heap) return skip("stack at one point (storage contents)");
@@ -1066,8 +1072,10 @@ namespace ml::loot
                     if (!k.filled || k.item || k.gather || !k.inter) continue;
                     if (k.parent == g_meEid || k.heap || k.d > armLim) continue;
                     if (!cfg.armContainers && g_containers.count(k.eid)) continue;
-                    if (k.node[0] && !cfg.lootContainers && (IStr(k.node, "_chest") || IStr(k.node, "_box") || IStr(k.node, "dropset"))) continue;
-                    if (k.node[0] && !cfg.lootFurniture && IStr(k.node, "furniture")) continue;
+                    // Same as the verdict: a classified gather node is not a
+                    // container, whatever words its prefab path happens to hold.
+                    if (k.node[0] && !k.nodeType && !cfg.lootContainers && (IStr(k.node, "_chest") || IStr(k.node, "_box") || IStr(k.node, "dropset"))) continue;
+                    if (k.node[0] && !k.nodeType && !cfg.lootFurniture && IStr(k.node, "furniture")) continue;
                     const uint64_t key = Key(k);
                     if (g_searched.count(key)) continue;
                     auto ar = g_armed.find(key);

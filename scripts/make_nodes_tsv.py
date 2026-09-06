@@ -89,6 +89,27 @@ def prefab_key(path):
     return base
 
 
+KIND_NOUN = {"plant": "Plant", "ore": "Ore", "stone": "Stone", "wood": "Wood", "item": "Crop"}
+
+
+def pretty(name, kind):
+    """A label for a node whose socket name gives no item, e.g. a named tree.
+
+    The raw row names run long (gimmick_tree_pine_spruce_norway_hero_drop_01),
+    and they are read in the Nearby list and the log, so they are trimmed to
+    the part that says something and fall back to the kind when nothing does.
+    """
+    s = name.lower()
+    if s.startswith("gimmick_"):
+        s = s[len("gimmick_"):]
+    if s.endswith("_scenecollector"):
+        s = s[:-len("_scenecollector")]
+    s = re.sub(r"_\d+$", "", s).replace("_", " ").strip()
+    if not s or len(s) > 32:
+        return KIND_NOUN.get(kind, "Node")
+    return s[0].upper() + s[1:]
+
+
 def load_items():
     by_key, by_name = {}, {}
     path = os.path.join(DATA, "items_tagged.csv")
@@ -153,7 +174,7 @@ def main():
         it = match_item(name, by_key, by_name)
         if it:
             stats["with_item"] += 1
-        out.append((base, kind, it["string_key"] if it else "", it["name"] if it else name))
+        out.append((base, kind, it["string_key"] if it else "", it["name"] if it else pretty(name, kind)))
     out.sort()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
