@@ -42,5 +42,6 @@ namespace ml::loot
     long SessionCount(int action);   // per events::Action, items taken this session
 
     void RequestBurst();             // loot everything allowed in range once
+    void ForgetLearned();            // clear the learned node yields (file too)
     void SetAuto(bool on);           // same as Config.enabled, saved
 }

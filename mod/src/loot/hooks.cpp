@@ -24,6 +24,7 @@ namespace ml::loot::hooks
     static const char* g_pump = "none";
     static volatile LONG g_pumpTicks = 0, g_lastPumpAt = 0;
     static volatile LONG g_ownCalls = 0, g_armCalls = 0, g_armMode = -1;
+    static volatile LONG64 g_armCtx = 0;
     static volatile LONG g_ownCaptured = 0;
     static void* g_ownCtx = nullptr;
     static void* g_ownTag = nullptr;
@@ -98,10 +99,16 @@ namespace ml::loot::hooks
     {
         const LONG n = InterlockedIncrement(&g_armCalls);
         InterlockedExchange(&g_armMode, static_cast<LONG>(a2 & 0xFF));
-        if (n <= 6)
+        // a4 looks like a pointer in every call seen (0x1_5018AF80 style), most
+        // likely the interacting actor or an interaction context; it decides
+        // things like "does this actor carry a pickaxe". Keep the latest.
+        if (mem::Plausible(static_cast<uintptr_t>(a4))) InterlockedExchange64(&g_armCtx, static_cast<LONG64>(a4));
+        if (n <= 8)
         {
             const char* cls = mem::RttiShort(static_cast<uintptr_t>(a1));
-            LOG("[arm] game armed %s mode %u eid %08X (call %ld)", cls ? cls : "?", static_cast<unsigned>(a2 & 0xFF), static_cast<uint32_t>(a4), n);
+            const char* c4  = mem::Plausible(static_cast<uintptr_t>(a4)) ? mem::RttiShort(static_cast<uintptr_t>(a4)) : nullptr;
+            LOG("[arm] game armed %s mode %u a3 %llX a4 %llX (%s) (call %ld)", cls ? cls : "?", static_cast<unsigned>(a2 & 0xFF),
+                static_cast<unsigned long long>(a3), static_cast<unsigned long long>(a4), c4 ? c4 : "not an object", n);
         }
         return oArm(a1, a2, a3, a4, a5, a6, a7, a8);
     }
@@ -151,6 +158,7 @@ namespace ml::loot::hooks
     long OwnerCalls() { return g_ownCalls; }
     int  ArmMode() { const LONG m = InterlockedCompareExchange(&g_armMode, 0, 0); return m < 0 ? 0 : static_cast<int>(m); }
     bool ArmObserved() { return InterlockedCompareExchange(&g_armMode, 0, 0) >= 0; }
+    uintptr_t ArmContext() { return static_cast<uintptr_t>(InterlockedCompareExchange64(&g_armCtx, 0, 0)); }
     long ArmCalls() { return g_armCalls; }
 
     static uint64_t CallOracle(uintptr_t me, uintptr_t target, bool* boom)

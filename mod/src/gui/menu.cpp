@@ -303,8 +303,8 @@ namespace ml::gui
             { "Stone",          &c.gatherStone,    "Nodes that yield stone." },
             { "Wood",           &c.gatherWood,     "Nodes that yield branches and stalks." },
             { "Unidentified nodes", &c.gatherUnknown, "A node's kind is learned from what it yields the first time. Until then it is an unidentified node; leave this on so new node types get identified." },
-            { "Insects and small animals", &c.catchCreatures, "Everything the game puts in the bag whole: bugs, chickens, coots." },
-            { "Fish",           &c.catchFish,      "Fish in reach of the catch interaction." },
+            { "Ground creatures", &c.catchCreatures, "Beetles, chickens, coots and other small things that walk (the game's creature byte 09)." },
+            { "Fish and flying insects", &c.catchFish, "Fish and butterflies share one creature byte (05) in the game. A species-based split is on its way." },
             { "Containers",     &c.lootContainers, "Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default." },
             { "Furniture nodes", &c.lootFurniture, "Furniture with an interaction node. Mostly clutter. Off by default." },
         };
@@ -321,6 +321,9 @@ namespace ml::gui
         {
             const loot::Status s = loot::GetStatus();
             ImGui::TextDisabled("%d node kinds learned so far. A node is identified the first time it yields something; the list is kept in MasterLooter.learned.tsv.", s.learned);
+            ImGui::SameLine();
+            if (ImGui::SmallButton("Forget")) loot::ForgetLearned();
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Clears the learned list so every node type is identified again from scratch."); ImGui::EndTooltip(); }
         }
 
         Section("Ranges (metres)");

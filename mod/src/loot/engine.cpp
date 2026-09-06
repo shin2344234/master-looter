@@ -101,6 +101,7 @@ namespace ml::loot
     static std::vector<std::pair<uint16_t, long long>> g_invPrev;
     static bool g_invPrevValid = false;
 
+    static void SaveLearned();
     static void LoadLearned()
     {
         FILE* f = _wfopen(Paths::File(L"MasterLooter.learned.tsv").c_str(), L"rb");
@@ -109,11 +110,15 @@ namespace ml::loot
         while (fgets(line, sizeof line, f))
         {
             unsigned node = 0, row = 0;
-            if (sscanf(line, "%u\t%u", &node, &row) == 2 && node && node < 65536 && row < 65536)
-                g_learn[static_cast<uint16_t>(node)] = static_cast<uint16_t>(row);
+            if (sscanf(line, "%u\t%u", &node, &row) != 2 || !node || node >= 65536 || row >= 65536) continue;
+            const Item* it = ItemDb::ByRow(static_cast<int>(row));
+            if (it && (it->klass == "insect" || it->klass == "fish" || it->klass == "animal" || it->klass == "amphibian"))
+            { LOG("[learn] dropping node %u -> %s: a creature cannot be a node yield", node, it->Label()); continue; }
+            g_learn[static_cast<uint16_t>(node)] = static_cast<uint16_t>(row);
         }
         fclose(f);
         LOG("[learn] %d node yields loaded", static_cast<int>(g_learn.size()));
+        SaveLearned(); // rewrite without anything dropped
     }
     static void SaveLearned()
     {
@@ -161,11 +166,21 @@ namespace ml::loot
             // A send whose item we already knew explains the rise.
             auto known = std::find_if(g_pend.begin(), g_pend.end(), [type](const PendSend& p) { return p.itemRow == type; });
             if (known != g_pend.end()) { g_pend.erase(known); continue; }
-            // Otherwise every pending gather of one node type is the source.
+            // Otherwise every pending gather of one node type is the source,
+            // but only when nothing else (a catch, a pick-up of an unnamed
+            // item, a carcass) could explain the rise.
             std::vector<size_t> unknown;
+            bool other = false;
             for (size_t i = 0; i < g_pend.size(); ++i)
+            {
                 if (g_pend[i].act == Action::Gather && g_pend[i].itemRow < 0 && g_pend[i].nodeType) unknown.push_back(i);
-            if (unknown.empty()) continue;
+                else if (g_pend[i].itemRow < 0) other = true;
+            }
+            if (unknown.empty() || other) continue;
+            {
+                const Item* it = ItemDb::ByRow(type);
+                if (it && (it->klass == "insect" || it->klass == "fish" || it->klass == "animal" || it->klass == "amphibian")) continue; // a creature came from a catch
+            }
             const uint16_t nodeType = g_pend[unknown[0]].nodeType;
             bool same = true;
             for (size_t i : unknown) if (g_pend[i].nodeType != nodeType) same = false;
@@ -299,6 +314,35 @@ namespace ml::loot
             mem::Read8(inter + kOff_Gimmick_Locked, &k.locked);
             game::NodeName(inter, k.node, sizeof k.node);
         }
+        // Probe: dump the raw words of the first creatures of each kind so the
+        // species id can be located offline (it is not in any offset we know).
+        if (k.ai && !k.inter && k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
+        {
+            static int s_probe05 = 0, s_probe09 = 0;
+            int& n = (k.cat2 == 0x05) ? s_probe05 : s_probe09;
+            if (n < 4)
+            {
+                ++n;
+                char line[1400]; int w = 0;
+                w += snprintf(line + w, sizeof line - w, "[probe] creature %08X cat2 %02X entity:", k.eid, k.cat2);
+                for (unsigned off = 0; off < 0x200 && w < 1300; off += 4) { uint32_t v = 0; mem::Read32(k.ent + off, &v); w += snprintf(line + w, sizeof line - w, " %X", v); }
+                LOG("%s", line);
+                w = 0;
+                w += snprintf(line + w, sizeof line - w, "[probe] creature %08X status:", k.eid);
+                for (unsigned off = 0; off < 0x300 && w < 1300; off += 4) { uint32_t v = 0; if (status) mem::Read32(status + off, &v); w += snprintf(line + w, sizeof line - w, " %X", v); }
+                LOG("%s", line);
+                const uintptr_t ai = game::CompByClass(comps, kCls_Ai);
+                w = 0;
+                w += snprintf(line + w, sizeof line - w, "[probe] creature %08X ai:", k.eid);
+                for (unsigned off = 0; off < 0x200 && w < 1300; off += 4) { uint32_t v = 0; if (ai) mem::Read32(ai + off, &v); w += snprintf(line + w, sizeof line - w, " %X", v); }
+                LOG("%s", line);
+                const uintptr_t ti = mem::Deref(k.ent, kOff_Ent_TypeInfo);
+                w = 0;
+                w += snprintf(line + w, sizeof line - w, "[probe] creature %08X typeinfo %s:", k.eid, ti ? (mem::RttiShort(ti) ? mem::RttiShort(ti) : "?") : "none");
+                for (unsigned off = 0; off < 0x100 && w < 1300; off += 4) { uint32_t v = 0; if (ti) mem::Read32(ti + off, &v); w += snprintf(line + w, sizeof line - w, " %X", v); }
+                LOG("%s", line);
+            }
+        }
         if (k.tid)
         {
             if (!game::ItemKeyForType(k.tid, k.key, sizeof k.key)) game::GimmickKeyForType(k.tid, k.key, sizeof k.key);
@@ -372,8 +416,8 @@ namespace ml::loot
         {
         case Action::Search: if (!cfg.lootCorpses) return skip("carcasses off"); break;
         case Action::Catch:
-            if (c.cat2 == 0x05) { if (!cfg.catchFish) return skip("fish off"); }
-            else if (!cfg.catchCreatures) return skip("insects and small animals off");
+            if (c.cat2 == 0x05) { if (!cfg.catchFish) return skip("fish and flying insects off"); }
+            else if (!cfg.catchCreatures) return skip("ground creatures off");
             break;
         case Action::Gather:
         {
@@ -662,8 +706,11 @@ namespace ml::loot
                     rec.mode = (rec.fails % 2 == 0) ? 1 : 0;
                     rec.at = now; rec.judged = false;
                     static int s_armLogs = 0;
-                    if (s_armLogs < 40) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
-                    events::Arm(g, static_cast<uintptr_t>(rec.mode), g_meEid);
+                    // The game's own 4th argument when we have seen one; the player
+                    // id was a guess that bushes tolerated and ore did not.
+                    const uintptr_t armCtx = hooks::ArmContext() ? hooks::ArmContext() : static_cast<uintptr_t>(g_meEid);
+                    if (s_armLogs < 40) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d ctx %llX (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, static_cast<unsigned long long>(armCtx), k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
+                    events::Arm(g, static_cast<uintptr_t>(rec.mode), armCtx);
                     if (armedN < 32) armedNow[armedN++] = k.eid;
                     if (cfg.debugLog) LOG("[arm] eid %08X %.1f m %s", k.eid, k.d, k.node[0] ? k.node : "");
                     if (++armed >= (cfg.perScan ? cfg.perScan : 8)) break;
@@ -702,8 +749,7 @@ namespace ml::loot
                     if (v.act == Action::Search) g_searched.insert(key);
                     if (!events::Send(v.act, k.eid, g_meEid, route, 0)) continue;
                     ++taken;
-                    if (v.act == Action::Gather || v.act == Action::Take)
-                        g_pend.push_back({ now, v.act, k.tid, k.db ? k.db->row : -1 });
+                    g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.tid : static_cast<uint16_t>(0), k.db ? k.db->row : -1 });
                     InterlockedIncrement(&g_session[static_cast<int>(v.act)]);
                     char line[80];
                     snprintf(line, sizeof line, "%s %s (%.1f m)", events::ActionName(v.act), Label(k), k.d);
@@ -813,6 +859,12 @@ namespace ml::loot
         return n;
     }
     long SessionCount(int action) { return (action >= 0 && action < 4) ? g_session[action] : 0; }
+    void ForgetLearned()
+    {
+        g_learn.clear();
+        SaveLearned();
+        LOG("[learn] node yields forgotten");
+    }
     void RequestBurst() { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
     void SetAuto(bool on) { Settings::Get().enabled = on; Settings::MarkDirty(); State::Get().Notify(on ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
 }

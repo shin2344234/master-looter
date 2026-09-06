@@ -45,7 +45,7 @@ namespace ml::events
     static volatile LONG g_route = 0, g_routeKnown = 0, g_sendTid = 0, g_sent = 0, g_draining = 0;
 
     struct PendAct { Action act; uint32_t eid, player, route; uint8_t mode; };
-    struct PendArm { uintptr_t node, mode; uint32_t player; };
+    struct PendArm { uintptr_t node, mode, ctx; };
     static PendAct g_pendAct[64]; static int g_pendActN = 0;
     static PendArm g_pendArm[32]; static int g_pendArmN = 0;
     static CRITICAL_SECTION g_cs;
@@ -206,13 +206,13 @@ namespace ml::events
         return ok;
     }
 
-    static bool ArmNow(uintptr_t node, uintptr_t mode, uint32_t player)
+    static bool ArmNow(uintptr_t node, uintptr_t mode, uintptr_t ctx)
     {
         const game::Fns& f = game::F();
         if (!f.armFn || !mem::Readable(node, 0x400)) return false;
         static __declspec(align(16)) unsigned char scratch[256];
         memset(scratch, 0, sizeof scratch);
-        __try { reinterpret_cast<FnArm>(f.armFn)(reinterpret_cast<void*>(node), mode, scratch, player); return true; }
+        __try { reinterpret_cast<FnArm>(f.armFn)(reinterpret_cast<void*>(node), mode, scratch, ctx); return true; }
         __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
     }
 
@@ -227,13 +227,13 @@ namespace ml::events
         return room;
     }
 
-    bool Arm(uintptr_t node, uintptr_t mode, uint32_t player)
+    bool Arm(uintptr_t node, uintptr_t mode, uintptr_t ctx)
     {
         if (!game::F().armFn) return false;
-        if (OnGameThread()) return ArmNow(node, mode, player);
+        if (OnGameThread()) return ArmNow(node, mode, ctx);
         Lock();
         const bool room = g_pendArmN < 32;
-        if (room) g_pendArm[g_pendArmN++] = { node, mode, player };
+        if (room) g_pendArm[g_pendArmN++] = { node, mode, ctx };
         Unlock();
         return room;
     }
@@ -246,7 +246,7 @@ namespace ml::events
         rn = g_pendArmN; memcpy(arms, g_pendArm, sizeof(PendArm) * rn); g_pendArmN = 0;
         an = g_pendActN; memcpy(acts, g_pendAct, sizeof(PendAct) * an); g_pendActN = 0;
         Unlock();
-        for (int i = 0; i < rn; ++i) ArmNow(arms[i].node, arms[i].mode, arms[i].player);
+        for (int i = 0; i < rn; ++i) ArmNow(arms[i].node, arms[i].mode, arms[i].ctx);
         for (int i = 0; i < an; ++i) SendNow(acts[i].act, acts[i].eid, acts[i].player, acts[i].route, acts[i].mode);
         InterlockedExchange(&g_draining, 0);
     }

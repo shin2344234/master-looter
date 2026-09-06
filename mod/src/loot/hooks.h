@@ -17,6 +17,9 @@ namespace ml::loot::hooks
     int   ArmMode();          // mode byte seen on the game's own arming calls; 0 until observed
     bool  ArmObserved();
     long  ArmCalls();
+    // The 4th argument of the game's latest arming call: a pointer, not an id.
+    // 0 until the game has been seen arming something.
+    uintptr_t ArmContext();
 
     // 1 = taking it would be theft, 0 = free to take, -1 = cannot tell yet.
     int WouldSteal(uintptr_t playerEnt, uintptr_t targetEnt);

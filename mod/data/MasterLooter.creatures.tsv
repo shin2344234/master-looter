@@ -1,0 +1,1005 @@
+character_key	string_key	name	item_row	item_class
+30048	Animal_Bear_Wild_30048	Bear	-1	animal
+30191	Animal_Domestic_Bear_Domestic_30191	Bear	-1	animal
+30111	Animal_Grizzly_Bear_Wild_30111	Grizzly Bear	-1	animal
+30108	Animal_Black_Bear_Wild_30108	Black Bear	-1	animal
+30116	Animal_Ride_Bear_Wild_30116	Bear	-1	animal
+1000022	Animal_Trained_Bear_59006	Captured Bear	-1	animal
+31153	Animal_Baby_Bear_Wild_31153	Bear Cub	-1	animal
+31154	Animal_Baby_Black_Bear_Wild_31154	Black Bear Cub	-1	animal
+31155	Animal_Baby_White_Bear_Wild_31155	White Bear Cub	-1	animal
+31156	Animal_Baby_Gray_Bear_Wild_31156	Grizzly Bear Cub	-1	animal
+30018	Animal_Wolf_Wild_30018	Wolf	-1	animal
+30033	Animal_White_Wolf_Wild_30033	White Wolf	-1	animal
+1000023	Animal_Trained_Wolf_59004	Captured Wolf	-1	animal
+1000538	Animal_Wolf_Summon	Summon - Wolf	-1	animal
+1002302	Animal_Wolf_Clone	Wolf Clone	-1	animal
+1000392	Animal_LegendWolf_Summon	Summon - Legendary Wolf	-1	animal
+1001009	Animal_Wolf_Wild_30019	Large Wolf	-1	animal
+1003995	Animal_Wolf_Wild_30020	Large Wolf	-1	animal
+1003996	Animal_Wolf_Wild_30021	Large Wolf	-1	animal
+1003997	Animal_Wolf_Wild_30022	Large Wolf	-1	animal
+1003998	Animal_Wolf_Wild_30023	Large Wolf	-1	animal
+1003999	Animal_Wolf_Wild_30024	Large Wolf	-1	animal
+1004000	Animal_Wolf_Wild_30025	Large Wolf	-1	animal
+1004001	Animal_Wolf_Wild_30026	Large Wolf	-1	animal
+1004002	Animal_Wolf_Wild_30027	Large Wolf	-1	animal
+1004003	Animal_Wolf_Wild_30028	Large Wolf	-1	animal
+1004004	Animal_Wolf_Wild_30029	Large Wolf	-1	animal
+1004005	Animal_Wolf_Wild_30030	Large Wolf	-1	animal
+1004006	Animal_Wolf_Wild_30031	Large Wolf	-1	animal
+1004007	Animal_Wolf_Wild_30032	Large Wolf	-1	animal
+1004008	Animal_Wolf_Wild_30033	Large Wolf	-1	animal
+1004009	Animal_Wolf_Wild_30034	Large Wolf	-1	animal
+1003769	Animal_White_Wolf_Wild_30034	Large White Wolf	-1	animal
+1004010	Animal_White_Wolf_Wild_30035	Large White Wolf	-1	animal
+30043	Animal_Hyena_Wild_30043	Hyena	-1	animal
+30376	Animal_Ride_Wild_30376	Helms Hyena	-1	animal
+30378	Animal_Ride_Wild_30378	Helms Hyena	-1	animal
+39016	Animal_Baby_Hyena_Wild_39016	Hyena Cub	-1	animal
+1000540	Animal_Hyena_Summon	Summon - Hyena	-1	animal
+30374	Animal_Lion_Wild_30374	Lion	-1	animal
+1003792	Animal_Lion_Domestic_30374	Lion	-1	animal
+1002316	Animal_Lion_Circus_32349	Circus Lion	-1	animal
+1001077	Animal_Tiger_Wild_1	Tiger	-1	animal
+30375	Animal_Lioness_Wild_30375	Lioness	-1	animal
+1003793	Animal_Lioness_Domestic_30375	Lioness	-1	animal
+32286	Animal_Puma_Wild_32286	Puma	-1	animal
+32287	Animal_DarkPuma_Wild_32287	Black Puma	-1	animal
+31427	Animal_Coyote_Wild_31427	Coyote	-1	animal
+30076	Animal_Leopard_Wild_30076	Leopard	-1	animal
+1003791	Animal_Leopard_Domestic_30076	Leopard	-1	animal
+31194	Animal_Dog_Wild_31194	Wild Boarhound	-1	animal
+32279	Animal_Dog_Wild_32279	Wild Greyhound	-1	animal
+1001768	Animal_Sick_GreatDane_Wild_1	Sick Wild Boarhound	-1	animal
+1000178	Animal_Righteous_Arrows_Dog_31195	Blinding Arrows Warhound	-1	animal
+1001594	Animal_Dog_Wild_31196	Hellhounds Warhound	-1	animal
+1002038	Animal_BleedBlade_Dog_1	Bleed Bandits Warhound	-1	animal
+1002039	Animal_LonelyJackal_Dog_1	Lonely Jackal Warhound	-1	animal
+1002040	Animal_DemenissMP_Dog_1	Righteous Inquisitor Warhound	-1	animal
+1000298	Animal_Caliburn_Dog_Wild	Righteous Inquisitor Warhound	-1	animal
+31195	Animal_Dog_Wild_31195	Warhound	-1	animal
+30031	Animal_Deer_Wild_30031	Deer	-1	animal
+32216	Animal_Deer_Domestic_32216	Deer	-1	animal
+30032	Animal_Female_Deer_Wild_30032	Female Deer	-1	animal
+32341	Animal_Female_Deer_Domestic_32341	Female Deer	-1	animal
+32256	Animal_Baby_Deer_Wild_32256	Baby Deer	-1	animal
+32880	Animal_Baby_Deer_Domestic_32880	Baby Deer	-1	animal
+30035	Animal_Gazelle_Wild_30035	Gazelle	-1	animal
+1003801	Animal_Gazelle_Domestic_30035	Gazelle	-1	animal
+30096	Animal_Female_Gazelle_Wild_30096	Female Gazelle	-1	animal
+1003802	Animal_Female_Gazelle_Domestic_30096	Female Gazelle	-1	animal
+30097	Animal_Baby_Gazelle_Wild_30097	Gazelle Calf	-1	animal
+1003803	Animal_Baby_Gazelle_Domestic_30097	Gazelle Calf	-1	animal
+30163	Animal_Roedeer_Wild_30163	Roe Deer	-1	animal
+32384	Animal_Female_Roedeer_Wild_32384	Female Roe Deer	-1	animal
+32385	Animal_Baby_Roedeer_Wild_32385	Roe Deer Fawn	-1	animal
+1001614	Animal_WaterDeer_Wild_30164	Water Deer	-1	animal
+31469	Animal_Moose_Wild_31469	Moose	-1	animal
+32382	Animal_Female_Moose_Wild_32382	Female Moose	-1	animal
+32383	Animal_Baby_Moose_Wild_32383	Moose Calf	-1	animal
+32161	Animal_Antelope_Wild_32161	Antelope	-1	animal
+32388	Animal_Female_Antelope_Wild_32388	Female Antelope	-1	animal
+32258	Animal_Baby_Antelope_Wild_32258	Antelope Calf	-1	animal
+32173	Animal_Wapiti_Wild_32173	Elk	-1	animal
+32177	Animal_Female_Wapiti_Wild_32177	Female Elk	-1	animal
+32178	Animal_Baby_Wapiti_Wild_32178	Elk Calf	-1	animal
+32245	Animal_PronghornDeer_Wild_32245	Pronghorn	-1	animal
+32374	Animal_Female_PronghornDeer_Wild_32374	Female Pronghorn	-1	animal
+32375	Animal_Baby_PronghornDeer_Wild_32375	Pronghorn Fawn	-1	animal
+30169	Animal_Reindeer_Wild_30169	Reindeer	-1	animal
+32376	Animal_Female_ReinDeer_Wild_32376	Female Reindeer	-1	animal
+32377	Animal_Baby_ReinDeer_Wild_32377	Reindeer Calf	-1	animal
+30170	Animal_Arctic_ReinDeer_Wild_30170	Snowfield Reindeer	-1	animal
+32378	Animal_Female_Arctic_ReinDeer_Wild_32378	Female Snowfield Reindeer	-1	animal
+32379	Animal_Baby_Arctic_ReinDeer_Wild_32379	Snowfield Reindeer Fawn	-1	animal
+32894	Animal_White_Stag_32894	Giant Deer	-1	animal
+33126	Animal_ReinDeer_Wild_33126	Witch's Deer	-1	animal
+33127	Animal_DeerFemale_Wild_33127	Witch's Female Deer	-1	animal
+33128	Animal_DeerBaby_Wild_33128	Witch's Deer Fawn	-1	animal
+1000977	Animal_MilkCow_Domestic_30028	Dairy Cow	-1	animal
+1001017	Animal_MilkCow_Wild_32215	Wild Dairy Cow	-1	animal
+1001056	Animal_MilkCow_Domestic_32308	Bull	-1	animal
+1001059	Animal_MilkCow_Wild_32310	Wild Bull	-1	animal
+32399	Animal_Baby_MilkCow_Domestic_32399	Calf	-1	animal
+1003764	Animal_Baby_MilkCow_Domestic_Sale_32399	Calf	-1	animal
+32343	Animal_Rope_SpotBull_Domestic_32343	Dairy Cow With Halter	-1	animal
+30074	Animal_Bison_Wild_30074	Bison	-1	animal
+30083	Animal_LongHair_Bison_Wild_30083	Longlocked Bison	-1	animal
+30093	Animal_Female_Bison_Wild_30093	Female Bison	-1	animal
+30098	Animal_Bison_Domestic_30098	Bison	-1	animal
+30099	Animal_Female_Bison_Domestic_30099	Female Bison	-1	animal
+32257	Animal_Baby_Bison_Wild_32257	Bison Calf	-1	animal
+32268	Animal_Baby_Bison_Domestic_32268	Bison Calf	-1	animal
+30034	Animal_Bull_Domestic_30034	Cow	-1	animal
+30110	Animal_Baby_Bull_Wild_30110	Wild Calf	-1	animal
+32217	Animal_Bull_Wild_32217	Wild Cow	-1	animal
+32263	Animal_Baby_Bull_Domestic_32263	Wild Calf	-1	animal
+32322	Animal_Female_Bull_Wild_32322	Female Cow	-1	animal
+32342	Animal_Bull_Domestic_Bagpack_32342	Loaded Bull	-1	animal
+32412	Animal_machinery_Bull_Domestic_Bagpack_32412	Machine Loaded Cow	-1	animal
+32414	Animal_Merchant_Bull_Domestic_Bagpack_32414	Merchant's Loaded Cow	-1	animal
+32413	Animal_weapon_Bull_Domestic_Bagpack_32413	Weapon Loaded Cow	-1	animal
+32415	Animal_Bottle_Bull_Domestic_Bagpack_32415	Barrel-Carrying Cow	-1	animal
+32416	Animal_clothe_Bull_Domestic_Bagpack_32416	Clothing Loaded Cow	-1	animal
+32417	Animal_art_Bull_Domestic_Bagpack_32417	Art Loaded Cow	-1	animal
+32895	Animal_Giant_Bull_32895	Giant Bison	-1	animal
+1001478	Animal_Giant_Bull_Domestic_1	Giant Cow	-1	animal
+1000408	Animal_Water_Buffalo_Wild_1	Buffalo	-1	animal
+32223	Animal_Hamish_Wild_32223	Highland Cow	-1	animal
+32259	Animal_Baby_Hamish_Wild_32259	Highland Cow Calf	-1	animal
+32260	Animal_Female_Hamish_Wild_32260	Female Highland Cow	-1	animal
+32398	Animal_Female_Hamish_Domestic_32398	Female Highland Cow	-1	animal
+32246	Animal_Longhorn_Wild_32246	White-Striped Longhorn	-1	animal
+32396	Animal_Female_Longhorn_Wild_32396	Female White-Striped Longhorn	-1	animal
+32397	Animal_Baby_Longhorn_Wild_32397	Young White-Striped Longhorn	-1	animal
+1001783	Animal_Longhorn_Domestic_1	White-striped Longhorn	-1	animal
+1001784	Animal_Female_Longhorn_Domestic_1	Female White-striped Longhorn	-1	animal
+1001785	Animal_Baby_Longhorn_Domestic_1	Young White-striped Longhorn	-1	animal
+32214	Animal_Goat_Wild_32214	Wild Goat	-1	animal
+30027	Animal_Goat_Domestic_30027	Goat	-1	animal
+1003105	Animal_GoatFemale_Wild_1	Wild Female Goat	-1	animal
+1003106	Animal_GoatFemale_Domestic_1	Female Goat	-1	animal
+32262	Animal_Kid_Wild_32262	Baby Goat	-1	animal
+30109	Animal_Kid_Domestic_30109	Baby Goat	-1	animal
+1003765	Animal_Kid_Domestic_Sale_30109	Baby Goat	-1	animal
+32302	Animal_Goat_Domestic_32302	Hornless Goats	-1	animal
+30040	Animal_MountainGoat_Wild_30040	Mountain Goat	-1	animal
+32389	Animal_Female_MountainGoat_Wild_32389	Female Mountain Goat	-1	animal
+32390	Animal_Baby_MountainGoat_Wild_32390	Baby Mountain Goat	-1	animal
+32255	Animal_Snow_Mountain_Goat_Wild_32255	Snow Mountain Goat	-1	animal
+1003804	Animal_Snow_Mountain_Goat_Domestic_32255	Snow Mountain Goat	-1	animal
+32391	Animal_Female_Snow_Mountain_Goat_Wild_32391	Female Snow Mountain Goat	-1	animal
+1003805	Animal_Female_Snow_Mountain_Goat_Domestic_32391	Female Snow Mountain Goat	-1	animal
+32392	Animal_Baby_Snow_Mountain_Goat_Wild_32392	Baby Snow Mountain Goat	-1	animal
+32213	Animal_Sheep_Wild_32213	Wild Sheep	-1	animal
+1003107	Animal_SheepFemale_Wild_1	Wild Female Sheep	-1	animal
+30026	Animal_Sheep_Domestic_30026	Sheep	-1	animal
+1003108	Animal_SheepFemale_Domestic_1	Female Sheep	-1	animal
+31178	Animal_Lamb_Domestic_31178	Lamb	-1	animal
+32220	Animal_Lamb_Wild_32220	Wild Lamb	-1	animal
+1003766	Animal_Lamb_Domestic_Sale_31178	Lamb	-1	animal
+30044	Animal_Sheep_Domestic_30044	Shaved Sheep	-1	animal
+32254	Animal_DesertBigHornSheep_Wild_32254	Wild Desert Bighorn Sheep	-1	animal
+32393	Animal_Female_DesertBigHornSheep_Wild_32393	Wild Female Desert Bighorn Sheep	-1	animal
+32394	Animal_Baby_DesertBigHornSheep_Wild_32394	Wild Baby Desert Bighorn Sheep	-1	animal
+32212	Animal_Pig_Wild_32212	Wild Pig	-1	animal
+30025	Animal_Pig_Domestic_30025	Pig	-1	animal
+1003111	Animal_PigFemale_Wild_1	Wild Female Pig	-1	animal
+1003112	Animal_PigFemale_Domestic_1	Female Pig	-1	animal
+32219	Animal_Baby_Pig_Wild_32219	Baby Pig	-1	animal
+30114	Animal_Baby_Pig_Domestic_30114	Baby Pig	-1	animal
+1003767	Animal_Baby_Pig_Domestic_Sale_30114	Baby Pig	-1	animal
+30030	Animal_Wild_Boar_Wild_30030	Boar	-1	animal
+30192	Animal_Domestic_Wild_Boar_Domestic_30192	Boar	-1	animal
+32345	Animal_Baby_Boar_Wild_32345	Boar Piglet	-1	animal
+32244	Animal_CollaredPeccary_Wild_32244	Collared Peccary	-1	animal
+32253	Animal_Warthog_Wild_32253	Warthog	-1	animal
+32264	Animal_Warthogbaby_Wild_32264	Warthog Piglet	-1	animal
+30270	Animal_Ride_Battle_Boar_30270	Giant Rock Tusk Warthog Boss	-1	animal
+1001613	Animal_Ride_Battle_Boar_1	Black-Maned Boar	-1	animal
+30271	Animal_Ride_Battle_Boar_30271	Rock Tusk Warthog	-1	animal
+1004016	Animal_Ride_Battle_Boar_30272	Rock Tusk Warthog	-1	animal
+1004017	Animal_Ride_Battle_Boar_30273	Rock Tusk Warthog	-1	animal
+1004018	Animal_Ride_Battle_Boar_30274	Rock Tusk Warthog	-1	animal
+1004019	Animal_Ride_Battle_Boar_30275	Rock Tusk Warthog	-1	animal
+1004020	Animal_Ride_Battle_Boar_30276	Rock Tusk Warthog	-1	animal
+30067	Animal_Camel_Wild_30067	Camel	-1	animal
+30106	Animal_Camel_Domestic_30106	Camel	-1	animal
+32386	Animal_Female_Camel_Wild_32386	Female Camel	-1	animal
+32387	Animal_Baby_Camel_Wild_32387	Camel Calf	-1	animal
+32418	Animal_machinery_Camel_Domestic_Bagpack_32418	Machine-Carrying Camel	-1	animal
+32419	Animal_weapon_Camel_Domestic_Bagpack_32419	Weapon-Carrying Camel	-1	animal
+32420	Animal_Merchant_Camel_Domestic_Bagpack_32420	Merchant's Loaded Camel	-1	animal
+32421	Animal_Bottle_Camel_Domestic_Bagpack_32421	Barrel-Carrying Camel	-1	animal
+32422	Animal_clothe_Camel_Domestic_Bagpack_32422	Clothing-Carrying Camel	-1	animal
+32423	Animal_art_Camel_Domestic_Bagpack_32423	Art-Carrying Camel	-1	animal
+30199	Animal_BactrianCamel_Wild_30199	Two-Humped Camel	-1	animal
+30200	Animal_BactrianCamel_Domestic_30200	Two-Humped Camel	-1	animal
+30052	Animal_Crocodile_Wild_30052	Crocodile	-1	animal
+32373	Animal_Giant_Crocodile_Wild_32373	Giant Crocodile	-1	animal
+1003794	Animal_Crocodile_Domestic_30052	Crocodile	-1	animal
+1003795	Animal_Giant_Crocodile_Domestic_32373	Giant Crocodile	-1	animal
+30054	Animal_Hippo_Wild_30054	Hippopotamus	-1	animal
+32350	Animal_Hippo_Sircus_32350	Hippopotamus	-1	animal
+30262	Animal_Rhino_Wild_30262	Rhinoceros	-1	animal
+32351	Animal_Rhino_Sircus_32351	Rhinoceros	-1	animal
+30144	Animal_Battle_Rhinoceros_30144	Great Rhinoceros	-1	animal
+30053	Animal_Elephant_Wild_30053	Elephant	-1	animal
+1003806	Animal_Elephant_Domestic_30053	Elephant	-1	animal
+30198	Animal_Elephant_Wild_30198	Siege Elephant	-1	animal
+1002315	Animal_AlpineIbex_10	Ibex	-1	animal
+31357	Animal_Lumif_Wild_31357	Herspia	-1	animal
+32501	Animal_Lumif_Wild_32501	Herspia	-1	animal
+32502	Animal_Lumif_Wild_32502	Herspia	-1	animal
+32503	Animal_Lumif_Wild_32503	Herspia	-1	animal
+32504	Animal_Lumif_Wild_32504	Herspia	-1	animal
+32505	Animal_Lumif_Wild_32505	Herspia	-1	animal
+1003538	Animal_Lumif_Wild_32506	Herspia	-1	animal
+1003539	Animal_Lumif_Wild_32507	Herspia	-1	animal
+1003540	Animal_Lumif_Wild_32508	Herspia	-1	animal
+1003541	Animal_Lumif_Wild_32509	Herspia	-1	animal
+31470	Animal_Lumif_Domestic_31470	Herspia	-1	animal
+32506	Animal_Lumif_Domestic_32506	Herspia	-1	animal
+32507	Animal_Lumif_Domestic_32507	Herspia	-1	animal
+32508	Animal_Lumif_Domestic_32508	Herspia	-1	animal
+32509	Animal_Lumif_Domestic_32509	Herspia	-1	animal
+32510	Animal_Lumif_Domestic_32510	Herspia	-1	animal
+31487	Animal_Lumif_Domestic_Saddle_31487	Herspia	-1	animal
+32511	Animal_Lumif_Domestic_Saddle_32511	Herspia	-1	animal
+32512	Animal_Lumif_Domestic_Saddle_32512	Herspia	-1	animal
+32513	Animal_Lumif_Domestic_Saddle_32513	Herspia	-1	animal
+32514	Animal_Lumif_Domestic_Saddle_32514	Herspia	-1	animal
+32515	Animal_Lumif_Domestic_Saddle_32515	Herspia	-1	animal
+1001414	Animal_Lumif_Domestic_WagonConnecter_32609	Herspia Wagon Horse	-1	animal
+1001415	Animal_Lumif_Domestic_WagonConnecter_32610	Herspia Wagon Horse	-1	animal
+1001416	Animal_Lumif_Domestic_WagonConnecter_32611	Herspia Wagon Horse	-1	animal
+1001417	Animal_Lumif_Domestic_WagonConnecter_32612	Herspia Wagon Horse	-1	animal
+1001418	Animal_Lumif_Domestic_WagonConnecter_32613	Herspia Wagon Horse	-1	animal
+1001419	Animal_Lumif_Domestic_WagonConnecter_32614	Herspia Wagon Horse	-1	animal
+32800	Animal_Lumif_Domestic_Bagpack_32800	Herspia Packhorse	-1	animal
+32814	Animal_Lumif_Domestic_Bagpack_32814	Herspia Packhorse	-1	animal
+32816	Animal_Lumif_Domestic_Bagpack_32816	Herspia Packhorse	-1	animal
+32818	Animal_Lumif_Domestic_Bagpack_32818	Herspia Packhorse	-1	animal
+32815	Animal_Lumif_Domestic_Bagpack_32815	Herspia Packhorse	-1	animal
+32817	Animal_Lumif_Domestic_Bagpack_32817	Herspia Packhorse	-1	animal
+1001382	Animal_Lumif_Domestic_Bagpack_Trade_1	Herspia Trade Goods Packhorse	-1	animal
+32960	Animal_Lumif_Domestic_HorseArmor_32960	Hernandian Warhorse	-1	animal
+1001680	Animal_Lumif_Domestic_Wells_HorseArmor_1	Wells's Military Horse	-1	animal
+32961	Animal_Lumif_Domestic_HorseArmor_32961	Hernandian Warhorse	-1	animal
+1001443	Animal_Lumif_Domestic_Demeniss_HorseArmor_1	Demenissian War Horse	-1	animal
+1001448	Animal_Lumif_Domestic_Delesian_HorseArmor_2	Delesyian Warhorse	-1	animal
+1000892	Animal_Lumif_Domestic_Delesian_HorseArmor_1	Delesyian Warhorse	-1	animal
+32962	Animal_Lumif_Domestic_HorseArmor_32962	Herspia	-1	animal
+1003565	Animal_Lumif_Domestic_HorseArmor_1	Herspia	-1	animal
+31364	Animal_Stefano_Wild_31364	Priden	-1	animal
+32516	Animal_Stefero_Wild_32516	Priden	-1	animal
+32517	Animal_Stefero_Wild_32517	Priden	-1	animal
+32518	Animal_Stefero_Wild_32518	Priden	-1	animal
+32519	Animal_Stefero_Wild_32519	Priden	-1	animal
+32520	Animal_Stefero_Wild_32520	Priden	-1	animal
+1003542	Animal_Stefero_Wild_32521	Priden	-1	animal
+1003543	Animal_Stefero_Wild_32522	Priden	-1	animal
+32521	Animal_Stefero_Domestic_32521	Priden	-1	animal
+32522	Animal_Stefero_Domestic_32522	Priden	-1	animal
+32523	Animal_Stefero_Domestic_32523	Priden	-1	animal
+32524	Animal_Stefero_Domestic_32524	Priden	-1	animal
+32525	Animal_Stefero_Domestic_32525	Priden	-1	animal
+31476	Animal_Stefano_Domestic_31476	Priden	-1	animal
+31493	Animal_Stefano_Domestic_Saddle_31493	Priden	-1	animal
+32526	Animal_Stefero_Domestic_Saddle_32526	Priden	-1	animal
+32527	Animal_Stefero_Domestic_Saddle_32527	Priden	-1	animal
+32528	Animal_Stefero_Domestic_Saddle_32528	Priden	-1	animal
+32529	Animal_Stefero_Domestic_Saddle_32529	Priden	-1	animal
+32530	Animal_Stefero_Domestic_Saddle_32530	Priden	-1	animal
+32801	Animal_Stefero_Domestic_Bagpack_32801	Priden Packhorse	-1	animal
+32819	Animal_Stefero_Domestic_Bagpack_32819	Priden Packhorse	-1	animal
+32820	Animal_Stefero_Domestic_Bagpack_32820	Priden Packhorse	-1	animal
+32821	Animal_Stefero_Domestic_Bagpack_32821	Priden Packhorse	-1	animal
+32822	Animal_Stefero_Domestic_Bagpack_32822	Priden Packhorse	-1	animal
+32823	Animal_Stefero_Domestic_Bagpack_32823	Priden Packhorse	-1	animal
+1001383	Animal_Stefero_Domestic_Bagpack_Trade_1	Priden Trade Goods Packhorse	-1	animal
+1001420	Animal_Stefano_Domestic_WagonConnecter_31493	Priden Wagon Horse	-1	animal
+1001421	Animal_Stefero_Domestic_WagonConnecter_32526	Priden Wagon Horse	-1	animal
+1001422	Animal_Stefero_Domestic_WagonConnecter_32527	Priden Wagon Horse	-1	animal
+1001423	Animal_Stefero_Domestic_WagonConnecter_32528	Priden Wagon Horse	-1	animal
+1001424	Animal_Stefero_Domestic_WagonConnecter_32529	Priden Wagon Horse	-1	animal
+1001425	Animal_Stefero_Domestic_WagonConnecter_32530	Priden Wagon Horse	-1	animal
+31370	Animal_Davrella_Wild_31370	Brianto	-1	animal
+32531	Animal_Davrella_Wild_32531	Brianto	-1	animal
+32532	Animal_Davrella_Wild_32532	Brianto	-1	animal
+32533	Animal_Davrella_Wild_32533	Brianto	-1	animal
+32534	Animal_Davrella_Wild_32534	Brianto	-1	animal
+32535	Animal_Davrella_Wild_32535	Brianto	-1	animal
+32606	Animal_Davrella_Wild_32606	Brianto	-1	animal
+32607	Animal_Davrella_Wild_32607	Brianto	-1	animal
+32537	Animal_Davrella_Domestic_32537	Brianto	-1	animal
+32538	Animal_Davrella_Domestic_32538	Brianto	-1	animal
+32539	Animal_Davrella_Domestic_32539	Brianto	-1	animal
+32540	Animal_Davrella_Domestic_32540	Brianto	-1	animal
+31482	Animal_Davrella_Domestic_31482	Brianto	-1	animal
+31499	Animal_Davrella_Domestic_Saddle_31499	Brianto	-1	animal
+32541	Animal_Davrella_Domestic_Saddle_32541	Brianto	-1	animal
+32542	Animal_Davrella_Domestic_Saddle_32542	Brianto	-1	animal
+32543	Animal_Davrella_Domestic_Saddle_32543	Brianto	-1	animal
+32544	Animal_Davrella_Domestic_Saddle_32544	Brianto	-1	animal
+32545	Animal_Davrella_Domestic_Saddle_32545	Brianto	-1	animal
+1001426	Animal_Davrella_Domestic_WagonConnecter_32622	Brianto Wagon Horse	-1	animal
+1001427	Animal_Davrella_Domestic_WagonConnecter_32623	Brianto Wagon Horse	-1	animal
+1001428	Animal_Davrella_Domestic_WagonConnecter_32624	Brianto Wagon Horse	-1	animal
+1001429	Animal_Davrella_Domestic_WagonConnecter_32625	Brianto Wagon Horse	-1	animal
+1001430	Animal_Davrella_Domestic_WagonConnecter_32626	Brianto Wagon Horse	-1	animal
+32802	Animal_Davrella_Domestic_Bagpack_32802	Brianto Packhorse	-1	animal
+32824	Animal_Davrella_Domestic_Bagpack_32824	Brianto Packhorse	-1	animal
+32825	Animal_Davrella_Domestic_Bagpack_32825	Brianto Packhorse	-1	animal
+32826	Animal_Davrella_Domestic_Bagpack_32826	Brianto Packhorse	-1	animal
+32827	Animal_Davrella_Domestic_Bagpack_32827	Brianto Packhorse	-1	animal
+32828	Animal_Davrella_Domestic_Bagpack_32828	Brianto Packhorse	-1	animal
+1001384	Animal_Davrella_Domestic_Bagpack_Trade_1	Brianto Trade Goods Packhorse	-1	animal
+31373	Animal_Phuket_Wild_31373	Numont	-1	animal
+32546	Animal_Pukret_Wild_32546	Numont	-1	animal
+1000390	Animal_Pukret_Wild_32547	Numont	-1	animal
+32548	Animal_Pukret_Wild_32548	Numont	-1	animal
+32549	Animal_Pukret_Wild_32549	Numont	-1	animal
+32550	Animal_Pukret_Wild_32550	Numont	-1	animal
+31485	Animal_Phuket_Domestic_31485	Numont	-1	animal
+32552	Animal_Pukret_Domestic_32552	Numont	-1	animal
+32553	Animal_Pukret_Domestic_32553	Numont	-1	animal
+32554	Animal_Pukret_Domestic_32554	Numont	-1	animal
+31502	Animal_Phuket_Domestic_Saddle_31502	Numont	-1	animal
+32556	Animal_Pukret_Domestic_Saddle_32556	Numont	-1	animal
+32557	Animal_Pukret_Domestic_Saddle_32557	Numont	-1	animal
+32558	Animal_Pukret_Domestic_Saddle_32558	Numont	-1	animal
+32559	Animal_Pukret_Domestic_Saddle_32559	Numont	-1	animal
+32560	Animal_Pukret_Domestic_Saddle_32560	Numont	-1	animal
+1001431	Animal_Phuket_Domestic_WagonConnecter_32627	Numont Wagon Horse	-1	animal
+1001432	Animal_Pukret_Domestic_WagonConnecter_32628	Numont Wagon Horse	-1	animal
+1001433	Animal_Pukret_Domestic_WagonConnecter_32629	Numont Wagon Horse	-1	animal
+1001434	Animal_Pukret_Domestic_WagonConnecter_32630	Numont Wagon Horse	-1	animal
+1001435	Animal_Pukret_Domestic_WagonConnecter_32631	Numont Wagon Horse	-1	animal
+1001436	Animal_Pukret_Domestic_WagonConnecter_32632	Numont Wagon Horse	-1	animal
+32803	Animal_Pukret_Domestic_Bagpack_32803	Numont Packhorse	-1	animal
+32829	Animal_Pukret_Domestic_Bagpack_32829	Numont Packhorse	-1	animal
+32830	Animal_Pukret_Domestic_Bagpack_32830	Numont Packhorse	-1	animal
+32831	Animal_Pukret_Domestic_Bagpack_32831	Numont Packhorse	-1	animal
+32832	Animal_Pukret_Domestic_Bagpack_32832	Numont Packhorse	-1	animal
+32833	Animal_Pukret_Domestic_Bagpack_32833	Numont Packhorse	-1	animal
+1001385	Animal_Pukret_Domestic_Bagpack_Trade_1	Numont Trade Goods Packhorse	-1	animal
+32340	Animal_Ayut_Wild_32340	Elantrima	-1	animal
+32591	Animal_Ayut_Wild_32591	Elantrima	-1	animal
+32592	Animal_Ayut_Wild_32592	Elantrima	-1	animal
+32593	Animal_Ayut_Wild_32593	Elantrima	-1	animal
+32594	Animal_Ayut_Wild_32594	Elantrima	-1	animal
+32595	Animal_Ayut_Wild_32595	Elantrima	-1	animal
+32596	Animal_Ayut_Domestic_32596	Elantrima	-1	animal
+32597	Animal_Ayut_Domestic_32597	Elantrima	-1	animal
+32337	Animal_Ayut_Domestic_32337	Elantrima	-1	animal
+32348	Animal_Ayut_Domestic_Saddle_32348	Elantrima	-1	animal
+32601	Animal_Ayut_Domestic_Saddle_32601	Elantrima	-1	animal
+32602	Animal_Ayut_Domestic_Saddle_32602	Elantrima	-1	animal
+32603	Animal_Ayut_Domestic_Saddle_32603	Elantrima	-1	animal
+32604	Animal_Ayut_Domestic_Saddle_32604	Elantrima	-1	animal
+32605	Animal_Ayut_Domestic_Saddle_32605	Elantrima	-1	animal
+1001437	Animal_Ayut_Domestic_WagonConnecter_32348	Elantrima Wagon Horse	-1	animal
+1001438	Animal_Ayut_Domestic_WagonConnecter_32601	Elantrima Wagon Horse	-1	animal
+1001439	Animal_Ayut_Domestic_WagonConnecter_32602	Elantrima Wagon Horse	-1	animal
+1001440	Animal_Ayut_Domestic_WagonConnecter_32603	Elantrima Wagon Horse	-1	animal
+1001441	Animal_Ayut_Domestic_WagonConnecter_32604	Elantrima Wagon Horse	-1	animal
+1001442	Animal_Ayut_Domestic_WagonConnecter_32605	Elantrima Wagon Horse	-1	animal
+32806	Animal_Ayut_Domestic_Bagpack_32806	Elantrima Packhorse	-1	animal
+32844	Animal_Ayut_Domestic_Bagpack_32844	Elantrima Packhorse	-1	animal
+32845	Animal_Ayut_Domestic_Bagpack_32845	Elantrima Packhorse	-1	animal
+32846	Animal_Ayut_Domestic_Bagpack_32846	Elantrima Packhorse	-1	animal
+32847	Animal_Ayut_Domestic_Bagpack_32847	Elantrima Packhorse	-1	animal
+32848	Animal_Ayut_Domestic_Bagpack_32848	Elantrima Packhorse	-1	animal
+1001386	Animal_Ayut_Domestic_Bagpack_Trade_1	Elantrima Trade Goods Packhorse	-1	animal
+30006	Animal_Scolt_Wild_30006	Foal	-1	animal
+30036	Animal_Baby_Donkey_Domestic_30036	Donkey Foal	-1	animal
+30037	Animal_Donkey_Domestic_30037	Donkey	-1	animal
+30077	Animal_Donkey_Domestic_30077	Donkey	-1	animal
+31486	Animal_Donkey_Domestic_31486	Donkey	-1	animal
+32849	Animal_Donkey_Domestic_32849	Donkey	-1	animal
+32850	Animal_Donkey_Domestic_32850	Donkey	-1	animal
+32851	Animal_Donkey_Domestic_32851	Donkey	-1	animal
+32852	Animal_Donkey_Domestic_32852	Donkey	-1	animal
+32807	Animal_Donkey_Domestic_Bagpack_32807	Pack Donkey	-1	animal
+32808	Animal_Donkey_Domestic_Bagpack_32808	Pack Donkey	-1	animal
+32809	Animal_Donkey_Domestic_Bagpack_32809	Pack Donkey	-1	animal
+32810	Animal_Donkey_Domestic_Bagpack_32810	Pack Donkey	-1	animal
+32811	Animal_Donkey_Domestic_Bagpack_32811	Pack Donkey	-1	animal
+32812	Animal_Donkey_Domestic_Bagpack_32812	Pack Donkey	-1	animal
+32813	Animal_Donkey_Domestic_Bagpack_32813	Pack Donkey	-1	animal
+32855	Animal_Donkey_Domestic_Bagpack_32855	Pack Donkey	-1	animal
+32856	Animal_Donkey_Domestic_Bagpack_32856	Pack Donkey	-1	animal
+32857	Animal_Donkey_Domestic_Bagpack_32857	Pack Donkey	-1	animal
+32858	Animal_Donkey_Domestic_Bagpack_32858	Pack Donkey	-1	animal
+32859	Animal_Donkey_Domestic_Bagpack_32859	Pack Donkey	-1	animal
+32860	Animal_Donkey_Domestic_Bagpack_32860	Pack Donkey	-1	animal
+32861	Animal_Donkey_Domestic_Bagpack_32861	Pack Donkey	-1	animal
+32862	Animal_Donkey_Domestic_Bagpack_32862	Pack Donkey	-1	animal
+32863	Animal_Donkey_Domestic_Bagpack_32863	Pack Donkey	-1	animal
+32864	Animal_Donkey_Domestic_Bagpack_32864	Pack Donkey	-1	animal
+32865	Animal_Donkey_Domestic_Bagpack_32865	Pack Donkey	-1	animal
+32866	Animal_Donkey_Domestic_Bagpack_32866	Pack Donkey	-1	animal
+32867	Animal_Donkey_Domestic_Bagpack_32867	Pack Donkey	-1	animal
+32868	Animal_Donkey_Domestic_Bagpack_32868	Pack Donkey	-1	animal
+32869	Animal_Donkey_Domestic_Bagpack_32869	Pack Donkey	-1	animal
+32870	Animal_Donkey_Domestic_Bagpack_32870	Pack Donkey	-1	animal
+32871	Animal_Donkey_Domestic_Bagpack_32871	Pack Donkey	-1	animal
+32872	Animal_Donkey_Domestic_Bagpack_32872	Pack Donkey	-1	animal
+32873	Animal_Donkey_Domestic_Bagpack_32873	Pack Donkey	-1	animal
+32874	Animal_Donkey_Domestic_Bagpack_32874	Pack Donkey	-1	animal
+32875	Animal_Donkey_Domestic_Bagpack_32875	Pack Donkey	-1	animal
+32876	Animal_Donkey_Domestic_Bagpack_32876	Pack Donkey	-1	animal
+32877	Animal_Donkey_Domestic_Bagpack_32877	Pack Donkey	-1	animal
+32878	Animal_Donkey_Domestic_Bagpack_32878	Pack Donkey	-1	animal
+1003978	Animal_Donkey_Domestic_Bagpack_32879	Pack Donkey	-1	animal
+30055	Animal_Rat_Wild_30055	Rat	1078	animal
+1003940	Animal_Rat_Wild_30056	Gray Rat	-1	animal
+1003941	Animal_Rat_Wild_30057	Red Rat	-1	animal
+1003942	Animal_Rat_Wild_30058	Brown Rat	-1	animal
+30140	Animal_Muskrat_Wild_30140	Muskrat	1079	animal
+30138	Animal_Possum_Wild_30138	Opossum	1080	animal
+32410	Animal_Mole_Wild_32410	Mole	1085	animal
+1000812	Animal_Baby_Hedgehog_Wild_1	Baby Hedgehog	1087	animal
+30143	Animal_Frog_Wild_30143	Poison Frog	1184	amphibian
+30193	Animal_TreeFrog_Wild_30193	Tree Frog	1185	amphibian
+30145	Animal_Frog_Wild_30145	Toad	1186	amphibian
+1003943	Animal_Frog_Wild_30146	Toad	1186	amphibian
+1003944	Animal_Frog_Wild_30147	Toad	1186	amphibian
+32431	Animal_BurrowingToad_Wild_32431	Burrowing Toad	1187	amphibian
+1003945	Animal_BurrowingToad_Wild_32432	Burrowing Toad	1187	amphibian
+1003946	Animal_BurrowingToad_Wild_32433	Burrowing Toad	1187	amphibian
+32428	Animal_Giant_Salamander_Wild_32428	Burrowing Salamander	1088	animal
+32429	Animal_Salamander_Wild_32429	Salamander	1089	animal
+32430	Animal_Axolotl_Wild_32430	Axolotl	1090	animal
+1003947	Animal_Axolotl_Wild_32431	Axolotl	1090	animal
+1003948	Animal_Axolotl_Wild_32432	Axolotl	1090	animal
+31404	Animal_Goanna_Wild_31404	Goanna	1091	animal
+30069	Animal_Iguana_Wild_30069	Iguana	1092	animal
+1003594	Animal_Chameleon_Wild_30070	Chameleon	1093	animal
+30122	Animal_Hila_Lizard_Wild_30122	Heloderma Lizard	1094	animal
+1000980	Animal_Frilled_Lizard_Wild_1	Frilled-Neck Lizard	1095	animal
+32281	Animal_KomodoDragon_Wild_32281	Monitor Lizard	-1	animal
+31515	Animal_Cobra_Wild_31515	Cobra	-1	animal
+31405	Animal_Desert_Snake_Wild_31405	Desert Snake	-1	animal
+30062	Animal_Rattlesnake_Wild_30062	Rattlesnake	-1	animal
+32401	Animal_Bad_Rattlesnake_Wild_32401	Diamondback Rattlesnake	-1	animal
+32402	Animal_Blacktail_Rattlesnake_Wild_32402	Black-Tailed Rattlesnake	-1	animal
+32403	Animal_Timber_Rattlesnake_Wild_32403	Timber Rattlesnake	-1	animal
+32407	Animal_RedTail_anaconda_Wild_32407	Red-Tailed Boa	-1	animal
+32408	Animal_Rainbow_anaconda_Wild_32408	Rainbow Boa	-1	animal
+32409	Animal_Sunglow_anaconda_Wild_32409	Sunglow Boa	-1	animal
+32406	Animal_South_CopperHead_Wild_32406	Meadow Copperhead Viper	-1	animal
+32404	Animal_North_CopperHead_Wild_32404	Northern Copperhead Viper	-1	animal
+32405	Animal_Lancehead_Wild_32405	Fer-de-Lance	-1	animal
+1001381	Animal_Insect_Rhinoceros_Beetle	Rhinoceros Beetle	1179	insect
+1002177	Animal_Insect_Beetle	Beetle	1176	insect
+1002178	Animal_Insect_Stag_Beetle	Stag Beetle	1177	insect
+1002181	Animal_Insect_Longhorn_Beetle	Longhorn Beetle	1178	insect
+1002182	Animal_Insect_Jewel_Beetle	Jewel Beetle	1173	insect
+1001167	Animal_Insect_GrassHopper	Grasshopper	1131	insect
+1000852	Animal_Insect_Centipede	Centipede	1182	insect
+1000853	Animal_Insect_Black_Centipede	Black Centipede	1183	insect
+1000885	Animal_Insect_Cockroach	Cockroach	1170	insect
+1000856	Animal_Insect_Camel_Cricket	Camel Cricket	1171	insect
+1000857	Animal_Insect_House_Centipede	House Centipede	1139	insect
+1002179	Animal_Insect_Silkworm_Moth	Silkworm Moth	1108	insect
+1002180	Animal_Insect_Luna_Moth	Wild Silkworm Moth	1109	insect
+1000781	Animal_Insect_Dragonfly	Dragonfly	1106	insect
+30051	Animal_Scorpion_Wild_30051	Scorpion	1180	insect
+1000887	Animal_Spider_Wild_1	Spider	1181	insect
+1000907	Animal_Insect_Banana_Spider	Yellow Garden Spider	1175	insect
+1000909	Animal_Insect_Diadem_Spider	Golden Silk Spider	1107	insect
+1000925	Animal_Insect_Snail	Snail	1174	insect
+1000787	Animal_Insect_Gnat	Fruit Fly	1145	insect
+1000998	Animal_Insect_GnatWide	Medium Fly	1146	insect
+1000969	Animal_Insect_firefly	Firefly	1130	insect
+1001051	Animal_Insect_Moth	Mountain Moth	1150	insect
+1000886	Animal_Insect_Butterfly	Meadow Butterfly	1143	insect
+1001151	Animal_Insect_Eastern_Tiger_Swallowtail	Swallowtail Butterfly	-1	insect
+1001153	Animal_Insect_Ornythion_Swallowtail	Ornythion Swallowtail Butterfly	1111	insect
+1001163	Animal_Insect_Spicebush_Swallowtail	Spicebush Swallowtail Butterfly	1128	insect
+1001164	Animal_Insect_Pipevine_Swallowtail	Pipevine Swallowtail Butterfly	1129	insect
+1001166	Animal_Insect_Polydamas_Swallowtail	Polydamas Swallowtail Butterfly	1112	insect
+1001174	Animal_Insect_Zebra_Swallowtail	Zebra Swallowtail Butterfly	-1	insect
+1001177	Animal_Insect_Orange_Barred_Sulphur	Orange-Barred Sulphur Butterfly	1154	insect
+1001179	Animal_Insect_Sleepy_Orange	Sleepy Scarlet Butterfly	1164	insect
+1001220	Animal_Insect_White_M_Hairstreak	White Streaked butterfly	1140	insect
+1001222	Animal_Insect_Great_Purple_Hairstreak	Great Purple Hairstreak Butterfly	1127	insect
+1001237	Animal_Insect_Common_Buckeye	Buckeye Butterfly	1161	insect
+1001251	Animal_Insect_Eastern_Tailed_Blue	Blue Tailed Butterfly	1122	insect
+1001256	Animal_Insect_Little_Metalmark	Little Metalmark Butterfly	1124	insect
+1001257	Animal_Insect_Zebra_Heliconian	Zebra Longwing Butterfly	1114	insect
+1001258	Animal_Insect_Tiger_Mimic_Queen	Tiger Mimic Queen Butterfly	1167	insect
+1001262	Animal_Insect_Diana_Fritillary	Diana Fritillary Butterfly	1160	insect
+1001263	Animal_Insect_Crimson_Patch	Crimson Patch Butterfly	1157	insect
+1001264	Animal_Insect_White_Peacock	White Peacock Butterfly	1151	insect
+1001265	Animal_Insect_Banded_Peacock	Banded Peacock Butterfly	1135	insect
+1001267	Animal_Insect_Malachite	Malachite Butterfly	1119	insect
+1001268	Animal_Insect_Rusty_Tipped_Page	Rusty Tipped Page Butterfly	1163	insect
+1001364	Animal_Insect_Myscelia_Ethusa	Bluewing Butterfly	1120	insect
+1001283	Animal_Insect_Monarch	Monarch Butterfly	1169	insect
+1001284	Animal_Insect_Red_Spotted_Purple	Red-Spotted Purple Butterfly	1158	insect
+1001293	Animal_Insect_Ruddy_Daggerwing	Ruddy Daggerwing Butterfly	1165	insect
+1001337	Animal_Insect_Guava_Skipper	Guava Skipper Butterfly	1125	insect
+1001365	Animal_Insect_Kallima_Inachus	Orange Oakleaf Butterfly	1115	insect
+1001340	Animal_Insect_Blue_Pansy_Butterfly	Southern Blue Peacock Butterfly	1126	insect
+1001345	Animal_Insect_Common_Nawab	Nawab Butterfly	1116	insect
+1001346	Animal_Insect_Common_Green_Birdwing	Green Birdwing Butterfly	1136	insect
+1001347	Animal_Insect_88_Butterfly	Eighty-eight Butterfly	1153	insect
+1001359	Animal_Insect_Colias_Nastes	Green Sulphur Butterfly	1118	insect
+1001363	Animal_Insect_Lycaena_Phlaeas	Spotted Lycaenid Butterfly	1156	insect
+1001250	Animal_Insect_Grizzled_Skipper	Grizzled Skipper Butterfly	1147	insect
+1001335	Animal_Insect_Little_Wood_Satyr	Little Wood Satyr Butterfly	1148	insect
+1001243	Animal_Insect_Milbert_Tortoiseshell	Flame-Bordered Butterfly	1166	insect
+1001246	Animal_Insect_Eastern_Comma	Yellow Comma Butterfly	1162	insect
+1001247	Animal_Insect_Lustrous_Copper	Red Lycaenid Butterfly	1142	insect
+1001248	Animal_Insect_Blue_Copper	Blue Lycaenid Butterfly	1121	insect
+1001261	Animal_Insect_Regal_Fritillary	Regal Fritillary Butterfly	1159	insect
+1001279	Animal_Insect_Painted_Lady	Painted Lady Butterfly	1152	insect
+1001282	Animal_Insect_Viceroy	Commander Butterfly	1168	insect
+1001339	Animal_Insect_Purple_Emperor	Purple Emperor Butterfly	1117	insect
+1001356	Animal_Insect_Neophasia_Terlooii	White Butterfly	1149	insect
+1001176	Animal_Insect_Checkered_White	Checkered White Butterfly	1144	insect
+1001204	Animal_Insect_Desert_Orange_tip	Scarlet Leafwing Butterfly	1155	insect
+1001360	Animal_Insect_Hypaurotis_Crysalus	Violet Hairstreak Butterfly	1141	insect
+1001254	Animal_Insect_Theona_Checkerspot	Theona Checkerspot Butterfly	1123	insect
+1000811	Animal_Insect_JijeongLeaf_Insect	Palmar Beetle	1137	insect
+1000942	Animal_RatsSwarm	Swarm of Rats	-1	animal
+1000953	Animal_SpiderSwarm	Spider Colony	-1	animal
+1000964	Animal_GrassHopperSwarm	Grasshopper Colony	-1	animal
+1000965	Animal_CrowSwarm	Murder of Crows	-1	animal
+1000966	Animal_CrowSwarm_Dome	Murder of Crows	-1	animal
+1001139	Animal_Insect_Bee	Swarm of Honeybees	-1	insect
+1001147	Animal_Insect_Hornet	Swarm of Hornets	-1	insect
+1001148	Animal_Insect_Bumblebee	Swarm of Bumblebees	-1	insect
+1002062	Animal_Insect_firefly_cluster	Firefly Colony	-1	insect
+1000782	Animal_Insect_Sea_Slater	Wharf Roach	1172	insect
+1001240	Animal_Insect_Lobster	Crayfish	-1	insect
+1000786	Animal_RiceFish	Ricefish	1339	fish
+1000905	Animal_WaterStrider	Water Strider	1138	insect
+1001713	Animal_Insect_Crab	Blue Crab	-1	insect
+1000372	Animal_Insect_StarFish	Starfish	-1	insect
+1001239	Animal_Insect_Shrimp	Shrimp	-1	insect
+1001241	Animal_Insect_Seahorse	Seahorse	-1	insect
+1001242	Animal_Insect_Squid	Squid	-1	insect
+1000779	Animal_Insect_river_Crab	Freshwater Crab	-1	insect
+30015	Animal_Rooster_Domestic_30015	Rooster	-1	animal
+30023	Animal_Hen_Domestic_30023	Hen	-1	animal
+30004	Animal_Hairless_Rooster_Domestic_30004	Featherless Rooster	-1	animal
+30080	Animal_Chick_Domestic_30080	Chick	-1	animal
+30156	Animal_KukuBird_Wild_30156	Kuku Bird	-1	animal
+1003807	Animal_KukuBird_Domestic_30156	Kuku Bird	-1	animal
+1000795	Animal_Dodo_Bird_Wild_1	Dodo	-1	animal
+1000796	Animal_Turkey_Wild_1	Turkey	-1	animal
+1004227	Animal_TurkeyFemale_Wild_1	Female Turkey	-1	animal
+1004228	Animal_TurkeyBaby_Wild_1	Turkey Poult	-1	animal
+1000806	Animal_Galapagos_Cormorant_Wild_1	Cormorant	-1	animal
+1000858	Animal_Cassowary_Wild_1	Cassowary	-1	animal
+1000937	Animal_Emu_Wild_1	Emu	-1	animal
+1001372	Animal_Emu_Chick_Wild_1	Baby Emu	-1	animal
+1000938	Animal_Elephant_Bird_Wild_1	Elephant Bird	-1	animal
+1000940	Animal_Genyornis_Wild_1	Genyornis	-1	animal
+30151	Animal_Domestic_Duck_Domestic_30151	Duck	-1	animal
+1003109	Animal_Domestic_DuckFemale_Domestic_1	Female Duck	-1	animal
+32269	Animal_Duckling_Domestic_32269	Baby Duck	-1	animal
+1003768	Animal_Duckling_Domestic_Sale_32269	Baby Duck	-1	animal
+31423	Animal_Domestic_Goose_31423	Goose	-1	animal
+30057	Animal_Common_Heron_Wild_30057	Grey Heron	-1	animal
+1001832	Animal_Common_RedCrownedCrane_Wild_30058	Red-Crowned Crane	-1	animal
+30085	Animal_Spoonbill_Wild_30085	Spoonbill	-1	animal
+1003797	Animal_Spoonbill_Domestic_30085	Spoonbill	-1	animal
+30086	Animal_Flamingos_Wild_30086	Flamingo	-1	animal
+1003798	Animal_Flamingos_Domestic_30086	Flamingo	-1	animal
+1000798	Animal_Machine_Eagle_Domestic_1	Iron Eagle	-1	animal
+1000302	Animal_Eagle_Domestic_1	Eagle	-1	animal
+1003808	Animal_Parrot_Domestic_30082	Parrot	-1	animal
+1003809	Animal_EclectusParrot_Domestic_32881	Eclectus Parrot	-1	animal
+1003921	Animal_EclectusParrot_Domestic_32882	Eclectus Parrot	-1	animal
+1003810	Animal_SunConure_Domestic_32882	Sun Conure	-1	animal
+1003922	Animal_SunConure_Domestic_32883	Sun Conure	-1	animal
+1003811	Animal_SpixsMacaw_Domestic_32884	Little Blue Macaw	-1	animal
+1003923	Animal_SpixsMacaw_Domestic_32885	Little Blue Macaw	-1	animal
+1003812	Animal_RoseringedParakeet_Domestic_32885	Ringneck Parrot	-1	animal
+1003924	Animal_RoseringedParakeet_Domestic_32886	Ringneck Parrot	-1	animal
+1003813	Animal_CitronCockatoo_Domestic_32886	Citron-Crested Cockatoo	-1	animal
+1003925	Animal_CitronCockatoo_Domestic_32887	Citron-Crested Cockatoo	-1	animal
+1003814	Animal_Condor_Domestic_31415	Condor	-1	animal
+1002494	Animal_Crow_Wild_30121	Hungry Crow	-1	animal
+1000008	Animal_Angry_Crow_31503	Fierce Crow	-1	animal
+1000306	Animal_Crow_Domestic_1	Crow	-1	animal
+1000511	Animal_WhiteCrow_Wild_1	White Crow	-1	animal
+1001149	Animal_Pigeon_Domestic_30081	Homing Pigeon	-1	animal
+1001052	Animal_Pigeon_Domestic_30082	Homing Pigeon	-1	animal
+1001979	Animal_Pigeon_Domestic_30083	Homing Pigeon	-1	animal
+1001980	Animal_Pigeon_Domestic_30084	Homing Pigeon	-1	animal
+1003661	Animal_Pigeon_Domestic_30085	Homing Pigeon	-1	animal
+1003821	Animal_Pigeon_Domestic_30086	Homing Pigeon	-1	animal
+33125	Animal_Crow_Wild_33125	Eastern Witches' Crow	-1	animal
+1000389	Animal_Small_BlackbrowBleak_Fish_Wild_1	Small Blackbrow Bleak	1340	fish
+1000391	Animal_Small_BaliOgluChub_Fish_Wild_1	Small Minnow	1341	fish
+1000393	Animal_Small_Schneider_Fish_Wild_1	Small Spirlin	1342	fish
+1001183	Animal_Small_Sammy_Fish_Wild_1	Small Gudgeon	1343	fish
+1001185	Animal_Small_Beyaz_Fish_Wild_1	Small Rasbora	1344	fish
+1001193	Animal_Small_Mudfish_Fish_Wild_1	Pond Loach	1345	fish
+1001244	Animal_Normal_Dover_Sole_Wild_1	Red Tonguesole	1346	fish
+1001939	Animal_Normal_Mackerel_Wild_1	Mackerel	1347	fish
+1001669	Animal_Normal_Benjari_Wild_1	Threeline Grunt	1348	fish
+1001192	Animal_Normal_Tench_Wild_1	Tench	1349	fish
+1001216	Animal_Normal_Perch_Wild_1	Perch	1350	fish
+1001217	Animal_Normal_Bass_Wild_1	Bass	1351	fish
+1001218	Animal_Normal_Yellow_Bass_Wild_1	Yellow Bass	1352	fish
+1001227	Animal_Normal_Golden_mandarinFish_Wild_1	Leopard Perch	1353	fish
+1001228	Animal_Normal_Crucian_Carp_Wild_1	Crucian Carp	1354	fish
+1001788	Animal_Middle_Red_Seabream_Wild_1	Red Seabream	1365	fish
+1001797	Animal_Middle_BlackSeaBream_Wild_1	Blackhead Seabream	1366	fish
+1001800	Animal_Middle_Red_Snapper_Wild_1	Opaleye	1364	fish
+1001936	Animal_Middle_Rock_Bream_Wild_1	Barred Knifejaw	1367	fish
+1001949	Animal_Middle_Cuvier_Wild_1	Saw-Edged Perch	1368	fish
+1001965	Animal_Middle_Salmon_Wild_1	Salmon	1360	fish
+1001968	Animal_Middle_Sockeye_Salmon_Wild_1	Sockeye Salmon	1361	fish
+1001191	Animal_Middle_Pikefish_Wild_1	Northern Pike	1355	fish
+1001971	Animal_Middle_Trout_Wild_1	Trout	1362	fish
+1002470	Animal_Middle_Carp_Wild_1	Carp	1357	fish
+1001200	Animal_Middle_Catfish_Wild_1	Catfish	1356	fish
+1001208	Animal_Middle_Lenok_Wild_1	Lenok	1358	fish
+1001210	Animal_Middle_Burbot_Wild_1	Burbot	1359	fish
+39105	Animal_Giant_MudFish_Wild_39105	Giant Pond Loach	1370	fish
+39104	Animal_RedOpaleye_Wild_39104	Crimson Opaleye	1371	fish
+39111	Animal_FootballFish_Wild_39111	Anglerfish	1372	fish
+1001974	Animal_Big_Eel_Wild_1	Freshwater Eel	1363	fish
+39103	Animal_PagrusMajor_Wild_39103	Giant Red Seabream	1373	fish
+1001977	Animal_Big_Sturgeon_Wild_1	Sturgeon	1369	fish
+35234	Animal_Electric_Eel_Wild_35234	Electric Eel	1375	fish
+1001945	Animal_VeryBig_Marlin_Wild_1	Striped Marlin	1374	fish
+39106	Animal_SailFish_Wild_39106	Sailfish	1378	fish
+39101	Animal_PaddleFish_Wild_39101	Paddlefish	1376	fish
+39102	Animal_SevenGill_Wild_39102	Broadnose Sevengill Shark	1377	fish
+32300	Animal_Caretta_Wild_32300	Loggerhead Sea Turtle	-1	animal
+1004224	Animal_GreenSea_Wild_32301	Green Sea Turtle	-1	animal
+1004225	Animal_OliveRidley_Wild_32302	Olive Ridley Sea Turtle	-1	animal
+1004226	Animal_Hawksbill_Wild_32303	Hawksbill Sea Turtle	-1	animal
+1001479	Animal_Bear_DeadBody_Skeleton_1	Bear Bones	-1	animal
+1000694	Animal_Bear_DeadBody_1	Small Bear Carcass	-1	animal
+33106	Animal_Wolf_Wild_33106	Wolf Carcass	-1	animal
+1003068	Animal_Wolf_DeadBody_1	Small Wolf Carcass	-1	animal
+1001472	Animal_Wolf_DeadBody_Skeleton_1	Wolf Bones	-1	animal
+1003069	Animal_Baby_Deer_DeadBody_Wild_1	Baby Deer Carcass	-1	animal
+33107	Animal_Deer_Wild_33107	Deer Carcass	-1	animal
+1001404	Animal_Deer_DeadBody_Rotten_1	Rotten Deer Carcass	-1	animal
+1001405	Animal_Deer_DeadBody_Skeleton_2	Deer Bones	-1	animal
+33130	Animal_Dead_Bison_Wild_33130	Bison Carcass	-1	animal
+1001410	Animal_Dead_Bison_DeadBody_Rotten_1	Rotten Bison Carcass	-1	animal
+1001474	Animal_Bison_DeadBody_Skeleton_1	Bison Bones	-1	animal
+33129	Animal_Dead_Bull_Wild_33129	Cow Carcass	-1	animal
+1001411	Animal_Bull_DeadBody_Rotten_1	Rotten Cow Carcass	-1	animal
+33103	Animal_Goat_Wild_33103	Goat Carcass	-1	animal
+1001409	Animal_Goat_DeadBody_Rotten_1	Rotten Goat Carcass	-1	animal
+1001473	Animal_Goat_DeadBody_Skeleton_1	Goat Bones	-1	animal
+33102	Animal_Wild_Boar_Wild_33102	Boar Carcass	-1	animal
+1001408	Animal_Wild_Boar_DeadBody_Rotten_1	Rotten Boar Carcass	-1	animal
+1001455	Animal_Wild_Boar_DeadBody_Skeleton_1	Boar Bones	-1	animal
+33111	Animal_Camel_Wild_33111	Camel Carcass	-1	animal
+33104	Animal_Hedgehog_Domestic_33104	Hedgehog Carcass	-1	animal
+33101	Animal_Pigeon_Wild_33101	Pigeon Carcass	-1	animal
+33123	Animal_Eagle_Wild_33123	Eagle Carcass	-1	animal
+33121	Animal_Condor_Wild_33121	Condor Carcass	-1	animal
+33122	Animal_Crow_Wild_33122	Crow Carcass	-1	animal
+33124	Animal_Crocodile_Wild_33124	Crocodile Carcass	-1	animal
+1001343	Animal_Dune_Coelacanth	Coelacanth	-1	animal
+1001353	Animal_Dune_Golden_Coelacanth	Golden Coelacanth	-1	animal
+39107	Animal_GoldenTench_Wild_39107	Golden Tench	-1	animal
+39109	Animal_GoldenCarp_Wild_39109	Golden Carp	-1	animal
+35223	Animal_Marni_MachineFish_Wild_35223	Clockwork Fish	-1	fish
+1000190	Animal_BlueWhale_Wild_35018	Blue Whale	-1	animal
+30161	Animal_White_Bear_Wild_30161	White Bear	-1	animal
+31377	Animal_White_Horse_Wild_31377	Royler	-1	animal
+31378	Animal_Black_Horse_Wild_31378	Rokade	-1	animal
+31379	Animal_RedHare_Horse_Wild_31379	Camora	-1	animal
+39001	Animal_Unique_PureWhite_Deer_39001	Snowwhite Deer	-1	animal
+39002	Animal_Unique_Vined_Deer_39002	Vine Deer	-1	animal
+39003	Animal_Unique_Black_Lion_39003	Black Lion	-1	animal
+39004	Animal_Unique_White_Lion_39004	White Lion	-1	animal
+1002303	Animal_White_Tiger_Wild_1	White Tiger	-1	animal
+39005	Animal_Unique_PureWhite_Bion_39005	White Bison	-1	animal
+39006	Animal_Unique_White_Moose_39006	White Moose	-1	animal
+39007	Animal_Unique_White_Crocodile_39007	White-Scaled Crocodile	-1	animal
+39008	Animal_Unique_White_Stag_39008	White Elk	-1	animal
+39009	Animal_Unique_Giant_Bull_39009	Giant White Bison	-1	animal
+39011	Animal_Unique_RedRiverPig_39011	Red River Hog	-1	animal
+39013	Animal_Unique_SilverFangs_Wolf_39013	Silver Fang	-1	animal
+1002565	Animal_Unique_Leebur_39012	Black Fang	-1	animal
+1000906	Animal_BossHyenaSkevald_32425	Skevald, the Carrion King	-1	animal
+1003972	Animal_WildSpirit_Boar_1	Mountain God Boar	-1	animal
+1003974	Animal_WildSpirit_BoarBaby_1	Mountain God Boar Piglet	-1	animal
+1001120	Animal_Stefero_Domestic_Saddle_Unique_32526	Race Horse	-1	animal
+32701	Animal_Stefero_Quest_32701	Priden	-1	animal
+32704	Animal_Stefero_Quest_32704	Priden	-1	animal
+32705	Animal_Stefero_Quest_32705	Priden	-1	animal
+1001054	Animal_Stefero_Quest_32706	Priden	-1	animal
+1001463	Animal_UniqueNpc_Horse_1	Brianto	-1	animal
+1001465	Animal_UniqueNpc_Horse_2	Numont	-1	animal
+1001466	Animal_UniqueNpc_Horse_3	Priden	-1	animal
+1001471	Animal_UniqueNpc_Horse_4	Numont	-1	animal
+1001477	Animal_UniqueNpc_Horse_5	Priden	-1	animal
+38007	Animal_Stefero_Domestic_Saddle_Unique_38007	Priden	-1	animal
+1001088	Animal_Baby_Pig_Domestic_Unique_30114	Piglet	-1	animal
+30194	Animal_Boss_Cucubird_Wild_30194	Alpha Kuku Bird	-1	animal
+500486	Animal_Unique_Spotted_Cat_500486	Patchy Cat	-1	animal
+500487	Animal_Unique_Calico_Cat_500487	Calico Cat	-1	animal
+1001062	Animal_Unique_Domestic_Sheep_30026	Sheep Scared by Lightning	-1	animal
+1001063	Animal_Unique_Domestic_Sheep_30026_1	Sheep Scared by Lightning	-1	animal
+1001064	Animal_Unique_Domestic_Sheep_30044	Sheep Scared by Lightning	-1	animal
+1002240	Animal_Unique_Shepherd_Domestic_1	Shepherd	-1	animal
+30014	Animal_Small_LandSpider_Wild_30014	Small Stoneback Crab	-1	animal
+1001931	Animal_Small_Desert_LandSpider_Wild_1	Small Desert Stoneback Crab	-1	animal
+1002255	Animal_Small_Snow_LandSpider_Wild_1	Small Everfrost Stoneback Crab	-1	animal
+1000789	Animal_Small_Desert_LandSpider_Wild_2	Dry Small Desert Stoneback Crab	-1	animal
+30073	Animal_Small_Grass_LandSpider_Wild_30073	Small Mossback Crab	-1	animal
+32150	Animal_Rock_LandSpider_32150	Small Boulderback Crab	-1	animal
+1002055	Animal_Rock_LandSpider_32151	Small Red Boulderback Crab	-1	animal
+32152	Animal_Pebble_LandSpider_32152	Small Pebbleback Crab	-1	animal
+30019	Animal_Medium_LandSpider_Wild_30019	Medium Stoneback Crab	-1	animal
+1001932	Animal_Medium_Desert_LandSpider_Wild_1	Medium Desert Stoneback Crab	-1	animal
+1002256	Animal_Medium_Snow_LandSpider_Wild_1	Medium Everfrost Stoneback Crab	-1	animal
+1000939	Animal_Medium_Desert_LandSpider_Wild_2	Dry Medium Desert Stoneback Crab	-1	animal
+32160	Animal_Medium_Grass_LandSpider_32160	Medium Mossback Crab	-1	animal
+2854369844	Animal_Flower_LandSpider_1	Medium Floraback Crab	-1	animal
+2854369845	Animal_Flower_LandSpider_2	Medium Floraback Crab	-1	animal
+2854369846	Animal_Flower_LandSpider_3	Medium Floraback Crab	-1	animal
+2854369847	Animal_Flower_LandSpider_4	Medium Floraback Crab	-1	animal
+30021	Animal_Big_LandSpider_Wild_30021	Large Stoneback Crab	-1	animal
+1001934	Animal_Big_Desert_LandSpider_Wild_1	Large Desert Stoneback Crab	-1	animal
+1002257	Animal_Big_Snow_LandSpider_Wild_1	Large Everfrost Stoneback Crab	-1	animal
+1003633	Animal_Big_Desert_LandSpider_Wild_2	Dry Large Desert Stoneback Crab	-1	animal
+32142	Animal_Spirodela_Polyrhiza_LandSpider_32142	Fierce Medium Duckweed Mossback Crab	-1	animal
+32143	Animal_Big_Grass_LandSpider_32143	Fierce Large Mossback Crab	-1	animal
+32141	Animal_Setaria_Viridis_LandSpider_32141	Fierce Medium Foxtail Mossback Crab	-1	animal
+32144	Animal_Medium_Grass_LandSpider_32144	Fierce Medium Mossback Crab	-1	animal
+1000992	Animal_Medium_Abyss_Grass_LandSpider_1	Abyss Mossback Crab	-1	animal
+1002197	Animal_Medium_Abyss_Grass_LandSpider_2	Desert Abyss Mossback Crab	-1	animal
+2026840626	Animal_Bismuth_LandSpider_1	Bismuth Oreback Crab	-1	animal
+2026840630	Animal_Bismuth_LandSpider_5	Bismuth Oreback Crab	-1	animal
+2026840628	Animal_Bismuth_LandSpider_3	Bismuth Oreback Crab	-1	animal
+2026840629	Animal_Bismuth_LandSpider_4	Bismuth Oreback Crab	-1	animal
+2026840627	Animal_Bismuth_LandSpider_2	Large Bismuth Oreback Crab	-1	animal
+1644215552	Animal_HexePot_LandSpider_1	Jarback Crab	-1	animal
+32270	Animal_Acid_Spider_32270	Ambush Acid Spider	-1	animal
+32280	Animal_Acid_Spider_32280	Acid Spider	-1	animal
+3653044009	Animal_StoneLampExplosion_Spider_1	Stone Lantern Spider	-1	animal
+30507	Animal_Wyvern_30507	Wyvern	-1	animal
+1000691	Animal_visione_Wyvern_1	Wyvern	-1	animal
+30508	Animal_Wyvern_30508	Wyvern	-1	animal
+1000407	Animal_Abyss_Dimension_Wyvern_1	Dimensional Wyvern	-1	animal
+1001687	Animal_Venomous_Bee	Tropical Hornet	-1	animal
+1001445	Animal_Sulfur_LandSpider_Wild_2	Hexe Brimstoneback Crab	-1	animal
+38035	Animal_Black_Bear_Wild_38035	Lava Bear	-1	animal
+1000368	Animal_Dog_Hernand_Unique_1	Brown Dog	-1	animal
+1002271	Animal_Dog_Hernand_Unique_2	White Dog	-1	animal
+1000369	Animal_Dog_Demeniss_Unique_1	Spotted Dog	-1	animal
+1000370	Animal_Dog_Delesyian_Unique_1	Patchy Puppy	-1	animal
+1000371	Animal_Dog_Pailune_Unique_1	Wolfdog	-1	animal
+1002900	Animal_Dog_Tashkalp_Unique_1	Dark Brown Dog	-1	animal
+1001855	Animal_Dog_JijeongTemple_Unique_1	Brown Puppy	-1	animal
+1001856	Animal_Dog_LongleafTree_Unique_1	Tan Puppy	-1	animal
+30070	Animal_Husky_Domestic_30070	Husky	-1	animal
+1002047	Animal_Shepherd_Domestic_1	Shepherd	-1	animal
+1002258	Animal_Jindodog_Domestic_1	Jindo	-1	animal
+1003665	Animal_Jindodog_Domestic_02	Jindo	-1	animal
+1003666	Animal_Jindodog_Domestic_03	Jindo	-1	animal
+30186	Animal_BullDog_Domestic_30186	Pointy-Eared Bulldog	-1	animal
+1003667	Animal_BullDog_Domestic_02	Pointy-Eared Bulldog	-1	animal
+1003668	Animal_BullDog_Domestic_03	Pointy-Eared Bulldog	-1	animal
+1003669	Animal_BullDog_Domestic_04	Pointy-Eared Bulldog	-1	animal
+1003670	Animal_BullDog_Domestic_05	Pointy-Eared Bulldog	-1	animal
+1003671	Animal_BullDog_Domestic_06	Pointy-Eared Bulldog	-1	animal
+1003672	Animal_BullDog_Domestic_07	Pointy-Eared Bulldog	-1	animal
+1003673	Animal_BullDog_Domestic_08	Pointy-Eared Bulldog	-1	animal
+1001396	Animal_AmericanBullDog_Domestic_1	Floppy-Eared Bulldog	-1	animal
+1003674	Animal_AmericanBullDog_Domestic_01	Floppy-Eared Bulldog	-1	animal
+1003675	Animal_AmericanBullDog_Domestic_02	Floppy-Eared Bulldog	-1	animal
+1003676	Animal_AmericanBullDog_Domestic_03	Floppy-Eared Bulldog	-1	animal
+1003677	Animal_AmericanBullDog_Domestic_04	Floppy-Eared Bulldog	-1	animal
+1003678	Animal_AmericanBullDog_Domestic_05	Floppy-Eared Bulldog	-1	animal
+1003679	Animal_AmericanBullDog_Domestic_06	Floppy-Eared Bulldog	-1	animal
+1003680	Animal_AmericanBullDog_Domestic_07	Floppy-Eared Bulldog	-1	animal
+30022	Animal_GreatDane_Domestic_30022	Boarhound	-1	animal
+1003681	Animal_GreatDane_Domestic_01	Boarhound	-1	animal
+1003682	Animal_GreatDane_Domestic_02	Boarhound	-1	animal
+1003683	Animal_GreatDane_Domestic_03	Boarhound	-1	animal
+1003684	Animal_GreatDane_Domestic_04	Boarhound	-1	animal
+1003685	Animal_GreatDane_Domestic_08	Boarhound	-1	animal
+1003686	Animal_GreatDane_Domestic_09	Boarhound	-1	animal
+1003687	Animal_GreatDane_Domestic_10	Boarhound	-1	animal
+31336	Animal_Baby_GreatDane_Domestic_31336	Boarhound Puppy	-1	animal
+1003688	Animal_Baby_GreatDane_Domestic_01	Boarhound Puppy	-1	animal
+1003689	Animal_Baby_GreatDane_Domestic_02	Boarhound Puppy	-1	animal
+1003690	Animal_Baby_GreatDane_Domestic_03	Boarhound Puppy	-1	animal
+1003691	Animal_Baby_GreatDane_Domestic_04	Boarhound Puppy	-1	animal
+1003692	Animal_Baby_GreatDane_Domestic_08	Boarhound Puppy	-1	animal
+1003693	Animal_Baby_GreatDane_Domestic_09	Boarhound Puppy	-1	animal
+1003694	Animal_Baby_GreatDane_Domestic_10	Boarhound Puppy	-1	animal
+31400	Animal_Saluki_Domestic_31400	Saluki	-1	animal
+1003695	Animal_Saluki_Domestic_01	Saluki	-1	animal
+1003696	Animal_Saluki_Domestic_02	Saluki	-1	animal
+1003697	Animal_Saluki_Domestic_03	Saluki	-1	animal
+1003698	Animal_Saluki_Domestic_04	Saluki	-1	animal
+1003699	Animal_Saluki_Domestic_05	Saluki	-1	animal
+32181	Animal_Greyhound_Domestic_32181	Greyhound	-1	animal
+1003700	Animal_Greyhound_Domestic_01	Greyhound	-1	animal
+1003701	Animal_Greyhound_Domestic_02	Greyhound	-1	animal
+1003702	Animal_Greyhound_Domestic_03	Greyhound	-1	animal
+1003703	Animal_Greyhound_Domestic_04	Greyhound	-1	animal
+1003704	Animal_Greyhound_Domestic_05	Greyhound	-1	animal
+1003705	Animal_Greyhound_Domestic_06	Greyhound	-1	animal
+1003706	Animal_Greyhound_Domestic_07	Greyhound	-1	animal
+1003707	Animal_Greyhound_Domestic_08	Greyhound	-1	animal
+1003708	Animal_Greyhound_Domestic_09	Greyhound	-1	animal
+1003709	Animal_Greyhound_Domestic_10	Greyhound	-1	animal
+32189	Animal_Beagle_Domestic_32189	Beagle	-1	animal
+1003710	Animal_Beagle_Domestic_01	Beagle	-1	animal
+1003711	Animal_Beagle_Domestic_02	Beagle	-1	animal
+1003712	Animal_Beagle_Domestic_03	Beagle	-1	animal
+1003713	Animal_Beagle_Domestic_04	Beagle	-1	animal
+59002	Animal_Trained_Dog_59002	Guard Dog Boarhound	-1	animal
+32427	Animal_GreatDane_Domestic_Bagpack_32427	Calphade Military Dog Boarhound	-1	animal
+1000335	Animal_Cat_Hernand_Unique_1	Ashen Cat	-1	animal
+1000336	Animal_Cat_Demeniss_Unique_1	Black Cat	-1	animal
+1000337	Animal_Cat_Delesyian_Unique_1	Loafy Cat	-1	animal
+1000338	Animal_Cat_Pailune_Unique_1	Yellow Cat	-1	animal
+1002899	Animal_Cat_Tashkalp_Unique_1	Tabby Cat	-1	animal
+1001853	Animal_Cat_Pororin_Unique_1	Grey Cat	-1	animal
+1001854	Animal_Cat_RedOrc_Unique_1	Patchy Cat	-1	animal
+30024	Animal_Cat_Domestic_30024	Cat	-1	animal
+1000312	Animal_Yellow_Cat_Domestic	Cat	-1	animal
+1000313	Animal_White_Cat_Domestic	Cat	-1	animal
+1000314	Animal_Black_Cat_Domestic	Cat	-1	animal
+1000315	Animal_Bicolor_Cat_Domestic	Cat	-1	animal
+1000316	Animal_Tricolor_Cat_Domestic	Cat	-1	animal
+1003951	Animal_RussianBlue_Cat_Domestic	Cat	-1	animal
+1000317	Animal_Fat_Cat_Domestic	Loafy Cat	-1	animal
+1000318	Animal_Fat_Yellow_Cat_Domestic	Loafy Cat	-1	animal
+1000319	Animal_Fat_White_Cat_Domestic	Loafy Cat	-1	animal
+1000320	Animal_Fat_Black_Cat_Domestic	Loafy Cat	-1	animal
+1000321	Animal_Fat_Bicolor_Cat_Domestic	Loafy Cat	-1	animal
+1000322	Animal_Fat_Tricolor_Cat_Domestic	Loafy Cat	-1	animal
+1003959	Animal_Fat_RussianBlue_Cat_Domestic	Loafy Cat	-1	animal
+1000323	Animal_Skinny_Cat_Domestic	Slim Cat	-1	animal
+1000324	Animal_Skinny_Yellow_Cat_Domestic	Slim Cat	-1	animal
+1000325	Animal_Skinny_White_Cat_Domestic	Slim Cat	-1	animal
+1000326	Animal_Skinny_Black_Cat_Domestic	Slim Cat	-1	animal
+1000327	Animal_Skinny_Bicolor_Cat_Domestic	Slim Cat	-1	animal
+1000328	Animal_Skinny_Tricolor_Cat_Domestic	Slim Cat	-1	animal
+1003960	Animal_Skinny_RussianBlue_Cat_Domestic	Slim Cat	-1	animal
+31511	Animal_Kitten_Domestic_31511	Kitten	-1	animal
+1000346	Animal_Yellow_Kitten_Domestic	Kitten	-1	animal
+1000347	Animal_White_Kitten_Domestic	Kitten	-1	animal
+1000348	Animal_Black_Kitten_Domestic	Kitten	-1	animal
+1000349	Animal_Bicolor_Kitten_Domestic	Kitten	-1	animal
+1000350	Animal_Tricolor_Kitten_Domestic	Kitten	-1	animal
+1003961	Animal_RussianBlue_Kitten_Domestic	Kitten	-1	animal
+31467	Animal_BritishCat_Domestic_31467	Short-Haired Cat	-1	animal
+1000356	Animal_Brown_BritishCat_Domestic	Short-Haired Cat	-1	animal
+1000357	Animal_White_BritishCat_Domestic	Short-Haired Cat	-1	animal
+1000358	Animal_Bicolor_BritishCat_Domestic	Short-Haired Cat	-1	animal
+1000359	Animal_Striped_BritishCat_Domestic	Short-Haired Cat	-1	animal
+31468	Animal_BritishKitten_Domestic_31468	Short-Haired Kitten	-1	animal
+1000364	Animal_Brown_BritishKitten_Domestic	Short-Haired Kitten	-1	animal
+1000365	Animal_White_BritishKitten_Domestic	Short-Haired Kitten	-1	animal
+1000366	Animal_Bicolor_BritishKitten_Domestic	Short-Haired Kitten	-1	animal
+1000367	Animal_Striped_BritishKitten_Domestic	Short-Haired Kitten	-1	animal
+30007	Animal_Norwegianforest_Domestic_30007	Long-Haired Cat	-1	animal
+1000296	Animal_White_Norwegianforest_Domestic	Long-Haired Cat	-1	animal
+1003952	Animal_Ragdoll_Domestic	Long-Haired Cat	-1	animal
+32033	Animal_Desert_Cat_Domestic_32033	Desert Cat	-1	animal
+30060	Animal_Owl_Wild_30060	Owl	-1	animal
+30050	Animal_Eagle_Wild_30050	Eagle	-1	animal
+30059	Animal_Hawk_Wild_30059	Hawk	-1	animal
+31416	Animal_WhiteHawk_Wild_31416	Gyrfalcon	-1	animal
+31420	Animal_Steppe_Eagle_Wild_31420	Steppe Eagle	-1	animal
+32380	Animal_Red_Footed_Falcon_Wild_32380	Red-Footed Falcon	-1	animal
+32395	Animal_FalcoCherrug_Wild_32395	Eastern Sparrowhawk	-1	animal
+31415	Animal_Condor_Wild_31415	Condor	-1	animal
+30020	Animal_Duck_Wild_30020	Wild Duck	-1	animal
+30171	Animal_Mallard_Wild_30171	Mallard	-1	animal
+30172	Animal_BlackDuck_Wild_30172	Spot-Billed Duck	-1	animal
+32284	Animal_RuddyshelDuck_Wild_32284	Ruddy Shelduck	-1	animal
+1001879	Animal_Pygmy_Teal_Wild_1	Small Teal	-1	animal
+1001888	Animal_Whistling_Duck_Wild_1	Whistling Duck	-1	animal
+32285	Animal_Mergellus_Wild_32285	Smew	-1	animal
+30072	Animal_Goose_Wild_30072	Goose	-1	animal
+1001889	Animal_Desert_Goose_Wild_1	Desert Goose	-1	animal
+32266	Animal_WhiteBilled_Loon_Wild_32266	Yellow-Billed Loon	-1	animal
+32267	Animal_GaviaStellata_Wild_32267	Loon	-1	animal
+30084	Animal_Seagull_Wild_30084	Seagull	-1	animal
+1003932	Animal_Seagull_Wild_30085	Seagull	-1	animal
+32288	Animal_Sterna_Wild_32288	Common Tern	-1	animal
+32381	Animal_SyrrhaptesParadoxus_Wild_32381	Sand Grouse	-1	animal
+32411	Animal_Collared_Dove_Wild_32411	Collared Dove	-1	animal
+30081	Animal_Pigeon_Wild_30081	Pigeon	-1	animal
+1003933	Animal_Pigeon_Wild_30082	Pigeon	-1	animal
+30009	Animal_WhiteWing_Flycatcher_Wild_30009	White-Winged Redstart	1104	animal
+30079	Animal_BlueJay_Wild_30079	Blue Jay	1096	animal
+30071	Animal_Sparrow_Wild_30071	Sparrow	1097	animal
+30087	Animal_Oriole_Wild_30087	Black-Naped Oriole	1098	animal
+32040	Animal_Wood_Pecker_Wild_32040	Three-Toed Woodpecker	1103	animal
+32247	Animal_Oxpecker_Wild_32247	Yellow-Billed Oxpecker	1102	animal
+32352	Animal_Snowy_Plover_Wild_32352	Kentish Plover	1099	animal
+32366	Animal_BlackTail_Flycatcher_Wild_32366	Desert Wheatear	1101	animal
+32367	Animal_Bunting_Bird_Wild_32367	Meadow Bunting	1100	animal
+1003779	Animal_Longtailedtit_Wild_32368	Long-Tailed Tit	1105	animal
+32038	Animal_Cuckoo_Wild_32038	Cuckoo	-1	animal
+30029	Animal_Crow_Wild_30029	Crow	-1	animal
+30082	Animal_Parrot_Wild_30082	Parrot	-1	animal
+32881	Animal_EclectusParrot_Wild_32881	Eclectus Parrot	-1	animal
+1003926	Animal_EclectusParrot_Wild_32882	Eclectus Parrot	-1	animal
+32882	Animal_SunConure_Wild_32882	Sun Conure	-1	animal
+1003927	Animal_SunConure_Wild_32883	Sun Conure	-1	animal
+32883	Animal_Parrot_Wild_32883	Grey Parrot	-1	animal
+1003928	Animal_Parrot_Wild_32884	Grey Parrot	-1	animal
+32884	Animal_SpixsMacaw_Wild_32884	Little Blue Macaw	-1	animal
+1003929	Animal_SpixsMacaw_Wild_32885	Little Blue Macaw	-1	animal
+32885	Animal_RoseringedParakeet_Wild_32885	Ringneck Parrot	-1	animal
+1003930	Animal_RoseringedParakeet_Wild_32886	Ringneck Parrot	-1	animal
+32886	Animal_CitronCockatoo_Wild_32886	Citron-Crested Cockatoo	-1	animal
+1003931	Animal_CitronCockatoo_Wild_32887	Citron-Crested Cockatoo	-1	animal
+1003949	Animal_Machine_Eagle_1	Iron Eagle	-1	animal
+1003916	Animal_Unique_Macaw_Parrot_1	Hyacinth Macaw	-1	animal
+1001618	Animal_Unique_Phoenix_Wild_1	Phoenix	-1	animal
+1004045	Animal_Baby_Wyvern_1	Baby Wyvern	-1	animal
+1004087	Animal_KukuBirdbaby_Wild_1	Kuku Bird Chick	-1	animal
+30039	Animal_Weasel_Wild_30039	Weasel	-1	animal
+1000979	Animal_Meerkat_Wild_1	Meerkat	1086	animal
+32034	Animal_Snow_Weasel_Wild_32034	Snowfield Weasel	-1	animal
+30042	Animal_Raccoon_Wild_30042	Raccoon	-1	animal
+1004022	Animal_RedPanda_Wild_30052	Red Panda	-1	animal
+1000923	Animal_Platypus_Wild_1	Platypus	-1	animal
+30139	Animal_Beaver_Wild_30139	Beaver	-1	animal
+1000841	Animal_Wombat_Wild_1	Wombat	-1	animal
+30141	Animal_Skunk_Wild_30141	Skunk	-1	animal
+30142	Animal_Badger_Wild_30142	Badger	-1	animal
+30078	Animal_Armadillo_Wild_30078	Armadillo	-1	animal
+32261	Animal_Porcupine_Wild_32261	Porcupine	-1	animal
+1000991	Animal_Porcupine_Desert_Wild	Desert Porcupine	-1	animal
+30046	Animal_Fox_Wild_30046	Fox	-1	animal
+1004061	Animal_Fox_Wild_30047	Fox	-1	animal
+1004062	Animal_Fox_Wild_30048	Fox	-1	animal
+1004063	Animal_Fox_Wild_30049	Fox	-1	animal
+1004064	Animal_Fox_Wild_30050	Fox	-1	animal
+1004065	Animal_Fox_Wild_30051	Fox	-1	animal
+30038	Animal_Arctic_Fox_Wild_30038	Snowfield Fox	-1	animal
+1004066	Animal_Arctic_Fox_Wild_30039	Snowfield Fox	-1	animal
+31410	Animal_Desert_Fox_Wild_31410	Desert Fox	-1	animal
+1004067	Animal_Desert_Fox_Wild_31411	Desert Fox	-1	animal
+1004068	Animal_Desert_Fox_Wild_31412	Desert Fox	-1	animal
+32355	Animal_Skunky_Wild_32355	Skunky	-1	animal
+32359	Animal_Wood_Weasel_Wild_32359	Feathered Weasel	-1	animal
+32357	Animal_Choppy_Wild_32357	Choppy	-1	animal
+30065	Animal_Squirrel_Wild_30065	Chipmunk	1081	animal
+32035	Animal_Snow_Chipmunk_Wild_32035	Snowfield Chipmunk	1082	animal
+32370	Animal_Red_Squirrel_Wild_32370	Red Squirrel	1083	animal
+1000804	Animal_Flying_Squirrel_Wild_1	Flying Squirrel	1084	animal
+30001	Animal_Rabbit_Wild_30001	Forest Rabbit	-1	animal
+1004055	Animal_Rabbit_Wild_30003	Brown Forest Rabbit	-1	animal
+1004056	Animal_Rabbit_Wild_30004	Gray Forest Rabbit	-1	animal
+1004057	Animal_Rabbit_Wild_30005	Black Forest Rabbit	-1	animal
+30189	Animal_Rabbit_Domestic_30189	Forest Rabbit	-1	animal
+1004058	Animal_Rabbit_Domestic_30191	Brown Forest Rabbit	-1	animal
+1004059	Animal_Rabbit_Domestic_30192	Gray Forest Rabbit	-1	animal
+1004060	Animal_Rabbit_Domestic_30193	Black Forest Rabbit	-1	animal
+30017	Animal_SnowRabbit_Wild_30017	Snowfield Rabbit	-1	animal
+31409	Animal_Desert_Rabbit_Wild_31409	Desert Rabbit	-1	animal
+30045	Animal_Hedgehog_Wild_30045	Hedgehog	-1	animal
+31504	Animal_Hedgehog_Wild_31504	Hedgehog	-1	animal
+31505	Animal_Hedgehog_Wild_31505	Hedgehog	-1	animal
+31506	Animal_Hedgehog_Wild_31506	Hedgehog	-1	animal
+31507	Animal_Hedgehog_Wild_31507	Hedgehog	-1	animal
+31510	Animal_Hedgehog_Wild_31510	Hedgehog	-1	animal
+1000780	Animal_EuropeanPartridge_Wild_30184	Partridge	-1	animal
+1000800	Animal_Mesite_Wild_1	Mesite	-1	animal
+1000803	Animal_Watercock_Wild_1	Crake	-1	animal
+1000783	Animal_Fulica_Wild_1	Coot	-1	animal
+1000805	Animal_Takahe_Wild_1	Swamphen	-1	animal
+1000807	Animal_kakapo_Wild_1	Kakapo	-1	animal
+1000788	Animal_Kiwi_Bird_Wild_1	Kiwi Bird	-1	animal
+1001375	Animal_Little_Grebe_Wild_1	Grebe	-1	animal
+30066	Animal_Turtle_Wild_30066	Turtle	-1	animal
+1003799	Animal_Turtle_Domestic_30066	Turtle	-1	animal
+35011	Animal_SnappingTurtle_Wild_35011	Snapping Turtle	-1	animal
+1000404	Animal_RedFooted_Turtle_Wild_1	Red-Footed Tortoise	-1	animal
+1000405	Animal_Leopard_Turtle_Wild_1	Leopard Tortoise	-1	animal
+1000406	Animal_Sulcata_Turtle_Wild_1	Sulcata Tortoise	-1	animal
+2508	Animal_Marni_GolemHorse_2508	Marni's Mechahorse	-1	animal
+500485	Animal_Unique_Black_Cat_500485	Black Cat	-1	animal
+1001395	Animal_WhiteCrow_Wild	White Crow	-1	animal
+38001	Animal_Cow_Domestic_Unique_50001	Cow	-1	animal
+30503	Animal_Unique_LikeWooly_Domestic_30503	Wooly?	-1	animal
+1001060	Animal_MilkCow_Domestic_Unique_50001	Dairy Cow	-1	animal
+32702	Animal_Stefero_Quest_32702	Priden	-1	animal
+30197	Animal_Boss_Cucubird_Wild_Gimmick_30197	Kuku Bird	-1	animal
+1000766	Animal_Stefero_Domestic_Saddle_Unique_38008	Hernandian Soldier's Horse	-1	animal
+1003776	Animal_Tiger_Wild_2	Tiger	-1	animal
+30269	Animal_Battle_Boar_30269	Black-Maned Boar	-1	animal
+1003796	Animal_Raccoon_Domestic_30042	Raccoon	-1	animal
+1002441	Animal_Stefano_Domestic_Saddle_Scout	Calphadean Scout's Horse	-1	animal
