@@ -17,8 +17,9 @@ namespace ml
 
     namespace CreatureDb
     {
-        bool Load();   // MasterLooter.creatures.tsv next to the plugin
+        bool Load();   // MasterLooter.creatures.tsv next to the plugin, else the copy compiled in
         bool Loaded();
+        const char* Source();
         int  Count();
         const Creature* ByKey(const char* stringKey);
         // The creature whose string key appears inside `text` (longest wins), e.g.

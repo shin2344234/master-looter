@@ -14,6 +14,7 @@ namespace ml::CreatureDb
     static std::vector<Creature> g_rows;
     static std::unordered_map<std::string, size_t> g_byKey;
     static bool g_loaded = false;
+    static const char* g_source = "none";
 
     // species word -> (class, representative row or -1)
     struct Word { std::string klass; int row; int votes; bool shared; };
@@ -91,15 +92,21 @@ namespace ml::CreatureDb
 
     bool Load()
     {
-        FILE* f = _wfopen(Paths::File(L"MasterLooter.creatures.tsv").c_str(), L"rb");
-        if (!f) return false;
-        char line[512];
+        std::string text;
+        bool fromFile = false;
+        if (!Paths::ReadDataText(L"MasterLooter.creatures.tsv", L"ML_CREATURES_TSV", text, &fromFile)) return false;
+        g_source = fromFile ? "file next to the plugin" : "built into the plugin";
         bool header = true;
-        while (fgets(line, sizeof line, f))
+        size_t pos = 0;
+        while (pos < text.size())
         {
+            size_t nl = text.find('\n', pos);
+            if (nl == std::string::npos) nl = text.size();
+            const std::string line = text.substr(pos, nl - pos);
+            pos = nl + 1;
             if (header) { header = false; continue; }
             std::string cols[5]; int c = 0;
-            for (char* p = line; *p && c < 5; ++p)
+            for (const char* p = line.c_str(); *p && c < 5; ++p)
             {
                 if (*p == '\t') { ++c; continue; }
                 if (*p == '\r' || *p == '\n') break;
@@ -114,7 +121,6 @@ namespace ml::CreatureDb
             g_byKey[cr.stringKey] = g_rows.size();
             g_rows.push_back(std::move(cr));
         }
-        fclose(f);
         g_loaded = !g_rows.empty();
         if (g_loaded) BuildWords();
         return g_loaded;
@@ -144,6 +150,7 @@ namespace ml::CreatureDb
     }
 
     bool Loaded() { return g_loaded; }
+    const char* Source() { return g_source; }
     int  Count()  { return static_cast<int>(g_rows.size()); }
 
     const Creature* InText(const char* text)
