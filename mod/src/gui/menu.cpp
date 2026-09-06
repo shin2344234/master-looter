@@ -17,6 +17,7 @@
 #include "../core/rules.h"
 #include "../core/settings.h"
 #include "../core/state.h"
+#include "../core/text.h"
 #include "../hooks/input.h"
 #include "../hooks/xinput_hook.h"
 #include "../loot/engine.h"
@@ -216,11 +217,11 @@ namespace ml::gui
     {
         bool changed = false;
         ImGui::PushID(id);
-        if (ImGui::RadioButton("default", value == 0)) { value = 0; changed = true; }
+        if (ImGui::RadioButton(TR("default"), value == 0)) { value = 0; changed = true; }
         ImGui::SameLine();
-        if (ImGui::RadioButton("always", value == 1)) { value = 1; changed = true; }
+        if (ImGui::RadioButton(TR("always"), value == 1)) { value = 1; changed = true; }
         ImGui::SameLine();
-        if (ImGui::RadioButton("never", value == -1)) { value = -1; changed = true; }
+        if (ImGui::RadioButton(TR("never"), value == -1)) { value = -1; changed = true; }
         ImGui::PopID();
         return changed;
     }
@@ -254,13 +255,13 @@ namespace ml::gui
             if (KeyDown(VK_ESCAPE)) { s_widest = 0; st.rebindCapture = false; g_rebindTarget = -1; }
             else if (!held && bits >= 2) { mask = s_widest; s_widest = 0; dirty = true; st.rebindCapture = false; g_rebindTarget = -1; }
             else if (!held && bits == 1) { s_widest = 0; }   // one button is not a shortcut, start over
-            else if (bits) ImGui::TextColored(Accent(), "%s, let go to keep it", hooks::PadChordName(s_widest));
-            else ImGui::TextColored(Accent(), "hold two buttons (Escape cancels)");
+            else if (bits) ImGui::TextColored(Accent(), TR("%s, let go to keep it"), hooks::PadChordName(s_widest));
+            else ImGui::TextColored(Accent(), TR("hold two buttons (Escape cancels)"));
         }
         else if (!st.rebindCapture)
         {
-            if (ImGui::SmallButton("Set")) { st.rebindCapture = true; g_rebindTarget = target; }
-            if (mask) { ImGui::SameLine(); if (ImGui::SmallButton("Clear")) { mask = 0; dirty = true; } }
+            if (ImGui::SmallButton(TR("Set"))) { st.rebindCapture = true; g_rebindTarget = target; }
+            if (mask) { ImGui::SameLine(); if (ImGui::SmallButton(TR("Clear"))) { mask = 0; dirty = true; } }
         }
         ImGui::PopID();
         return dirty;
@@ -277,7 +278,7 @@ namespace ml::gui
         ImGui::SameLine(400 * g_scale);
         if (st.rebindCapture && g_rebindTarget == target)
         {
-            ImGui::TextColored(Accent(), "press a key (Escape cancels)");
+            ImGui::TextColored(Accent(), TR("press a key (Escape cancels)"));
             for (int k = 0x08; k < 0xFF; ++k)
             {
                 if (k == VK_LBUTTON || k == VK_RBUTTON || k == VK_SHIFT || k == VK_CONTROL || k == VK_MENU) continue;
@@ -287,7 +288,7 @@ namespace ml::gui
                 break;
             }
         }
-        else if (!st.rebindCapture && ImGui::SmallButton("Rebind")) { st.rebindCapture = true; g_rebindTarget = target; }
+        else if (!st.rebindCapture && ImGui::SmallButton(TR("Rebind"))) { st.rebindCapture = true; g_rebindTarget = target; }
         ImGui::PopID();
         return dirty;
     }
@@ -330,7 +331,7 @@ namespace ml::gui
     // written automatically each time the game starts.
     static void DrawPresets()
     {
-        Section("Presets");
+        Section(TR("Presets"));
         static std::string s_names[64];
         static int   s_count = -1;
         static int   s_sel = -1;
@@ -363,20 +364,20 @@ namespace ml::gui
         ImGui::BeginDisabled(!have);
         // Loading is cheap and undoable by loading another, so it just happens.
         // Saving over one cannot be undone, so that is the click that asks.
-        if (ImGui::Button("Load"))
+        if (ImGui::Button(TR("Load")))
         {
             s_armed.clear();
             if (Settings::LoadPreset(s_names[s_sel].c_str())) say("Preset loaded.");
             else say("That preset could not be read.");
         }
-        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them."); ImGui::EndTooltip(); }
+        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.")); ImGui::EndTooltip(); }
         ImGui::SameLine();
         if (ConfirmButton("preset.over", "Save over", "Overwrite it?", true))
         {
             if (Settings::SavePreset(s_names[s_sel].c_str())) say("Preset updated with the current settings.");
             else say("That preset could not be written.");
         }
-        if (ImGui::BeginItemTooltip()) { ImGui::Text("Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.", have ? s_names[s_sel].c_str() : ""); ImGui::EndTooltip(); }
+        if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back."), have ? s_names[s_sel].c_str() : ""); ImGui::EndTooltip(); }
         ImGui::SameLine();
         if (ConfirmButton("preset.delete", "Delete", "Delete for good?", true))
         {
@@ -384,10 +385,10 @@ namespace ml::gui
         }
         ImGui::EndDisabled();
         ImGui::SameLine();
-        if (ImGui::Button("Refresh")) { refresh(); s_armed.clear(); }
+        if (ImGui::Button(TR("Refresh"))) { refresh(); s_armed.clear(); }
 
         ImGui::SetNextItemWidth(240 * g_scale);
-        if (ImGui::InputTextWithHint("##presetname", "name a new preset", s_name, sizeof s_name)) s_armed.clear();
+        if (ImGui::InputTextWithHint("##presetname", TR("name a new preset"), s_name, sizeof s_name)) s_armed.clear();
         ImGui::SameLine();
         const std::string clean = Settings::CleanPresetName(s_name);
         const bool exists = !clean.empty() && Settings::PresetExists(s_name);
@@ -399,11 +400,11 @@ namespace ml::gui
         }
         ImGui::EndDisabled();
         if (!clean.empty() && clean != s_name)
-            ImGui::TextDisabled("Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.", clean.c_str());
+            ImGui::TextDisabled(TR("Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores."), clean.c_str());
         else if (exists)
-            ImGui::TextDisabled("\"%s\" already exists. Saving over it asks first.", clean.c_str());
+            ImGui::TextDisabled(TR("\"%s\" already exists. Saving over it asks first."), clean.c_str());
 
-        Section("Backups");
+        Section(TR("Backups"));
         if (s_bakCount < 0) refresh();
         ImGui::SetNextItemWidth(240 * g_scale);
         const std::string bakLabel = (s_bakSel >= 0 && s_bakSel < s_bakCount)
@@ -426,7 +427,7 @@ namespace ml::gui
             if (Settings::RestoreBackup(s_baks[s_bakSel].c_str())) say("Settings restored from that backup.");
             else say("That backup could not be read.");
         }
-        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Puts every setting and rule back to what it was at that moment."); ImGui::EndTooltip(); }
+        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Puts every setting and rule back to what it was at that moment.")); ImGui::EndTooltip(); }
         ImGui::SameLine();
         if (ConfirmButton("backup.delete", "Delete", "Delete for good?", true))
         {
@@ -442,64 +443,95 @@ namespace ml::gui
                 if (Settings::BackupNow()) { say(over ? "Backup replaced." : "Settings backed up."); refresh(); }
                 else say("The backup could not be written.");
             }
-            if (ImGui::BeginItemTooltip()) { ImGui::Text("Writes the settings as they are now, named %s.", Settings::BackupLabel(stamp.c_str()).c_str()); ImGui::EndTooltip(); }
+            if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("Writes the settings as they are now, named %s."), Settings::BackupLabel(stamp.c_str()).c_str()); ImGui::EndTooltip(); }
         }
 
         if (s_said[0] && static_cast<LONG>(s_saidUntil - GetTickCount()) > 0) ImGui::TextColored(kGold, "%s", s_said);
-        else ImGui::TextDisabled("One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.");
+        else ImGui::TextDisabled(TR("One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall."));
     }
 
     static void TabGeneral(Config& c)
     {
         bool dirty = false;
-        if (ImGui::Checkbox("Auto-loot enabled", &c.enabled)) { dirty = true; State::Get().Notify(c.enabled ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
-        Help("The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.");
+        if (ImGui::Checkbox(TR("Auto-loot enabled"), &c.enabled)) { dirty = true; State::Get().Notify(c.enabled ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
+        Help(TR("The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works."));
         ImGui::SameLine(300 * g_scale);
-        if (ImGui::Button("Loot everything in range now")) loot::RequestBurst();
-        dirty |= ImGui::Checkbox("Show a brief notice when auto-loot is toggled", &c.showHud);
-        dirty |= ImGui::Checkbox("Say so on screen when the bag stops taking things", &c.notifyBagFull);
-        Help("How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.");
-        Help("Nothing else is drawn while the menu is closed.");
+        if (ImGui::Button(TR("Loot everything in range now"))) loot::RequestBurst();
+        dirty |= ImGui::Checkbox(TR("Show a brief notice when auto-loot is toggled"), &c.showHud);
+        dirty |= ImGui::Checkbox(TR("Say so on screen when the bag stops taking things"), &c.notifyBagFull);
+        Help(TR("How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it."));
+        Help(TR("Nothing else is drawn while the menu is closed."));
 
-        Section("Keys");
+        Section(TR("Keys"));
         dirty |= KeyRow("Open and close this menu", c.menuKey, 0);
         dirty |= KeyRow("Auto-loot on / off", c.keyToggle, 1);
         dirty |= KeyRow("Loot everything in range once", c.keyBurst, 2);
         dirty |= KeyRow("Watch mode (menu stays up, you keep playing)", c.keyWatch, 3);
 
-        Section("Controller");
-        ImGui::TextDisabled("Two buttons at once, never one: every single button already does something in this game. "
+        Section(TR("Language"));
+        {
+            static char s_lang[16] = "";
+            static bool s_init = false;
+            if (!s_init) { s_init = true; snprintf(s_lang, sizeof s_lang, "%s", c.language.c_str()); }
+            ImGui::SetNextItemWidth(120 * g_scale);
+            ImGui::InputTextWithHint("##lang", TR("blank for English"), s_lang, sizeof s_lang);
+            ImGui::SameLine();
+            if (ImGui::Button(TR("Use this language")))
+            {
+                c.language = s_lang;
+                Text::Load(c.language.c_str());
+                Settings::MarkDirty();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button(TR("Write translation template"))) Text::WriteTemplate();
+            if (ImGui::BeginItemTooltip())
+            {
+                ImGui::TextUnformatted(TR("Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. "
+                                          "Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each "
+                                          "record, save it as MasterLooter.<language>.txt, and put that language here."));
+                ImGui::EndTooltip();
+            }
+            if (Text::Language()[0])
+                ImGui::TextDisabled(TR("Language \"%s\": %d line(s) translated, %d seen this session."), Text::Language(), Text::Count(), Text::Seen());
+            else
+                ImGui::TextDisabled(TR("English. %d line(s) seen this session."), Text::Seen());
+            if (Text::Rejected())
+                ImGui::TextColored(kWarn, TR("%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values."), Text::Rejected());
+        }
+
+        Section(TR("Controller"));
+        ImGui::TextDisabled(TR("Two buttons at once, never one: every single button already does something in this game. "
                             "The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, "
-                            "like the two shoulder buttons, or Back and a face button.");
+                            "like the two shoulder buttons, or Back and a face button."));
         dirty |= PadRow("Open and close this menu", c.padMenu, 10);
         dirty |= PadRow("Auto-loot on / off", c.padToggle, 11);
         dirty |= PadRow("Loot everything in range once", c.padBurst, 12);
         dirty |= PadRow("Watch mode", c.padWatch, 13);
 
-        Section("Pace");
-        dirty |= ImGui::SliderInt("Scans per second", &c.scansPerSec, 1, 30);
-        Help("How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.");
-        dirty |= ImGui::SliderInt("Objects per scan", &c.perScan, 0, 64, c.perScan ? "%d" : "no limit");
-        dirty |= ImGui::SliderInt("Objects per burst press", &c.burstPerKey, 0, 64, c.burstPerKey ? "%d" : "everything in range");
-        dirty |= ImGui::SliderInt("Retry the same object after (ms)", &c.retryAfterMs, 500, 30000);
-        Help("The game removes taken objects with a delay. This stops the same object being sent twice while it fades.");
+        Section(TR("Pace"));
+        dirty |= ImGui::SliderInt(TR("Scans per second"), &c.scansPerSec, 1, 30);
+        Help(TR("How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond."));
+        dirty |= ImGui::SliderInt(TR("Objects per scan"), &c.perScan, 0, 64, c.perScan ? "%d" : "no limit");
+        dirty |= ImGui::SliderInt(TR("Objects per burst press"), &c.burstPerKey, 0, 64, c.burstPerKey ? "%d" : "everything in range");
+        dirty |= ImGui::SliderInt(TR("Retry the same object after (ms)"), &c.retryAfterMs, 500, 30000);
+        Help(TR("The game removes taken objects with a delay. This stops the same object being sent twice while it fades."));
 
-        Section("Filters");
-        dirty |= ImGui::Checkbox("Skip quest items", &c.skipQuestItems);
-        Help("Items tagged quest are left alone so puzzles and story pickups are never auto-taken.");
-        dirty |= ImGui::Checkbox("Skip items shops refuse to buy", &c.skipNoSell);
-        dirty |= ImGui::SliderInt("Minimum value (copper)", &c.minValueCopper, 0, 500, c.minValueCopper ? "%d" : "off");
-        Help("Items with an unknown value are never filtered by it.");
-        dirty |= ImGui::Checkbox("Take items the database cannot name", &c.takeUnknownItems);
-        Help("Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.");
-        dirty |= ImGui::Checkbox("Verbose log", &c.debugLog);
+        Section(TR("Filters"));
+        dirty |= ImGui::Checkbox(TR("Skip quest items"), &c.skipQuestItems);
+        Help(TR("Items tagged quest are left alone so puzzles and story pickups are never auto-taken."));
+        dirty |= ImGui::Checkbox(TR("Skip items shops refuse to buy"), &c.skipNoSell);
+        dirty |= ImGui::SliderInt(TR("Minimum value (copper)"), &c.minValueCopper, 0, 500, c.minValueCopper ? "%d" : "off");
+        Help(TR("Items with an unknown value are never filtered by it."));
+        dirty |= ImGui::Checkbox(TR("Take items the database cannot name"), &c.takeUnknownItems);
+        Help(TR("Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified."));
+        dirty |= ImGui::Checkbox(TR("Verbose log"), &c.debugLog);
         if (dirty) Settings::MarkDirty();
     }
 
     static void TabLooting(Config& c)
     {
         bool dirty = false;
-        Section("What to collect");
+        Section(TR("What to collect"));
         struct Toggle { const char* label; bool* value; const char* help; };
         const Toggle toggles[] = {
             { "Ground items",   &c.pickUpItems,    "Items lying in the world, including drops from enemies." },
@@ -527,34 +559,34 @@ namespace ml::gui
         }
         {
             const loot::Status s = loot::GetStatus();
-            ImGui::TextDisabled("%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.", s.learned);
+            ImGui::TextDisabled(TR("%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit."), s.learned);
             ImGui::SameLine();
-            if (ImGui::SmallButton("Forget")) loot::ForgetLearned();
-            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected."); ImGui::EndTooltip(); }
+            if (ImGui::SmallButton(TR("Forget"))) loot::ForgetLearned();
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.")); ImGui::EndTooltip(); }
         }
 
-        Section("Ranges (metres)");
-        dirty |= ImGui::SliderFloat("Scan radius", &c.scanRange, 5.0f, 200.0f, "%.0f");
-        Help("What enters the working list at all. The ranges below are clamped to it.");
-        dirty |= ImGui::SliderFloat("Items on the ground", &c.lootRange, 0.0f, 100.0f, c.lootRange > 0 ? "%.0f" : "no limit");
-        dirty |= ImGui::SliderFloat("Gathering", &c.gatherRange, 0.0f, 100.0f, c.gatherRange > 0 ? "%.0f" : "no limit");
-        dirty |= ImGui::SliderFloat("Catching", &c.catchRange, 0.0f, 100.0f, c.catchRange > 0 ? "%.0f" : "no limit");
-        dirty |= ImGui::SliderFloat("Carcasses", &c.corpseRange, 0.0f, 100.0f, c.corpseRange > 0 ? "%.0f" : "no limit");
-        dirty |= ImGui::SliderFloat("Dead zone around you", &c.minRange, 0.0f, 2.0f, "%.2f");
-        Help("Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.");
+        Section(TR("Ranges (metres)"));
+        dirty |= ImGui::SliderFloat(TR("Scan radius"), &c.scanRange, 5.0f, 200.0f, "%.0f");
+        Help(TR("What enters the working list at all. The ranges below are clamped to it."));
+        dirty |= ImGui::SliderFloat(TR("Items on the ground"), &c.lootRange, 0.0f, 100.0f, c.lootRange > 0 ? "%.0f" : "no limit");
+        dirty |= ImGui::SliderFloat(TR("Gathering"), &c.gatherRange, 0.0f, 100.0f, c.gatherRange > 0 ? "%.0f" : "no limit");
+        dirty |= ImGui::SliderFloat(TR("Catching"), &c.catchRange, 0.0f, 100.0f, c.catchRange > 0 ? "%.0f" : "no limit");
+        dirty |= ImGui::SliderFloat(TR("Carcasses"), &c.corpseRange, 0.0f, 100.0f, c.corpseRange > 0 ? "%.0f" : "no limit");
+        dirty |= ImGui::SliderFloat(TR("Dead zone around you"), &c.minRange, 0.0f, 2.0f, "%.2f");
+        Help(TR("Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means."));
 
-        Section("Reaching nodes");
-        dirty |= ImGui::Checkbox("Arm nodes ourselves", &c.autoArm);
-        Help("The game fills a node's data only when it thinks you can reach it; for an ore vein that means standing on it. Arming asks the game to do it from a distance.");
-        dirty |= ImGui::SliderFloat("Arming range", &c.armRange, 0.0f, 60.0f, c.armRange > 0 ? "%.0f" : "same as gathering");
-        Help("Arming ignores walls. Keep it short or you will gather through the wall of the next room.");
-        dirty |= ImGui::Checkbox("Arm mechanism containers too", &c.armContainers);
-        Help("A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.");
+        Section(TR("Reaching nodes"));
+        dirty |= ImGui::Checkbox(TR("Arm nodes ourselves"), &c.autoArm);
+        Help(TR("The game fills a node's data only when it thinks you can reach it; for an ore vein that means standing on it. Arming asks the game to do it from a distance."));
+        dirty |= ImGui::SliderFloat(TR("Arming range"), &c.armRange, 0.0f, 60.0f, c.armRange > 0 ? "%.0f" : "same as gathering");
+        Help(TR("Arming ignores walls. Keep it short or you will gather through the wall of the next room."));
+        dirty |= ImGui::Checkbox(TR("Arm mechanism containers too"), &c.armContainers);
+        Help(TR("A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand."));
 
-        Section("Ownership");
-        dirty |= ImGui::Checkbox("Take goods that belong to someone", &c.lootOwned);
-        if (c.lootOwned) ImGui::TextColored(kWarn, "The game treats this as stealing and will put a bounty on you.");
-        else ImGui::TextDisabled("Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.");
+        Section(TR("Ownership"));
+        dirty |= ImGui::Checkbox(TR("Take goods that belong to someone"), &c.lootOwned);
+        if (c.lootOwned) ImGui::TextColored(kWarn, TR("The game treats this as stealing and will put a bounty on you."));
+        else ImGui::TextDisabled(TR("Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once."));
 
         DrawPresets();
         if (dirty) Settings::MarkDirty();
@@ -609,8 +641,8 @@ namespace ml::gui
 
     static void TabClasses(Config& c)
     {
-        Section("Groups");
-        ImGui::TextDisabled("One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.");
+        Section(TR("Groups"));
+        ImGui::TextDisabled(TR("One click per family. The table below still sets single classes; a group shows a dash when only some of it is on."));
         if (ImGui::BeginTable("groups", 3, ImGuiTableFlags_SizingStretchSame))
         {
             for (const ClassGroup& g : kGroups)
@@ -633,46 +665,46 @@ namespace ml::gui
             // Cross-cutting switches that live on tags rather than classes.
             ImGui::TableNextColumn();
             bool quest = !c.skipQuestItems;
-            if (ImGui::Checkbox("Quest items", &quest)) { c.skipQuestItems = !quest; Settings::MarkDirty(); }
-            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands."); ImGui::EndTooltip(); }
+            if (ImGui::Checkbox(TR("Quest items"), &quest)) { c.skipQuestItems = !quest; Settings::MarkDirty(); }
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.")); ImGui::EndTooltip(); }
             ImGui::TableNextColumn();
             bool nosell = !c.skipNoSell;
-            if (ImGui::Checkbox("Unsellable items", &nosell)) { c.skipNoSell = !nosell; Settings::MarkDirty(); }
-            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Items no shop will buy, across every class."); ImGui::EndTooltip(); }
+            if (ImGui::Checkbox(TR("Unsellable items"), &nosell)) { c.skipNoSell = !nosell; Settings::MarkDirty(); }
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Items no shop will buy, across every class.")); ImGui::EndTooltip(); }
             ImGui::TableNextColumn();
             auto mf = c.tagRule.find("memory-fragment"); auto gm = c.tagRule.find("gimmick");
             const bool mfOn = mf != c.tagRule.end() && mf->second > 0, gmOn = gm != c.tagRule.end() && gm->second > 0;
             bool prot = mfOn && gmOn;
             if (mfOn != gmOn) ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, true);
-            if (ImGui::Checkbox("Memory chips and puzzle parts", &prot))
+            if (ImGui::Checkbox(TR("Memory chips and puzzle parts"), &prot))
             {
                 if (prot) { c.tagRule["memory-fragment"] = 1; c.tagRule["gimmick"] = 1; }
                 else { c.tagRule.erase("memory-fragment"); c.tagRule.erase("gimmick"); }
                 Settings::MarkDirty();
             }
             if (mfOn != gmOn) ImGui::PopItemFlag();
-            if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted("Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken."); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
+            if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted(TR("Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.")); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
             ImGui::EndTable();
         }
 
-        Section("Classes");
+        Section(TR("Classes"));
         static char filter[64] = "";
         ImGui::SetNextItemWidth(260 * g_scale);
-        ImGui::InputTextWithHint("##classfilter", "filter classes", filter, sizeof filter);
+        ImGui::InputTextWithHint("##classfilter", TR("filter classes"), filter, sizeof filter);
         ImGui::SameLine();
-        if (ImGui::Button("Loot all")) { for (const auto& kv : ItemDb::Classes()) c.classRule[kv.first] = 1; Settings::MarkDirty(); }
+        if (ImGui::Button(TR("Loot all"))) { for (const auto& kv : ItemDb::Classes()) c.classRule[kv.first] = 1; Settings::MarkDirty(); }
         ImGui::SameLine();
-        if (ImGui::Button("Skip all")) { for (const auto& kv : ItemDb::Classes()) c.classRule[kv.first] = 0; Settings::MarkDirty(); }
+        if (ImGui::Button(TR("Skip all"))) { for (const auto& kv : ItemDb::Classes()) c.classRule[kv.first] = 0; Settings::MarkDirty(); }
         ImGui::SameLine();
-        ImGui::TextDisabled("%d classes", static_cast<int>(ItemDb::Classes().size()));
+        ImGui::TextDisabled(TR("%d classes"), static_cast<int>(ItemDb::Classes().size()));
 
         const std::string f = Lower(filter);
         if (ImGui::BeginTable("classes", 3, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
             ImGui::TableSetupScrollFreeze(0, 1);
-            ImGui::TableSetupColumn("Loot", ImGuiTableColumnFlags_WidthFixed, 60 * g_scale);
-            ImGui::TableSetupColumn("Class", ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn("Items", ImGuiTableColumnFlags_WidthFixed, 70 * g_scale);
+            ImGui::TableSetupColumn(TR("Loot"), ImGuiTableColumnFlags_WidthFixed, 60 * g_scale);
+            ImGui::TableSetupColumn(TR("Class"), ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn(TR("Items"), ImGuiTableColumnFlags_WidthFixed, 70 * g_scale);
             ImGui::TableHeadersRow();
             for (const auto& kv : ItemDb::Classes())
             {
@@ -685,7 +717,7 @@ namespace ml::gui
                 if (ImGui::Checkbox("##loot", &loot)) { c.classRule[kv.first] = loot ? 1 : 0; Settings::MarkDirty(); }
                 ImGui::PopID();
                 ImGui::TableSetColumnIndex(1);
-                if (kv.first == "dev") ImGui::TextDisabled("%s (never looted)", kv.first.c_str());
+                if (kv.first == "dev") ImGui::TextDisabled(TR("%s (never looted)"), kv.first.c_str());
                 else ImGui::TextUnformatted(kv.first.c_str());
                 ImGui::TableSetColumnIndex(2);
                 ImGui::Text("%d", kv.second);
@@ -698,19 +730,19 @@ namespace ml::gui
     {
         static char filter[64] = "";
         ImGui::SetNextItemWidth(260 * g_scale);
-        ImGui::InputTextWithHint("##tagfilter", "filter tags", filter, sizeof filter);
+        ImGui::InputTextWithHint("##tagfilter", TR("filter tags"), filter, sizeof filter);
         ImGui::SameLine();
-        if (ImGui::Button("Reset all tags")) { c.tagRule.clear(); Settings::MarkDirty(); }
+        if (ImGui::Button(TR("Reset all tags"))) { c.tagRule.clear(); Settings::MarkDirty(); }
         ImGui::SameLine();
-        ImGui::TextDisabled("always beats the class rule; never beats always");
+        ImGui::TextDisabled(TR("always beats the class rule; never beats always"));
 
         const std::string f = Lower(filter);
         if (ImGui::BeginTable("tags", 3, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
             ImGui::TableSetupScrollFreeze(0, 1);
-            ImGui::TableSetupColumn("Tag", ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn("Items", ImGuiTableColumnFlags_WidthFixed, 70 * g_scale);
-            ImGui::TableSetupColumn("Rule", ImGuiTableColumnFlags_WidthFixed, 260 * g_scale);
+            ImGui::TableSetupColumn(TR("Tag"), ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn(TR("Items"), ImGuiTableColumnFlags_WidthFixed, 70 * g_scale);
+            ImGui::TableSetupColumn(TR("Rule"), ImGuiTableColumnFlags_WidthFixed, 260 * g_scale);
             ImGui::TableHeadersRow();
             for (const auto& kv : ItemDb::Tags())
             {
@@ -734,11 +766,11 @@ namespace ml::gui
     {
         static char query[96] = "";
         ImGui::SetNextItemWidth(360 * g_scale);
-        ImGui::InputTextWithHint("##itemsearch", "search item name or key (3+ letters)", query, sizeof query);
+        ImGui::InputTextWithHint("##itemsearch", TR("search item name or key (3+ letters)"), query, sizeof query);
         ImGui::SameLine();
-        if (ImGui::Button("Clear overrides")) { c.itemRule.clear(); Settings::MarkDirty(); }
+        if (ImGui::Button(TR("Clear overrides"))) { c.itemRule.clear(); Settings::MarkDirty(); }
         ImGui::SameLine();
-        ImGui::TextDisabled("%d overrides", static_cast<int>(c.itemRule.size()));
+        ImGui::TextDisabled(TR("%d overrides"), static_cast<int>(c.itemRule.size()));
 
         const std::string q = Lower(query);
         std::vector<const Item*> rows;
@@ -751,17 +783,17 @@ namespace ml::gui
         {
             for (const auto& kv : c.itemRule) if (const Item* it = ItemDb::Find(kv.first)) rows.push_back(it);
         }
-        if (q.size() < 3) ImGui::TextDisabled("Showing current overrides. Type to search all %d items.", ItemDb::Count());
-        else ImGui::TextDisabled("%d match%s%s", static_cast<int>(rows.size()), rows.size() == 1 ? "" : "es", rows.size() >= 250 ? " (first 250)" : "");
+        if (q.size() < 3) ImGui::TextDisabled(TR("Showing current overrides. Type to search all %d items."), ItemDb::Count());
+        else ImGui::TextDisabled(TR("%d match%s%s"), static_cast<int>(rows.size()), rows.size() == 1 ? "" : "es", rows.size() >= 250 ? " (first 250)" : "");
 
         if (ImGui::BeginTable("items", 5, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
             ImGui::TableSetupScrollFreeze(0, 1);
-            ImGui::TableSetupColumn("Item", ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn("Class", ImGuiTableColumnFlags_WidthFixed, 120 * g_scale);
-            ImGui::TableSetupColumn("Copper", ImGuiTableColumnFlags_WidthFixed, 60 * g_scale);
-            ImGui::TableSetupColumn("Verdict", ImGuiTableColumnFlags_WidthFixed, 170 * g_scale);
-            ImGui::TableSetupColumn("Override", ImGuiTableColumnFlags_WidthFixed, 260 * g_scale);
+            ImGui::TableSetupColumn(TR("Item"), ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn(TR("Class"), ImGuiTableColumnFlags_WidthFixed, 120 * g_scale);
+            ImGui::TableSetupColumn(TR("Copper"), ImGuiTableColumnFlags_WidthFixed, 60 * g_scale);
+            ImGui::TableSetupColumn(TR("Verdict"), ImGuiTableColumnFlags_WidthFixed, 170 * g_scale);
+            ImGui::TableSetupColumn(TR("Override"), ImGuiTableColumnFlags_WidthFixed, 260 * g_scale);
             ImGui::TableHeadersRow();
             for (const Item* it : rows)
             {
@@ -769,14 +801,14 @@ namespace ml::gui
                 ImGui::PushID(static_cast<int>(it->key));
                 ImGui::TableSetColumnIndex(0);
                 ImGui::TextUnformatted(it->Label());
-                if (ImGui::BeginItemTooltip()) { ImGui::Text("%s (key %u, row %d, tier %d)", it->stringKey.c_str(), it->key, it->row, it->tier); ImGui::TextWrapped("%s", it->tags.c_str()); ImGui::EndTooltip(); }
+                if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("%s (key %u, row %d, tier %d)"), it->stringKey.c_str(), it->key, it->row, it->tier); ImGui::TextWrapped("%s", it->tags.c_str()); ImGui::EndTooltip(); }
                 ImGui::TableSetColumnIndex(1);
                 ImGui::TextUnformatted(it->klass.c_str());
                 ImGui::TableSetColumnIndex(2);
-                if (it->value >= 0) ImGui::Text("%lld", it->value); else ImGui::TextDisabled("-");
+                if (it->value >= 0) ImGui::Text(TR("%lld"), it->value); else ImGui::TextDisabled("-");
                 ImGui::TableSetColumnIndex(3);
                 const Rules::Verdict v = Rules::Decide(*it, c);
-                if (v.loot) ImGui::TextColored(kGood, "loot: %s", v.rule); else ImGui::TextColored(kWarn, "skip: %s", v.rule);
+                if (v.loot) ImGui::TextColored(kGood, TR("loot: %s"), v.rule); else ImGui::TextColored(kWarn, TR("skip: %s"), v.rule);
                 if (!v.detail.empty() && ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(v.detail.c_str()); ImGui::EndTooltip(); }
                 ImGui::TableSetColumnIndex(4);
                 auto ov = c.itemRule.find(it->key);
@@ -791,36 +823,36 @@ namespace ml::gui
     static void TabNearby()
     {
         const loot::Status s = loot::GetStatus();
-        if (!s.started) { ImGui::TextColored(kWarn, "Loot engine not started."); return; }
-        if (!s.resolved) { ImGui::TextColored(kWarn, "Game functions did not resolve; see Status."); return; }
-        if (!s.actorManager) { ImGui::TextDisabled("Waiting for the world to load."); return; }
-        if (!s.playerFound) { ImGui::TextDisabled("Player not found in the scene yet."); return; }
-        ImGui::Text("%d objects within scan range, %d lootable now.", s.candidates, s.lootable);
+        if (!s.started) { ImGui::TextColored(kWarn, TR("Loot engine not started.")); return; }
+        if (!s.resolved) { ImGui::TextColored(kWarn, TR("Game functions did not resolve; see Status.")); return; }
+        if (!s.actorManager) { ImGui::TextDisabled(TR("Waiting for the world to load.")); return; }
+        if (!s.playerFound) { ImGui::TextDisabled(TR("Player not found in the scene yet.")); return; }
+        ImGui::Text(TR("%d objects within scan range, %d lootable now."), s.candidates, s.lootable);
         ImGui::SameLine();
-        if (s.settling) ImGui::TextColored(kWarn, "paused: %s", s.hold);
-        else ImGui::TextDisabled("scan %.1f ms", s.lastScanMs);
-        ImGui::TextDisabled("Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.");
+        if (s.settling) ImGui::TextColored(kWarn, TR("paused: %s"), s.hold);
+        else ImGui::TextDisabled(TR("scan %.1f ms"), s.lastScanMs);
+        ImGui::TextDisabled(TR("Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out."));
 
         static loot::Nearby rows[loot::kNearbyRows];
         const int n = loot::CopyNearby(rows, loot::kNearbyRows);
-        if (s.listed > n) ImGui::TextColored(kWarn, "Showing the nearest %d of %d. The rest are further away.", n, s.listed);
+        if (s.listed > n) ImGui::TextColored(kWarn, TR("Showing the nearest %d of %d. The rest are further away."), n, s.listed);
         if (ImGui::BeginTable("nearby", 4, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
             ImGui::TableSetupScrollFreeze(0, 1);
             ImGui::TableSetupColumn("m", ImGuiTableColumnFlags_WidthFixed, 50 * g_scale);
-            ImGui::TableSetupColumn("Object", ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn("Class", ImGuiTableColumnFlags_WidthFixed, 130 * g_scale);
-            ImGui::TableSetupColumn("Decision", ImGuiTableColumnFlags_WidthFixed, 300 * g_scale);
+            ImGui::TableSetupColumn(TR("Object"), ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn(TR("Class"), ImGuiTableColumnFlags_WidthFixed, 130 * g_scale);
+            ImGui::TableSetupColumn(TR("Decision"), ImGuiTableColumnFlags_WidthFixed, 300 * g_scale);
             ImGui::TableHeadersRow();
             for (int i = 0; i < n; ++i)
             {
                 ImGui::TableNextRow();
                 ImGui::TableSetColumnIndex(0); ImGui::Text("%.1f", rows[i].dist);
-                ImGui::TableSetColumnIndex(1); ImGui::TextUnformatted(rows[i].name);
-                if (ImGui::BeginItemTooltip()) { ImGui::Text("entity %08X", rows[i].eid); ImGui::EndTooltip(); }
-                ImGui::TableSetColumnIndex(2); ImGui::TextDisabled("%s", rows[i].klass);
+                ImGui::TableSetColumnIndex(1); ImGui::TextUnformatted(TR(rows[i].name));
+                if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("entity %08X"), rows[i].eid); ImGui::EndTooltip(); }
+                ImGui::TableSetColumnIndex(2); ImGui::TextDisabled("%s", TR(rows[i].klass));
                 ImGui::TableSetColumnIndex(3);
-                ImGui::TextColored(rows[i].loot ? kGood : kMuted, "%s", rows[i].verdict);
+                ImGui::TextColored(rows[i].loot ? kGood : kMuted, "%s", TR(rows[i].verdict));
             }
             ImGui::EndTable();
         }
@@ -836,8 +868,8 @@ namespace ml::gui
         ImGui::TextColored(kGoldDim, "%s", url);
         ImGui::SameLine();
         ImGui::PushID(url);
-        if (ImGui::SmallButton("Copy")) ImGui::SetClipboardText(url);
-        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Copy to the clipboard."); ImGui::EndTooltip(); }
+        if (ImGui::SmallButton(TR("Copy"))) ImGui::SetClipboardText(url);
+        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Copy to the clipboard.")); ImGui::EndTooltip(); }
         ImGui::PopID();
     }
 
@@ -845,56 +877,56 @@ namespace ml::gui
     {
         const State& st = State::Get();
         const loot::Status s = loot::GetStatus();
-        ImGui::Text("Master Looter v%s for game build %s", ML_VERSION, ML_GAME_BUILD);
+        ImGui::Text(TR("Master Looter v%s for game build %s"), ML_VERSION, ML_GAME_BUILD);
         LinkRow("Mod page", ML_MOD_PAGE);
         LinkRow("Source", ML_SOURCE_URL);
-        ImGui::Text("Settings: %ls", Settings::Path().c_str());
+        ImGui::Text(TR("Settings: %ls"), Settings::Path().c_str());
         ImGui::SameLine();
-        if (ImGui::SmallButton("Reload now")) Settings::Load();
+        if (ImGui::SmallButton(TR("Reload now"))) Settings::Load();
         ImGui::SameLine();
-        if (ImGui::SmallButton("Save now")) Settings::Save();
+        if (ImGui::SmallButton(TR("Save now"))) Settings::Save();
         // Nobody thinks to look in bin64, and the log is the first thing asked
         // for in a report, so the whole path is here with a way to reach it.
         {
             const std::wstring logPath = ml::Paths::File(L"MasterLooter.log");
-            ImGui::Text("Log: %ls", logPath.c_str());
+            ImGui::Text(TR("Log: %ls"), logPath.c_str());
             ImGui::SameLine();
-            if (ImGui::SmallButton("Open folder")) ShellExecuteW(nullptr, L"open", ml::Paths::Dir().c_str(), nullptr, nullptr, SW_SHOWNORMAL);
-            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report."); ImGui::EndTooltip(); }
+            if (ImGui::SmallButton(TR("Open folder"))) ShellExecuteW(nullptr, L"open", ml::Paths::Dir().c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.")); ImGui::EndTooltip(); }
             ImGui::SameLine();
-            if (ImGui::SmallButton("Copy path")) { char buf[512]; snprintf(buf, sizeof buf, "%ls", logPath.c_str()); ImGui::SetClipboardText(buf); }
+            if (ImGui::SmallButton(TR("Copy path"))) { char buf[512]; snprintf(buf, sizeof buf, "%ls", logPath.c_str()); ImGui::SetClipboardText(buf); }
         }
 
-        Section("Overlay");
+        Section(TR("Overlay"));
         OnOff("DirectX 12 hooks", st.hooksOk, "installed", "failed");
         {
             Config& c = Settings::Get();
-            if (ImGui::Checkbox("Wrap the swapchain", &c.wrapSwapChain)) Settings::MarkDirty();
+            if (ImGui::Checkbox(TR("Wrap the swapchain"), &c.wrapSwapChain)) Settings::MarkDirty();
             ImGui::SameLine();
-            ImGui::TextDisabled("takes effect next launch");
+            ImGui::TextDisabled(TR("takes effect next launch"));
             if (ImGui::BeginItemTooltip())
             {
-                ImGui::TextUnformatted("On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\n"
+                ImGui::TextUnformatted(TR("On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\n"
                                        "Off, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, "
                                        "and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another "
-                                       "overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.");
+                                       "overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game."));
                 ImGui::EndTooltip();
             }
         }
         OnOff("Item database", ItemDb::Loaded(), "loaded", "missing MasterLooter.items.tsv");
-        if (ItemDb::Loaded()) { ImGui::SameLine(); ImGui::TextDisabled("%d items, %d classes, %d tags", ItemDb::Count(), static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size())); }
+        if (ItemDb::Loaded()) { ImGui::SameLine(); ImGui::TextDisabled(TR("%d items, %d classes, %d tags"), ItemDb::Count(), static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size())); }
 
-        Section("Loot engine");
+        Section(TR("Loot engine"));
         OnOff("Engine", s.started, s.note, "not started");
         OnOff("Game functions", s.resolved, "resolved", "missing");
         OnOff("Game-thread pump", s.hooked, s.pump, "none");
         OnOff("World (actor manager)", s.actorManager, "found", "waiting");
         if (s.playerFound)
         {
-            ImGui::TextUnformatted("Player"); ImGui::SameLine(220 * g_scale);
-            if (s.bagSlots > 0) ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, bag %d of %d slots, %d items across every store", s.playerEid, s.bagUsed, s.bagSlots, s.inventoryItems);
-            else ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, %d items across every store", s.playerEid, s.inventoryItems);
-            if (s.bagFull) { ImGui::SameLine(); ImGui::TextColored(kWarn, "  bag full"); }
+            ImGui::TextUnformatted(TR("Player")); ImGui::SameLine(220 * g_scale);
+            if (s.bagSlots > 0) ImGui::TextColored(s.bagFull ? kWarn : kGood, TR("entity %08X, bag %d of %d slots, %d items across every store"), s.playerEid, s.bagUsed, s.bagSlots, s.inventoryItems);
+            else ImGui::TextColored(s.bagFull ? kWarn : kGood, TR("entity %08X, %d items across every store"), s.playerEid, s.inventoryItems);
+            if (s.bagFull) { ImGui::SameLine(); ImGui::TextColored(kWarn, TR("  bag full")); }
         }
         else OnOff("Player", false, "", "not found yet");
         OnOff("Event descriptors", s.descriptors == 3, "3 of 3", s.descriptors ? "incomplete" : "not resolved yet");
@@ -903,8 +935,8 @@ namespace ml::gui
         OnOff("Ownership oracle", s.ownerOracle, "captured", "waiting for the game to check an item");
         const char* tbl = s.itemTable == 1 ? "rows verified against our database" : s.itemTable == 2 ? "names readable, rows differ" : s.itemTable == -1 ? "unavailable" : "not probed yet";
         OnOff("Item table", s.itemTable > 0, tbl, tbl);
-        ImGui::Text("Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d", s.scans, s.sent, s.pumpTicks, s.faults, s.learned);
-        ImGui::Text("This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses",
+        ImGui::Text(TR("Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d"), s.scans, s.sent, s.pumpTicks, s.faults, s.learned);
+        ImGui::Text(TR("This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses"),
                     loot::SessionCount(static_cast<int>(events::Action::Take)), loot::SessionCount(static_cast<int>(events::Action::Gather)),
                     loot::SessionCount(static_cast<int>(events::Action::Catch)), loot::SessionCount(static_cast<int>(events::Action::Search)));
 
@@ -913,19 +945,19 @@ namespace ml::gui
             for (int i = 0; i < game::SigCount(); ++i)
             {
                 const game::SigResult& r = game::Sig(i);
-                if (r.addr) ImGui::TextColored(kGood, "%-18s +0x%llX", r.name, static_cast<unsigned long long>(mem::Rva(r.addr)));
-                else ImGui::TextColored(r.required ? kWarn : kMuted, "%-18s %s (%zu hits)%s", r.name, r.hits ? "ambiguous" : "missing", r.hits, r.required ? "  required" : "  optional");
+                if (r.addr) ImGui::TextColored(kGood, TR("%-18s +0x%llX"), r.name, static_cast<unsigned long long>(mem::Rva(r.addr)));
+                else ImGui::TextColored(r.required ? kWarn : kMuted, TR("%-18s %s (%zu hits)%s"), r.name, r.hits ? "ambiguous" : "missing", r.hits, r.required ? "  required" : "  optional");
             }
             ImGui::TreePop();
         }
 
-        Section("Recent loot");
+        Section(TR("Recent loot"));
         static loot::Recent recent[12];
         const int rn = loot::CopyRecent(recent, 12);
-        if (!rn) ImGui::TextDisabled("nothing taken yet this session");
+        if (!rn) ImGui::TextDisabled(TR("nothing taken yet this session"));
         for (int i = 0; i < rn; ++i) ImGui::TextUnformatted(recent[i].text);
 
-        Section("Log");
+        Section(TR("Log"));
         static std::vector<std::string> lines;
         Log::Snapshot(lines, 80);
         if (ImGui::BeginChild("log", ImVec2(0, 0), ImGuiChildFlags_Borders))
@@ -988,19 +1020,19 @@ namespace ml::gui
         {
             // Title strip: serif name in gold, version and close on the right, bronze rule.
             ImGui::PushFont(g_fontHead);
-            ImGui::TextColored(kGold, "MASTER LOOTER");
+            ImGui::TextColored(kGold, TR("MASTER LOOTER"));
             ImGui::PopFont();
             ImGui::SameLine();
             ImGui::TextColored(kTextDim, "  v%s", ML_VERSION);
             const float closeW = ImGui::CalcTextSize("Close").x + ImGui::CalcTextSize("Watch").x + ImGui::GetStyle().FramePadding.x * 4 + ImGui::GetStyle().ItemSpacing.x;
             ImGui::SameLine();
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - closeW);
-            if (ImGui::SmallButton("Watch")) st.menuWatch = true;
-            if (ImGui::BeginItemTooltip()) { ImGui::Text("Keep the menu on screen while you play. %s brings it back, %s closes it.", Settings::KeyName(c.menuKey), Settings::KeyName(c.keyWatch)); ImGui::EndTooltip(); }
+            if (ImGui::SmallButton(TR("Watch"))) st.menuWatch = true;
+            if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("Keep the menu on screen while you play. %s brings it back, %s closes it."), Settings::KeyName(c.menuKey), Settings::KeyName(c.keyWatch)); ImGui::EndTooltip(); }
             ImGui::SameLine();
-            if (ImGui::SmallButton("Close")) open = false;
+            if (ImGui::SmallButton(TR("Close"))) open = false;
             if (st.menuWatch)
-                ImGui::TextColored(kGoldDim, "Watch mode: the game has your controls. %s to interact, %s to close.", Settings::KeyName(c.menuKey), Settings::KeyName(c.keyWatch));
+                ImGui::TextColored(kGoldDim, TR("Watch mode: the game has your controls. %s to interact, %s to close."), Settings::KeyName(c.menuKey), Settings::KeyName(c.keyWatch));
             {
                 const ImVec2 a = ImGui::GetCursorScreenPos();
                 const float w = ImGui::GetContentRegionAvail().x;
