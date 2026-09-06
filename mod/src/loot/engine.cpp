@@ -929,7 +929,10 @@ namespace ml::loot
         {
             const int steal = hooks::WouldSteal(g_me, c.ent);
             if (steal == 1)  return skip("owned by someone (theft)");
-            if (steal == -1) return skip("owner unknown yet");
+            // Not "owner unknown": nothing at all can be taken yet. The game
+            // has to run its own ownership check once before the mod can ask
+            // it anything, and interacting with anything makes that happen.
+            if (steal == -1) return skip("waiting for the game to check ownership once");
         }
         v.loot = true;
         v.why = events::ActionName(v.act);

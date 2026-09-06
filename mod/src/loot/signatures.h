@@ -151,6 +151,24 @@ namespace ml::sig
     inline constexpr unsigned kOff_Bucket_Cap   = 0x14; // u16, how many it holds
     inline constexpr unsigned kOff_Slot_TypeId   = 0x08; // u16, 0xFFFF empty
 
+    // The game builds the ownership call's first argument the same way at six
+    // of its nine call sites: mov rcx,[actor+0x68]; mov rcx,[rcx+0x120]. If
+    // that chain gives the same pointer the game passes, the mod can work it
+    // out from the player instead of waiting to watch a call go by. Observed
+    // and logged for now, not used.
+    inline constexpr unsigned kOff_Own_CtxHolder = 0x68;
+    inline constexpr unsigned kOff_Own_CtxField  = 0x120;
+
+    // The last instruction before the game calls the ownership routine, at six
+    // of its nine call sites: mov rcx, [rcx+0x120]; call own_check. Finding it
+    // gives the fourth argument, which every one of those six passes the same
+    // pointer for, from a lea a little further back. With that and the context
+    // above, the mod can ask the question itself instead of waiting to watch
+    // the game ask it.
+    inline constexpr const char* kSig_OwnCallSite = "48 8B 89 20 01 00 00 E8 ?? ?? ?? ??";
+    inline constexpr unsigned kOff_OwnCallSite_Call = 7;    // the E8
+    inline constexpr unsigned kMax_OwnCallSite_Back = 0x40; // how far back the lea r9 sits
+
     // --- Event body layout --------------------------------------------------
     inline constexpr unsigned kOff_Ev_One      = 0x30;
     inline constexpr unsigned kOff_Ev_Zero40   = 0x40;

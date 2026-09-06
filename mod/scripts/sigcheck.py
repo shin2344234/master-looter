@@ -125,7 +125,7 @@ def main():
     for name, pat in pats:
         hits = scan(buf, secs, pat)
         tag = "ok " if len(hits) == 1 else ("MULTI" if hits else "MISS")
-        if len(hits) != 1 and name not in ("kSig_LeaR8Rip", "kSig_TableResolver16", "kSig_TableIndex"):
+        if len(hits) != 1 and name not in ("kSig_LeaR8Rip", "kSig_TableResolver16", "kSig_TableIndex", "kSig_OwnCallSite"):
             bad += 1
         print("%-5s %-24s hits=%-3d %s" % (tag, name, len(hits), " ".join("+0x%X" % h for h in hits[:6])))
         if len(hits) == 1:
