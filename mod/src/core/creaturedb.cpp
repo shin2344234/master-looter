@@ -75,7 +75,10 @@ namespace ml::CreatureDb
         struct G { const char* w; const char* k; };
         static const G generic[] = {
             { "fish", "fish" }, { "carp", "fish" }, { "trout", "fish" }, { "bass", "fish" }, { "salmon", "fish" }, { "catfish", "fish" }, { "eel", "fish" }, { "perch", "fish" }, { "pike", "fish" },
-            { "underwateronly", "fish" },   // the movement flag fish carry when their model string is out of reach
+            // Model keys and movement flags the engine strings carry. The small bugs have
+            // no character model: their key is cd_effectmonster_normal and they move AirOnly.
+            { "effectmonster", "insect" }, { "aironly", "insect" },
+            { "underwateronly", "fish" }, { "animalwallupwalldownnowater", "animal" },
             { "butterfly", "insect" }, { "beetle", "insect" }, { "dragonfly", "insect" }, { "moth", "insect" }, { "bee", "insect" }, { "bug", "insect" }, { "mantis", "insect" },
             { "grasshopper", "insect" }, { "cicada", "insect" }, { "firefly", "insect" }, { "ladybug", "insect" }, { "cricket", "insect" }, { "locust", "insect" }, { "wasp", "insect" }, { "fly", "insect" },
             { "crab", "seafood" }, { "shrimp", "seafood" }, { "crayfish", "seafood" }, { "lobster", "seafood" }, { "squid", "seafood" }, { "starfish", "seafood" }, { "seahorse", "seafood" }, { "clam", "seafood" },

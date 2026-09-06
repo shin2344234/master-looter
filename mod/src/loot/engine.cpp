@@ -113,25 +113,34 @@ namespace ml::loot
     }
 
     // How far a string may be believed about the creature it hangs off. The
-    // creature's own model, appearance and motion assets name its species
-    // outright (cd_m0002_rat, cd_fish, character/model/2_mon/.../m0003_00_crow);
-    // shared action tables mention several species (upperaction/...,
-    // schedule_action_goose); UI strings name none, and one of them,
-    // common_icon_keyguide_pc_mouse_x1, taught 0.3.9 that beetles were mice.
+    // creature's own model key sits in one slot and names it outright:
+    // cd_fish, cd_m0002_rat, cd_m0003_chicken, cd_common_bird, and for the
+    // small bugs, which have no character model, cd_effectmonster_normal. Its
+    // movement flag is its own too (UnderWaterOnly, AirOnly). Asset paths and
+    // action tables (character/motion/..., upperaction/..., schedule_action_*)
+    // leak in from neighbours, so they rank below the key. UI strings name
+    // nothing, and one of them, common_icon_keyguide_pc_mouse_x1, taught 0.3.9
+    // that beetles were mice.
     static bool HasNoCase(const char* s, const char* sub)
     {
         const size_t n = strlen(sub);
         for (; *s; ++s) if (_strnicmp(s, sub, n) == 0) return true;
         return false;
     }
+    static bool EndsWith(const char* s, const char* suffix)
+    {
+        const size_t n = strlen(s), m = strlen(suffix);
+        return n >= m && strcmp(s + n - m, suffix) == 0;
+    }
     static int Trust(const char* s)
     {
         if (strchr(s, '-') || strchr(s, ',') || strchr(s, ' ')) return 0;   // CSS-like UI class names
-        static const char* ui[] = { "icon", "keyguide", "effect", "click", "font", "texture", "ui/", ".dds", "hud", "preset", "cutscene" };
+        static const char* ui[] = { "icon", "keyguide", "click", "font", "texture", "ui/", ".dds", "hud", "preset", "cutscene" };
         for (const char* u : ui) if (HasNoCase(s, u)) return 0;
-        if (!strncmp(s, "cd_", 3) || !strncmp(s, "character/", 10)) return 3;
-        if (!strncmp(s, "upperaction/", 12) || strstr(s, "schedule_action")) return 2;
-        return 1;
+        const bool path = strchr(s, '/') || strchr(s, '.');
+        if (!path && !strncmp(s, "cd_", 3)) return 3;                                   // the model key
+        if (!path && (EndsWith(s, "Only") || EndsWith(s, "NoWater"))) return 3;         // the movement flag
+        return path ? 2 : 1;
     }
 
     // Reads the strings a slot leads to and keeps the best-trusted species
@@ -185,8 +194,8 @@ namespace ml::loot
         const uintptr_t objs[4] = { ent, actor, status, ai };
         const unsigned  lens[4] = { 0x300, 0x300, 0x400, 0x300 };
         // Every string within two hops is read and the best-trusted match
-        // wins: the creature's own model beats a shared action table, and an
-        // exact creature key (trust 4) ends the search.
+        // wins: the creature's own model key beats a leaked asset path, and
+        // an exact creature key (trust 4) ends the search.
         for (int o = 0; o < 4 && sp.trust < 4; ++o)
         {
             if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
@@ -408,9 +417,10 @@ namespace ml::loot
     // What an item counts as for the kind toggles. The classes come straight
     // from the item database (scripts/build_item_db.py): ore and jewel are
     // minerals from veins, stone from quarries, wood from trees and branches.
-    // `onGround`: an item lying in the world rather than a node's yield. On the
-    // ground "plant" means herbs, flowers and mushrooms; crops such as barley
-    // or a potato are ordinary items there, governed by their class.
+    // "Plant" means herbs, flowers and mushrooms. Crops (a vegetable, fruit or
+    // grain) are food and follow the Ground items toggle and their class rule,
+    // whether still on the plant or lying loose. `onGround`: an item lying in
+    // the world rather than a node's yield.
     static GatherKind KindOf(const Item* y, bool onGround = false)
     {
         if (!y) return GatherKind::Unknown;
@@ -418,10 +428,10 @@ namespace ml::loot
         if (k == "wood"  || y->HasTag("wood"))  return GatherKind::Wood;
         if (k == "stone" || y->HasTag("stone")) return GatherKind::Stone;
         if (k == "ore" || k == "jewel" || y->HasTag("ore") || y->HasTag("mineral")) return GatherKind::Ore;
-        if (onGround) return k == "herb" ? GatherKind::Plant : GatherKind::Item;
-        static const char* plantClasses[] = { "herb", "vegetable", "fruit", "grain", "seed", "alchemy-material" };
-        for (const char* c : plantClasses) if (k == c) return GatherKind::Plant;
-        if (y->HasTag("rare-gather")) return GatherKind::Plant;
+        if (k == "herb") return GatherKind::Plant;
+        if (onGround) return GatherKind::Item;
+        if (k == "vegetable" || k == "fruit" || k == "grain") return GatherKind::Item;
+        if (k == "seed" || k == "alchemy-material" || y->HasTag("rare-gather")) return GatherKind::Plant;
         return GatherKind::Item;
     }
 

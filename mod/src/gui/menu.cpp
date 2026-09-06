@@ -298,7 +298,7 @@ namespace ml::gui
         const Toggle toggles[] = {
             { "Ground items",   &c.pickUpItems,    "Items lying in the world, including drops from enemies." },
             { "Carcasses",      &c.lootCorpses,    "The skinning interaction, once per carcass. Human corpses drop ordinary loot instead." },
-            { "Plants",         &c.gatherPlants,   "Herb and flower nodes, and herbs, flowers and mushrooms lying on the ground. Crops such as barley or potatoes count as ground items and follow their class." },
+            { "Plants",         &c.gatherPlants,   "Herb, flower and mushroom nodes, and the same lying on the ground. Crops such as barley, potatoes or sweet potatoes count as ground items whether still on the plant or lying loose, and follow their class rule." },
             { "Ore",            &c.gatherOre,      "Ore chunks on the ground and any node that yields ore. Veins are broken with a pickaxe by hand; the chunks are picked up here." },
             { "Stone",          &c.gatherStone,    "Stone on the ground and nodes that yield stone." },
             { "Wood",           &c.gatherWood,     "Timber and branches on the ground and nodes that yield them." },
