@@ -309,60 +309,94 @@ namespace ml::game
     int InventoryCapacity() { return g_invCap; }
 
     // ------------------------------------------------- inventory shape ----
-    // Where the bag's limit is kept is not known: every bucket is allocated
-    // 1,460 slots whatever it holds, so nothing there is a capacity. A limit
-    // has to be a field that stays put while the count moves, so the holder
-    // and the two buckets in use are sampled repeatedly with the count beside
-    // them, and only values small enough to be a slot limit are printed.
-    // Debug logging only, a dozen samples a session.
+    // Where the bag's limit is kept is not known. It is not a slot count: all
+    // 18 buckets are allocated 1,460 slots whatever they hold, and nothing in
+    // the bucket that is the bag moves when its contents do. That leaves a
+    // carried weight against a limit, which is how this studio's other games
+    // work, so the search is now for a field that tracks what is carried and a
+    // constant beside it.
+    //
+    // Rather than dump everything, each sample says what CHANGED since the one
+    // before, which is a short line and exactly the question being asked. The
+    // first sample writes the whole holder once so the constants are on record
+    // too. Values are shown as an integer and as a float, since a weight is
+    // likely to be one. Debug logging only.
+    static uint32_t g_shapePrev[0x80];      // holder words, 0x200 bytes
+    static uint32_t g_shapePrevB0[0x40];    // bucket 0 words, 0x100 bytes
+    static bool     g_shapeHave = false;
+
+    static int AppendVal(char* out, int w, int cap, unsigned off, uint32_t was, uint32_t now)
+    {
+        float fw = 0, fn = 0;
+        memcpy(&fw, &was, 4); memcpy(&fn, &now, 4);
+        auto plausible = [](float f) { const float a = f < 0 ? -f : f; return a > 0.001f && a < 1.0e7f; };
+        if (plausible(fw) || plausible(fn))
+            return w + snprintf(out + w, cap - w, " +%X=%u->%u(%.3f->%.3f)", off, was, now, fw, fn);
+        return w + snprintf(out + w, cap - w, " +%X=%u->%u", off, was, now);
+    }
+
     void DumpInventoryShape(uintptr_t me, bool bagFull)
     {
         // Samples are only worth taking when the count has moved: a limit is
-        // the field that does not move with it. One at the start, then one per
-        // change, so filling and emptying the bag inside a session is enough.
+        // the field that does not move with it.
         static int   s_dumps = 0, s_lastN = -1;
         static DWORD s_last = 0;
         const DWORD now = GetTickCount();
         if (s_dumps >= 24) return;
         if (s_dumps && g_invN == s_lastN) return;
         if (s_last && now - s_last < 1500) return;
-        s_lastN = g_invN;
         const uintptr_t comps  = Comps(me);
         const uintptr_t holder = comps ? mem::Deref(comps, kOff_Comps_InvHolder) : 0;
         if (!holder) return;
+        s_lastN = g_invN;
         s_last = now; ++s_dumps;
 
-        char line[1400];
-        int w = snprintf(line, sizeof line, "[shape] %d held%s", g_invN, bagFull ? ", bag reads as full" : "");
-        for (size_t i = 0; i < g_invEach.size() && w < 300; ++i)
-            if (g_invEach[i].second) w += snprintf(line + w, sizeof line - w, " b%u=%d", static_cast<unsigned>(i), g_invEach[i].second);
-        w += snprintf(line + w, sizeof line - w, " | holder:");
-        for (unsigned off = 0; off < 0x200 && w < 1200; off += 4)
-        {
-            uint32_t v = 0;
-            if (!mem::Read32(holder + off, &v) || !v || v > 4096) continue;
-            w += snprintf(line + w, sizeof line - w, " +%X=%u", off, v);
-        }
-        LOG("%s", line);
+        uintptr_t barr = 0, bk0 = 0; uint32_t bn = 0;
+        if (mem::ReadPtr(holder + kOff_Inv_Buckets, &barr) && mem::Read32(holder + kOff_Inv_BucketN, &bn) && bn)
+            mem::ReadPtr(barr, &bk0);
 
-        uintptr_t barr = 0; uint32_t bn = 0;
-        if (!mem::ReadPtr(holder + kOff_Inv_Buckets, &barr) || !mem::Read32(holder + kOff_Inv_BucketN, &bn) || bn > 64) return;
-        for (uint32_t b = 0; b < bn && b < 18; ++b)
+        uint32_t cur[0x80] = {}, cur0[0x40] = {};
+        for (unsigned i = 0; i < 0x80; ++i) mem::Read32(holder + i * 4, &cur[i]);
+        if (bk0) for (unsigned i = 0; i < 0x40; ++i) mem::Read32(bk0 + i * 4, &cur0[i]);
+
+        char line[1500];
+        int w = snprintf(line, sizeof line, "[shape] %d held%s", g_invN, bagFull ? ", bag reads as full" : "");
+        for (size_t i = 0; i < g_invEach.size() && w < 260; ++i)
+            if (g_invEach[i].second) w += snprintf(line + w, sizeof line - w, " b%u=%d", static_cast<unsigned>(i), g_invEach[i].second);
+
+        if (!g_shapeHave)
         {
-            if (b < g_invEach.size() && !g_invEach[b].second) continue;   // only the ones holding something
-            uintptr_t bk = 0;
-            if (!mem::ReadPtr(barr + 8ull * b, &bk)) continue;
-            w = snprintf(line, sizeof line, "[shape]   bucket %u (%d held):", b, b < g_invEach.size() ? g_invEach[b].second : -1);
-            for (unsigned off = 0; off < 0x80 && w < 1200; off += 4)
+            LOG("%s | first sample, whole holder follows", line);
+            for (unsigned base = 0; base < 0x80; base += 32)
             {
-                uint32_t v = 0;
-                if (!mem::Read32(bk + off, &v) || !v || v > 4096) continue;
-                w += snprintf(line + w, sizeof line - w, " +%X=%u", off, v);
+                w = snprintf(line, sizeof line, "[shape]   holder +%03X:", base * 4);
+                for (unsigned i = base; i < base + 32 && i < 0x80; ++i)
+                    if (cur[i]) w += snprintf(line + w, sizeof line - w, " +%X=%u", i * 4, cur[i]);
+                LOG("%s", line);
             }
+            w = snprintf(line, sizeof line, "[shape]   bucket0:");
+            for (unsigned i = 0; i < 0x40; ++i)
+                if (cur0[i]) w += snprintf(line + w, sizeof line - w, " +%X=%u", i * 4, cur0[i]);
             LOG("%s", line);
         }
+        else
+        {
+            w += snprintf(line + w, sizeof line - w, " | holder changed:");
+            int nch = 0;
+            for (unsigned i = 0; i < 0x80 && w < 1300; ++i)
+                if (cur[i] != g_shapePrev[i]) { w = AppendVal(line, w, sizeof line, i * 4, g_shapePrev[i], cur[i]); ++nch; }
+            if (!nch) w += snprintf(line + w, sizeof line - w, " nothing");
+            w += snprintf(line + w, sizeof line - w, " | bucket0 changed:");
+            nch = 0;
+            for (unsigned i = 0; i < 0x40 && w < 1450; ++i)
+                if (cur0[i] != g_shapePrevB0[i]) { w = AppendVal(line, w, sizeof line, i * 4, g_shapePrevB0[i], cur0[i]); ++nch; }
+            if (!nch) w += snprintf(line + w, sizeof line - w, " nothing");
+            LOG("%s", line);
+        }
+        memcpy(g_shapePrev, cur, sizeof cur);
+        memcpy(g_shapePrevB0, cur0, sizeof cur0);
+        g_shapeHave = true;
     }
-
 
     // ------------------------------------------------------------- tables ----
     static int      g_tableState = 0;
