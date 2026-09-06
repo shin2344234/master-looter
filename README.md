@@ -1,34 +1,64 @@
-# Master Looter data
+# Master Looter
 
-Item, item group, drop set and drop source tables for Crimson Desert 2.01.00 (exe 1.0.0.2760), parsed from the game's own static-info files. This is the data layer for the Master Looter mod.
+Auto-loot for Crimson Desert 2.01.00 with an in-game menu.
 
-## Layout
+Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch, every item is filtered through a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game.
 
-scripts/
-- cdtables.py: readers for the .staticinfoheader/.staticinfobody tables and .paloc string tables, plus the ItemInfo record parser. `py -3 cdtables.py summary` must report `bad 0`.
-- dropsets.py: DropSetInfo record parser. `py -3 dropsets.py` prints field statistics and must report `bad 0`.
-- build_item_db.py: tags every item (group tree, name patterns, equip type, record flags) and writes items_tagged.csv/.json, tag_summary.md, unmapped_groups.txt.
-- build_dropsets.py: writes dropsets.json, dropset_entries.csv, item_drop_sets.csv, dropset_summary.md.
-- build_sources.py: finds the drop blocks inside CharacterInfo and GimmickInfo records by validated signature scans and writes character_drops.csv, gimmick_drops.csv, dropset_sources.csv, item_sources.csv, sources.json, sources_summary.md.
-- make_review_page.py, make_dropset_page.py: render the two single-file review pages from the data folder.
-- make_itemdb_tsv.py: exports items_tagged.csv as mod/data/MasterLooter.items.tsv, the table the plugin loads at runtime.
+[Releases](https://github.com/shin2344234/master-looter/releases) · [Plugin manual](mod/README.md) · [Data pipeline](scripts/README.md) · [Nexus description](docs/nexus-description.bbcode)
 
-data/
-- class_overrides.csv: the hand-made per-item corrections build_item_db.py applies (class, tags to add or remove).
-- tag_summary.md, dropset_summary.md, sources_summary.md: the rule lists, counts and record layouts.
-- The full outputs (items_tagged.csv/.json, character_drops.csv, the drop set and source tables, item_groups_tree.txt) are generated locally from your own extracted game files and are not committed: they carry the game's text and tables. The two TSVs the plugin ships with live in mod/data and are committed.
+## What it does
 
-mod/
-- The plugin itself: a C++ ASI with a Dear ImGui menu drawn through a DirectX 12 present hook, live INI settings and the loot rules engine. Build with `mod\build.bat` (needs Build Tools 2022). Details, controls and rule order are in mod/README.md.
+- Twelve switches for what to collect: ground items, carcasses, plants, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers and furniture nodes.
+- Class groups with one click (weapons and armor, damaged gear, food and drink, materials, books and papers, furniture, treasure and keepsakes, and more), a full class table, tag rules and per-item overrides with a live verdict.
+- Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
+- Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
+- Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
+- A Nearby tab lists every object around you with the rule that decided it; a Status tab shows every hook and signature.
+- Watch mode keeps the menu on screen while you play. Keys are rebindable. Works with DLSS frame generation and HDR.
+- Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, and `sigcheck.py` reports what a game patch broke without launching the game.
 
-## Regenerating
+## Installing
 
-1. Extract group 0008 (`*.staticinfo*`) and group 0020 (all `.paloc`) from the game archives into extracted/0008 and extracted/0020 with `paz_unpack.py` from NattKh/CrimsonDesertModdingTools (needs `pip install lz4 cryptography`).
-2. Run, in order: `cdtables.py summary`, `build_item_db.py`, `build_dropsets.py`, `build_sources.py`.
-3. Render the pages: `make_review_page.py out.html` and `make_dropset_page.py out.html`.
+**With Definitive Mod Manager (DMM).** Import `MasterLooter-<version>-DMM.zip` from the [releases](https://github.com/shin2344234/master-looter/releases) (drag it onto the DMM window). DMM registers `MasterLooter.asi` as an ASI add-on, deploys it with its own loader and removes it on uninstall. Disable any other auto-loot mod first: two of them hook the same game functions and the second one to load does nothing.
 
-Record layouts for 2.01.00 and the reasoning behind each field are in the module docstrings and in data/*_summary.md.
+**By hand.** Ultimate ASI Loader (`winmm.dll`) must be in the game's `bin64` folder. Copy `MasterLooter.asi` from `MasterLooter-<version>.zip` into `bin64` next to it while the game is closed. The item database and the creature table are compiled into the plugin. Start the game and press Insert.
 
-## Licence
+Uninstall by deleting the `MasterLooter.*` files from `bin64`. The plugin writes `MasterLooter.ini`, `MasterLooter.log` and `MasterLooter.learned.tsv` next to itself; no game file is modified and nothing is written to a save.
 
-MIT, see LICENSE. The plugin's third-party notices are in mod/THIRD_PARTY_NOTICES.md.
+## Controls
+
+- Insert opens and closes the menu. Escape also closes it.
+- F10 turns auto-loot on and off. F11 loots everything in range once.
+- Home is watch mode: the menu stays up while the game keeps every input. Insert makes it interactive again.
+- While the menu is interactive the game does not see the keyboard, mouse or controller. Key releases still pass so nothing sticks.
+
+## How it decides
+
+A worker thread finds the game's actor manager by its RTTI class name, reads every world object around the player and decides per object. Decisions that pass are queued, and a hook on the game's own per-frame tick sends the game's own loot events (pick up, gather, catch, search carcass), the same events the game sends when you press the interaction key.
+
+Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters, copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, locked nodes, your own equipment and bag contents, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's Take-or-Steal check calls theft. The [plugin manual](mod/README.md) has the details, the safety notes and the known limits.
+
+## Building
+
+Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come with it) and internet on the first configure, which fetches Dear ImGui and MinHook.
+
+    cd mod
+    build.bat
+    py -3 scripts\package.py
+
+`dist\` receives the plugin, the documents and the two release archives. The item database and the creature table in `mod\data` are current for 2.01.00 and are compiled into the plugin; regenerating them after a game patch is described in [scripts/README.md](scripts/README.md). After a patch, `py -3 mod\scripts\sigcheck.py` reports which signatures still resolve against the installed exe.
+
+## Repository layout
+
+- `mod/`: the plugin. `src/core` (paths, log, settings, item and creature databases, rules), `src/hooks` (DirectX 12 present hook and swapchain wrapper, window procedure, XInput), `src/gui` (menu), `src/loot` (signatures, guarded memory access, game structures, event protocol, hooks, engine), `data/` (the two tables), `scripts/` (sigcheck, packaging, the Trinity adaptation script).
+- `scripts/`: the data pipeline that parses the game tables and tags every item.
+- `data/`: the hand-made class overrides and the pipeline summaries. The full generated dumps stay local; see the pipeline README.
+- `docs/`: the Nexus Mods description.
+
+## Licence and credits
+
+MIT, see [LICENSE](LICENSE). Third-party terms are in [mod/THIRD_PARTY_NOTICES.md](mod/THIRD_PARTY_NOTICES.md).
+
+- Trinity by XeTrinityz (MIT): the DirectX 12 present hook, swapchain wrapper and HDR compositing are adapted from it.
+- CDLoot: the reverse engineering of the loot event protocol, the entity layout, the ownership check and node arming. Used as knowledge; the code here is new.
+- Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time. Ultimate ASI Loader, which every ASI mod depends on.

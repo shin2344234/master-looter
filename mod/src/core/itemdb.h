@@ -22,8 +22,9 @@ namespace ml
 
     namespace ItemDb
     {
-        bool Load(); // MasterLooter.items.tsv next to the plugin
+        bool Load(); // MasterLooter.items.tsv next to the plugin, else the copy compiled in
         bool Loaded();
+        const char* Source(); // "built into the plugin" or "file next to the plugin"
         int  Count();
         const Item* Find(uint32_t key);
         const Item* ByRow(int row);                       // runtime type id -> item

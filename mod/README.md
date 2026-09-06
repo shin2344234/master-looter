@@ -4,20 +4,23 @@ An ASI plugin for Crimson Desert 2.01.00: an auto-looter driven by the tagged it
 
 ## Installing
 
-1. Install Ultimate ASI Loader as `winmm.dll` in the game's `bin64` folder if it is not there already (a mod manager such as DMM does this for you).
-2. Remove any other auto-loot mod first. Two of them hook the same game functions and the second one to load does nothing.
-3. Copy `MasterLooter.asi`, `MasterLooter.items.tsv` and `MasterLooter.creatures.tsv` into `bin64` next to `winmm.dll`, with the game closed.
-4. Start the game. Press Insert for the menu; the Status tab shows whether every hook and signature resolved. `MasterLooter.log` next to the plugin says the same in more detail.
+With Definitive Mod Manager (DMM): import `MasterLooter-<version>-DMM.zip` (drag it onto the DMM window). DMM registers `MasterLooter.asi` as an ASI add-on, deploys it with its own loader and removes it again on uninstall. Disable any other auto-loot mod first: two of them hook the same game functions and the second one to load does nothing.
 
-Uninstall by deleting the four `MasterLooter.*` files. No game file is modified and nothing is written to a save.
+By hand:
+
+1. Ultimate ASI Loader (`winmm.dll`) must be in the game's `bin64` folder.
+2. Copy `MasterLooter.asi` into `bin64` next to `winmm.dll`, with the game closed. The item database and the creature table are compiled into the plugin.
+3. Start the game. Press Insert for the menu; the Status tab shows whether every hook and signature resolved. `MasterLooter.log` next to the plugin says the same in more detail.
+
+Uninstall by deleting the `MasterLooter.*` files from `bin64` (the plugin writes `MasterLooter.ini`, `MasterLooter.log` and `MasterLooter.learned.tsv` next to itself). No game file is modified and nothing is written to a save.
 
 ## What is in the box
 
 - `MasterLooter.asi`: the plugin. Draws a Dear ImGui menu over the game through a DirectX 12 present hook (adapted from Trinity, see THIRD_PARTY_NOTICES.md), so it works with DLSS frame generation and HDR.
-- `MasterLooter.items.tsv`: the item database (6,813 items with runtime row id, class, tags, tier and sell value), generated from `data/items_tagged.csv` by `scripts/make_itemdb_tsv.py`. Classes and tags come from the group rules in `scripts/build_item_db.py`; the hand-made corrections for items the rules get wrong (legendary fish, salamanders, ores, horse feed) live in `data/class_overrides.csv`.
+- `MasterLooter.items.tsv`: the item database, compiled into the plugin (a copy next to the plugin overrides the built-in one, for trying a regenerated table): 6,813 items with runtime row id, class, tags, tier and sell value, generated from `data/items_tagged.csv` by `scripts/make_itemdb_tsv.py`. Classes and tags come from the group rules in `scripts/build_item_db.py`; the hand-made corrections for items the rules get wrong (legendary fish, salamanders, ores, horse feed) live in `data/class_overrides.csv`.
 - `MasterLooter.ini`: written next to the plugin on first run, rewritten whenever a setting changes in the menu, and reloaded within a second if edited by hand while the game runs.
 - `MasterLooter.log`: rewritten every launch. Signature resolution, hook installation, the event self test, every item taken and, once per object, why anything within range was skipped.
-- `MasterLooter.creatures.tsv`: every creature the player can catch with the class of the item it becomes, generated from the character data by `scripts/make_creatures_tsv.py`. It is how insects, fish, seafood and small animals are told apart; crabs, shrimp, squid, starfish and seahorses count as fish for the Fish toggle, and rows without an item (monsters, mounts) only serve name matching.
+- `MasterLooter.creatures.tsv`: every creature the player can catch with the class of the item it becomes, compiled into the plugin the same way, generated from the character data by `scripts/make_creatures_tsv.py`. It is how insects, fish, seafood and small animals are told apart; crabs, shrimp, squid, starfish and seahorses count as fish for the Fish toggle, and rows without an item (monsters, mounts) only serve name matching.
 - `MasterLooter.learned.tsv`: what each gather node type yields, learned by watching the bag after a gather, yours or the mod's. It is what tells plants, ore, stone and wood apart; delete it or press Forget to relearn.
 
 ## Controls
@@ -59,7 +62,7 @@ Needs Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come
     build.bat
     py -3 scripts\package.py
 
-Output lands in `dist\`, with the README, licence and notices alongside; `package.py` zips it as `MasterLooter-<version>.zip`. Copy `MasterLooter.asi`, `MasterLooter.items.tsv` and `MasterLooter.creatures.tsv` into the game's `bin64\` next to the ASI loader (`winmm.dll`), or into the DMM mods folder, while the game is closed. The first two data scripts need the game tables extracted into `extracted\` (see the repository README); the committed `mod\data` TSVs are current for 2.01.00, so a plain `build.bat` is enough to build the plugin.
+Output lands in `dist\`, with the README, licence and notices alongside; `package.py` zips it as `MasterLooter-<version>.zip` (plugin and documents) and `MasterLooter-<version>-DMM.zip` (plugin only). Copy `MasterLooter.asi` into the game's `bin64\` next to the ASI loader (`winmm.dll`) while the game is closed, or import the DMM zip. The first two data scripts need the game tables extracted into `extracted\` (see the repository README); the committed `mod\data` TSVs are current for 2.01.00, so a plain `build.bat` is enough to build the plugin.
 
 ## Files
 

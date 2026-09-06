@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(MasterLooter LANGUAGES CXX)
+project(MasterLooter LANGUAGES CXX RC)
 
 # Master Looter: an ASI plugin for Crimson Desert with an in-game ImGui settings menu.
 # Builds MasterLooter.asi; an ASI loader (winmm.dll from Ultimate ASI Loader) injects it.
@@ -61,7 +61,12 @@ add_library(MasterLooter SHARED
     src/loot/hooks.cpp
     src/loot/engine.cpp
     src/loot/farhook.cpp
+    src/resources.rc
 )
+
+# The two data tables are compiled into the plugin (resources.rc); rebuild when they change.
+set_source_files_properties(src/resources.rc PROPERTIES OBJECT_DEPENDS
+    "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv")
 
 target_include_directories(MasterLooter PRIVATE src ${minhook_SOURCE_DIR}/src/hde)
 target_link_libraries(MasterLooter PRIVATE imgui minhook d3d12 dxgi dwmapi imm32 xinput9_1_0)
@@ -75,7 +80,8 @@ if(MSVC)
     target_link_options(MasterLooter PRIVATE /DYNAMICBASE /HIGHENTROPYVA /NXCOMPAT /guard:cf)
 endif()
 
-# Stage a ready-to-copy folder: the plugin plus the item database it reads at runtime.
+# Stage a ready-to-copy folder: the plugin, the data tables it also carries inside
+# (a copy next to the plugin overrides the built-in one), and the documents.
 add_custom_command(TARGET MasterLooter POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/dist"
     COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:MasterLooter>" "${CMAKE_SOURCE_DIR}/dist/"

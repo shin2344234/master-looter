@@ -19,6 +19,7 @@ namespace ml::ItemDb
     static std::vector<std::pair<std::string, int>>     g_classes;
     static std::vector<std::pair<std::string, int>>     g_tags;
     static bool                                         g_loaded = false;
+    static const char*                                  g_source = "none";
 
     static void Split(const std::string& line, std::vector<std::string>& out)
     {
@@ -35,13 +36,10 @@ namespace ml::ItemDb
 
     bool Load()
     {
-        FILE* f = _wfopen(Paths::File(L"MasterLooter.items.tsv").c_str(), L"rb");
-        if (!f) return false;
         std::string text;
-        char buf[65536];
-        size_t n;
-        while ((n = fread(buf, 1, sizeof buf, f)) > 0) text.append(buf, n);
-        fclose(f);
+        bool fromFile = false;
+        if (!Paths::ReadDataText(L"MasterLooter.items.tsv", L"ML_ITEMS_TSV", text, &fromFile)) return false;
+        g_source = fromFile ? "file next to the plugin" : "built into the plugin";
 
         std::map<std::string, int> classCount, tagCount;
         std::vector<std::string> cols;
@@ -99,6 +97,7 @@ namespace ml::ItemDb
     }
 
     bool Loaded() { return g_loaded; }
+    const char* Source() { return g_source; }
     int  Count()  { return static_cast<int>(g_items.size()); }
 
     const Item* Find(uint32_t key)

@@ -1,0 +1,65 @@
+[size=5][b]Master Looter[/b][/size]
+[i]Auto-loot for Crimson Desert 2.01.00 with an in-game menu.[/i]
+
+Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch, every item is filtered through a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game; no ini editing needed.
+
+[size=4][b]Features[/b][/size]
+[list]
+[*]Twelve switches for what to collect: ground items, carcasses, plants, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers, furniture nodes.
+[*]Class groups with one click (weapons and armor, damaged gear, food and drink, materials, books and papers, furniture, treasure and keepsakes, and more), a full class table, tag rules and per-item overrides with a live verdict.
+[*]Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
+[*]Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
+[*]Reaches nodes for you: bushes and other gather nodes are armed from a distance, so you do not have to stand on them.
+[*]A Nearby tab that lists every object around you with the rule that decided it, and a Status tab with every hook and signature.
+[*]Watch mode keeps the menu on screen while you play. Rebindable keys. Works with DLSS frame generation and HDR.
+[*]Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, so a small game update does not necessarily break it, and the Status tab tells you if it did.
+[/list]
+
+[size=4][b]Installation[/b][/size]
+[b]With Definitive Mod Manager (DMM)[/b]
+[list=1]
+[*]Download the DMM file and import it (drag it onto the DMM window). DMM registers MasterLooter.asi as an ASI add-on.
+[*]Remove or disable any other auto-loot mod. Two of them hook the same game functions and the second one to load does nothing.
+[*]Enable it and Mount.
+[/list]
+[b]By hand[/b]
+[list=1]
+[*]Ultimate ASI Loader (winmm.dll) must be in the game's bin64 folder.
+[*]Copy MasterLooter.asi into bin64 next to winmm.dll while the game is closed. The item database and the creature table are built into the plugin.
+[*]Start the game and press Insert.
+[/list]
+Uninstall by deleting the MasterLooter.* files from bin64 (the plugin writes MasterLooter.ini, .log and .learned.tsv next to itself). No game file is modified and nothing is written to a save.
+
+[size=4][b]Controls[/b][/size]
+[list]
+[*][b]Insert[/b] opens and closes the menu. Escape also closes it.
+[*][b]F10[/b] turns auto-loot on and off. [b]F11[/b] loots everything in range once.
+[*][b]Home[/b] is watch mode: the menu stays up while the game keeps every input. Insert makes it interactive again.
+[*]While the menu is interactive the game does not see keyboard, mouse or controller; key releases still pass so nothing sticks.
+[/list]
+All keys are rebindable under General.
+
+[size=4][b]Safety and known limits[/b][/size]
+[list]
+[*]The mod sends the game the same events it sends itself when you press the interaction key, and reads memory only to decide what to send.
+[*]A carcass is searched once per session and never again, whatever the retry setting: searching an empty carcass has been seen to duplicate items, and duplicates are how saves get corrupted.
+[*]No line-of-sight check. Ranges are distances, not visibility. Keep the arming range short or a node behind a thin wall can be gathered.
+[*]Creatures the mod cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified and be left alone.
+[*]Gather nodes are identified by what lands in your bag. A node type the mod has never seen yield anything is left alone until you harvest one by hand or turn Unidentified nodes on.
+[*]Chests and storage boxes open a window rather than hand over an item; they are off by default.
+[*]Single player. Do not use it anywhere it would give you an advantage over other people.
+[/list]
+
+[size=4][b]If something is wrong[/b][/size]
+MasterLooter.log next to the plugin is rewritten every launch. It lists which signatures resolved, and for every object within range that was skipped, once, the rule that skipped it. Post the relevant lines with a report: what was taken or left, where you were, and what you expected.
+
+[size=4][b]Source and licence[/b][/size]
+MIT licensed. Source, build instructions and the data pipeline are on GitHub: [url=https://github.com/shin2344234/master-looter]github.com/shin2344234/master-looter[/url]
+
+[size=4][b]Credits[/b][/size]
+[list]
+[*]Trinity by XeTrinityz (MIT): the DirectX 12 present hook, swapchain wrapper and HDR compositing are adapted from it.
+[*]CDLoot: the reverse engineering of the loot event protocol, the entity layout, the ownership check and node arming. Used as knowledge; the code here is new.
+[*]Dear ImGui and MinHook.
+[*]Ultimate ASI Loader, which every ASI mod depends on.
+[/list]

@@ -66,12 +66,12 @@ namespace ml::Mod
         Log::Claim();
         Settings::Claim();
         if (ItemDb::Load())
-            LOG_OK("Item database loaded: %d items, %d classes, %d tags.", ItemDb::Count(),
+            LOG_OK("Item database loaded (%s): %d items, %d classes, %d tags.", ItemDb::Source(), ItemDb::Count(),
                    static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size()));
         else
-            LOG_ERR("Item database not found next to the plugin (MasterLooter.items.tsv); class and tag rules will be empty.");
-        if (CreatureDb::Load()) LOG_OK("Creature table loaded: %d creatures.", CreatureDb::Count());
-        else LOG_ERR("Creature table not found next to the plugin (MasterLooter.creatures.tsv); creatures cannot be told apart by species.");
+            LOG_ERR("Item database unavailable: neither compiled into the plugin nor next to it as MasterLooter.items.tsv; class and tag rules will be empty.");
+        if (CreatureDb::Load()) LOG_OK("Creature table loaded (%s): %d creatures.", CreatureDb::Source(), CreatureDb::Count());
+        else LOG_ERR("Creature table unavailable: neither compiled into the plugin nor next to it as MasterLooter.creatures.tsv; creatures cannot be told apart by species.");
         State::Get().overlayReady = true;
 
         // The loot engine touches game memory and game functions: only in the game itself.
