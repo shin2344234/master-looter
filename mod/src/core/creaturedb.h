@@ -24,5 +24,11 @@ namespace ml
         // The creature whose string key appears inside `text` (longest wins), e.g.
         // an animation or behaviour asset name that embeds it. Null when none.
         const Creature* InText(const char* text);
+        // Classify by the species words in `text` ("cd_m0002_rat" -> animal, Rat).
+        // Words come from every creature name and key in the table plus a short
+        // generic list. Returns the class ("insect", "fish", "animal",
+        // "amphibian") or null; `creature` gets a representative row when the
+        // word names a specific one.
+        const char* Classify(const char* text, const Creature** creature);
     }
 }

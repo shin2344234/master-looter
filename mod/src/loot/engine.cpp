@@ -68,100 +68,84 @@ namespace ml::loot
         char key[64] = "";   // engine string key from the live table
         char node[64] = "";  // gimmick node name
         const Item* db = nullptr;
-        const Creature* species = nullptr;
+        const Creature* species = nullptr;   // a specific creature, when one is named
+        const char* speciesClass = nullptr;  // "insect", "fish", "animal", "amphibian" or null
     };
 
     // --- creature species -------------------------------------------------------
-    // Nothing in the entity says what a creature is, but somewhere it points at
-    // its CharacterInfo row, and every row keeps its string key at +0x08. The
-    // first hit fixes which object and slot to read; a miss is remembered per
-    // entity so a creature is only searched once.
-    static int s_spObj = -1, s_spOff = -1, s_spOff2 = -1;   // object 0 entity, 1 actor, 2 status, 3 ai; second hop offset
+    // Nothing in the entity names its species, but the animation and schedule
+    // assets it drags along do ("cd_m0002_rat", "schedule_action_goose"), and
+    // every game data row keeps its key at +0x08. Every string reachable within
+    // two hops of the creature is read and classified by the species words it
+    // contains. The result is cached per entity; a miss is remembered too.
+    struct Species { const Creature* row; const char* klass; };
+    static std::unordered_map<uint32_t, Species> g_speciesByEid;
     static std::unordered_set<uint32_t> g_speciesMiss;
-    // A pointer slot may lead to a data row (string key at +0x08), to a string
-    // object itself, or to something holding a string a little further in.
-    static int s_spField = -1;
-    static const Creature* ReadSpeciesAt(uintptr_t obj, unsigned off, char* probe = nullptr, size_t probeLen = 0)
+
+    static bool ReadStringsAt(uintptr_t obj, unsigned off, Species* out, char* probe, size_t probeLen)
     {
         const uintptr_t q = mem::Deref(obj, off);
-        if (!q || mem::InImage(q)) return nullptr;
-        static const unsigned fields[] = { 0x08, 0x00, 0x10, 0x18, 0x20 };
-        char buf[96];
+        if (!q || mem::InImage(q)) return false;
+        static const unsigned fields[] = { 0x00, 0x08, 0x10, 0x18, 0x20 };
+        char buf[128];
         for (unsigned f : fields)
         {
-            if (s_spField >= 0 && static_cast<unsigned>(s_spField) != f && !probe) continue;
             if (!mem::ReadEngineString(q + f, buf, sizeof buf)) continue;
-            if (probe && probeLen > strlen(buf) + 4) { strncat(probe, buf, probeLen - strlen(probe) - 2); strncat(probe, " ", probeLen - strlen(probe) - 1); }
-            const Creature* c = CreatureDb::ByKey(buf);
-            if (!c) c = CreatureDb::InText(buf);
-            if (c) { s_spField = static_cast<int>(f); return c; }
+            if (probe && probeLen > strlen(probe) + strlen(buf) + 4) { strncat(probe, buf, probeLen - strlen(probe) - 2); strncat(probe, " ", probeLen - strlen(probe) - 1); }
+            const Creature* row = CreatureDb::ByKey(buf);
+            if (!row) row = CreatureDb::InText(buf);
+            if (row) { out->row = row; out->klass = row->klass == "insect" ? "insect" : row->klass == "fish" ? "fish" : row->klass == "amphibian" ? "amphibian" : "animal"; return true; }
+            const Creature* named = nullptr;
+            const char* klass = CreatureDb::Classify(buf, &named);
+            if (klass) { out->row = named; out->klass = klass; return true; }
         }
-        return nullptr;
+        return false;
     }
-    static const Creature* FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai)
+
+    static Species FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai, uint8_t cat2)
     {
-        if (!CreatureDb::Loaded()) return nullptr;
+        Species sp{ nullptr, nullptr };
+        if (!CreatureDb::Loaded()) return sp;
+        auto hit = g_speciesByEid.find(eid);
+        if (hit != g_speciesByEid.end()) return hit->second;
+        if (g_speciesMiss.count(eid)) return sp;
+        static int s_dumped05 = 0, s_dumped09 = 0;
+        int& dumped = cat2 == 0x05 ? s_dumped05 : s_dumped09;
+        const bool dump = dumped < 6;
+        char probe[900] = "";
         const uintptr_t objs[4] = { ent, actor, status, ai };
         const unsigned  lens[4] = { 0x200, 0x200, 0x300, 0x200 };
-        if (s_spObj >= 0)
-        {
-            if (const Creature* c = ReadSpeciesAt(objs[s_spObj], static_cast<unsigned>(s_spOff))) return c;
-        }
-        if (g_speciesMiss.count(eid)) return nullptr;
-        static const char* names[4] = { "entity", "actor", "status component", "ai component" };
-        // Diagnostic: every string reachable within two hops of the first few
-        // creatures, so the object graph is visible even when nothing matches.
-        static int s_dumped = 0;
-        char probe[900] = "";
-        const bool dump = s_dumped < 6;
-        for (int o = 0; o < 4; ++o)
+        bool found = false;
+        for (int o = 0; o < 4 && !found; ++o)
         {
             if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
-            for (unsigned off = 0; off < lens[o]; off += 8)
+            for (unsigned off = 0; off < lens[o] && !found; off += 8)
             {
-                const Creature* c = ReadSpeciesAt(objs[o], off, dump ? probe : nullptr, sizeof probe);
-                if (!c) continue;
-                if (s_spObj != o || s_spOff != static_cast<int>(off))
-                {
-                    s_spObj = o; s_spOff = static_cast<int>(off); s_spOff2 = -1;
-                    LOG_OK("[species] creature rows are reachable from the %s at +0x%X (%s is %s)", names[o], off, c->stringKey.c_str(), c->name.c_str());
-                }
-                return c;
-            }
-        }
-        // Two hops: an object hanging off one of those, holding the row.
-        if (s_spObj >= 0 && s_spOff2 >= 0)
-        {
-            const uintptr_t mid = mem::Deref(objs[s_spObj], static_cast<unsigned>(s_spOff));
-            if (const Creature* c = mid ? ReadSpeciesAt(mid, static_cast<unsigned>(s_spOff2)) : nullptr) return c;
-        }
-        for (int o = 0; o < 4; ++o)
-        {
-            if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
-            for (unsigned off = 0; off < lens[o]; off += 8)
-            {
+                if (ReadStringsAt(objs[o], off, &sp, dump ? probe : nullptr, sizeof probe)) { found = true; break; }
                 const uintptr_t mid = mem::Deref(objs[o], off);
                 if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x180)) continue;
                 for (unsigned off2 = 0; off2 < 0x180; off2 += 8)
-                {
-                    const Creature* c = ReadSpeciesAt(mid, off2, dump ? probe : nullptr, sizeof probe);
-                    if (!c) continue;
-                    s_spObj = o; s_spOff = static_cast<int>(off); s_spOff2 = static_cast<int>(off2);
-                    LOG_OK("[species] creature rows are reachable from the %s at +0x%X then +0x%X (%s is %s)", names[o], off, off2, c->stringKey.c_str(), c->name.c_str());
-                    return c;
-                }
+                    if (ReadStringsAt(mid, off2, &sp, dump ? probe : nullptr, sizeof probe)) { found = true; break; }
             }
+        }
+        if (found)
+        {
+            if (g_speciesByEid.size() > 4096) g_speciesByEid.clear();
+            g_speciesByEid[eid] = sp;
+            static int s_hits = 0;
+            if (s_hits < 30) { ++s_hits; LOG("[species] %08X (byte %02X) is %s: %s", eid, cat2, sp.klass, sp.row ? sp.row->name.c_str() : "species word only"); }
+            return sp;
         }
         if (dump)
         {
-            ++s_dumped;
+            ++dumped;
             uintptr_t vt = 0, ti = 0; mem::ReadPtr(ent, &vt); mem::ReadPtr(ent + kOff_Ent_TypeInfo, &ti);
-            LOG("[species] no match for %08X (vtable +0x%llX typeinfo %llX); strings seen: %s", eid,
+            LOG("[species] no match for %08X (byte %02X, vtable +0x%llX typeinfo %llX); strings seen: %s", eid, cat2,
                 static_cast<unsigned long long>(mem::Rva(vt)), static_cast<unsigned long long>(ti), probe[0] ? probe : "(none)");
         }
         if (g_speciesMiss.size() > 4096) g_speciesMiss.clear();
         g_speciesMiss.insert(eid);
-        return nullptr;
+        return sp;
     }
 
     struct Verdict { bool loot = false; Action act = Action::Take; const char* why = ""; char detail[40] = ""; };
@@ -342,7 +326,10 @@ namespace ml::loot
 
     // What kind of thing a gather node is, from what it yields.
     enum class GatherKind { Unknown, Plant, Ore, Stone, Wood, Item };
-    static GatherKind KindOf(const Item* y)
+    // `onGround`: an item lying in the world rather than a node's yield. On the
+    // ground "plant" means herbs, flowers and mushrooms; crops such as barley
+    // or a potato are ordinary items there, governed by their class.
+    static GatherKind KindOf(const Item* y, bool onGround = false)
     {
         if (!y) return GatherKind::Unknown;
         const std::string& nm = y->name;
@@ -356,6 +343,12 @@ namespace ml::loot
                           || (nm.size() >= 3 && nm.compare(nm.size() - 3, 3, "Ore") == 0) || nm.find(" Ore ") != std::string::npos
                           || key == "Item_Rare_Collect_Platinum";
         if (mineral) return GatherKind::Ore;
+        if (onGround)
+        {
+            if (y->klass == "herb") return GatherKind::Plant;
+            if (y->klass == "alchemy-material" && nm.find("Mushroom") != std::string::npos) return GatherKind::Plant;
+            return GatherKind::Item;
+        }
         static const char* plantClasses[] = { "herb", "vegetable", "fruit", "grain", "seed", "alchemy-material" };
         for (const char* c : plantClasses) if (y->klass == c) return GatherKind::Plant;
         if (y->HasTag("rare-gather")) return GatherKind::Plant;
@@ -473,7 +466,10 @@ namespace ml::loot
         }
         // Live creatures: which species, from the CharacterInfo row they point at.
         if (k.ai && !k.inter && k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
-            k.species = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai));
+        {
+            const Species sp = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai), k.cat2);
+            k.species = sp.row; k.speciesClass = sp.klass;
+        }
         if (k.gather && k.tid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.tid; }
         if (g_actorEid.size() > 4096) g_actorEid.clear();
         g_actorEid[comps] = k.eid;
@@ -577,17 +573,18 @@ namespace ml::loot
         case Action::Search: if (!cfg.lootCorpses) return skip("carcasses off"); break;
         case Action::Catch:
         {
-            if (c.species)
+            if (c.speciesClass)
             {
-                const std::string& cl = c.species->klass;
+                const std::string cl = c.speciesClass;
                 if (cl == "insect")    { if (!cfg.catchInsects) return skip("insects off"); }
                 else if (cl == "fish") { if (!cfg.catchFish)    return skip("fish off"); }
                 else                   { if (!cfg.catchAnimals) return skip("small animals off"); }
-                if (const Item* it = ItemDb::ByRow(c.species->itemRow))
-                {
-                    const Rules::Verdict r = Rules::Decide(*it, cfg);
-                    if (!r.loot) { snprintf(v.detail, sizeof v.detail, "%s", r.detail.c_str()); v.loot = false; v.why = r.rule; return v; }
-                }
+                if (c.species)
+                    if (const Item* it = ItemDb::ByRow(c.species->itemRow))
+                    {
+                        const Rules::Verdict r = Rules::Decide(*it, cfg);
+                        if (!r.loot) { snprintf(v.detail, sizeof v.detail, "%s", r.detail.c_str()); v.loot = false; v.why = r.rule; return v; }
+                    }
             }
             else if (c.cat2 == 0x05) { if (!cfg.catchFish || !cfg.catchInsects) return skip("unidentified: could be a fish or a flying insect"); }
             else                     { if (!cfg.catchInsects || !cfg.catchAnimals) return skip("unidentified: could be an insect or a small animal"); }
@@ -612,7 +609,7 @@ namespace ml::loot
             if (!cfg.pickUpItems) return skip("pick up off");
             // Ore, stone and wood reach the ground as drops from broken nodes;
             // the same toggles cover the chunks.
-            switch (KindOf(c.db))
+            switch (KindOf(c.db, true))
             {
             case GatherKind::Plant: if (!cfg.gatherPlants) return skip("plants off"); break;
             case GatherKind::Ore:   if (!cfg.gatherOre)   return skip("ore off"); break;
@@ -652,6 +649,7 @@ namespace ml::loot
         if (c.node[0]) return c.node;
         if (c.dead == 1) return "corpse";
         if (c.species) return c.species->name.c_str();
+        if (c.speciesClass) return c.speciesClass;
         if (c.ai) return "creature";
         return c.inter ? "object" : "entity";
     }
@@ -842,7 +840,7 @@ namespace ml::loot
             {
                 Nearby n{}; n.eid = list[i].eid; n.dist = list[i].d; n.loot = verdicts[i].loot;
                 strncpy(n.name, Label(list[i]), sizeof n.name - 1);
-                strncpy(n.klass, list[i].db ? list[i].db->klass.c_str() : list[i].species ? list[i].species->klass.c_str() : (list[i].gather ? "gather node" : list[i].dead == 1 ? "corpse" : ""), sizeof n.klass - 1);
+                strncpy(n.klass, list[i].db ? list[i].db->klass.c_str() : list[i].speciesClass ? list[i].speciesClass : (list[i].gather ? "gather node" : list[i].dead == 1 ? "corpse" : ""), sizeof n.klass - 1);
                 if (verdicts[i].detail[0]) snprintf(n.verdict, sizeof n.verdict, "%s: %s", verdicts[i].why, verdicts[i].detail);
                 else strncpy(n.verdict, verdicts[i].why, sizeof n.verdict - 1);
                 nearby.push_back(n);
