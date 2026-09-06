@@ -9,7 +9,7 @@ Two places matter. Menu labels and tooltips are wrapped in TR() by hand. The
 Nearby table's Decision column shows text the engine produced, which is passed
 through TR() at the point it is drawn, so those literals are collected as well.
 
-Writes mod/data/MasterLooter.template.txt.
+Writes docs/MasterLooter.template.txt, which is the copy a translator is given.
 """
 
 import os
@@ -17,7 +17,9 @@ import re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "..", "mod", "src")
-OUT = os.path.join(HERE, "..", "mod", "data", "MasterLooter.template.txt")
+# docs/, not mod/data/: this is for a translator to pick up, not something the
+# plugin compiles in, and the three tables next to it are the latter.
+OUT = os.path.join(HERE, "..", "docs", "MasterLooter.template.txt")
 
 # One literal, or several adjacent ones the compiler joins before TR sees them.
 LIT = r'"(?:[^"\\]|\\.)*"(?:\s*"(?:[^"\\]|\\.)*")*'

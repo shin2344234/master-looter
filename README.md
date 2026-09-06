@@ -15,7 +15,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
 - Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up each time the game starts and the last twelve are kept, so a version with different defaults is one button to undo. Anything that overwrites or discards asks first.
 - A notice appears when the bag is full, read from the bag's own slot count, so it shows the moment it fills whether or not you are looting. Turn it off under General.
-- The menu is translatable: it writes a template of every line it shows, and a partial translation leaves the rest in English.
+- The menu is translatable. A ready-made [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
 - A Nearby tab lists the objects around you, nearest first, with the rule that decided each one and a note when there are more than it can show; a Status tab shows every hook and signature.
 - Watch mode keeps the menu on screen while you play. Every key is rebindable, and each one can also be a two-button controller shortcut. The overlay works with DLSS frame generation and HDR.
 - Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, and `sigcheck.py` reports what a game patch broke without launching the game.
@@ -60,7 +60,7 @@ Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come with 
 - `mod/`: the plugin. `src/core` (paths, log, settings, item and creature databases, rules), `src/hooks` (DirectX 12 present hook and swapchain wrapper, window procedure, XInput), `src/gui` (menu), `src/loot` (signatures, guarded memory access, game structures, event protocol, hooks, engine), `data/` (the two tables), `scripts/` (sigcheck, packaging, the Trinity adaptation script).
 - `scripts/`: the data pipeline that parses the game tables and tags every item.
 - `data/`: the hand-made class overrides and the pipeline summaries. The full generated dumps stay local; see the pipeline README.
-- `docs/`: the [Nexus Mods](https://www.nexusmods.com/crimsondesert/mods/3402) page text, header images and changelogs.
+- `docs/`: the [Nexus Mods](https://www.nexusmods.com/crimsondesert/mods/3402) page text, header images, changelogs and the translation template.
 
 ## Licence and credits
 

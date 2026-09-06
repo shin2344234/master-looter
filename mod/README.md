@@ -50,8 +50,8 @@ If the game will not launch alongside another overlay mod, set `WrapSwapChain=0`
 
 The menu can be shown in another language. Every English string is its own key, so a translation that only covers half the menu leaves the other half in English rather than showing gaps.
 
-1. Play with the menu open and visit every tab. A line is only listed once it has been drawn.
-2. General, Language, press `Write translation template`. That writes `MasterLooter.template.txt` beside the plugin.
+1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 196 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
+2. Or make your own from the running game: play with the menu open, visit every tab, then General, Language, press `Write translation template`. That writes the file beside the plugin, but only the lines that have actually been drawn.
 3. Each record is the English, a tab, then your translation. `
 ` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.
 4. Keep every `%d`, `%s` and `%.1f` exactly as they appear and in the same order. They are replaced with numbers and names at runtime, and a line that changes them is refused at load rather than risked, since it would read the wrong values.
