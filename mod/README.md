@@ -57,8 +57,9 @@ Needs Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come
     py -3 ..\scripts\make_itemdb_tsv.py
     py -3 ..\scripts\make_creatures_tsv.py
     build.bat
+    py -3 scripts\package.py
 
-Output lands in `dist\`. Copy `MasterLooter.asi`, `MasterLooter.items.tsv` and `MasterLooter.creatures.tsv` into the game's `bin64\` next to the ASI loader (`winmm.dll`), or into the DMM mods folder, while the game is closed.
+Output lands in `dist\`, with the README, licence and notices alongside; `package.py` zips it as `MasterLooter-<version>.zip`. Copy `MasterLooter.asi`, `MasterLooter.items.tsv` and `MasterLooter.creatures.tsv` into the game's `bin64\` next to the ASI loader (`winmm.dll`), or into the DMM mods folder, while the game is closed. The first two data scripts need the game tables extracted into `extracted\` (see the repository README); the committed `mod\data` TSVs are current for 2.01.00, so a plain `build.bat` is enough to build the plugin.
 
 ## Files
 
@@ -66,7 +67,11 @@ Output lands in `dist\`. Copy `MasterLooter.asi`, `MasterLooter.items.tsv` and `
 - `src/hooks`: DX12 present hook and swapchain wrapper, window procedure subclass, XInput neutraliser.
 - `src/gui`: style, menu key polling, the menu and HUD.
 - `src/loot`: signatures, guarded memory and pattern scanning, game structures, the event protocol, MinHook detours, and the engine itself.
-- `scripts/adapt_trinity_dx12.py` regenerates the DX12 files from a Trinity checkout; `scripts/sigcheck.py` checks the signatures offline.
+- `scripts/adapt_trinity_dx12.py` regenerates the DX12 files from a Trinity checkout; `scripts/sigcheck.py` checks the signatures offline; `scripts/package.py` zips a release.
+
+## Licence
+
+MIT, see the LICENSE file in the repository root. Third-party terms are in THIRD_PARTY_NOTICES.md.
 
 ## Credits
 

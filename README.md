@@ -14,7 +14,9 @@ scripts/
 - make_itemdb_tsv.py: exports items_tagged.csv as mod/data/MasterLooter.items.tsv, the table the plugin loads at runtime.
 
 data/
-- The outputs listed above, plus item_groups_tree.txt (the full item group hierarchy with English names).
+- class_overrides.csv: the hand-made per-item corrections build_item_db.py applies (class, tags to add or remove).
+- tag_summary.md, dropset_summary.md, sources_summary.md: the rule lists, counts and record layouts.
+- The full outputs (items_tagged.csv/.json, character_drops.csv, the drop set and source tables, item_groups_tree.txt) are generated locally from your own extracted game files and are not committed: they carry the game's text and tables. The two TSVs the plugin ships with live in mod/data and are committed.
 
 mod/
 - The plugin itself: a C++ ASI with a Dear ImGui menu drawn through a DirectX 12 present hook, live INI settings and the loot rules engine. Build with `mod\build.bat` (needs Build Tools 2022). Details, controls and rule order are in mod/README.md.
@@ -26,3 +28,7 @@ mod/
 3. Render the pages: `make_review_page.py out.html` and `make_dropset_page.py out.html`.
 
 Record layouts for 2.01.00 and the reasoning behind each field are in the module docstrings and in data/*_summary.md.
+
+## Licence
+
+MIT, see LICENSE. The plugin's third-party notices are in mod/THIRD_PARTY_NOTICES.md.

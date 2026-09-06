@@ -6,3 +6,16 @@ __pycache__/
 *.pyc
 mod/build/
 mod/dist/
+# generated from the extracted game tables; they carry the game's own text, so they stay local
+data/items_tagged.csv
+data/items_tagged.json
+data/character_drops.csv
+data/dropsets.json
+data/dropset_entries.csv
+data/dropset_sources.csv
+data/item_drop_sets.csv
+data/item_sources.csv
+data/gimmick_drops.csv
+data/sources.json
+data/item_groups_tree.txt
+data/unmapped_groups.txt
