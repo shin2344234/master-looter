@@ -32,6 +32,20 @@ Ultimate ASI Loader (`winmm.dll`) must be in the game's `bin64` folder. Copy `Ma
 
 Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself, plus `MasterLooter.presets` and `MasterLooter.backups`; no game file is modified and nothing is written to a save.
 
+## Antivirus
+
+Four scanners out of seventy flag `MasterLooter.asi`, and all four are machine-learning models: Microsoft (`Trojan:Win32/Wacatac.C!ml`), Symantec (`ML.Attribute.HighConfidence`), Cynet and Deep Instinct. Two of them put the reason in the name. `!ml` and `ML.Attribute` mean a model guessed from the shape of the file, not that a scanner matched anything known. Kaspersky, ESET, BitDefender, Sophos, Avast, Fortinet, Dr.Web, Malwarebytes and the sixty-six others that scanned it read the same file as clean. Nexus runs every upload through VirusTotal, so the reports are public: [the DMM package](https://www.virustotal.com/gui/file/8b2b8eb6002b44137d12942067d81878143bb6801165a60672f19ceb30d3f8a6) and [the plugin inside it](https://www.virustotal.com/gui/file/479ecd050d888a50c10d903f4486e5ad1a84f30fbf9f0c6fb8cd2eab2e423188).
+
+The guess is easy to explain. The plugin is an unsigned DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer. Nothing about the file argues back: it carries no code signing certificate, and a release a day old has no install history behind it.
+
+What it does not do is reach the network. It imports no networking library, and the entire import list is `d3d12`, `dxgi`, `imm32`, `xinput9_1_0`, `kernel32`, `user32`, `gdi32`, `shell32` and `d3dcompiler_47`. It writes `MasterLooter.ini`, `MasterLooter.log`, `MasterLooter.presets` and `MasterLooter.backups` beside itself and nothing else, reads and writes no registry key, and installs nothing that outlives the game process. Every line is in this repository, and `build.bat` will produce the file for you if you would rather not trust mine.
+
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.2.1:
+
+    8b2b8eb6002b44137d12942067d81878143bb6801165a60672f19ceb30d3f8a6  MasterLooter-1.2.1-DMM.zip
+    5e8faf5d158fdc8749128d257d4df13af90f7591a6f9f69d1aa3ed3dce7b7a08  MasterLooter-1.2.1.zip
+    479ecd050d888a50c10d903f4486e5ad1a84f30fbf9f0c6fb8cd2eab2e423188  MasterLooter.asi
+
 ## Controls
 
 - Insert opens and closes the menu. Escape also closes it.
