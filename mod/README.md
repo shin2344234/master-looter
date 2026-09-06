@@ -46,6 +46,17 @@ Several ASI mods drawing an overlay end up on the same DirectX code, and the ord
 
 If the game will not launch alongside another overlay mod, set `WrapSwapChain=0` in `MasterLooter.ini`, which can be edited without starting the game. That leaves the swapchain alone and draws the overlay through the present hook instead. The only thing lost is the overlay while DLSS frame generation is on. The same switch is in the Status tab.
 
+## Translating the menu
+
+The menu can be shown in another language. Every English string is its own key, so a translation that only covers half the menu leaves the other half in English rather than showing gaps.
+
+1. Play with the menu open and visit every tab. A line is only listed once it has been drawn.
+2. General, Language, press `Write translation template`. That writes `MasterLooter.template.txt` beside the plugin.
+3. Each record is the English, a tab, then your translation. `
+` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.
+4. Keep every `%d`, `%s` and `%.1f` exactly as they appear and in the same order. They are replaced with numbers and names at runtime, and a line that changes them is refused at load rather than risked, since it would read the wrong values.
+5. Save it as `MasterLooter.<language>.txt`, for example `MasterLooter.de.txt`, and put `de` in the Language box, or `Language=de` in `MasterLooter.ini`.
+
 ## Safety and known limits
 
 - The mod sends the game the same events the game sends itself when you press the interaction key, and reads memory only to decide what to send. It never writes game memory apart from its own hooks.
