@@ -17,7 +17,7 @@ data/
 - The outputs listed above, plus item_groups_tree.txt (the full item group hierarchy with English names).
 
 mod/
-- The plugin itself: a C++ ASI with a Dear ImGui menu drawn through a DirectX 12 present hook, live INI settings and the loot rules engine. Build with `moduild.bat` (needs Build Tools 2022). Details, controls and rule order are in mod/README.md.
+- The plugin itself: a C++ ASI with a Dear ImGui menu drawn through a DirectX 12 present hook, live INI settings and the loot rules engine. Build with `mod\build.bat` (needs Build Tools 2022). Details, controls and rule order are in mod/README.md.
 
 ## Regenerating
 

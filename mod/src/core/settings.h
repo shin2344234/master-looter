@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <map>
+#include <mutex>
 #include <string>
 
 namespace ml
@@ -22,7 +23,7 @@ namespace ml
         // what to collect
         bool  lootCorpses    = true;
         bool  pickUpItems    = true;
-        bool  gatherPlants   = true;   // herbs, mushrooms, crops: any material a node yields that is not below
+        bool  gatherPlants   = true;   // herbs, flowers, mushrooms and seeds; crops follow pickUpItems
         bool  gatherOre      = true;
         bool  gatherStone    = true;
         bool  gatherWood     = true;
@@ -71,5 +72,11 @@ namespace ml
         const std::wstring& Path();
         int  Generation();           // bumps on every load
         const char* KeyName(int vk); // human name for a virtual-key code
+
+        // The live Config is edited on the render thread (menu, hot reload) and
+        // read on the loot worker. The render thread holds this while it draws;
+        // the worker copies under it once per pass instead of reading live maps.
+        std::recursive_mutex& Mutex();
+        Config Snapshot();
     }
 }

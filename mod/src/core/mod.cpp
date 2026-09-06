@@ -39,6 +39,7 @@ namespace ml::Mod
         if (MH_Initialize() != MH_OK)
         {
             LOG_ERR("MinHook initialization failed.");
+            Log::Claim();   // the failure must reach the disk even though no frame will ever be presented
             return;
         }
 
@@ -46,6 +47,7 @@ namespace ml::Mod
         {
             LOG_ERR("DX12 hooks failed; no menu this session.");
             MH_Uninitialize();
+            Log::Claim();
             return;
         }
         State::Get().hooksOk = true;
@@ -77,15 +79,21 @@ namespace ml::Mod
         else LOG("Host is not CrimsonDesert.exe; loot engine not started.");
     }
 
-    void Shutdown()
+    void Shutdown(bool terminating)
     {
         if (!g_initialized)
             return;
+        g_initialized = false;
+        if (terminating)
+        {
+            Settings::Save();
+            Log::Shutdown();
+            return;
+        }
         loot::Stop();
         Settings::Save();
         hooks::RemoveDX12Hooks();
         MH_Uninitialize();
         Log::Shutdown();
-        g_initialized = false;
     }
 }

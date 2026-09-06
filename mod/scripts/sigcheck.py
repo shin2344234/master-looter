@@ -14,7 +14,33 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HDR = os.path.join(HERE, "..", "src", "loot", "signatures.h")
-EXE = sys.argv[1] if len(sys.argv) > 1 else r"D:\SteamLibrary\steamapps\common\Crimson Desert\bin64\CrimsonDesert.exe"
+
+
+def default_exe():
+    """The installed CrimsonDesert.exe: every Steam library the registry knows, then the usual folders."""
+    libs = []
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Valve\Steam") as k:
+            steam = winreg.QueryValueEx(k, "SteamPath")[0].replace("/", "\\")
+        libs.append(steam)
+        vdf = os.path.join(steam, "steamapps", "libraryfolders.vdf")
+        if os.path.exists(vdf):
+            for m in re.finditer(r'"path"\s+"([^"]+)"', open(vdf, encoding="utf-8", errors="replace").read()):
+                libs.append(m.group(1).replace("\\\\", "\\"))
+    except OSError:
+        pass
+    libs += [r"C:\Program Files (x86)\Steam", r"D:\SteamLibrary", r"E:\SteamLibrary"]
+    for lib in libs:
+        exe = os.path.join(lib, "steamapps", "common", "Crimson Desert", "bin64", "CrimsonDesert.exe")
+        if os.path.exists(exe):
+            return exe
+    return None
+
+
+EXE = sys.argv[1] if len(sys.argv) > 1 else default_exe()
+if not EXE or not os.path.exists(EXE):
+    sys.exit("CrimsonDesert.exe not found; pass its path: py -3 sigcheck.py <path\\to\\CrimsonDesert.exe>")
 
 
 def pe_sections(buf):

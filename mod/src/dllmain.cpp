@@ -9,7 +9,7 @@ static DWORD WINAPI MainThread(LPVOID)
     return 0;
 }
 
-BOOL APIENTRY DllMain(HMODULE module, DWORD reason, LPVOID)
+BOOL APIENTRY DllMain(HMODULE module, DWORD reason, LPVOID reserved)
 {
     switch (reason)
     {
@@ -17,10 +17,11 @@ BOOL APIENTRY DllMain(HMODULE module, DWORD reason, LPVOID)
         g_module = module;
         DisableThreadLibraryCalls(module);
         // Real work happens off the loader lock.
-        CreateThread(nullptr, 0, MainThread, nullptr, 0, nullptr);
+        if (HANDLE h = CreateThread(nullptr, 0, MainThread, nullptr, 0, nullptr)) CloseHandle(h);
         break;
     case DLL_PROCESS_DETACH:
-        ml::Mod::Shutdown();
+        // reserved is non-null when the process is terminating.
+        ml::Mod::Shutdown(reserved != nullptr);
         break;
     }
     return TRUE;

@@ -20,8 +20,11 @@ namespace ml::Settings
     static ULONGLONG    g_lastCheck = 0;
     static ULONGLONG    g_knownTime = 0;
     static int          g_generation = 0;
+    static std::recursive_mutex g_mutex;
 
     Config& Get() { return g_cfg; }
+    std::recursive_mutex& Mutex() { return g_mutex; }
+    Config Snapshot() { std::lock_guard<std::recursive_mutex> lk(g_mutex); return g_cfg; }
     const std::wstring& Path() { if (g_path.empty()) g_path = Paths::File(L"MasterLooter.ini"); return g_path; }
     int Generation() { return g_generation; }
 
@@ -83,7 +86,7 @@ namespace ml::Settings
         else if (k == "LootFurniture")    c.lootFurniture = Flag(v);
         else if (k == "ScanRange")        c.scanRange = Range(v, 5, 200, 40);
         else if (k == "LootRange")        c.lootRange = Range(v, 0, 200, 15);
-        else if (k == "GatherRange")      c.gatherRange = Range(v, 0, 200, 20);
+        else if (k == "GatherRange")      c.gatherRange = Range(v, 0, 200, 6);
         else if (k == "CatchRange")       c.catchRange = Range(v, 0, 200, 8);
         else if (k == "CorpseRange")      c.corpseRange = Range(v, 0, 200, 12);
         else if (k == "MinRange")         c.minRange = Range(v, 0, 5, 0.35f);
@@ -198,12 +201,17 @@ namespace ml::Settings
     void Poll()
     {
         const ULONGLONG now = GetTickCount64();
-        if (g_dirty && now - g_dirtyAt > 600) Save();
+        if (g_dirty && now - g_dirtyAt > 600) { std::lock_guard<std::recursive_mutex> lk(g_mutex); Save(); }
         if (now - g_lastCheck > 1000)
         {
             g_lastCheck = now;
             const ULONGLONG t = FileTime();
-            if (t != 0 && t != g_knownTime && !g_dirty) { Load(); LOG("MasterLooter.ini changed on disk; reloaded."); }
+            if (t != 0 && t != g_knownTime && !g_dirty)
+            {
+                std::lock_guard<std::recursive_mutex> lk(g_mutex);
+                Load();
+                LOG("MasterLooter.ini changed on disk; reloaded.");
+            }
         }
     }
 

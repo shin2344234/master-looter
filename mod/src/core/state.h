@@ -30,6 +30,15 @@ namespace ml
             noticeUntil = GetTickCount() + ms;
         }
 
+        // The game window is in front. Hotkeys are read with GetAsyncKeyState,
+        // which sees every window, so they are ignored while alt-tabbed.
+        static bool ForegroundIsOurs()
+        {
+            DWORD pid = 0;
+            GetWindowThreadProcessId(GetForegroundWindow(), &pid);
+            return pid == GetCurrentProcessId();
+        }
+
         static State& Get()
         {
             static State s;

@@ -31,7 +31,8 @@ namespace ml::loot
 
     // ------------------------------------------------------------ shared ----
     static HANDLE g_thread = nullptr;
-    static volatile LONG g_running = 0, g_burst = 0;
+    static volatile LONG g_running = 0, g_burst = 0, g_forget = 0;
+    static bool g_debugLog = false;          // the snapshot's DebugLog, for the diagnostics in Fill
     static std::mutex g_mu;                 // status, nearby, recent
     static Status g_status;
     static std::vector<Nearby> g_nearby;
@@ -280,8 +281,16 @@ namespace ml::loot
         char line[256];
         while (fgets(line, sizeof line, f))
         {
-            unsigned node = 0, row = 0;
-            if (sscanf(line, "%u\t%u", &node, &row) != 2 || !node || node >= 65536 || row >= 65536) continue;
+            unsigned node = 0, row = 0; char key[96] = "";
+            if (sscanf(line, "%u\t%u\t%95[^\t\r\n]", &node, &row, key) < 2 || !node || node >= 65536 || row >= 65536) continue;
+            // The string key survives a game patch; the row id may not.
+            if (key[0])
+                if (const Item* byKey = ItemDb::ByStringKey(key))
+                    if (byKey->row >= 0)
+                    {
+                        if (byKey->row != static_cast<int>(row)) LOG("[learn] node %u: %s moved from row %u to %d", node, key, row, byKey->row);
+                        row = static_cast<unsigned>(byKey->row);
+                    }
             const Item* it = ItemDb::ByRow(static_cast<int>(row));
             if (IsCreatureItem(it))
             { LOG("[learn] dropping node %u -> %s: a creature cannot be a node yield", node, it->Label()); continue; }
@@ -555,7 +564,7 @@ namespace ml::loot
         g_actorEid[comps] = k.eid;
         // An empty node close by that will not fill: dump which of its gimmick
         // slots hold pointers, so a node the game fills elsewhere shows up.
-        if (inter && !k.item && !k.gather && k.cat2 == 0x00 && k.d < 4.0f)
+        if (g_debugLog && inter && !k.item && !k.gather && k.cat2 == 0x00 && k.d < 4.0f)
         {
             static int s_dumps = 0;
             const DWORD nowp = GetTickCount();
@@ -759,6 +768,7 @@ namespace ml::loot
     static void Scan(const Config& cfg, bool act, bool burst)
     {
         const DWORD now = GetTickCount();
+        g_debugLog = cfg.debugLog;
         LARGE_INTEGER t0, t1, fq; QueryPerformanceCounter(&t0); QueryPerformanceFrequency(&fq);
 
         const uintptr_t mgr = game::ActorManager();
@@ -945,6 +955,15 @@ namespace ml::loot
                 k.inter ? "node " : "", k.item ? "item " : "", k.gather ? "gather " : "", k.ai ? "ai " : "",
                 k.twin ? "twin " : "", k.heap ? "heap " : "", k.node[0] ? k.node : "");
         }
+        // Per-entity memories grow with every object ever seen; a long session
+        // sees hundreds of thousands. Forget the diagnostics wholesale and the
+        // retry records once they are stale. (g_searched stays: a carcass must
+        // never be searched twice, whatever the session length.)
+        if (g_why.size() > 8192) g_why.clear();
+        if (g_firstSeen.size() > 8192) g_firstSeen.clear();
+        if (g_done.size() > 4096)
+            for (auto it = g_done.begin(); it != g_done.end();)
+                it = (now - it->second.when > 600000) ? g_done.erase(it) : std::next(it);
 
         int armedNow[32]; int armedN = 0;
         if (act && !settling)
@@ -1088,17 +1107,19 @@ namespace ml::loot
         bool toggleWas = false, burstWas = false;
         while (InterlockedCompareExchange(&g_running, 0, 0))
         {
-            Config& cfg = Settings::Get();
+            // A copy: the render thread edits the live Config while the menu is up.
+            Config cfg = Settings::Snapshot();
             const State& st = State::Get();
-            if (!st.Captures())
+            if (!st.Captures() && State::ForegroundIsOurs())
             {
                 const bool t = KeyDown(cfg.keyToggle);
-                if (t && !toggleWas) { cfg.enabled = !cfg.enabled; Settings::MarkDirty(); State::Get().Notify(cfg.enabled ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
+                if (t && !toggleWas) { SetAuto(!cfg.enabled); cfg.enabled = !cfg.enabled; }
                 toggleWas = t;
                 const bool b = KeyDown(cfg.keyBurst);
                 if (b && !burstWas) { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
                 burstWas = b;
             }
+            if (InterlockedExchange(&g_forget, 0)) { g_learn.clear(); SaveLearned(); LOG("[learn] node yields forgotten"); }
             const bool burst = InterlockedExchange(&g_burst, 0) != 0;
             const bool want = cfg.enabled || burst || st.menuOpen;
             if (want) Scan(cfg, cfg.enabled || burst, burst);
@@ -1153,12 +1174,11 @@ namespace ml::loot
         return n;
     }
     long SessionCount(int action) { return (action >= 0 && action < 4) ? g_session[action] : 0; }
-    void ForgetLearned()
-    {
-        g_learn.clear();
-        SaveLearned();
-        LOG("[learn] node yields forgotten");
-    }
+    void ForgetLearned() { InterlockedExchange(&g_forget, 1); }   // the worker owns the table; it clears it on its next pass
     void RequestBurst() { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
-    void SetAuto(bool on) { Settings::Get().enabled = on; Settings::MarkDirty(); State::Get().Notify(on ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
+    void SetAuto(bool on)
+    {
+        { std::lock_guard<std::recursive_mutex> lk(Settings::Mutex()); Settings::Get().enabled = on; Settings::MarkDirty(); }
+        State::Get().Notify(on ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off");
+    }
 }

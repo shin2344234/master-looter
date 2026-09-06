@@ -81,18 +81,27 @@ namespace ml::farhook
         for (int i = 0; i < n; ++i) { ResumeThread(handles[i]); CloseHandle(handles[i]); }
     }
 
-    static bool WriteCode(uintptr_t dst, const void* src, unsigned n)
+    // Fails rather than patch under a thread that keeps sitting inside the
+    // bytes: a thread resumed halfway through a rewritten instruction crashes
+    // the game, while a missing hook only costs a fallback or one feature.
+    static bool WriteCode(uintptr_t dst, const void* src, unsigned n, char* why, unsigned whyLen)
     {
         DWORD old;
-        if (!VirtualProtect(reinterpret_cast<void*>(dst), n, PAGE_EXECUTE_READWRITE, &old)) return false;
+        if (!VirtualProtect(reinterpret_cast<void*>(dst), n, PAGE_EXECUTE_READWRITE, &old)) { snprintf(why, whyLen, "VirtualProtect failed"); return false; }
         HANDLE handles[512]; bool inside = false; int cnt = 0;
-        for (int attempt = 0; attempt < 8; ++attempt)
+        for (int attempt = 0; attempt < 40; ++attempt)
         {
             cnt = SuspendOthers(handles, 512, dst, dst + n, &inside);
             if (!inside) break;
             ResumeAll(handles, cnt);
             cnt = 0;
-            Sleep(2);
+            Sleep(1);
+        }
+        if (inside)
+        {
+            VirtualProtect(reinterpret_cast<void*>(dst), n, old, &old);
+            snprintf(why, whyLen, "a thread stayed inside the prologue");
+            return false;
         }
         memcpy(reinterpret_cast<void*>(dst), src, n);
         FlushInstructionCache(GetCurrentProcess(), reinterpret_cast<void*>(dst), n);
@@ -132,7 +141,7 @@ namespace ml::farhook
         Entry& e = g_entries[g_n];
         e.target = target; e.stolen = stolen;
         memcpy(e.orig, reinterpret_cast<const void*>(target), stolen);
-        if (!WriteCode(target, patch, stolen)) { snprintf(why, whyLen, "VirtualProtect failed"); return false; }
+        if (!WriteCode(target, patch, stolen, why, whyLen)) return false;
         ++g_n;
         *original = tramp;
         return true;
@@ -140,7 +149,8 @@ namespace ml::farhook
 
     void RemoveAll()
     {
-        for (int i = g_n - 1; i >= 0; --i) WriteCode(g_entries[i].target, g_entries[i].orig, g_entries[i].stolen);
+        char why[64];
+        for (int i = g_n - 1; i >= 0; --i) WriteCode(g_entries[i].target, g_entries[i].orig, g_entries[i].stolen, why, sizeof why);
         g_n = 0;
         // The trampoline page stays: a game thread may still be running through it.
     }

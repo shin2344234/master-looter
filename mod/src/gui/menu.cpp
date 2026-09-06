@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -152,7 +153,8 @@ namespace ml::gui
         static bool s_keyWas = false, s_escWas = false;
 
         static bool s_watchWas = false;
-        const bool key = KeyDown(c.menuKey);
+        const bool front = State::ForegroundIsOurs();
+        const bool key = front && KeyDown(c.menuKey);
         if (key && !s_keyWas && !st.rebindCapture)
         {
             // Insert: closed -> interactive; watching -> interactive; interactive -> closed.
@@ -162,7 +164,7 @@ namespace ml::gui
         }
         s_keyWas = key;
 
-        const bool watch = KeyDown(c.keyWatch);
+        const bool watch = front && KeyDown(c.keyWatch);
         if (watch && !s_watchWas && !st.rebindCapture && !st.textCapture)
         {
             // Home: closed -> watching; interactive -> watching; watching -> closed.
@@ -172,7 +174,7 @@ namespace ml::gui
         }
         s_watchWas = watch;
 
-        const bool esc = KeyDown(VK_ESCAPE);
+        const bool esc = front && KeyDown(VK_ESCAPE);
         if (esc && !s_escWas && st.Captures() && !st.textCapture && !st.rebindCapture)
             st.menuOpen = false;
         s_escWas = esc;
@@ -707,6 +709,8 @@ namespace ml::gui
     void Render()
     {
         State& st = State::Get();
+        // Every tab edits the live Config; the loot worker copies it under this lock.
+        std::lock_guard<std::recursive_mutex> lock(Settings::Mutex());
         Config& c = Settings::Get();
         ImGuiIO& io = ImGui::GetIO();
         const bool capt = st.Captures();
