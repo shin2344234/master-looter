@@ -240,7 +240,11 @@ namespace ml::loot
         return sp;
     }
 
-    struct Verdict { bool loot = false; Action act = Action::Take; const char* why = ""; char detail[40] = ""; };
+    // `own` is the player's own kit: worn, carried, or pointing back at them.
+    // It is never lootable and there can be two dozen pieces of it inside two
+    // metres, which is enough to fill the Nearby list before anything in the
+    // world is reached, so the list leaves it out.
+    struct Verdict { bool loot = false; bool own = false; Action act = Action::Take; const char* why = ""; char detail[40] = ""; };
 
     // Memories. Keys: instance id when the node has one (survives respawns),
     // otherwise the entity id.
@@ -791,6 +795,7 @@ namespace ml::loot
     static Verdict Decide(const Cand& c, const Config& cfg)
     {
         Verdict v;
+        v.own = c.mine || (c.parent && c.parent == g_meEid);
         auto skip = [&](const char* why) { v.loot = false; v.why = why; return v; };
         if (c.banned || g_searched.count(Key(c)))
         {
@@ -1131,14 +1136,18 @@ namespace ml::loot
 
         // Decide, publish, and act.
         std::vector<Nearby> nearby;
-        int lootable = 0;
+        int lootable = 0, listed = 0;
         std::vector<Verdict> verdicts(list.size());
         for (size_t i = 0; i < list.size(); ++i)
         {
             if (!list[i].filled) continue;
             verdicts[i] = Decide(list[i], cfg);
             if (verdicts[i].loot) ++lootable;
-            if (nearby.size() < 48)
+            // Anything the mod would take always gets a row, even on the rare
+            // chance the ownership guess is wrong about it.
+            if (verdicts[i].own && !verdicts[i].loot) continue;
+            ++listed;
+            if (nearby.size() < kNearbyRows)
             {
                 Nearby n{}; n.eid = list[i].eid; n.dist = list[i].d; n.loot = verdicts[i].loot;
                 strncpy(n.name, Label(list[i]), sizeof n.name - 1);
@@ -1301,6 +1310,7 @@ namespace ml::loot
         g_status.playerFound = true;
         g_status.playerEid = g_meEid;
         g_status.candidates = static_cast<int>(list.size());
+        g_status.listed = listed;
         g_status.lootable = lootable;
         g_status.settling = settling;
         snprintf(g_status.hold, sizeof g_status.hold, "%s", settling ? s_holdWhy : "");

@@ -12,6 +12,7 @@ namespace ml::loot
         bool  started = false, resolved = false, hooked = false, actorManager = false, playerFound = false;
         bool  sendAllowed = false, ownerOracle = false, routeKnown = false, settling = false;
         int   descriptors = 0, itemTable = 0, inventoryItems = 0, candidates = 0, lootable = 0, learned = 0;
+        int   listed = 0;           // objects the Nearby list would show, before its row cap
         int   bagUsed = 0, bagSlots = 0;   // the carried bag; 0 when unreadable
         bool  bagFull = false;             // no room, or sends stopped landing
         uint32_t playerEid = 0;
@@ -21,6 +22,10 @@ namespace ml::loot
         char  note[96] = "";
         char  hold[96] = "";     // why actions are paused right now, empty when not
     };
+
+    // How many rows the Nearby list carries. The table scrolls, and a field of
+    // flowers puts far more than this within range.
+    inline constexpr int kNearbyRows = 96;
 
     struct Nearby
     {
