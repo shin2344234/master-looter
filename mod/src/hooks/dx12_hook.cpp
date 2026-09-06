@@ -18,6 +18,7 @@
 #include "hdr_composite_shader.h"
 #include "../core/log.h"
 #include "../core/mod.h"
+#include "../core/settings.h"
 #include "../core/state.h"
 #include "../gui/menu.h"
 
@@ -1045,7 +1046,10 @@ namespace ml::hooks
 
     // Log which module an address lives in - tells us from a live test whether the
     // factory we patched is the DLSS-G proxy (sl.*/nvngx*) or native (dxgi.dll).
-    static void LogHookedModule(const char* what, void* addr)
+    // Which DLL owns an address. On a clean install every one of these is a
+    // system DLL; anything else means another mod is already on that code, and
+    // that is the first thing to know when a launch crash is reported.
+    static const char* OwningModule(void* addr, char* out, size_t n)
     {
         HMODULE m = nullptr;
         GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
@@ -1053,7 +1057,32 @@ namespace ml::hooks
         char path[MAX_PATH] = "?";
         if (m) GetModuleFileNameA(m, path, MAX_PATH);
         const char* base = strrchr(path, '\\');
-        LOG("%s @ %p in %s", what, addr, base ? base + 1 : path);
+        strncpy(out, base ? base + 1 : path, n - 1);
+        out[n - 1] = 0;
+        return out;
+    }
+
+    static void LogHookedModule(const char* what, void* addr)
+    {
+        char mod[64];
+        OwningModule(addr, mod, sizeof mod);
+        LOG("%s @ %p in %s", what, addr, mod);
+    }
+
+    // The DLLs these addresses belong to before anyone touches them. Anything
+    // else and a second mod got there first, which is worth saying out loud.
+    static bool IsSystemOwner(const char* mod)
+    {
+        return _stricmp(mod, "dxgi.dll") == 0 || _stricmp(mod, "d3d12.dll") == 0 ||
+               _stricmp(mod, "d3d12core.dll") == 0 || _stricmp(mod, "dxgi.DLL") == 0;
+    }
+
+    static void LogHookTarget(const char* what, void* addr)
+    {
+        char mod[64];
+        OwningModule(addr, mod, sizeof mod);
+        if (IsSystemOwner(mod)) LOG("[hook] %s @ %p in %s", what, addr, mod);
+        else LOG_ERR("[hook] %s @ %p in %s, which is not a system DLL: another mod is already on it, and the two may not survive each other", what, addr, mod);
     }
 
     // --- COM wrapper: draw the overlay before Streamline interpolates --------
@@ -1300,7 +1329,7 @@ namespace ml::hooks
         }
 
         void** vt = *reinterpret_cast<void***>(factory);
-        LogHookedModule("Factory CreateSwapChainForHwnd (patching)", vt[15]);
+        LogHookTarget("Factory CreateSwapChainForHwnd", vt[15]);
         if (PatchVtableSlot(vt, 15, reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd),
                             reinterpret_cast<void**>(&oFactoryCreateSwapChainForHwnd)))
             LOG("FG: CreateSwapChainForHwnd patched - new swapchains will be wrapped.");
@@ -1437,6 +1466,13 @@ namespace ml::hooks
         InitializeCriticalSection(&g_queueLock);
         g_queueLockReady = true;
 
+        // Say who owns each address before touching it. A launch crash with
+        // several ASI mods is unreadable without this.
+        LogHookTarget("Present", presentAddr);
+        LogHookTarget("ResizeBuffers", resizeAddr);
+        LogHookTarget("ExecuteCommandLists", execAddr);
+        LogHookTarget("SetColorSpace1", colorSpaceAddr);
+
         if (MH_CreateHook(presentAddr, &hkPresent, reinterpret_cast<void**>(&oPresent)) != MH_OK ||
             MH_CreateHook(resizeAddr,  &hkResizeBuffers, reinterpret_cast<void**>(&oResizeBuffers)) != MH_OK ||
             MH_CreateHook(execAddr,    &hkExecuteCommandLists, reinterpret_cast<void**>(&oExecuteCommandLists)) != MH_OK ||
@@ -1457,7 +1493,15 @@ namespace ml::hooks
         // draw into the writable game-facing buffer before Streamline interpolates.
         // Done AFTER the dummy swapchain above is gone so it is never wrapped.
         // Best-effort: if it fails the native present hook still draws (non-FG).
-        InstallSwapChainCreationPatch();
+        //
+        // This is the part that reaches furthest into the process, since the
+        // patch goes into a vtable other overlay mods use as well. Anyone whose
+        // game will not start alongside another overlay can turn it off in the
+        // ini without launching the game, and keep everything else.
+        if (Settings::Get().wrapSwapChain)
+            InstallSwapChainCreationPatch();
+        else
+            LOG("WrapSwapChain=0: the swapchain is left alone. The overlay draws through the present hook, which does not show under DLSS frame generation.");
 
         char exePath[MAX_PATH]{};
         GetModuleFileNameA(nullptr, exePath, MAX_PATH);

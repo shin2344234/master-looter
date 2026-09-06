@@ -65,6 +65,7 @@ namespace ml::Settings
         else if (k == "MenuKey")          c.menuKey = Key(v, 0x2D);
         else if (k == "ShowHud")          c.showHud = Flag(v);
         else if (k == "NotifyBagFull")    c.notifyBagFull = Flag(v);
+        else if (k == "WrapSwapChain")    c.wrapSwapChain = Flag(v);
         else if (k == "KeyToggle")        c.keyToggle = Key(v, 0x79);
         else if (k == "KeyBurst")         c.keyBurst = Key(v, 0x7A);
         else if (k == "KeyWatch")         c.keyWatch = Key(v, 0x24);
@@ -272,6 +273,7 @@ namespace ml::Settings
         s += "[MasterLooter]\n";
         snprintf(b, sizeof b, "Enabled=%d\nMenuKey=%d\nShowHud=%d\nNotifyBagFull=%d\nKeyToggle=%d\nKeyBurst=%d\nKeyWatch=%d\n",
                  c.enabled, c.menuKey, c.showHud, c.notifyBagFull, c.keyToggle, c.keyBurst, c.keyWatch); s += b;
+        snprintf(b, sizeof b, "WrapSwapChain=%d\n", c.wrapSwapChain); s += b;
         snprintf(b, sizeof b, "ScansPerSec=%d\nPerScan=%d\nBurstPerKey=%d\nRetryAfterMs=%d\n",
                  c.scansPerSec, c.perScan, c.burstPerKey, c.retryAfterMs); s += b;
         snprintf(b, sizeof b, "LootCorpses=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherOre=%d\nGatherStone=%d\nGatherWood=%d\nGatherUnknown=%d\n",

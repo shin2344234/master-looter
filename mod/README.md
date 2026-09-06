@@ -39,6 +39,12 @@ A worker thread finds the game's actor manager by its RTTI class name and reads 
 
 Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters, copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, locked nodes, your own equipment and bag contents, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's own Take-or-Steal check calls theft (unless you opt in).
 
+## When the game will not start
+
+Several ASI mods drawing an overlay end up on the same DirectX code, and the order the loader picks decides whether they survive each other. The log names who owns each address before this mod touches it, on the first few lines. On a clean install every one reads `dxgi.dll` or `d3d12.dll`; anything else is another mod already there, and the line is written as an error so it is easy to find.
+
+If the game will not launch alongside another overlay mod, set `WrapSwapChain=0` in `MasterLooter.ini`, which can be edited without starting the game. That leaves the swapchain alone and draws the overlay through the present hook instead. The only thing lost is the overlay while DLSS frame generation is on. The same switch is in the Status tab.
+
 ## Safety and known limits
 
 - The mod sends the game the same events the game sends itself when you press the interaction key, and reads memory only to decide what to send. It never writes game memory apart from its own hooks.

@@ -13,6 +13,11 @@ namespace ml
         int   menuKey        = 0x2D;   // VK_INSERT
         bool  showHud        = true;   // brief on-screen notice when auto-loot is toggled
         bool  notifyBagFull  = true;   // say so on screen when things stop reaching the bag
+        // Wrap the swapchain so the overlay draws under DLSS frame generation.
+        // Off falls back to the plain present hook, which costs the overlay only
+        // when frame generation is on, and takes this mod off a path other
+        // overlay mods also patch. Read once at startup.
+        bool  wrapSwapChain  = true;
         int   keyToggle      = 0x79;   // VK_F10: auto-loot on/off
         int   keyBurst       = 0x7A;   // VK_F11: loot everything in range once
         int   keyWatch       = 0x24;   // VK_HOME: watch mode, menu stays up while you play
