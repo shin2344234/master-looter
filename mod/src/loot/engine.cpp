@@ -304,6 +304,14 @@ namespace ml::loot
     // seconds the yield learning wants.
     static constexpr int   kBagFullStreak = 3;
     static constexpr DWORD kBagVerdictMs  = 1200;
+
+    // The bag's limit was read off one bag that never grew, so expanding it has
+    // never been watched. If the field turns out to be a base figure that does
+    // not move, the mod would call a bigger bag full early. One pick-up landing
+    // while it reads full proves the limit is higher than it says, and that is
+    // enough to correct it and carry on. Cleared whenever the field itself
+    // moves, since then it is telling the truth and should be believed.
+    static int g_capSeen = 0, g_capBias = 0;
     static int   g_noRise = 0;
     static bool  g_bagFull = false;
     static DWORD g_bagFullSaid = 0;
@@ -398,7 +406,8 @@ namespace ml::loot
         int used = 0, cap = 0;
         if (game::BagSlots(&used, &cap))
         {
-            const bool full = used >= cap;
+            if (cap != g_capSeen) { g_capSeen = cap; g_capBias = 0; }
+            const bool full = used >= cap + g_capBias;
             if (full != g_bagFull)
             {
                 if (full) LOG("[bag] full: %d of %d slots", used, cap);
@@ -432,6 +441,15 @@ namespace ml::loot
                 if (known->act == Action::Take)
                 {
                     g_noRise = 0;
+                    // Something arrived. If the bag still reads as having no
+                    // room, the limit we read is too low: believe what just
+                    // happened over the field.
+                    int u = 0, c = 0;
+                    if (game::BagSlots(&u, &c) && u >= c + g_capBias)
+                    {
+                        g_capBias = u + 1 - c;
+                        LOG("[bag] an item arrived at %d of %d slots, so the bag holds at least %d: reading the limit as %d from here", u, c, u + 1, c + g_capBias);
+                    }
                     if (g_bagFull) { g_bagFull = false; LOG("[bag] pick-ups are landing again"); }
                 }
                 g_pend.erase(known);
