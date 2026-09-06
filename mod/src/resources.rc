@@ -1,14 +1,15 @@
-// The two data tables are built into the plugin so it works as a single file
-// under any mod manager. A MasterLooter.items.tsv or MasterLooter.creatures.tsv
+// The data tables are built into the plugin so it works as a single file
+// under any mod manager. A MasterLooter.items.tsv, .creatures.tsv or .nodes.tsv
 // next to the plugin overrides the built-in copy (see Paths::ReadDataText).
 #include <windows.h>
 
 ML_ITEMS_TSV     RCDATA "../data/MasterLooter.items.tsv"
 ML_CREATURES_TSV RCDATA "../data/MasterLooter.creatures.tsv"
+ML_NODES_TSV     RCDATA "../data/MasterLooter.nodes.tsv"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION    1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION    1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEOS         VOS_NT_WINDOWS32
  FILETYPE       VFT_DLL
 BEGIN
@@ -17,11 +18,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription",  "Master Looter for Crimson Desert"
-            VALUE "FileVersion",      "1.0.0"
+            VALUE "FileVersion",      "1.1.0"
             VALUE "InternalName",     "MasterLooter"
             VALUE "OriginalFilename", "MasterLooter.asi"
             VALUE "ProductName",      "Master Looter"
-            VALUE "ProductVersion",   "1.0.0"
+            VALUE "ProductVersion",   "1.1.0"
             VALUE "LegalCopyright",   "Copyright (c) 2026 Seth. MIT License."
         END
     END

@@ -16,6 +16,7 @@
 #include "mem.h"
 #include "signatures.h"
 #include "../core/creaturedb.h"
+#include "../core/nodedb.h"
 #include "../core/itemdb.h"
 #include "../core/log.h"
 #include "../core/paths.h"
@@ -60,15 +61,17 @@ namespace ml::loot
     {
         uintptr_t ent = 0;
         uint32_t eid = 0, route = 0, iid = 0, parent = 0;
-        uint16_t tid = 0;
+        uint16_t tid = 0;    // item row when this is an item; the gather block's id otherwise
+        uint16_t gtid = 0;   // the gather block's own id, which is not stable between sessions
         uint8_t  type = 0xFF, cat = 0, cat2 = 0, dead = 0, locked = 0, gkind = 0;
         bool inter = false, item = false, gather = false, ai = false, noIid = false;
         bool twin = false, heap = false, mine = false, filled = false, banned = false;
         Vec3 pos;
         float d = 0;
-        char key[64] = "";   // engine string key from the live table
-        char node[64] = "";  // gimmick node name
+        char key[64] = "";    // engine string key from the live table
+        char node[160] = "";  // the node's prefab path, which is also its name
         const Item* db = nullptr;
+        const NodeType* nodeType = nullptr;  // what the prefab says this node is
         const Creature* species = nullptr;   // the creature named, or a representative of its species word
         bool speciesExact = false;           // `species` is the creature itself, not a stand-in
         const char* speciesClass = nullptr;  // "insect", "fish", "seafood", "animal", "amphibian" or null
@@ -264,53 +267,26 @@ namespace ml::loot
     static uint32_t  g_meEid = 0, g_meRoute = 0;
 
     // --- what a gather node yields --------------------------------------------
-    // Gather nodes carry a type number the static tables do not explain. The
-    // bag tells us instead: after a gather, whichever item count rose is what
-    // that node type yields. Learned pairs persist in MasterLooter.learned.tsv.
+    // A node is named by the prefab it was placed from (see NodeDb). For the
+    // few that table does not cover, the bag says what it gave: after a gather,
+    // whichever item count rose is what that node type yielded.
+    //
+    // That part is per session only. The type number a node reports is not
+    // stable between runs: 50869 was Shrubby Sophora on one and a sweet potato
+    // socket on the next, so a remembered pair goes quietly wrong and files a
+    // node under the wrong switch. Nothing is written to disk, and a file left
+    // by an older build is deleted on load.
     static std::unordered_map<uint16_t, uint16_t> g_learn;   // node type -> item row
     struct PendSend { DWORD at; Action act; uint16_t nodeType; int itemRow; };
     static std::vector<PendSend> g_pend;
     static std::vector<std::pair<uint16_t, long long>> g_invPrev;
     static bool g_invPrevValid = false;
 
-    static void SaveLearned();
-    static void LoadLearned()
+    static void DropLearnedFile()
     {
-        FILE* f = _wfopen(Paths::File(L"MasterLooter.learned.tsv").c_str(), L"rb");
-        if (!f) return;
-        char line[256];
-        while (fgets(line, sizeof line, f))
-        {
-            unsigned node = 0, row = 0; char key[96] = "";
-            if (sscanf(line, "%u\t%u\t%95[^\t\r\n]", &node, &row, key) < 2 || !node || node >= 65536 || row >= 65536) continue;
-            // The string key survives a game patch; the row id may not.
-            if (key[0])
-                if (const Item* byKey = ItemDb::ByStringKey(key))
-                    if (byKey->row >= 0)
-                    {
-                        if (byKey->row != static_cast<int>(row)) LOG("[learn] node %u: %s moved from row %u to %d", node, key, row, byKey->row);
-                        row = static_cast<unsigned>(byKey->row);
-                    }
-            const Item* it = ItemDb::ByRow(static_cast<int>(row));
-            if (IsCreatureItem(it))
-            { LOG("[learn] dropping node %u -> %s: a creature cannot be a node yield", node, it->Label()); continue; }
-            g_learn[static_cast<uint16_t>(node)] = static_cast<uint16_t>(row);
-        }
-        fclose(f);
-        LOG("[learn] %d node yields loaded", static_cast<int>(g_learn.size()));
-        SaveLearned(); // rewrite without anything dropped
-    }
-    static void SaveLearned()
-    {
-        FILE* f = _wfopen(Paths::File(L"MasterLooter.learned.tsv").c_str(), L"wb");
-        if (!f) return;
-        fputs("node_type\titem_row\titem_key\titem_name\n", f);
-        for (const auto& kv : g_learn)
-        {
-            const Item* it = ItemDb::ByRow(kv.second);
-            fprintf(f, "%u\t%u\t%s\t%s\n", kv.first, kv.second, it ? it->stringKey.c_str() : "", it ? it->name.c_str() : "");
-        }
-        fclose(f);
+        const std::wstring path = Paths::File(L"MasterLooter.learned.tsv");
+        if (DeleteFileW(path.c_str()))
+            LOG("[learn] removed MasterLooter.learned.tsv: a node's type number changes between sessions, so remembered yields cannot be trusted");
     }
     static const Item* LearnedYield(uint16_t nodeType)
     {
@@ -384,7 +360,6 @@ namespace ml::loot
                 g_learn[nodeType] = type;
                 const Item* it = ItemDb::ByRow(type);
                 LOG("[learn] node type %u yields %s (%s)", nodeType, it ? it->Label() : "?", it ? it->klass.c_str() : "");
-                SaveLearned();
             }
             for (size_t k = unknown.size(); k-- > 0;) g_pend.erase(g_pend.begin() + static_cast<long>(unknown[k]));
         }
@@ -430,6 +405,27 @@ namespace ml::loot
     // grain) are food and follow the Ground items toggle and their class rule,
     // whether still on the plant or lying loose. `onGround`: an item lying in
     // the world rather than a node's yield.
+    static GatherKind KindFromName(const std::string& kind)
+    {
+        if (kind == "plant") return GatherKind::Plant;
+        if (kind == "ore")   return GatherKind::Ore;
+        if (kind == "stone") return GatherKind::Stone;
+        if (kind == "wood")  return GatherKind::Wood;
+        if (kind == "item")  return GatherKind::Item;
+        return GatherKind::Unknown;
+    }
+
+    // What a gather node hands over, when anything says so. The prefab table
+    // names the item for the nodes whose socket and item share a name; the
+    // rest are known only by kind, and a bag diff may have caught one earlier
+    // in this session.
+    static const Item* NodeYield(const Cand& c)
+    {
+        if (c.nodeType && !c.nodeType->itemKey.empty())
+            if (const Item* it = ItemDb::ByStringKey(c.nodeType->itemKey.c_str())) return it;
+        return LearnedYield(c.gtid);
+    }
+
     static GatherKind KindOf(const Item* y, bool onGround = false)
     {
         if (!y) return GatherKind::Unknown;
@@ -547,13 +543,13 @@ namespace ml::loot
 
     static void ProbeNodeIdentity(const Cand& k, uintptr_t inter, uintptr_t idata, uintptr_t gdata)
     {
-        if (!inter || !gdata || !k.tid) return;
-        if (g_probed.size() >= 10 || !g_probed.insert(k.tid).second) return;
+        if (!inter || !gdata || !k.gtid) return;
+        if (g_probed.size() >= 10 || !g_probed.insert(k.gtid).second) return;
 
         char nodeName[96] = "";
         game::NodeName(inter, nodeName, sizeof nodeName);
-        LOG("[node] type %u kind %02X eid %08X %.1f m cat %02X/%02X name \"%s\"",
-            k.tid, k.gkind, k.eid, k.d, k.cat, k.cat2, nodeName);
+        LOG("[node] type %u kind %02X eid %08X %.1f m cat %02X/%02X prefab \"%s\" name \"%s\"",
+            k.gtid, k.gkind, k.eid, k.d, k.cat, k.cat2, k.node, nodeName);
         SweepBlock("gather", gdata, 0x40);
         if (idata) SweepBlock("item", idata, 0x20);
 
@@ -613,7 +609,7 @@ namespace ml::loot
         k.gather = gdata != 0;
         if (gdata)
         {
-            uint16_t t = 0; if (mem::Read16(gdata, &t)) k.tid = t;
+            uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
             mem::Read8(gdata + 5, &k.gkind);
             if (k.gkind == 0x04 && k.tid == 52920) g_containers.insert(k.eid); // the well bucket
         }
@@ -626,7 +622,12 @@ namespace ml::loot
         if (inter)
         {
             mem::Read8(inter + kOff_Gimmick_Locked, &k.locked);
-            game::NodeName(inter, k.node, sizeof k.node);
+            // The prefab path names the node and survives a restart; the type
+            // id does not, so it is only a fallback. NodeName is kept because
+            // a few objects answer on it when the prefab route does not.
+            if (!game::NodePrefab(inter, k.node, sizeof k.node))
+                game::NodeName(inter, k.node, sizeof k.node);
+            if (k.gather && k.node[0]) k.nodeType = NodeDb::ByPrefab(k.node);
         }
         // Live creatures: which species, from the CharacterInfo row they point at.
         if (k.ai && !k.inter && k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
@@ -634,7 +635,7 @@ namespace ml::loot
             const Species sp = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai), k.cat2);
             k.species = sp.row; k.speciesClass = sp.klass; k.speciesExact = sp.exact;
         }
-        if (k.gather && k.tid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.tid; }
+        if (k.gather && k.gtid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.gtid; }
         if (g_actorEid.size() > 4096) g_actorEid.clear();
         g_actorEid[comps] = k.eid;
         // An empty node close by that will not fill: dump which of its gimmick
@@ -658,13 +659,13 @@ namespace ml::loot
                 LOG("%s", line);
             }
         }
-        if (g_debugLog && k.gather && k.tid && !LearnedYield(k.tid)) ProbeNodeIdentity(k, inter, idata, gdata);
-        if (k.tid)
+        if (g_debugLog && k.gather && k.gtid && !k.nodeType && !LearnedYield(k.gtid)) ProbeNodeIdentity(k, inter, idata, gdata);
+        if (k.tid && k.item)
         {
             if (!game::ItemKeyForType(k.tid, k.key, sizeof k.key)) game::GimmickKeyForType(k.tid, k.key, sizeof k.key);
             // Prefer the live key string; fall back to the row mapping only when verified.
             k.db = k.key[0] ? ItemDb::ByStringKey(k.key) : nullptr;
-            if (!k.db && game::ItemTableState() == 1 && k.item) k.db = ItemDb::ByRow(k.tid);
+            if (!k.db && game::ItemTableState() == 1) k.db = ItemDb::ByRow(k.tid);
         }
     }
 
@@ -718,7 +719,7 @@ namespace ml::loot
         // the same verdict on the yield; unknown names fall back to name checks.
         if ((v.act == Action::Take || v.act == Action::Gather) && c.tid)
         {
-            const Item* ruled = c.db ? c.db : (v.act == Action::Gather ? LearnedYield(c.tid) : nullptr);
+            const Item* ruled = c.db ? c.db : (v.act == Action::Gather ? NodeYield(c) : nullptr);
             if (ruled)
             {
                 const Rules::Verdict r = Rules::Decide(*ruled, cfg);
@@ -757,7 +758,11 @@ namespace ml::loot
         }
         case Action::Gather:
         {
-            const GatherKind kind = KindOf(c.db ? c.db : LearnedYield(c.tid));
+            // What the node is, in order of how much it can be trusted: the
+            // prefab it was placed from, the item it is already known to hold,
+            // then what one of its kind yielded earlier this session.
+            GatherKind kind = c.nodeType ? KindFromName(c.nodeType->kind) : GatherKind::Unknown;
+            if (kind == GatherKind::Unknown) kind = KindOf(c.db ? c.db : LearnedYield(c.gtid));
             switch (kind)
             {
             case GatherKind::Plant:   if (!cfg.gatherPlants)  return skip("plants off"); break;
@@ -803,12 +808,17 @@ namespace ml::loot
     static const char* Label(const Cand& c)
     {
         if (c.db) return c.db->Label();
-        if (c.gather && c.tid)
+        if (c.gather)
         {
-            static char buf[80];
-            if (const Item* y = LearnedYield(c.tid)) snprintf(buf, sizeof buf, "%s node", y->Label());
-            else snprintf(buf, sizeof buf, "node type %u", c.tid);
-            return buf;
+            static char buf[96];
+            if (c.nodeType)
+            {
+                snprintf(buf, sizeof buf, "%s node", c.nodeType->name.c_str());
+                return buf;
+            }
+            if (const Item* y = LearnedYield(c.gtid)) { snprintf(buf, sizeof buf, "%s node", y->Label()); return buf; }
+            if (c.node[0]) return c.node;
+            if (c.tid) { snprintf(buf, sizeof buf, "node type %u", c.tid); return buf; }
         }
         if (c.key[0]) return c.key;
         if (c.node[0]) return c.node;
@@ -1176,7 +1186,7 @@ namespace ml::loot
         const bool hooked = hooks::Install();
         { std::lock_guard<std::mutex> lk(g_mu); g_status.hooked = hooked; g_status.pump = hooks::PumpName(); }
         if (!hooked) { Note("no game-thread pump; looting disabled"); return 0; }
-        LoadLearned();
+        DropLearnedFile();
         Note("waiting for the world");
         LOG_OK("[loot] engine ready; pump: %s", hooks::PumpName());
 
@@ -1195,7 +1205,7 @@ namespace ml::loot
                 if (b && !burstWas) { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
                 burstWas = b;
             }
-            if (InterlockedExchange(&g_forget, 0)) { g_learn.clear(); SaveLearned(); LOG("[learn] node yields forgotten"); }
+            if (InterlockedExchange(&g_forget, 0)) { g_learn.clear(); LOG("[learn] node yields forgotten"); }
             const bool burst = InterlockedExchange(&g_burst, 0) != 0;
             const bool want = cfg.enabled || burst || st.menuOpen;
             if (want) Scan(cfg, cfg.enabled || burst, burst);

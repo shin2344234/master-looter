@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "creaturedb.h"
+#include "nodedb.h"
 #include "itemdb.h"
 #include "log.h"
 #include "paths.h"
@@ -70,6 +71,8 @@ namespace ml::Mod
                    static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size()));
         else
             LOG_ERR("Item database unavailable: neither compiled into the plugin nor next to it as MasterLooter.items.tsv; class and tag rules will be empty.");
+        if (NodeDb::Load()) LOG_OK("Gather node table loaded (%s): %d node kinds.", NodeDb::Source(), NodeDb::Count());
+        else LOG_ERR("Gather node table unavailable: neither compiled into the plugin nor next to it as MasterLooter.nodes.tsv; gather nodes fall back to learning what they yield.");
         if (CreatureDb::Load()) LOG_OK("Creature table loaded (%s): %d creatures.", CreatureDb::Source(), CreatureDb::Count());
         else LOG_ERR("Creature table unavailable: neither compiled into the plugin nor next to it as MasterLooter.creatures.tsv; creatures cannot be told apart by species.");
         State::Get().overlayReady = true;

@@ -51,6 +51,7 @@ add_library(MasterLooter SHARED
     src/core/itemdb.cpp
     src/core/rules.cpp
     src/core/creaturedb.cpp
+    src/core/nodedb.cpp
     src/hooks/dx12_hook.cpp
     src/hooks/input.cpp
     src/hooks/xinput_hook.cpp
@@ -64,9 +65,9 @@ add_library(MasterLooter SHARED
     src/resources.rc
 )
 
-# The two data tables are compiled into the plugin (resources.rc); rebuild when they change.
+# The data tables are compiled into the plugin (resources.rc); rebuild when they change.
 set_source_files_properties(src/resources.rc PROPERTIES OBJECT_DEPENDS
-    "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv")
+    "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.nodes.tsv")
 
 target_include_directories(MasterLooter PRIVATE src ${minhook_SOURCE_DIR}/src/hde)
 target_link_libraries(MasterLooter PRIVATE imgui minhook d3d12 dxgi dwmapi imm32 xinput9_1_0)
@@ -87,6 +88,7 @@ add_custom_command(TARGET MasterLooter POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:MasterLooter>" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv" "${CMAKE_SOURCE_DIR}/dist/"
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.nodes.tsv" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/THIRD_PARTY_NOTICES.md" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/../LICENSE" "${CMAKE_SOURCE_DIR}/dist/"

@@ -27,7 +27,7 @@ Import `MasterLooter-<version>-DMM.zip` from the [releases](https://github.com/s
 
 Ultimate ASI Loader (`winmm.dll`) must be in the game's `bin64` folder. Copy `MasterLooter.asi` from `MasterLooter-<version>.zip` into `bin64` next to it while the game is closed. The item database and the creature table are compiled into the plugin. Start the game and press Insert.
 
-Uninstall by deleting the `MasterLooter.*` files from `bin64`. The plugin writes `MasterLooter.ini`, `MasterLooter.log` and `MasterLooter.learned.tsv` next to itself; no game file is modified and nothing is written to a save.
+Uninstall by deleting the `MasterLooter.*` files from `bin64`. The plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself; no game file is modified and nothing is written to a save.
 
 ## Controls
 

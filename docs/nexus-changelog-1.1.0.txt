@@ -1,0 +1,8 @@
+1.1.0 (2026-09-06), for Crimson Desert 2.01.00 (exe 1.0.0.2760)
+
+Plants, ore, stone and wood are collected on a fresh install. They were not before.
+
+- Gather nodes are now identified by the prefab they were placed from, matched against a table of 1,042 node kinds built from the game's own data and compiled into the plugin. Previously a node was only known once you had gathered one of its kind by hand, so on a new install every plant and every ore vein was skipped as unidentified. Thanks to LuxDragon for the report and the log that made this findable.
+- The number a node reports for itself is not the same from one session to the next. A remembered pairing could therefore file a node under the wrong switch: on one machine the id that meant Shrubby Sophora one evening meant a sweet potato patch the next. Nothing is remembered after you quit any more, MasterLooter.learned.tsv is deleted, and what the mod works out from your bag now lasts only the session.
+- The Nearby tab and the log name a node instead of showing a number.
+- A node whose id happened to match an item row could be treated as that item. Gather ids and item ids are now kept apart.

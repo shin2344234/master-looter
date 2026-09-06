@@ -361,6 +361,17 @@ namespace ml::game
         return mem::ReadEngineString(gimmick + kOff_Gimmick_NodeName, out, n) && strlen(out) >= 4;
     }
 
+    bool NodePrefab(uintptr_t gimmick, char* out, size_t n)
+    {
+        if (!gimmick) return false;
+        const uintptr_t a = mem::Deref(gimmick, kOff_Gimmick_Prefab);
+        if (a && mem::ReadEngineString(a + kOff_Prefab_Path, out, n) && strstr(out, ".prefab")) return true;
+        const uintptr_t b = mem::Deref(gimmick, kOff_Gimmick_PrefabAlt);
+        if (b && mem::ReadEngineString(b + kOff_PrefabAlt_Path, out, n) && strstr(out, ".prefab")) return true;
+        out[0] = 0;
+        return false;
+    }
+
     // ------------------------------------------------------- table sweep ----
     // The engine reaches every static table through the same three
     // instructions, so one scan lists them all with their row counts. Used to

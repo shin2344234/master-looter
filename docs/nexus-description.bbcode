@@ -49,7 +49,7 @@ Watch mode keeps the menu on screen while you play, so you can read the Nearby l
 [*]Copy MasterLooter.asi into bin64 next to winmm.dll while the game is closed. The item database and the creature table are built into the plugin.
 [*]Start the game and press Insert.
 [/list]
-Uninstall by deleting the MasterLooter.* files from bin64 (the plugin writes MasterLooter.ini, .log and .learned.tsv next to itself). No game file is modified and nothing is written to a save.
+Uninstall by deleting the MasterLooter.* files from bin64 (the plugin writes MasterLooter.ini and .log next to itself). No game file is modified and nothing is written to a save.
 
 [size=4][b]Controls[/b][/size]
 [list]
@@ -74,7 +74,7 @@ All keys are rebindable under General. Hotkeys are ignored while the game window
 [*]A carcass is searched once per session and never again, whatever the retry setting: searching an empty carcass has been seen to duplicate items, and duplicates are how saves get corrupted.
 [*]No line-of-sight check. Ranges are distances, not visibility. Keep the arming range short or a node behind a thin wall can be gathered.
 [*]Creatures the mod cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified and be left alone.
-[*]Gather nodes are identified by what lands in your bag. A node type the mod has never seen yield anything is left alone until you harvest one by hand or turn Unidentified nodes on.
+[*]Gather nodes are identified by the prefab they were placed from, matched against a table of 1,042 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 [*]Chests and storage boxes open a window rather than hand over an item; they are off by default.
 [*]Single player. Do not use it anywhere it would give you an advantage over other people.
 [/list]
