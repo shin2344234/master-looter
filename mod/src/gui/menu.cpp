@@ -753,10 +753,11 @@ namespace ml::gui
         ImGui::SameLine();
         if (s.settling) ImGui::TextColored(kWarn, "paused: %s", s.hold);
         else ImGui::TextDisabled("scan %.1f ms", s.lastScanMs);
-        ImGui::TextDisabled("Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them.");
+        ImGui::TextDisabled("Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.");
 
-        static loot::Nearby rows[48];
-        const int n = loot::CopyNearby(rows, 48);
+        static loot::Nearby rows[loot::kNearbyRows];
+        const int n = loot::CopyNearby(rows, loot::kNearbyRows);
+        if (s.listed > n) ImGui::TextColored(kWarn, "Showing the nearest %d of %d. The rest are further away.", n, s.listed);
         if (ImGui::BeginTable("nearby", 4, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
             ImGui::TableSetupScrollFreeze(0, 1);
