@@ -257,7 +257,12 @@ namespace ml::game
                 if (mem::Read16(bk + kOff_Bucket_Used, &used) && mem::Read16(bk + kOff_Bucket_Cap, &cap) &&
                     cap >= 8 && cap <= 4096 && used <= cap + 512)
                 {
+                    // Re-read every refresh rather than kept, so expanding the
+                    // bag is picked up within half a second. A change is worth
+                    // a line: it is also the confirmation that this field is
+                    // the limit and not something that merely looks like it.
                     if (!g_bagCap) LOG("[inv] carried bag holds %u slots, %u in use", cap, used);
+                    else if (cap != g_bagCap) LOG("[inv] carried bag limit changed from %d to %u slots", g_bagCap, cap);
                     g_bagUsed = used; g_bagCap = cap;
                 }
                 else g_bagUsed = g_bagCap = 0;
