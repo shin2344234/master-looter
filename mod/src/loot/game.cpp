@@ -204,6 +204,7 @@ namespace ml::game
     static int      g_invN = 0;
     static DWORD    g_invAt = 0;
     static int      g_invCap = 0;       // slots across the buckets we can read, 0 when unknown
+    static std::vector<std::pair<int, int>> g_invEach;   // per bucket: slots, occupied
     static unsigned g_slotStride = 0;   // 0xC0 (Trinity) or 0xC8 (CDLoot); probed on the live data
     static std::vector<std::pair<uint16_t, long long>> g_qty;
 
@@ -268,6 +269,7 @@ namespace ml::game
             each.emplace_back(static_cast<int>(sn), hereN);
         }
         g_invN = n;
+        g_invEach = each;
         // The holder is not one bag: 18 buckets and 26,280 slots on 2760, which
         // is every store the player owns rather than what they are carrying.
         // Until one of them is known to be the bag, there is no capacity to
@@ -305,6 +307,62 @@ namespace ml::game
     }
     int InventoryCount() { return g_invN; }
     int InventoryCapacity() { return g_invCap; }
+
+    // ------------------------------------------------- inventory shape ----
+    // Where the bag's limit is kept is not known: every bucket is allocated
+    // 1,460 slots whatever it holds, so nothing there is a capacity. A limit
+    // has to be a field that stays put while the count moves, so the holder
+    // and the two buckets in use are sampled repeatedly with the count beside
+    // them, and only values small enough to be a slot limit are printed.
+    // Debug logging only, a dozen samples a session.
+    void DumpInventoryShape(uintptr_t me, bool bagFull)
+    {
+        // Samples are only worth taking when the count has moved: a limit is
+        // the field that does not move with it. One at the start, then one per
+        // change, so filling and emptying the bag inside a session is enough.
+        static int   s_dumps = 0, s_lastN = -1;
+        static DWORD s_last = 0;
+        const DWORD now = GetTickCount();
+        if (s_dumps >= 24) return;
+        if (s_dumps && g_invN == s_lastN) return;
+        if (s_last && now - s_last < 1500) return;
+        s_lastN = g_invN;
+        const uintptr_t comps  = Comps(me);
+        const uintptr_t holder = comps ? mem::Deref(comps, kOff_Comps_InvHolder) : 0;
+        if (!holder) return;
+        s_last = now; ++s_dumps;
+
+        char line[1400];
+        int w = snprintf(line, sizeof line, "[shape] %d held%s", g_invN, bagFull ? ", bag reads as full" : "");
+        for (size_t i = 0; i < g_invEach.size() && w < 300; ++i)
+            if (g_invEach[i].second) w += snprintf(line + w, sizeof line - w, " b%u=%d", static_cast<unsigned>(i), g_invEach[i].second);
+        w += snprintf(line + w, sizeof line - w, " | holder:");
+        for (unsigned off = 0; off < 0x200 && w < 1200; off += 4)
+        {
+            uint32_t v = 0;
+            if (!mem::Read32(holder + off, &v) || !v || v > 4096) continue;
+            w += snprintf(line + w, sizeof line - w, " +%X=%u", off, v);
+        }
+        LOG("%s", line);
+
+        uintptr_t barr = 0; uint32_t bn = 0;
+        if (!mem::ReadPtr(holder + kOff_Inv_Buckets, &barr) || !mem::Read32(holder + kOff_Inv_BucketN, &bn) || bn > 64) return;
+        for (uint32_t b = 0; b < bn && b < 18; ++b)
+        {
+            if (b < g_invEach.size() && !g_invEach[b].second) continue;   // only the ones holding something
+            uintptr_t bk = 0;
+            if (!mem::ReadPtr(barr + 8ull * b, &bk)) continue;
+            w = snprintf(line, sizeof line, "[shape]   bucket %u (%d held):", b, b < g_invEach.size() ? g_invEach[b].second : -1);
+            for (unsigned off = 0; off < 0x80 && w < 1200; off += 4)
+            {
+                uint32_t v = 0;
+                if (!mem::Read32(bk + off, &v) || !v || v > 4096) continue;
+                w += snprintf(line + w, sizeof line - w, " +%X=%u", off, v);
+            }
+            LOG("%s", line);
+        }
+    }
+
 
     // ------------------------------------------------------------- tables ----
     static int      g_tableState = 0;
