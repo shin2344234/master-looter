@@ -17,16 +17,20 @@ namespace ml
         DWORD renderTid    = 0;     // thread that presents frames (set by the menu each frame)
 
         // A short on-screen notice ("auto-loot on"), drawn until `noticeUntil`.
-        char  notice[96]   = "";
-        DWORD noticeUntil  = 0;
+        // An important one is drawn whether or not the toggle notice is wanted:
+        // someone who turned that off still wants to hear about a full bag.
+        char  notice[96]      = "";
+        DWORD noticeUntil     = 0;
+        bool  noticeImportant = false;
 
         // True while the menu owns keyboard, mouse and pad.
         bool Captures() const { return menuOpen && !menuWatch; }
 
-        void Notify(const char* text, DWORD ms = 2500)
+        void Notify(const char* text, DWORD ms = 2500, bool important = false)
         {
             strncpy(notice, text, sizeof notice - 1);
             notice[sizeof notice - 1] = 0;
+            noticeImportant = important;
             noticeUntil = GetTickCount() + ms;
         }
 

@@ -359,43 +359,49 @@ namespace ml::loot
         }
         g_invPrev.swap(cur);
         g_invPrevValid = true;
-        // Expire stale sends. One that expires with nothing to show for it is
-        // what a full bag looks like from here.
-        // Only pick-ups count. An empty carcass and a node that gives nothing
-        // are ordinary, and would otherwise read as a full bag.
+        // Expire stale sends. A pick-up of a known item that expires with
+        // nothing to show for it is what a full bag looks like from here. Only
+        // those count: an empty carcass, a node that gives nothing and an item
+        // the database cannot name would all otherwise read as a full bag.
+        //
+        // The streak is cleared when one of our own pick-ups lands, not when
+        // anything at all rises. The reader watches every store the player
+        // owns, so unrelated changes are common and used to clear it wrongly.
         int expired = 0;
         g_pend.erase(std::remove_if(g_pend.begin(), g_pend.end(), [now, &expired](const PendSend& p) {
             if (now - p.at <= 4000) return false;
-            if (p.act == Action::Take) ++expired;
+            if (p.act == Action::Take && p.itemRow >= 0) ++expired;
             return true;
         }), g_pend.end());
-        if (!rose.empty()) { g_noRise = 0; if (g_bagFull) { g_bagFull = false; LOG("[bag] something reached the bag again"); } }
-        else if (expired)
+        if (expired)
         {
             g_noRise += expired;
             if (g_noRise >= kBagFullStreak && !g_bagFull)
             {
                 g_bagFull = true;
-                const int used = game::InventoryCount(), cap = game::InventoryCapacity();
-                if (cap > 0 && used >= cap) LOG("[bag] nothing is reaching the bag: %d of %d slots used", used, cap);
-                else LOG("[bag] nothing is reaching the bag after %d sends: it is full, or the items cannot be carried", g_noRise);
+                LOG("[bag] %d pick-ups in a row reached nothing: the bag is full, or those items cannot be carried", g_noRise);
             }
         }
         if (g_bagFull && Settings::Get().notifyBagFull && now - g_bagFullSaid > 30000)
         {
             g_bagFullSaid = now;
-            const int used = game::InventoryCount(), cap = game::InventoryCapacity();
-            char msg[96];
-            if (cap > 0 && used >= cap) snprintf(msg, sizeof msg, "Master Looter: bag full, %d of %d slots", used, cap);
-            else snprintf(msg, sizeof msg, "Master Looter: nothing is reaching the bag");
-            State::Get().Notify(msg, 4000);
+            State::Get().Notify("Master Looter: bag full, nothing is being picked up", 5000, true);
         }
         if (rose.empty() || g_pend.empty()) return;
         for (uint16_t type : rose)
         {
             // A send whose item we already knew explains the rise.
             auto known = std::find_if(g_pend.begin(), g_pend.end(), [type](const PendSend& p) { return p.itemRow == type; });
-            if (known != g_pend.end()) { g_pend.erase(known); continue; }
+            if (known != g_pend.end())
+            {
+                if (known->act == Action::Take)
+                {
+                    g_noRise = 0;
+                    if (g_bagFull) { g_bagFull = false; LOG("[bag] pick-ups are landing again"); }
+                }
+                g_pend.erase(known);
+                continue;
+            }
             // Otherwise every pending gather of one node type is the source,
             // but only when nothing else (a catch, a pick-up of an unnamed
             // item, a carcass) could explain the rise.

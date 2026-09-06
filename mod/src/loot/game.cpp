@@ -237,6 +237,7 @@ namespace ml::game
         if (!me || (!force && g_invN && now - g_invAt < 500)) return;
         g_invAt = now;
         int n = 0, cap = 0;
+        std::vector<std::pair<int, int>> each;   // per bucket: slots, occupied
         std::vector<std::pair<uint16_t, long long>> qty;
         const uintptr_t comps  = Comps(me);
         const uintptr_t holder = comps ? mem::Deref(comps, kOff_Comps_InvHolder) : 0;
@@ -252,22 +253,35 @@ namespace ml::game
             const unsigned stride = g_slotStride ? g_slotStride : kInv_SlotStride;
             if (!mem::Readable(slots, static_cast<size_t>(sn) * stride)) continue;
             cap += sn;
+            int hereN = 0;
             for (uint16_t i = 0; i < sn && n < 2048; ++i)
             {
                 const uintptr_t s = slots + static_cast<uintptr_t>(i) * stride;
                 uint16_t type = 0; uint32_t iid = 0;
                 if (!mem::Read16(s + kOff_Slot_TypeId, &type) || type == 0xFFFF || type == 0) continue;
                 if (!mem::Read32(s, &iid) || !iid || iid == 0xFFFFFFFF) continue;
-                g_inv[n++] = iid;
+                g_inv[n++] = iid; ++hereN;
                 uint64_t q = 0;
                 long long count = (mem::Read64(s + 0x10, &q) && q > 0 && q < 100000000ull) ? static_cast<long long>(q) : 1;
                 qty.emplace_back(type, count);
             }
+            each.emplace_back(static_cast<int>(sn), hereN);
         }
         g_invN = n;
-        g_invCap = cap;
+        // The holder is not one bag: 18 buckets and 26,280 slots on 2760, which
+        // is every store the player owns rather than what they are carrying.
+        // Until one of them is known to be the bag, there is no capacity to
+        // report, and the total is only written to the log to be looked at.
+        g_invCap = 0;
         static bool s_capLogged = false;
-        if (!s_capLogged && cap) { s_capLogged = true; LOG("[inv] %u buckets, %d slots in total, %d of them holding something", bn, cap, n); }
+        if (!s_capLogged && cap)
+        {
+            s_capLogged = true;
+            char line[600]; int w = snprintf(line, sizeof line, "[inv] %u buckets, %d slots, %d holding something. Per bucket:", bn, cap, n);
+            for (size_t i = 0; i < each.size() && w < 520; ++i)
+                w += snprintf(line + w, sizeof line - w, " %u:%d/%d", static_cast<unsigned>(i), each[i].second, each[i].first);
+            LOG("%s", line);
+        }
         std::sort(qty.begin(), qty.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
         std::vector<std::pair<uint16_t, long long>> merged;
         for (const auto& e : qty)

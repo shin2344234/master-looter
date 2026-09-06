@@ -184,7 +184,7 @@ namespace ml::gui
     {
         const State& st = State::Get();
         if (st.menuOpen) return true;
-        return Settings::Get().showHud && st.notice[0] && static_cast<LONG>(st.noticeUntil - GetTickCount()) > 0;
+        return (Settings::Get().showHud || st.noticeImportant) && st.notice[0] && static_cast<LONG>(st.noticeUntil - GetTickCount()) > 0;
     }
 
     // --- helpers ------------------------------------------------------------
@@ -256,20 +256,61 @@ namespace ml::gui
     }
 
     // --- tabs ---------------------------------------------------------------
-    // Presets and the session backup. A preset is every setting and every rule
-    // under a name; the backup is the settings file as it was when the game
-    // started, which is what a version with different defaults undoes against.
+    // Two-click confirm for anything that overwrites or discards. The first
+    // click arms the button, a second within four seconds does it, and only one
+    // button is ever armed. Touching anything else disarms it.
+    static std::string s_armed;
+    static DWORD       s_armedUntil = 0;
+
+    static bool Armed(const char* id)
+    {
+        return s_armed == id && static_cast<LONG>(s_armedUntil - GetTickCount()) > 0;
+    }
+
+    static bool ConfirmButton(const char* id, const char* label, const char* armedLabel, bool needsConfirm)
+    {
+        if (!needsConfirm)
+        {
+            if (!ImGui::Button(label)) return false;
+            s_armed.clear();
+            return true;
+        }
+        if (Armed(id))
+        {
+            ImGui::PushStyleColor(ImGuiCol_Button, kCrimson);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, kCrimsonHi);
+            const bool go = ImGui::Button(armedLabel);
+            ImGui::PopStyleColor(2);
+            if (go) { s_armed.clear(); return true; }
+            return false;
+        }
+        if (ImGui::Button(label)) { s_armed = id; s_armedUntil = GetTickCount() + 4000; }
+        return false;
+    }
+
+    // Presets and backups. A preset is every setting and every rule under a
+    // name; a backup is the settings file as it was at a moment in time, one
+    // written automatically each time the game starts.
     static void DrawPresets()
     {
-        Section("Presets and backup");
+        Section("Presets");
         static std::string s_names[64];
         static int   s_count = -1;
         static int   s_sel = -1;
         static char  s_name[48] = "";
-        static char  s_said[96] = "";
+        static std::string s_baks[64];
+        static int   s_bakCount = -1;
+        static int   s_bakSel = 0;
+        static char  s_said[128] = "";
         static DWORD s_saidUntil = 0;
-        auto refresh = [&] { s_count = Settings::ListPresets(s_names, 64); if (s_sel >= s_count) s_sel = s_count - 1; };
-        auto say = [&](const char* what) { snprintf(s_said, sizeof s_said, "%s", what); s_saidUntil = GetTickCount() + 4000; };
+        auto refresh = [&] {
+            s_count = Settings::ListPresets(s_names, 64);
+            if (s_sel >= s_count) s_sel = s_count - 1;
+            s_bakCount = Settings::ListBackups(s_baks, 64);
+            if (s_bakSel >= s_bakCount) s_bakSel = s_bakCount - 1;
+            if (s_bakSel < 0 && s_bakCount > 0) s_bakSel = 0;
+        };
+        auto say = [&](const char* what) { snprintf(s_said, sizeof s_said, "%s", what); s_saidUntil = GetTickCount() + 5000; };
         if (s_count < 0) refresh();
 
         ImGui::SetNextItemWidth(240 * g_scale);
@@ -277,52 +318,88 @@ namespace ml::gui
         if (ImGui::BeginCombo("##preset", label))
         {
             for (int i = 0; i < s_count; ++i)
-                if (ImGui::Selectable(s_names[i].c_str(), i == s_sel)) s_sel = i;
+                if (ImGui::Selectable(s_names[i].c_str(), i == s_sel)) { s_sel = i; s_armed.clear(); }
             ImGui::EndCombo();
         }
         ImGui::SameLine();
         const bool have = s_sel >= 0 && s_sel < s_count;
         ImGui::BeginDisabled(!have);
-        if (ImGui::Button("Load")) { if (Settings::LoadPreset(s_names[s_sel].c_str())) say("Preset loaded."); else say("That preset could not be read."); }
-        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini."); ImGui::EndTooltip(); }
+        if (ConfirmButton("preset.load", "Load", "Replace all settings?", true))
+        {
+            if (Settings::LoadPreset(s_names[s_sel].c_str())) say("Preset loaded.");
+            else say("That preset could not be read.");
+        }
+        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Your current settings are not kept, so back them up first if you want them."); ImGui::EndTooltip(); }
         ImGui::SameLine();
-        if (ImGui::Button("Delete")) { if (Settings::DeletePreset(s_names[s_sel].c_str())) { say("Preset deleted."); refresh(); } }
+        if (ConfirmButton("preset.delete", "Delete", "Delete for good?", true))
+        {
+            if (Settings::DeletePreset(s_names[s_sel].c_str())) { say("Preset deleted."); refresh(); }
+        }
         ImGui::EndDisabled();
         ImGui::SameLine();
-        if (ImGui::Button("Refresh")) refresh();
+        if (ImGui::Button("Refresh")) { refresh(); s_armed.clear(); }
 
         ImGui::SetNextItemWidth(240 * g_scale);
-        ImGui::InputTextWithHint("##presetname", "name for a new preset", s_name, sizeof s_name);
+        if (ImGui::InputTextWithHint("##presetname", "name for a new preset", s_name, sizeof s_name)) s_armed.clear();
         ImGui::SameLine();
         const std::string clean = Settings::CleanPresetName(s_name);
+        const bool exists = !clean.empty() && Settings::PresetExists(s_name);
         ImGui::BeginDisabled(clean.empty());
-        if (ImGui::Button("Save as preset"))
+        if (ConfirmButton("preset.save", exists ? "Overwrite preset" : "Save as preset", "Overwrite it?", exists))
         {
-            if (Settings::SavePreset(s_name)) { say("Preset saved."); s_name[0] = '\0'; refresh(); }
+            if (Settings::SavePreset(s_name)) { say(exists ? "Preset overwritten." : "Preset saved."); s_name[0] = 0; refresh(); }
             else say("That name cannot be used.");
         }
         ImGui::EndDisabled();
         if (!clean.empty() && clean != s_name)
             ImGui::TextDisabled("Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.", clean.c_str());
+        else if (exists)
+            ImGui::TextDisabled("\"%s\" already exists. Saving over it asks first.", clean.c_str());
 
-        // Asking the file system every frame for a file that changes once a
-        // session is wasteful; a second's cache is plenty.
-        static char  s_when[32] = "";
-        static bool  s_haveBak = false;
-        static DWORD s_bakAt = 0;
-        const DWORD nowb = GetTickCount();
-        if (!s_bakAt || nowb - s_bakAt > 1000) { s_bakAt = nowb; s_haveBak = Settings::BackupExists(s_when, sizeof s_when); }
-        const char* when = s_when;
-        const bool haveBak = s_haveBak;
+        Section("Backups");
+        if (s_bakCount < 0) refresh();
+        ImGui::SetNextItemWidth(240 * g_scale);
+        const std::string bakLabel = (s_bakSel >= 0 && s_bakSel < s_bakCount)
+                                   ? Settings::BackupLabel(s_baks[s_bakSel].c_str())
+                                   : std::string(s_bakCount ? "pick one" : "none yet");
+        if (ImGui::BeginCombo("##backup", bakLabel.c_str()))
+        {
+            for (int i = 0; i < s_bakCount; ++i)
+            {
+                const std::string one = Settings::BackupLabel(s_baks[i].c_str());
+                if (ImGui::Selectable(one.c_str(), i == s_bakSel)) { s_bakSel = i; s_armed.clear(); }
+            }
+            ImGui::EndCombo();
+        }
+        ImGui::SameLine();
+        const bool haveBak = s_bakSel >= 0 && s_bakSel < s_bakCount;
         ImGui::BeginDisabled(!haveBak);
-        if (ImGui::Button("Restore the backup")) { if (Settings::RestoreBackup()) say("Settings restored from the backup."); else say("The backup could not be read."); }
+        if (ConfirmButton("backup.restore", "Restore", "Discard current settings?", true))
+        {
+            if (Settings::RestoreBackup(s_baks[s_bakSel].c_str())) say("Settings restored from that backup.");
+            else say("That backup could not be read.");
+        }
+        if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Puts every setting and rule back to what it was at that moment."); ImGui::EndTooltip(); }
+        ImGui::SameLine();
+        if (ConfirmButton("backup.delete", "Delete", "Delete for good?", true))
+        {
+            if (Settings::DeleteBackup(s_baks[s_bakSel].c_str())) { say("Backup deleted."); refresh(); }
+        }
         ImGui::EndDisabled();
         ImGui::SameLine();
-        if (haveBak) ImGui::TextDisabled("MasterLooter.ini as it was at %s, before this session touched it.", when);
-        else ImGui::TextDisabled("No backup yet. One is written each time the game starts.");
+        {
+            const std::string stamp = Settings::NextBackupStamp();
+            const bool over = Settings::BackupExists(stamp.c_str());
+            if (ConfirmButton("backup.now", over ? "Back up again" : "Back up now", "Overwrite this minute's backup?", over))
+            {
+                if (Settings::BackupNow()) { say(over ? "Backup replaced." : "Settings backed up."); refresh(); }
+                else say("The backup could not be written.");
+            }
+            if (ImGui::BeginItemTooltip()) { ImGui::Text("Writes the settings as they are now, named %s.", Settings::BackupLabel(stamp.c_str()).c_str()); ImGui::EndTooltip(); }
+        }
 
         if (s_said[0] && static_cast<LONG>(s_saidUntil - GetTickCount()) > 0) ImGui::TextColored(kGold, "%s", s_said);
-        else ImGui::TextDisabled("Presets live in MasterLooter.presets next to the plugin. Copy the folder to keep them across a reinstall.");
+        else ImGui::TextDisabled("One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.");
     }
 
     static void TabGeneral(Config& c)
@@ -334,7 +411,7 @@ namespace ml::gui
         if (ImGui::Button("Loot everything in range now")) loot::RequestBurst();
         dirty |= ImGui::Checkbox("Show a brief notice when auto-loot is toggled", &c.showHud);
         dirty |= ImGui::Checkbox("Say so on screen when the bag stops taking things", &c.notifyBagFull);
-        Help("The game does not announce a full bag, so this watches what happens after a pick-up: when five in a row are sent and nothing arrives, you get a notice. It repeats at most every 30 seconds and clears itself as soon as something lands.");
+        Help("The game does not announce a full bag, so this watches what happens after a pick-up: when five in a row reach nothing, you get a notice. It repeats at most every 30 seconds and clears as soon as one of them lands. It can only tell while the mod is picking things up, so standing still with a full bag says nothing.");
         Help("Nothing else is drawn while the menu is closed.");
 
         Section("Keys");
@@ -716,9 +793,8 @@ namespace ml::gui
         if (s.playerFound)
         {
             ImGui::TextUnformatted("Player"); ImGui::SameLine(220 * g_scale);
-            if (s.inventorySlots > 0) ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, %d of %d slots used", s.playerEid, s.inventoryItems, s.inventorySlots);
-            else ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, %d items in bag", s.playerEid, s.inventoryItems);
-            if (s.bagFull) { ImGui::SameLine(); ImGui::TextColored(kWarn, "  bag full"); }
+            ImGui::TextColored(s.bagFull ? kWarn : kGood, "entity %08X, %d items across every store", s.playerEid, s.inventoryItems);
+            if (s.bagFull) { ImGui::SameLine(); ImGui::TextColored(kWarn, "  bag full: pick-ups are not landing"); }
         }
         else OnOff("Player", false, "", "not found yet");
         OnOff("Event descriptors", s.descriptors == 3, "3 of 3", s.descriptors ? "incomplete" : "not resolved yet");
@@ -800,7 +876,7 @@ namespace ml::gui
         if (capt) input::FeedMouse(io);
         else { io.AddMousePosEvent(-FLT_MAX, -FLT_MAX); io.AddFocusEvent(capt); } // nothing hovers or reacts while watching
 
-        if (c.showHud) DrawNotice();
+        if (c.showHud || st.noticeImportant) DrawNotice();
         if (!st.menuOpen) { st.textCapture = false; if (st.rebindCapture) { st.rebindCapture = false; g_rebindTarget = -1; } return; }
 
         ImGui::SetNextWindowSize(ImVec2(900 * g_scale, 640 * g_scale), ImGuiCond_FirstUseEver);

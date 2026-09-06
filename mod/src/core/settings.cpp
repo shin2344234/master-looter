@@ -105,13 +105,98 @@ namespace ml::Settings
 
     static bool WriteText(const std::wstring& path, const std::string& text);
     static std::string Serialize(const Config& c);
+    static bool ReadWhole(const std::wstring& path, std::string& out);
 
-    // A copy of the settings file kept aside, so a bad edit, a migration or a
-    // new version's defaults can be undone. Never overwrites with nothing.
-    static bool BackupTo(const wchar_t* name, const std::string& text)
+    // Backups live as one dated file each in MasterLooter.backups. One is
+    // written every time the game starts, before this process can change
+    // anything, and the oldest are dropped so the folder cannot grow forever.
+    static constexpr int kKeepBackups = 12;
+    static std::wstring BackupDir() { return Paths::File(L"MasterLooter.backups"); }
+
+    // "20260906-0850" on disk, "2026-09-06 08:50" on screen.
+    static std::string StampNow(const char* suffix)
+    {
+        SYSTEMTIME lt{};
+        GetLocalTime(&lt);
+        char b[48];
+        snprintf(b, sizeof b, "%04d%02d%02d-%02d%02d%s", lt.wYear, lt.wMonth, lt.wDay, lt.wHour, lt.wMinute, suffix ? suffix : "");
+        return b;
+    }
+
+    std::string BackupLabel(const char* stamp)
+    {
+        const std::string s(stamp ? stamp : "");
+        if (s.size() < 13 || s[8] != '-') return s;
+        return s.substr(0, 4) + "-" + s.substr(4, 2) + "-" + s.substr(6, 2) + " " +
+               s.substr(9, 2) + ":" + s.substr(11, 2) + s.substr(13);
+    }
+
+    static std::wstring BackupPath(const std::string& stamp)
+    {
+        std::wstring w(stamp.begin(), stamp.end());
+        return BackupDir() + L"\\" + w + L".ini";
+    }
+
+    static bool BackupText(const std::string& stamp, const std::string& text)
     {
         if (text.empty()) return false;
-        return WriteText(Paths::File(name), text);
+        CreateDirectoryW(BackupDir().c_str(), nullptr);
+        return WriteText(BackupPath(stamp), text);
+    }
+
+    // Newest first, so the list reads the way a person looks for one.
+    int ListBackups(std::string* out, int max)
+    {
+        WIN32_FIND_DATAW fd;
+        const std::wstring pat = BackupDir() + L"\\*.ini";
+        HANDLE h = FindFirstFileW(pat.c_str(), &fd);
+        if (h == INVALID_HANDLE_VALUE) return 0;
+        std::vector<std::string> all;
+        do
+        {
+            if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+            std::wstring w = fd.cFileName;
+            if (w.size() > 4) w.resize(w.size() - 4);
+            std::string name;
+            for (wchar_t c : w) name += (c < 128) ? static_cast<char>(c) : '?';
+            all.push_back(name);
+        } while (FindNextFileW(h, &fd));
+        FindClose(h);
+        std::sort(all.begin(), all.end(), std::greater<std::string>());
+        const int n = static_cast<int>(all.size()) < max ? static_cast<int>(all.size()) : max;
+        for (int i = 0; i < n; ++i) out[i] = all[i];
+        return n;
+    }
+
+    static void PruneBackups()
+    {
+        std::string names[256];
+        const int n = ListBackups(names, 256);
+        for (int i = kKeepBackups; i < n; ++i) DeleteFileW(BackupPath(names[i]).c_str());
+    }
+
+    bool BackupExists(const char* stamp)
+    {
+        return GetFileAttributesW(BackupPath(stamp ? stamp : "").c_str()) != INVALID_FILE_ATTRIBUTES;
+    }
+
+    std::string NextBackupStamp() { return StampNow(""); }
+
+    bool BackupNow()
+    {
+        std::lock_guard<std::recursive_mutex> lk(g_mutex);
+        if (!BackupText(StampNow(""), Serialize(g_cfg))) return false;
+        PruneBackups();
+        LOG("Settings backed up as %s.", BackupLabel(StampNow("").c_str()).c_str());
+        return true;
+    }
+
+    bool DeleteBackup(const char* stamp)
+    {
+        if (!stamp || !*stamp) return false;
+        if (!DeleteFileW(BackupPath(stamp).c_str())) return false;
+        LOG("Backup %s deleted.", BackupLabel(stamp).c_str());
+        return true;
     }
 
     // Reads an ini's text into `c`. Used for the live file, for a preset and
@@ -159,12 +244,12 @@ namespace ml::Settings
         // ignores and gathered unidentified nodes by default; bring both in line.
         if (present && c.configVersion < 2)
         {
-            BackupTo(L"MasterLooter.ini.v1.bak", text);
+            BackupText(StampNow("-v1"), text);
             c.gatherRange = std::min(c.gatherRange, 6.0f);
             c.gatherUnknown = false;
             c.configVersion = 2;
             g_dirty = true; g_dirtyAt = GetTickCount64();
-            LOG("Settings migrated to version 2: gather range %.0f m, unidentified nodes off. The file as it was is saved as MasterLooter.ini.v1.bak.", c.gatherRange);
+            LOG("Settings migrated to version 2: gather range %.0f m, unidentified nodes off. The file as it was is kept as a backup.", c.gatherRange);
         }
         if (!present) c.configVersion = 2;
         Clamp(c);
@@ -271,6 +356,13 @@ namespace ml::Settings
         return n;
     }
 
+    bool PresetExists(const char* rawName)
+    {
+        const std::string name = CleanPresetName(rawName);
+        if (name.empty()) return false;
+        return GetFileAttributesW(PresetPath(name).c_str()) != INVALID_FILE_ATTRIBUTES;
+    }
+
     bool SavePreset(const char* rawName)
     {
         const std::string name = CleanPresetName(rawName);
@@ -288,13 +380,8 @@ namespace ml::Settings
     {
         const std::string name = CleanPresetName(rawName);
         if (name.empty()) return false;
-        FILE* f = _wfopen(PresetPath(name).c_str(), L"rb");
-        if (!f) { LOG_ERR("Preset \"%s\" could not be opened.", name.c_str()); return false; }
         std::string text;
-        char buf[4096]; size_t got;
-        while ((got = fread(buf, 1, sizeof buf, f)) > 0) text.append(buf, got);
-        fclose(f);
-        if (text.empty()) { LOG_ERR("Preset \"%s\" is empty.", name.c_str()); return false; }
+        if (!ReadWhole(PresetPath(name), text)) { LOG_ERR("Preset \"%s\" could not be read.", name.c_str()); return false; }
         Config c;
         c.configVersion = 1;
         ParseInto(text, c);
@@ -320,29 +407,21 @@ namespace ml::Settings
     }
 
     // ---------------------------------------------------------- backup ----
-    bool BackupExists(char* whenOut, size_t n)
+    static bool ReadWhole(const std::wstring& path, std::string& out)
     {
-        if (whenOut && n) whenOut[0] = '\0';
-        WIN32_FILE_ATTRIBUTE_DATA fad{};
-        if (!GetFileAttributesExW(Paths::File(L"MasterLooter.ini.bak").c_str(), GetFileExInfoStandard, &fad)) return false;
-        if (whenOut && n)
-        {
-            SYSTEMTIME st{}, lt{};
-            if (FileTimeToSystemTime(&fad.ftLastWriteTime, &st) && SystemTimeToTzSpecificLocalTime(nullptr, &st, &lt))
-                snprintf(whenOut, n, "%04d-%02d-%02d %02d:%02d", lt.wYear, lt.wMonth, lt.wDay, lt.wHour, lt.wMinute);
-        }
-        return true;
+        FILE* f = _wfopen(path.c_str(), L"rb");
+        if (!f) return false;
+        char buf[4096]; size_t got;
+        while ((got = fread(buf, 1, sizeof buf, f)) > 0) out.append(buf, got);
+        fclose(f);
+        return !out.empty();
     }
 
-    bool RestoreBackup()
+    bool RestoreBackup(const char* stamp)
     {
-        FILE* f = _wfopen(Paths::File(L"MasterLooter.ini.bak").c_str(), L"rb");
-        if (!f) { LOG_ERR("There is no MasterLooter.ini.bak to restore."); return false; }
+        if (!stamp || !*stamp) return false;
         std::string text;
-        char buf[4096]; size_t got;
-        while ((got = fread(buf, 1, sizeof buf, f)) > 0) text.append(buf, got);
-        fclose(f);
-        if (text.empty()) { LOG_ERR("MasterLooter.ini.bak is empty; nothing restored."); return false; }
+        if (!ReadWhole(BackupPath(stamp), text)) { LOG_ERR("Backup %s could not be read.", BackupLabel(stamp).c_str()); return false; }
         Config c;
         c.configVersion = 1;
         ParseInto(text, c);
@@ -353,7 +432,7 @@ namespace ml::Settings
             ++g_generation;
         }
         MarkDirty();
-        LOG("Settings restored from MasterLooter.ini.bak.");
+        LOG("Settings restored from the backup of %s.", BackupLabel(stamp).c_str());
         return true;
     }
 
@@ -365,8 +444,11 @@ namespace ml::Settings
         // version that changes a default, or an afternoon of fiddling, is then
         // one button away from being undone.
         std::string text;
-        if (ReadFile(text) && BackupTo(L"MasterLooter.ini.bak", text))
-            LOG("Settings backed up to MasterLooter.ini.bak before this session touched them.");
+        if (ReadFile(text) && BackupText(StampNow(""), text))
+        {
+            PruneBackups();
+            LOG("Settings backed up as %s before this session touched them.", BackupLabel(StampNow("").c_str()).c_str());
+        }
     }
 
     void MarkDirty() { g_dirty = true; g_dirtyAt = GetTickCount64(); }
