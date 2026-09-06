@@ -60,10 +60,10 @@ cd_nature_wood_mossytreelog_01_i3	wood		Wood
 cd_nature_wood_mossytreelog_01_index01	wood		Wood
 cd_nature_wood_mossytreelog_01_index02	wood		Wood
 cd_nature_wood_mossytreelog_01_pine	wood		Wood
-cd_nature_wood_oldtree_01_01	wood	Visione_Chip_Pailoonoldtree	Old Tree
-cd_nature_wood_oldtree_01_01_index01	wood	Visione_Chip_Pailoonoldtree	Old Tree
+cd_nature_wood_oldtree_01_01	wood		Cd nature wood oldtree 01
+cd_nature_wood_oldtree_01_01_index01	wood		Wood
 cd_nature_wood_oldtree_01_01_pine	wood		Wood
-cd_nature_wood_oldtree_03	wood	Visione_Chip_Pailoonoldtree	Old Tree
+cd_nature_wood_oldtree_03	wood		Cd nature wood oldtree
 cd_nature_wood_oldtree_03_oak	wood		Cd nature wood oldtree 03 oak
 cd_nature_wood_oldtree_03_pine	wood		Cd nature wood oldtree 03 pine
 cd_nature_wood_woodenbranch_01	wood		Cd nature wood woodenbranch
@@ -101,7 +101,7 @@ gimmick_ancient_stone_soldier_01_b_gmk_05	stone		Ancient stone soldier 01 b gmk
 gimmick_ancient_stone_warrior_01_b_gmk_05	stone		Ancient stone warrior 01 b gmk
 gimmick_attach_abyssgrass_landspider_01	plant		Attach abyssgrass landspider
 gimmick_attach_abyssgrass_landspider_02	plant		Attach abyssgrass landspider
-gimmick_attach_flowerbasket_01	plant	Collection_Prop_FlowerPot_0002	Flower Basket
+gimmick_attach_flowerbasket_01	plant		Attach flowerbasket
 gimmick_attach_lake_stone_01	stone	Stone_Quarry	Stone
 gimmick_attach_lake_stone_01_part	stone		Attach lake stone 01 part
 gimmick_attach_landspider_bismuth_01	ore		Attach landspider bismuth
@@ -243,7 +243,7 @@ gimmick_breakable_spot_silverwolves_pillar_01_broken	stone	Stone_Quarry	Stone
 gimmick_breakable_spot_silverwolves_pillar_01_broken_body	stone	Stone_Quarry	Stone
 gimmick_breakable_spot_tree_brothers_cliff_pillar_02	stone	Stone_Quarry	Stone
 gimmick_breakable_spot_tree_brothers_cliff_pillar_03	stone	Stone_Quarry	Stone
-gimmick_brimstone_bomb_01	stone	Fire_Bomb	Bomb
+gimmick_brimstone_bomb_01	stone		Battle brimstone bomb
 gimmick_bush_cd_crop_grape_02_collect_01	wood		Bush cd crop grape 02 collect
 gimmick_bush_crop_ensete_01_collect	plant		Bush crop ensete 01 collect
 gimmick_bush_crop_ensete_01_collect_02	plant		Bush crop ensete 01 collect
@@ -284,7 +284,7 @@ gimmick_collect_mushroom_hericium_01	plant		Mushroom hericium
 gimmick_collect_mushroom_phellinus_01	plant		Mushroom phellinus
 gimmick_collect_mushroom_shiitake_01	plant		Mushroom shiitake
 gimmick_collect_ore_bluestone_01	ore	BlueStone	Azurite
-gimmick_collect_ore_copper_01	ore	Money_Copper	Copper
+gimmick_collect_ore_copper_01	ore		Ore copper
 gimmick_collect_ore_diamond_01	ore	Diamond	Diamond
 gimmick_collect_ore_gold_01	ore		Ore gold
 gimmick_collect_ore_greenstone_01	ore	GreenStone	Epidote
@@ -554,14 +554,14 @@ gimmick_item_firewood_2002_premium	wood		Firewood 2002 premium
 gimmick_item_firewood_2003	wood		Firewood
 gimmick_item_firewood_2003_fine	wood		Firewood 2003 fine
 gimmick_item_firewood_2003_premium	wood		Firewood 2003 premium
-gimmick_item_quest_sticky_flower_bomb	plant	Fire_Bomb	Bomb
+gimmick_item_quest_sticky_flower_bomb	plant		Item quest sticky flower bomb
 gimmick_item_reeddevil_doll	plant		Item reeddevil doll
 gimmick_item_trade_brimstone_0001	stone	Item_Rare_Collect_SulfurStone	Brimstone
 gimmick_item_trade_brimstone_01	stone	Item_Rare_Collect_SulfurStone	Brimstone
 gimmick_item_trade_brimstone_02	stone	Item_Rare_Collect_SulfurStone	Brimstone
 gimmick_item_trade_brimstone_03	stone	Item_Rare_Collect_SulfurStone	Brimstone
-gimmick_item_trade_divinemushroom_0001	plant	Trade_SpiritMushroom	Divine Mushroom
-gimmick_item_trade_glowingmushroom_0001	plant	Trade_GlowingMushroom	Glowing Mushroom
+gimmick_item_trade_divinemushroom_0001	plant		Item trade divinemushroom
+gimmick_item_trade_glowingmushroom_0001	plant		Item trade glowingmushroom
 gimmick_item_trade_icestone_0001	stone		Item trade icestone
 gimmick_item_trade_saltrock_0001	stone		Item trade saltrock
 gimmick_item_trade_stone_01	stone	Stone_Quarry	Stone
@@ -611,7 +611,7 @@ gimmick_lamp_standstone_06_index02_off	stone		Lamp standstone 06 index02 off
 gimmick_lamp_standstone_06_index03_off	stone		Lamp standstone 06 index03 off
 gimmick_lamp_standstone_06_index04_off	stone		Lamp standstone 06 index04 off
 gimmick_lamp_standstone_06_off	stone		Lamp standstone 06 off
-gimmick_lifespring_0001	wood	Pear	Pear
+gimmick_lifespring_0001	wood		Tariv guardiantree pear
 gimmick_liftable_pillar_02_stump	wood		Liftable pillar 02 stump
 gimmick_marni_chocolate_loginoutmachine_0003	wood		Marni chocolate loginoutmachine
 gimmick_middle_copper_pipe_01_index01	ore		Middle copper pipe 01 index01
@@ -640,7 +640,7 @@ gimmick_mine_bismuth_place_01	ore		Mine bismuth
 gimmick_mine_bismuth_place_01_cave	ore		Mine bismuth cave
 gimmick_mine_bluestone_place_01	ore	BlueStone	Azurite
 gimmick_mine_bluestone_place_01_cave	ore		Mine bluestone cave
-gimmick_mine_copperstone_place_01	ore	Money_Copper	Copper
+gimmick_mine_copperstone_place_01	ore		Mine copper
 gimmick_mine_copperstone_place_01_cave	ore		Mine copper cave
 gimmick_mine_diamond_place_01	ore	Diamond	Diamond
 gimmick_mine_diamond_place_01_cave	ore		Mine diamond cave
@@ -883,8 +883,8 @@ gimmick_tool_automata_flower_0002_parts02	plant		Plant
 gimmick_tool_blacksmithstone_01	stone		Tool blacksmithstone
 gimmick_tool_blacksmithstone_housing_0001	stone		Tool blacksmithstone housing
 gimmick_tool_decostone_0001	stone		Tool decostone
-gimmick_tool_decostone_0001_cogwheel	stone	Cog	Cogwheel
-gimmick_tool_decostone_0001_cogwheel_index01	stone	Cog	Cogwheel
+gimmick_tool_decostone_0001_cogwheel	stone		Tool decostone 0001 cogwheel
+gimmick_tool_decostone_0001_cogwheel_index01	stone		Stone
 gimmick_tool_decostone_0001_index01	stone		Tool decostone 0001 index01
 gimmick_tool_decostone_0001_index02	stone		Tool decostone 0001 index02
 gimmick_tool_decostone_0001_index03	stone		Tool decostone 0001 index03
@@ -899,8 +899,8 @@ gimmick_tool_decostone_0002_parts01	stone		Tool decostone 0002 parts01
 gimmick_tool_decostone_0003	stone		Tool decostone
 gimmick_tool_decostone_0003_parts01	stone		Tool decostone 0003 parts01
 gimmick_tool_decostone_0004	stone		Tool decostone
-gimmick_tool_decostone_0004_cogwheel	stone	Cog	Cogwheel
-gimmick_tool_decostone_0004_cogwheel_index01	stone	Cog	Cogwheel
+gimmick_tool_decostone_0004_cogwheel	stone		Tool decostone 0004 cogwheel
+gimmick_tool_decostone_0004_cogwheel_index01	stone		Stone
 gimmick_tool_decostone_0004_index01	stone		Tool decostone 0004 index01
 gimmick_tool_decostone_0004_index02	stone		Tool decostone 0004 index02
 gimmick_tool_decostone_0004_index03	stone		Tool decostone 0004 index03
@@ -951,7 +951,7 @@ gimmick_tree_broad_maple_02_red	wood		Tree broad maple 02 red
 gimmick_tree_broad_maple_02_yellow	wood		Tree broad maple 02 yellow
 gimmick_tree_broad_maple_03	wood		Tree broad maple
 gimmick_tree_broad_maple_03_gr	wood		Tree broad maple 03 gr
-gimmick_tree_broad_maple_03_orange	wood	Orange	Orange
+gimmick_tree_broad_maple_03_orange	wood		Tree broad maple 03 orange
 gimmick_tree_broad_maple_03_red	wood		Tree broad maple 03 red
 gimmick_tree_broad_maple_03_yellow	wood		Tree broad maple 03 yellow
 gimmick_tree_broad_oak_white_hero_01	wood		Tree broad oak white hero
@@ -1033,7 +1033,7 @@ gimmick_unique_tree_crop_figs_01_collect_01	wood		Unique tree crop figs 01 colle
 gimmick_unique_tree_crop_orange_01_collect_01	wood		Wood
 gimmick_unique_tree_crop_peach_01_collect_01	wood		Wood
 gimmick_unique_tree_crop_pomegranate_01_collect_01	wood		Wood
-gimmick_vine_bomb_01	plant	Fire_Bomb	Bomb
+gimmick_vine_bomb_01	plant		Battle vine bomb
 gimmick_wood_firewood_0001	wood		Wood firewood
 gimmick_woodlog_set_05_01_pail	wood		Woodlog set 05 01 pail
 gimmick_woodlog_set_05_02_pail	wood		Woodlog set 05 02 pail
