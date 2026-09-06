@@ -20,6 +20,11 @@ namespace ml::loot::hooks
     // The 4th argument of the game's latest arming call: a pointer, not an id.
     // 0 until the game has been seen arming something.
     uintptr_t ArmContext();
+    // The 3rd argument of the game's latest arming call (a heap object, not scratch).
+    uintptr_t ArmArg3();
+    // Every arming call the game makes: owner actor, mode, 3rd argument.
+    struct ArmSeen { uintptr_t owner, a3; int mode; unsigned long at; };
+    int DrainArmSeen(ArmSeen* out, int max);
 
     // 1 = taking it would be theft, 0 = free to take, -1 = cannot tell yet.
     int WouldSteal(uintptr_t playerEnt, uintptr_t targetEnt);

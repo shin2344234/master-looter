@@ -24,7 +24,8 @@ namespace ml::loot::hooks
     static const char* g_pump = "none";
     static volatile LONG g_pumpTicks = 0, g_lastPumpAt = 0;
     static volatile LONG g_ownCalls = 0, g_armCalls = 0, g_armMode = -1;
-    static volatile LONG64 g_armCtx = 0;
+    static volatile LONG64 g_armCtx = 0, g_armA3 = 0;
+    static ArmSeen g_armSeen[64]; static volatile LONG g_armSeenN = 0;
     static volatile LONG g_ownCaptured = 0;
     static void* g_ownCtx = nullptr;
     static void* g_ownTag = nullptr;
@@ -103,14 +104,20 @@ namespace ml::loot::hooks
         // likely the interacting actor or an interaction context; it decides
         // things like "does this actor carry a pickaxe". Keep the latest.
         if (mem::Plausible(static_cast<uintptr_t>(a4))) InterlockedExchange64(&g_armCtx, static_cast<LONG64>(a4));
+        if (mem::Plausible(static_cast<uintptr_t>(a3))) InterlockedExchange64(&g_armA3, static_cast<LONG64>(a3));
         if (n <= 8)
         {
             const char* cls = mem::RttiShort(static_cast<uintptr_t>(a1));
+            const char* c3  = mem::Plausible(static_cast<uintptr_t>(a3)) ? mem::RttiShort(static_cast<uintptr_t>(a3)) : nullptr;
             const char* c4  = mem::Plausible(static_cast<uintptr_t>(a4)) ? mem::RttiShort(static_cast<uintptr_t>(a4)) : nullptr;
             uintptr_t owner = 0; mem::ReadPtr(static_cast<uintptr_t>(a1) + 0x08, &owner);
-            LOG("[arm] game armed %s mode %u a3 %llX a4 %llX (%s) owner %llX%s (call %ld)", cls ? cls : "?", static_cast<unsigned>(a2 & 0xFF),
-                static_cast<unsigned long long>(a3), static_cast<unsigned long long>(a4), c4 ? c4 : "not an object",
+            LOG("[arm] game armed %s mode %u a3 %llX (%s) a4 %llX (%s) owner %llX%s (call %ld)", cls ? cls : "?", static_cast<unsigned>(a2 & 0xFF),
+                static_cast<unsigned long long>(a3), c3 ? c3 : "no class", static_cast<unsigned long long>(a4), c4 ? c4 : "not an object",
                 static_cast<unsigned long long>(owner), owner == static_cast<uintptr_t>(a4) ? " = a4" : "", n);
+        }
+        {
+            const LONG k = InterlockedCompareExchange(&g_armSeenN, 0, 0);
+            if (k < 64) { g_armSeen[k] = { static_cast<uintptr_t>(a4), static_cast<uintptr_t>(a3), static_cast<int>(a2 & 0xFF), GetTickCount() }; InterlockedExchange(&g_armSeenN, k + 1); }
         }
         return oArm(a1, a2, a3, a4, a5, a6, a7, a8);
     }
@@ -161,6 +168,14 @@ namespace ml::loot::hooks
     int  ArmMode() { const LONG m = InterlockedCompareExchange(&g_armMode, 0, 0); return m < 0 ? 0 : static_cast<int>(m); }
     bool ArmObserved() { return InterlockedCompareExchange(&g_armMode, 0, 0) >= 0; }
     uintptr_t ArmContext() { return static_cast<uintptr_t>(InterlockedCompareExchange64(&g_armCtx, 0, 0)); }
+    uintptr_t ArmArg3()    { return static_cast<uintptr_t>(InterlockedCompareExchange64(&g_armA3, 0, 0)); }
+    int DrainArmSeen(ArmSeen* out, int max)
+    {
+        const LONG n = InterlockedExchange(&g_armSeenN, 0);
+        const int k = n < max ? static_cast<int>(n) : max;
+        for (int i = 0; i < k; ++i) out[i] = g_armSeen[i];
+        return k;
+    }
     long ArmCalls() { return g_armCalls; }
 
     static uint64_t CallOracle(uintptr_t me, uintptr_t target, bool* boom)

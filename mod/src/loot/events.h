@@ -24,7 +24,7 @@ namespace ml::events
     // Send (or queue when off the game thread). Returns false when refused.
     bool Send(Action a, uint32_t targetEid, uint32_t playerEid, uint32_t route, uint8_t mode);
     // Arm a gimmick node so the game fills its interaction data. Queued off-thread.
-    bool Arm(uintptr_t gimmickComp, uintptr_t mode, uintptr_t ctx);
+    bool Arm(uintptr_t gimmickComp, uintptr_t mode, uintptr_t arg3, uintptr_t ctx); // arg3 0 = a zeroed scratch buffer
     // Game thread only: run queued sends and arms.
     void Drain();
     // Enqueue hook feeds every event here to learn the player's route id.

@@ -76,7 +76,7 @@ namespace ml::loot
     // its CharacterInfo row, and every row keeps its string key at +0x08. The
     // first hit fixes which object and slot to read; a miss is remembered per
     // entity so a creature is only searched once.
-    static int s_spObj = -1, s_spOff = -1;   // object 0 entity, 1 actor, 2 status, 3 ai
+    static int s_spObj = -1, s_spOff = -1, s_spOff2 = -1;   // object 0 entity, 1 actor, 2 status, 3 ai; second hop offset
     static std::unordered_set<uint32_t> g_speciesMiss;
     static const Creature* ReadSpeciesAt(uintptr_t obj, unsigned off)
     {
@@ -95,6 +95,7 @@ namespace ml::loot
             if (const Creature* c = ReadSpeciesAt(objs[s_spObj], static_cast<unsigned>(s_spOff))) return c;
         }
         if (g_speciesMiss.count(eid)) return nullptr;
+        static const char* names[4] = { "entity", "actor", "status component", "ai component" };
         for (int o = 0; o < 4; ++o)
         {
             if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
@@ -102,13 +103,35 @@ namespace ml::loot
             {
                 const Creature* c = ReadSpeciesAt(objs[o], off);
                 if (!c) continue;
-                if (s_spObj < 0 || s_spObj != o || s_spOff != static_cast<int>(off))
+                if (s_spObj != o || s_spOff != static_cast<int>(off))
                 {
-                    s_spObj = o; s_spOff = static_cast<int>(off);
-                    static const char* names[4] = { "entity", "actor", "status component", "ai component" };
+                    s_spObj = o; s_spOff = static_cast<int>(off); s_spOff2 = -1;
                     LOG_OK("[species] creature rows are reachable from the %s at +0x%X (%s is %s)", names[o], off, c->stringKey.c_str(), c->name.c_str());
                 }
                 return c;
+            }
+        }
+        // Two hops: an object hanging off one of those, holding the row.
+        if (s_spObj >= 0 && s_spOff2 >= 0)
+        {
+            const uintptr_t mid = mem::Deref(objs[s_spObj], static_cast<unsigned>(s_spOff));
+            if (const Creature* c = mid ? ReadSpeciesAt(mid, static_cast<unsigned>(s_spOff2)) : nullptr) return c;
+        }
+        for (int o = 0; o < 4; ++o)
+        {
+            if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
+            for (unsigned off = 0; off < lens[o]; off += 8)
+            {
+                const uintptr_t mid = mem::Deref(objs[o], off);
+                if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x180)) continue;
+                for (unsigned off2 = 0; off2 < 0x180; off2 += 8)
+                {
+                    const Creature* c = ReadSpeciesAt(mid, off2);
+                    if (!c) continue;
+                    s_spObj = o; s_spOff = static_cast<int>(off); s_spOff2 = static_cast<int>(off2);
+                    LOG_OK("[species] creature rows are reachable from the %s at +0x%X then +0x%X (%s is %s)", names[o], off, off2, c->stringKey.c_str(), c->name.c_str());
+                    return c;
+                }
             }
         }
         if (g_speciesMiss.size() > 4096) g_speciesMiss.clear();
@@ -130,11 +153,14 @@ namespace ml::loot
     static int g_whyLines = 0;
     static std::unordered_map<uint32_t, DWORD> g_firstSeen; // eid -> when first listed
     static std::unordered_set<uint32_t>        g_containers;
-    struct Spot { Vec3 p; uint16_t tid; DWORD when; };
+    struct Spot { Vec3 p; uint16_t tid; DWORD when; uint32_t eid; };
     static std::vector<Spot> g_spots;                       // recently sent, by place and type
+    static std::unordered_set<uint32_t> g_present;          // eids seen in the current scan
     struct Seen { uintptr_t ent; Vec3 pos; DWORD when; };
     static std::unordered_map<uint32_t, Seen>  g_seen;      // merges the game's partial lists
     static std::unordered_map<uint32_t, uint16_t> g_nodeType; // eid -> gather node type, from the last scans
+    static std::unordered_map<uintptr_t, uint32_t> g_actorEid; // node actor -> eid, from the last scans
+    static std::unordered_map<uint32_t, DWORD> g_slotProbeAt;  // eid -> last gimmick slot dump
 
     static uintptr_t g_me = 0;
     static uint32_t  g_meEid = 0, g_meRoute = 0;
@@ -330,25 +356,32 @@ namespace ml::loot
         it->second.when = now;
         if (++it->second.tries > kMaxTries) g_searched.insert(k); // never disappears: give up on it
     }
-    static bool SpotRecent(const Vec3& p, uint16_t tid, DWORD now, int retryMs)
+    // A respawned item comes back with a new id at the same place after the
+    // old one vanished. Chunks from a broken node or drops from a kill also
+    // share a place and a type, but they exist at the same time, so an object
+    // whose predecessor is still present is a different item, not a respawn.
+    static bool SpotRecent(const Vec3& p, uint16_t tid, uint32_t eid, DWORD now, int retryMs)
     {
         for (const Spot& s : g_spots)
         {
             if (s.tid != tid || now - s.when >= static_cast<DWORD>(retryMs)) continue;
             const float dx = s.p.x - p.x, dy = s.p.y - p.y, dz = s.p.z - p.z;
-            if (dx * dx + dy * dy + dz * dz < 0.36f) return true;
+            if (dx * dx + dy * dy + dz * dz >= 0.36f) continue;
+            if (s.eid == eid) return true;                 // the very object we just sent to
+            if (g_present.count(s.eid)) continue;         // its neighbour still exists: a sibling, not a respawn
+            return true;
         }
         return false;
     }
-    static void SpotMark(const Vec3& p, uint16_t tid, DWORD now)
+    static void SpotMark(const Vec3& p, uint16_t tid, uint32_t eid, DWORD now)
     {
         for (Spot& s : g_spots)
         {
             const float dx = s.p.x - p.x, dy = s.p.y - p.y, dz = s.p.z - p.z;
-            if (s.tid == tid && dx * dx + dy * dy + dz * dz < 0.36f) { s.when = now; return; }
+            if (s.tid == tid && s.eid == eid && dx * dx + dy * dy + dz * dz < 0.36f) { s.when = now; return; }
         }
         if (g_spots.size() >= 128) g_spots.erase(g_spots.begin());
-        g_spots.push_back({ p, tid, now });
+        g_spots.push_back({ p, tid, now, eid });
     }
     static DWORD AgeMs(uint32_t eid, DWORD now)
     {
@@ -417,6 +450,29 @@ namespace ml::loot
         if (k.ai && !k.inter && k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
             k.species = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai));
         if (k.gather && k.tid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.tid; }
+        if (g_actorEid.size() > 4096) g_actorEid.clear();
+        g_actorEid[comps] = k.eid;
+        // An empty node close by that will not fill: dump which of its gimmick
+        // slots hold pointers, so a node the game fills elsewhere shows up.
+        if (inter && !k.item && !k.gather && k.cat2 == 0x00 && k.d < 4.0f)
+        {
+            static int s_dumps = 0;
+            const DWORD nowp = GetTickCount();
+            auto it = g_slotProbeAt.find(k.eid);
+            if (s_dumps < 40 && (it == g_slotProbeAt.end() || nowp - it->second > 3000))
+            {
+                ++s_dumps; g_slotProbeAt[k.eid] = nowp;
+                char line[1200]; int w = snprintf(line, sizeof line, "[probe] gimmick eid %08X %.1f m slots:", k.eid, k.d);
+                for (unsigned off = 0; off < 0x400 && w < 1100; off += 8)
+                {
+                    uintptr_t v = 0;
+                    if (!mem::ReadPtr(inter + off, &v)) { uint64_t raw = 0; if (mem::Read64(inter + off, &raw) && raw) w += snprintf(line + w, sizeof line - w, " +%X=%llX", off, static_cast<unsigned long long>(raw)); continue; }
+                    const char* cls = mem::RttiShort(v);
+                    w += snprintf(line + w, sizeof line - w, " +%X->%s", off, cls ? cls : "ptr");
+                }
+                LOG("%s", line);
+            }
+        }
         if (k.tid)
         {
             if (!game::ItemKeyForType(k.tid, k.key, sizeof k.key)) game::GimmickKeyForType(k.tid, k.key, sizeof k.key);
@@ -454,7 +510,7 @@ namespace ml::loot
             if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
         }
         if (c.tid == 52920 || g_containers.count(c.eid)) return skip("mechanism part");
-        if (c.heap) return skip("stack in one spot (container contents)");
+        if (c.heap) return skip("stack at one point (storage contents)");
         // (A pointer to the player inside the object used to mean "yours"; the
         // parent and bag checks above cover that, and arming can plant such a
         // pointer in a node we just touched.)
@@ -526,7 +582,20 @@ namespace ml::loot
             }
             break;
         }
-        default: if (!cfg.pickUpItems) return skip("pick up off"); break;
+        default:
+        {
+            if (!cfg.pickUpItems) return skip("pick up off");
+            // Ore, stone and wood reach the ground as drops from broken nodes;
+            // the same toggles cover the chunks.
+            switch (KindOf(c.db))
+            {
+            case GatherKind::Ore:   if (!cfg.gatherOre)   return skip("ore off"); break;
+            case GatherKind::Stone: if (!cfg.gatherStone) return skip("stone off"); break;
+            case GatherKind::Wood:  if (!cfg.gatherWood)  return skip("wood off"); break;
+            default: break;
+            }
+            break;
+        }
         }
         const float lim = v.act == Action::Search ? cfg.corpseRange : v.act == Action::Catch ? cfg.catchRange
                         : v.act == Action::Gather ? cfg.gatherRange : cfg.lootRange;
@@ -612,6 +681,19 @@ namespace ml::loot
         g_meRoute = game::Route(g_me);
         game::InventoryRefresh(g_me, !g_pend.empty());
         LearnFromInventory(now);
+        {
+            // What the game armed by itself since the last scan, with the node it belongs to.
+            static hooks::ArmSeen seen[64]; static int s_lines = 0;
+            const int n = hooks::DrainArmSeen(seen, 64);
+            for (int i = 0; i < n && s_lines < 120; ++i)
+            {
+                auto it = g_actorEid.find(seen[i].owner);
+                if (it == g_actorEid.end()) continue;
+                ++s_lines;
+                const char* c3 = mem::RttiShort(seen[i].a3);
+                LOG("[arm] game armed eid %08X mode %d a3 %llX (%s)", it->second, seen[i].mode, static_cast<unsigned long long>(seen[i].a3), c3 ? c3 : "no class");
+            }
+        }
         if (game::ItemTableState() == 0) game::ProbeItemTable();
 
         // Collect world objects in scan range.
@@ -660,6 +742,8 @@ namespace ml::loot
             ++it;
         }
         std::sort(list.begin(), list.end(), [](const Cand& a, const Cand& b) { return a.d < b.d; });
+        g_present.clear();
+        for (const Cand& c : list) g_present.insert(c.eid);
 
         // Scene transitions: the list is swapped before positions settle, and a
         // dozen objects can all read as "0.6 m away" for a moment. Hold fire.
@@ -712,7 +796,7 @@ namespace ml::loot
                 if (i == j) continue;
                 const float dx = list[j].pos.x - list[i].pos.x, dy = list[j].pos.y - list[i].pos.y, dz = list[j].pos.z - list[i].pos.z;
                 const float dd = dx * dx + dy * dy + dz * dz;
-                if (dd <= 0.0225f) ++around;
+                if (dd <= 0.0004f) ++around; // within 2 cm: the same point, as storage contents are
                 if (!list[i].gather && !list[i].item && list[i].dead != 1 && list[i].inter && list[j].filled &&
                     (list[j].gather || list[j].item) && list[j].type == list[i].type && dd <= 0.25f) list[i].twin = true;
             }
@@ -804,12 +888,18 @@ namespace ml::loot
                     // call, which fits the node's own actor (the object that owns the
                     // gimmick component) rather than the player. Try that first, the
                     // player's actor second, and log which one a node answers to.
+                    // Try 1: node actor with the game's own 3rd argument. Try 2: node
+                    // actor with a zeroed buffer (what bushes accept). Try 3: the
+                    // player's actor with the game's 3rd argument.
                     const uintptr_t nodeActor = game::Comps(k.ent);
                     const uintptr_t meActor   = game::Comps(g_me);
-                    const uintptr_t armCtx = (rec.fails % 2 == 0) ? (nodeActor ? nodeActor : ArmContextNow()) : (meActor ? meActor : ArmContextNow());
-                    rec.ctxKind = (rec.fails % 2 == 0) ? 0 : 1;
-                    if (s_armLogs < 40) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d ctx %llX (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, static_cast<unsigned long long>(armCtx), k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
-                    events::Arm(g, static_cast<uintptr_t>(rec.mode), armCtx);
+                    const uintptr_t gameA3    = hooks::ArmArg3();
+                    const int combo = rec.fails % 3;
+                    const uintptr_t armCtx = (combo == 2) ? (meActor ? meActor : ArmContextNow()) : (nodeActor ? nodeActor : ArmContextNow());
+                    const uintptr_t armA3  = (combo == 1) ? 0 : gameA3;
+                    rec.ctxKind = combo;
+                    if (s_armLogs < 60) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d combo %d ctx %llX a3 %llX (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, combo, static_cast<unsigned long long>(armCtx), static_cast<unsigned long long>(armA3), k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
+                    events::Arm(g, static_cast<uintptr_t>(rec.mode), armA3, armCtx);
                     if (armedN < 32) armedNow[armedN++] = k.eid;
                     if (cfg.debugLog) LOG("[arm] eid %08X %.1f m %s", k.eid, k.d, k.node[0] ? k.node : "");
                     if (++armed >= (cfg.perScan ? cfg.perScan : 8)) break;
@@ -822,7 +912,7 @@ namespace ml::loot
                 auto it = g_armed.find(Key(k));
                 if (it == g_armed.end()) continue;
                 static int s_okLogs = 0;
-                if (s_okLogs < 40) { ++s_okLogs; LOG("[arm] eid %08X filled %lu ms after arming with mode %d and the %s actor (%s, type %u)", k.eid, static_cast<unsigned long>(now - it->second.at), it->second.mode, it->second.ctxKind ? "player's" : "node's", k.gather ? "gather" : "item", k.tid); }
+                if (s_okLogs < 40) { ++s_okLogs; LOG("[arm] eid %08X filled %lu ms after arming with combo %d (%s, type %u)", k.eid, static_cast<unsigned long>(now - it->second.at), it->second.ctxKind, k.gather ? "gather" : "item", k.tid); }
                 g_armed.erase(it);
             }
 
@@ -842,9 +932,9 @@ namespace ml::loot
                     if (v.act == Action::Gather && k.tid == 0 && AgeMs(k.eid, now) < 700) continue; // let the node finish filling
                     const uint64_t key = Key(k);
                     if (RecentlyDone(key, now, cfg.retryAfterMs)) continue;
-                    if (v.act != Action::Catch && SpotRecent(k.pos, k.tid, now, cfg.retryAfterMs)) continue;
+                    if (v.act != Action::Catch && SpotRecent(k.pos, k.tid, k.eid, now, cfg.retryAfterMs)) continue;
                     MarkDone(key, now);
-                    if (v.act != Action::Catch) SpotMark(k.pos, k.tid, now);
+                    if (v.act != Action::Catch) SpotMark(k.pos, k.tid, k.eid, now);
                     if (g_searched.count(key) && v.act != Action::Search) { if (cfg.debugLog) LOG("[loot] giving up on eid %08X after %d attempts", k.eid, kMaxTries); continue; }
                     if (v.act == Action::Search) g_searched.insert(key);
                     if (!events::Send(v.act, k.eid, g_meEid, route, 0)) continue;
