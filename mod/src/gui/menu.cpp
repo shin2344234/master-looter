@@ -810,6 +810,20 @@ namespace ml::gui
 
         Section("Overlay");
         OnOff("DirectX 12 hooks", st.hooksOk, "installed", "failed");
+        {
+            Config& c = Settings::Get();
+            if (ImGui::Checkbox("Wrap the swapchain", &c.wrapSwapChain)) Settings::MarkDirty();
+            ImGui::SameLine();
+            ImGui::TextDisabled("takes effect next launch");
+            if (ImGui::BeginItemTooltip())
+            {
+                ImGui::TextUnformatted("On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\n"
+                                       "Off, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, "
+                                       "and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another "
+                                       "overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.");
+                ImGui::EndTooltip();
+            }
+        }
         OnOff("Item database", ItemDb::Loaded(), "loaded", "missing MasterLooter.items.tsv");
         if (ItemDb::Loaded()) { ImGui::SameLine(); ImGui::TextDisabled("%d items, %d classes, %d tags", ItemDb::Count(), static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size())); }
 
