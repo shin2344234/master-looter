@@ -1,6 +1,7 @@
 #include "menu.h"
 
 #include <Windows.h>
+#include <shellapi.h>
 #include <imgui.h>
 #include <imgui_internal.h> // ImGuiItemFlags_MixedValue for the group checkboxes
 #include <algorithm>
@@ -12,6 +13,7 @@
 
 #include "../core/itemdb.h"
 #include "../core/log.h"
+#include "../core/paths.h"
 #include "../core/rules.h"
 #include "../core/settings.h"
 #include "../core/state.h"
@@ -807,6 +809,17 @@ namespace ml::gui
         if (ImGui::SmallButton("Reload now")) Settings::Load();
         ImGui::SameLine();
         if (ImGui::SmallButton("Save now")) Settings::Save();
+        // Nobody thinks to look in bin64, and the log is the first thing asked
+        // for in a report, so the whole path is here with a way to reach it.
+        {
+            const std::wstring logPath = ml::Paths::File(L"MasterLooter.log");
+            ImGui::Text("Log: %ls", logPath.c_str());
+            ImGui::SameLine();
+            if (ImGui::SmallButton("Open folder")) ShellExecuteW(nullptr, L"open", ml::Paths::Dir().c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted("Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report."); ImGui::EndTooltip(); }
+            ImGui::SameLine();
+            if (ImGui::SmallButton("Copy path")) { char buf[512]; snprintf(buf, sizeof buf, "%ls", logPath.c_str()); ImGui::SetClipboardText(buf); }
+        }
 
         Section("Overlay");
         OnOff("DirectX 12 hooks", st.hooksOk, "installed", "failed");
