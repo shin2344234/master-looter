@@ -259,6 +259,13 @@ namespace ml::loot
     static std::unordered_set<uint32_t> g_present;          // eids seen in the current scan
     struct Seen { uintptr_t ent; Vec3 pos; DWORD when; };
     static std::unordered_map<uint32_t, Seen>  g_seen;      // merges the game's partial lists
+
+    static bool WasSeen(uint32_t eid) { return g_seen.count(eid) != 0; }
+    static const char* LastVerdict(uint32_t eid)
+    {
+        auto it = g_why.find(eid);
+        return it == g_why.end() ? nullptr : it->second;
+    }
     static std::unordered_map<uint32_t, uint16_t> g_nodeType; // eid -> gather node type, from the last scans
     static std::unordered_map<uintptr_t, uint32_t> g_actorEid; // node actor -> eid, from the last scans
     static std::unordered_map<uint32_t, DWORD> g_slotProbeAt;  // eid -> last gimmick slot dump
@@ -276,6 +283,11 @@ namespace ml::loot
     // socket on the next, so a remembered pair goes quietly wrong and files a
     // node under the wrong switch. Nothing is written to disk, and a file left
     // by an older build is deleted on load.
+    // Whether the scan ever had an entity in hand, and the last verdict it gave
+    // it. Defined below; used by the diagnostic for what the player took by hand.
+    static bool WasSeen(uint32_t eid);
+    static const char* LastVerdict(uint32_t eid);
+
     static std::unordered_map<uint16_t, uint16_t> g_learn;   // node type -> item row
     struct PendSend { DWORD at; Action act; uint16_t nodeType; int itemRow; };
     static std::vector<PendSend> g_pend;
@@ -309,7 +321,17 @@ namespace ml::loot
             if (seen[i].act == Action::Gather && nodeType) known = LearnedYield(nodeType);
             if (known) continue; // nothing new to learn from it
             g_pend.push_back({ static_cast<DWORD>(seen[i].at), seen[i].act, nodeType, -1 });
-            if (Settings::Get().debugLog) LOG("[learn] player %s eid %08X (node type %u)", events::ActionName(seen[i].act), seen[i].eid, nodeType);
+            // Anything the player takes by hand that the mod passed over is worth
+            // a line: it is the only way a missed object leaves a trace at all,
+            // and it separates "never scanned" from "scanned and skipped".
+            if (seen[i].act != Action::Gather || nodeType)
+            {
+                const char* why = LastVerdict(seen[i].eid);
+                static int s_missLogs = 0;
+                if (why) { if (Settings::Get().debugLog) LOG("[learn] player %s eid %08X (node type %u), we had skipped it: %s", events::ActionName(seen[i].act), seen[i].eid, nodeType, why); }
+                else if (WasSeen(seen[i].eid)) { if (Settings::Get().debugLog) LOG("[learn] player %s eid %08X (node type %u), the scan had it and did not act", events::ActionName(seen[i].act), seen[i].eid, nodeType); }
+                else if (s_missLogs < 40) { ++s_missLogs; LOG("[learn] player %s eid %08X (node type %u), the scan never saw it", events::ActionName(seen[i].act), seen[i].eid, nodeType); }
+            }
         }
         static uint16_t types[2048]; static long long qty[2048];
         const int n = game::InventoryTypes(types, qty, 2048);
@@ -1143,18 +1165,26 @@ namespace ml::loot
                     const Verdict& v = verdicts[i];
                     if (!k.filled || !v.loot) continue;
                     if ((pass == 0) != (v.act == Action::Search)) continue; // corpses first: they vanish first
+                    // These hold an object back after its verdict has already
+                    // passed, so without a line they are invisible: the log
+                    // shows neither a skip nor a take. Debug only, and capped.
+                    static int s_heldLogs = 0;
+                    auto held = [&](const char* why) {
+                        if (cfg.debugLog && s_heldLogs < 60) { ++s_heldLogs; LOG("[hold] %s %.1f m: %s", Label(k), k.d, why); }
+                        return true;
+                    };
                     bool justArmed = false;
                     for (int a = 0; a < armedN; ++a) if (armedNow[a] == k.eid) justArmed = true;
-                    if (justArmed) continue;
-                    if (v.act == Action::Gather && k.tid == 0 && AgeMs(k.eid, now) < 700) continue; // let the node finish filling
+                    if (justArmed && held("armed this pass, waiting for it to fill")) continue;
+                    if (v.act == Action::Gather && k.tid == 0 && AgeMs(k.eid, now) < 700 && held("still filling")) continue;
                     const uint64_t key = Key(k);
-                    if (RecentlyDone(key, now, cfg.retryAfterMs)) continue;
-                    if (v.act != Action::Catch && SpotRecent(k.pos, k.tid, k.eid, now, cfg.retryAfterMs)) continue;
+                    if (RecentlyDone(key, now, cfg.retryAfterMs) && held("sent to recently, waiting out the retry delay")) continue;
+                    if (v.act != Action::Catch && SpotRecent(k.pos, k.tid, k.eid, now, cfg.retryAfterMs) && held("something of its kind was taken from this spot just now")) continue;
                     MarkDone(key, now);
                     if (v.act != Action::Catch) SpotMark(k.pos, k.tid, k.eid, now);
                     if (g_searched.count(key) && v.act != Action::Search) { if (cfg.debugLog) LOG("[loot] giving up on eid %08X after %d attempts", k.eid, kMaxTries); continue; }
                     if (v.act == Action::Search) g_searched.insert(key);
-                    if (!events::Send(v.act, k.eid, g_meEid, route, 0)) continue;
+                    if (!events::Send(v.act, k.eid, g_meEid, route, 0)) { held("the game refused the event"); continue; }
                     ++taken;
                     g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.tid : static_cast<uint16_t>(0), k.db ? k.db->row : -1 });
                     InterlockedIncrement(&g_session[static_cast<int>(v.act)]);

@@ -121,15 +121,31 @@ def load_items():
     return by_key, by_name
 
 
-def match_item(name, by_key, by_name):
+# An item is only accepted as a node's yield when its class fits the kind the
+# tags gave. Without this a copper vein matches Money_Copper, the coin, and the
+# node is then judged by the rules for currency.
+KIND_CLASSES = {
+    "wood":  {"wood", "crafting-material"},
+    "ore":   {"ore", "jewel", "mineral", "metal", "stone"},
+    "stone": {"stone", "ore", "jewel", "mineral"},
+    "plant": {"herb", "mushroom", "seed", "alchemy-material", "flower", "ingredient",
+              "crafting-material", "vegetable", "fruit", "grain"},
+    "item":  {"vegetable", "fruit", "grain", "ingredient", "herb", "seed", "trade-good", "goods"},
+}
+
+
+def match_item(name, kind, by_key, by_name):
     s = stem(name)
     for c in (s, s.replace("_", ""), s.split("_")[-1]):
         if len(c) < 3:
             continue
-        if c in by_key:
-            return by_key[c]
-        if c in by_name:
-            return by_name[c]
+        it = by_key.get(c) or by_name.get(c)
+        if not it:
+            continue
+        ok = KIND_CLASSES.get(kind, set())
+        if it["klass"] in ok or (it.get("tags") and set(it["tags"].split()) & ok):
+            return it
+        return None      # a near-miss on the name is worse than no item at all
     return None
 
 
@@ -171,7 +187,7 @@ def main():
         if base in seen:
             continue
         seen.add(base)
-        it = match_item(name, by_key, by_name)
+        it = match_item(name, kind, by_key, by_name)
         if it:
             stats["with_item"] += 1
         out.append((base, kind, it["string_key"] if it else "", it["name"] if it else pretty(name, kind)))
