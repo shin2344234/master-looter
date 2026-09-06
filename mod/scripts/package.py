@@ -12,7 +12,12 @@ Run build.bat first. Two archives come out of dist:
                                   and deploys it itself. The data tables are
                                   built into the plugin, so nothing else is
                                   needed.
+
+It prints the SHA-256 of both archives and of the plugin when it is done, in
+the order the README and the Nexus description list them, so a release can be
+published with the checksums it claims.
 """
+import hashlib
 import os
 import re
 import sys
@@ -23,6 +28,14 @@ MOD = os.path.dirname(HERE)
 DIST = os.path.join(MOD, "dist")
 FULL = ["MasterLooter.asi", "README.md", "THIRD_PARTY_NOTICES.md", "LICENSE"]
 DMM = ["MasterLooter.asi"]
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def write_zip(name, files):
@@ -40,8 +53,11 @@ def write_zip(name, files):
 def main():
     header = open(os.path.join(MOD, "src", "version.h"), encoding="utf-8").read()
     version = re.search(r'ML_VERSION\s+"([^"]+)"', header).group(1)
-    write_zip("MasterLooter-%s.zip" % version, FULL)
-    write_zip("MasterLooter-%s-DMM.zip" % version, DMM)
+    full = write_zip("MasterLooter-%s.zip" % version, FULL)
+    dmm = write_zip("MasterLooter-%s-DMM.zip" % version, DMM)
+    print("\nSHA-256 for %s:" % version)
+    for path in (dmm, full, os.path.join(DIST, "MasterLooter.asi")):
+        print("%s  %s" % (sha256(path), os.path.basename(path)))
 
 
 if __name__ == "__main__":
