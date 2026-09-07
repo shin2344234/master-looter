@@ -43,6 +43,8 @@ What it does not do is reach the network. It imports no networking library, and 
 
 If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.4.0:
 
+    2b93c89bd3b94164073cc35a1c0954294bdfc1f45f1f5ad7cdda38574390aa3e  MasterLooter-1.4.0-DMM.zip
+    8e9a34d76601ef5a2960c15e4797be7c98353a1f3ecedc95483b2ff0e725f38f  MasterLooter-1.4.0.zip
     896d80ea1afab74834db24bd478406b73324aac1ebec86b8a5b6a6667412a685  MasterLooter.asi
 
 ## Controls
