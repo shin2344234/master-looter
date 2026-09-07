@@ -42,6 +42,12 @@ namespace ml
 
         const char* Get(const char* english);
 
+        // Every translated string currently loaded, handed over one at a time,
+        // so the font atlas can be asked for exactly the characters they use.
+        // The English keys are not passed: they are ASCII and the default
+        // range already covers them.
+        void ForEachTranslation(void (*fn)(const char*, void*), void* user);
+
         // Writes MasterLooter.template.txt: every string the interface has
         // asked for this session, ready to be translated. Open every tab first,
         // since a string is only listed once it has been drawn.

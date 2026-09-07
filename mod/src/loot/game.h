@@ -23,9 +23,19 @@ namespace ml::game
         uintptr_t moveUpdate = 0;    // primary game-thread pump
         uintptr_t areaSweepHit = 0;  // fallback pump (hook at the match itself)
         uintptr_t ownCheck = 0, armFn = 0;
+        uintptr_t stateDriver = 0;   // gimmick transition driver, used to break veins
         uintptr_t descMask = 0, queue = 0;                  // globals
         uintptr_t itemTableGlobal = 0, gimmickTableGlobal = 0;
     };
+
+    // The game hashes gimmick state and event names with Jenkins lookup3
+    // (hashlittle), seeded length + 0xDEBA1DCD, over the LOWERCASE name. The
+    // routine is at RVA 0x12D5630 in build 2.01.00, but there is no reason to
+    // call it: reimplementing it means the mod names what it wants in source
+    // ("onbreak") instead of carrying a magic number that says nothing.
+    // Verified against ids captured live: wait 0x866C7489, gimmickon
+    // 0x150B14D0, break 0x353C1CAD, onbreak 0xFD8F7D2C.
+    uint32_t NameId(const char* lowercaseName);
 
     // Runs every pattern scan (seconds; call from a worker thread). Returns
     // true when the required set resolved: event functions, both globals and

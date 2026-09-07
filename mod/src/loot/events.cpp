@@ -77,10 +77,10 @@ namespace ml::events
 
     struct PendAct { Action act; uint32_t eid, player, route; uint8_t mode; };
     struct PendArm { uintptr_t node, mode, arg3, ctx; };
-    struct PendBreak { uint32_t target, player, route; float hx, hz; };
+    struct PendDrive { uintptr_t comp, actor; uint32_t player, target; float x, y, z; };
     static PendAct g_pendAct[64]; static int g_pendActN = 0;
     static PendArm g_pendArm[32]; static int g_pendArmN = 0;
-    static PendBreak g_pendBrk[32]; static int g_pendBrkN = 0;
+    static PendDrive g_pendDrv[32]; static int g_pendDrvN = 0;
     static CRITICAL_SECTION g_cs;
     static LONG g_csReady = 0;
     static void Lock()   { if (InterlockedCompareExchange(&g_csReady, 1, 0) == 0) { InitializeCriticalSection(&g_cs); InterlockedExchange(&g_csReady, 2); } while (InterlockedCompareExchange(&g_csReady, 2, 2) != 2) Sleep(0); EnterCriticalSection(&g_cs); }
@@ -282,80 +282,29 @@ namespace ml::events
         return ok;
     }
 
-    // The descriptor the game uses when a gimmick breaks and drops what it
-    // held. Looked up by class name out of the map the resolver already built,
-    // so it does not disturb the three the mod sends by action.
-    static const DescName* BreakDesc()
+    // The two events a pickaxe fires, in order. Names rather than numbers: the
+    // ids are hashes of these strings and the game computes them the same way.
+    // A node whose chart has no transition for an event ignores it, so aiming
+    // the pair at something that is not a vein is a no-op, not a mistake.
+    static bool DriveNow(const PendDrive& d)
     {
-        for (const DescName& d : g_descMap)
-            if (d.cls.find("TrocTrDropItemOnGimmickBreakOnceTimer") != std::string::npos) return &d;
-        return nullptr;
-    }
-    bool BreakDescriptorFound() { return BreakDesc() != nullptr; }
+        const float pos[3] = { d.x, d.y, d.z };
+        ml::loot::hooks::DriveGimmickEvent(d.comp, game::NameId("onattackimpulsecomplete"),
+                                           d.player, d.actor, d.target, nullptr);
 
-    static bool BreakNow(uint32_t target, uint32_t player, uint32_t route, float hx, float hz)
-    {
-        if (!g_sendAllowed) return false;
-        const DescName* bd = BreakDesc();
-        if (!bd) { LOG_ERR("[break] the gimmick-break descriptor is not in this build"); return false; }
-        const game::Fns& f = game::F();
-        reinterpret_cast<FnTlsInit>(f.tlsInit)();
-        uint32_t mask = 0;
-        if (!mem::Read32(f.descMask, &mask)) return false;
-        void* desc = reinterpret_cast<FnDescLookup>(f.descLookup)(0, bd->id, mask);
-        if (!desc) { LOG_ERR("[break] descriptor 0x%04X not found", bd->id); return false; }
-        const uint16_t size = bd->size ? bd->size : 27;
-        unsigned char* e = static_cast<unsigned char*>(reinterpret_cast<FnAllocEvent>(f.allocEvent)(0, size));
-        if (!e) { LOG_ERR("[break] event allocation failed"); return false; }
-
-        *reinterpret_cast<uint32_t*>(e + kOff_Ev_One)    = 1;
-        *reinterpret_cast<uint32_t*>(e + kOff_Ev_Zero40) = 0;
-        *reinterpret_cast<uint64_t*>(e + kOff_Ev_Zero48) = 0;
-        *reinterpret_cast<uint32_t*>(e + kOff_Ev_Player) = player;
-        *reinterpret_cast<uint32_t*>(e + kOff_Ev_Player + 4) = 0;
-        *reinterpret_cast<uint32_t*>(e + kOff_Ev_Route)  = route;
-        *reinterpret_cast<void**>(e + kOff_Ev_Desc)      = desc;
-        *reinterpret_cast<uint16_t*>(e + kOff_Ev_Size)   = size;
-        *reinterpret_cast<uint8_t*>(e + kOff_Ev_Flag78)  = 1;
-
-        unsigned char* buf = *reinterpret_cast<unsigned char**>(e + kOff_Ev_Buffer);
-        if (!buf) { LOG_ERR("[break] event has no payload buffer"); return false; }
-        buf[0] = static_cast<uint8_t>(bd->id & 0xFF);
-        buf[1] = static_cast<uint8_t>(bd->id >> 8);
-        buf[2] = 0xFF;
-        *reinterpret_cast<uint32_t*>(buf + 3)  = target;
-        *reinterpret_cast<uint32_t*>(buf + 7)  = player;
-        *reinterpret_cast<uint32_t*>(buf + 11) = 0;
-        // 1/sqrt(3) up, the rest shared by the horizontal direction, which is
-        // exactly the shape of all ten calls the game made.
-        const float kUp = 0.57735027f, kFlat = 0.81649658f;   // sqrt(2/3)
-        float len = hx * hx + hz * hz;
-        if (len < 1e-6f) { hx = 1.0f; hz = 0.0f; len = 1.0f; }
-        else { len = 1.0f / sqrtf(len); hx *= len; hz *= len; }
-        *reinterpret_cast<float*>(buf + 15) = hx * kFlat;
-        *reinterpret_cast<float*>(buf + 19) = kUp;
-        *reinterpret_cast<float*>(buf + 23) = hz * kFlat;
-
-        uintptr_t q = 0;
-        if (!mem::ReadPtr(f.queue, &q)) { LOG_ERR("[break] queue global unreadable"); return false; }
-        ml::loot::hooks::SelfSendBegin();   // ours, not the game's
-        reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), e, desc, 0);
-        ml::loot::hooks::SelfSendEnd();
-        InterlockedIncrement(&g_sent);
-        return true;
+        return ml::loot::hooks::DriveGimmickEvent(d.comp, game::NameId("onbreak"),
+                                                  d.player, d.actor, d.target, pos);
     }
 
-    bool BreakGimmick(uint32_t target, uint32_t player, uint32_t route, float hx, float hz)
+    bool DriveBreak(uintptr_t comp, uint32_t player, uintptr_t actor,
+                    uint32_t target, float x, float y, float z)
     {
-        if (!g_sendAllowed) return false;
-        // The scan decides on a worker thread; the event has to be raised on
-        // the game thread, so it queues and Drain() sends it, exactly as an
-        // ordinary send does. Refusing here instead is why no break was ever
-        // sent.
-        if (OnGameThread()) return BreakNow(target, player, route, hx, hz);
+        if (!comp) return false;
+        const PendDrive d{ comp, actor, player, target, x, y, z };
+        if (OnGameThread()) return DriveNow(d);
         Lock();
-        const bool room = g_pendBrkN < 32;
-        if (room) g_pendBrk[g_pendBrkN++] = { target, player, route, hx, hz };
+        const bool room = g_pendDrvN < 32;
+        if (room) g_pendDrv[g_pendDrvN++] = d;
         Unlock();
         return room;
     }
@@ -385,15 +334,15 @@ namespace ml::events
     void Drain()
     {
         if (InterlockedCompareExchange(&g_draining, 1, 0) != 0) return;
-        PendAct acts[64]; PendArm arms[32]; PendBreak brks[32]; int an, rn, bn;
+        PendAct acts[64]; PendArm arms[32]; PendDrive drvs[32]; int an, rn, dn;
         Lock();
         rn = g_pendArmN; memcpy(arms, g_pendArm, sizeof(PendArm) * rn); g_pendArmN = 0;
         an = g_pendActN; memcpy(acts, g_pendAct, sizeof(PendAct) * an); g_pendActN = 0;
-        bn = g_pendBrkN; memcpy(brks, g_pendBrk, sizeof(PendBreak) * bn); g_pendBrkN = 0;
+        dn = g_pendDrvN; memcpy(drvs, g_pendDrv, sizeof(PendDrive) * dn); g_pendDrvN = 0;
         Unlock();
         for (int i = 0; i < rn; ++i) ArmNow(arms[i].node, arms[i].mode, arms[i].arg3, arms[i].ctx);
         for (int i = 0; i < an; ++i) SendNow(acts[i].act, acts[i].eid, acts[i].player, acts[i].route, acts[i].mode);
-        for (int i = 0; i < bn; ++i) BreakNow(brks[i].target, brks[i].player, brks[i].route, brks[i].hx, brks[i].hz);
+        for (int i = 0; i < dn; ++i) DriveNow(drvs[i]);
         InterlockedExchange(&g_draining, 0);
     }
 
@@ -411,7 +360,7 @@ namespace ml::events
             p += snprintf(hex + p, sizeof hex - p, i ? " %02X" : "%02X", b);
         }
         uint32_t eid = 0; mem::Read32(buf + 4, &eid);
-        LOG("[probe] %s: 0x%04X size %u %s | %s | eid at +4 %08X",
+        LOG("[probe] %s: 0x%04X size %u %s | %s | raw u32 at +4 %08X",
             why, id, size, d ? d->cls.c_str() : "not in the descriptor map", hex, eid);
     }
 
@@ -421,6 +370,55 @@ namespace ml::events
         if (static_cast<DWORD>(InterlockedCompareExchange(&g_sendTid, 0, 0)) == GetCurrentThreadId()) return; // ours
         uint32_t who = 0, rt = 0;
         if (!mem::Read32(ev + kOff_Ev_Player, &who) || !mem::Read32(ev + kOff_Ev_Route, &rt)) return;
+        // The three event kinds a vein's break could travel on, named whoever
+        // raised them. Not filtered by owner tag: a gimmick retiring itself is
+        // tagged world, not player, which is why no such event had ever reached
+        // a log. A budget per kind so a flood of drops cannot crowd out the one
+        // removal event we are looking for.
+        //
+        // Only what the game raises reaches here. hkEnqueue in hooks.cpp skips
+        // this whole function while t_selfSend is set, and BreakNow sets it
+        // around its own enqueue, so a vein the mod breaks logs nothing. These
+        // lines appear when the player swings a pickaxe, not when auto-loot
+        // works, which is what makes a manual-mining capture the useful one.
+        if (Settings::Get().debugLog)
+        {
+            uintptr_t payload = 0; uint16_t payloadSize = 0, eventId = 0;
+            if (mem::ReadPtr(ev + kOff_Ev_Buffer, &payload) &&
+                mem::Read16(ev + kOff_Ev_Size, &payloadSize) && payloadSize >= 3 &&
+                mem::Read16(payload, &eventId))
+            {
+                const DescName* named = DescById(eventId);
+                if (named)
+                {
+                    static const char* kinds[] = {
+                        "TrocTrDropItemOnGimmickBreakOnceTimer",
+                        "TrocTrGimmickLogoutSelfByBreakReq",
+                        "TrocTrGimmickBranchStateReq",
+                        // Not a Gimmick* name, so the first sweep of the binary
+                        // missed it: a vein is a scene object as well as a
+                        // gimmick, and this is the other transition its break
+                        // could travel on. 0x0B60 in build 2.01.00.
+                        "TrocTrBreakSceneObjectReq"
+                    };
+                    static volatile LONG counts[4] = {};
+                    for (int kind = 0; kind < 4; ++kind)
+                    {
+                        if (named->cls.find(kinds[kind]) == std::string::npos) continue;
+                        const LONG ordinal = InterlockedIncrement(&counts[kind]);
+                        if (ordinal <= 64)
+                        {
+                            LOG("[ore-review] kind %d sample %ld tick %lu who %08X route %08X thread %lu",
+                                kind, ordinal, GetTickCount(), who, rt, GetCurrentThreadId());
+                            LogPayload("native break-related event", eventId, payloadSize, payload);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        // Anything the game raised about itself rather than about the player
+        // has already been named above if it is one of the break-related kinds.
         if ((who >> 24) != game::kTagPlayer) return;
         if (!RouteKnown() && rt)
         {

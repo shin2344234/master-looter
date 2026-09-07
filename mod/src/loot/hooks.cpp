@@ -1,6 +1,7 @@
 #include "hooks.h"
 
 #include <Windows.h>
+#include <cstring>
 
 #include "engine.h"
 #include "farhook.h"
@@ -228,6 +229,118 @@ namespace ml::loot::hooks
         return oArm(a1, a2, a3, a4, a5, a6, a7, a8);
     }
 
+    // Breaking a vein means driving the game's own state machine: the swing
+    // landing, then the break. The transition is what spawns the ore, so the
+    // node empties itself through the game's own path and then disappears, the
+    // way it does under a pickaxe.
+    //
+    // Most of an event record is opaque, so rather than build one the mod copies
+    // one. The game fires both events at a vein the instant a pickaxe lands, and
+    // the driver hook below keeps those records whole; the drive path then
+    // replays one with only the node's own identity patched in. A vein mined by
+    // hand teaches the mod, and until one is, a mostly empty record still drives
+    // the transition correctly.
+    static constexpr unsigned kRecSize = 0xE8;
+    struct LearnedEvent { uint32_t id; unsigned char rec[kRecSize]; };
+    static LearnedEvent g_learned[2] = {};
+    static int g_learnedN = 0;
+
+    // Only the two events the mod ever replays. Keeping everything filled the
+    // table with unrelated events long before the player reached a vein.
+    static bool WorthLearning(uint32_t id)
+    {
+        static uint32_t want[2] = {};
+        if (!want[0])
+        {
+            want[0] = game::NameId("onattackimpulsecomplete");
+            want[1] = game::NameId("onbreak");
+        }
+        return id == want[0] || id == want[1];
+    }
+
+    static void LearnEvent(uint32_t id, uintptr_t ev)
+    {
+        if (!id || !ev || !WorthLearning(id)) return;
+        for (int i = 0; i < g_learnedN; ++i) if (g_learned[i].id == id) return;
+        if (g_learnedN >= 2 || !mem::Readable(ev, kRecSize)) return;
+        LearnedEvent& e = g_learned[g_learnedN];
+        if (!mem::ReadBytes(ev, e.rec, kRecSize)) return;
+        e.id = id;
+        ++g_learnedN;
+    }
+
+    static const LearnedEvent* Learned(uint32_t id)
+    {
+        for (int i = 0; i < g_learnedN; ++i) if (g_learned[i].id == id) return &g_learned[i];
+        return nullptr;
+    }
+
+    // The gimmick transition driver. Hooked to keep a trampoline the mod can
+    // call, and to catch the two records worth copying on the way past.
+    typedef uint64_t (__fastcall *FnStateDriver)(uintptr_t comp, uintptr_t ev,
+                                                 uintptr_t instigator, uintptr_t outChanged);
+    static FnStateDriver oStateDriver = nullptr;
+
+    static uint64_t __fastcall hkStateDriver(uintptr_t comp, uintptr_t ev,
+                                             uintptr_t instigator, uintptr_t outChanged)
+    {
+        uint32_t evId = 0;
+        if (ev && mem::Read32(ev, &evId)) LearnEvent(evId, ev);
+        return oStateDriver(comp, ev, instigator, outChanged);
+    }
+
+    bool DriveGimmickEvent(uintptr_t comp, uint32_t eventId, uint32_t instigatorEid,
+                           uintptr_t instigatorActor, uint32_t targetEid, const float* pos3)
+    {
+        if (!oStateDriver || !comp || !eventId) return false;
+        if (!mem::Readable(comp, 0x400)) return false;
+
+        // 0xE8 is the size the game's own allocator copies for one of these.
+        __declspec(align(16)) unsigned char rec[kRecSize] = {};
+        if (const LearnedEvent* l = Learned(eventId)) memcpy(rec, l->rec, kRecSize);
+
+        *reinterpret_cast<uint32_t*>(rec + 0x00) = eventId;
+        *reinterpret_cast<uint32_t*>(rec + 0x10) = instigatorEid;
+        *reinterpret_cast<uint32_t*>(rec + 0x14) = instigatorEid;
+        *reinterpret_cast<uint32_t*>(rec + 0x20) = targetEid;
+        if (pos3)
+        {
+            *reinterpret_cast<float*>(rec + 0x30) = pos3[0];
+            *reinterpret_cast<float*>(rec + 0x34) = pos3[1];
+            *reinterpret_cast<float*>(rec + 0x38) = pos3[2];
+        }
+
+        // +0x08 is a 64-bit pointer to whatever the game was holding when the
+        // record was captured, and that object may since have been freed. Null
+        // is a case the game already handles, since its own spawn events send
+        // one; a dangling pointer is a crash.
+        uintptr_t ctx = 0;
+        memcpy(&ctx, rec + 0x08, sizeof ctx);
+        if (ctx && !mem::Readable(ctx, 0x08)) memset(rec + 0x08, 0, sizeof ctx);
+
+        // The driver's third argument is the instigator actor, which the chart's
+        // SetTargetActor uses to record who is working the node. Passing null
+        // leaves it with nobody to set.
+        const uintptr_t subject =
+            (instigatorActor && mem::Readable(instigatorActor, 0x80)) ? instigatorActor : 0;
+
+        bool changed = false;
+        // Straight to the trampoline: going back through the detour would only
+        // watch the mod talk to itself.
+        __try
+        {
+            oStateDriver(comp, reinterpret_cast<uintptr_t>(rec), subject,
+                         reinterpret_cast<uintptr_t>(&changed));
+        }
+        __except (EXCEPTION_EXECUTE_HANDLER)
+        {
+            LOG_ERR("[drive] exception 0x%08X driving event %08X; disabling", GetExceptionCode(), eventId);
+            oStateDriver = nullptr;   // one fault is enough, never try again this session
+            return false;
+        }
+        return changed;
+    }
+
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original)
     {
         if (!target) return false;
@@ -257,13 +370,14 @@ namespace ml::loot::hooks
         }
         Hook("ownership oracle", f.ownCheck, reinterpret_cast<void*>(&hkOwn), reinterpret_cast<void**>(&oOwn));
         Hook("node arming", f.armFn, reinterpret_cast<void*>(&hkArm), reinterpret_cast<void**>(&oArm));
+        Hook("gimmick driver", f.stateDriver, reinterpret_cast<void*>(&hkStateDriver), reinterpret_cast<void**>(&oStateDriver));
         return true;
     }
 
     void Remove()
     {
         farhook::RemoveAll();
-        oMove = oArea = oArm = nullptr; oEnq = nullptr; oOwn = nullptr;
+        oMove = oArea = oArm = nullptr; oEnq = nullptr; oOwn = nullptr; oStateDriver = nullptr;
         g_pump = "none";
     }
 

@@ -19,3 +19,8 @@ data/gimmick_drops.csv
 data/sources.json
 data/item_groups_tree.txt
 data/unmapped_groups.txt
+# raw session captures from the ore-yield investigation; FINDINGS.md transcribes
+# what mattered and the logs are large, so they stay local
+docs/ore-investigation/logs/
+# a third-party review dump with bundled wheels, kept for reference, not shipped
+codex/

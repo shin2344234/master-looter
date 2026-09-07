@@ -253,6 +253,11 @@ namespace ml::loot
     struct Done { DWORD when; int tries; };
     static std::unordered_map<uint64_t, Done>  g_done;      // recently sent
     static std::unordered_set<uint64_t>        g_searched;  // never again this session
+    // The same retirements, by entity. Key() prefers an item's instance id,
+    // and that is not read until Fill has run, so the scan cannot ask
+    // g_searched about an object it has not filled yet. This is what it asks
+    // instead, and it is filled in as each retired object is recognised once.
+    static std::unordered_set<uint32_t>        g_retiredEid;
     struct ArmRec { DWORD at; int fails; bool judged; int mode; int ctxKind; int rounds; DWORD restUntil; };
     // How to arm, in the order worth trying. Combo 0 names one key, the one
     // the game was last seen using; combo 1 passes a zeroed name and takes
@@ -579,14 +584,13 @@ namespace ml::loot
     }
 
     // What kind of thing a gather node is, from what it yields.
-    enum class GatherKind { Unknown, Plant, Ore, Stone, Wood, Item, Furniture };
+    enum class GatherKind { Unknown, Plant, Crop, Ore, Stone, Wood, Item, Furniture };
     // What an item counts as for the kind toggles. The classes come straight
     // from the item database (scripts/build_item_db.py): ore and jewel are
     // minerals from veins, stone from quarries, wood from trees and branches.
-    // "Plant" means herbs, flowers and mushrooms. Crops (a vegetable, fruit or
-    // grain) are food and follow the Ground items toggle and their class rule,
-    // whether still on the plant or lying loose. `onGround`: an item lying in
-    // the world rather than a node's yield.
+    // "Plant" means herbs, flowers and mushrooms; a crop (a vegetable, fruit or
+    // grain) is food and has its own toggle, on the plant or lying loose.
+    // `onGround`: an item lying in the world rather than a node's yield.
     static GatherKind KindFromName(const std::string& kind)
     {
         if (kind == "plant") return GatherKind::Plant;
@@ -623,8 +627,10 @@ namespace ml::loot
         // furniture too but their class is container, so they stay with the
         // container rule rather than moving under this one.
         if (k == "furniture" || k == "household") return GatherKind::Furniture;
+        // Ahead of the onGround line, so a fallen apple and one still on the
+        // tree answer to the same switch. Before 1.3.1 both were ground items.
+        if (k == "vegetable" || k == "fruit" || k == "grain") return GatherKind::Crop;
         if (onGround) return GatherKind::Item;
-        if (k == "vegetable" || k == "fruit" || k == "grain") return GatherKind::Item;
         if (k == "seed" || k == "alchemy-material" || y->HasTag("rare-gather")) return GatherKind::Plant;
         return GatherKind::Item;
     }
@@ -674,6 +680,50 @@ namespace ml::loot
         }
         if (g_spots.size() >= 128) g_spots.erase(g_spots.begin());
         g_spots.push_back({ p, tid, now, eid });
+    }
+
+    // Where the mod has broken a vein. A break spills the vein's contents as
+    // loose items at one point, which is the shape the storage rule below
+    // reads as a container's contents, so the mod's own spill was refused as
+    // storage and the ore trickled in as the cluster thinned. Remembering the
+    // site is what tells the two apart: a chest does not appear where the mod
+    // just swung. Deliberately narrow. It exempts only what the mod itself
+    // broke, so a container standing anywhere else keeps the full guard.
+    struct Broke { Vec3 p; DWORD when; };
+    static std::vector<Broke> g_broke;
+    static constexpr float kBrokeRadius2  = 9.0f;      // 3 m, enough for the impulse to scatter chunks
+    static constexpr DWORD kBrokeWindowMs = 45000;     // a spill is gathered in seconds, not minutes
+    static void BrokeMark(const Vec3& p, DWORD now)
+    {
+        if (g_broke.size() >= 32) g_broke.erase(g_broke.begin());
+        g_broke.push_back({ p, now });
+    }
+    // Debug only. After the mod breaks a vein, keep reading it for a few
+    // seconds so the slot probe can say whether the break moved its state.
+    // A hand-broken vein goes from +0x350 = 3 to 5 and gains its point data at
+    // +0x140; the question that matters is whether the mod's break does the
+    // same, and the retirement shortcut in the fill loop hides the answer by
+    // skipping the node from the next scan on. This is also the success test
+    // for any future fix: 3 -> 5 means it worked.
+    static std::unordered_map<uint32_t, DWORD> g_brokeWatch;
+    static constexpr DWORD kBrokeWatchMs = 10000;
+    static bool WatchingBreak(uint32_t eid, DWORD now)
+    {
+        auto it = g_brokeWatch.find(eid);
+        if (it == g_brokeWatch.end()) return false;
+        if (now - it->second > kBrokeWatchMs) { g_brokeWatch.erase(it); return false; }
+        return true;
+    }
+
+    static bool NearOwnBreak(const Vec3& p, DWORD now)
+    {
+        for (const Broke& b : g_broke)
+        {
+            if (now - b.when > kBrokeWindowMs) continue;
+            const float dx = b.p.x - p.x, dy = b.p.y - p.y, dz = b.p.z - p.z;
+            if (dx * dx + dy * dy + dz * dz < kBrokeRadius2) return true;
+        }
+        return false;
     }
     static DWORD AgeMs(uint32_t eid, DWORD now)
     {
@@ -1025,6 +1075,14 @@ namespace ml::loot
             if (IStr(c.node, "visione") || IStr(c.node, "quest") || IStr(c.node, "artifact")) return skip("quest or memory trigger");
             if (IStr(c.node, "abyssruins")) return skip("fast-travel artifact");
             if (IStr(c.node, "mission")) return skip("mission object");
+            // Whatever arming refuses, the verdict refuses too. This was a
+            // hand-copied list and it had drifted: "puzzle" was in OffLimits
+            // and missing here. Five puzzle prefabs are tagged ore in the node
+            // table (ice_block_break, two ice_wall_break, pickaxe_break_point,
+            // stone_wall_break), and because OffLimits stops them being armed
+            // they never fill, fall through to the ore branch below, and were
+            // reaching the vein break. The mod was swinging at an ice wall.
+            if (OffLimits(c.node)) return skip("puzzle or protected mechanism");
             // Kept in step with OffLimits(), which stops arming touching the same
             // things. The words above are the detail this one summarises.
             // These read the prefab path, so a gather node whose name happens to
@@ -1118,10 +1176,19 @@ namespace ml::loot
             // prefab it was placed from, the item it is already known to hold,
             // then what one of its kind yielded earlier this session.
             GatherKind kind = c.nodeType ? KindFromName(c.nodeType->kind) : GatherKind::Unknown;
-            if (kind == GatherKind::Unknown) kind = KindOf(c.db ? c.db : LearnedYield(c.gtid));
+            // "item" is the game's own catch-all for a collection socket and it
+            // covers 44 of the 72 in the table, nearly all of them crops, so it
+            // is not an answer on its own. Ask what the node yields before
+            // settling for it; a real item still comes back as one.
+            if (kind == GatherKind::Unknown || kind == GatherKind::Item)
+            {
+                const GatherKind byYield = KindOf(c.db ? c.db : NodeYield(c));
+                if (byYield != GatherKind::Unknown) kind = byYield;
+            }
             switch (kind)
             {
             case GatherKind::Plant:   if (!cfg.gatherPlants)  return skip("plants off"); break;
+            case GatherKind::Crop:    if (!cfg.gatherCrops)   return skip("crops off"); break;
             case GatherKind::Ore:     if (!cfg.gatherOre)     return skip("ore off"); break;
             case GatherKind::Stone:   if (!cfg.gatherStone)   return skip("stone off"); break;
             case GatherKind::Wood:    if (!cfg.gatherWood)    return skip("wood off"); break;
@@ -1141,6 +1208,7 @@ namespace ml::loot
             switch (KindOf(c.db, true))
             {
             case GatherKind::Plant: if (!cfg.gatherPlants) return skip("plants off"); break;
+            case GatherKind::Crop:  if (!cfg.gatherCrops)  return skip("crops off"); break;
             case GatherKind::Ore:   if (!cfg.gatherOre)   return skip("ore off"); break;
             case GatherKind::Stone: if (!cfg.gatherStone) return skip("stone off"); break;
             case GatherKind::Wood:  if (!cfg.gatherWood)  return skip("wood off"); break;
@@ -1356,9 +1424,20 @@ namespace ml::loot
         for (Cand& k : list)
         {
             if (k.d > maxRange && detailed >= 24) break;
-            if (g_searched.count(k.eid)) { k.filled = true; k.banned = true; continue; }
+            // Either list can answer without filling: g_searched holds a raw
+            // entity id for anything that never had an instance id, and
+            // g_retiredEid holds the rest once they have been recognised once.
+            if ((!g_debugLog || !WatchingBreak(k.eid, now)) &&
+                (g_retiredEid.count(k.eid) || g_searched.count(k.eid))) { k.filled = true; k.banned = true; continue; }
             Fill(k);
             ++detailed;
+            // Now that Fill has read the instance id, Key() means what it says.
+            // Anything already retired is noted by entity as well, so the next
+            // scan takes the shortcut above instead of filling it again. Before
+            // this the shortcut compared a raw entity id against a set keyed by
+            // instance id, so it never matched for an object that had one and
+            // every such object was filled again on every scan of the session.
+            if (g_searched.count(Key(k))) { k.banned = true; g_retiredEid.insert(k.eid); }
         }
         // Container contents sit in one point; a bush comes as a data node plus an empty twin.
         for (size_t i = 0; i < list.size(); ++i)
@@ -1374,7 +1453,11 @@ namespace ml::loot
                 if (!list[i].gather && !list[i].item && list[i].dead != 1 && list[i].inter && list[j].filled &&
                     (list[j].gather || list[j].item) && list[j].type == list[i].type && dd <= 0.25f) list[i].twin = true;
             }
-            if (around >= 3) list[i].heap = true;
+            // around counts the others, so this is four or more at one point.
+            // A loose item lying where the mod has just broken a vein is that
+            // vein's spill and is exempt; anything else at one point is still
+            // treated as storage.
+            if (around >= 3 && !(list[i].item && NearOwnBreak(list[i].pos, now))) list[i].heap = true;
         }
 
         // Decide, publish, and act.
@@ -1619,9 +1702,12 @@ namespace ml::loot
                                          k.nodeType->tagged && KindFromName(k.nodeType->kind) == GatherKind::Ore;
                     if (breakIt)
                     {
-                        // Swing from where the player stands toward the node.
-                        Vec3 me{}; game::WorldPos(g_me, &me);
-                        if (!events::BreakGimmick(k.eid, g_meEid, route, k.pos.x - me.x, k.pos.z - me.z))
+                        // Drive the game's own state machine at the node: the swing
+                        // landing, then the break. The transition is what spawns the
+                        // ore, so the vein empties itself and then disappears, which
+                        // the drop event on its own never made it do.
+                        const uintptr_t gc = game::CompByClass(game::Comps(k.ent), kCls_Gimmick);
+                        if (!gc || !events::DriveBreak(gc, g_meEid, g_me, k.eid, k.pos.x, k.pos.y, k.pos.z))
                         {
                             // Its own budget: the shared hold log is spent on
                             // "still filling" long before a break failure would show.
@@ -1638,6 +1724,14 @@ namespace ml::loot
                         // A vein the game respawns returns as a new entity, so retiring
                         // this one does not bar it for good.
                         g_searched.insert(key);
+                        // What falls out lands here. NearOwnBreak reads this so the
+                        // spill is not mistaken for the contents of a container.
+                        BrokeMark(k.pos, now);
+                        if (g_debugLog)
+                        {
+                            if (g_brokeWatch.size() > 64) g_brokeWatch.clear();
+                            g_brokeWatch[k.eid] = now;
+                        }
                     }
                     else if (!events::Send(v.act, k.eid, g_meEid, route, 0)) { held("the game refused the event"); continue; }
                     ++taken;

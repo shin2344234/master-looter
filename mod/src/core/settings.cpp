@@ -81,6 +81,7 @@ namespace ml::Settings
         else if (k == "LootCorpses")      c.lootCorpses = Flag(v);
         else if (k == "PickUpItems")      c.pickUpItems = Flag(v);
         else if (k == "GatherPlants")     c.gatherPlants = Flag(v);
+        else if (k == "GatherCrops")      c.gatherCrops = Flag(v);
         else if (k == "GatherOre")        c.gatherOre = Flag(v);
         else if (k == "GatherStone")      c.gatherStone = Flag(v);
         else if (k == "GatherWood")       c.gatherWood = Flag(v);
@@ -286,8 +287,8 @@ namespace ml::Settings
                  c.padMenu, c.padToggle, c.padBurst, c.padWatch); s += b;
         snprintf(b, sizeof b, "ScansPerSec=%d\nPerScan=%d\nBurstPerKey=%d\nRetryAfterMs=%d\n",
                  c.scansPerSec, c.perScan, c.burstPerKey, c.retryAfterMs); s += b;
-        snprintf(b, sizeof b, "LootCorpses=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherOre=%d\nGatherStone=%d\nGatherWood=%d\nGatherUnknown=%d\n",
-                 c.lootCorpses, c.pickUpItems, c.gatherPlants, c.gatherOre, c.gatherStone, c.gatherWood, c.gatherUnknown); s += b;
+        snprintf(b, sizeof b, "LootCorpses=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherCrops=%d\nGatherOre=%d\nGatherStone=%d\nGatherWood=%d\nGatherUnknown=%d\n",
+                 c.lootCorpses, c.pickUpItems, c.gatherPlants, c.gatherCrops, c.gatherOre, c.gatherStone, c.gatherWood, c.gatherUnknown); s += b;
         snprintf(b, sizeof b, "CatchInsects=%d\nCatchFish=%d\nCatchAnimals=%d\nLootContainers=%d\nLootFurniture=%d\n",
                  c.catchInsects, c.catchFish, c.catchAnimals, c.lootContainers, c.lootFurniture); s += b;
         snprintf(b, sizeof b, "ScanRange=%.1f\nLootRange=%.1f\nGatherRange=%.1f\nCatchRange=%.1f\nCorpseRange=%.1f\nMinRange=%.2f\n",

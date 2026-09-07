@@ -7,6 +7,15 @@
 // it ourselves) and the node-arming dispatcher (captures its mode argument).
 namespace ml::loot::hooks
 {
+    // Fire one named gimmick event at a node, through the game's own transition
+    // driver. The node's chart decides what the event does from its current
+    // state; an event it has no transition for is simply ignored, which is why
+    // this is safe to aim at anything. Game thread only. Returns false when the
+    // driver is unavailable or the call faulted.
+    bool DriveGimmickEvent(uintptr_t gimmickComp, uint32_t eventId,
+                           uint32_t instigatorEid, uintptr_t instigatorActor,
+                           uint32_t targetEid, const float* pos3);
+
     bool Install();   // after game::ResolveAll; MinHook must be initialised
     void Remove();
 

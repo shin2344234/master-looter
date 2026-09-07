@@ -179,6 +179,13 @@ namespace ml::Text
         return it == g_map.end() ? english : it->second.c_str();
     }
 
+    void ForEachTranslation(void (*fn)(const char*, void*), void* user)
+    {
+        if (!fn) return;
+        std::lock_guard<std::recursive_mutex> lk(g_mu);
+        for (const auto& kv : g_map) fn(kv.second.c_str(), user);
+    }
+
     bool WriteTemplate()
     {
         std::lock_guard<std::recursive_mutex> lk(g_mu);
