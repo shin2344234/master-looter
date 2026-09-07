@@ -1,0 +1,36 @@
+1.4.0 is up. The big change is how ore veins get mined.
+
+Until now the mod sent the game a drop event at the vein. The ore spilled out and
+you picked it up, but the node itself stayed standing, so the same vein could be
+struck again on a later pass. That is gone. The mod now fires the two events your
+pickaxe fires, the swing landing and then the break, and lets the game's own
+state machine take it from there. The vein empties itself and disappears, the way
+it does when you swing at it.
+
+Because that replaced the old path rather than sitting next to it, the three
+checkboxes for breaking ore are one again. Both experiments are gone.
+
+One thing worth knowing before you report it as a bug. A vein pays either one or
+two ore, and which you get depends on whether your character is carrying a mining
+bonus buff at that moment: two of the node's three drop rows are gated on it.
+Mining by hand behaves exactly the same way, so this is the game's own rule and
+not something the mod is costing you, but the yield is not constant and you will
+watch it change during a run. I spent a long time chasing that before working out
+it was never mine to fix.
+
+Also in this release:
+
+Ice walls and other puzzle objects are no longer struck. Five of them are tagged
+as ore in the game's own data and the mod was taking that at face value.
+
+Chinese, Japanese and Korean menus render properly. They used to come out as
+boxes.
+
+Logs rotate. The last twelve sessions are kept and compressed, so a report can
+include the run before the one that broke.
+
+Crops have their own switch, separate from plants.
+
+Checksums and the VirusTotal report are in the description, and the full source
+is on GitHub. Thanks to everyone who posted logs; almost everything fixed here
+was found from one.
