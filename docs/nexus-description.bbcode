@@ -9,13 +9,13 @@ Twelve switches under Looting, each on its own:
 [*]Ground items, including what enemies drop.
 [*]Animal carcasses, skinned once each. Human corpses drop ordinary loot instead.
 [*]Plants: herb, flower and mushroom nodes, and the same lying loose. Crops such as barley or sweet potatoes count as ground items whether on the plant or on the ground.
-[*]Ore, stone and wood, as chunks on the ground and as nodes that yield them. Ore veins are still broken with your pickaxe; the chunks are picked up for you.
+[*]Ore, stone and wood, as chunks on the ground and as nodes that yield them. Ore veins are broken for you the way your pickaxe breaks them: the contents drop on the ground and are picked up from there, so the Mining Yield Up on your tool counts, because the game applies it to the drop. Each vein is struck once and left alone until it comes back.
 [*]Insects: butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the rest of what the game files as insects.
 [*]Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish, seahorses.
 [*]Small animals: rats, squirrels, birds, lizards, frogs, salamanders.
 [*]Unidentified nodes, containers and furniture nodes, all off by default.
 [/list]
-Gather nodes are armed from a distance, so a bush fills its data without you standing on it. Each kind has its own range, and the scan pace is yours to set.
+Gather nodes are armed from a distance, so a bush fills its data without you standing on it. Ore is reached for as far out as the scan can see, because a vein takes seconds to answer where a bush takes a fraction of one. Each kind has its own range, and the scan pace is yours to set.
 
 [size=4][b]What it leaves alone[/b][/size]
 [list]
@@ -33,7 +33,7 @@ Gather nodes are armed from a distance, so a bush fills its data without you sta
 [*]Items: search any of the 6,813 items, set an override, and see the verdict the rules give it right now.
 [*]Presets: every setting and every rule saved under a name and swapped in two clicks. Settings are backed up each time the game starts and the last twelve are kept, so an update with different defaults is one button to undo. Anything that overwrites or discards asks first.
 [*]A notice when the bag is full, with the slot count, the moment it fills.
-[*]The menu can be translated. A template of all 196 lines is on the GitHub page, or write one from the Language section. Fill in your language, drop the file beside the plugin, and set the language. A partial translation leaves the rest in English.
+[*]Simplified and Traditional Chinese are built in, translated by dofo7777, with a button each under General, Language. Any other language is a text file: a template of all 288 lines is on the GitHub page, or write one from the Language section. Fill in your language, drop the file beside the plugin, and set the language. A partial translation leaves the rest in English, and a file beside the plugin overrides a built-in one.
 [*]Nearby: the objects around you with distance, class and the rule that decided each one, nearest first and without your own equipment in the way.
 [*]Status: every signature and hook, the event path, counters, recent loot and the log.
 [/list]
@@ -61,10 +61,10 @@ The shape is the whole reason. It is an unsigned DLL that a loader puts inside t
 
 What it does not do is reach the network. It imports no networking library at all, writes MasterLooter.ini, .log, .presets and .backups beside itself and nothing else, reads and writes no registry key, and modifies no game file. Every line is on GitHub and one batch file builds it, if you would rather compile your own. If your browser or Defender blocks the download, restore the file and exclude the game's bin64 folder.
 
-SHA-256 for 1.2.1:
-[code]8b2b8eb6002b44137d12942067d81878143bb6801165a60672f19ceb30d3f8a6  MasterLooter-1.2.1-DMM.zip
-5e8faf5d158fdc8749128d257d4df13af90f7591a6f9f69d1aa3ed3dce7b7a08  MasterLooter-1.2.1.zip
-479ecd050d888a50c10d903f4486e5ad1a84f30fbf9f0c6fb8cd2eab2e423188  MasterLooter.asi[/code]
+SHA-256 for 1.3.0:
+[code]125bee1ea27a6496a7cbcbb1259e4fc4aa7c29c3603d8d6db8b24c10d9880b8f  MasterLooter-1.3.0-DMM.zip
+1e7ab4151c75933d62e5d06234189def0f712f1b26a649556fa6e58e05aa4eb6  MasterLooter-1.3.0.zip
+ca48caa8ce6072adaaa4ebab7c9ee67ac86ad12f8372cfe26d2b681db1477b29  MasterLooter.asi[/code]
 
 [size=4][b]Controls[/b][/size]
 [list]
@@ -89,7 +89,7 @@ All keys are rebindable under General. Each of the four also takes a controller 
 [*]A carcass is searched once per session and never again, whatever the retry setting: searching an empty carcass has been seen to duplicate items, and duplicates are how saves get corrupted.
 [*]No line-of-sight check. Ranges are distances, not visibility. Keep the arming range short or a node behind a thin wall can be gathered.
 [*]Creatures the mod cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified and be left alone.
-[*]Gather nodes are identified by the prefab they were placed from, matched against a table of 1,042 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
+[*]Gather nodes are identified by the prefab they were placed from, matched against a table of 1,076 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 [*]Chests and storage boxes open a window rather than hand over an item; they are off by default.
 [*]Ownership is answered by the game's own routine, not by a guess here. If the mod ever cannot get an answer it refuses the object and says so rather than risking a bounty.
 [*]Single player. Do not use it anywhere it would give you an advantage over other people.
@@ -107,4 +107,6 @@ MIT licensed. Source, build instructions and the data pipeline are on GitHub: [u
 [*]CDLoot: the reverse engineering of the loot event protocol, the entity layout, the ownership check and node arming. Used as knowledge; the code here is new.
 [*]Dear ImGui and MinHook.
 [*]Ultimate ASI Loader, which every ASI mod depends on.
+[*]dofo7777 for the Simplified and Traditional Chinese menus.
+[*]lzmbrow and LuxDragon, whose logs found the ownership and ore problems.
 [/list]
