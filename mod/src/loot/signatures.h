@@ -51,6 +51,56 @@ namespace ml::sig
     inline constexpr const char* kSig_AreaSweep =
         "55 41 54 41 55 41 56 41 57 48 8B EC 48 83 EC 50 C5 F8 29 74 24 40 4C 8B ?? 48 8B ?? 48 8B ?? 44 8B";
 
+    // --- Gimmick state machine ----------------------------------------------
+    // void set_state(ClientGimmickActorComponent*, u32 stateNameId). Records the
+    // new state at +0x270, bumps the change counter at +0x350, writes +0x27C when
+    // the id is one the node's own chart declares, then tail-calls the virtual at
+    // vtable +0x878. It is not the whole transition: the state's exit and enter
+    // actions run in the caller above it. Hooked only to watch, so the mod can
+    // learn which layer a real pickaxe swing comes through, and with which ids.
+    // The `E8` is the refcounted-temp helper and moves between builds.
+    inline constexpr const char* kSig_SetState =
+        "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 20 57 48 83 EC 30 8B F2 48 8B D9 48 8B 41 08 "
+        "48 8D 50 08 33 FF 48 85 C0 48 0F 44 D7 41 B0 01 48 8B 12 48 8D 4C 24 20 E8 ?? ?? ?? ?? "
+        "90 8B AB 70 02 00 00 89 B3 70 02 00 00 48 89 BB 80 02 00 00 FF 83 50 03 00 00";
+
+    // The transition driver, vtable slot +0x7D0 of ClientGimmickActorComponent:
+    //   drive(component, const Event* ev, void* instigator, bool* outChanged)
+    // It does not take a target state. It takes an EVENT, asks the node's own
+    // chart which transition that event fires from the current state, runs the
+    // old state's exit actions, calls set_state once, then runs the new state's
+    // enter actions. Hooked only to read the event id out of arg2, since that
+    // id is the one thing neither the chart files nor the disassembly name.
+    inline constexpr const char* kSig_StateDriver =
+        "48 89 5C 24 18 4C 89 4C 24 20 48 89 54 24 10 55 56 57 41 54 41 55 41 56 41 57 "
+        "48 8D AC 24 70 FF FF FF 48 81 EC 90 01 00 00 4D 8B E9 49 8B F0 4C 8B FA 48 8B F9 "
+        "33 C9 89 8D D0 00 00 00";
+
+    // How many item entities one drop-table row spawns. Watched, never called.
+    //   if (!instigator) return 1;
+    //   bonus = playerBuffFor(collectKey) + gimmickComponent[+0x1A0];
+    //   return 1 + bonus/1000000 + (rand()%1000000 < bonus%1000000);
+    // It has no direct callers: all three call sites reach it through a
+    // one-instruction thunk, so hooking the body catches every drop in the game.
+    // The pattern covers the prologue through the null-instigator early-out,
+    // which is the branch worth watching.
+    inline constexpr const char* kSig_DropCount =
+        "48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 57 48 83 EC 20 "
+        "44 89 C3 48 89 D7 48 89 CE 48 85 C9 75 0A B8 01 00 00 00 E9";
+
+    // Walks a gimmick's drop table and calls the count function once per row that
+    // passes the row filter. A pickaxe swing gets two calls out of this, a break
+    // driven through the state machine gets one, so whatever it skips is the bug.
+    inline constexpr const char* kSig_DropRows =
+        "4C 89 4C 24 20 4C 89 44 24 18 48 89 54 24 10 55 53 56 57 41 54 41 55 41 56 41 57 "
+        "48 8D AC 24 88 E7 FF FF B8 78 19 00 00";
+
+    // The 0x0821 descriptor callback: resolves the vein and the player from the
+    // payload and hands the vein's component to the spawn routine.
+    inline constexpr const char* kSig_DropCallback =
+        "48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 70 48 8B DA 49 8B 78 18 49 8B 30 "
+        "44 8B 47 03 48 8D 54 24 30";
+
     // --- Ownership oracle ---------------------------------------------------
     // bool own_check(ctx, player, target, tag, 7): the same call the game makes
     // to decide between "Take" and "Steal". ctx and tag are captured from the
@@ -93,7 +143,6 @@ namespace ml::sig
 
     inline constexpr const char* kStr_ItemInfoTable    = "iteminfo";
     inline constexpr const char* kStr_GimmickInfoTable = "gimmickinfo";
-
     // Table object: +0x08 u32 row count; def[] pointer at +0x50 (Trinity, build
     // 2026-08) or +0x58 (CDLoot, build 2760). Probed at runtime against our
     // item database; whichever offset yields matching string keys wins.

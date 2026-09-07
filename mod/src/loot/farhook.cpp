@@ -12,7 +12,7 @@ extern "C" {
 namespace ml::farhook
 {
     struct Entry { uintptr_t target; unsigned stolen; unsigned char orig[32]; };
-    static Entry g_entries[8];
+    static Entry g_entries[24];
     static int   g_n = 0;
     static unsigned char* g_page = nullptr;
     static unsigned g_used = 0;
@@ -115,7 +115,7 @@ namespace ml::farhook
         (void)name;
         why[0] = 0;
         if (!target) { snprintf(why, whyLen, "no target"); return false; }
-        if (g_n >= 8) { snprintf(why, whyLen, "hook table full"); return false; }
+        if (g_n >= 24) { snprintf(why, whyLen, "hook table full"); return false; }
         const unsigned stolen = Measure(target, why, whyLen);
         if (!stolen) return false;
 

@@ -21,13 +21,12 @@ namespace ml::events
     bool RouteKnown();
     uint32_t Route();          // learned from the game's own events; 0 until seen
 
-    // Break a gimmick the way striking it does, so its contents fall on the
-    // ground and the game runs its own drop path, tool bonus and all. The
-    // impulse is a unit vector; the game's own calls always used 1/sqrt(3)
-    // upward with the rest spread horizontally along the swing.
-    bool BreakGimmick(uint32_t targetEid, uint32_t playerEid, uint32_t route,
-                      float hx, float hz);
-    bool BreakDescriptorFound();
+    // Break a vein by driving the game's own state machine instead: the swing
+    // landing, then the break. The transition is what drops the ore, so this
+    // replaces BreakGimmick rather than joining it. Queued off-thread like the
+    // rest; the two events go out back to back on the game thread.
+    bool DriveBreak(uintptr_t gimmickComp, uint32_t playerEid, uintptr_t playerActor,
+                    uint32_t targetEid, float x, float y, float z);
 
     // Send (or queue when off the game thread). Returns false when refused.
     bool Send(Action a, uint32_t targetEid, uint32_t playerEid, uint32_t route, uint8_t mode);

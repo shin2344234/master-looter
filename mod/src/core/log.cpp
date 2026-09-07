@@ -52,11 +52,42 @@ namespace ml::Log
         }
     }
 
+    // Keep the last dozen sessions instead of one. A log is the only evidence
+    // a bug report ever carries, and every launch used to destroy the previous
+    // one: a session worth reading was routinely gone before anyone thought to
+    // ask for it, including the capture that answered how a vein breaks.
+    //
+    // Plain text, not compressed, on two counts. The first thing anyone does
+    // with one of these is paste it into a comment or a paste site, and an
+    // archive is a barrier to that. And the plugin's import list is short by
+    // design (the README's antivirus note leans on it), so pulling in a
+    // compressor would lengthen the very list that argument rests on. Twelve
+    // sessions come to a few megabytes, against a saved game of any size.
+    static constexpr int kArchives = 11;   // plus the live one, so twelve in all
+
+    static void Rotate()
+    {
+        wchar_t from[64], to[64];
+        // Oldest out first, then each one shuffles up a place, so the numbers
+        // read as age: 01 is the session before this one, 11 the furthest back.
+        _snwprintf_s(to, _countof(to), _TRUNCATE, L"MasterLooter.%02d.log", kArchives);
+        DeleteFileW(Paths::File(to).c_str());
+        for (int i = kArchives - 1; i >= 1; --i)
+        {
+            _snwprintf_s(from, _countof(from), _TRUNCATE, L"MasterLooter.%02d.log", i);
+            _snwprintf_s(to,   _countof(to),   _TRUNCATE, L"MasterLooter.%02d.log", i + 1);
+            MoveFileExW(Paths::File(from).c_str(), Paths::File(to).c_str(), MOVEFILE_REPLACE_EXISTING);
+        }
+        MoveFileExW(Paths::File(L"MasterLooter.log").c_str(),
+                    Paths::File(L"MasterLooter.01.log").c_str(), MOVEFILE_REPLACE_EXISTING);
+    }
+
     void Claim()
     {
         std::lock_guard<std::mutex> lk(g_mu);
         if (g_claimed) return;
         g_claimed = true;
+        Rotate();
         g_file = _wfopen(Paths::File(L"MasterLooter.log").c_str(), L"w");
         if (!g_file) return;
         for (const auto& l : g_pending)

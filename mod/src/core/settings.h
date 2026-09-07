@@ -38,7 +38,12 @@ namespace ml
         // what to collect
         bool  lootCorpses    = true;
         bool  pickUpItems    = true;
-        bool  gatherPlants   = true;   // herbs, flowers, mushrooms and seeds; crops follow pickUpItems
+        bool  gatherPlants   = true;   // herbs, flowers, mushrooms and seeds
+        // Vegetables, fruit and grain, on the plant or lying loose. Their own
+        // switch since 1.3.1: they used to answer to pickUpItems, which meant
+        // turning Plants off still left 44 of the game's 72 collection sockets
+        // being harvested, sweet potatoes and barley among them.
+        bool  gatherCrops    = true;
         bool  gatherOre      = true;
         bool  gatherStone    = true;
         bool  gatherWood     = true;

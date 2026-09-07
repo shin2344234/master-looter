@@ -67,6 +67,96 @@ namespace ml::gui
         ImGui::Dummy(ImVec2(0, 6 * g_scale));
     }
 
+    // ImGui builds one atlas holding a fixed set of characters and draws
+    // anything outside it as the face's fallback glyph. That fallback is the
+    // question mark 1.3.0 showed for every line of the Chinese translation.
+    // Two things were missing and either alone was enough: the range was never
+    // widened past the Latin default, and Segoe UI carries no Chinese glyph to
+    // widen it with.
+    //
+    // Rather than ask for a language's whole block, which for Chinese is some
+    // twenty thousand characters and an atlas to match, ask for exactly the
+    // characters the loaded translation uses. The file is already in memory, a
+    // menu spends a few hundred characters of it, and the same code covers a
+    // language nobody has contributed yet.
+    static ImVector<ImWchar> g_glyphRanges;   // ImGui keeps the pointer until it builds
+    static bool              g_fontsDirty = false;
+
+    static void AddGlyphText(const char* s, void* builder)
+    {
+        static_cast<ImFontGlyphRangesBuilder*>(builder)->AddText(s);
+    }
+
+    static void BuildGlyphRanges()
+    {
+        ImFontGlyphRangesBuilder b;
+        b.AddRanges(ImGui::GetIO().Fonts->GetGlyphRangesDefault());
+        // The language buttons are drawn whatever is loaded, English included,
+        // so their names belong in the atlas even when no translation is on.
+        int n = 0;
+        if (const Text::Lang* langs = Text::BuiltIn(n))
+            for (int i = 0; i < n; ++i) b.AddText(langs[i].name);
+        Text::ForEachTranslation(&AddGlyphText, &b);
+        g_glyphRanges.clear();
+        b.BuildRanges(&g_glyphRanges);
+    }
+
+    static std::string FontsDir()
+    {
+        char win[MAX_PATH] = {};
+        GetWindowsDirectoryA(win, MAX_PATH);
+        return std::string(win) + "\\Fonts\\";
+    }
+
+    // Merged into the face just added, so Latin keeps the font the menu was
+    // drawn around and only what that font cannot supply comes from here.
+    // Ordered by what suits the language first and what a Windows install is
+    // likely to hold second. Oversampling off: a CJK glyph is large, and
+    // sampling it twice over spends atlas room for nothing at this size.
+    static void MergeFallback(const std::string& fonts, float px)
+    {
+        static const char* kTraditional[] = { "msjh.ttc", "msyh.ttc", "mingliu.ttc", "simsun.ttc", nullptr };
+        static const char* kRest[]        = { "msyh.ttc", "msjh.ttc", "simsun.ttc", "malgun.ttf", "msgothic.ttc", nullptr };
+        ImFontConfig cfg;
+        cfg.MergeMode   = true;
+        cfg.OversampleH = 1;
+        cfg.OversampleV = 1;
+        const bool traditional = _stricmp(Text::Language(), "zh-tw") == 0;
+        for (const char** f = traditional ? kTraditional : kRest; *f; ++f)
+            if (ImGui::GetIO().Fonts->AddFontFromFileTTF((fonts + *f).c_str(), px, &cfg, g_glyphRanges.Data))
+                return;
+        LOG_ERR("No font carrying the non-Latin glyphs found in %s; that text draws as question marks.", fonts.c_str());
+    }
+
+    static void BuildFonts()
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.Fonts->Clear();   // drops the old ImFont objects; both handles are reassigned below
+        BuildGlyphRanges();
+        const std::string fonts = FontsDir();
+
+        const float bodyPx = 16.0f * g_scale;
+        g_fontBody = io.Fonts->AddFontFromFileTTF((fonts + "segoeui.ttf").c_str(), bodyPx, nullptr, g_glyphRanges.Data);
+        if (!g_fontBody) { ImFontConfig d; d.SizePixels = bodyPx; g_fontBody = io.Fonts->AddFontDefault(&d); }
+        MergeFallback(fonts, bodyPx);
+
+        const float headPx = 20.0f * g_scale;
+        static const char* kSerifs[] = { "georgia.ttf", "constan.ttf", "cambria.ttc", "times.ttf" };
+        g_fontHead = nullptr;
+        for (const char* f : kSerifs)
+        {
+            g_fontHead = io.Fonts->AddFontFromFileTTF((fonts + f).c_str(), headPx, nullptr, g_glyphRanges.Data);
+            if (g_fontHead) break;
+        }
+        if (g_fontHead) MergeFallback(fonts, headPx);
+        else            g_fontHead = g_fontBody;
+
+        g_fontsDirty = false;
+    }
+
+    bool FontsNeedRebuild() { return g_fontsDirty; }
+    void RebuildFonts()     { BuildFonts(); }
+
     void InitStyle(float scale)
     {
         g_scale = std::clamp(scale, 0.8f, 3.0f);
@@ -74,20 +164,7 @@ namespace ml::gui
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.IniFilename = nullptr;
 
-        char win[MAX_PATH] = {};
-        GetWindowsDirectoryA(win, MAX_PATH);
-        const std::string fonts = std::string(win) + "\\Fonts\\";
-        ImFontConfig body; body.SizePixels = 16.0f * g_scale;
-        g_fontBody = io.Fonts->AddFontFromFileTTF((fonts + "segoeui.ttf").c_str(), body.SizePixels);
-        if (!g_fontBody) g_fontBody = io.Fonts->AddFontDefault(&body);
-        ImFontConfig head; head.SizePixels = 20.0f * g_scale;
-        const char* serifs[] = { "georgia.ttf", "constan.ttf", "cambria.ttc", "times.ttf" };
-        for (const char* f : serifs)
-        {
-            g_fontHead = io.Fonts->AddFontFromFileTTF((fonts + f).c_str(), head.SizePixels);
-            if (g_fontHead) break;
-        }
-        if (!g_fontHead) g_fontHead = g_fontBody;
+        BuildFonts();
 
         ImGui::StyleColorsDark();
         ImGuiStyle& s = ImGui::GetStyle();
@@ -478,10 +555,13 @@ namespace ml::gui
             // The languages that ship with the mod get a button each, since
             // asking someone to type "zh-tw" to read the menu in their own
             // language is asking them to read the English first.
+            // The new language almost certainly needs characters the atlas was
+            // not built with, so it is rebuilt before the next frame is drawn.
             auto pick = [&](const char* code) {
                 snprintf(s_lang, sizeof s_lang, "%s", code);
                 c.language = code;
                 Text::Load(c.language.c_str());
+                g_fontsDirty = true;
                 Settings::MarkDirty();
             };
             const bool english = c.language.empty() || _stricmp(c.language.c_str(), "en") == 0;
@@ -506,6 +586,7 @@ namespace ml::gui
             {
                 c.language = s_lang;
                 Text::Load(c.language.c_str());
+                g_fontsDirty = true;
                 Settings::MarkDirty();
             }
             ImGui::SameLine();
@@ -568,7 +649,8 @@ namespace ml::gui
         const Toggle toggles[] = {
             { "Ground items",   &c.pickUpItems,    "Items lying in the world, including drops from enemies." },
             { "Carcasses",      &c.lootCorpses,    "The skinning interaction, once per carcass. Human corpses drop ordinary loot instead." },
-            { "Plants",         &c.gatherPlants,   "Herb, flower and mushroom nodes, and the same lying on the ground. Crops such as barley, potatoes or sweet potatoes count as ground items whether still on the plant or lying loose, and follow their class rule." },
+            { "Plants",         &c.gatherPlants,   "Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch." },
+            { "Crops",          &c.gatherCrops,    "Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants." },
             { "Ore",            &c.gatherOre,      "Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one." },
             { "Stone",          &c.gatherStone,    "Stone on the ground and nodes that yield stone." },
             { "Wood",           &c.gatherWood,     "Timber and branches on the ground and nodes that yield them." },
@@ -617,7 +699,7 @@ namespace ml::gui
         dirty |= ImGui::Checkbox(TR("Mine ore veins for you"), &c.gatherVeins);
         Help(TR("On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick."));
         dirty |= ImGui::Checkbox(TR("Break veins open rather than emptying them"), &c.breakOre);
-        Help(TR("Breaking spills the vein's contents on the ground and picks them up from there, exactly as swinging a pickaxe does. Emptying lifts the ore straight out and skips the drop, and the drop is the only place the game applies your tool's Mining Yield Up, so a better pickaxe counts for nothing without this. The mod sends the game the same break it raises for itself. Each vein is struck once and then left alone until the game respawns it."));
+        Help(TR("Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop, and the drop is the only place the game applies your tool's Mining Yield Up, so a better pickaxe counts for nothing without this. Each vein is struck once and then left alone until the game respawns it."));
         dirty |= ImGui::Checkbox(TR("Arm mechanism containers too"), &c.armContainers);
         Help(TR("A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand."));
 

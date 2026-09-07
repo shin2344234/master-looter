@@ -757,6 +757,17 @@ namespace ml::hooks
         if (!submitQueue)
             return;
 
+        // A language change needs glyphs the atlas does not hold. Rebuild
+        // between frames, and only once our last submit has retired: the
+        // backend releases the font texture to recreate it and the GPU may
+        // still be reading the old one. The NewFrame below builds both again.
+        if (gui::FontsNeedRebuild())
+        {
+            WaitForOverlayIdle();
+            ImGui_ImplDX12_InvalidateDeviceObjects();
+            gui::RebuildFonts();
+        }
+
         ImGui_ImplDX12_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
