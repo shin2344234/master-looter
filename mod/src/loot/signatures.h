@@ -60,8 +60,15 @@ namespace ml::sig
         "48 81 EC 80 00 00 00 49 8B ?? 4C 8B ?? 4C 8B ?? 0F B6 7D 50";
 
     // --- Node arming --------------------------------------------------------
-    // void arm(gimmickComponent, u8 mode, void* scratch, u32 playerEid): makes
-    // the game fill a node's interaction data as if the player stood on it.
+    // void arm(gimmickComponent, u8 mode, const u32* nameId)
+    //
+    // Three arguments, not four: r9 is never spilled to its home slot and its
+    // first touch at +0x205CD92 is a write, so whatever is passed there is
+    // ignored. The third is dereferenced as a u32 at +0x205CD83 and used to
+    // look up a row; point it at zero and the routine takes a broad path over
+    // the node's own keys instead. It writes exactly one byte, the mode, onto
+    // a named trigger, and lets the game react; on a lookup miss it writes
+    // nothing and reports nothing, which is why a refused arm is silent.
     inline constexpr const char* kSig_ArmDispatch =
         "88 54 24 10 48 89 4C 24 08 53 55 56 57 41 54 41 55 41 56 41 57 48 83 EC 58 49 8B ?? 44 0F B6 ?? 4C 8B ??";
 

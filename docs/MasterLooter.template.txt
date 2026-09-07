@@ -21,30 +21,48 @@
 %d overrides	
 %s (key %u, row %d, tier %d)	
 %s (never looted)	
+%s translated by %s.	
 %s, let go to keep it	
+3 of 3	
 \"%s\" already exists. Saving over it asks first.	
 A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	
+Abyss and Kuku	
+Abyss gear, Kuku pots and their parts.	
+Accessories	
+allowed	
 already in your bag	
 always	
 always beats the class rule; never beats always	
+Ammunition	
 Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	
 Arm mechanism containers too	
 Arm nodes ourselves	
-Arming ignores walls. Keep it short or you will gather through the wall of the next room.	
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	
 Arming range	
 Auto-loot enabled	
+Auto-loot on / off	
 Backups	
 blank for English	
+Books and papers	
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	
+Break veins open rather than emptying them	
+Breaking spills the vein's contents on the ground and picks them up from there, exactly as swinging a pickaxe does. Emptying lifts the ore straight out and skips the drop, and the drop is the only place the game applies your tool's Mining Yield Up, so a better pickaxe counts for nothing without this. The mod sends the game the same break it raises for itself. Each vein is struck once and then left alone until the game respawns it.	
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	
+captured	
 Carcasses	
 carcasses off	
 Catching	
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	
 Class	
+class %s	
 Classes	
 Clear	
 Clear overrides	
 Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	
 Close	
 container (off)	
+Containers	
 Controller	
 Copper	
 Copy	
@@ -54,41 +72,69 @@ corpse
 corpse already searched	
 corpse: loot drops separately	
 creature	
+Creatures	
+Damaged gear	
 Dead zone around you	
 Decision	
 default	
+DirectX 12 hooks	
 does not respond	
+Engine	
+English	
 English. %d line(s) seen this session.	
 entity	
 entity %08X	
 entity %08X, %d items across every store	
 entity %08X, bag %d of %d slots, %d items across every store	
+Event descriptors	
+failed	
 fast-travel artifact	
 filter classes	
 filter tags	
 Filters	
+Fish	
 fish off	
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	
+Food and drink	
 Forget	
+found	
+Furniture	
+Furniture and decor	
 furniture node (off)	
+furniture off	
+Game functions	
 Game functions did not resolve; see Status.	
+Game-thread pump	
 gather node	
 Gathering	
+Ground items	
 Groups	
+Herb, flower and mushroom nodes, and the same lying on the ground. Crops such as barley, potatoes or sweet potatoes count as ground items whether still on the plant or lying loose, and follow their class rule.	
 hold two buttons (Escape cancels)	
+Household clutter and collectibles, most of it worthless.	
 How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	
 How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	
+incomplete	
+Insects	
 insects off	
+installed	
 Item	
+Item database	
+Item table	
 Items	
+Items lying in the world, including drops from enemies.	
 Items no shop will buy, across every class.	
 Items on the ground	
 Items tagged quest are left alone so puzzles and story pickups are never auto-taken.	
 Items with an unknown value are never filtered by it.	
 Keep the menu on screen while you play. %s brings it back, %s closes it.	
 Keys	
+Keys and tools	
 Language	
 Language \"%s\": %d line(s) translated, %d seen this session.	
+learned from the game	
 Load	
+loaded	
 locked	
 Log	
 Log: %ls	
@@ -97,18 +143,31 @@ Loot all
 Loot engine	
 Loot engine not started.	
 Loot everything in range now	
+Loot everything in range once	
 loot: %s	
 MASTER LOOTER	
 Master Looter v%s for game build %s	
+Materials	
 mechanism part	
 Memory chips and puzzle parts	
+Mine ore veins for you	
 Minimum value (copper)	
+missing	
+missing MasterLooter.items.tsv	
 mission object	
+Mounts and vehicles	
 name a new preset	
 never	
+no	
 no interaction node	
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	
+none	
+not found yet	
 not in item database	
 not ready (node empty)	
+not resolved yet	
+not started	
+not yet	
 Nothing else is drawn while the menu is closed.	
 nothing taken yet this session	
 Object	
@@ -118,22 +177,30 @@ Objects closer than this are treated as your own equipment. A safety net; your g
 Objects per burst press	
 Objects per scan	
 on the player	
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	
 On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	
 One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	
 One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	
+Open and close this menu	
 Open folder	
 Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	
+Ore	
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	
 ore off	
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	
 out of range	
 Overlay	
 Override	
 owned by someone (theft)	
 Ownership	
+Ownership oracle	
 Pace	
 paused: %s	
 pick up off	
+Plants	
 plants off	
 Player	
+Player equipment.	
 Player not found in the scene yet.	
 Presets	
 press a key (Escape cancels)	
@@ -143,14 +210,18 @@ Puts every setting and rule back to what it was at that moment.
 Quest items	
 quest or memory trigger	
 Ranges (metres)	
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	
 Reaching nodes	
+Read from the file beside the plugin, not the copy inside it.	
 Rebind	
 Recent loot	
 Refresh	
 Reload now	
 Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	
 Reset all tags	
+resolved	
 Retry the same object after (ms)	
+Route id	
 Rule	
 Save now	
 Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	
@@ -160,6 +231,7 @@ Scan radius
 Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	
 Scans per second	
 search item name or key (3+ letters)	
+Sending events	
 Set	
 Settings: %ls	
 Show a brief notice when auto-loot is toggled	
@@ -169,20 +241,29 @@ Skip all
 Skip items shops refuse to buy	
 Skip quest items	
 skip: %s	
+Small animals	
 small animals off	
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	
 stack at one point (storage contents)	
+Stone	
 stone off	
+Stone on the ground and nodes that yield stone.	
+Tables, chairs, beds, carpets and decor, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Off by default.	
 Tag	
+tags, any of which can be set to never in the Tags tab:	
 Take goods that belong to someone	
 Take items the database cannot name	
 takes effect next launch	
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	
-The game fills a node's data only when it thinks you can reach it; for an ore vein that means standing on it. Arming asks the game to do it from a distance.	
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	
 The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	
 The game treats this as stealing and will put a bounty on you.	
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead.	
 This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	
+Timber and branches on the ground and nodes that yield them.	
+Treasure and keepsakes	
 Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	
+Unidentified nodes	
 unidentified nodes off	
 unidentified: could be a fish, a flying insect or a bird	
 unidentified: could be an insect or a small animal	
@@ -190,19 +271,30 @@ unnamed item
 Unsellable items	
 Use this language	
 Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	
+using the player's own field	
 Verbose log	
 Verdict	
+waiting	
+waiting for the game to check an item	
 waiting for the game to check ownership once	
 Waiting for the world to load.	
 Watch	
+Watch mode	
+Watch mode (menu stays up, you keep playing)	
 Watch mode: the game has your controls. %s to interact, %s to close.	
+Weapons and armor	
 What enters the working list at all. The ranges below are clamped to it.	
 What to collect	
+Wood	
 wood off	
+World (actor manager)	
 worn by someone	
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	
 worn or carried by you	
+worth %lld copper	
 Wrap the swapchain	
 Write translation template	
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	
 Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	
 Writes the settings as they are now, named %s.	
+yes	

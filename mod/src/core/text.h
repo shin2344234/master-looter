@@ -17,14 +17,28 @@ namespace ml
     // working from a list someone maintained by hand and got wrong.
     namespace Text
     {
-        // MasterLooter.<lang>.txt next to the plugin, tab separated, one record
-        // per line: the English on the left, the translation on the right, with
-        // \n for a line break. Lines starting with # are comments. An empty
-        // right-hand side means not translated yet.
+        // MasterLooter.<lang>.txt, tab separated, one record per line: the
+        // English on the left, the translation on the right, with \n for a
+        // line break. Lines starting with # are comments. An empty right-hand
+        // side means not translated yet.
+        //
+        // Read from beside the plugin when a file of that name is there, and
+        // otherwise from the copy built into the plugin, so a contributed
+        // language works under a mod manager that deploys the .asi on its own
+        // while a translator can still iterate without a rebuild.
         bool Load(const char* lang);          // "" or "en" unloads and returns to English
         const char* Language();               // what is loaded, empty when English
         int  Count();                         // translated strings in use
         int  Rejected();                      // dropped because their placeholders did not match
+        bool FromFile();                      // read from disk rather than from inside the plugin
+
+        // The languages that ship inside the plugin, so the menu can offer
+        // them instead of expecting someone to know the code. Named in the
+        // language itself: a reader who needs the Chinese cannot necessarily
+        // read the word "Chinese".
+        struct Lang { const char* code; const char* name; const char* credit; };
+        const Lang* BuiltIn(int& count);
+        const Lang* Find(const char* code);   // null when not a built-in one
 
         const char* Get(const char* english);
 

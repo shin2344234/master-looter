@@ -1,12 +1,18 @@
 #include "events.h"
 
 #include <Windows.h>
+#include <cmath>
+#include <cstdio>
 #include <cstring>
+#include <string>
+#include <vector>
 
 #include "game.h"
+#include "hooks.h"
 #include "mem.h"
 #include "signatures.h"
 #include "../core/log.h"
+#include "../core/settings.h"
 
 namespace ml::events
 {
@@ -39,16 +45,42 @@ namespace ml::events
     };
     static int Row(Action a) { return a == Action::Search ? 0 : a == Action::Catch ? 2 : 1; }
 
+    // Every descriptor the engine answers for, kept from the walk the
+    // resolver already does. Naming an unexpected event in the log is the
+    // difference between a number and a lead.
+    struct DescName { uint16_t id; uint16_t size; std::string cls; };
+    static std::vector<DescName> g_descMap;
+    static const DescName* DescById(uint16_t id)
+    {
+        for (const DescName& d : g_descMap) if (d.id == id) return &d;
+        return nullptr;
+    }
+
     static volatile LONG g_gameTid = 0;
     static bool g_selfTested = false, g_sendAllowed = false;
     static int  g_descFound = 0;
     static volatile LONG g_route = 0, g_routeKnown = 0, g_sendTid = 0, g_sent = 0, g_draining = 0;
     static Seen g_seen[32]; static volatile LONG g_seenN = 0;
+    // One report per distinct kind of event, not per event. The old per-line
+    // budget was exhausted by the scene-load flood before the player moved,
+    // so anything raised during play was never seen.
+    static uint32_t g_probeSeen[96] = {};
+    static int      g_probeSeenN = 0;
+    static bool ProbeFirstTime(uint16_t id, uint8_t b3)
+    {
+        const uint32_t kind = (static_cast<uint32_t>(id) << 8) | b3;
+        for (int i = 0; i < g_probeSeenN; ++i) if (g_probeSeen[i] == kind) return false;
+        if (g_probeSeenN >= 96) return false;
+        g_probeSeen[g_probeSeenN++] = kind;
+        return true;
+    }
 
     struct PendAct { Action act; uint32_t eid, player, route; uint8_t mode; };
     struct PendArm { uintptr_t node, mode, arg3, ctx; };
+    struct PendBreak { uint32_t target, player, route; float hx, hz; };
     static PendAct g_pendAct[64]; static int g_pendActN = 0;
     static PendArm g_pendArm[32]; static int g_pendArmN = 0;
+    static PendBreak g_pendBrk[32]; static int g_pendBrkN = 0;
     static CRITICAL_SECTION g_cs;
     static LONG g_csReady = 0;
     static void Lock()   { if (InterlockedCompareExchange(&g_csReady, 1, 0) == 0) { InitializeCriticalSection(&g_cs); InterlockedExchange(&g_csReady, 2); } while (InterlockedCompareExchange(&g_csReady, 2, 2) != 2) Sleep(0); EnterCriticalSection(&g_cs); }
@@ -68,19 +100,32 @@ namespace ml::events
     long QueuedCount() { return g_pendActN; }
 
     // Asks the game for each descriptor id and matches the class name.
+    // The one call into the game, on its own so the resolver can hold a
+    // std::string: MSVC will not mix __try with anything that unwinds.
+    static void* LookupDesc(uintptr_t fn, uint32_t id, uint32_t mask)
+    {
+        __try { return reinterpret_cast<FnDescLookup>(fn)(0, id, mask); }
+        __except (EXCEPTION_EXECUTE_HANDLER) { return nullptr; }
+    }
+
     static void ResolveDescriptors(uint32_t mask)
     {
         const game::Fns& f = game::F();
-        int left = 3;
         for (auto& d : g_desc) d.ptr = 0;
-        for (uint32_t id = 1; id <= 0x1FFF && left > 0; ++id)
+        g_descMap.clear();
+        // The whole range every time, rather than stopping at the third
+        // match: the map is what lets an unrecognised event be named.
+        for (uint32_t id = 1; id <= 0x1FFF; ++id)
         {
-            void* d = nullptr;
-            __try { d = reinterpret_cast<FnDescLookup>(f.descLookup)(0, id, mask); }
-            __except (EXCEPTION_EXECUTE_HANDLER) { continue; }
+            void* d = LookupDesc(f.descLookup, id, mask);
             if (!d) continue;
             const char* n = mem::RttiName(reinterpret_cast<uintptr_t>(d));
             if (!n) continue;
+            {
+                uint16_t sz = 0;
+                mem::Read16(reinterpret_cast<uintptr_t>(d) + kOff_Desc_Size, &sz);
+                g_descMap.push_back({ static_cast<uint16_t>(id), sz, n });
+            }
             for (auto& row : g_desc)
             {
                 if (row.ptr || !strstr(n, row.cls)) continue;
@@ -91,10 +136,16 @@ namespace ml::events
                 row.id = static_cast<uint16_t>(id);
                 if (size) row.size = size;
                 row.ptr = reinterpret_cast<uintptr_t>(d);
-                --left;
                 break;
             }
         }
+        LOG("[desc] %d event descriptors in this build.", static_cast<int>(g_descMap.size()));
+        // The ones that could plausibly carry mining an uncracked vein, so
+        // the names are in the log next to whatever the spy catches.
+        static const char* kOfInterest[] = { "Interaction", "Gimmick", "Break", "Drop", "PickUp", "Gather", "Collect" };
+        for (const DescName& d : g_descMap)
+            for (const char* k : kOfInterest)
+                if (strstr(d.cls.c_str(), k)) { LOG("[desc] 0x%04X size %-3u %s", d.id, d.size, d.cls.c_str()); break; }
         g_descFound = 0;
         for (const auto& row : g_desc)
         {
@@ -194,7 +245,10 @@ namespace ml::events
             uintptr_t q = 0;
             if (!mem::ReadPtr(f.queue, &q)) { LOG_ERR("[send] queue global unreadable"); return false; }
             InterlockedExchange(&g_sendTid, static_cast<LONG>(GetCurrentThreadId()));
+            // Ours, so the spy does not report it back as something the game did.
+            ml::loot::hooks::SelfSendBegin();
             reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), ev, desc, 0);
+            ml::loot::hooks::SelfSendEnd();
             InterlockedExchange(&g_sendTid, 0);
             InterlockedIncrement(&g_sent);
             ok = true;
@@ -207,6 +261,12 @@ namespace ml::events
         return ok;
     }
 
+    static bool ArmCall(uintptr_t fn, uintptr_t node, uintptr_t mode, void* a3, uintptr_t ctx)
+    {
+        __try { reinterpret_cast<FnArm>(fn)(reinterpret_cast<void*>(node), mode, a3, ctx); return true; }
+        __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+    }
+
     static bool ArmNow(uintptr_t node, uintptr_t mode, uintptr_t arg3, uintptr_t ctx)
     {
         const game::Fns& f = game::F();
@@ -214,8 +274,90 @@ namespace ml::events
         static __declspec(align(16)) unsigned char scratch[256];
         memset(scratch, 0, sizeof scratch);
         void* a3 = arg3 && mem::Readable(arg3, 0x40) ? reinterpret_cast<void*>(arg3) : static_cast<void*>(scratch);
-        __try { reinterpret_cast<FnArm>(f.armFn)(reinterpret_cast<void*>(node), mode, a3, ctx); return true; }
-        __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+        // Tell the detour this one is ours, so it does not take our scratch
+        // buffer for the game's third argument and hand it back next time.
+        ml::loot::hooks::SelfArmBegin();
+        const bool ok = ArmCall(f.armFn, node, mode, a3, ctx);
+        ml::loot::hooks::SelfArmEnd();
+        return ok;
+    }
+
+    // The descriptor the game uses when a gimmick breaks and drops what it
+    // held. Looked up by class name out of the map the resolver already built,
+    // so it does not disturb the three the mod sends by action.
+    static const DescName* BreakDesc()
+    {
+        for (const DescName& d : g_descMap)
+            if (d.cls.find("TrocTrDropItemOnGimmickBreakOnceTimer") != std::string::npos) return &d;
+        return nullptr;
+    }
+    bool BreakDescriptorFound() { return BreakDesc() != nullptr; }
+
+    static bool BreakNow(uint32_t target, uint32_t player, uint32_t route, float hx, float hz)
+    {
+        if (!g_sendAllowed) return false;
+        const DescName* bd = BreakDesc();
+        if (!bd) { LOG_ERR("[break] the gimmick-break descriptor is not in this build"); return false; }
+        const game::Fns& f = game::F();
+        reinterpret_cast<FnTlsInit>(f.tlsInit)();
+        uint32_t mask = 0;
+        if (!mem::Read32(f.descMask, &mask)) return false;
+        void* desc = reinterpret_cast<FnDescLookup>(f.descLookup)(0, bd->id, mask);
+        if (!desc) { LOG_ERR("[break] descriptor 0x%04X not found", bd->id); return false; }
+        const uint16_t size = bd->size ? bd->size : 27;
+        unsigned char* e = static_cast<unsigned char*>(reinterpret_cast<FnAllocEvent>(f.allocEvent)(0, size));
+        if (!e) { LOG_ERR("[break] event allocation failed"); return false; }
+
+        *reinterpret_cast<uint32_t*>(e + kOff_Ev_One)    = 1;
+        *reinterpret_cast<uint32_t*>(e + kOff_Ev_Zero40) = 0;
+        *reinterpret_cast<uint64_t*>(e + kOff_Ev_Zero48) = 0;
+        *reinterpret_cast<uint32_t*>(e + kOff_Ev_Player) = player;
+        *reinterpret_cast<uint32_t*>(e + kOff_Ev_Player + 4) = 0;
+        *reinterpret_cast<uint32_t*>(e + kOff_Ev_Route)  = route;
+        *reinterpret_cast<void**>(e + kOff_Ev_Desc)      = desc;
+        *reinterpret_cast<uint16_t*>(e + kOff_Ev_Size)   = size;
+        *reinterpret_cast<uint8_t*>(e + kOff_Ev_Flag78)  = 1;
+
+        unsigned char* buf = *reinterpret_cast<unsigned char**>(e + kOff_Ev_Buffer);
+        if (!buf) { LOG_ERR("[break] event has no payload buffer"); return false; }
+        buf[0] = static_cast<uint8_t>(bd->id & 0xFF);
+        buf[1] = static_cast<uint8_t>(bd->id >> 8);
+        buf[2] = 0xFF;
+        *reinterpret_cast<uint32_t*>(buf + 3)  = target;
+        *reinterpret_cast<uint32_t*>(buf + 7)  = player;
+        *reinterpret_cast<uint32_t*>(buf + 11) = 0;
+        // 1/sqrt(3) up, the rest shared by the horizontal direction, which is
+        // exactly the shape of all ten calls the game made.
+        const float kUp = 0.57735027f, kFlat = 0.81649658f;   // sqrt(2/3)
+        float len = hx * hx + hz * hz;
+        if (len < 1e-6f) { hx = 1.0f; hz = 0.0f; len = 1.0f; }
+        else { len = 1.0f / sqrtf(len); hx *= len; hz *= len; }
+        *reinterpret_cast<float*>(buf + 15) = hx * kFlat;
+        *reinterpret_cast<float*>(buf + 19) = kUp;
+        *reinterpret_cast<float*>(buf + 23) = hz * kFlat;
+
+        uintptr_t q = 0;
+        if (!mem::ReadPtr(f.queue, &q)) { LOG_ERR("[break] queue global unreadable"); return false; }
+        ml::loot::hooks::SelfSendBegin();   // ours, not the game's
+        reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), e, desc, 0);
+        ml::loot::hooks::SelfSendEnd();
+        InterlockedIncrement(&g_sent);
+        return true;
+    }
+
+    bool BreakGimmick(uint32_t target, uint32_t player, uint32_t route, float hx, float hz)
+    {
+        if (!g_sendAllowed) return false;
+        // The scan decides on a worker thread; the event has to be raised on
+        // the game thread, so it queues and Drain() sends it, exactly as an
+        // ordinary send does. Refusing here instead is why no break was ever
+        // sent.
+        if (OnGameThread()) return BreakNow(target, player, route, hx, hz);
+        Lock();
+        const bool room = g_pendBrkN < 32;
+        if (room) g_pendBrk[g_pendBrkN++] = { target, player, route, hx, hz };
+        Unlock();
+        return room;
     }
 
     bool Send(Action a, uint32_t target, uint32_t player, uint32_t route, uint8_t mode)
@@ -243,14 +385,34 @@ namespace ml::events
     void Drain()
     {
         if (InterlockedCompareExchange(&g_draining, 1, 0) != 0) return;
-        PendAct acts[64]; PendArm arms[32]; int an, rn;
+        PendAct acts[64]; PendArm arms[32]; PendBreak brks[32]; int an, rn, bn;
         Lock();
         rn = g_pendArmN; memcpy(arms, g_pendArm, sizeof(PendArm) * rn); g_pendArmN = 0;
         an = g_pendActN; memcpy(acts, g_pendAct, sizeof(PendAct) * an); g_pendActN = 0;
+        bn = g_pendBrkN; memcpy(brks, g_pendBrk, sizeof(PendBreak) * bn); g_pendBrkN = 0;
         Unlock();
         for (int i = 0; i < rn; ++i) ArmNow(arms[i].node, arms[i].mode, arms[i].arg3, arms[i].ctx);
         for (int i = 0; i < an; ++i) SendNow(acts[i].act, acts[i].eid, acts[i].player, acts[i].route, acts[i].mode);
+        for (int i = 0; i < bn; ++i) BreakNow(brks[i].target, brks[i].player, brks[i].route, brks[i].hx, brks[i].hz);
         InterlockedExchange(&g_draining, 0);
+    }
+
+    // One line holding everything a reproduction needs: which descriptor, how
+    // big the payload is, and the payload itself.
+    static void LogPayload(const char* why, uint16_t id, uint16_t size, uintptr_t buf)
+    {
+        const DescName* d = DescById(id);
+        char hex[3 * 32 + 1] = {}; int p = 0;
+        const int n8 = size > 32 ? 32 : static_cast<int>(size);
+        for (int i = 0; i < n8; ++i)
+        {
+            uint8_t b = 0;
+            if (!mem::Read8(buf + i, &b)) break;
+            p += snprintf(hex + p, sizeof hex - p, i ? " %02X" : "%02X", b);
+        }
+        uint32_t eid = 0; mem::Read32(buf + 4, &eid);
+        LOG("[probe] %s: 0x%04X size %u %s | %s | eid at +4 %08X",
+            why, id, size, d ? d->cls.c_str() : "not in the descriptor map", hex, eid);
     }
 
     void SpyEnqueue(uintptr_t ev)
@@ -272,10 +434,26 @@ namespace ml::events
         uint16_t id = 0; uint8_t b3 = 0; uint32_t target = 0;
         if (!mem::Read16(buf, &id) || !mem::Read8(buf + 3, &b3)) return;
         Action act; bool known = false;
-        if (id == g_desc[Row(Action::Take)].id && size >= 8)   { known = mem::Read32(buf + 4, &target); act = (b3 == 0x05) ? Action::Gather : Action::Take; }
+        if (id == g_desc[Row(Action::Take)].id && size >= 8)
+        {
+            known = mem::Read32(buf + 4, &target);
+            act = (b3 == 0x05) ? Action::Gather : Action::Take;
+            // 0x00 and 0x05 are the two the mod sends. Anything else on this
+            // descriptor is a sub-action it has never seen, which is the shape
+            // mining an uncracked vein would most likely take.
+            if (b3 != 0x00 && b3 != 0x05 && Settings::Get().debugLog && ProbeFirstTime(id, b3))
+                LogPayload("pick-up descriptor, unfamiliar sub-action", id, size, buf);
+        }
         else if (id == g_desc[Row(Action::Catch)].id)          { known = mem::Read32(buf + 3, &target); act = Action::Catch; }
         else if (id == g_desc[Row(Action::Search)].id)         { known = mem::Read32(buf + 3, &target); act = Action::Search; }
-        if (!known || (target >> 24) != game::kTagWorld) return;
+        if (!known)
+        {
+            // Something the player did that the mod has no name for.
+            if (Settings::Get().debugLog && ProbeFirstTime(id, b3))
+                LogPayload("descriptor the mod does not use", id, size, buf);
+            return;
+        }
+        if ((target >> 24) != game::kTagWorld) return;
         const LONG n = InterlockedCompareExchange(&g_seenN, 0, 0);
         if (n >= 32) return;
         g_seen[n] = { target, act, GetTickCount() };

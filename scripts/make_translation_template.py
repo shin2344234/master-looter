@@ -5,9 +5,13 @@ what has actually been drawn, so anything on a tab nobody opened is missing. Thi
 reads the strings straight out of the code instead, which gives a translator the
 whole menu in one go and cannot miss a corner of it.
 
-Two places matter. Menu labels and tooltips are wrapped in TR() by hand. The
-Nearby table's Decision column shows text the engine produced, which is passed
-through TR() at the point it is drawn, so those literals are collected as well.
+Three places matter. Most menu labels and tooltips are wrapped in TR() by hand.
+Some are not: the collect switches and the class groups are struct literals, and
+the key, pad and status rows pass a bare literal to a helper that translates it,
+which keeps the call sites readable but hides the string from a TR() search.
+Finally the Nearby table's Decision column shows text the engine produced, which
+is passed through TR() at the point it is drawn, so those literals are collected
+as well.
 
 Writes docs/MasterLooter.template.txt, which is the copy a translator is given.
 """
@@ -30,9 +34,47 @@ def join_literals(run):
     return "".join(re.findall(r'"((?:[^"\\]|\\.)*)"', run))
 
 
+def from_tr(s):
+    """The ordinary case: TR("...") written at the point of use."""
+    return {join_literals(m) for m in re.findall(r"TR\(\s*(" + LIT + r")\s*\)", s)}
+
+
+def from_helpers(s):
+    """Rows whose label stays a bare literal at the call site.
+
+    Help, OnOff, KeyRow and PadRow translate the label themselves. The third and
+    fourth arguments of OnOff are the words it prints for on and off, and most of
+    those are written only at the call site.
+    """
+    out = set()
+    for m in re.findall(r"\b(?:Help|OnOff|KeyRow|PadRow)\(\s*(" + LIT + r")", s):
+        out.add(join_literals(m))
+    for call in re.findall(r"\bOnOff\((.*?)\)\s*;", s):
+        for lit in re.findall(LIT, call)[1:]:
+            out.add(join_literals(lit))
+    out |= {"yes", "no"}          # OnOff's defaults
+    return out
+
+
+def from_tables(s):
+    """The two tables of switches, which are struct literals.
+
+    Toggle is {label, &setting, help}; ClassGroup is {name, classes, help}. A
+    group's middle field lists class names from the item database rather than
+    English, so it is left alone.
+    """
+    out = set()
+    toggle = r"\{\s*(" + LIT + r")\s*,\s*&[^,]+,\s*(" + LIT + r")\s*\}"
+    group = r"\{\s*(" + LIT + r")\s*,\s*" + LIT + r"\s*,\s*(" + LIT + r")\s*\}"
+    for pat in (toggle, group):
+        for entry in re.findall(pat, s):
+            out |= {join_literals(x) for x in entry}
+    return out
+
+
 def from_menu(path):
     s = open(path, encoding="utf-8").read()
-    return {join_literals(m) for m in re.findall(r"TR\(\s*(" + LIT + r")\s*\)", s)}
+    return from_tr(s) | from_helpers(s) | from_tables(s)
 
 
 def from_engine(path):

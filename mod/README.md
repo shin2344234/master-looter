@@ -38,6 +38,8 @@ Uninstall by deleting the `MasterLooter.*` files and folders from `bin64` (the p
 
 A worker thread finds the game's actor manager by its RTTI class name and reads every world object around the player (position, components, node data). Each object gets its own verdict. Verdicts that pass are queued and the game-thread pump sends the game's own loot events (pick up, gather, catch, search carcass), exactly as the game does when you press the interaction key. Empty nodes such as ore veins are armed first so the game fills their data without you standing on them.
 
+Ore is the exception to the loot events. A gather lifts the ore straight out of the node and skips the drop, and the drop is the only place the game applies an equipped tool's Mining Yield Up, so a gathered vein pays the same whatever pickaxe you carry. The mod therefore breaks a vein instead, sending the game the same break it raises for itself when you swing: the contents spill on the ground and are picked up from there, with the tool bonus applied by the game rather than imitated. Each vein is struck once and then left alone until the game respawns it.
+
 Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters, copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, locked nodes, your own equipment and bag contents, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's own Take-or-Steal check calls theft (unless you opt in).
 
 ## When the game will not start
@@ -48,7 +50,9 @@ If the game will not launch alongside another overlay mod, set `WrapSwapChain=0`
 
 ## Translating the menu
 
-The menu can be shown in another language. Every English string is its own key, so a translation that only covers half the menu leaves the other half in English rather than showing gaps.
+Simplified and Traditional Chinese ship with the mod, translated by dofo7777. Both are built into the plugin, so they survive a mod manager that deploys the .asi on its own, and each has a button under General, Language.
+
+Any other language is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
 1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 196 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
 2. Or make your own from the running game: play with the menu open, visit every tab, then General, Language, press `Write translation template`. That writes the file beside the plugin, but only the lines that have actually been drawn.
@@ -56,6 +60,10 @@ The menu can be shown in another language. Every English string is its own key, 
 ` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.
 4. Keep every `%d`, `%s` and `%.1f` exactly as they appear and in the same order. They are replaced with numbers and names at runtime, and a line that changes them is refused at load rather than risked, since it would read the wrong values.
 5. Save it as `MasterLooter.<language>.txt`, for example `MasterLooter.de.txt`, and put `de` in the Language box, or `Language=de` in `MasterLooter.ini`.
+
+A file next to the plugin is read in preference to the copy inside it, so the shipped Chinese can be corrected, and a translation in progress can be reloaded with the Language button without a rebuild or a restart.
+
+Send a finished file in and it can ship with the mod, credited.
 
 ## Safety and known limits
 
@@ -105,3 +113,4 @@ MIT, see the LICENSE file in the repository root. Third-party terms are in THIRD
 - Trinity by XeTrinityz (MIT): the DirectX 12 present hook, swapchain wrapper and HDR composite are adapted from it, and its signature-first approach shaped the rest. See THIRD_PARTY_NOTICES.md.
 - CDLoot: the reverse engineering behind the loot engine. The event protocol, the entity and component layout, the ownership oracle and node arming were worked out there. This engine uses that knowledge; its code is new.
 - Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time.
+- dofo7777: the Simplified and Traditional Chinese menus.

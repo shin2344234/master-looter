@@ -17,7 +17,15 @@ namespace ml::Text
     static std::set<std::string>  g_seen;      // ordered, so the template comes out stable
     static std::string            g_lang;
     static int                    g_rejected = 0;
+    static bool                   g_fromFile = false;
     static std::recursive_mutex   g_mu;
+
+    // Kept in step with the RCDATA entries in resources.rc. Adding a
+    // language means a line in each.
+    static const Lang kBuiltIn[] = {
+        { "zh-cn", "简体中文", "dofo7777" },
+        { "zh-tw", "繁體中文", "dofo7777" },
+    };
 
     // A translation is used verbatim in printf-style calls, so one that does
     // not carry the same placeholders in the same order would read the wrong
@@ -38,6 +46,23 @@ namespace ml::Text
             return out;
         };
         return specs(a) == specs(b);
+    }
+
+    // The language comes from the ini and from a text box in the menu, and
+    // it is pasted into a file name and a resource name. Anything outside
+    // this set could walk out of the plugin's folder, so it is refused
+    // rather than sanitised into something the reader did not ask for.
+    static bool Nameable(const char* lang)
+    {
+        size_t n = 0;
+        for (const char* p = lang; *p; ++p, ++n)
+        {
+            const unsigned char c = static_cast<unsigned char>(*p);
+            const bool ok = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+                            (c >= '0' && c <= '9') || c == '-' || c == '_';
+            if (!ok) return false;
+        }
+        return n > 0 && n < 16;
     }
 
     static std::string Unescape(const std::string& s)
@@ -75,17 +100,25 @@ namespace ml::Text
         g_map.clear();
         g_rejected = 0;
         g_lang.clear();
+        g_fromFile = false;
         if (!lang || !*lang || _stricmp(lang, "en") == 0) { LOG("Menu language: English."); return true; }
+        if (!Nameable(lang)) { LOG_ERR("Menu language \"%s\": not a language name, staying in English.", lang); return false; }
 
-        wchar_t name[64];
+        wchar_t name[64], res[64];
         _snwprintf_s(name, _TRUNCATE, L"MasterLooter.%hs.txt", lang);
-        FILE* f = _wfopen(Paths::File(name).c_str(), L"rb");
-        if (!f) { LOG_ERR("Menu language \"%s\": %ls not found, staying in English.", lang, name); return false; }
+        _snwprintf_s(res, _TRUNCATE, L"ML_LANG_%hs", lang);
+        for (wchar_t* w = res; *w; ++w)
+        {
+            if (*w >= L'a' && *w <= L'z') *w = static_cast<wchar_t>(*w - L'a' + L'A');
+            else if (*w == L'-') *w = L'_';   // zh-cn is the file, ML_LANG_ZH_CN the resource
+        }
 
         std::string text;
-        char buf[4096]; size_t got;
-        while ((got = fread(buf, 1, sizeof buf, f)) > 0) text.append(buf, got);
-        fclose(f);
+        if (!Paths::ReadDataText(name, res, text, &g_fromFile))
+        {
+            LOG_ERR("Menu language \"%s\": no %ls beside the plugin and none built in, staying in English.", lang, name);
+            return false;
+        }
 
         size_t pos = 0;
         while (pos < text.size())
@@ -107,13 +140,29 @@ namespace ml::Text
         g_lang = lang;
         if (g_rejected)
             LOG_ERR("Menu language \"%s\": %d line(s) ignored because their %% placeholders did not match the English, which would read the wrong values.", lang, g_rejected);
-        LOG("Menu language \"%s\": %d string(s) translated.", lang, static_cast<int>(g_map.size()));
+        LOG("Menu language \"%s\": %d string(s) translated, from %s.", lang, static_cast<int>(g_map.size()),
+            g_fromFile ? "the file beside the plugin" : "the copy inside the plugin");
         return !g_map.empty();
     }
 
     const char* Language() { return g_lang.c_str(); }
     int Count() { std::lock_guard<std::recursive_mutex> lk(g_mu); return static_cast<int>(g_map.size()); }
     int Rejected() { return g_rejected; }
+    bool FromFile() { return g_fromFile; }
+
+    const Lang* BuiltIn(int& count)
+    {
+        count = static_cast<int>(sizeof kBuiltIn / sizeof kBuiltIn[0]);
+        return kBuiltIn;
+    }
+
+    const Lang* Find(const char* code)
+    {
+        if (!code || !*code) return nullptr;
+        for (const Lang& l : kBuiltIn)
+            if (_stricmp(l.code, code) == 0) return &l;
+        return nullptr;
+    }
     int Seen() { std::lock_guard<std::recursive_mutex> lk(g_mu); return static_cast<int>(g_seen.size()); }
 
     const char* Get(const char* english)

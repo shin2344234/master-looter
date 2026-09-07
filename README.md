@@ -13,9 +13,10 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
 - Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
 - Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
+- Ore veins are broken rather than emptied, the way a pickaxe does it, so the contents drop on the ground and your tool's Mining Yield Up is applied by the game. Each vein is struck once.
 - Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up each time the game starts and the last twelve are kept, so a version with different defaults is one button to undo. Anything that overwrites or discards asks first.
 - A notice appears when the bag is full, read from the bag's own slot count, so it shows the moment it fills whether or not you are looting. Turn it off under General.
-- The menu is translatable. A ready-made [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
+- The menu speaks Simplified and Traditional Chinese, both built into the plugin and one button each under General. Any other language is a text file away: a ready-made [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
 - A Nearby tab lists the objects around you, nearest first, with the rule that decided each one and a note when there are more than it can show; a Status tab shows every hook and signature.
 - Watch mode keeps the menu on screen while you play. Every key is rebindable, and each one can also be a two-button controller shortcut. The overlay works with DLSS frame generation and HDR.
 - Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, and `sigcheck.py` reports what a game patch broke without launching the game.
@@ -83,3 +84,4 @@ MIT, see [LICENSE](LICENSE). Third-party terms are in [mod/THIRD_PARTY_NOTICES.m
 - Trinity by XeTrinityz (MIT): the DirectX 12 present hook, swapchain wrapper and HDR compositing are adapted from it.
 - CDLoot: the reverse engineering of the loot event protocol, the entity layout, the ownership check and node arming. Used as knowledge; the code here is new.
 - Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time. Ultimate ASI Loader, which every ASI mod depends on.
+- dofo7777: the Simplified and Traditional Chinese menus, both done from the template within an hour of it being posted.

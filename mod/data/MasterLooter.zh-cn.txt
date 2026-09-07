@@ -1,0 +1,209 @@
+# Master Looter menu text, Simplified Chinese (简体中文).
+# Translated by dofo7777.
+#
+# One string per line: the English, a tab, then the translation. Lines
+# starting with # are ignored, \n is a line break, and a line with nothing
+# after the tab is shown in English.
+# Every %d, %s and %.1f has to survive in the same order, because these are
+# printed with the numbers substituted in. A line that changes them is
+# ignored at load rather than risked.
+#
+# This copy is built into the plugin. To change it without rebuilding, put a
+# file of this name next to MasterLooter.asi and it will be read instead.
+
+  bag full	  背包已满
+%-18s %s (%zu hits)%s	%-18s %s (%zu 次命中)%s
+%d classes	%d 个类别
+%d items, %d classes, %d tags	%d 个物品，%d 个类别，%d 个标签
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d 行被忽略：其 %%d 或 %%s 占位符与英文原文不匹配，使用它们会导致显示错误的数值。
+%d match%s%s	%d 个匹配%s%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	本次会话已学习 %d 种资源点类型。资源点依据生成时所用的预制体命名；若表中缺失，则在其首次产出物品时进行识别。资源点的类型编号在各次会话间会发生变化，因此退出游戏后不会保留任何记录。
+%d objects within scan range, %d lootable now.	扫描范围内共有 %d 个对象，当前可拾取 %d 个。
+%d overrides	%d 个覆盖规则
+%s (key %u, row %d, tier %d)	%s (键值 %u, 行 %d, 阶级 %d)
+%s (never looted)	%s (从不拾取)
+%s, let go to keep it	%s，松开按键以保留
+\"%s\" already exists. Saving over it asks first.	\"%s\" 已存在。覆盖保存时会先进行确认。
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	水桶等物件从不会被自动拾取，但对其激活预载能让游戏提供互动提示，方便手动使用。
+already in your bag	已在背包中
+always	总是
+always beats the class rule; never beats always	“总是”优先于类别规则；“从不”优先于“总是”
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	所有类别中带有“任务”标签的物品。关闭此项可将剧情拾取物与解谜构件留待手动拾取。
+Arm mechanism containers too	同时激活机关容器
+Arm nodes ourselves	主动激活资源点
+Arming ignores walls. Keep it short or you will gather through the wall of the next room.	激活会穿透墙壁。请保持较短距离，否则可能会隔墙采集相邻房间的资源。
+Arming range	激活范围
+Auto-loot enabled	自动拾取已启用
+Backups	备份
+blank for English	留空使用英文
+Carcasses	动物尸体
+carcasses off	尸体已关闭
+Catching	捕捉
+Class	类别
+Classes	类别
+Clear	清除
+Clear overrides	清除覆盖规则
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	清除本次会话从背包中分析出的数据。由预制体表命名的资源点不受影响。
+Close	关闭
+container (off)	容器 (已关闭)
+Controller	手柄
+Copper	铜币
+Copy	复制
+Copy path	复制路径
+Copy to the clipboard.	复制到剪贴板。
+corpse	尸体
+corpse already searched	尸体已搜刮
+corpse: loot drops separately	尸体：掉落物独立掉落
+creature	生物
+Dead zone around you	自身周围盲区
+Decision	判定
+default	默认
+does not respond	无响应
+English. %d line(s) seen this session.	英文。本次会话已出现 %d 行。
+entity	实体
+entity %08X	实体 %08X
+entity %08X, %d items across every store	实体 %08X，所有存储中共有 %d 件物品
+entity %08X, bag %d of %d slots, %d items across every store	实体 %08X，背包 %d/%d 格，所有存储中共有 %d 件物品
+fast-travel artifact	快速旅行神器
+filter classes	过滤类别
+filter tags	过滤标签
+Filters	过滤规则
+fish off	鱼类已关闭
+Forget	遗忘
+furniture node (off)	家具资源点 (已关闭)
+Game functions did not resolve; see Status.	游戏函数未成功解析；详见“状态”。
+gather node	采集资源点
+Gathering	采集
+Groups	分组
+hold two buttons (Escape cancels)	同时按住两个按键（按 Escape 取消）
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	背包容量直接读取自背包本身，因此无论是否正在拾取，一旦装满就会立即提示。如果该数值出现异常，Mod 会回退为监测拾取后的状态：连续三次拾取未获得任何物品将触发满包提示，成功获得一件物品则清除提示。
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	场景读取频率。扫描在独立线程运行；仅最终拾取动作会占用游戏极微小的毫秒时间。
+insects off	昆虫已关闭
+Item	物品
+Items	物品
+Items no shop will buy, across every class.	所有类别中没有任何商店愿意收购的物品。
+Items on the ground	地面上的物品
+Items tagged quest are left alone so puzzles and story pickups are never auto-taken.	带有“任务”标签的物品会被忽略，以确保解谜和剧情拾取物绝不会被自动拿走。
+Items with an unknown value are never filtered by it.	价值未知的物品绝不会按价值进行过滤。
+Keep the menu on screen while you play. %s brings it back, %s closes it.	游玩时保持菜单显示。按 %s 重新呼出，按 %s 关闭。
+Keys	按键
+Language	语言
+Language \"%s\": %d line(s) translated, %d seen this session.	语言 \"%s\"：已翻译 %d 行，本次会话出现 %d 行。
+Load	加载
+locked	已锁定
+Log	日志
+Log: %ls	日志：%ls
+Loot	拾取
+Loot all	全部拾取
+Loot engine	拾取引擎
+Loot engine not started.	拾取引擎未启动。
+Loot everything in range now	立即拾取范围内所有物品
+loot: %s	拾取：%s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s (游戏版本 %s)
+mechanism part	机关零件
+Memory chips and puzzle parts	记忆碎片与解谜构件
+Minimum value (copper)	最低价值（铜币）
+mission object	任务目标对象
+name a new preset	为新预设命名
+never	从不
+no interaction node	无交互资源点
+not in item database	不在物品数据库中
+not ready (node empty)	未就绪 (资源点为空)
+Nothing else is drawn while the menu is closed.	菜单关闭期间不会绘制任何其他内容。
+nothing taken yet this session	本次会话尚未拾取任何物品
+Object	对象
+object	对象
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	对象按距离由近到远列出，并显示判定该对象的规则。空资源点在游戏或激活机制填充数据之前显示为未就绪。自身穿戴和携带的物品已被排除。
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	距离小于此值的对象将被视作自身的装备。这是一道安全防线；你的装备也会通过其他方式被识别。
+Objects per burst press	单次速拾对象数
+Objects per scan	单次扫描对象数
+on the player	在玩家身上
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	开启时，覆盖层会在 DLSS 帧生成（Frame Generation）之下绘制，这需要此 Mod 为游戏提供一个封装后的交换链（Swapchain）。\n\n关闭时，覆盖层改由 Present Hook 绘制。除非开启了帧生成，否则视觉效果完全相同，且此 Mod 可以避开与其他覆盖层 Mod 重叠的 Hook 路径。如果游戏在与其他覆盖层 Mod 共存时无法启动，可尝试关闭此项；也可以无需启动游戏，直接在 MasterLooter.ini 中设置 WrapSwapChain。
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	每次启动游戏都会写入一份备份，最多保留最近 12 份，存放在插件同目录下的 MasterLooter.backups 中。预设保存在 MasterLooter.presets 中。重装前可复制任一文件夹进行保留。
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	一键切换整个分组。下方表格仍可单独设置单个类别；当分组内仅部分启用时，分组会显示短横线（-）。
+Open folder	打开文件夹
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	在资源管理器中打开该文件夹。日志在每次启动时都会重写，提交反馈时请附带此日志。
+ore off	矿石已关闭
+out of range	超出范围
+Overlay	覆盖层
+Override	覆盖规则
+owned by someone (theft)	归他人所有 (盗窃)
+Ownership	归属权
+Pace	扫描速率
+paused: %s	已暂停：%s
+pick up off	地面拾取已关闭
+plants off	植物已关闭
+Player	玩家
+Player not found in the scene yet.	场景中尚未找到玩家。
+Presets	预设
+press a key (Escape cancels)	请按键（按 Escape 取消）
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	默认受保护：拾取记忆碎片会触发回忆场景，拿走解谜构件会破坏解谜机关。仅在确实需要自动拾取它们时才开启。
+protected item name	受保护的物品名称
+Puts every setting and rule back to what it was at that moment.	将所有设置和规则恢复至当时的状态。
+Quest items	任务物品
+quest or memory trigger	任务或记忆触发物
+Ranges (metres)	范围（米）
+Reaching nodes	资源点预载
+Rebind	重新绑定
+Recent loot	近期拾取
+Refresh	刷新
+Reload now	立即重载
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	将所有设置以及每个类别、标签和物品规则全部替换为该预设中的内容，并写入 MasterLooter.ini。当前设置将不会保留，如有需要请先进行备份。
+Reset all tags	重置所有标签
+Retry the same object after (ms)	重试同一对象的间隔 (毫秒)
+Rule	规则
+Save now	立即保存
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	已保存为 \"%s\"：预设名称仅保留字母、数字、空格、短横线和下划线。
+Say so on screen when the bag stops taking things	背包无法再装入物品时在屏幕上提示
+scan %.1f ms	扫描耗时 %.1f 毫秒
+Scan radius	扫描半径
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	扫描 %ld 次，已发送事件 %ld 个，轮询 Tick %ld 次，防护异常 %ld 次，已学习资源点类型 %d 种
+Scans per second	每秒扫描次数
+search item name or key (3+ letters)	搜索物品名称或键值 (至少 3 个字符)
+Set	设置
+Settings: %ls	设置：%ls
+Show a brief notice when auto-loot is toggled	切换自动拾取开关时显示简短提示
+Showing current overrides. Type to search all %d items.	正在显示当前覆盖规则。输入可搜索全部 %d 件物品。
+Showing the nearest %d of %d. The rest are further away.	正在显示最近的 %d 个（共 %d 个）。其余对象距离更远。
+Skip all	全部跳过
+Skip items shops refuse to buy	跳过商店拒收的物品
+Skip quest items	跳过任务物品
+skip: %s	跳过：%s
+small animals off	小型动物已关闭
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	部分世界对象不含可读的物品名称。开启：照样拾取。关闭：保留所有未识别对象。
+stack at one point (storage contents)	堆叠在单点 (容器内容物)
+stone off	石料已关闭
+Tag	标签
+Take goods that belong to someone	拾取归他人所有的物品
+Take items the database cannot name	拾取数据库中无名称的物品
+takes effect next launch	下次启动时生效
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	拾取引擎会扫描周围环境，并拾取符合规则的物品。关闭表示不自动拾取；手动速拾键仍可正常生效。
+The game fills a node's data only when it thinks you can reach it; for an ore vein that means standing on it. Arming asks the game to do it from a distance.	游戏仅在判定能够触及资源点时才会填充其数据；对于矿脉而言，通常意味着要站在上方。“激活”机制则会要求游戏远距离预先填充数据。
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	游戏在移除已被拾取的对象时存在延迟。该机制可防止对象在淡出消失期间被重复提交拾取。
+The game treats this as stealing and will put a bounty on you.	游戏会将此判定为盗窃，并会对你进行通缉/增加赏金。
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	本次会话：已拾取 %ld 个，已采集 %ld 个，已捕获 %ld 个，已搜刮 %ld 具尸体
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	必须同时按下两个按键，不可单个设置：因为本游戏中每个单键都已有对应功能。此 Mod 仅读取手柄输入，游戏依然能识别这两个按键。请选择一对同时按下时无冲突的组合键，例如两个肩键（LB+RB），或者 Back 键加任意动作键。
+unidentified nodes off	未识别资源点已关闭
+unidentified: could be a fish, a flying insect or a bird	未识别：可能是鱼类、飞虫或鸟类
+unidentified: could be an insect or a small animal	未识别：可能是昆虫或小型动物
+unnamed item	未命名物品
+Unsellable items	不可出售物品
+Use this language	使用此语言
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	使用游戏原生的“拿取或偷窃”判定；在尚未检测到该判定前，有主之物将被跳过。
+Verbose log	详细日志
+Verdict	判定结果
+waiting for the game to check ownership once	等待游戏进行首次归属权检测
+Waiting for the world to load.	正在等待世界加载。
+Watch	监视
+Watch mode: the game has your controls. %s to interact, %s to close.	监视模式：控制权归游戏所有。按 %s 进行交互，按 %s 关闭。
+What enters the working list at all. The ranges below are clamped to it.	决定哪些对象能进入工作清单。下方的各项范围均受限于此。
+What to collect	拾取目标
+wood off	木材已关闭
+worn by someone	他人穿戴中
+worn or carried by you	自身穿戴或携带
+Wrap the swapchain	封装交换链
+Write translation template	导出翻译模板
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	在插件同目录下导出 MasterLooter.template.txt，其中包含本次会话中菜单显示过的每一行文本。请先打开所有标签页，因为文本只有在被绘制过一次后才会出现。翻译每条记录右侧的内容，另存为 MasterLooter.<language>.txt，并在本项填入该语言代号。
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	将当前设置写入 \"%s\"。你可以加载它，按需修改后再保存回去。
+Writes the settings as they are now, named %s.	以 %s 为名写入当前设置。

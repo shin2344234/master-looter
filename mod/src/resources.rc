@@ -7,9 +7,19 @@ ML_ITEMS_TSV     RCDATA "../data/MasterLooter.items.tsv"
 ML_CREATURES_TSV RCDATA "../data/MasterLooter.creatures.tsv"
 ML_NODES_TSV     RCDATA "../data/MasterLooter.nodes.tsv"
 
+// Translations ship inside the plugin for the same reason, since the mod
+// manager package is the .asi on its own. The name is ML_LANG_ plus the
+// language in capitals with its hyphen as an underscore, because a resource
+// identifier cannot hold a hyphen and quoting one here would make the quotes
+// part of the name. Text::Load builds it that way, and a file of the matching
+// name next to the plugin still wins. Keep kBuiltIn in text.cpp in step with
+// this list.
+ML_LANG_ZH_CN    RCDATA "../data/MasterLooter.zh-cn.txt"
+ML_LANG_ZH_TW    RCDATA "../data/MasterLooter.zh-tw.txt"
+
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION    1,2,1,0
- PRODUCTVERSION 1,2,1,0
+ FILEVERSION    1,3,0,0
+ PRODUCTVERSION 1,3,0,0
  FILEOS         VOS_NT_WINDOWS32
  FILETYPE       VFT_DLL
 BEGIN
@@ -18,11 +28,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription",  "Master Looter for Crimson Desert"
-            VALUE "FileVersion",      "1.2.1"
+            VALUE "FileVersion",      "1.3.0"
             VALUE "InternalName",     "MasterLooter"
             VALUE "OriginalFilename", "MasterLooter.asi"
             VALUE "ProductName",      "Master Looter"
-            VALUE "ProductVersion",   "1.2.1"
+            VALUE "ProductVersion",   "1.3.0"
             VALUE "LegalCopyright",   "Copyright (c) 2026 Seth. MIT License."
         END
     END
