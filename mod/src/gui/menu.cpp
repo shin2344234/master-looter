@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
+#include <cstring>       // _stricmp, for the language buttons
 #include <mutex>
 #include <string>
 #include <vector>
@@ -208,7 +209,7 @@ namespace ml::gui
         if (ImGui::BeginItemTooltip())
         {
             ImGui::PushTextWrapPos(ImGui::GetFontSize() * 30.0f);
-            ImGui::TextUnformatted(text);
+            ImGui::TextUnformatted(TR(text));
             ImGui::PopTextWrapPos();
             ImGui::EndTooltip();
         }
@@ -227,9 +228,9 @@ namespace ml::gui
     }
     static void OnOff(const char* label, bool on, const char* onText = "yes", const char* offText = "no")
     {
-        ImGui::TextUnformatted(label);
+        ImGui::TextUnformatted(TR(label));
         ImGui::SameLine(220 * g_scale);
-        ImGui::TextColored(on ? kGood : kWarn, "%s", on ? onText : offText);
+        ImGui::TextColored(on ? kGood : kWarn, "%s", on ? TR(onText) : TR(offText));
     }
 
     // One row of the key table: name, current key, rebind button, capture state.
@@ -241,7 +242,7 @@ namespace ml::gui
         State& st = State::Get();
         bool dirty = false;
         ImGui::PushID(target);
-        ImGui::TextUnformatted(label);
+        ImGui::TextUnformatted(TR(label));
         ImGui::SameLine(260 * g_scale);
         ImGui::TextDisabled("%s", hooks::PadChordName(mask));
         ImGui::SameLine(400 * g_scale);
@@ -272,7 +273,7 @@ namespace ml::gui
         State& st = State::Get();
         bool dirty = false;
         ImGui::PushID(target);
-        ImGui::TextUnformatted(label);
+        ImGui::TextUnformatted(TR(label));
         ImGui::SameLine(260 * g_scale);
         ImGui::Text("%s", Settings::KeyName(vk));
         ImGui::SameLine(400 * g_scale);
@@ -473,6 +474,31 @@ namespace ml::gui
             static char s_lang[16] = "";
             static bool s_init = false;
             if (!s_init) { s_init = true; snprintf(s_lang, sizeof s_lang, "%s", c.language.c_str()); }
+
+            // The languages that ship with the mod get a button each, since
+            // asking someone to type "zh-tw" to read the menu in their own
+            // language is asking them to read the English first.
+            auto pick = [&](const char* code) {
+                snprintf(s_lang, sizeof s_lang, "%s", code);
+                c.language = code;
+                Text::Load(c.language.c_str());
+                Settings::MarkDirty();
+            };
+            const bool english = c.language.empty() || _stricmp(c.language.c_str(), "en") == 0;
+            if (english) ImGui::BeginDisabled();
+            if (ImGui::Button(TR("English"))) pick("");
+            if (english) ImGui::EndDisabled();
+            int nlangs = 0;
+            const Text::Lang* langs = Text::BuiltIn(nlangs);
+            for (int i = 0; i < nlangs; ++i)
+            {
+                ImGui::SameLine();
+                const bool on = _stricmp(c.language.c_str(), langs[i].code) == 0;
+                if (on) ImGui::BeginDisabled();
+                if (ImGui::Button(langs[i].name)) pick(langs[i].code);
+                if (on) ImGui::EndDisabled();
+            }
+
             ImGui::SetNextItemWidth(120 * g_scale);
             ImGui::InputTextWithHint("##lang", TR("blank for English"), s_lang, sizeof s_lang);
             ImGui::SameLine();
@@ -492,7 +518,13 @@ namespace ml::gui
                 ImGui::EndTooltip();
             }
             if (Text::Language()[0])
+            {
                 ImGui::TextDisabled(TR("Language \"%s\": %d line(s) translated, %d seen this session."), Text::Language(), Text::Count(), Text::Seen());
+                if (const Text::Lang* l = Text::Find(Text::Language()))
+                    ImGui::TextDisabled(TR("%s translated by %s."), l->name, l->credit);
+                if (Text::FromFile())
+                    ImGui::TextDisabled(TR("Read from the file beside the plugin, not the copy inside it."));
+            }
             else
                 ImGui::TextDisabled(TR("English. %d line(s) seen this session."), Text::Seen());
             if (Text::Rejected())
@@ -537,7 +569,7 @@ namespace ml::gui
             { "Ground items",   &c.pickUpItems,    "Items lying in the world, including drops from enemies." },
             { "Carcasses",      &c.lootCorpses,    "The skinning interaction, once per carcass. Human corpses drop ordinary loot instead." },
             { "Plants",         &c.gatherPlants,   "Herb, flower and mushroom nodes, and the same lying on the ground. Crops such as barley, potatoes or sweet potatoes count as ground items whether still on the plant or lying loose, and follow their class rule." },
-            { "Ore",            &c.gatherOre,      "Ore chunks on the ground and any node that yields ore. Veins are broken with a pickaxe by hand; the chunks are picked up here." },
+            { "Ore",            &c.gatherOre,      "Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one." },
             { "Stone",          &c.gatherStone,    "Stone on the ground and nodes that yield stone." },
             { "Wood",           &c.gatherWood,     "Timber and branches on the ground and nodes that yield them." },
             { "Unidentified nodes", &c.gatherUnknown, "Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off." },
@@ -545,15 +577,17 @@ namespace ml::gui
             { "Fish",           &c.catchFish,      "Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses." },
             { "Small animals",  &c.catchAnimals,   "Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole." },
             { "Containers",     &c.lootContainers, "Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default." },
-            { "Furniture nodes", &c.lootFurniture, "Furniture with an interaction node. Mostly clutter. Off by default." },
+            { "Furniture", &c.lootFurniture, "Tables, chairs, beds, carpets and decor, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Off by default." },
         };
         if (ImGui::BeginTable("collect", 3, ImGuiTableFlags_SizingStretchSame))
         {
             for (const Toggle& t : toggles)
             {
                 ImGui::TableNextColumn();
-                dirty |= ImGui::Checkbox(t.label, t.value);
-                if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted(t.help); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
+                ImGui::PushID(t.label);   // the English, so the id survives a language change
+                dirty |= ImGui::Checkbox(TR(t.label), t.value);
+                if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted(TR(t.help)); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
+                ImGui::PopID();
             }
             ImGui::EndTable();
         }
@@ -577,9 +611,13 @@ namespace ml::gui
 
         Section(TR("Reaching nodes"));
         dirty |= ImGui::Checkbox(TR("Arm nodes ourselves"), &c.autoArm);
-        Help(TR("The game fills a node's data only when it thinks you can reach it; for an ore vein that means standing on it. Arming asks the game to do it from a distance."));
+        Help(TR("The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one."));
         dirty |= ImGui::SliderFloat(TR("Arming range"), &c.armRange, 0.0f, 60.0f, c.armRange > 0 ? "%.0f" : "same as gathering");
-        Help(TR("Arming ignores walls. Keep it short or you will gather through the wall of the next room."));
+        Help(TR("Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use."));
+        dirty |= ImGui::Checkbox(TR("Mine ore veins for you"), &c.gatherVeins);
+        Help(TR("On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick."));
+        dirty |= ImGui::Checkbox(TR("Break veins open rather than emptying them"), &c.breakOre);
+        Help(TR("Breaking spills the vein's contents on the ground and picks them up from there, exactly as swinging a pickaxe does. Emptying lifts the ore straight out and skips the drop, and the drop is the only place the game applies your tool's Mining Yield Up, so a better pickaxe counts for nothing without this. The mod sends the game the same break it raises for itself. Each vein is struck once and then left alone until the game respawns it."));
         dirty |= ImGui::Checkbox(TR("Arm mechanism containers too"), &c.armContainers);
         Help(TR("A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand."));
 
@@ -651,16 +689,18 @@ namespace ml::gui
                 const int st = GroupState(c, g);
                 bool v = st == 1;
                 if (st == 2) ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, true);
-                if (ImGui::Checkbox(g.name, &v)) { SetGroup(c, g, st != 1); Settings::MarkDirty(); }
+                ImGui::PushID(g.name);
+                if (ImGui::Checkbox(TR(g.name), &v)) { SetGroup(c, g, st != 1); Settings::MarkDirty(); }
                 if (st == 2) ImGui::PopItemFlag();
                 if (ImGui::BeginItemTooltip())
                 {
                     ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f);
-                    if (g.help[0]) ImGui::TextUnformatted(g.help);
+                    if (g.help[0]) ImGui::TextUnformatted(TR(g.help));
                     ImGui::TextDisabled("%s", g.classes);
                     ImGui::PopTextWrapPos();
                     ImGui::EndTooltip();
                 }
+                ImGui::PopID();
             }
             // Cross-cutting switches that live on tags rather than classes.
             ImGui::TableNextColumn();
@@ -849,7 +889,23 @@ namespace ml::gui
                 ImGui::TableNextRow();
                 ImGui::TableSetColumnIndex(0); ImGui::Text("%.1f", rows[i].dist);
                 ImGui::TableSetColumnIndex(1); ImGui::TextUnformatted(TR(rows[i].name));
-                if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("entity %08X"), rows[i].eid); ImGui::EndTooltip(); }
+                if (ImGui::BeginItemTooltip())
+                {
+                    ImGui::Text(TR("entity %08X"), rows[i].eid);
+                    // What a rule can be written against, on the row where the
+                    // verdict was seen: the class for the Classes tab, the tags
+                    // for the Tags tab.
+                    if (rows[i].klass[0]) ImGui::Text(TR("class %s"), rows[i].klass);
+                    if (rows[i].value >= 0) ImGui::Text(TR("worth %lld copper"), rows[i].value);
+                    if (rows[i].tags[0])
+                    {
+                        ImGui::TextDisabled(TR("tags, any of which can be set to never in the Tags tab:"));
+                        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f);
+                        ImGui::TextUnformatted(rows[i].tags);
+                        ImGui::PopTextWrapPos();
+                    }
+                    ImGui::EndTooltip();
+                }
                 ImGui::TableSetColumnIndex(2); ImGui::TextDisabled("%s", TR(rows[i].klass));
                 ImGui::TableSetColumnIndex(3);
                 ImGui::TextColored(rows[i].loot ? kGood : kMuted, "%s", TR(rows[i].verdict));

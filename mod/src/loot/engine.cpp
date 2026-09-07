@@ -253,7 +253,65 @@ namespace ml::loot
     struct Done { DWORD when; int tries; };
     static std::unordered_map<uint64_t, Done>  g_done;      // recently sent
     static std::unordered_set<uint64_t>        g_searched;  // never again this session
-    struct ArmRec { DWORD at; int fails; bool judged; int mode; int ctxKind; };
+    struct ArmRec { DWORD at; int fails; bool judged; int mode; int ctxKind; int rounds; DWORD restUntil; };
+    // How to arm, in the order worth trying. Combo 0 names one key, the one
+    // the game was last seen using; combo 1 passes a zeroed name and takes
+    // the routine's broad path, where it walks the node's own list of keys
+    // instead. Combo 2 used to differ only in a fourth argument that the
+    // disassembly shows is never read, so it was combo 0 under another name
+    // and is gone. Broad first: one captured key fits a tree and has never
+    // once been seen to fit an ore vein.
+    static constexpr int kArmCombo[] = { 1, 0, 1, 0 };
+    static constexpr int kArmPerRound = static_cast<int>(sizeof kArmCombo / sizeof kArmCombo[0]);
+    // A node that answers nothing is usually furniture. It can also be one
+    // that was simply slow, or that changed after the mod stopped asking, so
+    // a node rests and gets another round rather than being decided for the
+    // whole session on the strength of the first few seconds.
+    static constexpr int   kArmRounds = 2;
+    static constexpr DWORD kArmRestMs = 30000;
+    // How long an arm gets before it counts as unanswered. This cannot be one
+    // number: a bush answers in a fifth of a second and an ore vein takes
+    // seconds. Measured across two machines on 2026-09-06, with nothing broken
+    // by hand first:
+    //
+    //   bushes, trees   203  203  204  328  391 ms
+    //   ore veins      2438 2906 3625 4312 4454 ms, one at 14953
+    //
+    // At the old two seconds every vein was written down as unanswered on every
+    // arm, including the ones that were answered, so it spent its whole budget
+    // on attempts that had not been given time. The prefab table names the kind
+    // before the first arm, so ore is judged on its own clock.
+    static constexpr DWORD kArmJudgeMs    = 4000;
+    static constexpr DWORD kArmJudgeOreMs = 9000;
+    static constexpr DWORD kArmRetryPadMs = 1000;   // retry after judging, not on top of it
+    // How far out ore is armed, against the eight metres everything else
+    // gets. The game's answer takes seconds for a vein, so asking at eight
+    // metres means it opens just as the player arrives, and not at all if
+    // they are running. Asking at twenty-five spends that wait on the walk
+    // in. The scan range still caps it: an unseen node cannot be armed.
+    // As far as the scan can see. Now that arming actually lands, the only
+    // thing that matters for ore is how much head start it gets: a vein takes
+    // 3.5 to 9.4 seconds to answer, against a fifth of a second for a tree,
+    // so it has to be asked long before the player arrives or it opens under
+    // their feet and the walk was wasted.
+    static constexpr float kArmRangeOre = 40.0f;
+    // What a prefab has actually done when armed, so effort follows evidence
+    // rather than the kind written in the table. Keyed on the NodeDb row,
+    // which is one object per prefab for the life of the session.
+    struct PrefabArm { int exhausted; int filled; bool announced; };
+    static std::unordered_map<const NodeType*, PrefabArm> g_prefabArm;
+    // How many separate nodes of one prefab must use up every round, with no
+    // node of that prefab ever filling, before it stops earning the long ore
+    // reach. Four rather than three: copper had three nodes fail before its
+    // first success, and demoting copper would be wrong.
+    static constexpr int kUnresponsiveAfter = 4;
+    static bool Unresponsive(const NodeType* t)
+    {
+        if (!t) return false;
+        auto it = g_prefabArm.find(t);
+        return it != g_prefabArm.end() && it->second.filled == 0 &&
+               it->second.exhausted >= kUnresponsiveAfter;
+    }
     static std::unordered_map<uint64_t, ArmRec> g_armed;    // nodes we asked the game to fill
     static std::unordered_map<uint32_t, const char*> g_why; // last logged verdict per entity
     static int g_whyLines = 0;
@@ -521,7 +579,7 @@ namespace ml::loot
     }
 
     // What kind of thing a gather node is, from what it yields.
-    enum class GatherKind { Unknown, Plant, Ore, Stone, Wood, Item };
+    enum class GatherKind { Unknown, Plant, Ore, Stone, Wood, Item, Furniture };
     // What an item counts as for the kind toggles. The classes come straight
     // from the item database (scripts/build_item_db.py): ore and jewel are
     // minerals from veins, stone from quarries, wood from trees and branches.
@@ -558,6 +616,13 @@ namespace ml::loot
         if (k == "stone" || y->HasTag("stone")) return GatherKind::Stone;
         if (k == "ore" || k == "jewel" || y->HasTag("ore") || y->HasTag("mineral")) return GatherKind::Ore;
         if (k == "herb") return GatherKind::Plant;
+        // Furniture is a class in the database and every piece carries it,
+        // from a one-copper table up to a twelve-thousand-copper carpet. It
+        // has to be decided before the onGround line below, or a chair lying
+        // in a room is just another ground item. Goblets and bowls are tagged
+        // furniture too but their class is container, so they stay with the
+        // container rule rather than moving under this one.
+        if (k == "furniture" || k == "household") return GatherKind::Furniture;
         if (onGround) return GatherKind::Item;
         if (k == "vegetable" || k == "fruit" || k == "grain") return GatherKind::Item;
         if (k == "seed" || k == "alchemy-material" || y->HasTag("rare-gather")) return GatherKind::Plant;
@@ -622,6 +687,146 @@ namespace ml::loot
         if (!hay || !*hay) return false;
         const size_t n = strlen(needle);
         for (const char* h = hay; *h; ++h) if (_strnicmp(h, needle, n) == 0) return true;
+        return false;
+    }
+
+    // A mechanism the mod may arm, so the game offers its interaction, but must
+    // never take from. Recognised by the folder it lives in: the runtime type id
+    // this used to test is not stable between sessions (the same copper vein was
+    // 50869 at 19:23 and 52229 at 19:29), so the number written here matched a
+    // well bucket once and matches whatever holds it now. All 18 of the game's
+    // well parts sit under /well/; matching the word would also claim the flags
+    // at Wells, a chocolate mixer and two junk wells.
+    static bool IsMechanism(const char* node)
+    {
+        return node && node[0] && IStr(node, "/well/");
+    }
+
+    // Nodes the mod must not touch at all, by the only durable name they
+    // have. A memory fragment starts a scene when disturbed, a puzzle pillar
+    // or power core breaks the puzzle it belongs to, and the abyss artifacts
+    // are fast travel. Decide() refuses to loot them; this is so arming does
+    // not poke them either, which it happily did.
+    // The trigger ids a node will answer to, read out of its own map. The
+    // layout is the one the lookup at +0x4045F0 walks; see ProbeTriggerMap.
+    // Returns how many were read.
+    static int ReadTriggerIds(uintptr_t comp, uint32_t* out, int max)
+    {
+        if (!comp || max <= 0) return 0;
+        uint32_t buckets = 0;
+        uintptr_t bucketArr = 0, entryArr = 0;
+        if (!mem::Read32(comp + 0xF0, &buckets) || !buckets) return 0;
+        if (!mem::ReadPtr(comp + 0x100, &bucketArr) || !bucketArr) return 0;
+        if (!mem::ReadPtr(comp + 0x108, &entryArr) || !entryArr) return 0;
+        int n = 0;
+        for (uint32_t b = 0; b < buckets && b < 64 && n < max; ++b)
+        {
+            const uintptr_t blk = bucketArr + static_cast<uintptr_t>(b) * 256;
+            uint32_t cnt = 0;
+            if (!mem::Read32(blk, &cnt) || cnt > 30) continue;
+            for (uint32_t i = 0; i < cnt && n < max; ++i)
+            {
+                uint32_t idx = 0;
+                if (!mem::Read32(blk + i * 8 + 0x0C, &idx)) continue;
+                uintptr_t ent = 0;
+                if (!mem::ReadPtr(entryArr + static_cast<uintptr_t>(idx) * 8, &ent) || !ent) continue;
+                uint32_t id = 0;
+                if (!mem::Read32(ent + 4, &id) || !id) continue;
+                bool dup = false;
+                for (int j = 0; j < n; ++j) if (out[j] == id) { dup = true; break; }
+                if (!dup) out[n++] = id;
+            }
+        }
+        return n;
+    }
+
+    // Somewhere for an id to live between being chosen on the scan thread and
+    // being dereferenced on the game thread, since events::Arm only queues the
+    // pointer. A ring, because several arms can be in flight.
+    static uint32_t   g_idRing[64] = {};
+    static volatile LONG g_idNext = 0;
+    static uintptr_t HoldId(uint32_t id)
+    {
+        const LONG slot = InterlockedIncrement(&g_idNext) & 63;
+        g_idRing[slot] = id;
+        return reinterpret_cast<uintptr_t>(&g_idRing[slot]);
+    }
+
+    // The trigger-name map on a gimmick component, laid out by the lookup at
+    // +0x4045F0 that decides whether arming does anything:
+    //
+    //   +0xF0  u32 bucket count        zero here and the lookup returns null
+    //   +0xF4  u32 size
+    //   +0x100 -> buckets, 256 bytes each: u32 count, then {u32 hash, u32 idx}
+    //   +0x108 -> array of entry pointers; an entry is {.., u32 name @+4, u8 @+8}
+    //
+    // Read only. One report per prefab, so a walk past a dozen veins is a dozen
+    // lines and not a flood.
+    static void ProbeTriggerMap(const Cand& k, uintptr_t comp)
+    {
+        if (!g_debugLog || !comp || !k.node[0]) return;
+        static std::unordered_set<std::string> s_done;
+        if (s_done.size() >= 64) return;
+        if (!s_done.insert(k.node).second) return;
+
+        uint32_t buckets = 0, size = 0;
+        uintptr_t bucketArr = 0, entryArr = 0;
+        mem::Read32(comp + 0xF0, &buckets);
+        mem::Read32(comp + 0xF4, &size);
+        mem::ReadPtr(comp + 0x100, &bucketArr);
+        mem::ReadPtr(comp + 0x108, &entryArr);
+
+        if (!buckets || !bucketArr || !entryArr)
+        {
+            LOG("[trigmap] %s has NO trigger names (buckets %u size %u): arming can never do anything to it, whatever name is passed.",
+                k.node, buckets, size);
+            return;
+        }
+
+        char line[420]; int p = 0; int found = 0;
+        for (uint32_t b = 0; b < buckets && b < 64 && found < 24; ++b)
+        {
+            const uintptr_t blk = bucketArr + static_cast<uintptr_t>(b) * 256;
+            uint32_t n = 0;
+            if (!mem::Read32(blk, &n) || n > 30) continue;
+            for (uint32_t i = 0; i < n && found < 24; ++i)
+            {
+                uint32_t idx = 0;
+                if (!mem::Read32(blk + i * 8 + 0x0C, &idx)) continue;
+                uintptr_t ent = 0;
+                if (!mem::ReadPtr(entryArr + static_cast<uintptr_t>(idx) * 8, &ent) || !ent) continue;
+                uint32_t name = 0; uint8_t state = 0;
+                mem::Read32(ent + 4, &name);
+                mem::Read8(ent + 8, &state);
+                p += snprintf(line + p, sizeof line - p, "%s%u=%u", found ? " " : "", name, state);
+                ++found;
+            }
+        }
+        // What the mod itself is asking for, so the two can be compared. The
+        // detour keeps a pointer to the id; the id is the u32 behind it, and
+        // nothing has ever printed it.
+        const uintptr_t askPtr = hooks::ArmArg3();
+        uint32_t asking = 0;
+        const bool askOk = askPtr && mem::Read32(askPtr, &asking);
+
+        LOG("[trigmap] %s buckets %u size %u names(state): %s", k.node, buckets, size,
+            found ? line : "(none read)");
+        LOG("[trigmap]   the mod is arming with id %s, which this node %s",
+            askOk ? "(see below)" : "unknown",
+            askOk ? "(compare against the list above)" : "cannot be compared");
+        if (askOk) LOG("[trigmap]   asking id = %u (from %llX)", asking,
+            static_cast<unsigned long long>(askPtr));
+    }
+
+    static bool OffLimits(const char* node)
+    {
+        if (!node || !node[0]) return false;
+        // "puzzle" earns its place: the game tags gimmick_puzzle_ice_wall_break,
+        // _ice_block_break, _stone_wall_break and _pickaxe_break_point as
+        // collect_mine, so they read as ordinary ore and the mod would open
+        // them. Breaking the wall is the puzzle; solving it is the player's.
+        static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle" };
+        for (const char* w : kWords) if (IStr(node, w)) return true;
         return false;
     }
 
@@ -735,7 +940,7 @@ namespace ml::loot
         {
             uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
             mem::Read8(gdata + 5, &k.gkind);
-            if (k.gkind == 0x04 && k.tid == 52920) g_containers.insert(k.eid); // the well bucket
+            if (k.gkind == 0x04 && IsMechanism(k.node)) g_containers.insert(k.eid); // the well bucket
         }
         if (idata)
         {
@@ -751,7 +956,11 @@ namespace ml::loot
             // a few objects answer on it when the prefab route does not.
             if (!game::NodePrefab(inter, k.node, sizeof k.node))
                 game::NodeName(inter, k.node, sizeof k.node);
-            if (k.gather && k.node[0]) k.nodeType = NodeDb::ByPrefab(k.node);
+            // Not gated on k.gather: the prefab path is readable straight away
+            // and the gather data is what arming has yet to produce. Waiting for
+            // it meant an ore vein was never recognised as ore until after it had
+            // already opened, which is the one moment the answer is of no use.
+            if (k.node[0]) k.nodeType = NodeDb::ByPrefab(k.node);
         }
         // Live creatures: which species, from the CharacterInfo row they point at.
         if (k.ai && !k.inter && k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
@@ -816,18 +1025,24 @@ namespace ml::loot
             if (IStr(c.node, "visione") || IStr(c.node, "quest") || IStr(c.node, "artifact")) return skip("quest or memory trigger");
             if (IStr(c.node, "abyssruins")) return skip("fast-travel artifact");
             if (IStr(c.node, "mission")) return skip("mission object");
+            // Kept in step with OffLimits(), which stops arming touching the same
+            // things. The words above are the detail this one summarises.
             // These read the prefab path, so a gather node whose name happens to
             // carry one of the words is not a container: cd_box_mushroom_02 is a
             // plant. A node the table has already classified keeps its kind.
             if (!c.nodeType)
             {
+                // Only a last resort, for a node holding nothing the database
+                // can name. Anything identified is decided by its class below,
+                // which is what catches the breakable tables and chairs whose
+                // prefab path never says furniture.
                 const bool container = IStr(c.node, "_chest") || IStr(c.node, "_box") || IStr(c.node, "dropset");
                 const bool furniture = IStr(c.node, "furniture");
                 if (container && !cfg.lootContainers) return skip("container (off)");
                 if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
             }
         }
-        if (c.tid == 52920 || g_containers.count(c.eid)) return skip("mechanism part");
+        if (IsMechanism(c.node) || g_containers.count(c.eid)) return skip("mechanism part");
         if (c.heap) return skip("stack at one point (storage contents)");
         // (A pointer to the player inside the object used to mean "yours"; the
         // parent and bag checks above cover that, and arming can plant such a
@@ -843,6 +1058,16 @@ namespace ml::loot
         else if (catchable)  v.act = Action::Catch;
         else if (c.gather)   v.act = Action::Gather;
         else if (c.item)     v.act = Action::Take;
+        // A vein the table names as ore does not have to answer first. The
+        // gather event carries nothing but the target's id (see the payload
+        // built in events.cpp), so there was never anything to wait for; the
+        // wait was this function needing data to pick an action and to judge
+        // the yield, and for a node the game itself tags as ore neither is in
+        // question. Worst case the game ignores an event aimed at something
+        // it will not open, which is what happened anyway while we waited.
+        else if (cfg.gatherVeins && c.nodeType && c.nodeType->tagged &&
+                 KindFromName(c.nodeType->kind) == GatherKind::Ore)
+            v.act = Action::Gather;
         else return skip("not ready (node empty)");
 
         // Item rules from the database. A live key that our table knows gets the
@@ -901,6 +1126,7 @@ namespace ml::loot
             case GatherKind::Stone:   if (!cfg.gatherStone)   return skip("stone off"); break;
             case GatherKind::Wood:    if (!cfg.gatherWood)    return skip("wood off"); break;
             case GatherKind::Item:    if (!cfg.pickUpItems)   return skip("pick up off"); break;
+            case GatherKind::Furniture: if (!cfg.lootFurniture) return skip("furniture off"); break;
             default:                  if (!cfg.gatherUnknown) return skip("unidentified nodes off"); break;
             }
             break;
@@ -909,13 +1135,16 @@ namespace ml::loot
         {
             if (!cfg.pickUpItems) return skip("pick up off");
             // Ore, stone and wood reach the ground as drops from broken nodes;
-            // the same toggles cover the chunks.
+            // the same toggles cover the chunks. Furniture reaches it by being
+            // smashed, and a table is furniture whether it is still standing or
+            // lying in pieces, so it answers to the same switch either way.
             switch (KindOf(c.db, true))
             {
             case GatherKind::Plant: if (!cfg.gatherPlants) return skip("plants off"); break;
             case GatherKind::Ore:   if (!cfg.gatherOre)   return skip("ore off"); break;
             case GatherKind::Stone: if (!cfg.gatherStone) return skip("stone off"); break;
             case GatherKind::Wood:  if (!cfg.gatherWood)  return skip("wood off"); break;
+            case GatherKind::Furniture: if (!cfg.lootFurniture) return skip("furniture off"); break;
             default: break;
             }
             break;
@@ -942,14 +1171,18 @@ namespace ml::loot
     static const char* Label(const Cand& c)
     {
         if (c.db) return c.db->Label();
+        // The prefab table names a node whether or not it has answered yet.
+        // This used to sit inside the c.gather branch below, so a vein taken
+        // without waiting printed its entire path instead of its name.
+        if (c.nodeType)
+        {
+            static char named[96];
+            snprintf(named, sizeof named, "%s node", c.nodeType->name.c_str());
+            return named;
+        }
         if (c.gather)
         {
             static char buf[96];
-            if (c.nodeType)
-            {
-                snprintf(buf, sizeof buf, "%s node", c.nodeType->name.c_str());
-                return buf;
-            }
             if (const Item* y = LearnedYield(c.gtid)) { snprintf(buf, sizeof buf, "%s node", y->Label()); return buf; }
             if (c.node[0]) return c.node;
             if (c.tid) { snprintf(buf, sizeof buf, "node type %u", c.tid); return buf; }
@@ -1005,6 +1238,12 @@ namespace ml::loot
                 return true;
             });
         }
+        // Arm the ownership check the moment there is a player. It used to be
+        // armed inside WouldSteal, the last test in Decide(), so a session
+        // where nothing reached that test never armed it and could take
+        // nothing until the game happened to run its own check a minute in.
+        if (g_me) hooks::EnsureOwnerArmed(g_me);
+
         Vec3 mp;
         if (!g_me || !game::WorldPos(g_me, &mp))
         {
@@ -1158,6 +1397,8 @@ namespace ml::loot
                 strncpy(n.klass, list[i].db ? list[i].db->klass.c_str() : list[i].speciesClass ? list[i].speciesClass : (list[i].gather ? "gather node" : list[i].dead == 1 ? "corpse" : ""), sizeof n.klass - 1);
                 if (verdicts[i].detail[0]) snprintf(n.verdict, sizeof n.verdict, "%s: %s", verdicts[i].why, verdicts[i].detail);
                 else strncpy(n.verdict, verdicts[i].why, sizeof n.verdict - 1);
+                n.value = list[i].db ? list[i].db->value : -1;
+                if (list[i].db) strncpy(n.tags, list[i].db->tags.c_str(), sizeof n.tags - 1);
                 nearby.push_back(n);
             }
         }
@@ -1203,7 +1444,29 @@ namespace ml::loot
                 for (Cand& k : list)
                 {
                     if (!k.filled || k.item || k.gather || !k.inter) continue;
-                    if (k.parent == g_meEid || k.heap || k.d > armLim) continue;
+                    // Never ask the game to open a memory trigger, a puzzle mechanism or a
+                    // fast-travel artifact. Refusing to loot one afterwards is too late.
+                    if (OffLimits(k.node)) continue;
+                    // Ore answers slowly and is therefore reached for sooner. Known from
+                    // the prefab table, before anything is asked of the game.
+                    const bool oreNode = k.nodeType && KindFromName(k.nodeType->kind) == GatherKind::Ore;
+                    // Only ore the game itself tags counts as a vein. Every one of the 71
+                    // ore rows is tagged now, but a table built by an older generator can
+                    // still carry guesses, and a guess must not switch off with the veins
+                    // or draw a vein's patience.
+                    const bool vouched = oreNode && k.nodeType->tagged;
+                    // Leaving the pickaxe work to the player means simply not asking: an
+                    // unarmed vein holds nothing, so there is nothing to gather and the
+                    // chunks they knock loose are picked up as ordinary items.
+                    if (vouched && !cfg.gatherVeins) continue;
+                    // A prefab that has turned down the long treatment several times over
+                    // goes back to ordinary range and a single round. Still armed when the
+                    // player is beside it, just not reached for across the field.
+                    const bool wornOut = Unresponsive(k.nodeType);
+                    const int  roundsAllowed = wornOut ? 1 : kArmRounds;
+                    const float lim = (vouched && !wornOut)
+                                    ? std::max(armLim, std::min(kArmRangeOre, cfg.scanRange)) : armLim;
+                    if (k.parent == g_meEid || k.heap || k.d > lim) continue;
                     if (!cfg.armContainers && g_containers.count(k.eid)) continue;
                     // Same as the verdict: a classified gather node is not a
                     // container, whatever words its prefab path happens to hold.
@@ -1217,16 +1480,48 @@ namespace ml::loot
                         // Still empty after we armed it. Give the game two
                         // seconds, then count a failure; three failures and
                         // the node is not loot (a chest, a wardrobe).
-                        if (!ar->second.judged && now - ar->second.at > 2000)
+                        const DWORD judgeMs = vouched ? kArmJudgeOreMs : kArmJudgeMs;
+                        if (!ar->second.judged && now - ar->second.at > judgeMs)
                         {
                             ar->second.judged = true;
                             static int s_failLogs = 0;
-                            if (++ar->second.fails >= 3) { g_searched.insert(key); if (s_failLogs < 30) { ++s_failLogs; LOG("[arm] eid %08X %.1f m never filled after 3 arms (tag %02X cat2 %02X%s%s)", k.eid, k.d, k.type, k.cat2, k.node[0] ? " node " : "", k.node); } continue; }
+                            if (++ar->second.fails >= kArmPerRound)
+                            {
+                                ar->second.fails = 0;
+                                if (++ar->second.rounds >= roundsAllowed)
+                                {
+                                    g_searched.insert(key);
+                                    if (s_failLogs < 30) { ++s_failLogs; LOG(
+                                    "[arm] eid %08X %.1f m never filled after %d arms over %d round(s) (tag %02X cat2 %02X%s%s)",
+                                    k.eid, k.d, kArmPerRound * roundsAllowed, roundsAllowed, k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
+                                    // Chalk it up against the prefab, not just this one node.
+                                    if (k.nodeType)
+                                    {
+                                        PrefabArm& pa = g_prefabArm[k.nodeType];
+                                        ++pa.exhausted;
+                                        if (!pa.announced && pa.filled == 0 && pa.exhausted >= kUnresponsiveAfter)
+                                        {
+                                            pa.announced = true;
+                                            LOG("[arm] %s has not answered arming on any of %d nodes; it keeps the ordinary range from here, and one node of it filling undoes that.",
+                                    k.nodeType->prefab.c_str(), pa.exhausted);
+                                        }
+                                    }
+                                    continue;
+                                }
+                                ar->second.restUntil = now + kArmRestMs;
+                                if (cfg.debugLog) LOG(
+                                    "[arm] eid %08X %.1f m nothing after %d arms; resting %lu s before another round",
+                                    k.eid, k.d, kArmPerRound, static_cast<unsigned long>(kArmRestMs / 1000));
+                            }
                         }
-                        if (!ar->second.judged || now - ar->second.at < 5000) continue; // wait, or cool down before re-arming
+                        // Signed difference, so a rest survives the tick counter wrapping.
+                        if (ar->second.restUntil && static_cast<LONG>(now - ar->second.restUntil) < 0) continue;
+                        if (!ar->second.judged || now - ar->second.at < judgeMs + kArmRetryPadMs) continue; // wait, or cool down before re-arming
                     }
                     const uintptr_t g = game::CompByClass(game::Comps(k.ent), kCls_Gimmick);
                     if (!g) continue;
+                    // What names this node will actually answer to, before asking.
+                    ProbeTriggerMap(k, g);
                     ArmRec& rec = g_armed[key];
                     // The game arms with mode 1 when the player closes in and
                     // mode 0 when leaving; bushes answered 0, ore did not. Start
@@ -1243,15 +1538,24 @@ namespace ml::loot
                     // player's actor with the game's 3rd argument.
                     const uintptr_t nodeActor = game::Comps(k.ent);
                     const uintptr_t meActor   = game::Comps(g_me);
-                    const uintptr_t gameA3    = hooks::ArmArg3();
-                    const int combo = rec.fails % 3;
+                    const int combo = kArmCombo[rec.fails % kArmPerRound];
                     const uintptr_t armCtx = (combo == 2) ? (meActor ? meActor : ArmContextNow()) : (nodeActor ? nodeActor : ArmContextNow());
-                    const uintptr_t armA3  = (combo == 1) ? 0 : gameA3;
+
+                    // The id has to be one this node actually holds. Anything else misses the
+                    // lookup and writes nothing, which is what every arm did until now: the
+                    // mod passed 50875, and no node in the 2026-09-06 capture had it.
+                    uint32_t ids[8];
+                    const int nids = ReadTriggerIds(g, ids, 8);
+                    // Its own ids in turn, so a node with two gets both tried across a round.
+                    const uintptr_t armA3 = nids ? HoldId(ids[rec.fails % nids])
+                                                 : ((combo == 1) ? 0 : hooks::ArmArg3());
                     rec.ctxKind = combo;
-                    if (s_armLogs < 60) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d combo %d ctx %llX a3 %llX (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, combo, static_cast<unsigned long long>(armCtx), static_cast<unsigned long long>(armA3), k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
+                    if (s_armLogs < 60) { ++s_armLogs; LOG("[arm] arming eid %08X %.1f m mode %d try %d combo %d ctx %llX id %u of %d own (tag %02X cat2 %02X%s%s)", k.eid, k.d, rec.mode, rec.fails + 1, combo, static_cast<unsigned long long>(armCtx), nids ? ids[rec.fails % nids] : 0u, nids, k.type, k.cat2, k.node[0] ? " node " : "", k.node); }
                     events::Arm(g, static_cast<uintptr_t>(rec.mode), armA3, armCtx);
                     if (armedN < 32) armedNow[armedN++] = k.eid;
-                    if (cfg.debugLog) LOG("[arm] eid %08X %.1f m %s", k.eid, k.d, k.node[0] ? k.node : "");
+                    if (cfg.debugLog) LOG("[arm] eid %08X %.1f m%s %s", k.eid, k.d,
+                        vouched ? " (ore, reached for early)" : oreNode ? " (ore by name only, ordinary reach)" : "",
+                        k.node[0] ? k.node : "");
                     if (++armed >= (cfg.perScan ? cfg.perScan : 8)) break;
                 }
             }
@@ -1263,6 +1567,17 @@ namespace ml::loot
                 if (it == g_armed.end()) continue;
                 static int s_okLogs = 0;
                 if (s_okLogs < 40) { ++s_okLogs; LOG("[arm] eid %08X filled %lu ms after arming with combo %d (%s, type %u)", k.eid, static_cast<unsigned long>(now - it->second.at), it->second.ctxKind, k.gather ? "gather" : "item", k.tid); }
+                // One node of a prefab answering clears any doubt about the
+                // prefab, and the count of past refusals with it.
+                if (k.nodeType)
+                {
+                    PrefabArm& pa = g_prefabArm[k.nodeType];
+                    if (pa.filled == 0 && pa.announced)
+                        LOG("[arm] %s answered after all; it gets the full reach again.", k.nodeType->prefab.c_str());
+                    ++pa.filled;
+                    pa.exhausted = 0;
+                    pa.announced = false;
+                }
                 g_armed.erase(it);
             }
 
@@ -1295,12 +1610,45 @@ namespace ml::loot
                     if (v.act != Action::Catch) SpotMark(k.pos, k.tid, k.eid, now);
                     if (g_searched.count(key) && v.act != Action::Search) { if (cfg.debugLog) LOG("[loot] giving up on eid %08X after %d attempts", k.eid, kMaxTries); continue; }
                     if (v.act == Action::Search) g_searched.insert(key);
-                    if (!events::Send(v.act, k.eid, g_meEid, route, 0)) { held("the game refused the event"); continue; }
+                    // Breaking an ore vein rather than gathering it, when asked. The mod's
+                    // gather lifts the ore straight out of the node; striking it makes the
+                    // game spill the contents on the ground through its own drop path, which
+                    // is the only path that applies the equipped tool's yield bonus. The
+                    // chunks are then ordinary ground items and get picked up as usual.
+                    const bool breakIt = cfg.breakOre && v.act == Action::Gather && k.nodeType &&
+                                         k.nodeType->tagged && KindFromName(k.nodeType->kind) == GatherKind::Ore;
+                    if (breakIt)
+                    {
+                        // Swing from where the player stands toward the node.
+                        Vec3 me{}; game::WorldPos(g_me, &me);
+                        if (!events::BreakGimmick(k.eid, g_meEid, route, k.pos.x - me.x, k.pos.z - me.z))
+                        {
+                            // Its own budget: the shared hold log is spent on
+                            // "still filling" long before a break failure would show.
+                            static int s_brkErr = 0;
+                            if (s_brkErr < 8) { ++s_brkErr; LOG_ERR("[break] eid %08X could not be queued", k.eid); }
+                            continue;
+                        }
+                        // Once per vein and no more. The drop event spills what the
+                        // node holds but does not consume the node, so the vein stays
+                        // in the world and stays a candidate; without this it is
+                        // struck again on every retry window and pays out every time.
+                        // Ten of thirty veins were harvested two to four times over in
+                        // the 20:26 session, which is duplication rather than mining.
+                        // A vein the game respawns returns as a new entity, so retiring
+                        // this one does not bar it for good.
+                        g_searched.insert(key);
+                    }
+                    else if (!events::Send(v.act, k.eid, g_meEid, route, 0)) { held("the game refused the event"); continue; }
                     ++taken;
                     g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.gtid : static_cast<uint16_t>(0), k.db ? k.db->row : -1, false });
                     InterlockedIncrement(&g_session[static_cast<int>(v.act)]);
-                    char line[80];
-                    snprintf(line, sizeof line, "%s %s (%.1f m)", events::ActionName(v.act), Label(k), k.d);
+                    // Wide enough for a name and a distance. At 80 a long prefab
+                    // path consumed the buffer and the distance was truncated away,
+                    // which is how ten ore pickups were logged with no range at all.
+                    char line[160];
+                    if (breakIt) snprintf(line, sizeof line, "break %s (%.1f m)", Label(k), k.d);
+                    else         snprintf(line, sizeof line, "%s %s (%.1f m)", events::ActionName(v.act), Label(k), k.d);
                     PushRecent(line);
                     LOG("[loot] %s eid %08X type %u %s%s%s", line, k.eid, k.tid, k.key[0] ? k.key : "", k.node[0] ? " node " : "", k.node[0] ? k.node : "");
                 }
@@ -1377,7 +1725,14 @@ namespace ml::loot
                 if (b && !burstWas) { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
                 burstWas = b;
             }
-            if (InterlockedExchange(&g_forget, 0)) { g_learn.clear(); LOG("[learn] node yields forgotten"); }
+            if (InterlockedExchange(&g_forget, 0))
+            {
+                g_learn.clear();
+                // What a prefab has refused is learned too, so the same button
+                // clears it and every prefab gets its full reach back.
+                g_prefabArm.clear();
+                LOG("[learn] node yields forgotten, and every prefab has its arming reach back");
+            }
             const bool burst = InterlockedExchange(&g_burst, 0) != 0;
             const bool want = cfg.enabled || burst || st.menuOpen;
             if (want) Scan(cfg, cfg.enabled || burst, burst);

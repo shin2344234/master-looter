@@ -41,8 +41,9 @@ FRUIT_TAGS = ("catch_treefruit", "catch_berries", "catch_groundfruit", "catch_cr
 # Ordered: the first hit wins.
 NAME_KIND = [
     ("wood",  ("_log", "log_", "firewood", "timber", "stump", "branch", "_tree", "tree_")),
-    ("ore",   ("bismuth", "copper", "iron_", "_iron", "coal", "silver", "gold_ore", "mineral",
-               "crystal", "quartz", "sulfur", "mercury", "_ore", "ore_", "mine_", "_mine")),
+    # No ore branch. The game tags every mine and ore gather node it has, so a
+    # name guess here can only add a false positive, and it added 49 of them:
+    # boss armour plates, gold bars, paper stars, a naval mine, a spear.
     ("stone", ("_rock", "rock_", "_stone", "stone_", "boulder", "pebble")),
     ("plant", ("grass", "herb", "flower", "mushroom", "weed_", "moss", "fern", "vine",
                "leaf", "leaves", "seaweed", "algae", "reed", "bush", "shrub")),
@@ -149,18 +150,42 @@ def match_item(name, kind, by_key, by_name):
     return None
 
 
+# Words that never appear on a mineable vein. Without these the ore guess
+# claims shop counters, decorative pipework, abyss puzzle platforms and a
+# fountain, all of which then get a 25 m reach and twelve arm calls.
+NOT_A_VEIN = ("pipe", "shop", "npctable", "store", "fountain", "airballoon",
+              "platform", "battery", "conductor", "preset", "sandcrawler",
+              "visione", "abyss", "magnet", "vehicle", "cannon", "furnace")
+
+
 def kind_for(tags, name):
+    """The kind, and whether the game said so or the name merely suggested it."""
     for t in FRUIT_TAGS:
         if t in tags:
-            return "item"
+            return "item", True
     for t in tags:
         if t in TAG_KIND:
-            return TAG_KIND[t]
+            return TAG_KIND[t], True
+    # Tags the table does not know still mean the game has classified this row,
+    # and as something other than a gather node. Guessing from the name here
+    # would be second-guessing it.
+    if tags:
+        return "", False
     low = name.lower()
     for kind, words in NAME_KIND:
+        if kind == "ore":
+            # Whole segments only. Anywhere-in-the-string is what let a bare
+            # "ore" hide inside "core" and "store".
+            if any(w in NOT_A_VEIN for w in low.split("_")):
+                continue
+            if any(t in NOT_A_VEIN for t in NOT_A_VEIN if t in low):
+                continue
+            if any(seg == w or seg.startswith(w) for seg in low.split("_") for w in words):
+                return kind, False
+            continue
         if any(w in low for w in words):
-            return kind
-    return ""
+            return kind, False
+    return "", False
 
 
 def main():
@@ -174,15 +199,23 @@ def main():
         if not ss:
             continue
         name = ss[0]
-        path = next((s for s in ss if s.endswith(".prefab")), "")
+        # Cut at the extension rather than requiring it at the end: the byte
+        # after the path is often printable, so strings() hands back
+        # "..._scenecollector.prefabxC" and endswith() dropped 47% of the table.
+        path = ""
+        for s in ss:
+            i = s.find(".prefab")
+            if i >= 0:
+                path = s[:i + len(".prefab")]
+                break
         if not path:
             continue
         stats["with_path"] += 1
         tags = {s for s in ss if s.startswith(("collect", "catch"))}
-        kind = kind_for(tags, name)
+        kind, vouched = kind_for(tags, name)
         if not kind:
             continue
-        stats["tagged" if (tags & set(TAG_KIND)) else "by_name"] += 1
+        stats["tagged" if vouched else "by_name"] += 1
         base = prefab_key(path)
         if base in seen:
             continue
@@ -190,20 +223,28 @@ def main():
         it = match_item(name, kind, by_key, by_name)
         if it:
             stats["with_item"] += 1
-        out.append((base, kind, it["string_key"] if it else "", it["name"] if it else pretty(name, kind)))
+        out.append((base, kind, it["string_key"] if it else "",
+                    it["name"] if it else pretty(name, kind),
+                    "tag" if vouched else "name"))
     out.sort()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
-        f.write("prefab\tkind\titem_key\tname\n")
+        # src says whether the game's own gimmick tag gave the kind or the
+        # generator guessed it from the prefab name. The engine spends the
+        # long ore reach only on the ones the game vouches for.
+        f.write("prefab\tkind\titem_key\tname\tsrc\n")
         for r in out:
             f.write("\t".join(r) + "\n")
     kinds = {}
-    for _, k, _, _ in out:
+    for _, k, _, _, _ in out:
         kinds[k] = kinds.get(k, 0) + 1
     print("gimmick rows %(rows)d, with a prefab path %(with_path)d, "
           "classified by tag %(tagged)d, by name %(by_name)d, item resolved %(with_item)d" % stats)
     print("wrote %d rows to %s" % (len(out), os.path.relpath(OUT, HERE)))
     print("by kind: " + ", ".join("%s %d" % kv for kv in sorted(kinds.items())))
+    ore = [r for r in out if r[1] == "ore"]
+    print("ore: %d rows, %d of them vouched for by the game's own tag"
+          % (len(ore), sum(1 for r in ore if r[4] == "tag")))
 
 
 if __name__ == "__main__":

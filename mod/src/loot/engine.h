@@ -34,6 +34,11 @@ namespace ml::loot
         char     name[48];
         char     klass[24];
         char     verdict[48];
+        // The item's tags, so the rule that would change this verdict can be
+        // read off the row instead of guessed at. Longest in the database is
+        // 113 characters, plus the space the loader pads each end with.
+        char     tags[120];
+        long long value;      // copper, -1 when the database does not say
         bool     loot;
     };
 

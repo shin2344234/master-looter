@@ -9,6 +9,7 @@
 #include "mem.h"
 #include "signatures.h"
 #include "../core/log.h"
+#include "../core/settings.h"
 
 namespace ml::loot::hooks
 {
@@ -25,6 +26,43 @@ namespace ml::loot::hooks
     static const char* g_pump = "none";
     static volatile LONG g_pumpTicks = 0, g_lastPumpAt = 0;
     static volatile LONG g_ownCalls = 0, g_armCalls = 0, g_armMode = -1;
+    // Set while the mod is inside the game's arming routine, so the detour can
+    // tell our call from the game's. Thread local because arming runs on the
+    // game thread while the scan runs on the worker.
+    static thread_local int t_selfArm = 0;
+    // The mod's own image, so a pointer that lives in it is never mistaken for
+    // one of the game's objects.
+    static uintptr_t g_selfLo = 0, g_selfHi = 0;
+    static bool InSelf(uintptr_t a)
+    {
+        if (!g_selfLo)
+        {
+            MEMORY_BASIC_INFORMATION mbi{};
+            if (VirtualQuery(reinterpret_cast<void*>(&g_selfLo), &mbi, sizeof mbi))
+            {
+                const uintptr_t base = reinterpret_cast<uintptr_t>(mbi.AllocationBase);
+                const auto* dos = reinterpret_cast<const IMAGE_DOS_HEADER*>(base);
+                const auto* nt  = reinterpret_cast<const IMAGE_NT_HEADERS*>(base + dos->e_lfanew);
+                g_selfLo = base;
+                g_selfHi = base + nt->OptionalHeader.SizeOfImage;
+            }
+        }
+        return g_selfLo && a >= g_selfLo && a < g_selfHi;
+    }
+    // A pointer worth remembering from one of the game's calls.
+    static bool Foreign(uint64_t a)
+    {
+        const uintptr_t p = static_cast<uintptr_t>(a);
+        return mem::Plausible(p) && !InSelf(p);
+    }
+
+    void SelfArmBegin() { ++t_selfArm; }
+    void SelfArmEnd()   { if (t_selfArm) --t_selfArm; }
+
+    static thread_local int t_selfSend = 0;
+    void SelfSendBegin() { ++t_selfSend; }
+    void SelfSendEnd()   { if (t_selfSend) --t_selfSend; }
+    bool SelfSending()   { return t_selfSend != 0; }
     static volatile LONG64 g_armCtx = 0, g_armA3 = 0;
     static ArmSeen g_armSeen[64]; static volatile LONG g_armSeenN = 0;
     static volatile LONG g_ownCaptured = 0;
@@ -58,7 +96,8 @@ namespace ml::loot::hooks
 
     static void hkEnqueue(void* q, void* ev, void* desc, uint64_t z)
     {
-        events::SpyEnqueue(reinterpret_cast<uintptr_t>(ev));
+        // Ours is not news. Only what the game raises is worth recording.
+        if (!t_selfSend) events::SpyEnqueue(reinterpret_cast<uintptr_t>(ev));
         oEnq(q, ev, desc, z);
         // Fallback pump: when no tick hook is installed, or the tick has gone
         // quiet (menus, mounts), drain from the game's own event traffic. Only
@@ -130,15 +169,48 @@ namespace ml::loot::hooks
         return r;
     }
 
+    // One line per distinct node-and-name pairing the game uses. The point is
+    // to learn which trigger name an ore vein listens on, since the one the
+    // mod reuses is only ever the last one it happened to overhear.
+    static void NoteGameArm(uint64_t comp, uint64_t nameId, unsigned mode)
+    {
+        if (!Settings::Get().debugLog) return;
+        static char s_seen[160][96];
+        static int  s_n = 0;
+        if (s_n >= 160) return;
+
+        char path[192] = {};
+        if (!game::NodePrefab(static_cast<uintptr_t>(comp), path, sizeof path)) return;
+        // The basename is the part that identifies the node; the folder is
+        // the same for everything in a family.
+        const char* base = path;
+        for (const char* p = path; *p; ++p) if (*p == '/' || *p == '\\') base = p + 1;
+
+        char key[96];
+        _snprintf_s(key, sizeof key, _TRUNCATE, "%.60s|%llX|%u", base,
+                    static_cast<unsigned long long>(nameId), mode);
+        for (int i = 0; i < s_n; ++i) if (strcmp(s_seen[i], key) == 0) return;
+        _snprintf_s(s_seen[s_n++], sizeof s_seen[0], _TRUNCATE, "%s", key);
+        LOG("[armname] the game armed %-46s with name %llX mode %u", base,
+            static_cast<unsigned long long>(nameId), mode);
+    }
+
     static uint64_t hkArm(uint64_t a1, uint64_t a2, uint64_t a3, uint64_t a4, uint64_t a5, uint64_t a6, uint64_t a7, uint64_t a8)
     {
+        // Our own call, coming back through the detour. Pass it straight
+        // through: copying our arguments out and arming with them next time
+        // is exactly the bug this guard exists for.
+        if (t_selfArm) return oArm(a1, a2, a3, a4, a5, a6, a7, a8);
+
         const LONG n = InterlockedIncrement(&g_armCalls);
         InterlockedExchange(&g_armMode, static_cast<LONG>(a2 & 0xFF));
-        // a4 looks like a pointer in every call seen (0x1_5018AF80 style), most
-        // likely the interacting actor or an interaction context; it decides
-        // things like "does this actor carry a pickaxe". Keep the latest.
-        if (mem::Plausible(static_cast<uintptr_t>(a4))) InterlockedExchange64(&g_armCtx, static_cast<LONG64>(a4));
-        if (mem::Plausible(static_cast<uintptr_t>(a3))) InterlockedExchange64(&g_armA3, static_cast<LONG64>(a3));
+        // a4 is not an argument: the routine never reads it. It is kept only
+        // because the register still holds whatever the caller last had there,
+        // which has been useful for identifying who called. a3 is the one that
+        // matters, a pointer to the name id being armed.
+        if (Foreign(a4)) InterlockedExchange64(&g_armCtx, static_cast<LONG64>(a4));
+        if (Foreign(a3)) InterlockedExchange64(&g_armA3, static_cast<LONG64>(a3));
+        NoteGameArm(a1, a3, static_cast<unsigned>(a2 & 0xFF));
         if (n <= 8)
         {
             const char* cls = mem::RttiShort(static_cast<uintptr_t>(a1));
@@ -263,22 +335,51 @@ namespace ml::loot::hooks
     // the call can be worked out instead: the context is the same chain off the
     // player that the game itself walks, confirmed against the game's own
     // argument, and the tag is a fixed pointer read out of its code.
+    // Say a thing once. These run every scan until arming takes, and the
+    // reason it has not taken is worth exactly one line, not thousands.
+    static void OnceErr(bool& said, const char* msg)
+    {
+        if (said) return;
+        said = true;
+        LOG_ERR("%s", msg);
+    }
+
     static bool ArmFromPlayer(uintptr_t me)
     {
         if (g_ownCtx && g_ownTag) return true;
-        if (!me) return false;
+        static bool s_noFn = false, s_noTag = false, s_noCtx = false, s_noMe = false;
+        if (!me) { OnceErr(s_noMe, "[owner] no player entity yet, so the ownership check cannot be armed from it."); return false; }
+
+        // The tag lives in the image, so one search settles it, but only
+        // once there is a resolved function to search around. Latching on a
+        // call made before the signature scan finished would switch this off
+        // for the whole session for no reason.
         static void* s_tag = nullptr;
         static bool  s_looked = false;
-        if (!s_looked) { s_looked = true; s_tag = FindOwnTag(game::F().ownCheck); }
-        if (!s_tag) return false;
+        const uintptr_t ownFn = game::F().ownCheck;
+        if (!ownFn) { OnceErr(s_noFn, "[owner] the ownership routine is not resolved yet; arming from the player will retry."); return false; }
+        if (!s_looked) { s_looked = true; s_tag = FindOwnTag(ownFn); }
+        if (!s_tag) { OnceErr(s_noTag, "[owner] no ownership tag, so the mod has to wait for the game to ask."); return false; }
+
         const uintptr_t holder = mem::Deref(me, ml::sig::kOff_Own_CtxHolder);
         const uintptr_t ctx = holder ? mem::Deref(holder, ml::sig::kOff_Own_CtxField) : 0;
-        if (!ctx) return false;
+        if (!ctx) { OnceErr(s_noCtx, "[owner] the player carries no ownership context yet; arming will retry as the world finishes loading."); return false; }
+
         g_ownCtx = reinterpret_cast<void*>(ctx);
         g_ownTag = s_tag;
         InterlockedExchange(&g_ownCaptured, 1);
         LOG_OK("[owner] ownership check armed from the player, without waiting for the game to ask.");
         return true;
+    }
+
+    // Called from the scan the moment a player exists. Arming used to happen
+    // only inside WouldSteal, which is the last test in Decide() and is
+    // therefore never reached in a session where nothing else passes. Both
+    // logs of 2026-09-06 show it never ran once.
+    bool EnsureOwnerArmed(uintptr_t playerEnt)
+    {
+        if (OwnerCaptured()) return true;
+        return ArmFromPlayer(playerEnt);
     }
 
     int WouldSteal(uintptr_t me, uintptr_t target)

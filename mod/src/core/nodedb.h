@@ -13,6 +13,11 @@ namespace ml
         std::string kind;     // plant, ore, stone, wood, item
         std::string itemKey;  // what it yields, when the name gives it; may be empty
         std::string name;     // for the log and the Nearby list
+        // True when the kind is the game's own gimmick tag, false when the
+        // generator guessed it from the prefab name. A guess decides which
+        // switch the node answers to; only the game's word buys the long
+        // arming reach, since a guess once claimed shop counters and pipework.
+        bool tagged = false;
     };
 
     namespace NodeDb

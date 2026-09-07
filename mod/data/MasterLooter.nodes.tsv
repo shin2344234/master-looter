@@ -1,1043 +1,1077 @@
-prefab	kind	item_key	name
-cd_ancient_altarstone_01_01	stone	Stone_Quarry	Stone
-cd_bigtree_02	wood		Cd bigtree
-cd_bigtree_02_birch_paper	wood		Cd bigtree 02 birch paper
-cd_bigtree_02_burn	wood		Cd bigtree 02 burn
-cd_bigtree_02_oak	wood		Cd bigtree 02 oak
-cd_bigtree_02_pail	wood		Cd bigtree 02 pail
-cd_bigtree_02_pine	wood		Cd bigtree 02 pine
-cd_box_mushroom_02	plant		Cd box mushroom
-cd_box_mushroom_04	plant		Cd box mushroom
-cd_ex_dpf_flowerhang_01	plant		Cd ex dpf flowerhang
-cd_ex_dpf_flowerhang_02	plant		Cd ex dpf flowerhang
-cd_ex_dpf_flowerhang_03	plant		Cd ex dpf flowerhang
-cd_ex_dpf_flowerhang_04	plant		Cd ex dpf flowerhang
-cd_ex_dpf_flowerpot_16_housing	plant		Cd ex dpf flowerpot 16 housing
-cd_ex_dpf_flowerpot_21_housing	plant		Cd ex dpf flowerpot 21 housing
-cd_ex_dpf_flowerpot_23_housing	plant		Cd ex dpf flowerpot 23 housing
-cd_ex_dpf_flowerpot_24_housing	plant		Cd ex dpf flowerpot 24 housing
-cd_ex_dpf_flowerpot_37_housing	plant		Cd ex dpf flowerpot 37 housing
-cd_ex_dpf_flowerpot_61_housing	plant		Cd ex dpf flowerpot 61 housing
-cd_ex_dpf_timber_hotdeck_05	wood		Cd ex dpf timber hotdeck
-cd_ex_dpf_timber_hotdeck_05_hellhound	wood		Wood
-cd_ex_dpf_timber_hotdeck_05_her	wood		Cd ex dpf timber hotdeck 05 her
-cd_ex_dpf_timber_hotdeck_05_pail	wood		Cd ex dpf timber hotdeck 05 pail
-cd_ex_dpf_timber_hotdeck_06_pail	wood		Cd ex dpf timber hotdeck 06 pail
-cd_ex_dpf_timber_hotdeck_07_pail	wood		Cd ex dpf timber hotdeck 07 pail
-cd_ex_dpf_timber_hotdeck_10_hellhound	wood		Wood
-cd_ex_dpf_timber_hotdeck_10_her	wood		Cd ex dpf timber hotdeck 10 her
-cd_ex_dpf_timber_hotdeck_10_pail	wood		Cd ex dpf timber hotdeck 10 pail
-cd_gimmick_attach_sandcrawler_core_01_pasrts01	ore		Ore
-cd_gimmick_ct_mushroom_hericium_wood_brokentree_01_parts01	plant		Plant
-cd_gimmick_ct_mushroom_phellinus_wood_brokentree_01_parts01	plant		Plant
-cd_gimmick_ct_mushroom_shiitake_wood_brokentree_01_parts01	plant		Plant
-cd_gimmick_ct_poisonmushroom_wood_brokentree_01_parts01	plant		Plant
-cd_gimmick_item_flowers_01	plant		Item flowers
-cd_gimmick_puzzle_kweiden_tombstone_part_01	stone		Kwe tombstone part
-cd_gimmick_puzzle_kweiden_tombstone_part_02	stone		Kwe tombstone part
-cd_gimmick_puzzle_kweiden_tombstone_part_03	stone		Kwe tombstone part
-cd_nature_wood_broken_tree_11	wood		Cd nature wood broken tree
-cd_nature_wood_broken_tree_11_burn	wood		Wood
-cd_nature_wood_broken_tree_11_hexe	wood		Wood
-cd_nature_wood_broken_tree_11_i1	wood		Cd nature wood broken tree 11 i1
-cd_nature_wood_broken_tree_11_i10	wood		Wood
-cd_nature_wood_broken_tree_11_i11	wood		Wood
-cd_nature_wood_broken_tree_11_i3	wood		Cd nature wood broken tree 11 i3
-cd_nature_wood_broken_tree_11_i6	wood		Cd nature wood broken tree 11 i6
-cd_nature_wood_broken_tree_11_index01	wood		Wood
-cd_nature_wood_broken_tree_11_pine	wood		Wood
-cd_nature_wood_broken_tree_12	wood		Cd nature wood broken tree
-cd_nature_wood_broken_tree_12_burn	wood		Wood
-cd_nature_wood_broken_tree_12_i1	wood		Wood
-cd_nature_wood_broken_tree_12_oak	wood		Wood
-cd_nature_wood_broken_tree_12_pai	wood		Wood
-cd_nature_wood_log_dry_01	wood		Cd nature wood log dry
-cd_nature_wood_log_dry_01_burn	wood		Cd nature wood log dry 01 burn
-cd_nature_wood_log_dry_01_i1	wood		Cd nature wood log dry 01 i1
-cd_nature_wood_mossytreelog_01	wood		Cd nature wood mossytreelog
-cd_nature_wood_mossytreelog_01_burn	wood		Wood
-cd_nature_wood_mossytreelog_01_i3	wood		Wood
-cd_nature_wood_mossytreelog_01_index01	wood		Wood
-cd_nature_wood_mossytreelog_01_index02	wood		Wood
-cd_nature_wood_mossytreelog_01_pine	wood		Wood
-cd_nature_wood_oldtree_01_01	wood		Cd nature wood oldtree 01
-cd_nature_wood_oldtree_01_01_index01	wood		Wood
-cd_nature_wood_oldtree_01_01_pine	wood		Wood
-cd_nature_wood_oldtree_03	wood		Cd nature wood oldtree
-cd_nature_wood_oldtree_03_oak	wood		Cd nature wood oldtree 03 oak
-cd_nature_wood_oldtree_03_pine	wood		Cd nature wood oldtree 03 pine
-cd_nature_wood_woodenbranch_01	wood		Cd nature wood woodenbranch
-cd_preset_shop_npctable_generalstore_01	ore		Shop npctable generalstore
-cd_preset_shop_npctable_stonestore_01	ore		Shop npctable stonestore
-cd_spot_middle_copper_pipe_03a_marni	ore		Ore
-cd_spot_middle_copper_pipe_12	ore		Cd spot middle copper pipe
-cd_spot_middle_copper_pipe_12_part_01	ore		Ore
-gimmick_abyss_ator_dungeon_blackstone_01	stone		Abyss ator dungeon blackstone
-gimmick_abyss_ator_dungeon_blackstone_02	stone		Abyss ator dungeon blackstone
-gimmick_abyss_battery_magnet_core_conductor_01	ore		Ore
-gimmick_abyss_battery_magnet_core_conductor_01_index01	ore		Ore
-gimmick_abyss_effect_umbra_floatingstone_01	stone		Abyss effect umbra floatingstone
-gimmick_abyss_standstone_01_part_02	stone		Abyss standstone 01 part
-gimmick_abyss_standstone_01_part_02_index01	stone		Stone
-gimmick_abyss_stone_01_parts_0003	stone		Abyss stone 01 parts
-gimmick_abyss_stone_01a	stone		Abyss stone 01a
-gimmick_abyss_stone_01a_parts_0001	stone		Abyss stone 01a part
-gimmick_abyss_stone_01a_parts_0002	stone		Abyss stone 01a part
-gimmick_abyss_tree_0001	wood		Abyss tree
-gimmick_abyss_visione_platform_core_0001	ore		Abyss visione platform core
-gimmick_abyss_visione_platform_core_0002	ore		Abyss visione platform core
-gimmick_abyss_visione_platform_core_0003	ore		Abyss visione platform core
-gimmick_abyss_visione_platform_core_0004	ore		Abyss visione platform core
-gimmick_abyssgrass_01	plant		Abyssgrass
-gimmick_abyssgrass_02	plant		Abyssgrass
-gimmick_abyssgrass_03	plant		Abyssgrass
-gimmick_abyssgrass_04	plant		Abyssgrass
-gimmick_abyssgrass_legendarywolf	plant		Abyssgrass legendarywolf
-gimmick_abyssone_move_platform_11_bismuth	ore		Ore
-gimmick_airplane_boss_core_01_parts01	ore		Airplane core
-gimmick_aka_quarry_bigstone_01	ore		Aka quarry bigstone
-gimmick_aka_quarry_bigstone_02	ore		Aka quarry bigstone
-gimmick_ancient_stone_soldier_01_b_gmk_05	stone		Ancient stone soldier 01 b gmk
-gimmick_ancient_stone_warrior_01_b_gmk_05	stone		Ancient stone warrior 01 b gmk
-gimmick_attach_abyssgrass_landspider_01	plant		Attach abyssgrass landspider
-gimmick_attach_abyssgrass_landspider_02	plant		Attach abyssgrass landspider
-gimmick_attach_flowerbasket_01	plant		Attach flowerbasket
-gimmick_attach_lake_stone_01	stone	Stone_Quarry	Stone
-gimmick_attach_lake_stone_01_part	stone		Attach lake stone 01 part
-gimmick_attach_landspider_bismuth_01	ore		Attach landspider bismuth
-gimmick_attach_landspider_bismuth_02	ore		Attach landspider bismuth
-gimmick_attach_landspider_bismuth_03	ore		Attach landspider bismuth
-gimmick_attach_landspider_bismuth_04	ore		Attach landspider bismuth
-gimmick_attach_landspider_bismuth_05	ore		Attach landspider bismuth
-gimmick_attach_landspider_bismuthqueen_rock_01	ore		Ore
-gimmick_attach_landspider_bismuthqueen_rock_02	ore		Ore
-gimmick_attach_landspider_bismuthqueen_rock_03	ore		Ore
-gimmick_attach_landspider_bismuthqueen_rock_04	ore		Ore
-gimmick_attach_landspider_bismuthqueen_rock_05	ore		Ore
-gimmick_attach_landspider_bismuthqueen_rock_06	ore		Ore
-gimmick_attach_landspider_bismuthqueen_rock_07	ore		Ore
-gimmick_attach_landspider_bismuthqueen_rock_08	ore		Ore
-gimmick_attach_landspider_queen_rock_01	stone		Attach landspider queen rock
-gimmick_attach_landspider_queen_rock_02	stone		Attach landspider queen rock
-gimmick_attach_landspider_queen_rock_03	stone		Attach landspider queen rock
-gimmick_attach_landspider_queen_rock_04	stone		Attach landspider queen rock
-gimmick_attach_landspider_queen_rock_05	stone		Attach landspider queen rock
-gimmick_attach_landspider_queen_rock_06	stone		Attach landspider queen rock
-gimmick_attach_landspider_queen_rock_07	stone		Attach landspider queen rock
-gimmick_attach_landspider_sulfur_01	ore		Attach landspider sulfur
-gimmick_attach_marni_airballoon_mine	ore		Attach marni airballoon mine
-gimmick_attach_mine_bismuth_place_01	ore		Mine bismuth attach
-gimmick_attach_mine_diamond_place_01	ore		Mine diamond attach
-gimmick_attach_mine_ironstone_place_01	ore		Mine iron attach
-gimmick_attach_mine_redstone_place_01	ore		Mine redstone attach
-gimmick_attach_seraphim_innerstone_01	stone		Attach seraphim innerstone
-gimmick_attach_seraphim_lowerstone_01	stone		Attach seraphim lowerstone
-gimmick_attach_seraphim_lowerstone_02	stone		Attach seraphim lowerstone
-gimmick_attach_seraphim_lowerstone_03	stone		Attach seraphim lowerstone
-gimmick_attach_seraphim_lowerstone_04	stone		Attach seraphim lowerstone
-gimmick_attach_seraphim_lowerstone_05	stone		Attach seraphim lowerstone
-gimmick_attach_seraphim_upperstone_01	stone		Attach seraphim upperstone
-gimmick_attach_seraphim_upperstone_02	stone		Attach seraphim upperstone
-gimmick_attach_spot_tower_bismuth_01_break	ore		Ore
-gimmick_attach_spot_tower_bismuth_06_break	ore		Ore
-gimmick_attach_stoneowl_01_turret_launcher	stone		Stone
-gimmick_attach_stoneworm_01	stone		Attach stoneworm
-gimmick_attach_stoneworm_02	stone		Attach stoneworm
-gimmick_attach_stoneworm_03	stone		Attach stoneworm
-gimmick_attach_stoneworm_04	stone		Attach stoneworm
-gimmick_attach_stoneworm_05	stone		Attach stoneworm
-gimmick_attach_stoneworm_06	stone		Attach stoneworm
-gimmick_attach_stoneworm_07	stone		Attach stoneworm
-gimmick_attach_stoneworm_08	stone		Attach stoneworm
-gimmick_attach_stoneworm_09	stone		Attach stoneworm
-gimmick_attach_stoneworm_index01_01	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index01_02	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index01_03	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index01_04	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index01_05	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index01_06	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index01_07	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index01_08	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index01_09	stone		Attach stoneworm index01
-gimmick_attach_stoneworm_index02_01	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index02_02	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index02_03	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index02_04	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index02_05	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index02_06	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index02_07	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index02_08	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index02_09	stone		Attach stoneworm index02
-gimmick_attach_stoneworm_index03_01	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index03_02	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index03_03	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index03_04	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index03_05	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index03_06	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index03_07	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index03_08	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index03_09	stone		Attach stoneworm index03
-gimmick_attach_stoneworm_index04_01	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index04_02	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index04_03	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index04_04	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index04_05	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index04_06	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index04_07	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index04_08	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index04_09	stone		Attach stoneworm index04
-gimmick_attach_stoneworm_index05_01	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index05_02	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index05_03	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index05_04	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index05_05	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index05_06	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index05_07	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index05_08	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index05_09	stone		Attach stoneworm index05
-gimmick_attach_stoneworm_index06_01	stone		Attach stoneworm index06
-gimmick_attach_stoneworm_index06_02	stone		Attach stoneworm index06
-gimmick_attach_stoneworm_index06_03	stone		Attach stoneworm index06
-gimmick_attach_stoneworm_index06_04	stone		Attach stoneworm index06
-gimmick_attach_stoneworm_index06_05	stone		Attach stoneworm index06
-gimmick_attach_stoneworm_index06_06	stone		Attach stoneworm index06
-gimmick_attach_stoneworm_index06_07	stone		Attach stoneworm index06
-gimmick_attach_stoneworm_index06_08	stone		Attach stoneworm index06
-gimmick_attach_stoneworm_index06_09	stone		Attach stoneworm index06
-gimmick_attach_thornyvine_01	plant		Character attach thornyvine
-gimmick_attach_thornyvine_02	plant		Character attach thornyvine
-gimmick_attach_thornyvine_03	plant		Character attach thornyvine
-gimmick_bigtree_01_fire	wood		Bigtree 01 fire
-gimmick_bigtree_01_remote	wood		Bigtree 01 log
-gimmick_bigtree_02_fire	wood		Bigtree 02 fire
-gimmick_bismuth_spark	ore		Bismuth spark
-gimmick_boss_landspider_bismuth_pillar_0001	ore		Landspider bismuth pillar
-gimmick_boss_landspider_bismuth_pillar_0002	ore		Landspider bismuth pillar
-gimmick_box_donation_reward_stone_01	stone	Stone_Quarry	Stone
-gimmick_box_donation_reward_stone_02	stone	Stone_Quarry	Stone
-gimmick_box_donation_reward_stone_03	stone	Stone_Quarry	Stone
-gimmick_box_stonecarrier_01	stone		Box stonecarrier
-gimmick_breakable_cd_spot_silverwolves_part_02a_part_01_p20	stone	Stone_Quarry	Stone
-gimmick_breakable_cd_spot_silverwolves_part_02a_part_01_p20_muskan	stone	Stone_Quarry	Stone
-gimmick_breakable_cd_spot_silverwolves_part_02a_part_02_p20	stone	Stone_Quarry	Stone
-gimmick_breakable_cd_spot_silverwolves_part_02a_part_02_p20_muskan	stone	Stone_Quarry	Stone
-gimmick_breakable_hernand_abby_str_abbey_01_03	stone	Stone_Quarry	Stone
-gimmick_breakable_pillar_temple_three_brothers_01a_boss	stone	Stone_Quarry	Stone
-gimmick_breakable_pillar_temple_three_brothers_01a_boss_body	stone	Stone_Quarry	Stone
-gimmick_breakable_protective_stone_01	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_marni_break_pillar_temple_01_boss	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_marni_pillar_08_boss	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_marni_pillar_10_boss	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_marni_silverwolves_alldeco_02_p20_boss	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_marni_wall_arch_05_boss	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_marni_wall_arch_06_boss	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_marni_wall_arch_06_boss_body	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_northpray_wall_08_p20_mus	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_northpray_wall_08_p20_muskan	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_silverwolves_alldeco_01_part_01_p20_muskan	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_silverwolves_alldeco_02_p20	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_silverwolves_alldeco_02_p20_dem	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_silverwolves_alldeco_02_p20_mus	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_silverwolves_alldeco_02_p20_muskan	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_silverwolves_pillar_01_broken	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_silverwolves_pillar_01_broken_body	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_tree_brothers_cliff_pillar_02	stone	Stone_Quarry	Stone
-gimmick_breakable_spot_tree_brothers_cliff_pillar_03	stone	Stone_Quarry	Stone
-gimmick_brimstone_bomb_01	stone		Battle brimstone bomb
-gimmick_bush_cd_crop_grape_02_collect_01	wood		Bush cd crop grape 02 collect
-gimmick_bush_crop_ensete_01_collect	plant		Bush crop ensete 01 collect
-gimmick_bush_crop_ensete_01_collect_02	plant		Bush crop ensete 01 collect
-gimmick_camp_farm_abyss_stone_01_phase01	stone		Camp farm abyss stone 01 phase01
-gimmick_camp_farm_abyss_stone_01_phase02	wood		Camp farm abyss stone 01 phase02
-gimmick_camp_farm_abyss_stone_01_phase03	plant		Abyssstone fruit
-gimmick_camp_farm_apple_01_phase01	wood		Apple smalltree
-gimmick_camp_farm_apple_01_phase02	wood		Apple tree
-gimmick_camp_farm_cacao_01_phase02	wood		Camp farm cacao 01 phase02
-gimmick_camp_farm_coffeetree_01_phase01	wood		Camp farm coffeetree 01 phase01
-gimmick_camp_farm_coffeetree_01_phase02	wood		Camp farm coffeetree 01 phase02
-gimmick_camp_farm_ensete_01_phase02	wood		Camp farm ensete 01 phase02
-gimmick_camp_farm_figs_01_phase02	wood		Camp farm figs 01 phase02
-gimmick_camp_farm_glowflower_01_phase01	plant		Camp farm glowflower 01 phase01
-gimmick_camp_farm_glowflower_01_phase02	plant		Camp farm glowflower 01 phase02
-gimmick_camp_farm_orange_01_phase02	wood		Camp farm orange 01 phase02
-gimmick_camp_farm_peach_01_phase02	wood		Camp farm peach 01 phase02
-gimmick_camp_farm_pear_01_phase02	wood		Camp farm pear 01 phase02
-gimmick_camp_farm_pomegranate_01_phase02	wood		Camp farm pomegranate 01 phase02
-gimmick_camp_farm_rubber_01_phase02	wood		Camp farm rubber 01 phase02
-gimmick_catched_flowerbutterfly_0001	plant		Catched flowerbutterfly
-gimmick_cave_break_stalac_02	ore		Cave break stalac
-gimmick_clifftree_02	wood		Clifftree
-gimmick_clifftree_03	wood		Clifftree
-gimmick_climbing_hook_stone_01	stone	Stone_Quarry	Stone
-gimmick_collect_ginseng_01	plant	Possesion_Insam	Ginseng
-gimmick_collect_ginseng_02	plant	Possesion_Insam	Ginseng
-gimmick_collect_her_rock_b_0003	ore		Mine rock
-gimmick_collect_her_rock_b_0004	ore		Mine rock
-gimmick_collect_her_rock_b_0005	ore		Mine rock
-gimmick_collect_her_rock_b_0006	ore		Mine rock
-gimmick_collect_her_rock_b_0007	ore		Mine rock
-gimmick_collect_her_rock_b_0008	ore		Mine rock
-gimmick_collect_her_rock_b_0009	ore		Mine rock
-gimmick_collect_her_rock_b_0010	ore		Mine rock
-gimmick_collect_her_rock_b_0011	ore		Mine rock
-gimmick_collect_mushroom_hericium_01	plant		Mushroom hericium
-gimmick_collect_mushroom_phellinus_01	plant		Mushroom phellinus
-gimmick_collect_mushroom_shiitake_01	plant		Mushroom shiitake
-gimmick_collect_ore_bluestone_01	ore	BlueStone	Azurite
-gimmick_collect_ore_copper_01	ore		Ore copper
-gimmick_collect_ore_diamond_01	ore	Diamond	Diamond
-gimmick_collect_ore_gold_01	ore		Ore gold
-gimmick_collect_ore_greenstone_01	ore	GreenStone	Epidote
-gimmick_collect_ore_iron_01	ore		Ore iron
-gimmick_collect_ore_redstone_01	ore	RedStone	Bloodstone
-gimmick_collect_ore_ruby_01	ore	Ruby	Garnet
-gimmick_collect_ore_silver_01	ore		Ore silver
-gimmick_collect_ore_stone_01	ore	Stone_Quarry	Stone
-gimmick_collect_ore_stone_02	ore	Stone_Quarry	Stone
-gimmick_collect_ore_stone_03	ore	Stone_Quarry	Stone
-gimmick_collect_ore_sulfurstone_01	ore		Ore sulfurstone
-gimmick_collect_ore_whitestone_01	ore	WhiteStone	Scolecite Ore
-gimmick_collect_poisonmushroom_01	plant		Poisonmushroom
-gimmick_collect_poisonmushroom_05	plant		Poisonmushroom
-gimmick_collect_poisonmushroom_06	plant		Poisonmushroom
-gimmick_common_logouter_box_01m	wood		Common logouter box 01m
-gimmick_common_logouter_box_03m	wood		Common logouter box 03m
-gimmick_common_logouter_box_05m	wood		Common logouter box 05m
-gimmick_detectchange_stonebridge_top_01	stone		Dc stonebridge top
-gimmick_detectchange_stonebridge_top_02	stone		Dc stonebridge top
-gimmick_detectchange_stonebridge_top_03	stone		Dc stonebridge top
-gimmick_docking_target_covered_03_bismuth	ore		Ore
-gimmick_docking_target_covered_04_bismuth	ore		Ore
-gimmick_door_double_wood_log_01_left	wood		Door double wood log 01 left
-gimmick_door_double_wood_log_01_lock_left	wood		Wood
-gimmick_door_double_wood_log_01_lock_right	wood		Wood
-gimmick_door_double_wood_log_01_right	wood		Door double wood log 01 right
-gimmick_door_doublearch_stone_02	stone	Stone_Quarry	Stone
-gimmick_door_doublearch_stone_02_left	stone		Door doublearch stone 02 left
-gimmick_door_doublearch_stone_02_right	stone		Door doublearch stone 02 right
-gimmick_door_dungeon_platform_jumping_01_reeddevil	plant		Plant
-gimmick_door_spot_tower_stone_0001_left	stone		Door spot tower stone 0001 left
-gimmick_door_spot_tower_stone_0001_right	stone		Door spot tower stone 0001 right
-gimmick_drug_leaves_01	plant		Drug leaves
-gimmick_drug_leaves_02	plant		Drug leaves
-gimmick_dungeon_northpray_pillar_01_moss	plant		Dungeon northpray pillar 01 moss
-gimmick_equip_bamboo_branch_sword_10	wood		Equip bamboo branch sword
-gimmick_equip_bamboo_branch_sword_100	wood		Equip bamboo branch sword
-gimmick_equip_bamboo_branch_sword_30	wood		Equip bamboo branch sword
-gimmick_equip_bamboo_branch_sword_50	wood		Equip bamboo branch sword
-gimmick_equip_bamboo_branch_sword_70	wood		Equip bamboo branch sword
-gimmick_equip_bamboo_hard_branch_sword_10	wood		Equip bamboo hard branch sword
-gimmick_equip_bamboo_hard_branch_sword_100	wood		Equip bamboo hard branch sword
-gimmick_equip_bamboo_hard_branch_sword_30	wood		Equip bamboo hard branch sword
-gimmick_equip_bamboo_hard_branch_sword_50	wood		Equip bamboo hard branch sword
-gimmick_equip_bamboo_hard_branch_sword_70	wood		Equip bamboo hard branch sword
-gimmick_equip_bismuth_twohandspear	ore		Equip bismuth twohandspear
-gimmick_equip_branch_sword_10	wood		Equip branch sword
-gimmick_equip_branch_sword_100	wood		Equip branch sword
-gimmick_equip_branch_sword_30	wood		Equip branch sword
-gimmick_equip_branch_sword_50	wood		Equip branch sword
-gimmick_equip_branch_sword_70	wood		Equip branch sword
-gimmick_equip_gimmick_pyogo_mushroom_backpack	plant		Plant
-gimmick_equip_gimmick_songyi_mushroom_backpack	plant		Plant
-gimmick_equip_gimmick_ssari_mushroom_backpack	plant		Plant
-gimmick_equip_hard_branch_sword_10	wood		Equip hard branch sword
-gimmick_equip_hard_branch_sword_100	wood		Equip hard branch sword
-gimmick_equip_hard_branch_sword_30	wood		Equip hard branch sword
-gimmick_equip_hard_branch_sword_50	wood		Equip hard branch sword
-gimmick_equip_hard_branch_sword_70	wood		Equip hard branch sword
-gimmick_ex_dpf_fountain_02_crystal	ore		Fountain 02 crystal
-gimmick_ex_dpf_hangingflower_0001	plant		Cd ex dpf hangingflower
-gimmick_ex_dpf_hangingflower_0002	plant		Cd ex dpf hangingflower
-gimmick_ex_dpf_hangingflower_0003	plant		Cd ex dpf hangingflower
-gimmick_ex_dpf_hangingflower_0004	plant		Cd ex dpf hangingflower
-gimmick_ex_dpf_hangingflowerpot_0001	plant		Cd ex dpf hangingflowerpot
-gimmick_ex_dpf_hangingflowerpot_0002	plant		Cd ex dpf hangingflowerpot
-gimmick_ex_dpf_hangingflowerpot_0003	plant		Cd ex dpf hangingflowerpot
-gimmick_ex_dpf_hangingflowerpot_0004	plant		Cd ex dpf hangingflowerpot
-gimmick_factory_chocolate_logouter_02	wood		Factory chocolate logouter
-gimmick_fireplace_firewood_0001	wood		Fireplace firewood
-gimmick_gemstone_hangchandelier_0001	stone		Gemstone hangchandelier
-gimmick_gemstone_hangchandelier_0001_index01	stone		Stone
-gimmick_gemstone_hangchandelier_0001_index02	stone		Stone
-gimmick_gemstone_hangchandelier_0002	stone		Gemstone hangchandelier
-gimmick_gemstone_hangchandelier_0002_index01	stone		Stone
-gimmick_gemstone_hangchandelier_0002_index02	stone		Stone
-gimmick_gemstone_hangchandelier_0003	stone		Gemstone hangchandelier
-gimmick_gemstone_hangchandelier_0003_index01	stone		Stone
-gimmick_gemstone_hangchandelier_0003_index02	stone		Stone
-gimmick_gemstone_hangchandelier_0004	stone		Gemstone hangchandelier
-gimmick_gemstone_hanger_top_chandelier_0001	stone		Gemstone hanger top chandelier
-gimmick_gemstone_hanger_top_chandelier_0001_index01	stone		Stone
-gimmick_gemstone_hanger_top_chandelier_0001_index02	stone		Stone
-gimmick_gemstone_hanger_top_chandelier_0002	stone		Gemstone hanger top chandelier
-gimmick_gemstone_hanger_top_chandelier_0002_index01	stone		Stone
-gimmick_gemstone_hanger_top_chandelier_0002_index02	stone		Stone
-gimmick_gemstone_hanger_top_chandelier_0102	stone		Gemstone hanger top chandelier
-gimmick_gemstone_hanger_top_chandelier_0102_index01	stone		Stone
-gimmick_gemstone_hanger_top_chandelier_0102_index02	stone		Stone
-gimmick_gemstone_hanger_top_chandelier_0103	stone		Gemstone hanger top chandelier
-gimmick_gemstone_hanger_top_chandelier_0103_index01	stone		Stone
-gimmick_gemstone_hanger_top_chandelier_0103_index02	stone		Stone
-gimmick_gemstone_lamp_0001	stone		Gemstone lamp
-gimmick_gemstone_lamp_0001_index01	stone		Gemstone lamp 0001 index01
-gimmick_gemstone_lamp_0001_index02	stone		Gemstone lamp 0001 index02
-gimmick_gemstone_lamp_0002	stone		Gemstone lamp
-gimmick_gemstone_lamp_0002_index01	stone		Gemstone lamp 0002 index01
-gimmick_gemstone_lamp_0002_index02	stone		Gemstone lamp 0002 index02
-gimmick_hanger_flower_01	plant		Hanger flower
-gimmick_hanger_flower_02	plant		Hanger flower
-gimmick_hanger_flower_03	plant		Hanger flower
-gimmick_hanger_flower_04	plant		Hanger flower
-gimmick_hanger_flower_05	plant		Hanger flower
-gimmick_hanger_flower_06	plant		Hanger flower
-gimmick_hanger_side_flowerpot_01	plant		Hanger side flowerpot
-gimmick_hanger_side_flowerpot_02	plant		Hanger side flowerpot
-gimmick_hanger_streetlamp_flowerpot_01	plant		Hanger streetlamp flowerpot
-gimmick_hanger_streetlamp_flowerpot_02	plant		Hanger streetlamp flowerpot
-gimmick_hanger_streetlamp_flowerpot_03	plant		Hanger streetlamp flowerpot
-gimmick_hanger_streetlamp_flowerpot_04	plant		Hanger streetlamp flowerpot
-gimmick_hanger_streetlamp_housing_flowerpot_01	plant		Plant
-gimmick_hanger_streetlamp_housing_flowerpot_02	plant		Plant
-gimmick_hanger_streetlamp_housing_flowerpot_03	plant		Plant
-gimmick_hanger_streetlamp_housing_flowerpot_04	plant		Plant
-gimmick_ice_mercury_0002	ore	Item_Rare_Collect_Mercury	Mercury
-gimmick_icestone_01	stone		Icestone
-gimmick_icestone_02	stone		Icestone
-gimmick_icestone_03	stone		Icestone
-gimmick_icestone_04	stone		Icestone
-gimmick_in_dpfo_wickerbasket_07_mushroom_01	plant		In dpfo wickerbasket 07 mushroom
-gimmick_in_dpfo_wickerbasket_08_mushroom_01	plant		In dpfo wickerbasket 08 mushroom
-gimmick_item_common_dryherb_0001	plant		Item common dryherb
-gimmick_item_common_dryherb_0002	plant		Item common dryherb
-gimmick_item_common_dryherb_0003	plant		Item common dryherb
-gimmick_item_common_dryherb_0004	plant		Item common dryherb
-gimmick_item_common_drymushroom_0001	plant		Item common drymushroom
-gimmick_item_common_silverbar_0001	ore		Item common silverbar
-gimmick_item_firewood_0001	wood		Firewood
-gimmick_item_firewood_0001_fine	wood		Firewood 0001 fine
-gimmick_item_firewood_0001_index01	wood		Firewood 0001 index01
-gimmick_item_firewood_0001_index01_fine	wood		Firewood 0001 index01 fine
-gimmick_item_firewood_0001_index01_premium	wood		Firewood 0001 index01 premium
-gimmick_item_firewood_0001_index02	wood		Firewood 0001 index02
-gimmick_item_firewood_0001_index02_fine	wood		Firewood 0001 index02 fine
-gimmick_item_firewood_0001_index02_premium	wood		Firewood 0001 index02 premium
-gimmick_item_firewood_0001_index03	wood		Firewood 0001 index03
-gimmick_item_firewood_0001_index03_fine	wood		Firewood 0001 index03 fine
-gimmick_item_firewood_0001_index03_premium	wood		Firewood 0001 index03 premium
-gimmick_item_firewood_0001_index04	wood		Firewood 0001 index04
-gimmick_item_firewood_0001_index04_fine	wood		Firewood 0001 index04 fine
-gimmick_item_firewood_0001_index04_premium	wood		Firewood 0001 index04 premium
-gimmick_item_firewood_0001_index05	wood		Firewood 0001 index05
-gimmick_item_firewood_0001_index05_fine	wood		Firewood 0001 index05 fine
-gimmick_item_firewood_0001_index05_premium	wood		Firewood 0001 index05 premium
-gimmick_item_firewood_0001_index06	wood		Firewood 0001 index06
-gimmick_item_firewood_0001_index06_fine	wood		Firewood 0001 index06 fine
-gimmick_item_firewood_0001_index06_premium	wood		Firewood 0001 index06 premium
-gimmick_item_firewood_0001_premium	wood		Firewood 0001 premium
-gimmick_item_firewood_0002	wood		Firewood
-gimmick_item_firewood_0002_fine	wood		Firewood 0002 fine
-gimmick_item_firewood_0002_index01	wood		Firewood 0002 index01
-gimmick_item_firewood_0002_index01_fine	wood		Firewood 0002 index01 fine
-gimmick_item_firewood_0002_index01_premium	wood		Firewood 0002 index01 premium
-gimmick_item_firewood_0002_index02	wood		Firewood 0002 index02
-gimmick_item_firewood_0002_index02_fine	wood		Firewood 0002 index02 fine
-gimmick_item_firewood_0002_index02_premium	wood		Firewood 0002 index02 premium
-gimmick_item_firewood_0002_index03	wood		Firewood 0002 index03
-gimmick_item_firewood_0002_index03_fine	wood		Firewood 0002 index03 fine
-gimmick_item_firewood_0002_index03_premium	wood		Firewood 0002 index03 premium
-gimmick_item_firewood_0002_index04	wood		Firewood 0002 index04
-gimmick_item_firewood_0002_index04_fine	wood		Firewood 0002 index04 fine
-gimmick_item_firewood_0002_index04_premium	wood		Firewood 0002 index04 premium
-gimmick_item_firewood_0002_index05	wood		Firewood 0002 index05
-gimmick_item_firewood_0002_index05_fine	wood		Firewood 0002 index05 fine
-gimmick_item_firewood_0002_index05_premium	wood		Firewood 0002 index05 premium
-gimmick_item_firewood_0002_index06	wood		Firewood 0002 index06
-gimmick_item_firewood_0002_index06_fine	wood		Firewood 0002 index06 fine
-gimmick_item_firewood_0002_index06_premium	wood		Firewood 0002 index06 premium
-gimmick_item_firewood_0002_index07	wood		Firewood 0002 index07
-gimmick_item_firewood_0002_index07_fine	wood		Firewood 0002 index07 fine
-gimmick_item_firewood_0002_index07_premium	wood		Firewood 0002 index07 premium
-gimmick_item_firewood_0002_index08	wood		Firewood 0002 index08
-gimmick_item_firewood_0002_index08_fine	wood		Firewood 0002 index08 fine
-gimmick_item_firewood_0002_index08_premium	wood		Firewood 0002 index08 premium
-gimmick_item_firewood_0002_premium	wood		Firewood 0002 premium
-gimmick_item_firewood_0003	wood		Firewood
-gimmick_item_firewood_0003_fine	wood		Firewood 0003 fine
-gimmick_item_firewood_0003_index01	wood		Firewood 0003 index01
-gimmick_item_firewood_0003_index01_fine	wood		Firewood 0003 index01 fine
-gimmick_item_firewood_0003_index01_premium	wood		Firewood 0003 index01 premium
-gimmick_item_firewood_0003_index02	wood		Firewood 0003 index02
-gimmick_item_firewood_0003_index02_fine	wood		Firewood 0003 index02 fine
-gimmick_item_firewood_0003_index02_premium	wood		Firewood 0003 index02 premium
-gimmick_item_firewood_0003_index03	wood		Firewood 0003 index03
-gimmick_item_firewood_0003_index03_fine	wood		Firewood 0003 index03 fine
-gimmick_item_firewood_0003_index03_premium	wood		Firewood 0003 index03 premium
-gimmick_item_firewood_0003_premium	wood		Firewood 0003 premium
-gimmick_item_firewood_1001	wood		Firewood
-gimmick_item_firewood_1001_fine	wood		Firewood 1001 fine
-gimmick_item_firewood_1001_index01	wood		Firewood 1001 index01
-gimmick_item_firewood_1001_index01_fine	wood		Firewood 1001 index01 fine
-gimmick_item_firewood_1001_index01_premium	wood		Firewood 1001 index01 premium
-gimmick_item_firewood_1001_index02	wood		Firewood 1001 index02
-gimmick_item_firewood_1001_index02_fine	wood		Firewood 1001 index02 fine
-gimmick_item_firewood_1001_index02_premium	wood		Firewood 1001 index02 premium
-gimmick_item_firewood_1001_index03	wood		Firewood 1001 index03
-gimmick_item_firewood_1001_index03_fine	wood		Firewood 1001 index03 fine
-gimmick_item_firewood_1001_index03_premium	wood		Firewood 1001 index03 premium
-gimmick_item_firewood_1001_index04	wood		Firewood 1001 index04
-gimmick_item_firewood_1001_index04_fine	wood		Firewood 1001 index04 fine
-gimmick_item_firewood_1001_index04_premium	wood		Firewood 1001 index04 premium
-gimmick_item_firewood_1001_premium	wood		Firewood 1001 premium
-gimmick_item_firewood_1002	wood		Firewood
-gimmick_item_firewood_1002_fine	wood		Firewood 1002 fine
-gimmick_item_firewood_1002_index01	wood		Firewood 1002 index01
-gimmick_item_firewood_1002_index01_fine	wood		Firewood 1002 index01 fine
-gimmick_item_firewood_1002_index01_premium	wood		Firewood 1002 index01 premium
-gimmick_item_firewood_1002_index02	wood		Firewood 1002 index02
-gimmick_item_firewood_1002_index02_fine	wood		Firewood 1002 index02 fine
-gimmick_item_firewood_1002_index02_premium	wood		Firewood 1002 index02 premium
-gimmick_item_firewood_1002_index03	wood		Firewood 1002 index03
-gimmick_item_firewood_1002_index03_fine	wood		Firewood 1002 index03 fine
-gimmick_item_firewood_1002_index03_premium	wood		Firewood 1002 index03 premium
-gimmick_item_firewood_1002_index04	wood		Firewood 1002 index04
-gimmick_item_firewood_1002_index04_fine	wood		Firewood 1002 index04 fine
-gimmick_item_firewood_1002_index04_premium	wood		Firewood 1002 index04 premium
-gimmick_item_firewood_1002_index05	wood		Firewood 1002 index05
-gimmick_item_firewood_1002_index05_fine	wood		Firewood 1002 index05 fine
-gimmick_item_firewood_1002_index05_premium	wood		Firewood 1002 index05 premium
-gimmick_item_firewood_1002_index06	wood		Firewood 1002 index06
-gimmick_item_firewood_1002_index06_fine	wood		Firewood 1002 index06 fine
-gimmick_item_firewood_1002_index06_premium	wood		Firewood 1002 index06 premium
-gimmick_item_firewood_1002_index07	wood		Firewood 1002 index07
-gimmick_item_firewood_1002_index07_fine	wood		Firewood 1002 index07 fine
-gimmick_item_firewood_1002_index07_premium	wood		Firewood 1002 index07 premium
-gimmick_item_firewood_1002_index08	wood		Firewood 1002 index08
-gimmick_item_firewood_1002_index08_fine	wood		Firewood 1002 index08 fine
-gimmick_item_firewood_1002_index08_premium	wood		Firewood 1002 index08 premium
-gimmick_item_firewood_1002_index09	wood		Firewood 1002 index09
-gimmick_item_firewood_1002_index09_fine	wood		Firewood 1002 index09 fine
-gimmick_item_firewood_1002_index09_premium	wood		Firewood 1002 index09 premium
-gimmick_item_firewood_1002_index10	wood		Firewood 1002 index10
-gimmick_item_firewood_1002_index10_fine	wood		Firewood 1002 index10 fine
-gimmick_item_firewood_1002_index10_premium	wood		Firewood 1002 index10 premium
-gimmick_item_firewood_1002_premium	wood		Firewood 1002 premium
-gimmick_item_firewood_1003	wood		Firewood
-gimmick_item_firewood_1003_fine	wood		Firewood 1003 fine
-gimmick_item_firewood_1003_index01	wood		Firewood 1003 index01
-gimmick_item_firewood_1003_index01_fine	wood		Firewood 1003 index01 fine
-gimmick_item_firewood_1003_index01_premium	wood		Firewood 1003 index01 premium
-gimmick_item_firewood_1003_premium	wood		Firewood 1003 premium
-gimmick_item_firewood_2001	wood		Firewood
-gimmick_item_firewood_2001_fine	wood		Firewood 2001 fine
-gimmick_item_firewood_2001_index01	wood		Firewood 2001 index01
-gimmick_item_firewood_2001_index01_fine	wood		Firewood 2001 index01 fine
-gimmick_item_firewood_2001_index01_premium	wood		Firewood 2001 index01 premium
-gimmick_item_firewood_2001_index02	wood		Firewood 2001 index02
-gimmick_item_firewood_2001_index02_fine	wood		Firewood 2001 index02 fine
-gimmick_item_firewood_2001_index02_premium	wood		Firewood 2001 index02 premium
-gimmick_item_firewood_2001_index03	wood		Firewood 2001 index03
-gimmick_item_firewood_2001_index03_fine	wood		Firewood 2001 index03 fine
-gimmick_item_firewood_2001_index03_premium	wood		Firewood 2001 index03 premium
-gimmick_item_firewood_2001_premium	wood		Firewood 2001 premium
-gimmick_item_firewood_2002	wood		Firewood
-gimmick_item_firewood_2002_fine	wood		Firewood 2002 fine
-gimmick_item_firewood_2002_index01	wood		Firewood 2002 index01
-gimmick_item_firewood_2002_index01_fine	wood		Firewood 2002 index01 fine
-gimmick_item_firewood_2002_index01_premium	wood		Firewood 2002 index01 premium
-gimmick_item_firewood_2002_index02	wood		Firewood 2002 index02
-gimmick_item_firewood_2002_index02_fine	wood		Firewood 2002 index02 fine
-gimmick_item_firewood_2002_index02_premium	wood		Firewood 2002 index02 premium
-gimmick_item_firewood_2002_index03	wood		Firewood 2002 index03
-gimmick_item_firewood_2002_index03_fine	wood		Firewood 2002 index03 fine
-gimmick_item_firewood_2002_index03_premium	wood		Firewood 2002 index03 premium
-gimmick_item_firewood_2002_premium	wood		Firewood 2002 premium
-gimmick_item_firewood_2003	wood		Firewood
-gimmick_item_firewood_2003_fine	wood		Firewood 2003 fine
-gimmick_item_firewood_2003_premium	wood		Firewood 2003 premium
-gimmick_item_quest_sticky_flower_bomb	plant		Item quest sticky flower bomb
-gimmick_item_reeddevil_doll	plant		Item reeddevil doll
-gimmick_item_trade_brimstone_0001	stone	Item_Rare_Collect_SulfurStone	Brimstone
-gimmick_item_trade_brimstone_01	stone	Item_Rare_Collect_SulfurStone	Brimstone
-gimmick_item_trade_brimstone_02	stone	Item_Rare_Collect_SulfurStone	Brimstone
-gimmick_item_trade_brimstone_03	stone	Item_Rare_Collect_SulfurStone	Brimstone
-gimmick_item_trade_divinemushroom_0001	plant		Item trade divinemushroom
-gimmick_item_trade_glowingmushroom_0001	plant		Item trade glowingmushroom
-gimmick_item_trade_icestone_0001	stone		Item trade icestone
-gimmick_item_trade_saltrock_0001	stone		Item trade saltrock
-gimmick_item_trade_stone_01	stone	Stone_Quarry	Stone
-gimmick_item_trade_stone_02	stone	Stone_Quarry	Stone
-gimmick_jijeongta_leaf_0001	plant		Jijeongta leaf
-gimmick_jijeongta_leaf_vegetation_0001	plant		Jijeongta leaf vegetation
-gimmick_jijeongta_leaf_vegetation_0002	plant		Jijeongta leaf vegetation
-gimmick_kudzu_vine_0001	plant		Kudzu vine
-gimmick_lamp_side_antumbra_0001_reeddevil	plant		Plant
-gimmick_lamp_standstone_01_antumbra_del_on	stone		Stone
-gimmick_lamp_standstone_01_antumbra_dem_on	stone		Stone
-gimmick_lamp_standstone_01_antumbra_desert_on	stone		Stone
-gimmick_lamp_standstone_01_antumbra_kwe_on	stone		Stone
-gimmick_lamp_standstone_01_antumbra_nameless_on	stone		Stone
-gimmick_lamp_standstone_01_antumbra_off	stone		Lamp standstone 01 antumbra off
-gimmick_lamp_standstone_01_antumbra_on	stone		Lamp standstone 01 antumbra on
-gimmick_lamp_standstone_01_antumbra_reeddevil_on	stone		Stone
-gimmick_lamp_standstone_01_antumbra_troll_on	stone		Stone
-gimmick_lamp_standstone_01_darknessking_off	stone		Stone
-gimmick_lamp_standstone_01_dungeon_off	stone		Lamp standstone 01 dungeon off
-gimmick_lamp_standstone_01_dungeon_on	stone		Lamp standstone 01 dungeon on
-gimmick_lamp_standstone_01_index01_off	stone		Lamp standstone 01 index01 off
-gimmick_lamp_standstone_01_off	stone		Lamp standstone 01 off
-gimmick_lamp_standstone_01_on	stone		Lamp standstone 01 on
-gimmick_lamp_standstone_02_antumbra	stone		Lamp standstone 02 antumbra
-gimmick_lamp_standstone_02_antumbra_del	stone		Lamp standstone 02 antumbra del
-gimmick_lamp_standstone_02_antumbra_dem	stone		Lamp standstone 02 antumbra dem
-gimmick_lamp_standstone_02_antumbra_desert	stone		Stone
-gimmick_lamp_standstone_02_antumbra_kwe	stone		Lamp standstone 02 antumbra kwe
-gimmick_lamp_standstone_02_antumbra_nameless	stone		Stone
-gimmick_lamp_standstone_02_antumbra_reeddevil	stone		Stone
-gimmick_lamp_standstone_02_antumbra_troll	stone		Stone
-gimmick_lamp_standstone_02_index01_off	stone		Lamp standstone 02 index01 off
-gimmick_lamp_standstone_02_off	stone		Lamp standstone 02 off
-gimmick_lamp_standstone_02_on	stone		Lamp standstone 02 on
-gimmick_lamp_standstone_02_skullknight_ice	stone		Stone
-gimmick_lamp_standstone_02_skullknight_off	stone		Stone
-gimmick_lamp_standstone_03_off	stone		Lamp standstone 03 off
-gimmick_lamp_standstone_03_on	stone		Lamp standstone 03 on
-gimmick_lamp_standstone_03_on_index01	stone		Lamp standstone 03 on index01
-gimmick_lamp_standstone_04_off	stone		Lamp standstone 04 off
-gimmick_lamp_standstone_04_on	stone		Lamp standstone 04 on
-gimmick_lamp_standstone_05_index01_off	stone		Lamp standstone 05 index01 off
-gimmick_lamp_standstone_05_off	stone		Lamp standstone 05 off
-gimmick_lamp_standstone_06_index01_off	stone		Lamp standstone 06 index01 off
-gimmick_lamp_standstone_06_index02_off	stone		Lamp standstone 06 index02 off
-gimmick_lamp_standstone_06_index03_off	stone		Lamp standstone 06 index03 off
-gimmick_lamp_standstone_06_index04_off	stone		Lamp standstone 06 index04 off
-gimmick_lamp_standstone_06_off	stone		Lamp standstone 06 off
-gimmick_lifespring_0001	wood		Tariv guardiantree pear
-gimmick_liftable_pillar_02_stump	wood		Liftable pillar 02 stump
-gimmick_marni_chocolate_loginoutmachine_0003	wood		Marni chocolate loginoutmachine
-gimmick_middle_copper_pipe_01_index01	ore		Middle copper pipe 01 index01
-gimmick_middle_copper_pipe_01_marni	ore		Middle copper pipe 01 marni
-gimmick_middle_copper_pipe_03_index01	ore		Middle copper pipe 03 index01
-gimmick_middle_copper_pipe_03_marni	ore		Middle copper pipe 03 marni
-gimmick_middle_copper_pipe_04_index01	ore		Middle copper pipe 04 index01
-gimmick_middle_copper_pipe_04_marni	ore		Middle copper pipe 04 marni
-gimmick_middle_copper_pipe_04_marni_index01	ore		Ore
-gimmick_middle_copper_pipe_05_index01	ore		Middle copper pipe 05 index01
-gimmick_middle_copper_pipe_05_marni	ore		Middle copper pipe 05 marni
-gimmick_middle_copper_pipe_14_index01	ore		Middle copper pipe 14 index01
-gimmick_middle_copper_pipe_14_marni	ore		Middle copper pipe 14 marni
-gimmick_middle_copper_pipe_20	ore		Middle copper pipe
-gimmick_middle_copper_pipe_20_parts01	ore		Middle copper pipe 20 parts01
-gimmick_middle_copper_pipe_21_index01	ore		Middle copper pipe 21 index01
-gimmick_middle_copper_pipe_21_marni	ore		Middle copper pipe 21 marni
-gimmick_middle_copper_pipe_22_index01	ore		Middle copper pipe 22 index01
-gimmick_middle_copper_pipe_22_marni	ore		Middle copper pipe 22 marni
-gimmick_middle_copper_pipe_23_index01_parts02	ore		Ore
-gimmick_middle_copper_pipe_23_marni	ore		Middle copper pipe 23 marni
-gimmick_middle_copper_pipe_23_marni_parts02	ore		Ore
-gimmick_milepost_crimsondesert	plant		Milepost reeddevil
-gimmick_milepost_her_reeds	plant		Milepost her reeds
-gimmick_mine_bismuth_place_01	ore		Mine bismuth
-gimmick_mine_bismuth_place_01_cave	ore		Mine bismuth cave
-gimmick_mine_bluestone_place_01	ore	BlueStone	Azurite
-gimmick_mine_bluestone_place_01_cave	ore		Mine bluestone cave
-gimmick_mine_copperstone_place_01	ore		Mine copper
-gimmick_mine_copperstone_place_01_cave	ore		Mine copper cave
-gimmick_mine_diamond_place_01	ore	Diamond	Diamond
-gimmick_mine_diamond_place_01_cave	ore		Mine diamond cave
-gimmick_mine_goldstone_place_01	ore		Mine gold
-gimmick_mine_goldstone_place_01_cave	ore		Mine gold cave
-gimmick_mine_greenstone_place_01	ore	GreenStone	Epidote
-gimmick_mine_greenstone_place_01_cave	ore		Mine greenstone cave
-gimmick_mine_ironstone_place_01	ore		Mine iron
-gimmick_mine_ironstone_place_01_cave	ore		Mine iron cave
-gimmick_mine_ore_bismuth_01	ore		Ore bismuth
-gimmick_mine_ore_bismuth_02	ore		Ore bismuth
-gimmick_mine_redstone_place_01	ore	RedStone	Bloodstone
-gimmick_mine_redstone_place_01_cave	ore		Mine redstone cave
-gimmick_mine_ruby_place_01	ore	Ruby	Garnet
-gimmick_mine_ruby_place_01_cave	ore		Mine ruby cave
-gimmick_mine_silverstone_place_01	ore		Mine silver
-gimmick_mine_silverstone_place_01_cave	ore		Mine silver cave
-gimmick_mine_stone_01	ore	Stone_Quarry	Stone
-gimmick_mine_whitestone_place_01	ore	WhiteStone	Scolecite Ore
-gimmick_mine_whitestone_place_01_cave	ore		Mine whitestone cave
-gimmick_move_rock_01	stone		Move rock
-gimmick_move_rock_02	stone		Move rock
-gimmick_move_rock_03	stone		Move rock
-gimmick_mud_golem_core_01	ore		Mud golem core
-gimmick_nature_rock_dissolve_stone_01	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_02	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_03	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_04	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_05	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_06	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_07	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_07_index01	stone		Fade rock 07 index01
-gimmick_nature_rock_dissolve_stone_basalt_01	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_basalt_02	stone		Fade rock
-gimmick_nature_rock_dissolve_stone_core_01	ore		Nature rock dissolve stone core
-gimmick_nature_rock_dissolve_stone_part_01	stone		Nature rock dissolve stone part
-gimmick_nature_wood_broken_tree_12_swamp	wood		Nature wood broken tree 12 swamp
-gimmick_nature_wood_broken_tree_12_swamp_body	wood		Wood
-gimmick_nature_wood_redwoodsierra_stump_02_swamp	wood		Wood
-gimmick_ore_vein_0001	ore		Ore vein
-gimmick_ore_vein_0002	ore		Ore vein
-gimmick_ore_vein_0002_index01	ore		Ore vein 0002 index01
-gimmick_ore_vein_0003	ore		Ore vein
-gimmick_ore_vein_0003_index01	ore		Ore vein 0003 index01
-gimmick_ore_vein_0003_index02	ore		Ore vein 0003 index02
-gimmick_ore_vein_0003_index03	ore		Ore vein 0003 index03
-gimmick_protective_stone_01	stone	Stone_Quarry	Stone
-gimmick_protective_stone_01_attach	stone		Protective stone 01 attach
-gimmick_puzzle_demeniss_bottom_kingtomb_door_01	stone		Gate dem stone kingtomb
-gimmick_puzzle_ice_block_break_01	ore		Puzzle ice block break
-gimmick_puzzle_ice_wall_break_01	ore		Puzzle ice wall break
-gimmick_puzzle_ice_wall_break_02	ore		Puzzle ice wall break
-gimmick_puzzle_jijeongta_rotate_wall_01_silverwolves	ore		Ore
-gimmick_puzzle_stacking_pot_0001_parts02	stone		Stone
-gimmick_puzzle_standstone_smallstone_01	stone		Puzzle standstone smallstone
-gimmick_puzzle_standstone_smallstone_02	stone		Puzzle standstone smallstone
-gimmick_puzzle_standstone_smallstone_03	stone		Puzzle standstone smallstone
-gimmick_puzzle_statue_01_standstone_part	stone		Puzzle statue 01 standstone part
-gimmick_puzzle_stone_wall_break_01_index01	ore		Ore
-gimmick_puzzle_tariv_guardiantree_attach_parts_01	wood		Wood
-gimmick_quarry_break_bigstone_02	stone		Quarry break bigstone
-gimmick_quarry_stone_0001	ore	Stone_Quarry	Stone
-gimmick_railgun_turret_03_core_fence_01	ore		Railgun turret 03 core fence
-gimmick_rare_collect_kudzu_0001	plant		Rare collect kudzu
-gimmick_rare_collect_stalactites_0001	ore		Rare collect stalactites
-gimmick_reeddevil_scarecrow_01	plant		Reeddevil scarecrow
-gimmick_reeddevil_scarecrow_02	plant		Reeddevil scarecrow
-gimmick_reeddevil_scarecrow_03	plant		Reeddevil scarecrow
-gimmick_reeddevil_tower_0001	plant		Reeddevil tower 0001 base
-gimmick_reeddevil_tower_0002	plant		Reeddevil tower 0002 base
-gimmick_rock_01	stone		Rock catch
-gimmick_rock_02	stone		Rock break
-gimmick_shinystone_01	stone		Shinystone
-gimmick_shinystone_02	stone		Shinystone
-gimmick_ships_sea_mine_0001	ore		Ships sea mine
-gimmick_shops_mushroombasket_0001	plant		Shops mushroombasket
-gimmick_shops_mushroombasket_0002	plant		Shops mushroombasket
-gimmick_shops_mushroombasket_0003	plant		Shops mushroombasket
-gimmick_silverwolves_tower_01_dragonkiller	ore		Ore
-gimmick_smallstone_01	stone		Smallstone
-gimmick_socket_collection_amaranth_01	plant	Item_Rare_Collect_amaranth	Amaranth
-gimmick_socket_collection_antirrhinum_01	plant		Variegatum
-gimmick_socket_collection_apple_01	item	Apple	Apple
-gimmick_socket_collection_asparagus_01	item	Asparagus	Asparagus
-gimmick_socket_collection_bamboo_branch	wood		Collect bamboo branch
-gimmick_socket_collection_bamboo_branch_hard	wood		Collect bamboo branch hard
-gimmick_socket_collection_barley_01	item	Barley	Barley
-gimmick_socket_collection_bean_01	plant	Bean	Beans
-gimmick_socket_collection_begonia_01	plant	Begonia	Begonia
-gimmick_socket_collection_blackberry_01	item	Blackberry	Blackberry
-gimmick_socket_collection_blueberry_01	item	Blueberry	Blueberry
-gimmick_socket_collection_buckwheat_01	item	Buckwheat	Buckwheat
-gimmick_socket_collection_cabbage_01	item	Cabbage	Cabbage
-gimmick_socket_collection_cacao_01	item	Cacao	Cacao
-gimmick_socket_collection_carrot_01	item	Carrot	Carrot
-gimmick_socket_collection_chaya_01	item	Item_Rare_Collect_Chaya	Chaya
-gimmick_socket_collection_chlorella_01	item		Chlorella
-gimmick_socket_collection_coffeetree_01	item	Coffee	Coffee Cherry
-gimmick_socket_collection_corn_01	item	Corn	Corn
-gimmick_socket_collection_cotton_01	plant	Cotton	Cotton
-gimmick_socket_collection_cucumber_01	item	Cucumber	Cucumber
-gimmick_socket_collection_desertwatermelon_01	item		Desertwatermelon
-gimmick_socket_collection_dulse_01	item		Dulse
-gimmick_socket_collection_elderberry_01	item	Elderberry	Elderberry
-gimmick_socket_collection_ensete_01	item		Ensete
-gimmick_socket_collection_fennel_01	item	Fennel	Fennel
-gimmick_socket_collection_figs_01	item	Figs	Fig
-gimmick_socket_collection_garlic_01	item	Garlic	Garlic
-gimmick_socket_collection_glowfruit_01	item		Glowfruit
-gimmick_socket_collection_grape_01	item	Grape	Grape
-gimmick_socket_collection_heterophylla_01	plant		Weed harsam
-gimmick_socket_collection_imperata_01	plant	Croton	Croton
-gimmick_socket_collection_lavender_01	plant	Lavender	Lavender
-gimmick_socket_collection_lavender_01_blue	plant		Lavender 01 blue
-gimmick_socket_collection_lavender_01_white	plant		Lavender 01 white
-gimmick_socket_collection_lavender_01_yellow	plant		Lavender 01 yellow
-gimmick_socket_collection_lentils_01	item	Lentils	Lentils
-gimmick_socket_collection_linum_01	plant		Linum
-gimmick_socket_collection_marigold_01	plant	Marigold	Marigold
-gimmick_socket_collection_navet_01	item	Navet	Turnip
-gimmick_socket_collection_oleander_01	plant	Oleander	Rosebay
-gimmick_socket_collection_oliganthus_01	plant		Oliganthus
-gimmick_socket_collection_onion_01	item	Onion	Onion
-gimmick_socket_collection_opuntia_01	item		Opuntia
-gimmick_socket_collection_orange_01	item	Orange	Orange
-gimmick_socket_collection_pansy_01	plant	Pansy	Pansy
-gimmick_socket_collection_parsley_01	item	Parsley	Parsley
-gimmick_socket_collection_peach_01	item	Peach	Peach
-gimmick_socket_collection_pear_02	item	Pear	Pear
-gimmick_socket_collection_peas_01	plant	peas	Peas
-gimmick_socket_collection_peony_01	plant	Peony	Peony
-gimmick_socket_collection_pineapple_01	item	Pineapple	Pineapple
-gimmick_socket_collection_pomegranate_01	item	Pomegranate	Pomegranate
-gimmick_socket_collection_potato_01	item	Potato	Potato
-gimmick_socket_collection_pumpkin_01	item	Pumpkin	Pumpkin
-gimmick_socket_collection_raspberry_01	item	Rasberry	Raspberry
-gimmick_socket_collection_redbeet_01	item	Redbeet	Beet
-gimmick_socket_collection_rock_orchids_01	plant		Rock orchids
-gimmick_socket_collection_rosemary_01	plant	Rosemary	Rosemary
-gimmick_socket_collection_rosemary_01_pink	plant		Rosemary 01 pink
-gimmick_socket_collection_rosemary_01_white	plant		Rosemary 01 white
-gimmick_socket_collection_rosemary_01_yellow	plant		Rosemary 01 yellow
-gimmick_socket_collection_rubber_seed_0002	item	Rubber_seed	Rubber Tree Seed
-gimmick_socket_collection_sage_01	plant		Bush sage
-gimmick_socket_collection_sage_01_red	plant		Bush sage 01 red
-gimmick_socket_collection_sophora_01	plant		Weed sophora
-gimmick_socket_collection_strawberry_01	item	Strawberry	Strawberry
-gimmick_socket_collection_sweetpotato_01	item	SweetPotato	Sweet Potato
-gimmick_socket_collection_taro_01	item	Item_Rare_Collect_Taro	Taro
-gimmick_socket_collection_tomato_01	item	Tomato	Tomato
-gimmick_socket_collection_veratrum_01	plant		Veratrum
-gimmick_socket_collection_victorialis_01	item	Victorialis	Wild Garlic
-gimmick_socket_collection_villosa_01	plant		Villosa
-gimmick_socket_collection_wheat_01	item	Wheat	Wheat
-gimmick_socket_collection_wood_branch	wood		Collect wood branch
-gimmick_socket_collection_wood_branch_hard	wood		Collect wood branch hard
-gimmick_spot_copper_pipedeco_0001	ore		Spot copper pipedeco
-gimmick_spot_copper_pipedeco_0001_index01	ore		Ore
-gimmick_spot_copper_pipedeco_0001_parts01	ore		Ore
-gimmick_spot_copper_pipedeco_0001_parts01_index01	ore		Ore
-gimmick_spot_copper_pipedeco_0003	ore		Spot copper pipedeco
-gimmick_spot_copper_pipedeco_0003_index01	ore		Ore
-gimmick_spot_copper_pipedeco_0003_parts01	ore		Ore
-gimmick_spot_copper_pipedeco_0003_parts01_index01	ore		Ore
-gimmick_spot_copper_pipedeco_0009	ore		Spot copper pipedeco
-gimmick_spot_copper_pipedeco_0009_parts01	ore		Ore
-gimmick_spot_copper_pipedeco_0010	ore		Spot copper pipedeco
-gimmick_spot_copper_pipedeco_0010_parts01	ore		Ore
-gimmick_spot_tower_bismuth_01_break	ore		Background breakable bismuth
-gimmick_spot_tower_bismuth_06_break	ore		Background breakable bismuth
-gimmick_spot_tower_bismuth_bigcore_01	ore		Ore
-gimmick_stalactite_0003	ore	Item_Rare_Collect_Stalactites	Stalactite
-gimmick_stalactite_0004	ore	Item_Rare_Collect_Stalactites	Stalactite
-gimmick_standstone_01_challenge	stone		Standstone 01 challenge
-gimmick_standstone_01_challenge_del	stone		Standstone 01 challenge del
-gimmick_standstone_01_challenge_desert	stone		Standstone 01 challenge desert
-gimmick_standstone_turn_totem_pushstone_01	stone		Standstone turn totem pushstone
-gimmick_standstone_turn_totem_pushstone_body_01	stone		Stone
-gimmick_subinner_mushroomfarm_0001	plant		Subinner mushroomfarm
-gimmick_subinner_timberstorage_0001	wood		Subinner timberstorage
-gimmick_sulfur_gas_0001	ore		Sulfur gas
-gimmick_sulfur_rock_0001	ore		Sulfur rock
-gimmick_sulfur_rock_0001_parts01	ore		Sulfur rock 0001 parts01
-gimmick_sulfur_rock_0002	ore		Sulfur rock
-gimmick_sulfur_rock_0002_parts01	ore		Sulfur rock 0002 parts01
-gimmick_sulfur_rock_0003	ore		Sulfur rock
-gimmick_sulfur_rock_0004	ore		Sulfur rock
-gimmick_summonplatform_platform_02_minecart_push_01	ore		Puzzle middle minecart push
-gimmick_swingbridge_vine_pillar_01_part	plant		Swingbridge vine pillar 01 part
-gimmick_switch_attack_07_bismuth	ore		Switch attack 07 bismuth
-gimmick_switch_bigtree_01_jijeongta	wood		Switch bigtree 01 jijeongta
-gimmick_switch_bigtree_03_jijeongta	wood		Switch bigtree 03 jijeongta
-gimmick_swordtombstone_0001	stone		Swordtombstone
-gimmick_swordtombstone_0001_parts01	stone		Swordtombstone 0001 parts01
-gimmick_temple_break_wall_arch_02a_reeddevil	plant		Plant
-gimmick_temple_fall_pillar_01_reeddevil	plant		Temple fall pillar 01 reeddevil
-gimmick_temple_wall_02_broken_02_reeddevil	plant		Plant
-gimmick_temple_wall_09_reeddevil	plant		Temple wall 09 reeddevil
-gimmick_timber_hotdeck_04_pail	wood		Gimmicktimber hotdeck 04 pail
-gimmick_tombstone_0001	stone		Tombstone
-gimmick_tombstone_0002	stone		Tombstone
-gimmick_tombstone_0003	stone		Tombstone
-gimmick_tombstone_0004	stone		Tombstone
-gimmick_tombstone_0005	stone		Tombstone
-gimmick_tombstone_0006	stone		Tombstone
-gimmick_tombstone_0007	stone		Tombstone
-gimmick_tombstone_0008	stone		Tombstone
-gimmick_tombstone_0009	stone		Tombstone
-gimmick_tombstone_0010	stone		Tombstone
-gimmick_tombstone_0011	stone		Tombstone
-gimmick_tombstone_0012	stone		Tombstone
-gimmick_tombstone_0013	stone		Tombstone
-gimmick_tombstone_0014	stone		Tombstone
-gimmick_tombstone_0015	stone		Tombstone
-gimmick_tombstone_0016	stone		Tombstone
-gimmick_tombstone_0017	stone		Tombstone
-gimmick_tombstone_0018	stone		Tombstone
-gimmick_tombstone_0019	stone		Tombstone
-gimmick_tombstone_0020	stone		Tombstone
-gimmick_tombstone_0021	stone		Tombstone
-gimmick_tombstone_0022	stone		Tombstone
-gimmick_tombstone_0023	stone		Tombstone
-gimmick_tombstone_0024	stone		Tombstone
-gimmick_tombstone_0025	stone		Tombstone
-gimmick_tombstone_0026	stone		Tombstone
-gimmick_tombstone_0027	stone		Tombstone
-gimmick_tombstone_0028	stone		Tombstone
-gimmick_tombstone_0029	stone		Tombstone
-gimmick_tombstone_0030	stone		Tombstone
-gimmick_tombstone_0031	stone		Tombstone
-gimmick_tombstone_0032	stone		Tombstone
-gimmick_tombstone_0033	stone		Tombstone
-gimmick_tombstone_0034	stone		Tombstone
-gimmick_tool_automata_flower_0001	plant		Tool automata flower
-gimmick_tool_automata_flower_0001_parts01	plant		Plant
-gimmick_tool_automata_flower_0001_parts02	plant		Plant
-gimmick_tool_automata_flower_0002	plant		Tool automata flower
-gimmick_tool_automata_flower_0002_parts01	plant		Plant
-gimmick_tool_automata_flower_0002_parts02	plant		Plant
-gimmick_tool_blacksmithstone_01	stone		Tool blacksmithstone
-gimmick_tool_blacksmithstone_housing_0001	stone		Tool blacksmithstone housing
-gimmick_tool_decostone_0001	stone		Tool decostone
-gimmick_tool_decostone_0001_cogwheel	stone		Tool decostone 0001 cogwheel
-gimmick_tool_decostone_0001_cogwheel_index01	stone		Stone
-gimmick_tool_decostone_0001_index01	stone		Tool decostone 0001 index01
-gimmick_tool_decostone_0001_index02	stone		Tool decostone 0001 index02
-gimmick_tool_decostone_0001_index03	stone		Tool decostone 0001 index03
-gimmick_tool_decostone_0001_index04	stone		Tool decostone 0001 index04
-gimmick_tool_decostone_0001_parts01	stone		Tool decostone 0001 parts01
-gimmick_tool_decostone_0001_parts01_index01	stone		Stone
-gimmick_tool_decostone_0001_parts01_index02	stone		Stone
-gimmick_tool_decostone_0001_parts01_index03	stone		Stone
-gimmick_tool_decostone_0001_parts01_index04	stone		Stone
-gimmick_tool_decostone_0002	stone		Tool decostone
-gimmick_tool_decostone_0002_parts01	stone		Tool decostone 0002 parts01
-gimmick_tool_decostone_0003	stone		Tool decostone
-gimmick_tool_decostone_0003_parts01	stone		Tool decostone 0003 parts01
-gimmick_tool_decostone_0004	stone		Tool decostone
-gimmick_tool_decostone_0004_cogwheel	stone		Tool decostone 0004 cogwheel
-gimmick_tool_decostone_0004_cogwheel_index01	stone		Stone
-gimmick_tool_decostone_0004_index01	stone		Tool decostone 0004 index01
-gimmick_tool_decostone_0004_index02	stone		Tool decostone 0004 index02
-gimmick_tool_decostone_0004_index03	stone		Tool decostone 0004 index03
-gimmick_tool_decostone_0004_index04	stone		Tool decostone 0004 index04
-gimmick_tool_decostone_0004_parts01	stone		Tool decostone 0004 parts01
-gimmick_tool_decostone_0004_parts01_index01	stone		Stone
-gimmick_tool_decostone_0004_parts01_index02	stone		Stone
-gimmick_tool_decostone_0004_parts01_index03	stone		Stone
-gimmick_tool_decostone_0004_parts01_index04	stone		Stone
-gimmick_tool_decostone_0005	stone		Tool decostone
-gimmick_tool_decostone_0005_index01	stone		Tool decostone 0005 index01
-gimmick_tool_decostone_0006	stone		Tool decostone
-gimmick_tool_decostone_0006_index01	stone		Tool decostone 0006 index01
-gimmick_tool_decostone_0010	stone		Tool decostone
-gimmick_tool_decostone_0010_parts01	stone		Tool decostone 0010 parts01
-gimmick_tool_dryingrope_herb_0001	plant		Tool dryingrope herb
-gimmick_tool_dryingrope_herb_0002	plant		Tool dryingrope herb
-gimmick_tool_dryingrope_herb_0003	plant		Tool dryingrope herb
-gimmick_tool_dryingrope_herb_0004	plant		Tool dryingrope herb
-gimmick_tool_dryingrope_herb_0005	plant		Tool dryingrope herb
-gimmick_tool_dryingrope_mushroom_0001	plant		Tool dryingrope mushroom
-gimmick_tool_dryingrope_mushroom_0002	plant		Tool dryingrope mushroom
-gimmick_tool_dryingrope_mushroom_0003	plant		Tool dryingrope mushroom
-gimmick_tool_dryingrope_mushroom_0004	plant		Tool dryingrope mushroom
-gimmick_tool_middle_copper_pipe_19_marni	ore		Tool middle copper pipe 19 marni
-gimmick_transparent_effect_detect_01_reeddevil	plant		Plant
-gimmick_tree_balsa_sapling_01	wood		Tree balsa sapling
-gimmick_tree_balsa_sapling_02	wood		Tree balsa sapling
-gimmick_tree_bamboo_03	wood		Tree bamboo
-gimmick_tree_bamboo_04	wood		Tree bamboo
-gimmick_tree_broad_alder_hero_02	wood		Tree broad alder hero
-gimmick_tree_broad_betula_big_01	wood		Tree broad betula big
-gimmick_tree_broad_betula_big_02	wood		Tree broad betula big
-gimmick_tree_broad_carob_02	wood		Tree broad carob
-gimmick_tree_broad_coffeetree_01_collect_02	wood		Tree broad coffeetree 01 collect
-gimmick_tree_broad_eunhaeng_01	wood		Tree broad eunhaeng
-gimmick_tree_broad_hickory_pignut_01	wood		Tree broad hickory pignut
-gimmick_tree_broad_hickory_pignut_03	wood		Tree broad hickory pignut
-gimmick_tree_broad_hickory_pignut_04	wood		Tree broad hickory pignut
-gimmick_tree_broad_hickory_pignut_drop_02	wood		Tree broad hickory pignut drop
-gimmick_tree_broad_maple_01	wood		Tree broad maple
-gimmick_tree_broad_maple_01_gr	wood		Tree broad maple 01 gr
-gimmick_tree_broad_maple_01_red	wood		Tree broad maple 01 red
-gimmick_tree_broad_maple_01_yellow	wood		Tree broad maple 01 yellow
-gimmick_tree_broad_maple_02	wood		Tree broad maple
-gimmick_tree_broad_maple_02_gr	wood		Tree broad maple 02 gr
-gimmick_tree_broad_maple_02_red	wood		Tree broad maple 02 red
-gimmick_tree_broad_maple_02_yellow	wood		Tree broad maple 02 yellow
-gimmick_tree_broad_maple_03	wood		Tree broad maple
-gimmick_tree_broad_maple_03_gr	wood		Tree broad maple 03 gr
-gimmick_tree_broad_maple_03_orange	wood		Tree broad maple 03 orange
-gimmick_tree_broad_maple_03_red	wood		Tree broad maple 03 red
-gimmick_tree_broad_maple_03_yellow	wood		Tree broad maple 03 yellow
-gimmick_tree_broad_oak_white_hero_01	wood		Tree broad oak white hero
-gimmick_tree_broad_oak_white_hero_02	wood		Tree broad oak white hero
-gimmick_tree_broad_oak_white_hero_03	wood		Tree broad oak white hero
-gimmick_tree_broad_oak_white_hero_03_root_03	wood		Wood
-gimmick_tree_broad_oak_white_hero_03_root_04	wood		Wood
-gimmick_tree_broad_oak_white_hero_04	wood		Tree broad oak white hero
-gimmick_tree_broad_oak_white_hero_big_02	wood		Tree broad oak white hero big
-gimmick_tree_broad_oak_white_hero_giant_03	wood		Tree broad oak white hero giant
-gimmick_tree_broad_oak_white_hero_thin_02	wood		Tree broad oak white hero thin
-gimmick_tree_broad_oak_white_hero_thin_03	wood		Tree broad oak white hero thin
-gimmick_tree_broad_oak_white_hero_thin_burnt_01	wood		Wood
-gimmick_tree_broad_oak_white_hero_thin_burnt_04	wood		Wood
-gimmick_tree_broad_pear_01_collect_01	wood		Tree broad pear 01 collect
-gimmick_tree_broad_shagbark_hickory_hero_02	wood		Tree broad shagbark hickory hero
-gimmick_tree_broad_uniquetree_10	wood		Tree broad uniquetree
-gimmick_tree_broad_white_poplar_01	wood		Tree broad white poplar
-gimmick_tree_cd_broad_acacia_04	wood		Tree cd broad acacia
-gimmick_tree_cd_broad_acacia_05	wood		Tree cd broad acacia
-gimmick_tree_cd_broad_almond_drop_02	wood		Tree cd broad almond drop
-gimmick_tree_cd_broad_birch_paper_01	wood		Tree cd broad birch paper
-gimmick_tree_cd_broad_birch_paper_02	wood		Tree cd broad birch paper
-gimmick_tree_cd_broad_birch_paper_05	wood		Tree cd broad birch paper
-gimmick_tree_cd_broad_birch_paper_big_01	wood		Tree cd broad birch paper big
-gimmick_tree_cd_broad_birch_paper_drop_05	wood		Tree cd broad birch paper drop
-gimmick_tree_cd_broad_birch_paper_fw_05	wood		Tree cd broad birch paper fw
-gimmick_tree_cd_broad_birch_paper_moss_05	wood		Tree cd broad birch paper moss
-gimmick_tree_cd_broad_european_beech_01	wood		Tree cd broad european beech
-gimmick_tree_cd_crop_apple_01_collect_01	wood		Tree cd crop apple 01 collect
-gimmick_tree_cd_crop_apple_02_collect	wood		Tree cd crop apple 02 collect
-gimmick_tree_cd_desert_juniper_drop_03	wood		Tree cd desert juniper drop
-gimmick_tree_cd_palm_sabal_01	wood		Tree cd palm sabal
-gimmick_tree_cd_pine_spruce_low_01	wood		Tree cd pine spruce low
-gimmick_tree_crop_cacao_01_collect_01	wood		Tree crop cacao 01 collect
-gimmick_tree_crop_figs_01_collect_01	wood		Tree crop figs 01 collect
-gimmick_tree_crop_orange_01_collect_01	wood		Tree crop orange 01 collect
-gimmick_tree_crop_orange_02_collect_01	wood		Tree crop orange 02 collect
-gimmick_tree_crop_peach_01_collect_01	wood		Tree crop peach 01 collect
-gimmick_tree_crop_peach_02_collect_01	wood		Tree crop peach 02 collect
-gimmick_tree_crop_pomegranate_01_collect_01	wood		Tree crop pomegranate 01 collect
-gimmick_tree_desert_dragon_01	wood		Tree desert dragon
-gimmick_tree_hexe_marie_02	wood		Tree hexe marie
-gimmick_tree_out_cypress_italian_hero_01	wood		Tree out cypress italian hero
-gimmick_tree_out_cypress_italian_hero_03	wood		Tree out cypress italian hero
-gimmick_tree_out_cypress_italian_hero_teal_03	wood		Wood
-gimmick_tree_palm_01	wood		Tree palm
-gimmick_tree_palm_coconut_01	wood		Tree palm coconut
-gimmick_tree_palm_coconut_02	wood		Tree palm coconut
-gimmick_tree_palm_coconut_03	wood		Tree palm coconut
-gimmick_tree_pine_cypress_bhutan_01	wood		Tree pine cypress bhutan
-gimmick_tree_pine_cypress_bhutan_drop_01	wood		Tree pine cypress bhutan drop
-gimmick_tree_pine_densiflora_01	wood		Tree pine densiflora
-gimmick_tree_pine_eastern_01	wood		Tree pine eastern
-gimmick_tree_pine_redwoodsierra_burnt_01	wood		Tree pine redwoodsierra burnt
-gimmick_tree_pine_redwoodsierra_burnt_03	wood		Tree pine redwoodsierra burnt
-gimmick_tree_pine_redwoodsierra_small_01	wood		Tree pine redwoodsierra small
-gimmick_tree_pine_spruce_high_drop_02	wood		Tree pine spruce high drop
-gimmick_tree_pine_spruce_north_hero_01	wood		Tree pine spruce north hero
-gimmick_tree_pine_spruce_north_hero_07	wood		Tree pine spruce north hero
-gimmick_tree_pine_spruce_north_hero_giant_01	wood		Wood
-gimmick_tree_pine_spruce_norway_hero_01	wood		Tree pine spruce norway hero
-gimmick_tree_pine_spruce_norway_hero_02	wood		Tree pine spruce norway hero
-gimmick_tree_pine_spruce_norway_hero_03	wood		Tree pine spruce norway hero
-gimmick_tree_pine_spruce_norway_hero_04	wood		Tree pine spruce norway hero
-gimmick_tree_pine_spruce_norway_hero_drop_01	wood		Wood
-gimmick_tree_pine_spruce_norway_hero_small_01	wood		Wood
-gimmick_tumbleweed_0001	plant	Item_gimmick_tumbleweed_0001	Tumbleweed
-gimmick_tumbleweed_0002	plant	Item_gimmick_tumbleweed_0001	Tumbleweed
-gimmick_tumbleweed_0003	plant	Item_gimmick_tumbleweed_0001	Tumbleweed
-gimmick_umbra_break_rock_01	stone		Umbra break rock
-gimmick_umbra_break_rock_02	stone		Umbra break rock
-gimmick_unique_bush_crop_ensete_01_collect_02	plant		Plant
-gimmick_unique_tree_broad_pear_01_collect_01	wood		Wood
-gimmick_unique_tree_broad_rubber_01_collect_01	wood		Wood
-gimmick_unique_tree_cd_crop_apple_01_collect_01	wood		Wood
-gimmick_unique_tree_crop_cacao_01_collect_01	wood		Wood
-gimmick_unique_tree_crop_figs_01_collect_01	wood		Unique tree crop figs 01 collect
-gimmick_unique_tree_crop_orange_01_collect_01	wood		Wood
-gimmick_unique_tree_crop_peach_01_collect_01	wood		Wood
-gimmick_unique_tree_crop_pomegranate_01_collect_01	wood		Wood
-gimmick_vine_bomb_01	plant		Battle vine bomb
-gimmick_wood_firewood_0001	wood		Wood firewood
-gimmick_woodlog_set_05_01_pail	wood		Woodlog set 05 01 pail
-gimmick_woodlog_set_05_02_pail	wood		Woodlog set 05 02 pail
-gimmick_woodlog_set_05_03_pail	wood		Woodlog set 05 03 pail
-gimmick_woodlog_set_05_04_pail	wood		Woodlog set 05 04 pail
-gimmick_woodlog_set_05_05_pail	wood		Woodlog set 05 05 pail
-middel_orc_cd_ex_dpf_timber_hotdeck_05	wood		Wood
+prefab	kind	item_key	name	src
+cd_ancient_altarstone_01_01	stone	Stone_Quarry	Stone	name
+cd_bigtree_02_birch_paper_parts01	wood		Wood	name
+cd_bigtree_02_burn_parts01	wood		Cd bigtree 02 burn parts01	name
+cd_bigtree_02_oak_parts01	wood		Cd bigtree 02 oak parts01	name
+cd_bigtree_02_pail_parts01	wood		Cd bigtree 02 pail parts01	name
+cd_bigtree_02_parts01	wood		Cd bigtree 02 parts01	name
+cd_bigtree_02_pine_parts01	wood		Cd bigtree 02 pine parts01	name
+cd_box_mushroom_04	plant		Cd box mushroom	name
+cd_ex_dpf_flowerhang_01	plant		Cd ex dpf flowerhang	name
+cd_ex_dpf_flowerhang_02	plant		Cd ex dpf flowerhang	name
+cd_ex_dpf_flowerhang_03	plant		Cd ex dpf flowerhang	name
+cd_ex_dpf_flowerhang_04	plant		Cd ex dpf flowerhang	name
+cd_ex_dpf_flowerpot_16_housing	plant		Cd ex dpf flowerpot 16 housing	name
+cd_ex_dpf_flowerpot_21_housing	plant		Cd ex dpf flowerpot 21 housing	name
+cd_ex_dpf_flowerpot_23_housing	plant		Cd ex dpf flowerpot 23 housing	name
+cd_ex_dpf_flowerpot_24_housing	plant		Cd ex dpf flowerpot 24 housing	name
+cd_ex_dpf_flowerpot_37_housing	plant		Cd ex dpf flowerpot 37 housing	name
+cd_ex_dpf_flowerpot_61_housing	plant		Cd ex dpf flowerpot 61 housing	name
+cd_gimmick_ct_mushroom_hericium_wood_brokentree_01_parts01	plant		Plant	tag
+cd_gimmick_ct_mushroom_phellinus_wood_brokentree_01_parts01	plant		Plant	tag
+cd_gimmick_ct_mushroom_shiitake_wood_brokentree_01_parts01	plant		Plant	tag
+cd_gimmick_ct_poisonmushroom_wood_brokentree_01_parts01	plant		Plant	tag
+cd_gimmick_item_flowers_01	plant		Item flowers	name
+cd_gimmick_puzzle_kweiden_tombstone_part_01	stone		Kwe tombstone part	name
+cd_gimmick_puzzle_kweiden_tombstone_part_02	stone		Kwe tombstone part	name
+cd_gimmick_puzzle_kweiden_tombstone_part_03	stone		Kwe tombstone part	name
+cd_nature_wood_broken_tree_11	wood		Cd nature wood broken tree	name
+cd_nature_wood_broken_tree_11_burn	wood		Wood	name
+cd_nature_wood_broken_tree_11_hexe	wood		Wood	name
+cd_nature_wood_broken_tree_11_i1	wood		Cd nature wood broken tree 11 i1	name
+cd_nature_wood_broken_tree_11_i10	wood		Wood	name
+cd_nature_wood_broken_tree_11_i11	wood		Wood	name
+cd_nature_wood_broken_tree_11_i3	wood		Cd nature wood broken tree 11 i3	name
+cd_nature_wood_broken_tree_11_i6	wood		Cd nature wood broken tree 11 i6	name
+cd_nature_wood_broken_tree_11_index01	wood		Wood	name
+cd_nature_wood_broken_tree_11_pine	wood		Wood	name
+cd_nature_wood_broken_tree_12_burn_parts01	wood		Wood	name
+cd_nature_wood_broken_tree_12_i1_parts01	wood		Wood	name
+cd_nature_wood_broken_tree_12_oak_parts01	wood		Wood	name
+cd_nature_wood_broken_tree_12_pai_parts01	wood		Wood	name
+cd_nature_wood_broken_tree_12_parts01	wood		Wood	name
+cd_nature_wood_oldtree_01_01	wood		Cd nature wood oldtree 01	name
+cd_nature_wood_oldtree_01_01_index01	wood		Wood	name
+cd_nature_wood_oldtree_01_01_pine	wood		Wood	name
+cd_preset_shop_npctable_stonestore_01	stone		Shop npctable stonestore	name
+gimmick_abyss_ator_dungeon_blackstone_01	stone		Abyss ator dungeon blackstone	name
+gimmick_abyss_ator_dungeon_blackstone_02	stone		Abyss ator dungeon blackstone	name
+gimmick_abyss_effect_umbra_floatingstone_01	stone		Abyss effect umbra floatingstone	name
+gimmick_abyss_fit_height_pillar_0001_standstone_parts01	stone		Stone	name
+gimmick_abyss_standstone_01	stone		Abyss standstone	name
+gimmick_abyss_standstone_01_part_02	stone		Abyss standstone 01 part	name
+gimmick_abyss_standstone_01_part_02_index01	stone		Stone	name
+gimmick_abyss_standstone_02	stone		Abyss standstone	name
+gimmick_abyss_standstone_03	stone		Abyss standstone	name
+gimmick_abyss_stone_01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_stone_01_parts_0003	stone		Abyss stone 01 parts	name
+gimmick_abyss_stone_01a	stone		Abyss stone 01a	name
+gimmick_abyss_stone_01a_parts_0001	stone		Abyss stone 01a part	name
+gimmick_abyss_stone_01a_parts_0002	stone		Abyss stone 01a part	name
+gimmick_abyss_tree_0001	wood		Abyss tree	name
+gimmick_abyss_umbra_stone_0001	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0001_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0002	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0002_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0003	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0003_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0004	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0004_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0005	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0005_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0006	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0006_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0007	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0007_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0008	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0008_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0009	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0009_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0010	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0010_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0011	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stone_0011_index01	stone	Stone_Quarry	Stone	name
+gimmick_abyss_umbra_stoneset_0001	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0001_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0002	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0002_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0003	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0003_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0004	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0004_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0005	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0005_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0006	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0006_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0007	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0007_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0008	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0008_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0009	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0009_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0010	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0010_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0011	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0011_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_0012	stone		Abyss umbra stoneset	name
+gimmick_abyss_umbra_stoneset_0012_index01	stone		Stone	name
+gimmick_abyss_umbra_stoneset_square_0001	stone		Abyss umbra stoneset square	name
+gimmick_abyss_umbra_stoneset_square_0002	stone		Abyss umbra stoneset square	name
+gimmick_abyss_umbra_stoneset_square_0003	stone		Abyss umbra stoneset square	name
+gimmick_abyss_umbra_stoneset_square_0004	stone		Abyss umbra stoneset square	name
+gimmick_abyss_umbra_stoneset_square_0005	stone		Abyss umbra stoneset square	name
+gimmick_abyss_umbra_stoneset_square_0006	stone		Abyss umbra stoneset square	name
+gimmick_abyssgrass_01	plant		Abyssgrass	name
+gimmick_abyssgrass_02	plant		Abyssgrass	name
+gimmick_abyssgrass_03	plant		Abyssgrass	name
+gimmick_abyssgrass_04	plant		Abyssgrass	name
+gimmick_abyssgrass_legendarywolf	plant		Abyssgrass legendarywolf	name
+gimmick_aka_quarry_bigstone_01	ore		Aka quarry bigstone	tag
+gimmick_aka_quarry_bigstone_02	ore		Aka quarry bigstone	tag
+gimmick_ancient_stone_soldier_01_b_gmk_05	stone		Ancient stone soldier 01 b gmk	name
+gimmick_ancient_stone_warrior_01_b_gmk_05	stone		Ancient stone warrior 01 b gmk	name
+gimmick_attach_abyssgrass_landspider_01	plant		Attach abyssgrass landspider	name
+gimmick_attach_abyssgrass_landspider_02	plant		Attach abyssgrass landspider	name
+gimmick_attach_hyena_mushroom_01	plant		Hyena poison mushroom	name
+gimmick_attach_lake_stone_01	stone	Stone_Quarry	Stone	name
+gimmick_attach_lake_stone_01_part	stone		Attach lake stone 01 part	name
+gimmick_attach_landspider_bismuthqueen_rock_01	stone		Stone	name
+gimmick_attach_landspider_bismuthqueen_rock_02	stone		Stone	name
+gimmick_attach_landspider_bismuthqueen_rock_03	stone		Stone	name
+gimmick_attach_landspider_bismuthqueen_rock_04	stone		Stone	name
+gimmick_attach_landspider_bismuthqueen_rock_05	stone		Stone	name
+gimmick_attach_landspider_bismuthqueen_rock_06	stone		Stone	name
+gimmick_attach_landspider_bismuthqueen_rock_07	stone		Stone	name
+gimmick_attach_landspider_bismuthqueen_rock_08	stone		Stone	name
+gimmick_attach_landspider_queen_rock_01	stone		Attach landspider queen rock	name
+gimmick_attach_landspider_queen_rock_02	stone		Attach landspider queen rock	name
+gimmick_attach_landspider_queen_rock_03	stone		Attach landspider queen rock	name
+gimmick_attach_landspider_queen_rock_04	stone		Attach landspider queen rock	name
+gimmick_attach_landspider_queen_rock_05	stone		Attach landspider queen rock	name
+gimmick_attach_landspider_queen_rock_06	stone		Attach landspider queen rock	name
+gimmick_attach_landspider_queen_rock_07	stone		Attach landspider queen rock	name
+gimmick_attach_mine_bismuth_place_01	ore		Mine bismuth attach	tag
+gimmick_attach_mine_diamond_place_01	ore		Mine diamond attach	tag
+gimmick_attach_mine_ironstone_place_01	ore		Mine iron attach	tag
+gimmick_attach_mine_redstone_place_01	ore		Mine redstone attach	tag
+gimmick_attach_seraphim_innerstone_01	stone		Attach seraphim innerstone	name
+gimmick_attach_seraphim_lowerstone_01	stone		Attach seraphim lowerstone	name
+gimmick_attach_seraphim_lowerstone_02	stone		Attach seraphim lowerstone	name
+gimmick_attach_seraphim_lowerstone_03	stone		Attach seraphim lowerstone	name
+gimmick_attach_seraphim_lowerstone_04	stone		Attach seraphim lowerstone	name
+gimmick_attach_seraphim_lowerstone_05	stone		Attach seraphim lowerstone	name
+gimmick_attach_seraphim_upperstone_01	stone		Attach seraphim upperstone	name
+gimmick_attach_seraphim_upperstone_02	stone		Attach seraphim upperstone	name
+gimmick_attach_spot_tower_bismuth_01_break	ore		Ore	tag
+gimmick_attach_spot_tower_bismuth_06_break	ore		Ore	tag
+gimmick_attach_stoneowl_01_base	stone		Stoneowl 01 base	name
+gimmick_attach_stoneowl_01_turret_launcher	stone		Stone	name
+gimmick_attach_stoneowl_02_base	stone		Desert stoneowl 01 base	name
+gimmick_attach_stoneowl_02_base_index01	stone		Snow stoneowl 01 base	name
+gimmick_attach_stoneowl_elite_01_base	stone		Stoneowl elite 01 base	name
+gimmick_attach_stoneowl_elite_02_base	stone		Desert stoneowl elite 01 base	name
+gimmick_attach_stoneowl_elite_02_base_index01	stone		Snow stoneowl elite 01 base	name
+gimmick_attach_stonetoad_01	stone		Attach stonetoad	name
+gimmick_attach_stonetoad_01_index01	stone		Attach stonetoad 01 index01	name
+gimmick_attach_stonetoad_01_index02	stone		Attach stonetoad 01 index02	name
+gimmick_attach_stonetoad_01_index03	stone		Attach stonetoad 01 index03	name
+gimmick_attach_stonetoad_01_vegetation	stone		Attach stonetoad 01 vegetation	name
+gimmick_attach_stonetoad_02	stone		Attach stonetoad	name
+gimmick_attach_stonetoad_02_index01	stone		Attach stonetoad 02 index01	name
+gimmick_attach_stonetoad_02_index02	stone		Attach stonetoad 02 index02	name
+gimmick_attach_stonetoad_02_index03	stone		Attach stonetoad 02 index03	name
+gimmick_attach_stoneworm_01	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_02	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_03	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_04	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_05	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_06	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_07	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_08	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_09	stone		Attach stoneworm	name
+gimmick_attach_stoneworm_index01_01	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index01_02	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index01_03	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index01_04	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index01_05	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index01_06	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index01_07	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index01_08	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index01_09	stone		Attach stoneworm index01	name
+gimmick_attach_stoneworm_index02_01	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index02_02	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index02_03	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index02_04	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index02_05	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index02_06	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index02_07	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index02_08	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index02_09	stone		Attach stoneworm index02	name
+gimmick_attach_stoneworm_index03_01	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index03_02	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index03_03	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index03_04	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index03_05	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index03_06	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index03_07	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index03_08	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index03_09	stone		Attach stoneworm index03	name
+gimmick_attach_stoneworm_index04_01	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index04_02	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index04_03	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index04_04	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index04_05	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index04_06	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index04_07	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index04_08	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index04_09	stone		Attach stoneworm index04	name
+gimmick_attach_stoneworm_index05_01	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index05_02	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index05_03	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index05_04	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index05_05	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index05_06	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index05_07	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index05_08	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index05_09	stone		Attach stoneworm index05	name
+gimmick_attach_stoneworm_index06_01	stone		Attach stoneworm index06	name
+gimmick_attach_stoneworm_index06_02	stone		Attach stoneworm index06	name
+gimmick_attach_stoneworm_index06_03	stone		Attach stoneworm index06	name
+gimmick_attach_stoneworm_index06_04	stone		Attach stoneworm index06	name
+gimmick_attach_stoneworm_index06_05	stone		Attach stoneworm index06	name
+gimmick_attach_stoneworm_index06_06	stone		Attach stoneworm index06	name
+gimmick_attach_stoneworm_index06_07	stone		Attach stoneworm index06	name
+gimmick_attach_stoneworm_index06_08	stone		Attach stoneworm index06	name
+gimmick_attach_stoneworm_index06_09	stone		Attach stoneworm index06	name
+gimmick_attach_thornyvine_01	plant		Character attach thornyvine	name
+gimmick_attach_thornyvine_02	plant		Character attach thornyvine	name
+gimmick_attach_thornyvine_03	plant		Character attach thornyvine	name
+gimmick_beacon_firewood_0001	wood		Beacon firewood	name
+gimmick_beacon_firewood_01	wood		Beacon firewood	name
+gimmick_beacon_firewood_03	wood		Beacon firewood	name
+gimmick_bigtree_01	wood		Bigtree	name
+gimmick_bigtree_01_fire	wood		Bigtree 01 fire	name
+gimmick_bigtree_01_remote	wood		Bigtree 01 log	name
+gimmick_bigtree_01_thunder	wood		Bigtree 01 thunder	name
+gimmick_bigtree_02_fire	wood		Bigtree 02 fire	name
+gimmick_bigtree_02_fire_part	wood		Bigtree 02 fire part	name
+gimmick_boss_landspider_bismuth_pillar_0001	ore		Landspider bismuth pillar	tag
+gimmick_boss_landspider_bismuth_pillar_0002	ore		Landspider bismuth pillar	tag
+gimmick_boss_reeddevil_totem_01	plant		Boss reeddevil totem	name
+gimmick_boss_titan_stone_01	stone	Stone_Quarry	Stone	name
+gimmick_break_step_stone_02	stone	Stone_Quarry	Stone	name
+gimmick_break_woodbranch_01	wood		Break woodbranch	name
+gimmick_breakable_cd_spot_silverwolves_part_02a_part_01_p20	stone	Stone_Quarry	Stone	name
+gimmick_breakable_cd_spot_silverwolves_part_02a_part_01_p20_muskan	stone	Stone_Quarry	Stone	name
+gimmick_breakable_cd_spot_silverwolves_part_02a_part_02_p20	stone	Stone_Quarry	Stone	name
+gimmick_breakable_cd_spot_silverwolves_part_02a_part_02_p20_muskan	stone	Stone_Quarry	Stone	name
+gimmick_breakable_hernand_abby_str_abbey_01_03	stone	Stone_Quarry	Stone	name
+gimmick_breakable_pillar_temple_three_brothers_01a_boss	stone	Stone_Quarry	Stone	name
+gimmick_breakable_pillar_temple_three_brothers_01a_boss_body	stone	Stone_Quarry	Stone	name
+gimmick_breakable_protective_stone_01	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_marni_break_pillar_temple_01_boss	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_marni_pillar_08_boss	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_marni_pillar_10_boss	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_marni_silverwolves_alldeco_02_p20_boss	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_marni_wall_arch_05_boss	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_marni_wall_arch_06_boss	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_marni_wall_arch_06_boss_body	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_northpray_wall_08_p20_mus	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_northpray_wall_08_p20_muskan	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_silverwolves_alldeco_01_part_01_p20_muskan	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_silverwolves_alldeco_02_p20	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_silverwolves_alldeco_02_p20_dem	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_silverwolves_alldeco_02_p20_mus	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_silverwolves_alldeco_02_p20_muskan	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_silverwolves_pillar_01_broken	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_silverwolves_pillar_01_broken_body	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_tree_brothers_cliff_pillar_02	stone	Stone_Quarry	Stone	name
+gimmick_breakable_spot_tree_brothers_cliff_pillar_03	stone	Stone_Quarry	Stone	name
+gimmick_bush_cd_crop_grape_02_collect_01	wood		Bush cd crop grape 02 collect	tag
+gimmick_bush_crop_ensete_01_collect	wood		Bush crop ensete 01 collect	tag
+gimmick_bush_crop_ensete_01_collect_02	wood		Bush crop ensete 01 collect	tag
+gimmick_camp_farm_abyss_stone_01_phase01	stone		Camp farm abyss stone 01 phase01	name
+gimmick_camp_farm_abyss_stone_01_phase02	wood		Camp farm abyss stone 01 phase02	tag
+gimmick_camp_farm_abyss_stone_01_phase03	plant		Abyssstone fruit	tag
+gimmick_camp_farm_apple_01_phase01	wood		Apple smalltree	name
+gimmick_camp_farm_apple_01_phase02	wood		Apple tree	tag
+gimmick_camp_farm_cacao_01_phase02	wood		Camp farm cacao 01 phase02	tag
+gimmick_camp_farm_coffeetree_01_phase01	wood		Camp farm coffeetree 01 phase01	name
+gimmick_camp_farm_coffeetree_01_phase02	wood		Camp farm coffeetree 01 phase02	name
+gimmick_camp_farm_ensete_01_phase02	wood		Camp farm ensete 01 phase02	tag
+gimmick_camp_farm_figs_01_phase02	wood		Camp farm figs 01 phase02	tag
+gimmick_camp_farm_glowflower_01_phase01	plant		Camp farm glowflower 01 phase01	name
+gimmick_camp_farm_glowflower_01_phase02	plant		Camp farm glowflower 01 phase02	name
+gimmick_camp_farm_orange_01_phase02	wood		Camp farm orange 01 phase02	tag
+gimmick_camp_farm_peach_01_phase02	wood		Camp farm peach 01 phase02	tag
+gimmick_camp_farm_pear_01_phase02	wood		Camp farm pear 01 phase02	tag
+gimmick_camp_farm_pomegranate_01_phase02	wood		Camp farm pomegranate 01 phase02	tag
+gimmick_camp_farm_rubber_01_phase02	wood		Camp farm rubber 01 phase02	tag
+gimmick_cave_break_stalac_02	ore		Cave break stalac	tag
+gimmick_clifftree_01	wood		Clifftree	name
+gimmick_clifftree_01_index01	wood		Clifftree 01 index01	name
+gimmick_clifftree_01_index02	wood		Clifftree 01 index02	name
+gimmick_clifftree_01_index03	wood		Clifftree 01 index03	name
+gimmick_clifftree_01_index04	wood		Clifftree 01 index04	name
+gimmick_clifftree_02	wood		Clifftree	name
+gimmick_clifftree_02_parts01	wood		Clifftree 02 parts01	name
+gimmick_clifftree_02_parts01_index01	wood		Clifftree 02 parts01 index01	name
+gimmick_clifftree_02_parts01_index02	wood		Clifftree 02 parts01 index02	name
+gimmick_clifftree_02_parts01_index03	wood		Clifftree 02 parts01 index03	name
+gimmick_clifftree_02_parts01_index04	wood		Clifftree 02 parts01 index04	name
+gimmick_clifftree_03	wood		Clifftree	name
+gimmick_clifftree_04	wood		Clifftree	name
+gimmick_clifftree_04_index01	wood		Clifftree 04 index01	name
+gimmick_clifftree_04_index02	wood		Clifftree 04 index02	name
+gimmick_clifftree_04_index03	wood		Clifftree 04 index0	name
+gimmick_clifftree_04_index04	wood		Clifftree 04 index04	name
+gimmick_clifftree_05	wood		Clifftree	name
+gimmick_clifftree_05_index01	wood		Clifftree 05 index01	name
+gimmick_clifftree_05_index02	wood		Clifftree 05 index02	name
+gimmick_clifftree_05_index03	wood		Clifftree 05 index03	name
+gimmick_clifftree_05_index04	wood		Clifftree 05 index04	name
+gimmick_clifftree_06	wood		Clifftree	name
+gimmick_clifftree_06_index01	wood		Clifftree 06 index01	name
+gimmick_clifftree_06_index02	wood		Clifftree 06 index02	name
+gimmick_clifftree_06_index03	wood		Clifftree 06 index03	name
+gimmick_clifftree_06_index04	wood		Clifftree 06 index04	name
+gimmick_clifftree_07	wood		Clifftree	name
+gimmick_clifftree_07_index01	wood		Clifftree 07 index01	name
+gimmick_clifftree_07_index02	wood		Clifftree 07 index02	name
+gimmick_clifftree_07_index03	wood		Clifftree 07 index03	name
+gimmick_clifftree_07_index04	wood		Clifftree 07 index04	name
+gimmick_clifftree_08	wood		Clifftree	name
+gimmick_clifftree_08_index01	wood		Clifftree 08 index01	name
+gimmick_clifftree_08_index02	wood		Clifftree 08 index02	name
+gimmick_clifftree_08_index03	wood		Clifftree 08 index03	name
+gimmick_clifftree_08_index04	wood		Clifftree 08 index04	name
+gimmick_clifftree_08_index05	wood		Clifftree 08 index05	name
+gimmick_clifftree_08_index06	wood		Clifftree 08 index06	name
+gimmick_clifftree_09	wood		Clifftree	name
+gimmick_clifftree_09_index01	wood		Clifftree 09 index01	name
+gimmick_clifftree_09_index02	wood		Clifftree 09 index02	name
+gimmick_clifftree_09_index03	wood		Clifftree 09 index03	name
+gimmick_clifftree_09_index04	wood		Clifftree 09 index04	name
+gimmick_climbing_hook_stone_01	stone	Stone_Quarry	Stone	name
+gimmick_collect_ginseng_01	plant	Possesion_Insam	Ginseng	tag
+gimmick_collect_ginseng_02	plant	Possesion_Insam	Ginseng	tag
+gimmick_collect_her_rock_b_0003	ore		Mine rock	tag
+gimmick_collect_her_rock_b_0004	ore		Mine rock	tag
+gimmick_collect_her_rock_b_0005	ore		Mine rock	tag
+gimmick_collect_her_rock_b_0006	ore		Mine rock	tag
+gimmick_collect_her_rock_b_0007	ore		Mine rock	tag
+gimmick_collect_her_rock_b_0008	ore		Mine rock	tag
+gimmick_collect_her_rock_b_0009	ore		Mine rock	tag
+gimmick_collect_her_rock_b_0010	ore		Mine rock	tag
+gimmick_collect_her_rock_b_0011	ore		Mine rock	tag
+gimmick_collect_mushroom_hericium_01	plant		Mushroom hericium	tag
+gimmick_collect_mushroom_phellinus_01	plant		Mushroom phellinus	tag
+gimmick_collect_mushroom_shiitake_01	plant		Mushroom shiitake	tag
+gimmick_collect_ore_bluestone_01	ore	BlueStone	Azurite	tag
+gimmick_collect_ore_copper_01	ore		Ore copper	tag
+gimmick_collect_ore_diamond_01	ore	Diamond	Diamond	tag
+gimmick_collect_ore_gold_01	ore		Ore gold	tag
+gimmick_collect_ore_greenstone_01	ore	GreenStone	Epidote	tag
+gimmick_collect_ore_iron_01	ore		Ore iron	tag
+gimmick_collect_ore_redstone_01	ore	RedStone	Bloodstone	tag
+gimmick_collect_ore_ruby_01	ore	Ruby	Garnet	tag
+gimmick_collect_ore_silver_01	ore		Ore silver	tag
+gimmick_collect_ore_stone_01	ore	Stone_Quarry	Stone	tag
+gimmick_collect_ore_stone_02	ore	Stone_Quarry	Stone	tag
+gimmick_collect_ore_stone_03	ore	Stone_Quarry	Stone	tag
+gimmick_collect_ore_sulfurstone_01	ore		Ore sulfurstone	tag
+gimmick_collect_ore_whitestone_01	ore	WhiteStone	Scolecite Ore	tag
+gimmick_collect_poisonmushroom_01	plant		Poisonmushroom	name
+gimmick_collect_poisonmushroom_05	plant		Poisonmushroom	name
+gimmick_collect_poisonmushroom_06	plant		Poisonmushroom	name
+gimmick_common_logouter_box_01m	wood		Common logouter box 01m	name
+gimmick_common_logouter_box_03m	wood		Common logouter box 03m	name
+gimmick_common_logouter_box_05m	wood		Common logouter box 05m	name
+gimmick_craft_millestone_01_base	stone		Craft millestone 01 base	name
+gimmick_craft_millestone_01_stick	stone		Farm millestone 01 stick	name
+gimmick_craft_millestone_01_stone	stone	Stone_Quarry	Stone	name
+gimmick_detectchange_stonebridge_top_01	stone		Dc stonebridge top	name
+gimmick_detectchange_stonebridge_top_02	stone		Dc stonebridge top	name
+gimmick_detectchange_stonebridge_top_03	stone		Dc stonebridge top	name
+gimmick_door_double_wood_log_01	wood		Door double wood log	name
+gimmick_door_double_wood_log_01_left	wood		Door double wood log 01 left	name
+gimmick_door_double_wood_log_01_lock	wood		Door double wood log 01 lock	name
+gimmick_door_double_wood_log_01_lock_left	wood		Wood	name
+gimmick_door_double_wood_log_01_lock_right	wood		Wood	name
+gimmick_door_double_wood_log_01_right	wood		Door double wood log 01 right	name
+gimmick_door_doublearch_stone_02	stone	Stone_Quarry	Stone	name
+gimmick_door_doublearch_stone_02_left	stone		Door doublearch stone 02 left	name
+gimmick_door_doublearch_stone_02_right	stone		Door doublearch stone 02 right	name
+gimmick_door_dungeon_platform_jumping_01_reeddevil	plant		Plant	name
+gimmick_door_spot_tower_stone_0001_left	stone		Door spot tower stone 0001 left	name
+gimmick_door_spot_tower_stone_0001_right	stone		Door spot tower stone 0001 right	name
+gimmick_drug_leaves_01	plant		Drug leaves	name
+gimmick_drug_leaves_02	plant		Drug leaves	name
+gimmick_dungeon_stone_bridge_01	stone		Dungeon stone bridge	name
+gimmick_dungeon_stone_bridge_02	stone		Dungeon stone bridge	name
+gimmick_dungeon_stone_bridge_03	stone		Dungeon stone bridge	name
+gimmick_dungeon_stone_bridge_04	stone		Dungeon stone bridge	name
+gimmick_dungeon_stone_hook_bridge_2m	stone		Stone hook bridge 2m	name
+gimmick_dungeon_stone_hook_bridge_3m	stone		Stone hook bridge 3m	name
+gimmick_dungeon_stone_hook_bridge_4m	stone		Stone hook bridge 4m	name
+gimmick_dungeon_stone_hook_bridge_5m	stone		Stone hook bridge 5m	name
+gimmick_equip_gimmick_pyogo_mushroom_backpack	plant		Plant	name
+gimmick_equip_gimmick_songyi_mushroom_backpack	plant		Plant	name
+gimmick_equip_gimmick_ssari_mushroom_backpack	plant		Plant	name
+gimmick_equip_rocket_backpack	stone		Equip rocket backpack	name
+gimmick_equip_rocket_helm	stone		Equip rocket helm	name
+gimmick_ex_dpf_hangingflower_0001	plant		Cd ex dpf hangingflower	name
+gimmick_ex_dpf_hangingflower_0002	plant		Cd ex dpf hangingflower	name
+gimmick_ex_dpf_hangingflower_0003	plant		Cd ex dpf hangingflower	name
+gimmick_ex_dpf_hangingflower_0004	plant		Cd ex dpf hangingflower	name
+gimmick_ex_dpf_hangingflowerpot_0001	plant		Cd ex dpf hangingflowerpot	name
+gimmick_ex_dpf_hangingflowerpot_0002	plant		Cd ex dpf hangingflowerpot	name
+gimmick_ex_dpf_hangingflowerpot_0003	plant		Cd ex dpf hangingflowerpot	name
+gimmick_ex_dpf_hangingflowerpot_0004	plant		Cd ex dpf hangingflowerpot	name
+gimmick_factory_chocolate_logouter_02	wood		Factory chocolate logouter	name
+gimmick_falling_rock_0004	stone		Falling rock	name
+gimmick_falltree_01	wood		Falltree	name
+gimmick_falltree_01_fire	wood		Falltree 01 fire	name
+gimmick_falltree_03	wood		Falltree	name
+gimmick_falltree_03_fire	wood		Falltree 03 fire	name
+gimmick_falltree_04_titan	wood		Falltree 04 titan	name
+gimmick_falltree_05	wood		Falltree	name
+gimmick_fireplace_firewood_0001	wood		Fireplace firewood	name
+gimmick_fit_height_pillar_01_part_standstone_guideaction	stone		Stone	name
+gimmick_floating_rock_02	stone		Floating rock	name
+gimmick_floating_rock_03	stone		Floating rock	name
+gimmick_floating_rock_04	stone		Floating rock	name
+gimmick_floating_rock_05	stone		Floating rock	name
+gimmick_floating_rock_06	stone		Floating rock	name
+gimmick_floating_rock_07	stone		Floating rock	name
+gimmick_forest_break_rock_02_musket	stone		Forest break rock 02 musket	name
+gimmick_forest_break_rock_02_north	stone		Forest break rock 02 north	name
+gimmick_gemstone_hangchandelier_0001	stone		Gemstone hangchandelier	name
+gimmick_gemstone_hangchandelier_0001_index01	stone		Stone	name
+gimmick_gemstone_hangchandelier_0001_index02	stone		Stone	name
+gimmick_gemstone_hangchandelier_0002	stone		Gemstone hangchandelier	name
+gimmick_gemstone_hangchandelier_0002_index01	stone		Stone	name
+gimmick_gemstone_hangchandelier_0002_index02	stone		Stone	name
+gimmick_gemstone_hangchandelier_0003	stone		Gemstone hangchandelier	name
+gimmick_gemstone_hangchandelier_0003_index01	stone		Stone	name
+gimmick_gemstone_hangchandelier_0003_index02	stone		Stone	name
+gimmick_gemstone_hangchandelier_0004	stone		Gemstone hangchandelier	name
+gimmick_gemstone_hanger_top_chandelier_0001	stone		Gemstone hanger top chandelier	name
+gimmick_gemstone_hanger_top_chandelier_0001_index01	stone		Stone	name
+gimmick_gemstone_hanger_top_chandelier_0001_index02	stone		Stone	name
+gimmick_gemstone_hanger_top_chandelier_0002	stone		Gemstone hanger top chandelier	name
+gimmick_gemstone_hanger_top_chandelier_0002_index01	stone		Stone	name
+gimmick_gemstone_hanger_top_chandelier_0002_index02	stone		Stone	name
+gimmick_gemstone_hanger_top_chandelier_0102	stone		Gemstone hanger top chandelier	name
+gimmick_gemstone_hanger_top_chandelier_0102_index01	stone		Stone	name
+gimmick_gemstone_hanger_top_chandelier_0102_index02	stone		Stone	name
+gimmick_gemstone_hanger_top_chandelier_0103	stone		Gemstone hanger top chandelier	name
+gimmick_gemstone_hanger_top_chandelier_0103_index01	stone		Stone	name
+gimmick_gemstone_hanger_top_chandelier_0103_index02	stone		Stone	name
+gimmick_gemstone_lamp_0001	stone		Gemstone lamp	name
+gimmick_gemstone_lamp_0001_index01	stone		Gemstone lamp 0001 index01	name
+gimmick_gemstone_lamp_0001_index02	stone		Gemstone lamp 0001 index02	name
+gimmick_gemstone_lamp_0002	stone		Gemstone lamp	name
+gimmick_gemstone_lamp_0002_index01	stone		Gemstone lamp 0002 index01	name
+gimmick_gemstone_lamp_0002_index02	stone		Gemstone lamp 0002 index02	name
+gimmick_hanger_flower_01	plant		Hanger flower	name
+gimmick_hanger_flower_02	plant		Hanger flower	name
+gimmick_hanger_flower_03	plant		Hanger flower	name
+gimmick_hanger_flower_04	plant		Hanger flower	name
+gimmick_hanger_flower_05	plant		Hanger flower	name
+gimmick_hanger_flower_06	plant		Hanger flower	name
+gimmick_icestone_01	stone		Icestone	name
+gimmick_icestone_02	stone		Icestone	name
+gimmick_icestone_03	stone		Icestone	name
+gimmick_icestone_04	stone		Icestone	name
+gimmick_item_common_dryherb_0001	plant		Item common dryherb	name
+gimmick_item_common_dryherb_0002	plant		Item common dryherb	name
+gimmick_item_common_dryherb_0003	plant		Item common dryherb	name
+gimmick_item_common_dryherb_0004	plant		Item common dryherb	name
+gimmick_item_common_drymushroom_0001	plant		Item common drymushroom	name
+gimmick_item_firewood_0001	wood		Firewood	tag
+gimmick_item_firewood_0001_fine	wood		Firewood 0001 fine	tag
+gimmick_item_firewood_0001_index01	wood		Firewood 0001 index01	tag
+gimmick_item_firewood_0001_index01_fine	wood		Firewood 0001 index01 fine	tag
+gimmick_item_firewood_0001_index01_premium	wood		Firewood 0001 index01 premium	tag
+gimmick_item_firewood_0001_index02	wood		Firewood 0001 index02	tag
+gimmick_item_firewood_0001_index02_fine	wood		Firewood 0001 index02 fine	tag
+gimmick_item_firewood_0001_index02_premium	wood		Firewood 0001 index02 premium	tag
+gimmick_item_firewood_0001_index03	wood		Firewood 0001 index03	tag
+gimmick_item_firewood_0001_index03_fine	wood		Firewood 0001 index03 fine	tag
+gimmick_item_firewood_0001_index03_premium	wood		Firewood 0001 index03 premium	tag
+gimmick_item_firewood_0001_index04	wood		Firewood 0001 index04	tag
+gimmick_item_firewood_0001_index04_fine	wood		Firewood 0001 index04 fine	tag
+gimmick_item_firewood_0001_index04_premium	wood		Firewood 0001 index04 premium	tag
+gimmick_item_firewood_0001_index05	wood		Firewood 0001 index05	tag
+gimmick_item_firewood_0001_index05_fine	wood		Firewood 0001 index05 fine	tag
+gimmick_item_firewood_0001_index05_premium	wood		Firewood 0001 index05 premium	tag
+gimmick_item_firewood_0001_index06	wood		Firewood 0001 index06	tag
+gimmick_item_firewood_0001_index06_fine	wood		Firewood 0001 index06 fine	tag
+gimmick_item_firewood_0001_index06_premium	wood		Firewood 0001 index06 premium	tag
+gimmick_item_firewood_0001_premium	wood		Firewood 0001 premium	tag
+gimmick_item_firewood_0002	wood		Firewood	tag
+gimmick_item_firewood_0002_fine	wood		Firewood 0002 fine	tag
+gimmick_item_firewood_0002_index01	wood		Firewood 0002 index01	tag
+gimmick_item_firewood_0002_index01_fine	wood		Firewood 0002 index01 fine	tag
+gimmick_item_firewood_0002_index01_premium	wood		Firewood 0002 index01 premium	tag
+gimmick_item_firewood_0002_index02	wood		Firewood 0002 index02	tag
+gimmick_item_firewood_0002_index02_fine	wood		Firewood 0002 index02 fine	tag
+gimmick_item_firewood_0002_index02_premium	wood		Firewood 0002 index02 premium	tag
+gimmick_item_firewood_0002_index03	wood		Firewood 0002 index03	tag
+gimmick_item_firewood_0002_index03_fine	wood		Firewood 0002 index03 fine	tag
+gimmick_item_firewood_0002_index03_premium	wood		Firewood 0002 index03 premium	tag
+gimmick_item_firewood_0002_index04	wood		Firewood 0002 index04	tag
+gimmick_item_firewood_0002_index04_fine	wood		Firewood 0002 index04 fine	tag
+gimmick_item_firewood_0002_index04_premium	wood		Firewood 0002 index04 premium	tag
+gimmick_item_firewood_0002_index05	wood		Firewood 0002 index05	tag
+gimmick_item_firewood_0002_index05_fine	wood		Firewood 0002 index05 fine	tag
+gimmick_item_firewood_0002_index05_premium	wood		Firewood 0002 index05 premium	tag
+gimmick_item_firewood_0002_index06	wood		Firewood 0002 index06	tag
+gimmick_item_firewood_0002_index06_fine	wood		Firewood 0002 index06 fine	tag
+gimmick_item_firewood_0002_index06_premium	wood		Firewood 0002 index06 premium	tag
+gimmick_item_firewood_0002_index07	wood		Firewood 0002 index07	tag
+gimmick_item_firewood_0002_index07_fine	wood		Firewood 0002 index07 fine	tag
+gimmick_item_firewood_0002_index07_premium	wood		Firewood 0002 index07 premium	tag
+gimmick_item_firewood_0002_index08	wood		Firewood 0002 index08	tag
+gimmick_item_firewood_0002_index08_fine	wood		Firewood 0002 index08 fine	tag
+gimmick_item_firewood_0002_index08_premium	wood		Firewood 0002 index08 premium	tag
+gimmick_item_firewood_0002_premium	wood		Firewood 0002 premium	tag
+gimmick_item_firewood_0003	wood		Firewood	tag
+gimmick_item_firewood_0003_fine	wood		Firewood 0003 fine	tag
+gimmick_item_firewood_0003_index01	wood		Firewood 0003 index01	tag
+gimmick_item_firewood_0003_index01_fine	wood		Firewood 0003 index01 fine	tag
+gimmick_item_firewood_0003_index01_premium	wood		Firewood 0003 index01 premium	tag
+gimmick_item_firewood_0003_index02	wood		Firewood 0003 index02	tag
+gimmick_item_firewood_0003_index02_fine	wood		Firewood 0003 index02 fine	tag
+gimmick_item_firewood_0003_index02_premium	wood		Firewood 0003 index02 premium	tag
+gimmick_item_firewood_0003_index03	wood		Firewood 0003 index03	tag
+gimmick_item_firewood_0003_index03_fine	wood		Firewood 0003 index03 fine	tag
+gimmick_item_firewood_0003_index03_premium	wood		Firewood 0003 index03 premium	tag
+gimmick_item_firewood_0003_premium	wood		Firewood 0003 premium	tag
+gimmick_item_firewood_1001	wood		Firewood	tag
+gimmick_item_firewood_1001_fine	wood		Firewood 1001 fine	tag
+gimmick_item_firewood_1001_index01	wood		Firewood 1001 index01	tag
+gimmick_item_firewood_1001_index01_fine	wood		Firewood 1001 index01 fine	tag
+gimmick_item_firewood_1001_index01_premium	wood		Firewood 1001 index01 premium	tag
+gimmick_item_firewood_1001_index02	wood		Firewood 1001 index02	tag
+gimmick_item_firewood_1001_index02_fine	wood		Firewood 1001 index02 fine	tag
+gimmick_item_firewood_1001_index02_premium	wood		Firewood 1001 index02 premium	tag
+gimmick_item_firewood_1001_index03	wood		Firewood 1001 index03	tag
+gimmick_item_firewood_1001_index03_fine	wood		Firewood 1001 index03 fine	tag
+gimmick_item_firewood_1001_index03_premium	wood		Firewood 1001 index03 premium	tag
+gimmick_item_firewood_1001_index04	wood		Firewood 1001 index04	tag
+gimmick_item_firewood_1001_index04_fine	wood		Firewood 1001 index04 fine	tag
+gimmick_item_firewood_1001_index04_premium	wood		Firewood 1001 index04 premium	tag
+gimmick_item_firewood_1001_premium	wood		Firewood 1001 premium	tag
+gimmick_item_firewood_1002	wood		Firewood	tag
+gimmick_item_firewood_1002_fine	wood		Firewood 1002 fine	tag
+gimmick_item_firewood_1002_index01	wood		Firewood 1002 index01	tag
+gimmick_item_firewood_1002_index01_fine	wood		Firewood 1002 index01 fine	tag
+gimmick_item_firewood_1002_index01_premium	wood		Firewood 1002 index01 premium	tag
+gimmick_item_firewood_1002_index02	wood		Firewood 1002 index02	tag
+gimmick_item_firewood_1002_index02_fine	wood		Firewood 1002 index02 fine	tag
+gimmick_item_firewood_1002_index02_premium	wood		Firewood 1002 index02 premium	tag
+gimmick_item_firewood_1002_index03	wood		Firewood 1002 index03	tag
+gimmick_item_firewood_1002_index03_fine	wood		Firewood 1002 index03 fine	tag
+gimmick_item_firewood_1002_index03_premium	wood		Firewood 1002 index03 premium	tag
+gimmick_item_firewood_1002_index04	wood		Firewood 1002 index04	tag
+gimmick_item_firewood_1002_index04_fine	wood		Firewood 1002 index04 fine	tag
+gimmick_item_firewood_1002_index04_premium	wood		Firewood 1002 index04 premium	tag
+gimmick_item_firewood_1002_index05	wood		Firewood 1002 index05	tag
+gimmick_item_firewood_1002_index05_fine	wood		Firewood 1002 index05 fine	tag
+gimmick_item_firewood_1002_index05_premium	wood		Firewood 1002 index05 premium	tag
+gimmick_item_firewood_1002_index06	wood		Firewood 1002 index06	tag
+gimmick_item_firewood_1002_index06_fine	wood		Firewood 1002 index06 fine	tag
+gimmick_item_firewood_1002_index06_premium	wood		Firewood 1002 index06 premium	tag
+gimmick_item_firewood_1002_index07	wood		Firewood 1002 index07	tag
+gimmick_item_firewood_1002_index07_fine	wood		Firewood 1002 index07 fine	tag
+gimmick_item_firewood_1002_index07_premium	wood		Firewood 1002 index07 premium	tag
+gimmick_item_firewood_1002_index08	wood		Firewood 1002 index08	tag
+gimmick_item_firewood_1002_index08_fine	wood		Firewood 1002 index08 fine	tag
+gimmick_item_firewood_1002_index08_premium	wood		Firewood 1002 index08 premium	tag
+gimmick_item_firewood_1002_index09	wood		Firewood 1002 index09	tag
+gimmick_item_firewood_1002_index09_fine	wood		Firewood 1002 index09 fine	tag
+gimmick_item_firewood_1002_index09_premium	wood		Firewood 1002 index09 premium	tag
+gimmick_item_firewood_1002_index10	wood		Firewood 1002 index10	tag
+gimmick_item_firewood_1002_index10_fine	wood		Firewood 1002 index10 fine	tag
+gimmick_item_firewood_1002_index10_premium	wood		Firewood 1002 index10 premium	tag
+gimmick_item_firewood_1002_premium	wood		Firewood 1002 premium	tag
+gimmick_item_firewood_1003	wood		Firewood	tag
+gimmick_item_firewood_1003_fine	wood		Firewood 1003 fine	tag
+gimmick_item_firewood_1003_index01	wood		Firewood 1003 index01	tag
+gimmick_item_firewood_1003_index01_fine	wood		Firewood 1003 index01 fine	tag
+gimmick_item_firewood_1003_index01_premium	wood		Firewood 1003 index01 premium	tag
+gimmick_item_firewood_1003_premium	wood		Firewood 1003 premium	tag
+gimmick_item_firewood_2001	wood		Firewood	tag
+gimmick_item_firewood_2001_fine	wood		Firewood 2001 fine	tag
+gimmick_item_firewood_2001_index01	wood		Firewood 2001 index01	tag
+gimmick_item_firewood_2001_index01_fine	wood		Firewood 2001 index01 fine	tag
+gimmick_item_firewood_2001_index01_premium	wood		Firewood 2001 index01 premium	tag
+gimmick_item_firewood_2001_index02	wood		Firewood 2001 index02	tag
+gimmick_item_firewood_2001_index02_fine	wood		Firewood 2001 index02 fine	tag
+gimmick_item_firewood_2001_index02_premium	wood		Firewood 2001 index02 premium	tag
+gimmick_item_firewood_2001_index03	wood		Firewood 2001 index03	tag
+gimmick_item_firewood_2001_index03_fine	wood		Firewood 2001 index03 fine	tag
+gimmick_item_firewood_2001_index03_premium	wood		Firewood 2001 index03 premium	tag
+gimmick_item_firewood_2001_premium	wood		Firewood 2001 premium	tag
+gimmick_item_firewood_2002	wood		Firewood	tag
+gimmick_item_firewood_2002_fine	wood		Firewood 2002 fine	tag
+gimmick_item_firewood_2002_index01	wood		Firewood 2002 index01	tag
+gimmick_item_firewood_2002_index01_fine	wood		Firewood 2002 index01 fine	tag
+gimmick_item_firewood_2002_index01_premium	wood		Firewood 2002 index01 premium	tag
+gimmick_item_firewood_2002_index02	wood		Firewood 2002 index02	tag
+gimmick_item_firewood_2002_index02_fine	wood		Firewood 2002 index02 fine	tag
+gimmick_item_firewood_2002_index02_premium	wood		Firewood 2002 index02 premium	tag
+gimmick_item_firewood_2002_index03	wood		Firewood 2002 index03	tag
+gimmick_item_firewood_2002_index03_fine	wood		Firewood 2002 index03 fine	tag
+gimmick_item_firewood_2002_index03_premium	wood		Firewood 2002 index03 premium	tag
+gimmick_item_firewood_2002_premium	wood		Firewood 2002 premium	tag
+gimmick_item_firewood_2003	wood		Firewood	tag
+gimmick_item_firewood_2003_fine	wood		Firewood 2003 fine	tag
+gimmick_item_firewood_2003_premium	wood		Firewood 2003 premium	tag
+gimmick_item_lookat_stone	stone	Stone_Quarry	Stone	name
+gimmick_item_reeddevil_doll	plant		Item reeddevil doll	name
+gimmick_jijeongta_leaf_0001	plant		Jijeongta leaf	tag
+gimmick_jijeongta_leaf_vegetation_0001	plant		Jijeongta leaf vegetation	name
+gimmick_jijeongta_leaf_vegetation_0002	plant		Jijeongta leaf vegetation	name
+gimmick_kudzu_tree_0001	wood		Kudzu tree	name
+gimmick_kudzu_vine_0001	plant		Kudzu vine	tag
+gimmick_lamp_side_antumbra_0001_reeddevil	plant		Plant	name
+gimmick_lamp_standstone_01_antumbra_del_on	stone		Stone	name
+gimmick_lamp_standstone_01_antumbra_dem_on	stone		Stone	name
+gimmick_lamp_standstone_01_antumbra_desert_on	stone		Stone	name
+gimmick_lamp_standstone_01_antumbra_kwe_on	stone		Stone	name
+gimmick_lamp_standstone_01_antumbra_nameless_on	stone		Stone	name
+gimmick_lamp_standstone_01_antumbra_off	stone		Lamp standstone 01 antumbra off	name
+gimmick_lamp_standstone_01_antumbra_on	stone		Lamp standstone 01 antumbra on	name
+gimmick_lamp_standstone_01_antumbra_reeddevil_on	stone		Stone	name
+gimmick_lamp_standstone_01_antumbra_troll_on	stone		Stone	name
+gimmick_lamp_standstone_01_darknessking_off	stone		Stone	name
+gimmick_lamp_standstone_01_dungeon_off	stone		Lamp standstone 01 dungeon off	name
+gimmick_lamp_standstone_01_dungeon_on	stone		Lamp standstone 01 dungeon on	name
+gimmick_lamp_standstone_01_index01_off	stone		Lamp standstone 01 index01 off	name
+gimmick_lamp_standstone_01_marni_on	stone		Lamp standstone 01 marni on	name
+gimmick_lamp_standstone_01_off	stone		Lamp standstone 01 off	name
+gimmick_lamp_standstone_01_on	stone		Lamp standstone 01 on	name
+gimmick_lamp_standstone_02_antumbra	stone		Lamp standstone 02 antumbra	name
+gimmick_lamp_standstone_02_antumbra_del	stone		Lamp standstone 02 antumbra del	name
+gimmick_lamp_standstone_02_antumbra_dem	stone		Lamp standstone 02 antumbra dem	name
+gimmick_lamp_standstone_02_antumbra_desert	stone		Stone	name
+gimmick_lamp_standstone_02_antumbra_kwe	stone		Lamp standstone 02 antumbra kwe	name
+gimmick_lamp_standstone_02_antumbra_nameless	stone		Stone	name
+gimmick_lamp_standstone_02_antumbra_reeddevil	stone		Stone	name
+gimmick_lamp_standstone_02_antumbra_troll	stone		Stone	name
+gimmick_lamp_standstone_02_index01_off	stone		Lamp standstone 02 index01 off	name
+gimmick_lamp_standstone_02_off	stone		Lamp standstone 02 off	name
+gimmick_lamp_standstone_02_on	stone		Lamp standstone 02 on	name
+gimmick_lamp_standstone_02_skullknight_ice	stone		Stone	name
+gimmick_lamp_standstone_02_skullknight_off	stone		Stone	name
+gimmick_lamp_standstone_03_off	stone		Lamp standstone 03 off	name
+gimmick_lamp_standstone_03_on	stone		Lamp standstone 03 on	name
+gimmick_lamp_standstone_03_on_index01	stone		Lamp standstone 03 on index01	name
+gimmick_lamp_standstone_04_off	stone		Lamp standstone 04 off	name
+gimmick_lamp_standstone_04_on	stone		Lamp standstone 04 on	name
+gimmick_lamp_standstone_05_index01_off	stone		Lamp standstone 05 index01 off	name
+gimmick_lamp_standstone_05_off	stone		Lamp standstone 05 off	name
+gimmick_lamp_standstone_06_index01_off	stone		Lamp standstone 06 index01 off	name
+gimmick_lamp_standstone_06_index02_off	stone		Lamp standstone 06 index02 off	name
+gimmick_lamp_standstone_06_index03_off	stone		Lamp standstone 06 index03 off	name
+gimmick_lamp_standstone_06_index04_off	stone		Lamp standstone 06 index04 off	name
+gimmick_lamp_standstone_06_off	stone		Lamp standstone 06 off	name
+gimmick_lifespring_0001	wood		Tariv guardiantree pear	name
+gimmick_liftable_pillar_02_stump	wood		Liftable pillar 02 stump	name
+gimmick_marni_chocolate_loginoutmachine_0003	wood		Marni chocolate loginoutmachine	name
+gimmick_milepost_crimsondesert	plant		Milepost reeddevil	name
+gimmick_milepost_her_reeds	plant		Milepost her reeds	name
+gimmick_mine_bismuth_place_01	ore		Mine bismuth	tag
+gimmick_mine_bismuth_place_01_cave	ore		Mine bismuth cave	tag
+gimmick_mine_bluestone_place_01	ore	BlueStone	Azurite	tag
+gimmick_mine_bluestone_place_01_cave	ore		Mine bluestone cave	tag
+gimmick_mine_copperstone_place_01	ore		Mine copper	tag
+gimmick_mine_copperstone_place_01_cave	ore		Mine copper cave	tag
+gimmick_mine_diamond_place_01	ore	Diamond	Diamond	tag
+gimmick_mine_diamond_place_01_cave	ore		Mine diamond cave	tag
+gimmick_mine_goldstone_place_01	ore		Mine gold	tag
+gimmick_mine_goldstone_place_01_cave	ore		Mine gold cave	tag
+gimmick_mine_goldstone_spot_0002	stone		Mine goldstone spot	name
+gimmick_mine_goldstone_spot_0003	stone		Mine goldstone spot	name
+gimmick_mine_goldstone_spot_0004	stone		Mine goldstone spot	name
+gimmick_mine_greenstone_place_01	ore	GreenStone	Epidote	tag
+gimmick_mine_greenstone_place_01_cave	ore		Mine greenstone cave	tag
+gimmick_mine_ironstone_place_01	ore		Mine iron	tag
+gimmick_mine_ironstone_place_01_cave	ore		Mine iron cave	tag
+gimmick_mine_ore_bismuth_01	ore		Ore bismuth	tag
+gimmick_mine_redstone_place_01	ore	RedStone	Bloodstone	tag
+gimmick_mine_redstone_place_01_cave	ore		Mine redstone cave	tag
+gimmick_mine_ruby_place_01	ore	Ruby	Garnet	tag
+gimmick_mine_ruby_place_01_cave	ore		Mine ruby cave	tag
+gimmick_mine_silverstone_place_01	ore		Mine silver	tag
+gimmick_mine_silverstone_place_01_cave	ore		Mine silver cave	tag
+gimmick_mine_stone_01	ore	Stone_Quarry	Stone	tag
+gimmick_mine_whitestone_place_01	ore	WhiteStone	Scolecite Ore	tag
+gimmick_mine_whitestone_place_01_cave	ore		Mine whitestone cave	tag
+gimmick_move_rock_01	stone		Move rock	name
+gimmick_move_rock_02	stone		Move rock	name
+gimmick_move_rock_03	stone		Move rock	name
+gimmick_nature_rock_dissolve_stone_01	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_02	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_03	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_04	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_05	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_06	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_07	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_07_index01	stone		Fade rock 07 index01	name
+gimmick_nature_rock_dissolve_stone_basalt_01	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_basalt_02	stone		Fade rock	name
+gimmick_nature_rock_dissolve_stone_core_01	stone		Nature rock dissolve stone core	name
+gimmick_nature_rock_dissolve_stone_part_01	stone		Nature rock dissolve stone part	name
+gimmick_nature_tree_stump_0001	wood		Nature tree stump	name
+gimmick_nature_wood_broken_tree_12_swamp_body	wood		Wood	name
+gimmick_nature_wood_broken_tree_12_swamp_parts01	wood		Wood	name
+gimmick_nature_wood_redwoodsierra_stump_02_swamp	wood		Wood	name
+gimmick_protective_stone_01	stone	Stone_Quarry	Stone	name
+gimmick_protective_stone_01_attach	stone		Protective stone 01 attach	name
+gimmick_puzzle_demeniss_bottom_kingtomb_door_01	stone		Gate dem stone kingtomb	name
+gimmick_puzzle_ice_block_break_01	ore		Puzzle ice block break	tag
+gimmick_puzzle_ice_wall_break_01	ore		Puzzle ice wall break	tag
+gimmick_puzzle_ice_wall_break_02	ore		Puzzle ice wall break	tag
+gimmick_puzzle_pickaxe_break_point_01	ore		Puzzle pickaxe break point	tag
+gimmick_puzzle_standstone_01	stone		Puzzle standstone	name
+gimmick_puzzle_statue_01_standstone_combi	stone		Stone	name
+gimmick_puzzle_statue_01_standstone_dial	stone		Puzzle statue 01 standstone dial	name
+gimmick_puzzle_statue_01_standstone_operator	stone		Stone	name
+gimmick_puzzle_statue_01_standstone_part	stone		Puzzle statue 01 standstone part	name
+gimmick_puzzle_stone_wall_break_01_index01	ore		Ore	tag
+gimmick_puzzle_tariv_guardiantree_attach_parts_01	wood		Wood	name
+gimmick_quarry_break_bigstone_01	stone		Quarry break bigstone	name
+gimmick_quarry_break_bigstone_02	stone		Quarry break bigstone	name
+gimmick_quarry_stone_0001	ore	Stone_Quarry	Stone	tag
+gimmick_rare_collect_kudzu_0001	plant		Rare collect kudzu	tag
+gimmick_rare_collect_stalactites_0001	ore		Rare collect stalactites	tag
+gimmick_reeddevil_scarecrow_01	plant		Reeddevil scarecrow	name
+gimmick_reeddevil_scarecrow_02	plant		Reeddevil scarecrow	name
+gimmick_reeddevil_scarecrow_03	plant		Reeddevil scarecrow	name
+gimmick_reeddevil_tower_0001	plant		Reeddevil tower 0001 base	name
+gimmick_reeddevil_tower_0001_parts01	plant		Reeddevil tower 0001 parts01	name
+gimmick_reeddevil_tower_0001_parts02	plant		Reeddevil tower 0001 parts02	name
+gimmick_reeddevil_tower_0002	plant		Reeddevil tower 0002 base	name
+gimmick_reeddevil_tower_0002_parts01	plant		Reeddevil tower 0002 parts01	name
+gimmick_reeddevil_tower_0002_parts02	plant		Reeddevil tower 0002 parts02	name
+gimmick_reeddevil_tower_0002_parts03	plant		Reeddevil tower 0002 parts03	name
+gimmick_rock_02	stone		Rock break	name
+gimmick_rubber_tree_0001	wood		Rubber tree	name
+gimmick_shinystone_01	stone		Shinystone	name
+gimmick_ships_elevator_01_longleaf	plant		Ships elevator 01 longleaf	name
+gimmick_ships_elevator_02_pulley_longleaf	plant		Plant	name
+gimmick_socket_collection_amaranth_01	plant	Item_Rare_Collect_amaranth	Amaranth	tag
+gimmick_socket_collection_antirrhinum_01	plant		Variegatum	tag
+gimmick_socket_collection_apple_01	item	Apple	Apple	tag
+gimmick_socket_collection_asparagus_01	item	Asparagus	Asparagus	tag
+gimmick_socket_collection_barley_01	item	Barley	Barley	tag
+gimmick_socket_collection_bean_01	plant	Bean	Beans	tag
+gimmick_socket_collection_begonia_01	plant	Begonia	Begonia	tag
+gimmick_socket_collection_blackberry_01	item	Blackberry	Blackberry	tag
+gimmick_socket_collection_blueberry_01	item	Blueberry	Blueberry	tag
+gimmick_socket_collection_buckwheat_01	item	Buckwheat	Buckwheat	tag
+gimmick_socket_collection_cabbage_01	item	Cabbage	Cabbage	tag
+gimmick_socket_collection_cacao_01	item	Cacao	Cacao	tag
+gimmick_socket_collection_carrot_01	item	Carrot	Carrot	tag
+gimmick_socket_collection_chaya_01	item	Item_Rare_Collect_Chaya	Chaya	tag
+gimmick_socket_collection_chlorella_01	item		Chlorella	tag
+gimmick_socket_collection_coffeetree_01	item	Coffee	Coffee Cherry	tag
+gimmick_socket_collection_corn_01	item	Corn	Corn	tag
+gimmick_socket_collection_cotton_01	plant	Cotton	Cotton	tag
+gimmick_socket_collection_cucumber_01	item	Cucumber	Cucumber	tag
+gimmick_socket_collection_desertwatermelon_01	item		Desertwatermelon	tag
+gimmick_socket_collection_dulse_01	item		Dulse	tag
+gimmick_socket_collection_elderberry_01	item	Elderberry	Elderberry	tag
+gimmick_socket_collection_ensete_01	item		Ensete	tag
+gimmick_socket_collection_fennel_01	item	Fennel	Fennel	tag
+gimmick_socket_collection_figs_01	item	Figs	Fig	tag
+gimmick_socket_collection_garlic_01	item	Garlic	Garlic	tag
+gimmick_socket_collection_glowfruit_01	item		Glowfruit	tag
+gimmick_socket_collection_grape_01	item	Grape	Grape	tag
+gimmick_socket_collection_heterophylla_01	plant		Weed harsam	tag
+gimmick_socket_collection_imperata_01	plant	Croton	Croton	tag
+gimmick_socket_collection_lavender_01	plant	Lavender	Lavender	tag
+gimmick_socket_collection_lavender_01_blue	plant		Lavender 01 blue	tag
+gimmick_socket_collection_lavender_01_white	plant		Lavender 01 white	tag
+gimmick_socket_collection_lavender_01_yellow	plant		Lavender 01 yellow	tag
+gimmick_socket_collection_lentils_01	item	Lentils	Lentils	tag
+gimmick_socket_collection_linum_01	plant		Linum	tag
+gimmick_socket_collection_marigold_01	plant	Marigold	Marigold	tag
+gimmick_socket_collection_navet_01	item	Navet	Turnip	tag
+gimmick_socket_collection_oleander_01	plant	Oleander	Rosebay	tag
+gimmick_socket_collection_oliganthus_01	plant		Oliganthus	tag
+gimmick_socket_collection_onion_01	item	Onion	Onion	tag
+gimmick_socket_collection_opuntia_01	item		Opuntia	tag
+gimmick_socket_collection_orange_01	item	Orange	Orange	tag
+gimmick_socket_collection_pansy_01	plant	Pansy	Pansy	tag
+gimmick_socket_collection_parsley_01	item	Parsley	Parsley	tag
+gimmick_socket_collection_peach_01	item	Peach	Peach	tag
+gimmick_socket_collection_pear_02	item	Pear	Pear	tag
+gimmick_socket_collection_peas_01	plant	peas	Peas	tag
+gimmick_socket_collection_peony_01	plant	Peony	Peony	tag
+gimmick_socket_collection_pineapple_01	item	Pineapple	Pineapple	tag
+gimmick_socket_collection_pomegranate_01	item	Pomegranate	Pomegranate	tag
+gimmick_socket_collection_potato_01	item	Potato	Potato	tag
+gimmick_socket_collection_pumpkin_01	item	Pumpkin	Pumpkin	tag
+gimmick_socket_collection_raspberry_01	item	Rasberry	Raspberry	tag
+gimmick_socket_collection_redbeet_01	item	Redbeet	Beet	tag
+gimmick_socket_collection_rock_orchids_01	plant		Rock orchids	tag
+gimmick_socket_collection_rosemary_01	plant	Rosemary	Rosemary	tag
+gimmick_socket_collection_rosemary_01_pink	plant		Rosemary 01 pink	tag
+gimmick_socket_collection_rosemary_01_white	plant		Rosemary 01 white	tag
+gimmick_socket_collection_rosemary_01_yellow	plant		Rosemary 01 yellow	tag
+gimmick_socket_collection_rubber_seed_0002	item	Rubber_seed	Rubber Tree Seed	tag
+gimmick_socket_collection_sage_01	plant		Bush sage	tag
+gimmick_socket_collection_sage_01_red	plant		Bush sage 01 red	tag
+gimmick_socket_collection_sophora_01	plant		Weed sophora	tag
+gimmick_socket_collection_strawberry_01	item	Strawberry	Strawberry	tag
+gimmick_socket_collection_sweetpotato_01	item	SweetPotato	Sweet Potato	tag
+gimmick_socket_collection_taro_01	item	Item_Rare_Collect_Taro	Taro	tag
+gimmick_socket_collection_tomato_01	item	Tomato	Tomato	tag
+gimmick_socket_collection_veratrum_01	plant		Veratrum	tag
+gimmick_socket_collection_victorialis_01	item	Victorialis	Wild Garlic	tag
+gimmick_socket_collection_villosa_01	plant		Villosa	tag
+gimmick_socket_collection_wheat_01	item	Wheat	Wheat	tag
+gimmick_spot_tower_bismuth_01_break	ore		Background breakable bismuth	tag
+gimmick_spot_tower_bismuth_06_break	ore		Background breakable bismuth	tag
+gimmick_spot_tower_bismuth_bigcore_01	ore		Ore	tag
+gimmick_stalactite_0003	ore	Item_Rare_Collect_Stalactites	Stalactite	tag
+gimmick_stalactite_0004	ore	Item_Rare_Collect_Stalactites	Stalactite	tag
+gimmick_standstone_01_challenge	stone		Standstone 01 challenge	name
+gimmick_standstone_01_challenge_del	stone		Standstone 01 challenge del	name
+gimmick_standstone_01_challenge_desert	stone		Standstone 01 challenge desert	name
+gimmick_standstone_turn_totem_pushstone_01	stone		Standstone turn totem pushstone	name
+gimmick_standstone_turn_totem_pushstone_01_parts01	stone		Stone	name
+gimmick_standstone_turn_totem_pushstone_body_01	stone		Stone	name
+gimmick_subinner_mushroomfarm_0001	plant		Subinner mushroomfarm	name
+gimmick_subinner_timberstorage_0001	wood		Subinner timberstorage	name
+gimmick_sulfur_rock_0001	stone		Sulfur rock	name
+gimmick_sulfur_rock_0001_parts01	stone		Sulfur rock 0001 parts01	name
+gimmick_sulfur_rock_0002	stone		Sulfur rock	name
+gimmick_sulfur_rock_0002_parts01	stone		Sulfur rock 0002 parts01	name
+gimmick_sulfur_rock_0003	stone		Sulfur rock	name
+gimmick_sulfur_rock_0004	stone		Sulfur rock	name
+gimmick_swingbridge_vine_01	plant		Swingbridge vine 01 part	name
+gimmick_swingbridge_vine_01_set	plant		Swingbridge vine 01 set	name
+gimmick_swingbridge_vine_02	plant		Swingbridge vine 02 part	name
+gimmick_swingbridge_vine_02_set	plant		Swingbridge vine 02 set	name
+gimmick_swingbridge_vine_03	plant		Swingbridge vine 03 part	name
+gimmick_swingbridge_vine_03_set	plant		Swingbridge vine 03 set	name
+gimmick_swingbridge_vine_pillar_01_part	plant		Swingbridge vine pillar 01 part	name
+gimmick_switch_attack_07_bismuth	ore		Switch attack 07 bismuth	tag
+gimmick_switch_bigtree_01_jijeongta	wood		Switch bigtree 01 jijeongta	name
+gimmick_switch_bigtree_03_jijeongta	wood		Switch bigtree 03 jijeongta	name
+gimmick_switch_lever_sidehole_01_reeddevil	plant		Plant	name
+gimmick_swordtombstone_0001	stone		Swordtombstone	name
+gimmick_swordtombstone_0001_parts01	stone		Swordtombstone 0001 parts01	name
+gimmick_temple_break_ground_01_reeddevil	plant		Temple break ground 01 reeddevil	name
+gimmick_temple_break_wall_arch_02a_reeddevil	plant		Plant	name
+gimmick_temple_fall_pillar_01_reeddevil	plant		Temple fall pillar 01 reeddevil	name
+gimmick_temple_wall_02_broken_01_reeddevil	plant		Plant	name
+gimmick_temple_wall_02_broken_02_reeddevil	plant		Plant	name
+gimmick_temple_wall_09_reeddevil	plant		Temple wall 09 reeddevil	name
+gimmick_timber_hotdeck_04_pail	wood		Gimmicktimber hotdeck 04 pail	name
+gimmick_tombstone_0001	stone		Tombstone	name
+gimmick_tombstone_0002	stone		Tombstone	name
+gimmick_tombstone_0003	stone		Tombstone	name
+gimmick_tombstone_0004	stone		Tombstone	name
+gimmick_tombstone_0005	stone		Tombstone	name
+gimmick_tombstone_0006	stone		Tombstone	name
+gimmick_tombstone_0007	stone		Tombstone	name
+gimmick_tombstone_0008	stone		Tombstone	name
+gimmick_tombstone_0009	stone		Tombstone	name
+gimmick_tombstone_0010	stone		Tombstone	name
+gimmick_tombstone_0011	stone		Tombstone	name
+gimmick_tombstone_0012	stone		Tombstone	name
+gimmick_tombstone_0013	stone		Tombstone	name
+gimmick_tombstone_0014	stone		Tombstone	name
+gimmick_tombstone_0015	stone		Tombstone	name
+gimmick_tombstone_0016	stone		Tombstone	name
+gimmick_tombstone_0017	stone		Tombstone	name
+gimmick_tombstone_0018	stone		Tombstone	name
+gimmick_tombstone_0019	stone		Tombstone	name
+gimmick_tombstone_0020	stone		Tombstone	name
+gimmick_tombstone_0021	stone		Tombstone	name
+gimmick_tombstone_0022	stone		Tombstone	name
+gimmick_tombstone_0023	stone		Tombstone	name
+gimmick_tombstone_0024	stone		Tombstone	name
+gimmick_tombstone_0025	stone		Tombstone	name
+gimmick_tombstone_0026	stone		Tombstone	name
+gimmick_tombstone_0027	stone		Tombstone	name
+gimmick_tombstone_0028	stone		Tombstone	name
+gimmick_tombstone_0029	stone		Tombstone	name
+gimmick_tombstone_0030	stone		Tombstone	name
+gimmick_tombstone_0031	stone		Tombstone	name
+gimmick_tombstone_0032	stone		Tombstone	name
+gimmick_tombstone_0033	stone		Tombstone	name
+gimmick_tombstone_0034	stone		Tombstone	name
+gimmick_tool_automata_flower_0001	plant		Tool automata flower	name
+gimmick_tool_automata_flower_0001_parts01	plant		Plant	name
+gimmick_tool_automata_flower_0001_parts02	plant		Plant	name
+gimmick_tool_automata_flower_0002	plant		Tool automata flower	name
+gimmick_tool_automata_flower_0002_parts01	plant		Plant	name
+gimmick_tool_automata_flower_0002_parts02	plant		Plant	name
+gimmick_tool_blacksmithstone_01	stone		Tool blacksmithstone	name
+gimmick_tool_blacksmithstone_housing_0001	stone		Tool blacksmithstone housing	name
+gimmick_tool_decostone_0001	stone		Tool decostone	name
+gimmick_tool_decostone_0001_cogwheel	stone		Tool decostone 0001 cogwheel	name
+gimmick_tool_decostone_0001_cogwheel_index01	stone		Stone	name
+gimmick_tool_decostone_0001_index01	stone		Tool decostone 0001 index01	name
+gimmick_tool_decostone_0001_index02	stone		Tool decostone 0001 index02	name
+gimmick_tool_decostone_0001_index03	stone		Tool decostone 0001 index03	name
+gimmick_tool_decostone_0001_index04	stone		Tool decostone 0001 index04	name
+gimmick_tool_decostone_0001_parts01	stone		Tool decostone 0001 parts01	name
+gimmick_tool_decostone_0001_parts01_cogwheel	stone		Stone	name
+gimmick_tool_decostone_0001_parts01_cogwheel_index01	stone		Stone	name
+gimmick_tool_decostone_0001_parts01_index01	stone		Stone	name
+gimmick_tool_decostone_0001_parts01_index02	stone		Stone	name
+gimmick_tool_decostone_0001_parts01_index03	stone		Stone	name
+gimmick_tool_decostone_0001_parts01_index04	stone		Stone	name
+gimmick_tool_decostone_0002	stone		Tool decostone	name
+gimmick_tool_decostone_0002_parts01	stone		Tool decostone 0002 parts01	name
+gimmick_tool_decostone_0003	stone		Tool decostone	name
+gimmick_tool_decostone_0003_parts01	stone		Tool decostone 0003 parts01	name
+gimmick_tool_decostone_0004	stone		Tool decostone	name
+gimmick_tool_decostone_0004_cogwheel	stone		Tool decostone 0004 cogwheel	name
+gimmick_tool_decostone_0004_cogwheel_index01	stone		Stone	name
+gimmick_tool_decostone_0004_index01	stone		Tool decostone 0004 index01	name
+gimmick_tool_decostone_0004_index02	stone		Tool decostone 0004 index02	name
+gimmick_tool_decostone_0004_index03	stone		Tool decostone 0004 index03	name
+gimmick_tool_decostone_0004_index04	stone		Tool decostone 0004 index04	name
+gimmick_tool_decostone_0004_parts01	stone		Tool decostone 0004 parts01	name
+gimmick_tool_decostone_0004_parts01_cogwheel	stone		Stone	name
+gimmick_tool_decostone_0004_parts01_cogwheel_index01	stone		Stone	name
+gimmick_tool_decostone_0004_parts01_index01	stone		Stone	name
+gimmick_tool_decostone_0004_parts01_index02	stone		Stone	name
+gimmick_tool_decostone_0004_parts01_index03	stone		Stone	name
+gimmick_tool_decostone_0004_parts01_index04	stone		Stone	name
+gimmick_tool_decostone_0005	stone		Tool decostone	name
+gimmick_tool_decostone_0005_index01	stone		Tool decostone 0005 index01	name
+gimmick_tool_decostone_0006	stone		Tool decostone	name
+gimmick_tool_decostone_0006_index01	stone		Tool decostone 0006 index01	name
+gimmick_tool_decostone_0007_parts01	stone		Tool decostone 0007 parts01	name
+gimmick_tool_decostone_0007_parts02	stone		Tool decostone 0007 parts02	name
+gimmick_tool_decostone_0007_parts03	stone		Tool decostone 0007 parts03	name
+gimmick_tool_decostone_0007_parts04	stone		Tool decostone 0007 parts04	name
+gimmick_tool_decostone_0010	stone		Tool decostone	name
+gimmick_tool_decostone_0010_parts01	stone		Tool decostone 0010 parts01	name
+gimmick_tool_dryingrope_herb_0001	plant		Tool dryingrope herb	name
+gimmick_tool_dryingrope_herb_0002	plant		Tool dryingrope herb	name
+gimmick_tool_dryingrope_herb_0003	plant		Tool dryingrope herb	name
+gimmick_tool_dryingrope_herb_0004	plant		Tool dryingrope herb	name
+gimmick_tool_dryingrope_herb_0005	plant		Tool dryingrope herb	name
+gimmick_tool_dryingrope_mushroom_0001	plant		Tool dryingrope mushroom	name
+gimmick_tool_dryingrope_mushroom_0002	plant		Tool dryingrope mushroom	name
+gimmick_tool_dryingrope_mushroom_0003	plant		Tool dryingrope mushroom	name
+gimmick_tool_dryingrope_mushroom_0004	plant		Tool dryingrope mushroom	name
+gimmick_transparent_effect_detect_01_reeddevil	plant		Plant	name
+gimmick_tree_balsa_sapling_01	wood		Tree balsa sapling	tag
+gimmick_tree_balsa_sapling_02	wood		Tree balsa sapling	tag
+gimmick_tree_bamboo_03	wood		Tree bamboo	tag
+gimmick_tree_bamboo_04	wood		Tree bamboo	tag
+gimmick_tree_broad_alder_hero_02	wood		Tree broad alder hero	tag
+gimmick_tree_broad_betula_big_01	wood		Tree broad betula big	tag
+gimmick_tree_broad_betula_big_02	wood		Tree broad betula big	tag
+gimmick_tree_broad_carob_02	wood		Tree broad carob	tag
+gimmick_tree_broad_coffeetree_01_collect_02	wood		Tree broad coffeetree 01 collect	tag
+gimmick_tree_broad_eunhaeng_01	wood		Tree broad eunhaeng	tag
+gimmick_tree_broad_hickory_pignut_01	wood		Tree broad hickory pignut	tag
+gimmick_tree_broad_hickory_pignut_03	wood		Tree broad hickory pignut	tag
+gimmick_tree_broad_hickory_pignut_04	wood		Tree broad hickory pignut	tag
+gimmick_tree_broad_hickory_pignut_drop_02	wood		Tree broad hickory pignut drop	tag
+gimmick_tree_broad_maple_01	wood		Tree broad maple	tag
+gimmick_tree_broad_maple_01_gr	wood		Tree broad maple 01 gr	tag
+gimmick_tree_broad_maple_01_red	wood		Tree broad maple 01 red	tag
+gimmick_tree_broad_maple_01_yellow	wood		Tree broad maple 01 yellow	tag
+gimmick_tree_broad_maple_02	wood		Tree broad maple	tag
+gimmick_tree_broad_maple_02_gr	wood		Tree broad maple 02 gr	tag
+gimmick_tree_broad_maple_02_red	wood		Tree broad maple 02 red	tag
+gimmick_tree_broad_maple_02_yellow	wood		Tree broad maple 02 yellow	tag
+gimmick_tree_broad_maple_03	wood		Tree broad maple	tag
+gimmick_tree_broad_maple_03_gr	wood		Tree broad maple 03 gr	tag
+gimmick_tree_broad_maple_03_orange	wood		Tree broad maple 03 orange	tag
+gimmick_tree_broad_maple_03_red	wood		Tree broad maple 03 red	tag
+gimmick_tree_broad_maple_03_yellow	wood		Tree broad maple 03 yellow	tag
+gimmick_tree_broad_oak_white_hero_01	wood		Tree broad oak white hero	tag
+gimmick_tree_broad_oak_white_hero_02	wood		Tree broad oak white hero	tag
+gimmick_tree_broad_oak_white_hero_03	wood		Tree broad oak white hero	tag
+gimmick_tree_broad_oak_white_hero_03_root_03	wood		Wood	tag
+gimmick_tree_broad_oak_white_hero_03_root_04	wood		Wood	tag
+gimmick_tree_broad_oak_white_hero_04	wood		Tree broad oak white hero	tag
+gimmick_tree_broad_oak_white_hero_big_02	wood		Tree broad oak white hero big	tag
+gimmick_tree_broad_oak_white_hero_giant_03	wood		Tree broad oak white hero giant	tag
+gimmick_tree_broad_oak_white_hero_thin_02	wood		Tree broad oak white hero thin	tag
+gimmick_tree_broad_oak_white_hero_thin_03	wood		Tree broad oak white hero thin	tag
+gimmick_tree_broad_oak_white_hero_thin_burnt_01	wood		Wood	tag
+gimmick_tree_broad_oak_white_hero_thin_burnt_04	wood		Wood	tag
+gimmick_tree_broad_pear_01_collect_01	wood		Tree broad pear 01 collect	tag
+gimmick_tree_broad_shagbark_hickory_hero_02	wood		Tree broad shagbark hickory hero	tag
+gimmick_tree_broad_uniquetree_10	wood		Tree broad uniquetree	tag
+gimmick_tree_broad_white_poplar_01	wood		Tree broad white poplar	tag
+gimmick_tree_broken_04	wood		Tree broken	name
+gimmick_tree_broken_04_north	wood		Tree broken 04 north	name
+gimmick_tree_broken_05	wood		Tree broken	name
+gimmick_tree_cd_broad_acacia_04	wood		Tree cd broad acacia	tag
+gimmick_tree_cd_broad_acacia_05	wood		Tree cd broad acacia	tag
+gimmick_tree_cd_broad_almond_drop_02	wood		Tree cd broad almond drop	tag
+gimmick_tree_cd_broad_birch_paper_01	wood		Tree cd broad birch paper	tag
+gimmick_tree_cd_broad_birch_paper_02	wood		Tree cd broad birch paper	tag
+gimmick_tree_cd_broad_birch_paper_05	wood		Tree cd broad birch paper	tag
+gimmick_tree_cd_broad_birch_paper_big_01	wood		Tree cd broad birch paper big	tag
+gimmick_tree_cd_broad_birch_paper_drop_05	wood		Tree cd broad birch paper drop	tag
+gimmick_tree_cd_broad_birch_paper_fw_05	wood		Tree cd broad birch paper fw	tag
+gimmick_tree_cd_broad_birch_paper_moss_05	wood		Tree cd broad birch paper moss	tag
+gimmick_tree_cd_broad_european_beech_01	wood		Tree cd broad european beech	tag
+gimmick_tree_cd_crop_apple_01_collect_01	wood		Tree cd crop apple 01 collect	tag
+gimmick_tree_cd_crop_apple_02_collect	wood		Tree cd crop apple 02 collect	tag
+gimmick_tree_cd_desert_juniper_drop_03	wood		Tree cd desert juniper drop	tag
+gimmick_tree_cd_palm_sabal_01	wood		Tree cd palm sabal	tag
+gimmick_tree_cd_pine_spruce_low_01	wood		Tree cd pine spruce low	tag
+gimmick_tree_crop_cacao_01_collect_01	wood		Tree crop cacao 01 collect	tag
+gimmick_tree_crop_figs_01_collect_01	wood		Tree crop figs 01 collect	tag
+gimmick_tree_crop_orange_01_collect_01	wood		Tree crop orange 01 collect	tag
+gimmick_tree_crop_orange_02_collect_01	wood		Tree crop orange 02 collect	tag
+gimmick_tree_crop_peach_01_collect_01	wood		Tree crop peach 01 collect	tag
+gimmick_tree_crop_peach_02_collect_01	wood		Tree crop peach 02 collect	tag
+gimmick_tree_crop_pomegranate_01_collect_01	wood		Tree crop pomegranate 01 collect	tag
+gimmick_tree_desert_dragon_01	wood		Tree desert dragon	tag
+gimmick_tree_hexe_marie_02	wood		Tree hexe marie	tag
+gimmick_tree_out_cypress_italian_hero_01	wood		Tree out cypress italian hero	tag
+gimmick_tree_out_cypress_italian_hero_03	wood		Tree out cypress italian hero	tag
+gimmick_tree_out_cypress_italian_hero_teal_03	wood		Wood	tag
+gimmick_tree_palm_01	wood		Tree palm	tag
+gimmick_tree_palm_coconut_01	wood		Tree palm coconut	tag
+gimmick_tree_palm_coconut_02	wood		Tree palm coconut	tag
+gimmick_tree_palm_coconut_03	wood		Tree palm coconut	tag
+gimmick_tree_pine_cypress_bhutan_01	wood		Tree pine cypress bhutan	tag
+gimmick_tree_pine_cypress_bhutan_drop_01	wood		Tree pine cypress bhutan drop	tag
+gimmick_tree_pine_densiflora_01	wood		Tree pine densiflora	tag
+gimmick_tree_pine_eastern_01	wood		Tree pine eastern	tag
+gimmick_tree_pine_redwoodsierra_burnt_01	wood		Tree pine redwoodsierra burnt	tag
+gimmick_tree_pine_redwoodsierra_burnt_03	wood		Tree pine redwoodsierra burnt	tag
+gimmick_tree_pine_redwoodsierra_small_01	wood		Tree pine redwoodsierra small	tag
+gimmick_tree_pine_spruce_high_drop_02	wood		Tree pine spruce high drop	tag
+gimmick_tree_pine_spruce_north_hero_01	wood		Tree pine spruce north hero	tag
+gimmick_tree_pine_spruce_north_hero_07	wood		Tree pine spruce north hero	tag
+gimmick_tree_pine_spruce_north_hero_giant_01	wood		Wood	tag
+gimmick_tree_pine_spruce_norway_hero_01	wood		Tree pine spruce norway hero	tag
+gimmick_tree_pine_spruce_norway_hero_02	wood		Tree pine spruce norway hero	tag
+gimmick_tree_pine_spruce_norway_hero_03	wood		Tree pine spruce norway hero	tag
+gimmick_tree_pine_spruce_norway_hero_04	wood		Tree pine spruce norway hero	tag
+gimmick_tree_pine_spruce_norway_hero_drop_01	wood		Wood	tag
+gimmick_tree_pine_spruce_norway_hero_small_01	wood		Wood	tag
+gimmick_tumbleweed_0001	plant	Item_gimmick_tumbleweed_0001	Tumbleweed	name
+gimmick_tumbleweed_0002	plant	Item_gimmick_tumbleweed_0001	Tumbleweed	name
+gimmick_tumbleweed_0003	plant	Item_gimmick_tumbleweed_0001	Tumbleweed	name
+gimmick_umbra_break_rock_01	stone		Umbra break rock	name
+gimmick_umbra_break_rock_02	stone		Umbra break rock	name
+gimmick_unique_bush_crop_ensete_01_collect_02	wood		Wood	tag
+gimmick_unique_tree_broad_pear_01_collect_01	wood		Wood	tag
+gimmick_unique_tree_broad_rubber_01_collect_01	wood		Wood	tag
+gimmick_unique_tree_cd_crop_apple_01_collect_01	wood		Wood	tag
+gimmick_unique_tree_crop_cacao_01_collect_01	wood		Wood	tag
+gimmick_unique_tree_crop_figs_01_collect_01	wood		Unique tree crop figs 01 collect	tag
+gimmick_unique_tree_crop_orange_01_collect_01	wood		Wood	tag
+gimmick_unique_tree_crop_peach_01_collect_01	wood		Wood	tag
+gimmick_unique_tree_crop_pomegranate_01_collect_01	wood		Wood	tag
+gimmick_wood_firewood_set_0001	wood		Wood firewood set	name
+gimmick_wood_firewood_set_0001_index01	wood		Wood firewood set 0001 index01	name
+gimmick_woodlog_set_05_01_pail	wood		Woodlog set 05 01 pail	name
+gimmick_woodlog_set_05_02_pail	wood		Woodlog set 05 02 pail	name
+gimmick_woodlog_set_05_03_pail	wood		Woodlog set 05 03 pail	name
+gimmick_woodlog_set_05_04_pail	wood		Woodlog set 05 04 pail	name
+gimmick_woodlog_set_05_05_pail	wood		Woodlog set 05 05 pail	name

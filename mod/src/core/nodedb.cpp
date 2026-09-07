@@ -50,8 +50,10 @@ namespace ml::NodeDb
             const std::string line = text.substr(pos, nl - pos);
             pos = nl + 1;
             if (header) { header = false; continue; }
-            std::string cols[4]; int c = 0;
-            for (const char* p = line.c_str(); *p && c < 4; ++p)
+            // Five columns now; a four-column table still loads, and every row
+            // in it simply counts as a guess.
+            std::string cols[5]; int c = 0;
+            for (const char* p = line.c_str(); *p && c < 5; ++p)
             {
                 if (*p == '\t') { ++c; continue; }
                 if (*p == '\r' || *p == '\n') break;
@@ -60,6 +62,7 @@ namespace ml::NodeDb
             if (c < 3 || cols[0].empty() || cols[1].empty()) continue;
             NodeType n;
             n.prefab = cols[0]; n.kind = cols[1]; n.itemKey = cols[2]; n.name = cols[3];
+            n.tagged = cols[4] == "tag";
             g_byPrefab[n.prefab] = g_rows.size();
             g_rows.push_back(std::move(n));
         }

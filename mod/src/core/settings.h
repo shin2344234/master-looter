@@ -59,6 +59,14 @@ namespace ml
         bool  autoArm        = true;
         float armRange       = 8.0f;
         bool  armContainers  = true;
+        // Mine an ore vein where it stands instead of waiting for it to be
+        // broken. Off leaves veins alone and picks up only the chunks.
+        bool  gatherVeins    = true;
+        // Break an ore vein rather than gathering it. Gathering lifts the ore
+        // straight out of the node and skips the drop, which is the only place
+        // the game applies an equipped tool's Mining Yield Up, so a gathered
+        // vein never pays the tool bonus and a broken one does.
+        bool  breakOre       = true;
         // safety and filters
         bool  lootOwned      = false;  // take goods the game would call stealing
         bool  skipQuestItems = true;
