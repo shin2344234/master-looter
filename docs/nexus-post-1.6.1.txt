@@ -1,0 +1,19 @@
+[size=4][b]1.6.1: the mod knows you from a wagon now[/b][/size]
+
+Small follow-up to this afternoon's release. If you are playing Damiane or Oongka, take it.
+
+1.6.0 works out where you are standing by your gear, because your character is the one thing in the world with a sword and armour and a lantern hanging off it. What I did not think hard enough about is that a wagon is also a thing with a lot hanging off it. Ten parts on a cart, tack on a horse. Both cleared the bar I set, and on any given moment either could out-count you.
+
+It looked fine while testing because a wagon and a horse are parked next to you. The scan lands a couple of metres off and picks up everything anyway. Drive the cart away and the mod goes with it.
+
+[size=4][b]The fix[/b][/size]
+
+Two parts. Gear counts for eight times what a plank does, since a dressed character carries items and a cart carries cart, and the mod already knows which is which by the time it asks. And whatever it is currently standing on has to be beaten properly: half again the score, and held for two and a half seconds, before the centre moves. One pass through the world is a poor witness. The game hands the list over a few objects at a time, and the pass that sees the wagon and not you will say the wagon is the only thing here.
+
+You can watch it work in the debug log. Mine opened on a six-part prop with no equipment on it, sat there for four seconds, then moved onto the body carrying ten things with four pieces of kit among them, and stayed put for the rest of the session.
+
+[size=4][b]Also[/b][/size]
+
+The scan line in the log names the thing it is actually standing on. It used to print your identity while measuring from your body, which is exactly the confusion the last two releases were about.
+
+Nothing here changes anything for Kliff.

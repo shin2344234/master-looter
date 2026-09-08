@@ -62,16 +62,16 @@ Two scanners out of seventy-one flag the plugin, and both are machine-learning m
 
 Worth knowing that the number moves on its own. 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, and 1.6.0 two. CrowdStrike Falcon and Deep Instinct are the two that come and go, and they have now dropped off twice. Nothing about what the file does changed in between. That is a model guessing, as against a scanner recognising something.
 
-Both 1.6.0 reports are public: [url=https://www.virustotal.com/gui/file/5e2a14e4bf404be50fcbfb883cc5e71318a7d34a8a2fb226490716ba802d93c4]the plugin[/url] and [url=https://www.virustotal.com/gui/file/2e7e2c66c03ac5597c2de5092f3290b4c0111350d6e33b643b4a3809845df89a]the package[/url].
+1.6.1 has not been scanned yet. Both 1.6.0 reports are public: [url=https://www.virustotal.com/gui/file/5e2a14e4bf404be50fcbfb883cc5e71318a7d34a8a2fb226490716ba802d93c4]the plugin[/url] and [url=https://www.virustotal.com/gui/file/2e7e2c66c03ac5597c2de5092f3290b4c0111350d6e33b643b4a3809845df89a]the package[/url].
 
 The shape is the whole reason. It is an unsigned DLL that a loader puts inside the game, and once there it patches instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D. A trainer does all of that, so a model trained on trainers answers trainer. It carries no signing certificate and has no install history behind it yet to argue otherwise.
 
 What it does not do is reach the network. It imports no networking library at all, writes MasterLooter.ini, .log, .presets and .backups beside itself and nothing else, reads and writes no registry key, and modifies no game file. Every line is on GitHub and one batch file builds it, if you would rather compile your own. If your browser or Defender blocks the download, restore the file and exclude the game's bin64 folder.
 
-SHA-256 for 1.6.0:
-[code]2e7e2c66c03ac5597c2de5092f3290b4c0111350d6e33b643b4a3809845df89a  MasterLooter-1.6.0-DMM.zip
-772d88f97836da77087df94e6c630619a6f55076fc06563694b2acabfdb241ec  MasterLooter-1.6.0.zip
-5e2a14e4bf404be50fcbfb883cc5e71318a7d34a8a2fb226490716ba802d93c4  MasterLooter.asi[/code]
+SHA-256 for 1.6.1:
+[code]4f8a21e3c59c278926824a84476bd2068cb761222805e20ee2099ba0da4d0d28  MasterLooter-1.6.1-DMM.zip
+bead4702574c56a3894964629914d2d6e70cff2d2f3f65e1c2f18070dff25e42  MasterLooter-1.6.1.zip
+6c8194927abc1a9177c15e479f699abc4308143e635e83b8a8a667abbb3a2ad7  MasterLooter.asi[/code]
 
 [size=4][b]Controls[/b][/size]
 [list]

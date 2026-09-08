@@ -1,0 +1,53 @@
+For Crimson Desert 2.01.00 (exe 1.0.0.2760).
+
+A wagon can no longer pass for your character.
+
+## What was wrong
+
+1.6.0 finds the body you are steering by the gear parented to it, which is how
+auto-loot started working as Damiane and Oongka. It counted children raw. A
+wagon carries about ten attached parts and a horse carries tack, so both
+cleared the bar, and on the pass that happened to decide either could out-count
+your character. It was survivable because a wagon and a horse are normally
+parked beside you, so the scan still covered roughly the right ground. One that
+drives off takes the scan with it, and a centre fifty metres away reaches
+nothing useful.
+
+## What changed
+
+Equipment counts for more than cargo. A child that the scan has already
+identified as an item is worth eight ordinary children, because a dressed
+character carries items and a cart carries cart. That count is taken from work
+the scan already does, so it costs nothing, and it only speaks for something
+close enough for its children to have been identified, which is where the
+confusion was. Your body seen from 1,700 metres still has no identified
+children and is still chosen the old way, so nothing about the Damiane fix
+moved.
+
+Whatever the scan is centred on now has to be beaten rather than tied. A
+challenger needs half again the score, two more outright, and it has to hold
+that lead for two and a half seconds. The game hands the mod its list of
+objects a few at a time, so one pass is a poor witness: the pass that
+enumerates the wagon and not you reports the wagon as the only thing carrying
+anything.
+
+Switching character clears the record. The previous body's gear was otherwise
+still on file and won the next pick outright.
+
+Confirmed in a session that opened on a six-part prop with no equipment on it,
+then corrected onto the body carrying ten children with four pieces of
+equipment, and stayed there while walking.
+
+## Also
+
+The scan census in the debug log names the entity the position belongs to. It
+used to print the player identity while standing on the body, which is the one
+confusion the whole area exists to clear up.
+
+## Checksums
+
+SHA-256 for 1.6.1:
+
+4f8a21e3c59c278926824a84476bd2068cb761222805e20ee2099ba0da4d0d28  MasterLooter-1.6.1-DMM.zip
+bead4702574c56a3894964629914d2d6e70cff2d2f3f65e1c2f18070dff25e42  MasterLooter-1.6.1.zip
+6c8194927abc1a9177c15e479f699abc4308143e635e83b8a8a667abbb3a2ad7  MasterLooter.asi
