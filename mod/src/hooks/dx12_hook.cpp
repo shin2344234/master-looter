@@ -1395,15 +1395,31 @@ namespace ml::hooks
         // is restarted, because the chain it drew through is gone and we are
         // not taking the new one. That is the trade, and a menu that stops
         // beats a game that stops.
-        if (g_wrapperActive)
+        // Refuse a replacement only once the overlay is actually up.
+        //
+        // "Never wrap a replacement" was too blunt and cost the menu entirely.
+        // The game recreates its swapchain two or three times while it is
+        // still starting, seconds apart, before a single frame has been drawn.
+        // Refusing those means never attaching to the chain the game settles
+        // on. A recreation before the overlay exists is harmless, because
+        // there is nothing of ours pointing at the old chain yet and nobody
+        // has been handed our object for long enough to have cached it.
+        //
+        // Once ImGui is up we have drawn through the wrapper and the game has
+        // been living with our object in place of its own. That is the point
+        // after which taking over a replacement kills it.
+        if (g_wrapperActive && g_imguiReady)
         {
             static LONG s_said = 0;
             if (InterlockedIncrement(&s_said) <= 3)
-                LOG("Swapchain replaced (frame generation toggle or a video setting). Leaving the "
-                    "new one alone: wrapping a replacement crashes the game. The menu will not "
-                    "draw again until the game is restarted.");
+                LOG("Swapchain replaced after the overlay was up (frame generation toggle or a "
+                    "video setting). Leaving the new one alone: wrapping a replacement at this "
+                    "point crashes the game. The menu will not draw again until the game is "
+                    "restarted.");
             return hr;
         }
+        if (g_wrapperActive)
+            LOG("Swapchain replaced before anything was drawn; wrapping the new one.");
 
         // For D3D12 the first argument is the swapchain's present command
         // queue - the queue that owns the back buffers. Pin it as the queue
