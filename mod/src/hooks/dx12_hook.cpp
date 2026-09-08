@@ -1227,12 +1227,34 @@ namespace ml::hooks
             if (r == 0)
             {
                 IDXGISwapChain4* inner = m_inner;
-                // Forget the identity before the memory goes back. The allocator
-                // can hand the same address to the next swapchain, and
-                // ReconcileSwapChain compares by pointer first: a recycled
-                // address with the same size and format would read as unchanged
-                // and leave the render targets pointing at freed back buffers.
-                if (g_swapChain == static_cast<IDXGISwapChain3*>(inner)) g_swapChain = nullptr;
+                const bool ours = (g_swapChain == static_cast<IDXGISwapChain3*>(inner));
+
+                // Let go of the back buffers before the swapchain goes.
+                //
+                // This is the release the wrapper never did. CreateRenderTargets
+                // calls GetBuffer for every back buffer and keeps the resources,
+                // so while our views exist the swapchain has outstanding
+                // references to its own buffers. The game reaching zero on its
+                // reference does not end that. Every other place that touches the
+                // buffers retires the GPU first and drops the views:
+                // ReconcileSwapChain does it, PreResizeCleanup does it. Teardown
+                // was the one path that did neither, and teardown is where the
+                // game dies when frame generation is toggled.
+                //
+                // Only when this wrapper owns the chain the views describe. A
+                // second wrapper being released must not tear down the live one's
+                // resources.
+                if (ours)
+                {
+                    WaitForOverlayIdle();     // our last submit may still be in flight
+                    CleanupRenderTargets();
+                    ReleaseOffscreenTarget();
+                    g_swapChain = nullptr;    // and forget the identity: the
+                                              // allocator can hand this address to
+                                              // the next chain, and ReconcileSwapChain
+                                              // compares by pointer first, so a
+                                              // recycled one would read as unchanged.
+                }
                 InterlockedDecrement(&g_liveWrappers);
                 delete this;
                 inner->Release();
