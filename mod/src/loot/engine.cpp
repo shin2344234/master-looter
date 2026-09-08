@@ -1079,13 +1079,10 @@ namespace ml::loot
         {
             uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
             mem::Read8(gdata + 5, &k.gkind);
-            // The well bucket. It is a real gather node, not scenery: it grows a
-            // gather block once the player is close (no block at 14.5 m, one at
-            // 1.8 m) and gathering it does hand over the Water. It is marked a
-            // container anyway, because the game consumes the node when it is
-            // gathered and the bucket disappears from the well for good. Three
-            // copper of water is not worth breaking the village well over.
-            if (k.gkind == 0x04 && IsMechanism(k.node)) g_containers.insert(k.eid);
+            // The well bucket grows a gather block once the player is close: no
+            // block at 14.5 m, one at 1.8 m. It is not marked a container any
+            // more, so the verdict below can reach it and ask for the water the
+            // other way round. See the note there.
         }
         if (idata)
         {
@@ -1227,13 +1224,9 @@ namespace ml::loot
                 if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
             }
         }
-        // A well is refused whole. Six of its seven parts never fill, and the
-        // seventh is the bucket, which does fill and does pay Water. Gathering
-        // it consumes the node the way gathering a plant does, and the bucket
-        // then stays missing. Tested 2026-09-08: the water arrived and the
-        // bucket vanished. Not a trade worth making for a three copper item
-        // that pottery drops more readily.
-        if (IsMechanism(c.node) || g_containers.count(c.eid)) return skip("mechanism part");
+        // Six of a well's seven parts never fill and stay refused. The seventh
+        // is the bucket, and once the player has wound it up it holds Water.
+        if ((IsMechanism(c.node) && !c.gather) || g_containers.count(c.eid)) return skip("mechanism part");
         if (c.heap) return skip("stack at one point (storage contents)");
         // (A pointer to the player inside the object used to mean "yours"; the
         // parent and bag checks above cover that, and arming can plant such a
@@ -1279,6 +1272,19 @@ namespace ml::loot
                  KindFromName(c.nodeType->kind) == GatherKind::Ore)
             v.act = Action::Gather;
         else return skip("not ready (node empty)");
+
+        // Ask for the bucket's contents, not for the bucket. Gathering it hands
+        // over the Water and takes the node with it, the way gathering a plant
+        // does, and the bucket then stays missing from the well. Tested on
+        // 2026-09-08, and it is the wrong question rather than a broken answer:
+        // a well declares Clear where a vein declares break, so it is built to
+        // be emptied and refilled rather than consumed.
+        //
+        // Take and gather are the same descriptor and differ by one byte, the
+        // mode at payload+3: 0x05 gathers, 0 picks up. So this is the game's own
+        // other way of asking, not an invention. The player winds the handle;
+        // the mod lifts out what is in the bucket.
+        if (v.act == Action::Gather && IsMechanism(c.node)) v.act = Action::Take;
 
         // Item rules from the database. A live key that our table knows gets the
         // full class/tag/item verdict; a node whose yield has been learned gets
