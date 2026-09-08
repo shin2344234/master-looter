@@ -1863,6 +1863,70 @@ namespace ml::loot
                     total, inRange, cfg.scanRange, g_meEid, mp.x, mp.y, mp.z, w ? tags : " none", nearBy);
             }
         }
+        // A world that is not there at all is a different fault from a world
+        // that is there and out of reach, and one entity in the whole manager
+        // is the first. Dump the lists the walk reads so the log says whether
+        // they are empty or whether the manager itself is the wrong one.
+        if (g_debugLog && total <= 2)
+        {
+            static DWORD s_saidMgr = 0;
+            if (now - s_saidMgr > 5000)
+            {
+                s_saidMgr = now;
+                char lists[220]; int w = 0;
+                for (unsigned off = ml::sig::kOff_Mgr_ListsBegin; off + 16 <= ml::sig::kOff_Mgr_ListsEnd && w < 190; off += 8)
+                {
+                    uint32_t count = 0, cap = 0; uintptr_t arr = 0;
+                    if (!mem::Read32(mgr + off, &count) || !mem::Read32(mgr + off + 4, &cap) ||
+                        !mem::ReadPtr(mgr + off + 8, &arr)) continue;
+                    if (count && cap && count <= cap && cap <= 0x10000)
+                        w += snprintf(lists + w, sizeof lists - w, " +%X:%u/%u", off, count, cap);
+                }
+                LOG("[mgr] manager %llX (global +%llX) lists:%s", static_cast<unsigned long long>(mgr),
+                    static_cast<unsigned long long>(mem::Rva(game::ActorManagerSlot())), w ? lists : " none usable");
+            }
+        }
+
+        // Find the played character by following the gear.
+        //
+        // Whatever Damiane is tagged as, her sword and armour hang off her, and
+        // a dressed character is the one thing in the world with a handful of
+        // items parented to it. So group everything by its parent and report
+        // the parents carrying the most. That works without knowing what tag a
+        // playable character wears, which is the assumption every attempt so
+        // far has been built on and none of them could justify.
+        if (g_debugLog && inRange == 0)
+        {
+            static DWORD s_saidWorn = 0;
+            if (now - s_saidWorn > 5000)
+            {
+                s_saidWorn = now;
+                struct Holder { uint32_t eid; int kids; Vec3 pos; };
+                Holder h[24]; int hn = 0;
+                ForEachEntity(mgr, [&](uintptr_t e) {
+                    uint32_t eid = 0;
+                    if (!game::Eid(e, &eid)) return true;
+                    const uint32_t par = game::ParentEid(e);
+                    if (!par) return true;
+                    for (int i = 0; i < hn; ++i) if (h[i].eid == par) { ++h[i].kids; return true; }
+                    if (hn < 24) { Vec3 q; game::WorldPos(e, &q); h[hn++] = { par, 1, q }; }
+                    return true;
+                });
+                for (int i = 0; i < hn; ++i)
+                    for (int j = i + 1; j < hn; ++j)
+                        if (h[j].kids > h[i].kids) { const Holder t = h[i]; h[i] = h[j]; h[j] = t; }
+                char line[240]; int w = 0;
+                for (int i = 0; i < hn && i < 5 && w < 200; ++i)
+                {
+                    const float dx = h[i].pos.x - mp.x, dy = h[i].pos.y - mp.y, dz = h[i].pos.z - mp.z;
+                    w += snprintf(line + w, sizeof line - w, " %08X:%d@%.0fm", h[i].eid, h[i].kids,
+                                  std::sqrt(dx * dx + dy * dy + dz * dz));
+                }
+                LOG("[worn] things hang off these, most first:%s (we are scanning around %08X)",
+                    w ? line : " nothing has a parent", g_meEid);
+            }
+        }
+
         // A neighbourhood with nothing in it, while the world plainly has
         // objects, is the signature of measuring from the wrong actor. Start a
         // clock so the pick is reconsidered rather than sat on for ever.
