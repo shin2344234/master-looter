@@ -379,7 +379,11 @@ namespace ml::mem
         return n;
     }
 
-    uintptr_t FindGlobalHoldingVtable(const uintptr_t* vtables, int n, long* candidates)
+    // outAll collects every global holding one of these vtables instead of
+    // stopping at the first. There is more than one ClientActorManager in
+    // memory and the first found is not necessarily the live one.
+    static uintptr_t FindGlobalsImpl(const uintptr_t* vtables, int n, long* candidates,
+                                     uintptr_t* outAll, int* outN, int maxOut)
     {
         const Module& m = Game();
         if (!m.base || n <= 0) return 0;
@@ -411,12 +415,28 @@ namespace ml::mem
                     uint64_t head = 0;
                     if (!Read64(static_cast<uintptr_t>(v), &head)) continue;
                     for (int i = 0; i < n; ++i)
-                        if (head == vtables[i]) { if (candidates) *candidates = cand; return p; }
+                        if (head == vtables[i])
+                        {
+                            if (outAll && *outN < maxOut) outAll[(*outN)++] = p;
+                            if (!outAll) { if (candidates) *candidates = cand; return p; }
+                        }
                 }
                 rp = rEnd;
             }
         }
         if (candidates) *candidates = cand;
         return 0;
+    }
+
+    uintptr_t FindGlobalHoldingVtable(const uintptr_t* vtables, int n, long* candidates)
+    {
+        return FindGlobalsImpl(vtables, n, candidates, nullptr, nullptr, 0);
+    }
+
+    int FindGlobalsHoldingVtable(const uintptr_t* vtables, int n, uintptr_t* out, int maxOut)
+    {
+        int found = 0;
+        FindGlobalsImpl(vtables, n, nullptr, out, &found, maxOut);
+        return found;
     }
 }

@@ -1903,7 +1903,7 @@ namespace ml::loot
             if (now - s_saidWorn > 5000)
             {
                 s_saidWorn = now;
-                struct Holder { uint32_t eid; int kids; Vec3 pos; };
+                struct Holder { uint32_t eid; int kids; Vec3 pos; uint32_t route; };
                 Holder h[24]; int hn = 0;
                 ForEachEntity(mgr, [&](uintptr_t e) {
                     uint32_t eid = 0;
@@ -1911,7 +1911,7 @@ namespace ml::loot
                     const uint32_t par = game::ParentEid(e);
                     if (!par) return true;
                     for (int i = 0; i < hn; ++i) if (h[i].eid == par) { ++h[i].kids; return true; }
-                    if (hn < 24) { Vec3 q; game::WorldPos(e, &q); h[hn++] = { par, 1, q }; }
+                    if (hn < 24) { Vec3 q; game::WorldPos(e, &q); h[hn++] = { par, 1, q, game::Route(e) }; }
                     return true;
                 });
                 for (int i = 0; i < hn; ++i)
@@ -1921,11 +1921,15 @@ namespace ml::loot
                 for (int i = 0; i < hn && i < 5 && w < 200; ++i)
                 {
                     const float dx = h[i].pos.x - mp.x, dy = h[i].pos.y - mp.y, dz = h[i].pos.z - mp.z;
-                    w += snprintf(line + w, sizeof line - w, " %08X:%d@%.0fm", h[i].eid, h[i].kids,
-                                  std::sqrt(dx * dx + dy * dy + dz * dz));
+                    w += snprintf(line + w, sizeof line - w, " %08X:%d@%.0fm/rt%08X", h[i].eid, h[i].kids,
+                                  std::sqrt(dx * dx + dy * dy + dz * dz), h[i].route);
                 }
-                LOG("[worn] things hang off these, most first:%s (we are scanning around %08X)",
-                    w ? line : " nothing has a parent", g_meEid);
+                // The route is here because the player's own route is known
+                // (events::Route) and gear should share it. A holder on the
+                // player's route, with things hanging off it, is the body.
+                LOG("[worn] things hang off these, most first:%s (scanning around %08X, player route %08X)",
+                    w ? line : " nothing has a parent", g_meEid,
+                    events::RouteKnown() ? events::Route() : 0);
             }
         }
 
