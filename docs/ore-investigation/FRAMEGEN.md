@@ -1,9 +1,8 @@
 # Toggling frame generation killed the game
 
 Found 8 September 2026 from a user report, reproduced on a borrowed machine,
-and fixed by a two-line rule after four wrong builds. Written up because the
-wrong turns cost more than the answer did, and because the diagnostics that
-finally worked are the reusable part.
+and settled after twelve builds, four of which were confidently wrong. Written
+up because the wrong turns cost far more than the answer did.
 
 ## The report
 
@@ -15,26 +14,47 @@ everything except the mod, and reproduced it on two versions.
 It cannot be reproduced on a 3090 Ti. A borrowed 5060 Ti reproduces it every
 time, within a couple of minutes of a toggle.
 
-## The rule
+## The answer
 
-**Wrap the first swapchain. Never wrap a replacement.**
+**The render target views held references to back buffers of a swapchain the
+game was destroying.**
 
-The mod wraps the swapchain so the menu can draw before frame generation
-interpolates, which is why that code exists at all. Toggling frame generation
-destroys the chain and builds a new one, in either direction, and the new one
-came back through the patched factory slot and got wrapped too.
+`CreateRenderTargets` calls `GetBuffer` for every back buffer and keeps the
+resources. While those views exist the swapchain has outstanding references to
+its own buffers, and the game dropping its own reference does not end that.
 
-Six sessions, every one wrapping a replacement, every one dead. One session
-with wrapping off entirely took repeated toggles both ways, before and after
-loading a save, and did not care. The first wrap has never killed anything.
+Every other path in `dx12_hook.cpp` that touches those buffers retires the GPU
+and drops the views first. `ReconcileSwapChain` does it. `PreResizeCleanup`
+does it. Teardown did neither, and teardown is where the game dies.
 
-`g_wrapperActive` had been recording "we have wrapped one" since long before
-any of this, and never gets cleared. The fix reads it.
+The wrapper's destructor now calls `WaitForOverlayIdle`, `CleanupRenderTargets`
+and `ReleaseOffscreenTarget` before releasing the inner swapchain, and only when
+that wrapper owns the chain the views describe.
 
-## What the game actually does
+## What settled it
 
-Two null pointer reads in `CrimsonDesert.exe`, eight milliseconds apart, on one
-thread, during the rebuild:
+A build that wrapped the swapchain exactly as normal and then took nothing at
+all: no ImGui init, no render targets, no descriptor heaps, not one reference on
+a back buffer. It wrapped the first chain and five replacements across repeated
+toggles and never crashed.
+
+    wrapped + resources + drawing   crash, every time
+    wrapped + nothing               survives five toggles
+    not wrapped at all              survives
+
+That is the whole diagnosis in three lines, and it took eight builds to think of
+running the middle one. Reach for the experiment that splits a suspect in two
+earlier than that.
+
+The first attempt at it was placed wrong: it returned out of `RenderOverlay`
+after `InitImGui` had already run, and `InitImGui` calls `CreateRenderTargets`.
+It would have held the resources anyway and proved nothing while looking
+conclusive. Check where a "do nothing" switch actually sits.
+
+## What the game does when it dies
+
+Two null pointer reads in `CrimsonDesert.exe`, milliseconds apart, on one
+thread:
 
     0xC0000005 at +0x2B8B5CA  reading 0x0
     0xC0000005 at +0x3B57552  reading 0x30
@@ -45,71 +65,65 @@ The first:
     mov  rax, qword ptr [rcx]          ; its vtable          <-- rcx is null
     call qword ptr [rax + 0x50]
 
-Twenty bytes further down the same function, a different path loads the same
-field and tests it:
+Twenty bytes down the same function another path loads the same field and tests
+it for null before using it. So the game knows that pointer can be absent and
+the path that dies assumes it cannot be.
 
-    lea  rsi, [rbx + 0x28]
-    mov  rcx, qword ptr [rsi]
-    test rcx, rcx
-    je   ...
+## Wrong turns, in order
 
-So the game knows that pointer can be absent, and the path that dies assumes it
-cannot be. The second fault is the same shape: a getter returns null and the
-caller reads it at +0x30 without checking.
+**1. The queue pin.** The first theory was that the present queue got pinned to
+Streamline's pacer and could never be corrected. Reading `PublishPresentQueue`
+kills it: the queue is re-published on every authoritative call. The comment
+that inspired the theory was documenting a bug that had already been fixed.
 
-Something the game looks up during the rebuild is not found. Handing it our
-wrapper in place of the real swapchain is the obvious way to make a lookup
-keyed on that pointer miss. That last step is inference; the rest is measured.
+**2. Refuse to wrap while one of our wrappers is still alive.** Never fired
+once. The game releases its swapchain before creating the replacement, so ours
+is already gone by then.
 
-## Four builds that did not work, and why
+**3. A handler around the scan.** Every log ended mid-scan so the scan looked
+guilty. It was not: the scan runs on the mod's own worker thread and the last
+line in a log is only where that thread had reached. The handler never fired.
 
-**1. Refuse to wrap while one of our wrappers is still alive.** The reasoning
-was that a creation arriving while ours is live must belong to somebody else.
-It never fired once. The game releases its swapchain before creating the
-replacement, so by then ours is already gone. Whether a wrapper is alive is the
-wrong question; whether we have ever wrapped one is the right one.
+**4. `SetUnhandledExceptionFilter`.** Also never fired. That slot is global and
+singular and the game installs its own crash reporting after this plugin loads,
+which replaces ours. **Use `AddVectoredExceptionHandler`**: it sits on a chain
+and cannot be displaced. Skip faults whose address is inside this plugin, since
+`mem::` raises those on purpose, and report the rest.
 
-**2. A handler around the scan.** The logs all ended mid-scan, so the scan
-looked guilty. It was not: the scan runs on the mod's own worker thread and the
-last line in a log is only where that thread had reached, not where anything
-went wrong. The handler never fired.
+**5. Never wrap a replacement.** Stopped the crash and cost the menu entirely,
+because the game recreates its chain two or three times during startup before
+anything is drawn. Narrowing it to "only after the overlay is up" got the menu
+back and still crashed, which is what finally showed the death is in the
+teardown of the old chain rather than the creation of the new one: the refusal
+line never printed before the fault. Both builds were aimed at the wrong
+suspect and both are gone.
 
-**3. `SetUnhandledExceptionFilter`.** Also never fired. That slot is global and
-singular, and the game installs its own crash reporting after this plugin
-loads, which replaces ours.
+**6. `WrapSwapChain=0` as a diagnostic.** The trap worth remembering. It looks
+like it isolates the wrapper while leaving the mod running. On the test machine
+another mod had already detoured DXGI `Present`, so with wrapping off there was
+no render callback from either source, and `loot::Start` was gated behind the
+first rendered frame. The mod loaded, said "hooks installed", and did nothing
+for the whole session without a word. A dead mod not crashing proves nothing.
+Fixed separately: the engine starts on a watchdog now.
 
-**4. `WrapSwapChain=0` as a diagnostic.** This is the trap worth remembering.
-It appears to isolate the wrapper while leaving the mod running. On the test
-machine another mod had already detoured DXGI `Present`, so with wrapping off
-there was no render callback from either source, and `loot::Start` was gated
-behind the first rendered frame. The mod loaded, said "hooks installed", and
-did nothing at all for the whole session without a word. A dead mod not
-crashing the game proves nothing. Fixed separately: the engine now starts on a
-watchdog rather than waiting for a frame.
+## Caught in passing
 
-## What finally worked
+- The PE version resource had read 1.3.0 since that release. Five shipped
+  versions told Windows the wrong number. It is built from `version.h` now.
+- The loot engine only started from the first rendered frame, so on any machine
+  where another overlay owns `Present` and wrapping is off, the whole mod
+  switched itself off silently. It starts on a watchdog now.
+- That watchdog then ran in every host, including the game's crash reporter,
+  which never renders. It fired there, ran the whole late init, and claimed the
+  log away from the real session, so one log had a `crashpad_handler.exe` header
+  and two processes interleaved in it. Gated to the game, the way the log claim
+  beside it always was.
 
-`AddVectoredExceptionHandler`. It sits on a chain and cannot be displaced by
-whatever the game installs later. It sees every first-chance exception,
-including the ones `mem::` raises deliberately when it probes an address, so it
-skips faults whose address is inside this plugin and reports the rest. It logs
-and returns continue-search, so nothing is suppressed and the process still
-dies exactly as it would have.
+## Not proven to be the reported bug
 
-That is the tool to reach for first next time, not the top-level filter.
-
-## The cost
-
-After a toggle the menu stops drawing until the game is restarted, because the
-chain it drew through is gone and the replacement is left alone. That is the
-trade. A menu that stops beats a game that stops.
-
-## Not the same bug as the report
-
-Worth keeping straight. The machine this was reproduced on carries a SudoMaker
-Virtual Display Adapter, which participates in adapter enumeration and which
-Fyreon87 almost certainly does not have. The trigger matches and the fix should
-cover both, but nothing here proves the reported crash and the reproduced one
-are the same fault.
+The machine this was reproduced on carries a SudoMaker Virtual Display Adapter,
+which takes part in adapter enumeration and which Fyreon87 almost certainly does
+not have. The trigger matches and the fix should cover both. That the two
+crashes are the same fault is not proven.
 
 Issue #30.
