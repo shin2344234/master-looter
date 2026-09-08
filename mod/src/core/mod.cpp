@@ -208,6 +208,27 @@ namespace ml::Mod
 
         g_initialized = true;
         LOG_OK("Hooks installed. The menu key (default Insert) opens the menu once the game renders.");
+
+        // The loot engine used to start only from the first rendered frame,
+        // which is fine right up until there are no frames. The overlay
+        // arrives either through the swapchain wrapper or through the native
+        // Present hook, and on a machine where another mod detoured Present
+        // first and wrapping is off, neither exists. The plugin then loaded,
+        // installed its hooks, said so, and did nothing at all for the rest of
+        // the session without a word about why. Looting has nothing to do with
+        // drawing, so it no longer waits for a frame that may never come.
+        CreateThread(nullptr, 0, [](LPVOID) -> DWORD {
+            for (int i = 0; i < 100 && !State::Get().overlayReady; ++i)
+                Sleep(200);
+            if (!State::Get().overlayReady)
+            {
+                LOG_ERR("No frame has been rendered in twenty seconds. Nothing is drawing the "
+                        "overlay: the swapchain is not wrapped and the present hook belongs to "
+                        "another mod. Starting the loot engine anyway; the menu will not appear.");
+                OnRenderProcess();
+            }
+            return 0;
+        }, nullptr, 0, nullptr);
     }
 
     void OnRenderProcess()
