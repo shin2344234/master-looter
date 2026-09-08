@@ -41,20 +41,27 @@ Python dependencies are vendored in `codex/python-deps` (capstone, lz4, tqdm,
 cyclopts, bier); put that on `PYTHONPATH`. Extracted game assets are not
 committed.
 
-## Read the state names before writing code
+## The state names predict less than they look like they do
 
-Compare what a gimmick declares against a vein:
+It is tempting to read a gimmick's declared states as a description of what it
+will do. Resist it. A well bucket declares:
 
-| | states |
-| --- | --- |
-| ore vein | `Wait`, `GimmickOn`, `break`, `onbreak` |
-| well | `Wait`, `GimmickOn`, `Clear`, `Lock`, `Deactive`, `MinAngle`, `PreGimmickOn`, `PreWait` |
+    Wait, GimmickOn, Clear, Lock, Deactive, MinAngle, PreGimmickOn, PreWait
 
-Breaking is how a vein ends. A well has `Clear` instead, and `Clear` has a way
-back to `Wait`. **A gimmick with no break state is not meant to be consumed**,
-and sending it a gather event takes the node rather than cycling it. That
-comparison predicts the outcome before a line is written. It would have saved a
-bucket, which is what the untested version of this cost.
+and a peony declares the same core set, `GimmickOn`, `Lock`, `Deactive`,
+`Clear`. A peony is an ordinary collection node that gathering consumes. So
+`Clear` does not mean "emptied and refilled"; it is just the state a collection
+gimmick enters when it has been taken. Reading it as the former is what led to
+two attempts to draw water without losing the bucket, and the bucket behaved
+like a picked flower both times because that is what it is.
+
+`RemoteCatchPivot`, `GimmickOnPullOutDirection` and `PullOutDurationTime` look
+like a special interaction and are not. They are schema keys present on every
+gimmick, a peony included, most of them with no value.
+
+**Diff against a known gimmick before drawing a conclusion from a key or a
+state.** peony_01.binarygimmick is the useful control: it is the simplest thing
+the mod already handles correctly.
 
 ## Traps
 
