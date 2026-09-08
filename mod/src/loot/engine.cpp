@@ -375,9 +375,77 @@ namespace ml::loot
     static std::unordered_map<uint32_t, DWORD> g_slotProbeAt;  // eid -> last gimmick slot dump
 
     static uintptr_t g_me = 0;
+    // Declared here, above the body helpers that read it.
+    static uint32_t  g_meEid = 0, g_meRoute = 0;
     // When the scan last found nothing at all around the chosen actor.
     static DWORD g_barrenSince = 0;
-    static uint32_t  g_meEid = 0, g_meRoute = 0;
+
+    // --- the body -------------------------------------------------------------
+    //
+    // Playing as Damiane the player identity and the player's body are two
+    // different entities. The identity is the player-tagged actor A0100001:
+    // the game raises its own events under that id whatever character is on
+    // screen, so it is the right thing to send loot events as. The body is
+    // whatever the identity is currently wearing, and that is a world-tagged
+    // actor, B0100005 in the capture, standing 1750 m from the identity with
+    // twenty items hanging off it. The other autoloot mod logs this pair as
+    // "puppet body" and "playerEid" and then gives up on it.
+    //
+    // A body is found by its gear, because a dressed character is the one
+    // thing in the world with a handful of items parented to it. It cannot be
+    // found from one enumeration: the manager hands the world over a few
+    // entities at a time, so a single pass rarely holds a body and its gear
+    // together, and every rule that decided from one pass picked wrong. This
+    // table is fed every scan and remembers holders for fifteen seconds, which
+    // is the same "partial lists, keep what was seen" treatment the scan has
+    // always given world objects.
+    struct Holder { uint32_t eid; int kids, tickKids; DWORD seen, tick; Vec3 pos; uint32_t route; };
+    static Holder g_holders[32];
+    static int    g_holderN = 0;
+    static uint32_t g_bodyEid = 0;       // the holder the scan is centred on; 0 means the player actor itself
+    static constexpr DWORD kHolderFreshMs = 15000;
+
+    // A child's position is its parent's: gear is attached. So one item is
+    // enough to place the body, and the body itself never has to be
+    // enumerated for the scan to stand where it stands.
+    static void NoteHolder(uint32_t parent, const Vec3& at, uint32_t route, DWORD now)
+    {
+        Holder* h = nullptr;
+        for (int i = 0; i < g_holderN; ++i) if (g_holders[i].eid == parent) { h = &g_holders[i]; break; }
+        if (!h)
+        {
+            // Reuse the stalest slot rather than refusing when full.
+            int slot = g_holderN < 32 ? g_holderN++ : 0;
+            if (g_holderN == 32) for (int i = 1; i < 32; ++i) if (g_holders[i].seen < g_holders[slot].seen) slot = i;
+            g_holders[slot] = { parent, 0, 0, now, now, at, route };
+            h = &g_holders[slot];
+        }
+        if (h->tick != now) { h->tick = now; h->tickKids = 0; }
+        ++h->tickKids;
+        if (h->tickKids > h->kids) h->kids = h->tickKids;
+        h->seen = now; h->pos = at; if (route) h->route = route;
+    }
+
+    // The best body on record: fresh, carrying at least three things, on the
+    // player's own route when that is known, and carrying the most.
+    static const Holder* BestHolder(DWORD now, uint32_t playerRoute)
+    {
+        const Holder* best = nullptr;
+        for (int i = 0; i < g_holderN; ++i)
+        {
+            const Holder& h = g_holders[i];
+            if (now - h.seen > kHolderFreshMs || h.kids < 3) continue;
+            if (playerRoute && h.route && h.route != playerRoute) continue;
+            if (!best || h.kids > best->kids) best = &h;
+        }
+        return best;
+    }
+
+    // Worn or carried by the player, whichever entity that means right now.
+    static bool IsMine(uint32_t parent)
+    {
+        return parent && (parent == g_meEid || (g_bodyEid && parent == g_bodyEid));
+    }
 
     // --- what a gather node yields --------------------------------------------
     // A node is named by the prefab it was placed from (see NodeDb). For the
@@ -1254,7 +1322,7 @@ namespace ml::loot
     static Verdict Decide(const Cand& c, const Config& cfg)
     {
         Verdict v;
-        v.own = c.mine || (c.parent && c.parent == g_meEid);
+        v.own = c.mine || IsMine(c.parent);
         auto skip = [&](const char* why) { v.loot = false; v.why = why; return v; };
         if (c.banned || g_searched.count(Key(c)))
         {
@@ -1266,7 +1334,7 @@ namespace ml::loot
         // (Twin nodes are not skipped here: an empty node next to a filled
         // one is armed like any other and proves itself by filling or not.)
         if (c.d < cfg.minRange) return skip("on the player");
-        if (c.parent && c.parent == g_meEid) return skip("worn or carried by you");
+        if (IsMine(c.parent)) return skip("worn or carried by you");
         // And for a while after it stops being carried. A weapon thrown with the
         // Weapon Throw skill comes off the player for as long as it is in the
         // air, so the line above stops covering it at exactly the moment it
@@ -1772,6 +1840,32 @@ namespace ml::loot
             g_status.actorManager = true; g_status.playerFound = false;
             return;
         }
+        // Stand where the body stands. Only once the player actor has proved
+        // barren, so as Kliff, where the actor is the body and never barren,
+        // nothing moves. Sticky once chosen while the body stays fresh, or the
+        // first populated scan would clear the barren clock and the centre
+        // would flap back to the fixture on the next tick. Loot events keep
+        // going out as g_meEid, because that is the id the game itself raises
+        // the player's events under.
+        {
+            const uint32_t playerRoute = events::RouteKnown() ? events::Route() : 0;
+            const Holder* body = BestHolder(now, playerRoute);
+            if (body && (g_barrenSince || g_bodyEid == body->eid))
+            {
+                if (g_bodyEid != body->eid)
+                {
+                    g_bodyEid = body->eid;
+                    LOG("[player] the player actor %08X has nothing around it; centring the scan on %08X instead, which carries %d items on route %08X at %.1f %.1f %.1f",
+                        g_meEid, body->eid, body->kids, body->route, body->pos.x, body->pos.y, body->pos.z);
+                }
+                mp = body->pos;
+            }
+            else if (!body && g_bodyEid)
+            {
+                LOG("[player] lost sight of the body %08X; back to the player actor", g_bodyEid);
+                g_bodyEid = 0;
+            }
+        }
         g_meRoute = game::Route(g_me);
         game::InventoryRefresh(g_me, !g_pend.empty());
         if (g_debugLog) game::DumpInventoryShape(g_me, g_bagFull);
@@ -1812,6 +1906,9 @@ namespace ml::loot
             ++total;
             Vec3 q;
             if (!game::WorldPos(e, &q)) return true;
+            // Before the range filter, or gear on a body 1750 m away is never
+            // seen and the body is never placed.
+            if (const uint32_t par = game::ParentEid(e)) NoteHolder(par, q, game::Route(e), now);
             const float dx = q.x - mp.x, dy = q.y - mp.y, dz = q.z - mp.z;
             const float d = std::sqrt(dx * dx + dy * dy + dz * dz);
             if (d < nearestD) { nearestD = d; nearestEid = eid; nearestEnt = e; }
@@ -2018,7 +2115,7 @@ namespace ml::loot
         // still recognisable in the seconds after it stops being. Filled above,
         // so the item row is read and can be held against the id later.
         for (const Cand& k : list)
-            if (k.parent && k.parent == g_meEid)
+            if (IsMine(k.parent))
             {
                 OnMe& r = g_onMe[k.eid];
                 r.when = now;
@@ -2149,7 +2246,7 @@ namespace ml::loot
                     const int  roundsAllowed = wornOut ? 1 : kArmRounds;
                     const float lim = (vouched && !wornOut)
                                     ? std::max(armLim, std::min(kArmRangeOre, cfg.scanRange)) : armLim;
-                    if (k.parent == g_meEid || k.heap || k.d > lim) continue;
+                    if (IsMine(k.parent) || k.heap || k.d > lim) continue;
                     if (!cfg.armContainers && g_containers.count(k.eid)) continue;
                     // Same as the verdict: a classified gather node is not a
                     // container, whatever words its prefab path happens to hold.
