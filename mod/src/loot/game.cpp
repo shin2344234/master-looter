@@ -171,6 +171,40 @@ namespace ml::game
     bool ActorManagerFound() { return g_mgrSlot != 0; }
 
     // ----------------------------------------------------------- entities ----
+    // Who the game says you are playing.
+    //
+    // The take-or-steal routine opens by asking whether the object it was given
+    // belongs to the character being played, and it does that from a global
+    // rather than from anything passed in:
+    //
+    //   mov rax, [rip + 0x68b0d85]     ; RVA 0x6C29760
+    //   mov rcx, [rax + 0x30]
+    //   mov rax, [rbx + 0xa0]
+    //   cmp [rcx + 0x58], rax          ; equal means "this is the player"
+    //   jne  <bail>
+    //
+    // So global -> +0x30 -> +0x58 is the game's own answer, and it is a fact
+    // rather than a heuristic. The engine used to guess: first player-tagged
+    // actor enumerated, then the actor the ownership hook saw, then whichever
+    // had the most world around it. A party has several player-tagged actors
+    // and all three rules picked wrong at least once.
+    //
+    // The exe has relocations stripped and no ASLR, so the RVA is fixed, but it
+    // is read through the module base anyway and every hop is guarded.
+    uintptr_t LocalPlayer()
+    {
+        constexpr uintptr_t kRva_PlayerGlobal = 0x6C29760;
+        constexpr unsigned  kOff_Holder = 0x30, kOff_Actor = 0x58;
+        const uintptr_t g = mem::Game().base + kRva_PlayerGlobal;
+        const uintptr_t root = mem::Deref(g, 0);
+        const uintptr_t holder = root ? mem::Deref(root, kOff_Holder) : 0;
+        const uintptr_t actor = holder ? mem::Deref(holder, kOff_Actor) : 0;
+        if (!actor || !mem::Readable(actor, 0x100)) return 0;
+        uint32_t eid = 0;
+        if (!Eid(actor, &eid) || (eid >> 24) != kTagPlayer) return 0;
+        return actor;
+    }
+
     bool Eid(uintptr_t e, uint32_t* out) { return mem::Read32(e + kOff_Ent_Eid, out); }
     uint32_t Route(uintptr_t e) { uint32_t r = 0; mem::Read32(e + kOff_Ent_Route, &r); return r; }
     uint8_t TypeTag(uintptr_t e)

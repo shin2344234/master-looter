@@ -1632,9 +1632,29 @@ namespace ml::loot
         // is still the best guess available.
         uint32_t id = 0;
         if (g_me && (!game::Eid(g_me, &id) || id != g_meEid || (id >> 24) != game::kTagPlayer)) g_me = 0;
+
+        // The game keeps its own pointer to the character being played, and
+        // reading it beats every rule the engine used to guess with. See
+        // game::LocalPlayer.
+        if (const uintptr_t lp = game::LocalPlayer())
+        {
+            uint32_t lpEid = 0;
+            if (game::Eid(lp, &lpEid) && (lp != g_me || lpEid != g_meEid))
+            {
+                static uint32_t s_said = 0;
+                if (s_said != lpEid)
+                {
+                    s_said = lpEid;
+                    LOG("[player] the game is playing %08X; scanning around that", lpEid);
+                }
+                g_me = lp; g_meEid = lpEid;
+            }
+            g_barrenSince = 0;
+        }
         // Re-pick when the world around the current one is empty. Nothing in
         // range for several seconds while the player is standing in a field is
         // the signature of measuring from the wrong actor.
+        // Only when the game's own pointer could not be followed.
         const bool reconsider = !g_me || (g_barrenSince && GetTickCount() - g_barrenSince > 4000);
         if (reconsider)
         {
