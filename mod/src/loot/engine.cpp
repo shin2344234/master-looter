@@ -1756,6 +1756,67 @@ namespace ml::loot
         }
     }
 
+    // Where a fault inside the scan landed, so the log names it instead of the
+    // process disappearing. Until now the only guarded code in the whole plugin
+    // was DrawOverlay, which meant an access violation anywhere in the loot
+    // engine killed the game with an empty log and nothing to go on: the last
+    // line written would be whatever ran just before, which reads like a clean
+    // shutdown and is not one.
+    static LONG ScanFaultFilter(unsigned code, EXCEPTION_POINTERS* xp)
+    {
+        void* at = (xp && xp->ExceptionRecord) ? xp->ExceptionRecord->ExceptionAddress : nullptr;
+        char mod[MAX_PATH] = "unknown";
+        uintptr_t off = 0;
+        HMODULE h = nullptr;
+        if (at && GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                                     GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                     static_cast<LPCSTR>(at), &h) && h)
+        {
+            char full[MAX_PATH] = "";
+            if (GetModuleFileNameA(h, full, MAX_PATH))
+            {
+                const char* slash = strrchr(full, '\\');
+                strncpy(mod, slash ? slash + 1 : full, sizeof mod - 1);
+                mod[sizeof mod - 1] = 0;
+            }
+            off = reinterpret_cast<uintptr_t>(at) - reinterpret_cast<uintptr_t>(h);
+        }
+        // An access violation carries the address it tried to touch and whether
+        // it was reading or writing, which is most of the diagnosis.
+        char where[160] = "";
+        if (xp && xp->ExceptionRecord &&
+            xp->ExceptionRecord->ExceptionCode == EXCEPTION_ACCESS_VIOLATION &&
+            xp->ExceptionRecord->NumberParameters >= 2)
+        {
+            const ULONG_PTR kind = xp->ExceptionRecord->ExceptionInformation[0];
+            snprintf(where, sizeof where, " %s %p",
+                     kind == 0 ? "reading" : (kind == 1 ? "writing" : "executing"),
+                     reinterpret_cast<void*>(xp->ExceptionRecord->ExceptionInformation[1]));
+        }
+        LOG_ERR("[scan] fault 0x%08X at %p (%s+0x%llX)%s - looting is off for this session, the game keeps running.",
+                code, at, mod, static_cast<unsigned long long>(off), where);
+        return EXCEPTION_EXECUTE_HANDLER;
+    }
+
+    static bool g_scanDisabled = false;
+
+    static void Scan(const Config& cfg, bool act, bool burst);
+
+    // No C++ objects in this frame, so __try is allowed here where it is not
+    // allowed inside Scan itself. One fault turns looting off rather than
+    // letting the same one repeat thirty times a second.
+    static void ScanGuarded(const Config& cfg, bool act, bool burst)
+    {
+        __try
+        {
+            Scan(cfg, act, burst);
+        }
+        __except (ScanFaultFilter(GetExceptionCode(), GetExceptionInformation()))
+        {
+            g_scanDisabled = true;
+        }
+    }
+
     static void Scan(const Config& cfg, bool act, bool burst)
     {
         const DWORD now = GetTickCount();
@@ -2626,7 +2687,7 @@ namespace ml::loot
             }
             const bool burst = InterlockedExchange(&g_burst, 0) != 0;
             const bool want = cfg.enabled || burst || st.menuOpen;
-            if (want) Scan(cfg, cfg.enabled || burst, burst);
+            if (want && !g_scanDisabled) ScanGuarded(cfg, cfg.enabled || burst, burst);
             {
                 std::lock_guard<std::mutex> lk(g_mu);
                 g_status.sendAllowed = events::SendAllowed();
