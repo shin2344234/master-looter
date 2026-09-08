@@ -73,6 +73,16 @@ set_source_files_properties(src/resources.rc PROPERTIES OBJECT_DEPENDS
 target_include_directories(MasterLooter PRIVATE src ${minhook_SOURCE_DIR}/src/hde)
 target_link_libraries(MasterLooter PRIVATE imgui minhook d3d12 dxgi dwmapi imm32 xinput9_1_0)
 target_compile_definitions(MasterLooter PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX _CRT_SECURE_NO_WARNINGS)
+
+# Test switch, off for every real build. Forces the swapchain wrapper off no
+# matter what the ini says, so the one experiment that isolates the wrapper
+# does not depend on somebody editing a file on the machine under test.
+#   cmake -DML_FORCE_NO_WRAP=ON ...
+option(ML_FORCE_NO_WRAP "Force the swapchain wrapper off (test builds only)" OFF)
+if(ML_FORCE_NO_WRAP)
+    target_compile_definitions(MasterLooter PRIVATE ML_FORCE_NO_WRAP)
+    message(WARNING "ML_FORCE_NO_WRAP is on: this build ignores WrapSwapChain and never wraps.")
+endif()
 target_compile_options(MasterLooter PRIVATE /utf-8 /W3)
 
 set_target_properties(MasterLooter PROPERTIES PREFIX "" SUFFIX ".asi" OUTPUT_NAME "MasterLooter")
