@@ -187,6 +187,19 @@ namespace ml::game
             LOG_OK("[mgr] %d ClientActorManager globals, entities in each:%s; using +0x%llX", n, w ? line : " none",
                    static_cast<unsigned long long>(mem::Rva(g_mgrSlot)));
         }
+        // The counts above are taken the moment the globals are found, which is
+        // before the world exists: both candidates read zero and the pick was a
+        // toss-up. Re-check once, a little later, when there is something to
+        // count.
+        static bool s_recheck = false;
+        static DWORD s_recheckAt = GetTickCount() + 20000;
+        if (!s_recheck && static_cast<LONG>(GetTickCount() - s_recheckAt) >= 0)
+        {
+            s_recheck = true;
+            g_mgrSlot = 0; g_mgrNextTry = 0;
+            LOG("[mgr] re-checking which manager holds the world now that one is loaded");
+            return 0;
+        }
         uintptr_t p = 0;
         if (!mem::ReadPtr(g_mgrSlot, &p)) return 0;
         return mem::Readable(p, kOff_Mgr_ListsEnd) ? p : 0;
