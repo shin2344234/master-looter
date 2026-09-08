@@ -72,6 +72,32 @@ namespace ml::hooks
     // wraps cleanly, then an FG toggle re-enters us during SL's rebuild.
     static thread_local bool t_inSwapChainCreate = false;
 
+    // Resets the guard however the call leaves, including through an exception
+    // out of the interposer. A guard left set makes every later creation look
+    // nested, so nothing is ever wrapped or re-pinned again for that thread.
+    struct CreateGuard
+    {
+        bool wasNested;
+        CreateGuard() : wasNested(t_inSwapChainCreate) { t_inSwapChainCreate = true; }
+        ~CreateGuard() { if (!wasNested) t_inSwapChainCreate = false; }
+    };
+
+    // How many of our wrappers are alive.
+    //
+    // The reentrancy guard above only catches a creation nested inside our own
+    // call, which is what happens while the game is making its first swapchain.
+    // Toggling frame generation later is not nested: the game asks Streamline to
+    // change mode, and Streamline rebuilds its swapchain from its own code, so
+    // the creation arrives here looking exactly like a fresh game-issued one.
+    // Wrapping it hands our object to code that allocated its own and expects to
+    // get that back, and re-pins the present queue to whichever queue Streamline
+    // passed rather than the game's.
+    //
+    // A live wrapper is what tells the two apart. The game cannot create a
+    // replacement for its own window without releasing the old one first, so if
+    // ours is still alive this creation belongs to somebody else. Leave it alone.
+    static volatile LONG g_liveWrappers = 0;
+
     // The window our wrapped (main) swapchain belongs to. The engine and Streamline
     // can spin up auxiliary swapchains on other windows; we only ever want the one
     // the game renders the world into. Locked on the first successful wrap so later
@@ -1142,7 +1168,10 @@ namespace ml::hooks
     class WrappedIDXGISwapChain final : public IDXGISwapChain4
     {
     public:
-        explicit WrappedIDXGISwapChain(IDXGISwapChain4* inner) : m_inner(inner) {}
+        explicit WrappedIDXGISwapChain(IDXGISwapChain4* inner) : m_inner(inner)
+        {
+            InterlockedIncrement(&g_liveWrappers);
+        }
 
         // IUnknown ----------------------------------------------------------
         HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void** ppv) override
@@ -1167,7 +1196,19 @@ namespace ml::hooks
         ULONG STDMETHODCALLTYPE Release() override
         {
             const ULONG r = InterlockedDecrement(&m_ref);
-            if (r == 0) { m_inner->Release(); delete this; }
+            if (r == 0)
+            {
+                IDXGISwapChain4* inner = m_inner;
+                // Forget the identity before the memory goes back. The allocator
+                // can hand the same address to the next swapchain, and
+                // ReconcileSwapChain compares by pointer first: a recycled
+                // address with the same size and format would read as unchanged
+                // and leave the render targets pointing at freed back buffers.
+                if (g_swapChain == static_cast<IDXGISwapChain3*>(inner)) g_swapChain = nullptr;
+                InterlockedDecrement(&g_liveWrappers);
+                delete this;
+                inner->Release();
+            }
             return r;
         }
 
@@ -1322,27 +1363,36 @@ namespace ml::hooks
         // inside a creation on this thread, this is Streamline recreating the chain
         // through the same patched slot during an FG toggle - let it complete
         // untouched, otherwise we recurse into the interposer mid-rebuild.
-        const bool nested = t_inSwapChainCreate;
-        t_inSwapChainCreate = true;
+        CreateGuard guard;
         const HRESULT hr = oFactoryCreateSwapChainForHwnd(self, device, hwnd, desc, fsDesc, restrictOut, ppSwapChain);
-        if (!nested)
+        if (guard.wasNested || FAILED(hr))
+            return hr;
+
+        // Somebody else's rebuild. See g_liveWrappers: the game releases its
+        // swapchain before replacing it, so a creation arriving while ours is
+        // still alive is Streamline reconstructing its own plumbing on a frame
+        // generation toggle. Taking it over swaps an object underneath the code
+        // that made it and moves the queue we submit on to one we were never
+        // given, and the failure lands on the toggle rather than here.
+        if (InterlockedCompareExchange(&g_liveWrappers, 0, 0) > 0)
         {
-            t_inSwapChainCreate = false;
-            if (SUCCEEDED(hr))
-            {
-                // For D3D12 the first argument is the swapchain's present command
-                // queue - the queue that owns the back buffers. Pin it as the queue
-                // we submit overlay work on, so we never submit on Streamline's MFG
-                // pacer queue (which is rejected). Re-pins on each recreation too.
-                ID3D12CommandQueue* pq = nullptr;
-                if (device && SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&pq))) && pq)
-                {
-                    PublishPresentQueue(pq, true);
-                    pq->Release();
-                }
-                WrapSwapChain(ppSwapChain, hwnd);
-            }
+            static LONG s_said = 0;
+            if (InterlockedIncrement(&s_said) <= 4)
+                LOG("Swapchain created while ours is still live - left alone (frame generation rebuild).");
+            return hr;
         }
+
+        // For D3D12 the first argument is the swapchain's present command
+        // queue - the queue that owns the back buffers. Pin it as the queue
+        // we submit overlay work on, so we never submit on Streamline's MFG
+        // pacer queue (which is rejected). Re-pins on each recreation too.
+        ID3D12CommandQueue* pq = nullptr;
+        if (device && SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&pq))) && pq)
+        {
+            PublishPresentQueue(pq, true);
+            pq->Release();
+        }
+        WrapSwapChain(ppSwapChain, hwnd);
         return hr;
     }
 
