@@ -159,10 +159,33 @@ namespace ml::game
                     g_mgrVtN ? "" : " (class not found in image)");
             }
             if (!g_mgrVtN) return 0;
-            long cand = 0;
-            g_mgrSlot = mem::FindGlobalHoldingVtable(g_mgrVt, g_mgrVtN, &cand);
-            if (!g_mgrSlot) { static bool told = false; if (!told) { told = true; LOG("[mgr] not in memory yet (%ld pointers checked); retrying", cand); } return 0; }
-            LOG_OK("[mgr] ClientActorManager global +0x%llX", static_cast<unsigned long long>(mem::Rva(g_mgrSlot)));
+            // There is more than one of these in memory and the first found is
+            // not necessarily the live one. Playing as Damiane the mod latched
+            // a manager holding four entities while the world had hundreds, so
+            // the scan measured from an actor 1700 m from anything and the
+            // Nearby list stayed empty. Take the one actually holding a world.
+            uintptr_t slots[16]; const int n = mem::FindGlobalsHoldingVtable(g_mgrVt, g_mgrVtN, slots, 16);
+            if (!n) { static bool told = false; if (!told) { told = true; LOG("[mgr] not in memory yet; retrying"); } return 0; }
+            int bestN = -1;
+            char line[240]; int w = 0;
+            for (int i = 0; i < n; ++i)
+            {
+                uintptr_t inst = 0;
+                int held = 0;
+                if (mem::ReadPtr(slots[i], &inst) && inst && mem::Readable(inst, kOff_Mgr_ListsEnd))
+                    for (unsigned off = kOff_Mgr_ListsBegin; off + 16 <= kOff_Mgr_ListsEnd; off += 8)
+                    {
+                        uint32_t count = 0, cap = 0; uintptr_t arr = 0;
+                        if (mem::Read32(inst + off, &count) && mem::Read32(inst + off + 4, &cap) &&
+                            mem::ReadPtr(inst + off + 8, &arr) && count && cap && count <= cap && cap <= 0x10000)
+                            held += static_cast<int>(count);
+                    }
+                if (w < 200) w += snprintf(line + w, sizeof line - w, " +%llX:%d",
+                                           static_cast<unsigned long long>(mem::Rva(slots[i])), held);
+                if (bestN < 0 || held > bestN) { bestN = held; g_mgrSlot = slots[i]; }
+            }
+            LOG_OK("[mgr] %d ClientActorManager globals, entities in each:%s; using +0x%llX", n, w ? line : " none",
+                   static_cast<unsigned long long>(mem::Rva(g_mgrSlot)));
         }
         uintptr_t p = 0;
         if (!mem::ReadPtr(g_mgrSlot, &p)) return 0;
@@ -203,11 +226,17 @@ namespace ml::game
         if (!actor || !mem::Readable(actor, 0x100)) return 0;
         uint32_t eid = 0;
         if (!Eid(actor, &eid) || !eid) return 0;
-        // Deliberately not requiring the player tag. That requirement was here
-        // and it threw the answer away: playing as Damiane the only 0xA0 actor
-        // sits 1700 m from anything, and the characters with gear hanging off
-        // them are 0xB0 like the rest of the world. Whatever the game points at
-        // here is the character being played, whatever it is tagged.
+        // The tag is not checked, because the character being played is not
+        // necessarily player-tagged: as Damiane it is not, and requiring 0xA0
+        // here threw the answer away once already.
+        //
+        // What is checked is that this is a body standing somewhere. The chain
+        // has been seen to land on the player's route object rather than an
+        // actor, which reads as id 90100000 and has no transform, and accepting
+        // that left the engine scanning around nothing at all. Anything without
+        // a position is not the thing to measure from.
+        Vec3 probe;
+        if (!WorldPos(actor, &probe)) return 0;
         return actor;
     }
 

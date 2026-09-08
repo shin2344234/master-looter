@@ -60,4 +60,6 @@ namespace ml::mem
     // Scan writable, non-executable sections for a qword pointing at an object
     // whose first qword is one of the vtables. Returns the global's address or 0.
     uintptr_t FindGlobalHoldingVtable(const uintptr_t* vtables, int n, long* candidates = nullptr);
+    // Every global holding one of these vtables, not just the first.
+    int FindGlobalsHoldingVtable(const uintptr_t* vtables, int n, uintptr_t* out, int maxOut);
 }
