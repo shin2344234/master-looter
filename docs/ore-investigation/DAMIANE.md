@@ -129,15 +129,39 @@ up, which is what the scan already did for everything except the player.
 5. **Gear holders as extra candidates, decided from one pass.** The pass that
    chose never contained them.
 
-## Known wrinkle
+## Telling a body from a wagon
 
-The centre can flap between holders. A wagon carries ten attached parts and a
-horse carries tack, and both are usually beside the player, so they qualify and
-sometimes win. In the first working session the centre moved between the body
-(12 items) and a wagon (10) and something 50 m off carrying 15. It worked
-because the wagon is next to the player, but a holder 50 m away shrinks what
-the scan can reach. Hysteresis on the switch, and weighting `/equip/` children
-over `/attach/` ones, are the obvious refinements.
+The first version counted children raw, and that is not enough. A wagon carries
+about ten attached parts and a horse carries tack, so both clear the three-child
+bar and either can out-count a body on the pass that happens to decide. In the
+first working session the centre moved between the body at 12 children, a wagon
+at 10, and something 50 m off carrying 15. It survived only because a wagon and
+a horse are normally parked beside the player, so centring on one still covered
+roughly the right ground. A wagon that moves off takes the scan with it.
+
+Two changes, both in `BestHolder`:
+
+**Score equipment above cargo.** A child that the scan classified as an item is
+worth eight raw children. A dressed character carries items; a cart carries
+cart, and none of its planks has an item component. The gear count is fed from
+the classify pass (`NoteHolderGear`), so it costs nothing beyond work the scan
+already does, and it only fills for a holder near enough to have had its
+children classified. That is exactly the case where a wagon can be confused for
+a body. A body 1750 m away still has no classified children and is still chosen
+on raw count, so the cold start that made Damiane work at all is untouched.
+
+**Make the incumbent defend its place.** Whatever is already chosen keeps the
+centre while it stays fresh and qualified. A challenger has to score half again
+as much, and two more outright, and hold that lead for 2.5 seconds before the
+scan moves. The manager hands the world over a few entities at a time, so a
+single pass is a poor witness: the pass that enumerates the wagon and not the
+player reports the wagon as the only thing carrying anything. That is the same
+lesson as the section above, applied to the switch rather than the first pick.
+
+Swapping character clears the table (`ForgetBody`). The old body's gear is
+otherwise still on record and wins the next pick outright.
+
+Issue #27.
 
 ## Diagnostics that stay
 
@@ -148,4 +172,6 @@ starts from:
   position, a tag census, and the nearest object with its prefab.
 - `[mgr]` list dump when the world comes back nearly empty.
 - `[worn]` gear holders with child counts, distances and routes.
-- `[player]` every centre switch, with what was chosen and why.
+- `[player]` every centre switch, with what was chosen, how many of its
+  children were equipment, and whether it won on a first pick or by holding a
+  lead. Also every time the body is forgotten, with the reason.
