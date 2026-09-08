@@ -1616,15 +1616,43 @@ namespace ml::loot
         if (!mgr) { std::lock_guard<std::mutex> lk(g_mu); g_status.actorManager = false; g_status.playerFound = false; return; }
 
         // Player: remembered between scans and re-validated by its id tag.
+        //
+        // Which actor is "you" is not obvious. A party puts several
+        // player-tagged actors in the world at once, and taking the first one
+        // enumerated is a coin toss: playing as Damiane with Kliff following,
+        // the scan centred on Kliff and the engine looked broken because it was
+        // reading the wrong character's surroundings. That is almost certainly
+        // the whole of "auto-loot only works as Kliff".
+        //
+        // The game settles it. When it runs its own take-or-steal check it
+        // passes the actor it considers the player, and that id is captured
+        // from the hook. Until it has asked once, the first player-tagged actor
+        // is still the best guess available.
         uint32_t id = 0;
+        const uint32_t want = hooks::PlayerEidFromGame();
         if (g_me && (!game::Eid(g_me, &id) || id != g_meEid || (id >> 24) != game::kTagPlayer)) g_me = 0;
+        if (g_me && want && g_meEid != want) g_me = 0;   // the game named someone else
         if (!g_me)
         {
+            uintptr_t first = 0; uint32_t firstEid = 0;
+            static std::unordered_set<uint32_t> s_saidPlayers;
             ForEachEntity(mgr, [&](uintptr_t e) {
                 uint32_t eid = 0;
-                if (game::Eid(e, &eid) && (eid >> 24) == game::kTagPlayer) { g_me = e; g_meEid = eid; return false; }
+                if (!game::Eid(e, &eid) || (eid >> 24) != game::kTagPlayer) return true;
+                if (g_debugLog && s_saidPlayers.size() < 16 && s_saidPlayers.insert(eid).second)
+                    LOG("[player] actor %08X is player-tagged%s", eid, eid == want ? " and is the one the game names" : "");
+                if (!first) { first = e; firstEid = eid; }
+                if (want && eid == want) { g_me = e; g_meEid = eid; return false; }
                 return true;
             });
+            if (!g_me && first) { g_me = first; g_meEid = firstEid; }
+            static uint32_t s_saidPick = 0;
+            if (g_me && s_saidPick != g_meEid)
+            {
+                s_saidPick = g_meEid;
+                LOG("[player] scanning around %08X (%s)", g_meEid,
+                    want ? (g_meEid == want ? "named by the game" : "the game names someone else") : "first found; the game has not asked yet");
+            }
         }
         // Arm the ownership check the moment there is a player. It used to be
         // armed inside WouldSteal, the last test in Decide(), so a session
