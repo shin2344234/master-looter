@@ -1,0 +1,38 @@
+[size=4][b]1.5.0 is up[/b][/size]
+
+Three things that were reported here, and all three turned out to be worse than they looked.
+
+[b]Thrown weapons were duplicating.[/b] Throw one with the Weapon Throw skill and the mod would take it off the ground while the game was still putting it back in your hand, so you finished with two. It only happened sometimes because it was a race between the two of them.
+
+Being attached to you is the one thing keeping your own gear out of the loot engine, and a weapon in the air is attached to nothing. That is precisely the moment it is lying in the world within reach. Nothing further down caught it either: a thrown sword is the same weapon class as one off a corpse. The mod now notes what is hanging off you as it passes, and refuses anything that was on you in the last forty-five seconds. Whatever else you drop on purpose gets left alone for the same three quarters of a minute, which it should have been all along. Found by [b]lsimo[/b].
+
+[b]Unchecking Furniture covered the tables and nothing else in the room.[/b] 1.3.0 moved that switch onto the item's class, which caught the camp tables that started the complaint and stopped there. The class turns out to be one label picked by priority, and "furniture" sits twelfth of the thirteen furnishing tags in that order. A candelabra files as a light, a glass lamp as a lamp, a still life as a painting. Not one of them ever reached the line reading the class.
+
+It reads the tag now: 452 pieces where it was 123. Chests and goblets stay with the Containers switch where they already were. Found by [b]Fyreon87[/b].
+
+[b]Lizards could never be caught.[/b] Not "were not being caught", could not be. What can be picked up alive is decided from bytes the game hangs off a creature, and the test wanted a combination ground lizards do not wear, so an iguana failed it outright and never reached the Insects or Animals switches at all. Nothing you set would have made any difference.
+
+It also demanded a second byte that separates nothing. The same insect turns up under both values three metres apart in one session, and the ones wearing the wrong value were being refused in silence the whole time. Found by [b]LuxDragon[/b], four days ago, and it should not have taken this long.
+
+[size=4][b]Why that one took four days[/b][/size]
+
+The mod would only identify a creature it had already decided it could catch. So anything it refused was written to the log as "creature", with no name. Forty-one logs, four hundred and fifty-two refused creatures, not one of them named. The question "why are the lizards not picked up" could not be answered from a log, only guessed at.
+
+What settled it in the end was noticing that the game runs its own take-or-steal check on an iguana while you stand next to one, and answers "take". The game had been saying it was catchable all along. Only the mod disagreed.
+
+Live creatures are named now whether they get caught or not, so the next report of this shape should take minutes.
+
+[size=4][b]Also[/b][/size]
+
+[list]
+[*]The hotkeys have always lived in MasterLooter.ini beside the plugin, as MenuKey, KeyToggle, KeyBurst and KeyWatch, and that was written down nowhere. It is in the description now. Asked twice, by [b]Torsten[/b] and [b]Brizius[/b].
+[*]If the menu opens and will not take a click, that is the cursor and not the menu. In borderless windowed the Windows pointer and the game's pointer drift apart, and moving to the top left corner once puts them back together. Worked out by [b]LuxDragon[/b] in a thread where it read as the menu being broken.
+[*]Asking the game whether taking something counts as stealing is a call into the game, and it sat at the end of a decision that runs thirty times a second on everything in range. One object got asked thirty-four times in a second. It is asked once now.
+[*]The translation template was missing everything 1.4.0 added, so a translator could not see the Crops switch or the rewritten ore text. Rebuilt.
+[/list]
+
+[size=4][b]One thing to expect[/b][/size]
+
+Birds are filed as animals. If you turn Small animals on for the lizards, you will also start catching pigeons and crows. That is the game's own filing, not a bug, but it will surprise you the first time.
+
+Checksums are in the description and the full source is on GitHub. Every fix in this one came from somebody posting here, and two of them came from a single log. Thank you.
