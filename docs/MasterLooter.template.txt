@@ -46,7 +46,7 @@ blank for English
 Books and papers	
 Boss rewards, artifacts, memory items, coin pouches and reward chests.	
 Break veins open rather than emptying them	
-Breaking spills the vein's contents on the ground and picks them up from there, exactly as swinging a pickaxe does. Emptying lifts the ore straight out and skips the drop, and the drop is the only place the game applies your tool's Mining Yield Up, so a better pickaxe counts for nothing without this. The mod sends the game the same break it raises for itself. Each vein is struck once and then left alone until the game respawns it.	
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop, and the drop is the only place the game applies your tool's Mining Yield Up, so a better pickaxe counts for nothing without this. Each vein is struck once and then left alone until the game respawns it.	
 Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	
 captured	
 Carcasses	
@@ -73,6 +73,8 @@ corpse already searched
 corpse: loot drops separately	
 creature	
 Creatures	
+Crops	
+crops off	
 Damaged gear	
 Dead zone around you	
 Decision	
@@ -109,7 +111,7 @@ gather node
 Gathering	
 Ground items	
 Groups	
-Herb, flower and mushroom nodes, and the same lying on the ground. Crops such as barley, potatoes or sweet potatoes count as ground items whether still on the plant or lying loose, and follow their class rule.	
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	
 hold two buttons (Escape cancels)	
 Household clutter and collectibles, most of it worthless.	
 How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	
@@ -207,6 +209,7 @@ press a key (Escape cancels)
 Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	
 protected item name	
 Puts every setting and rule back to what it was at that moment.	
+puzzle or protected mechanism	
 Quest items	
 quest or memory trigger	
 Ranges (metres)	
@@ -248,7 +251,7 @@ stack at one point (storage contents)
 Stone	
 stone off	
 Stone on the ground and nodes that yield stone.	
-Tables, chairs, beds, carpets and decor, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Off by default.	
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	
 Tag	
 tags, any of which can be set to never in the Tags tab:	
 Take goods that belong to someone	
@@ -272,6 +275,7 @@ Unsellable items
 Use this language	
 Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	
 using the player's own field	
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	
 Verbose log	
 Verdict	
 waiting	
@@ -298,3 +302,4 @@ Writes MasterLooter.template.txt beside the plugin, holding every line the menu 
 Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	
 Writes the settings as they are now, named %s.	
 yes	
+yours, just out of your hand	
