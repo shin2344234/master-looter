@@ -399,11 +399,40 @@ namespace ml::loot
     // table is fed every scan and remembers holders for fifteen seconds, which
     // is the same "partial lists, keep what was seen" treatment the scan has
     // always given world objects.
-    struct Holder { uint32_t eid; int kids, tickKids; DWORD seen, tick; Vec3 pos; uint32_t route; };
+    //
+    // Counting children raw is not enough on its own. A wagon carries about ten
+    // attached parts and a horse carries tack, so both clear the bar and either
+    // can out-count a body on the pass that happens to decide. What separates
+    // them is what the children are: a dressed character carries items, a cart
+    // carries cart. Children the scan has already classified as items are
+    // counted separately and rank ahead of raw children. That count only fills
+    // for a holder close enough for its children to be classified, which is
+    // exactly the case where the confusion arises. A body 1750 m away has no
+    // classified children and is still chosen on raw count, as before.
+    struct Holder
+    {
+        uint32_t eid;
+        int   kids, tickKids;   // children of any sort, best single tick
+        int   gear, tickGear;   // children that classified as items
+        DWORD seen, tick, gearTick;
+        Vec3  pos;
+        uint32_t route;
+        int Score() const { return gear * 8 + kids; }
+    };
     static Holder g_holders[32];
     static int    g_holderN = 0;
     static uint32_t g_bodyEid = 0;       // the holder the scan is centred on; 0 means the player actor itself
     static constexpr DWORD kHolderFreshMs = 15000;
+    // A challenger has to hold its lead this long before the centre moves. One
+    // pass that enumerated the wagon and not the player used to be enough, and
+    // the pass after it moved the centre back.
+    static constexpr DWORD kBodyHoldMs = 2500;
+    static uint32_t s_challenger = 0;
+    static DWORD    s_challengeSince = 0;
+    // The current scan's timestamp, so the classify pass stamps its gear counts
+    // with the same tick the enumeration used. Two calls to GetTickCount a few
+    // milliseconds apart would read as two ticks and reset the per-tick count.
+    static DWORD g_scanNow = 0;
 
     // A child's position is its parent's: gear is attached. So one item is
     // enough to place the body, and the body itself never has to be
@@ -417,7 +446,7 @@ namespace ml::loot
             // Reuse the stalest slot rather than refusing when full.
             int slot = g_holderN < 32 ? g_holderN++ : 0;
             if (g_holderN == 32) for (int i = 1; i < 32; ++i) if (g_holders[i].seen < g_holders[slot].seen) slot = i;
-            g_holders[slot] = { parent, 0, 0, now, now, at, route };
+            g_holders[slot] = { parent, 0, 0, 0, 0, now, now, 0, at, route };
             h = &g_holders[slot];
         }
         if (h->tick != now) { h->tick = now; h->tickKids = 0; }
@@ -426,18 +455,66 @@ namespace ml::loot
         h->seen = now; h->pos = at; if (route) h->route = route;
     }
 
+    // A child that turned out to be an item. Called from the classify pass, so
+    // it costs nothing beyond work already done, and it only ever speaks for a
+    // holder near enough to have had its children classified. Wagon parts and
+    // horse tack are attached but they are not items, so a cart earns nothing
+    // here however many pieces it is built from.
+    // Swapping character invalidates every holder: the old body's gear is
+    // still on record and would win the next pick outright.
+    static void ForgetBody(const char* why)
+    {
+        if (g_bodyEid) LOG("[player] forgetting the body %08X: %s", g_bodyEid, why);
+        g_bodyEid = 0; g_holderN = 0; s_challenger = 0;
+        for (Holder& h : g_holders) h = {};
+    }
+
+    static void NoteHolderGear(uint32_t parent, DWORD now)
+    {
+        for (int i = 0; i < g_holderN; ++i)
+        {
+            Holder& h = g_holders[i];
+            if (h.eid != parent) continue;
+            if (h.gearTick != now) { h.gearTick = now; h.tickGear = 0; }
+            ++h.tickGear;
+            if (h.tickGear > h.gear) h.gear = h.tickGear;
+            return;
+        }
+    }
+
     // The best body on record: fresh, carrying at least three things, on the
-    // player's own route when that is known, and carrying the most.
+    // player's own route when that is known, and carrying the most, with one
+    // classified item worth eight of anything else.
+    //
+    // Whatever is already chosen keeps the centre while it stays fresh and
+    // still qualifies. A challenger has to beat it by a clear margin and hold
+    // that lead for kBodyHoldMs before the scan moves. The manager hands the
+    // world over a few entities at a time, so any single pass is a poor
+    // witness: the pass that sees the wagon and not the player reports that
+    // the wagon is the only thing carrying anything. Sustained and momentary
+    // are different claims and only the first is worth moving for.
     static const Holder* BestHolder(DWORD now, uint32_t playerRoute)
     {
         const Holder* best = nullptr;
+        const Holder* incumbent = nullptr;
         for (int i = 0; i < g_holderN; ++i)
         {
             const Holder& h = g_holders[i];
             if (now - h.seen > kHolderFreshMs || h.kids < 3) continue;
             if (playerRoute && h.route && h.route != playerRoute) continue;
-            if (!best || h.kids > best->kids) best = &h;
+            if (g_bodyEid && h.eid == g_bodyEid) incumbent = &h;
+            if (!best || h.Score() > best->Score()) best = &h;
         }
+        // Nothing held yet, or what was held has gone stale: take the best.
+        if (!incumbent) { s_challenger = 0; return best; }
+        if (!best || best->eid == incumbent->eid) { s_challenger = 0; return incumbent; }
+
+        // Half again as much, and two more outright, or it is noise.
+        const int mine = incumbent->Score(), theirs = best->Score();
+        if (theirs < mine + 2 || theirs * 2 < mine * 3) { s_challenger = 0; return incumbent; }
+
+        if (s_challenger != best->eid) { s_challenger = best->eid; s_challengeSince = now; }
+        if (now - s_challengeSince < kBodyHoldMs) return incumbent;
         return best;
     }
 
@@ -1230,6 +1307,9 @@ namespace ml::loot
         const uintptr_t gdata = inter ? mem::Deref(inter, kOff_Gimmick_GatherData) : 0;
         k.item = idata != 0;
         k.gather = gdata != 0;
+        // Who is dressed. An item hanging off something says that something is
+        // wearing it; ten planks hanging off a wagon say nothing of the kind.
+        if (k.item && k.parent) NoteHolderGear(k.parent, g_scanNow);
         if (gdata)
         {
             uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
@@ -1679,6 +1759,7 @@ namespace ml::loot
     static void Scan(const Config& cfg, bool act, bool burst)
     {
         const DWORD now = GetTickCount();
+        g_scanNow = now;
         g_debugLog = cfg.debugLog;
         LARGE_INTEGER t0, t1, fq; QueryPerformanceCounter(&t0); QueryPerformanceFrequency(&fq);
 
@@ -1717,6 +1798,7 @@ namespace ml::loot
                     s_said = lpEid;
                     LOG("[player] the game is playing %08X (tag %02X); scanning around that", lpEid, lpEid >> 24);
                 }
+                if (g_meEid && g_meEid != lpEid) ForgetBody("the game is playing someone else");
                 g_me = lp; g_meEid = lpEid;
             }
             g_barrenSince = 0;
@@ -1815,6 +1897,7 @@ namespace ml::loot
             if (best >= 0)
             {
                 const bool changed = g_meEid != cand[best].eid;
+                if (g_meEid && g_meEid != cand[best].eid) ForgetBody("the player actor was re-picked");
                 g_me = cand[best].ent; g_meEid = cand[best].eid;
                 if (changed || g_debugLog)
                 {
@@ -1854,9 +1937,17 @@ namespace ml::loot
             {
                 if (g_bodyEid != body->eid)
                 {
+                    const uint32_t was = g_bodyEid;
                     g_bodyEid = body->eid;
-                    LOG("[player] the player actor %08X has nothing around it; centring the scan on %08X instead, which carries %d items on route %08X at %.1f %.1f %.1f",
-                        g_meEid, body->eid, body->kids, body->route, body->pos.x, body->pos.y, body->pos.z);
+                    s_challenger = 0;
+                    if (was)
+                        LOG("[player] moving the scan off %08X onto %08X, which stayed ahead for %lu ms: %d children, %d of them equipment, route %08X at %.1f %.1f %.1f",
+                            was, body->eid, static_cast<unsigned long>(kBodyHoldMs), body->kids, body->gear,
+                            body->route, body->pos.x, body->pos.y, body->pos.z);
+                    else
+                        LOG("[player] the player actor %08X has nothing around it; centring the scan on %08X instead, which carries %d children, %d of them equipment, on route %08X at %.1f %.1f %.1f",
+                            g_meEid, body->eid, body->kids, body->gear, body->route,
+                            body->pos.x, body->pos.y, body->pos.z);
                 }
                 mp = body->pos;
             }
