@@ -450,7 +450,14 @@ namespace ml::loot
             // Anything the player takes by hand that the mod passed over is worth
             // a line: it is the only way a missed object leaves a trace at all,
             // and it separates "never scanned" from "scanned and skipped".
-            if (seen[i].act != Action::Gather || nodeType)
+            //
+            // This used to stay quiet for a gather whose node type is unknown,
+            // on the grounds that there was nothing to learn from it. That is
+            // the one case worth hearing about. Drawing water from a well is a
+            // player gather on an object with no gather block, so it left no
+            // trace at all and the log could not say whether the mod had even
+            // seen it. An interaction the mod does not understand is exactly
+            // what a log is for.
             {
                 const char* why = LastVerdict(seen[i].eid);
                 static int s_missLogs = 0;
