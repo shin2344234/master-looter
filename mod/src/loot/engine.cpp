@@ -1079,7 +1079,13 @@ namespace ml::loot
         {
             uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
             mem::Read8(gdata + 5, &k.gkind);
-            if (k.gkind == 0x04 && IsMechanism(k.node)) g_containers.insert(k.eid); // the well bucket
+            // A well part carrying a gather block used to be marked a container
+            // here, on the reasoning that it was the bucket and the bucket was
+            // scenery. It is the bucket, and drawing from it is the point. This
+            // block only ever runs for a node that has gather data, so the
+            // marking only ever hit the one part worth having, and it is gone.
+            // The part fills only once the player is close: at 14.5 m the same
+            // entity has no gather block, at 1.8 m it has one.
         }
         if (idata)
         {
@@ -1221,7 +1227,11 @@ namespace ml::loot
                 if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
             }
         }
-        if (IsMechanism(c.node) || g_containers.count(c.eid)) return skip("mechanism part");
+        // Scenery unless it has something to give. Six of a well's seven parts
+        // never fill and stay refused; the seventh grows a gather block when the
+        // player comes near, and that one is the bucket. Refusing the lot was
+        // what made drawing water look impossible.
+        if ((IsMechanism(c.node) && !c.gather) || g_containers.count(c.eid)) return skip("mechanism part");
         if (c.heap) return skip("stack at one point (storage contents)");
         // (A pointer to the player inside the object used to mean "yours"; the
         // parent and bag checks above cover that, and arming can plant such a
@@ -1690,11 +1700,11 @@ namespace ml::loot
                     // Never ask the game to open a memory trigger, a puzzle mechanism or a
                     // fast-travel artifact. Refusing to loot one afterwards is too late.
                     if (OffLimits(k.node)) continue;
-                    // Same for a well, which the verdict has always called a mechanism
-                    // while arming went on asking anyway. A well is seven entities, so
-                    // standing beside one meant seven arm calls every five seconds, for
-                    // as long as the player stood there, at parts that never answer and
-                    // would be refused if they did.
+                    // A well is seven entities and six of them never answer, so
+                    // standing beside one meant seven arm calls every five seconds for
+                    // as long as the player stood there. The seventh is the bucket and
+                    // fills on its own once the player is close, so nothing is lost by
+                    // leaving the whole thing alone.
                     if (IsMechanism(k.node)) continue;
                     // Ore answers slowly and is therefore reached for sooner. Known from
                     // the prefab table, before anything is asked of the game.
