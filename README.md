@@ -54,6 +54,10 @@ If Defender or your browser quarantines the download, restore it and exclude the
 - Home is watch mode: the menu stays up while the game keeps every input. Insert makes it interactive again.
 - While the menu is interactive the game does not see the keyboard, mouse or controller. Key releases still pass so nothing sticks.
 
+All four keys are rebindable in the menu under General, and they also sit in `MasterLooter.ini` beside the plugin as `MenuKey`, `KeyToggle`, `KeyBurst` and `KeyWatch`, written as virtual-key codes. Edit the file and save it and the change is picked up about a second later without a restart, which is the quickest way to clear a clash with another ASI mod. Each of the four also takes a controller shortcut of two buttons at once rather than one, since every single button already does something in this game.
+
+If the menu opens but will not take a click, the cursor is the usual cause and not the menu. In borderless windowed mode the Windows pointer and the game's own pointer drift apart, so clicks land somewhere other than where you are pointing. Move the pointer to the top left corner once and the two snap back together. Thanks to LuxDragon for working that one out.
+
 ## How it decides
 
 A worker thread finds the game's actor manager by its RTTI class name and reads every world object around the player. Each object gets a verdict of its own. Verdicts that pass are queued, and a hook on the game's own per-frame tick sends the game's own loot events (pick up, gather, catch, search carcass), the same events the game sends when you press the interaction key.
