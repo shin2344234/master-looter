@@ -281,11 +281,57 @@ namespace ml::loot::hooks
                                                  uintptr_t instigator, uintptr_t outChanged);
     static FnStateDriver oStateDriver = nullptr;
 
+    // Every gimmick state change in the world comes through here, and until now
+    // it recorded two ids and said nothing. That is the one place a well's
+    // bucket coming up full could show, because drawing water raises no event
+    // through the queue at all: a manual draw six metres away produced not one
+    // line, player-tagged or world-tagged.
+    //
+    // The ids are Jenkins hashes of lowercase names, so they cannot be read
+    // back. They can be guessed at: hash a list of plausible words once and
+    // report a match when one turns up. Three sightings per id, sixty-four
+    // distinct ids for the session, debug log only.
+    static const char* GuessStateName(uint32_t id)
+    {
+        static const char* kWords[] = {
+            "wait", "gimmickon", "gimmickoff", "break", "onbreak", "open", "close",
+            "use", "used", "on", "off", "start", "end", "fill", "filled", "empty",
+            "water", "draw", "up", "down", "reset", "idle", "action", "interact",
+            "gather", "collect", "take", "pick", "loop", "play", "stop", "hold",
+            "bucketup", "bucketdown", "begin", "finish", "enter", "leave",
+        };
+        static uint32_t s_hash[sizeof kWords / sizeof kWords[0]];
+        static bool s_ready = false;
+        if (!s_ready) { for (size_t i = 0; i < sizeof kWords / sizeof kWords[0]; ++i) s_hash[i] = game::NameId(kWords[i]); s_ready = true; }
+        for (size_t i = 0; i < sizeof kWords / sizeof kWords[0]; ++i) if (s_hash[i] == id) return kWords[i];
+        return nullptr;
+    }
+
     static uint64_t __fastcall hkStateDriver(uintptr_t comp, uintptr_t ev,
                                              uintptr_t instigator, uintptr_t outChanged)
     {
         uint32_t evId = 0;
         if (ev && mem::Read32(ev, &evId)) LearnEvent(evId, ev);
+        if (evId && Settings::Get().debugLog)
+        {
+            struct Slot { volatile LONG id; volatile LONG seen; };
+            static Slot slots[64] = {};
+            for (int i = 0; i < 64; ++i)
+            {
+                const LONG had = InterlockedCompareExchange(&slots[i].id, static_cast<LONG>(evId), 0);
+                if (had != 0 && had != static_cast<LONG>(evId)) continue;
+                const LONG n = InterlockedIncrement(&slots[i].seen);
+                if (n <= 3)
+                {
+                    uint32_t target = 0; mem::Read32(ev + 0x20, &target);
+                    const char* name = GuessStateName(evId);
+                    LOG("[gstate] event %08X%s%s%s target %08X comp %llX sample %ld",
+                        evId, name ? " (" : "", name ? name : "", name ? ")" : "",
+                        target, static_cast<unsigned long long>(comp), n);
+                }
+                break;
+            }
+        }
         return oStateDriver(comp, ev, instigator, outChanged);
     }
 
