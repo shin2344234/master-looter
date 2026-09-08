@@ -267,6 +267,19 @@ namespace ml::loot
     // instead, and it is filled in as each retired object is recognised once.
     static std::unordered_set<uint32_t>        g_retiredEid;
 
+    // The ownership oracle is a call into the game, and it is the last gate in
+    // Decide, which runs thirty times a second over every candidate in range.
+    // The answer does not change at that rate. One thrown sword was asked
+    // thirty-four times in 1.1 seconds while its send was being throttled: the
+    // same question, the same answer, thirty-four calls into the game.
+    //
+    // Two seconds is short enough that a door opening or a quest handing
+    // something over is noticed within a tick or two of a scan, and long
+    // enough that the repeat collapses to one call.
+    struct OwnAns { DWORD when; int steal; };
+    static std::unordered_map<uint32_t, OwnAns> g_ownAns;
+    static constexpr DWORD kOwnAnsMs = 2000;
+
     // Everything the scan has seen hanging off the player, and the last moment
     // it did. Being attached is the one thing that keeps the player's own kit
     // out of the verdict, and a thrown weapon stops being attached for as long
@@ -759,6 +772,17 @@ namespace ml::loot
             if (dx * dx + dy * dy + dz * dz < kBrokeRadius2) return true;
         }
         return false;
+    }
+    static int WouldStealCached(const Cand& c)
+    {
+        const DWORD now = GetTickCount();
+        const auto it = g_ownAns.find(c.eid);
+        if (it != g_ownAns.end() && now - it->second.when <= kOwnAnsMs) return it->second.steal;
+        const int steal = hooks::WouldSteal(g_me, c.ent);
+        // "Not armed yet" says something about the mod, not about the object,
+        // and arming can finish on the very next tick. Not worth remembering.
+        if (steal != -1) g_ownAns[c.eid] = { now, steal };
+        return steal;
     }
     // Was this the player's a moment ago? Both halves have to agree: the same
     // entity, and the same item in it if either side knows which.
@@ -1318,7 +1342,7 @@ namespace ml::loot
 
         if (!cfg.lootOwned && v.act != Action::Catch)
         {
-            const int steal = hooks::WouldSteal(g_me, c.ent);
+            const int steal = WouldStealCached(c);
             if (steal == 1)  return skip("owned by someone (theft)");
             // Not "owner unknown": nothing at all can be taken yet. The game
             // has to run its own ownership check once before the mod can ask
@@ -1503,6 +1527,10 @@ namespace ml::loot
                 if (!wasHeld) s_holdSince = now;
                 if (now - s_holdSince <= 5000) { s_holdUntil = now + hold; snprintf(s_holdWhy, sizeof s_holdWhy, "%s", why); }
                 g_done.clear();
+                // Whether taking something counts as stealing is asked on behalf
+                // of a particular player, so a mount, a cutscene or an area
+                // change makes every remembered answer somebody else's.
+                g_ownAns.clear();
                 if (now - s_holdLogAt > 5000) { s_holdLogAt = now; LOG("[scan] paused: %s", why); }
             }
         }
@@ -1619,6 +1647,7 @@ namespace ml::loot
         // never be searched twice, whatever the session length.)
         if (g_why.size() > 8192) g_why.clear();
         if (g_firstSeen.size() > 8192) g_firstSeen.clear();
+        if (g_ownAns.size() > 4096) g_ownAns.clear();
         if (g_done.size() > 4096)
             for (auto it = g_done.begin(); it != g_done.end();)
                 it = (now - it->second.when > 600000) ? g_done.erase(it) : std::next(it);
