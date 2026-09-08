@@ -185,15 +185,20 @@ namespace ml::loot
         return improved;
     }
 
-    static Species FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai, uint8_t cat2)
+    static Species FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai, uint8_t cat2, uint8_t tag)
     {
         Species sp;
         if (!CreatureDb::Loaded()) return sp;
         auto hit = g_speciesByEid.find(eid);
         if (hit != g_speciesByEid.end()) return hit->second;
         if (g_speciesMiss.count(eid)) return sp;
-        static int s_dumped05 = 0, s_dumped09 = 0;
-        int& dumped = cat2 == 0x05 ? s_dumped05 : s_dumped09;
+        // A budget per category byte rather than two buckets. The old pair sent
+        // every byte that was not 05 into the 09 bucket, so with live creatures
+        // now identified whatever their byte, a field of beasts would spend the
+        // whole allowance before the player reached the animal the log was
+        // being taken for.
+        static std::unordered_map<uint8_t, int> s_dumped;
+        int& dumped = s_dumped[cat2];
         const bool dump = dumped < 10;
         char probe[1400] = "";
         const uintptr_t objs[4] = { ent, actor, status, ai };
@@ -226,14 +231,17 @@ namespace ml::loot
             if (g_speciesByEid.size() > 4096) g_speciesByEid.clear();
             g_speciesByEid[eid] = sp;
             static int s_hits = 0;
-            if (s_hits < 30) { ++s_hits; LOG("[species] %08X (byte %02X) is %s%s%s: word '%s' in \"%s\" (trust %d)", eid, cat2, sp.klass, sp.row ? (sp.exact ? ", " : ", e.g. ") : "", sp.row ? sp.row->name.c_str() : "", sp.word.c_str(), sp.from.c_str(), sp.trust); }
+            // The tag is here because it is the half of the catchable test that
+            // usually does the excluding, and a line without it cannot be held
+            // against one from a creature that was caught.
+            if (s_hits < (g_debugLog ? 200 : 30)) { ++s_hits; LOG("[species] %08X (byte %02X tag %02X) is %s%s%s: word '%s' in \"%s\" (trust %d)", eid, cat2, tag, sp.klass, sp.row ? (sp.exact ? ", " : ", e.g. ") : "", sp.row ? sp.row->name.c_str() : "", sp.word.c_str(), sp.from.c_str(), sp.trust); }
             return sp;
         }
         if (dump)
         {
             ++dumped;
             uintptr_t vt = 0, ti = 0; mem::ReadPtr(ent, &vt); mem::ReadPtr(ent + kOff_Ent_TypeInfo, &ti);
-            LOG("[species] no match for %08X (byte %02X, vtable +0x%llX typeinfo %llX); strings seen: %s", eid, cat2,
+            LOG("[species] no match for %08X (byte %02X tag %02X, vtable +0x%llX typeinfo %llX); strings seen: %s", eid, cat2, tag,
                 static_cast<unsigned long long>(mem::Rva(vt)), static_cast<unsigned long long>(ti), probe[0] ? probe : "(none)");
         }
         if (g_speciesMiss.size() > 4096) g_speciesMiss.clear();
@@ -1048,9 +1056,24 @@ namespace ml::loot
             if (k.node[0]) k.nodeType = NodeDb::ByPrefab(k.node);
         }
         // Live creatures: which species, from the CharacterInfo row they point at.
-        if (k.ai && !k.inter && k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
+        //
+        // The narrow gate is the same test that decides whether a creature can
+        // be caught at all, which made the log useless for arguing about that
+        // test: anything it turned down stayed anonymous, so a report of "the
+        // lizards are not picked up" could only ever come back as "creature".
+        // Across 41 logs that is 100 creatures carrying a catchable category
+        // byte but the wrong type tag, and 352 more the other way about, none
+        // of them named. With the debug log on, every live creature standing
+        // free of an interaction node is identified, so the log says what is
+        // being refused and the gate can be argued from evidence.
+        //
+        // Costs nothing in normal play, and nothing downstream either: the
+        // species only reaches a verdict through the Catch branch, which still
+        // needs the narrow gate to be entered at all.
+        const bool nameable = k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09);
+        if (k.ai && !k.inter && (nameable || g_debugLog))
         {
-            const Species sp = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai), k.cat2);
+            const Species sp = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai), k.cat2, k.type);
             k.species = sp.row; k.speciesClass = sp.klass; k.speciesExact = sp.exact;
         }
         if (k.gather && k.gtid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.gtid; }
