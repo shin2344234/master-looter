@@ -1,0 +1,119 @@
+=============================================================================
+REPLY 1 -- to Fyreon87, the frame generation crash (highest priority)
+=============================================================================
+
+[b]Fyreon87[/b] Thank you for bisecting that. An hour and a half of load order
+elimination is more than anyone should have to do, and it is the difference
+between a report I can act on and one I have to guess at. Filed as issue #30.
+
+You have got me in the right area already. Turning frame generation on or off
+destroys and rebuilds the swapchain, and this mod draws its menu through that
+swapchain, so it is doing graphics work at exactly the moment the thing it is
+drawing into is being torn down. That is a real hazard and it is mine.
+
+Three things would let me pin it down.
+
+[b]1. The log from a run that crashed.[/b] MasterLooter.log in bin64, and
+MasterLooter.01.log next to it, which is the run before. I am looking for
+whether a particular line appears at the moment you flip the setting. If it
+does not, the mod never noticed the swapchain was replaced, which would explain
+everything.
+
+[b]2. Which frame generation.[/b] The game's own, DLSS, FSR, or something like
+OptiScaler on top. They are not the same code and they fail differently.
+
+[b]3. One test.[/b] Open MasterLooter.ini in bin64 and set
+
+[code]wrapSwapChain=0[/code]
+
+then launch and toggle frame generation again. That turns off the menu drawing
+path and leaves everything else running. If it stops crashing, I know it is
+that path and not the rest of the mod. If it still crashes, I have been looking
+in the wrong place and that is worth knowing too.
+
+No rush on any of it. The mod is not going to eat your save over this; it is a
+crash, not a corruption.
+
+=============================================================================
+REPLY 2 -- to lsimo, three separate things
+=============================================================================
+
+[b]lsimo[/b] That is a properly measured report, thank you. Bag totals rather
+than the number on screen is exactly what was needed. Taking your three points
+in order.
+
+[b]The multiplier works, the tool does not.[/b] Five is one times five, so the
+multiplier is scaling mod-mined ore correctly. It was the older 1.3.0 report of
+x1 that was stale; 1.4.0 changed how veins are mined completely. What is
+actually missing is the Knuckledrill's own doubling, and you worked out why
+yourself without realising it: you said the tool puts ore straight into your
+inventory rather than on the floor. That is a second path, and the game runs it
+from a real weapon swing. The mod does not swing anything. It drives the vein's
+own break sequence, the ore spills on the ground, and it picks that up. So you
+get the spill, times five, and the tool's extra never fires.
+
+Worse, there is a comment in my own source saying that breaking a vein is the
+one way to get the tool bonus. I wrote that, I never verified it, and your
+numbers show it is wrong. That is now issue #31, and the comment is coming out
+whatever else happens.
+
+[b]A built-in multiplier per class.[/b] Reasonable ask, and the machinery is
+mostly there since every rule in the mod is already per class, per tag or per
+item. Filed as #28. One caution: multiplying loot means sending the same take
+more than once, and duplicate items are how saves get corrupted, so if I build
+it I will build it carefully rather than quickly.
+
+[b]Pets.[/b] This one is not mine, and I want to be straight with you rather
+than promise a switch I cannot deliver. The mod has no pet handling of any
+kind. There is no code in it that makes a pet pick anything up, and everything
+the mod itself takes goes through the full filter before it is taken. So a pet
+hoovering things up with no regard for your settings is the game doing that,
+not this mod, and a flag here would have nothing to switch off. If you can turn
+it off at all it will be in the game's own options.
+
+=============================================================================
+REPLY 3 -- to jacksterson, Proton
+=============================================================================
+
+[b]jacksterson[/b] That settles more than you might think. No log file at all
+means the plugin was never started. Since 1.2.0 the log is opened the moment
+the DLL loads, well before anything is drawn, so a plugin that started and then
+died still leaves a file behind. Yours never got that far.
+
+So the mod is not crashing your game. Something upstream is stopping it from
+being loaded in the first place, and those are different problems.
+
+Your overrides look right, winmm=n,b is the important one and you have it. Two
+things worth checking, in this order:
+
+[b]1.[/b] Is MasterLooter.asi actually sitting in bin64 inside the prefix,
+right next to winmm.dll? If your mod manager deploys through a Windows-shaped
+path it may be writing somewhere the prefix never sees.
+
+[b]2.[/b] Does the game start with winmm.dll in place but MasterLooter.asi
+deleted? That separates "the loader is unhappy in this configuration" from
+"this plugin specifically kills it". If it starts fine without the .asi and
+dies with it, then the plugin is getting far enough to take the process down
+before it can even open its log, which would be genuinely new and would point
+at either the byte pattern scan or the Direct3D hook meeting DXVK rather than
+real D3D12.
+
+I notice you are also overriding dxgi for RenoDX. This mod hooks the DXGI
+present path too, so two things wanting it under DXVK is a plausible way to
+lose the process silently. Not a diagnosis, just the next place I would look.
+
+I do not have a Linux machine, so I am reliant on you here. Issue #15 has
+everything so far.
+
+=============================================================================
+REPLY 4 -- to LuxDragon, filtering individual creatures
+=============================================================================
+
+[b]LuxDragon[/b] Filed properly now as #29 so it does not stay a to-do in my
+head.
+
+The honest state of it: items have three levels of control already, per item,
+per tag and per class. Creatures have none. They are recognised by their model
+and sorted by two category bytes rather than by a row in the item table, so
+there is no stable name to hang a rule off yet. Giving them one is the actual
+work. The interface for it already exists.
