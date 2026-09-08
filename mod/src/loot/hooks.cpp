@@ -113,12 +113,20 @@ namespace ml::loot::hooks
 
     static DWORD g_startedAt = GetTickCount();
 
+    static volatile LONG g_gamePlayerEid = 0;
+    uint32_t PlayerEidFromGame() { return static_cast<uint32_t>(InterlockedCompareExchange(&g_gamePlayerEid, 0, 0)); }
+
     static uint64_t hkOwn(void* ctx, void* me, void* target, void* tag, uint64_t a5, uint64_t a6)
     {
         const LONG n = InterlockedIncrement(&g_ownCalls);
         const uint64_t r = oOwn(ctx, me, target, tag, a5, a6);
         uint32_t eid = 0, teid = 0;
         const bool playerArg = mem::Read32(reinterpret_cast<uintptr_t>(me) + 0x60, &eid) && (eid >> 24) == game::kTagPlayer;
+        // The game asks this question on behalf of the character it considers
+        // the player, so this argument settles who that is. The engine picks
+        // the first player-tagged actor it enumerates, which is a guess, and
+        // with a party behind you it is often the wrong one.
+        if (playerArg) InterlockedExchange(&g_gamePlayerEid, static_cast<LONG>(eid));
         mem::Read32(reinterpret_cast<uintptr_t>(target) + 0x60, &teid);
         // Why capture waits is worth knowing: a call with a null context or
         // tag does not count, and neither does one that is not about the

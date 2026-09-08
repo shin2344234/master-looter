@@ -56,5 +56,11 @@ namespace ml::loot::hooks
     // player, so the mod never has to wait for the game to run its own check.
     // Call it as soon as there is a player: cheap once armed, and it reports
     // why it could not the first time each reason applies.
+    // The entity id the game itself passes as the player when it runs its own
+    // take-or-steal check. 0 until it has asked once. Authoritative: the engine
+    // otherwise picks the first player-tagged actor it enumerates, and a party
+    // has more than one.
+    uint32_t PlayerEidFromGame();
+
     bool EnsureOwnerArmed(uintptr_t playerEnt);
 }
