@@ -258,6 +258,21 @@ namespace ml::loot
     // g_searched about an object it has not filled yet. This is what it asks
     // instead, and it is filled in as each retired object is recognised once.
     static std::unordered_set<uint32_t>        g_retiredEid;
+
+    // Everything the scan has seen hanging off the player, and the last moment
+    // it did. Being attached is the one thing that keeps the player's own kit
+    // out of the verdict, and a thrown weapon stops being attached for as long
+    // as it is in the air. Nothing else marks it out: a thrown sword is the
+    // same weapon class as one off a corpse.
+    //
+    // The item row is kept beside the time because entity ids get recycled. An
+    // id alone would hand a stale refusal to whatever object inherits it.
+    struct OnMe { DWORD when; uint16_t tid; };
+    static std::unordered_map<uint32_t, OnMe> g_onMe;
+    // Long enough for a weapon thrown across a field and collected on the way
+    // past, short enough that a recycled id has usually aged out.
+    static constexpr DWORD kOnMeWindowMs = 45000;
+
     struct ArmRec { DWORD at; int fails; bool judged; int mode; int ctxKind; int rounds; DWORD restUntil; };
     // How to arm, in the order worth trying. Combo 0 names one key, the one
     // the game was last seen using; combo 1 passes a zeroed name and takes
@@ -725,6 +740,14 @@ namespace ml::loot
         }
         return false;
     }
+    // Was this the player's a moment ago? Both halves have to agree: the same
+    // entity, and the same item in it if either side knows which.
+    static bool WasOnMe(const Cand& c, DWORD now)
+    {
+        const auto it = g_onMe.find(c.eid);
+        if (it == g_onMe.end() || now - it->second.when > kOnMeWindowMs) return false;
+        return !c.tid || !it->second.tid || c.tid == it->second.tid;
+    }
     static DWORD AgeMs(uint32_t eid, DWORD now)
     {
         auto it = g_firstSeen.find(eid);
@@ -1068,6 +1091,16 @@ namespace ml::loot
         // one is armed like any other and proves itself by filling or not.)
         if (c.d < cfg.minRange) return skip("on the player");
         if (c.parent && c.parent == g_meEid) return skip("worn or carried by you");
+        // And for a while after it stops being carried. A weapon thrown with the
+        // Weapon Throw skill comes off the player for as long as it is in the
+        // air, so the line above stops covering it at exactly the moment it
+        // becomes reachable, and the game is going to put it back in their hand
+        // regardless. Taking it in between left them holding two. Whatever else
+        // they let go of on purpose answers to the same rule.
+        //
+        // Deliberately not asking what it is attached to now. Whatever the game
+        // hangs a weapon off mid-flight, having been on the player is enough.
+        if (WasOnMe(c, GetTickCount())) return skip("yours, just out of your hand");
         if (c.item && c.parent && c.cat2 == 0x11) return skip("worn by someone");
         if (game::InventoryHas(c.iid)) return skip("already in your bag");
         if (c.node[0])
@@ -1438,6 +1471,21 @@ namespace ml::loot
             // instance id, so it never matched for an object that had one and
             // every such object was filled again on every scan of the session.
             if (g_searched.count(Key(k))) { k.banned = true; g_retiredEid.insert(k.eid); }
+        }
+        // Note what is hanging off the player while it still is, so that it is
+        // still recognisable in the seconds after it stops being. Filled above,
+        // so the item row is read and can be held against the id later.
+        for (const Cand& k : list)
+            if (k.parent && k.parent == g_meEid)
+            {
+                OnMe& r = g_onMe[k.eid];
+                r.when = now;
+                if (k.tid) r.tid = k.tid;   // never trade a known row for an unread one
+            }
+        for (auto it = g_onMe.begin(); it != g_onMe.end(); )
+        {
+            if (now - it->second.when > kOnMeWindowMs) it = g_onMe.erase(it);
+            else ++it;
         }
         // Container contents sit in one point; a bush comes as a data node plus an empty twin.
         for (size_t i = 0; i < list.size(); ++i)
