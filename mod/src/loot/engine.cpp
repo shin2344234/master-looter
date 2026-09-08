@@ -1079,13 +1079,13 @@ namespace ml::loot
         {
             uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
             mem::Read8(gdata + 5, &k.gkind);
-            // A well part carrying a gather block used to be marked a container
-            // here, on the reasoning that it was the bucket and the bucket was
-            // scenery. It is the bucket, and drawing from it is the point. This
-            // block only ever runs for a node that has gather data, so the
-            // marking only ever hit the one part worth having, and it is gone.
-            // The part fills only once the player is close: at 14.5 m the same
-            // entity has no gather block, at 1.8 m it has one.
+            // The well bucket. It is a real gather node, not scenery: it grows a
+            // gather block once the player is close (no block at 14.5 m, one at
+            // 1.8 m) and gathering it does hand over the Water. It is marked a
+            // container anyway, because the game consumes the node when it is
+            // gathered and the bucket disappears from the well for good. Three
+            // copper of water is not worth breaking the village well over.
+            if (k.gkind == 0x04 && IsMechanism(k.node)) g_containers.insert(k.eid);
         }
         if (idata)
         {
@@ -1227,11 +1227,13 @@ namespace ml::loot
                 if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
             }
         }
-        // Scenery unless it has something to give. Six of a well's seven parts
-        // never fill and stay refused; the seventh grows a gather block when the
-        // player comes near, and that one is the bucket. Refusing the lot was
-        // what made drawing water look impossible.
-        if ((IsMechanism(c.node) && !c.gather) || g_containers.count(c.eid)) return skip("mechanism part");
+        // A well is refused whole. Six of its seven parts never fill, and the
+        // seventh is the bucket, which does fill and does pay Water. Gathering
+        // it consumes the node the way gathering a plant does, and the bucket
+        // then stays missing. Tested 2026-09-08: the water arrived and the
+        // bucket vanished. Not a trade worth making for a three copper item
+        // that pottery drops more readily.
+        if (IsMechanism(c.node) || g_containers.count(c.eid)) return skip("mechanism part");
         if (c.heap) return skip("stack at one point (storage contents)");
         // (A pointer to the player inside the object used to mean "yours"; the
         // parent and bag checks above cover that, and arming can plant such a
