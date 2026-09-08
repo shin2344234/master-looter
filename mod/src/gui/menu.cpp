@@ -659,7 +659,7 @@ namespace ml::gui
             { "Fish",           &c.catchFish,      "Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses." },
             { "Small animals",  &c.catchAnimals,   "Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole." },
             { "Containers",     &c.lootContainers, "Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default." },
-            { "Furniture", &c.lootFurniture, "Tables, chairs, beds, carpets and decor, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Off by default." },
+            { "Furniture", &c.lootFurniture, "Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default." },
         };
         if (ImGui::BeginTable("collect", 3, ImGuiTableFlags_SizingStretchSame))
         {

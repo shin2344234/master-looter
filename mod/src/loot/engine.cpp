@@ -635,13 +635,25 @@ namespace ml::loot
         if (k == "stone" || y->HasTag("stone")) return GatherKind::Stone;
         if (k == "ore" || k == "jewel" || y->HasTag("ore") || y->HasTag("mineral")) return GatherKind::Ore;
         if (k == "herb") return GatherKind::Plant;
-        // Furniture is a class in the database and every piece carries it,
-        // from a one-copper table up to a twelve-thousand-copper carpet. It
-        // has to be decided before the onGround line below, or a chair lying
-        // in a room is just another ground item. Goblets and bowls are tagged
-        // furniture too but their class is container, so they stay with the
-        // container rule rather than moving under this one.
-        if (k == "furniture" || k == "household") return GatherKind::Furniture;
+        // Furnishings, whatever else they also are. Decided before the onGround
+        // line below, or a chair lying in a room is just another ground item.
+        //
+        // This used to read the class, and the class is a single label picked by
+        // priority: "furniture" sits twelfth of the thirteen furnishing tags in
+        // that order, so a candelabra files as "light", a glass lamp as "lamp",
+        // a still life as "painting" and a pot as "flower-pot". None of them
+        // ever reached this line, which is why unchecking Furniture still let a
+        // room be emptied of everything except the tables. Reading the class
+        // covered 123 pieces; reading the tag covers 452.
+        //
+        // Safe to ask this way round because the tag is on nothing outside the
+        // furnishing block, and nothing carrying it is claimed by the wood,
+        // stone, ore or herb lines above.
+        //
+        // Anything that holds things stays with the container rule instead:
+        // goblets and bowls are tagged furniture too, and a chest is not a chair.
+        if (y->HasTag("furniture") && k != "container" && k != "storage" && k != "chest")
+            return GatherKind::Furniture;
         // Ahead of the onGround line, so a fallen apple and one still on the
         // tree answer to the same switch. Before 1.3.1 both were ground items.
         if (k == "vegetable" || k == "fruit" || k == "grain") return GatherKind::Crop;
