@@ -93,3 +93,7 @@ MIT, see [LICENSE](LICENSE). Third-party terms are in [mod/THIRD_PARTY_NOTICES.m
 - CDLoot: the reverse engineering of the loot event protocol, the entity layout, the ownership check and node arming. Used as knowledge; the code here is new.
 - Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time. Ultimate ASI Loader, which every ASI mod depends on.
 - dofo7777: the Simplified and Traditional Chinese menus, both done from the template within an hour of it being posted.
+
+## Buy me a coffee
+
+[buymeacoffee.com/sethwalker234](https://buymeacoffee.com/sethwalker234) if you want to.
