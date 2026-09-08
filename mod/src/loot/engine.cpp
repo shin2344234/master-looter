@@ -464,6 +464,10 @@ namespace ml::loot
         std::vector<std::pair<uint16_t, long long>> cur(n);
         for (int i = 0; i < n; ++i) cur[i] = { types[i], qty[i] };
         std::vector<uint16_t> rose;
+        // Which types rose, and by how much. Four Stones knocked out of one
+        // rock arrive as a single rise of four, not as four rises, so the
+        // count is the only way to tell four pick-ups landing from one.
+        std::unordered_map<uint16_t, long long> gained;
         if (g_invPrevValid)
         {
             size_t j = 0;
@@ -471,7 +475,7 @@ namespace ml::loot
             {
                 while (j < g_invPrev.size() && g_invPrev[j].first < e.first) ++j;
                 const long long before = (j < g_invPrev.size() && g_invPrev[j].first == e.first) ? g_invPrev[j].second : 0;
-                if (e.second > before) rose.push_back(e.first);
+                if (e.second > before) { rose.push_back(e.first); gained[e.first] = e.second - before; }
             }
         }
         g_invPrev.swap(cur);
@@ -538,27 +542,38 @@ namespace ml::loot
         if (rose.empty() || g_pend.empty()) return;
         for (uint16_t type : rose)
         {
-            // A send whose item we already knew explains the rise.
-            auto known = std::find_if(g_pend.begin(), g_pend.end(), [type](const PendSend& p) { return p.itemRow == type; });
-            if (known != g_pend.end())
+            // Sends whose item we already knew explain the rise. As many are
+            // credited as units arrived, because a stack does not announce
+            // itself once per item: mining a rock spills four Stones, four
+            // pick-ups go out, and the bag reports one type going up by four.
+            // Crediting one of those and calling the other three missed is
+            // what made a full bag out of a productive minute.
+            long long units = 1;
+            { const auto g = gained.find(type); if (g != gained.end() && g->second > 1) units = g->second; }
+            bool credited = false, landed = false;
+            for (; units > 0; --units)
             {
-                if (known->act == Action::Take)
-                {
-                    g_noRise = 0;
-                    // Something arrived. If the bag still reads as having no
-                    // room, the limit we read is too low: believe what just
-                    // happened over the field.
-                    int u = 0, c = 0;
-                    if (game::BagSlots(&u, &c) && u >= c + g_capBias)
-                    {
-                        g_capBias = u + 1 - c;
-                        LOG("[bag] an item arrived at %d of %d slots, so the bag holds at least %d: reading the limit as %d from here", u, c, u + 1, c + g_capBias);
-                    }
-                    if (g_bagFull) { g_bagFull = false; LOG("[bag] pick-ups are landing again"); }
-                }
+                auto known = std::find_if(g_pend.begin(), g_pend.end(), [type](const PendSend& p) { return p.itemRow == type; });
+                if (known == g_pend.end()) break;
+                if (known->act == Action::Take) landed = true;
                 g_pend.erase(known);
-                continue;
+                credited = true;
             }
+            if (landed)
+            {
+                g_noRise = 0;
+                // Something arrived. If the bag still reads as having no
+                // room, the limit we read is too low: believe what just
+                // happened over the field.
+                int u = 0, c = 0;
+                if (game::BagSlots(&u, &c) && u >= c + g_capBias)
+                {
+                    g_capBias = u + 1 - c;
+                    LOG("[bag] an item arrived at %d of %d slots, so the bag holds at least %d: reading the limit as %d from here", u, c, u + 1, c + g_capBias);
+                }
+                if (g_bagFull) { g_bagFull = false; LOG("[bag] pick-ups are landing again"); }
+            }
+            if (credited) continue;
             // Otherwise every pending gather of one node type is the source,
             // but only when nothing else (a catch, a pick-up of an unnamed
             // item, a carcass) could explain the rise.
