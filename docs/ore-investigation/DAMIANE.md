@@ -1,76 +1,109 @@
-# Auto-loot as Damiane: what is known, and where it stops
+# Auto-loot as Damiane and Oongka
 
-Eight rounds of investigation on 8 September 2026, not solved. Written so the
-next attempt starts from evidence instead of from the folklore.
+Solved 8 September 2026, after eight rounds and one near-abandonment. Master
+Looter is the first autoloot mod for this game that works while playing a
+character other than Kliff. Written up because the wrong turns are as useful as
+the answer, and because the community folklore is wrong in an instructive way.
 
-## The claim being tested
+## The folklore
 
-Players say auto-loot only works with Kliff in the party. The other autoloot mod
-ships `; - Supported characters: Kliff and Female CC Kliff.` in its ini and has a
-log line about detecting a "CC puppet" for Damiane and Oongka, so it hit this and
-drew a boundary rather than a fix.
+Players say auto-loot only works with Kliff in the party, and treat it as a game
+limitation. The other autoloot mod ships this in its ini:
 
-## What is established
+    ;   - Supported characters: Kliff and Female CC Kliff.
 
-**The played character is not player-tagged.** As Damiane the only `0xA0` actor
-is `A0100001`, and it is a fixture: byte-identical position `945.5 686.7 87.4` in
-every session regardless of where the player stands or which save is loaded, with
-the nearest world object 1200 to 1800 m away.
+and its binary carries a log line about detecting a "CC puppet" for Damiane and
+Oongka. It found the same wall and drew its support boundary there.
 
-**She is findable by her gear.** A dressed character is the thing with items
-parented to it. On a populated pass:
+## What is actually going on
 
-    [worn] B0100005:20@1752m/rt90100000 B0100002:10@1758m/rt90100000 ...
+**The player identity and the player's body are two different entities.**
 
-`B0100005` carries ten to twenty items, sits in the middle of the streamed world,
-and is on the player's own route `90100000`. It is world-tagged, `0xB0`, which is
-why no rule based on the player tag can find it.
+The identity is the player-tagged actor, `A0100001`. The game raises its own
+events under that id whatever character is on screen, so it is the right thing
+to send loot events as. Playing as Damiane it is a fixture: byte-identical
+position `945.5 686.7 87.4` in every session regardless of where the player
+stands or which save is loaded, with the nearest world object 1200 to 1800 m
+away. It is not standing anywhere.
 
-**The game's own pointer is not the actor.** The take-or-steal routine gates on a
-global, `[0x6C29760] -> +0x30 -> +0x58` (see WELL.md's method notes for how it was
-found). Following it yields id `90100000` with tag `0x90`, which is the player's
-route object, not a body: it has no transform, and using it left the engine
-measuring from nothing.
+The body is whatever the identity is currently wearing. It is a **world-tagged**
+actor, `0xB0` like scenery, `B0100005` in the capture, standing 1750 m from the
+identity with twenty items parented to it. The other mod's "puppet body" and
+"playerEid" are exactly these two.
 
-## Where it stops
+Playing as Kliff the identity *is* the body, so nothing ever surfaced this for
+anyone.
 
-**The actor manager does not hand over the world.** That is the wall, and it sits
-underneath everything above.
+## How the body is found
 
-    8x   1 world objects
-    1x  22 world objects
+By its gear. A dressed character is the one thing in the world with a handful
+of items parented to it, and gear is attached, so one item's world position is
+the body's. The body itself never has to be enumerated for the scan to stand
+where it stands.
 
-That is a whole session as Damiane. Earlier sessions occasionally saw 475 to 640,
-never sustained. `ForEachEntity` walks `{count, cap, ptr}` triples between
-`+0x100` and `+0x200` of the manager, and dumping them shows lists of one and two
-entries against a capacity of sixteen.
+The scan feeds a rolling record of gear holders every tick (`NoteHolder` in
+`mod/src/loot/engine.cpp`) and remembers each for fifteen seconds. Once the
+player actor has proved barren, meaning the scan finds nothing at all around it
+while the world plainly has objects, the scan centres on the best holder
+(`BestHolder`): fresh, carrying three or more items, on the player's own route
+when that is known, carrying the most. Sticky while it stays fresh, or the first
+populated scan would clear the barren clock and the centre would flap back to
+the fixture.
 
-So every rule tried for choosing the player was choosing from a list that does not
-contain the world, and none of them could have worked:
+"Yours" (`IsMine`) covers the body's gear as well as the identity's, in all four
+places the engine asks, or the character's armour would be looted off her back.
 
-1. First player-tagged actor enumerated. A coin toss with a party.
-2. The actor the game names in its own ownership check. It asks about followers
-   too, and this moved the scan to an actor with nothing within 40 m.
-3. The player-tagged actor with the most world around it. Same starved list.
-4. The biggest gear holders as extra candidates. They are absent from the pass
-   that does the choosing.
-5. Refusing to choose from a pass under fifty entities. There is no such pass.
+Loot events keep going out as the identity, `g_meEid`. That is the id the game
+itself uses, and it works: the first Damiane session with this in place gathered
+lavender, wood and trees, and Oongka was confirmed working the same afternoon.
 
-## What the next attempt should do
+## The one lesson under all the failures
 
-Do not touch the player pick again. Find out why the manager is nearly empty for
-this character, which is a question about how the game enumerates actors, not
-about which actor is which. Two starting points, both cheap:
+**The actor manager hands the world over a few entities at a time.** One to
+twenty-two on most ticks, 475 to 640 occasionally, never sustained. The scan has
+always known this and keeps `g_seen`, "objects seen in the last second", for
+exactly that reason. The player logic never got the same treatment.
 
-- Disassemble a game function that iterates actors and see which structure it
-  walks. The vtable scan finds two or three `ClientActorManager` globals; the live
-  one for this character may not be among them, or the world may hang off a
-  different member than the `+0x100`..`+0x200` window assumes.
-- Capture the same diagnostics as Kliff for comparison. Everything here is a
-  Damiane reading with no Kliff control, so it is not yet known whether the
-  manager is starved for Damiane specifically or intermittently for everyone and
-  only noticed here.
+Every one of the five rules below decided **from a single enumeration pass**,
+and every one of them picked wrong for that reason and no other. The fix is not
+a sixth rule. It is feeding a rolling record so that all the partial passes add
+up, which is what the scan already did for everything except the player.
 
-The diagnostics are all in place and cost nothing when the debug log is off:
-`[scan]` counts and tag census, `[mgr]` list dump, `[worn]` gear holders with
-routes, `[player]` candidate comparison.
+### Rules that failed, so nobody writes them again
+
+1. **First player-tagged actor enumerated.** A coin toss with a party, and the
+   fixture is usually first.
+2. **The actor the game names in its own take-or-steal check.** It asks that
+   question about followers too. Following it moved the scan to an actor with
+   nothing within forty metres.
+3. **The take-or-steal routine's own global**, `[0x6C29760] -> +0x30 -> +0x58`,
+   found with the disassembler. It yields the player's *route* object, id
+   `90100000` with tag `0x90` and no transform, not a body. Following it left
+   the engine measuring from nothing at all.
+4. **The player-tagged actor with the most world around it.** Same starved
+   list. Also the fullest `ClientActorManager` global: both candidates read
+   zero entities before the world loads, so the pick was a toss-up dressed as a
+   measurement.
+5. **Gear holders as extra candidates, decided from one pass.** The pass that
+   chose never contained them.
+
+## Known wrinkle
+
+The centre can flap between holders. A wagon carries ten attached parts and a
+horse carries tack, and both are usually beside the player, so they qualify and
+sometimes win. In the first working session the centre moved between the body
+(12 items) and a wagon (10) and something 50 m off carrying 15. It worked
+because the wagon is next to the player, but a holder 50 m away shrinks what
+the scan can reach. Hysteresis on the switch, and weighting `/equip/` children
+over `/attach/` ones, are the obvious refinements.
+
+## Diagnostics that stay
+
+All cost nothing with the debug log off, and they are what any further work
+starts from:
+
+- `[scan]` census: world objects enumerated, how many in range, the centre's
+  position, a tag census, and the nearest object with its prefab.
+- `[mgr]` list dump when the world comes back nearly empty.
+- `[worn]` gear holders with child counts, distances and routes.
+- `[player]` every centre switch, with what was chosen and why.
