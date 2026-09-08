@@ -845,7 +845,27 @@ namespace ml::loot
         {  8673, WellWinchPart, 0xF00346BD },
         { 11115, WellBucket,    0x003ECC59 },
     };
-    static constexpr int kWellSteps = static_cast<int>(sizeof kWellRun / sizeof kWellRun[0]);
+    static constexpr int kWellRunSteps = static_cast<int>(sizeof kWellRun / sizeof kWellRun[0]);
+
+    // What the mod actually drives, and why it is one step and not fifteen.
+    //
+    // Winding the winch works: the run above was driven back to back nineteen
+    // times in two minutes and paid out every time. It is also unusable. A run
+    // holds the well for eleven seconds, the cooldown is a second, so the well
+    // is never free, and a player who reaches for the handle mid-run has it
+    // taken out of their hands. The winch state confirms both halves: it reads
+    // MinAngle (0x61964BBC) while a player turns it and Wait (0x866C7489) at
+    // the start and end of every mod run, and checking that at the start of a
+    // run cannot help when a run is always already in progress.
+    //
+    // So the mod does not touch the winch. The player winds, and the mod asks
+    // the bucket alone for what it is holding, which is the last transition of
+    // the captured run and the only one aimed at the bucket rather than the
+    // winch. Nothing the mod drives is anything the player is holding.
+    static const WellStep kWellTake[] = {
+        { 0, WellBucket, 0x003ECC59 },
+    };
+    static constexpr int kWellSteps = static_cast<int>(sizeof kWellTake / sizeof kWellTake[0]);
 
     struct WellRun
     {
@@ -1520,16 +1540,16 @@ namespace ml::loot
         if (g_wellRun.active)
         {
             const DWORD since = now - g_wellRun.startedAt;
-            while (g_wellRun.step < kWellSteps && kWellRun[g_wellRun.step].atMs <= since)
+            while (g_wellRun.step < kWellSteps && kWellTake[g_wellRun.step].atMs <= since)
             {
-                const WellStep& st = kWellRun[g_wellRun.step];
+                const WellStep& st = kWellTake[g_wellRun.step];
                 if (const uintptr_t comp = g_wellRun.comp[st.part])
                     events::DriveEvent(comp, st.ev, g_meEid, g_me, g_wellRun.eid[st.part]);
                 ++g_wellRun.step;
             }
             if (g_wellRun.step >= kWellSteps)
             {
-                LOG("[well] finished the run on bucket %08X; winch is in state %08X",
+                LOG("[well] took from bucket %08X; winch is in state %08X",
                     g_wellRun.eid[WellBucket], GimmickState(g_wellRun.comp[WellWinch]));
                 g_wellDone[g_wellRun.eid[WellBucket]] = now;
                 g_wellRun.active = false;
@@ -1571,26 +1591,17 @@ namespace ml::loot
             }
             if (!r.comp[WellWinch]) continue;   // nothing to drive
 
-            // Only take a winch that is standing idle. If the player has hold of
-            // it, it is in GimmickOn and driving the run would pull it out of
-            // their hands, which is what happened before this check existed.
+            // The winch is read but never driven, so the log can say what the
+            // player was doing when the water was taken. MinAngle means they had
+            // hold of the handle, and taking the bucket's contents while they do
+            // is the whole point rather than something to avoid.
             const uint32_t st = GimmickState(r.comp[WellWinch]);
-            static const uint32_t kWait = game::NameId("wait");
-            if (st && st != kWait)
-            {
-                static std::unordered_set<uint32_t> said;
-                if (said.size() < 8 && said.insert(st).second)
-                    LOG("[well] winch %08X is in state %08X, not Wait (%08X): leaving it alone",
-                        winch->eid, st, kWait);
-                continue;
-            }
             r.startedAt = now;
             r.step = 0;
             r.active = true;
             g_wellRun = r;
-            LOG("[well] winding bucket %08X at %.1f m (winch %08X in state %08X%s): %d transitions over %.1f s",
-                b.eid, b.d, r.eid[WellWinch], st, r.comp[WellWinchPart] ? "" : ", no winch part",
-                kWellSteps, kWellRun[kWellSteps - 1].atMs / 1000.0f);
+            LOG("[well] taking from bucket %08X at %.1f m (winch %08X is in state %08X)",
+                b.eid, b.d, r.eid[WellWinch], st);
             break;
         }
     }
