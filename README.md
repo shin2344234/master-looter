@@ -36,7 +36,7 @@ Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The p
 
 ## Antivirus
 
-Three scanners out of seventy flag `MasterLooter.asi`, and all three are machine-learning models: Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and CrowdStrike Falcon (`Win/malicious_confidence_60%`). Each puts the reason in the name: `!ml` and `ML.Attribute` mean a model guessed from the shape of the file, and the third prints its confidence as a percentage. None matched anything known, and the sixty-seven others read the same file as clean. The DMM archive scores zero of sixty-seven.
+Three scanners out of seventy flag `MasterLooter.asi`, and all three are machine-learning models: Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and CrowdStrike Falcon (`Win/malicious_confidence_60%`). Each puts the reason in the name: `!ml` and `ML.Attribute` mean a model guessed from the shape of the file, and the third prints its confidence as a percentage. None matched anything known, and the sixty-seven others read the same file as clean. The DMM archive scores zero of sixty-five, and the full archive zero of sixty-six.
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three. Microsoft and Symantec have flagged every one of them. CrowdStrike Falcon and Deep Instinct come and go, and 1.6.1 has the first without the second. That is what a model guessing looks like, as against a scanner recognising something.
 
