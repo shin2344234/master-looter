@@ -2096,8 +2096,12 @@ namespace ml::loot
                     snprintf(nearBy, sizeof nearBy, "; nearest object %08X at %.1f m%s%s",
                              nearestEid, nearestD, node[0] ? " " : "", node);
                 }
-                LOG("[scan] %d world objects, %d within %.0f m of %08X at %.1f %.1f %.1f; tags:%s%s",
-                    total, inRange, cfg.scanRange, g_meEid, mp.x, mp.y, mp.z, w ? tags : " none", nearBy);
+                // Name the entity the position actually belongs to. It read
+                // "40 m of A0100001" while standing on the body, which is the
+                // one confusion this whole area exists to clear up.
+                LOG("[scan] %d world objects, %d within %.0f m of %08X%s at %.1f %.1f %.1f; tags:%s%s",
+                    total, inRange, cfg.scanRange, g_bodyEid ? g_bodyEid : g_meEid,
+                    g_bodyEid ? " (the body)" : "", mp.x, mp.y, mp.z, w ? tags : " none", nearBy);
             }
         }
         // A world that is not there at all is a different fault from a world
