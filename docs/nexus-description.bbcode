@@ -59,7 +59,7 @@ Watch mode keeps the menu on screen while you play, so you can read the Nearby l
 Uninstall by deleting the MasterLooter.* files from bin64 (the plugin writes MasterLooter.ini and .log next to itself). No game file is modified and nothing is written to a save.
 
 [size=4][b]Antivirus[/b][/size]
-Three scanners out of seventy flag the plugin, and all three are machine-learning models: Microsoft (Trojan:Win32/Wacatac.B!ml), Symantec (ML.Attribute.HighConfidence) and CrowdStrike Falcon (Win/malicious_confidence_60%). Each says so on the label: !ml and ML.Attribute mean a model guessed from the shape of the file, and the third prints its confidence as a percentage. None matched anything known, and the sixty-seven that did not flag it read the same file as clean. The DMM archive scores zero of sixty-seven.
+Three scanners out of seventy flag the plugin, and all three are machine-learning models: Microsoft (Trojan:Win32/Wacatac.B!ml), Symantec (ML.Attribute.HighConfidence) and CrowdStrike Falcon (Win/malicious_confidence_60%). Each says so on the label: !ml and ML.Attribute mean a model guessed from the shape of the file, and the third prints its confidence as a percentage. None matched anything known, and the sixty-seven that did not flag it read the same file as clean. The DMM archive scores zero of sixty-five, and the full archive zero of sixty-six.
 
 Worth knowing that the number moves on its own. 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two and 1.6.1 three. Microsoft and Symantec have flagged every one. CrowdStrike Falcon and Deep Instinct come and go, and this release has the first without the second. Nothing about what the file does changed in between. That is a model guessing, as against a scanner recognising something.
 

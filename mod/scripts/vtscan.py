@@ -127,9 +127,19 @@ def flagged(attrs):
 
 
 def score(attrs):
+    """Detections over engines that returned a verdict.
+
+    This has to match the number on the web page, because that is the number
+    the README and the description quote and someone will check it. The site
+    counts only the four verdict categories. Engines that could not process
+    the file (type-unsupported, four of them on the plugin) or errored
+    (failure) are left out of the denominator, so summing every category
+    reads 3/75 where the page says 3/70.
+    """
     stats = attrs.get("last_analysis_stats") or {}
     hits = stats.get("malicious", 0) + stats.get("suspicious", 0)
-    total = sum(v for k, v in stats.items() if k != "timeout")
+    total = sum(stats.get(k, 0) for k in
+                ("malicious", "suspicious", "undetected", "harmless"))
     return hits, total
 
 
