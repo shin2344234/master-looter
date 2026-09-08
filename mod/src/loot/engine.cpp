@@ -1728,6 +1728,12 @@ namespace ml::loot
         int total = 0;
         int tagCount[256] = {};
         int inRange = 0;
+        // The closest world object of any kind, in range or not. Nothing within
+        // scan range is ambiguous on its own: it means either the player really
+        // is standing in an empty place, or the position being measured from is
+        // not where the player is. The distance to the nearest thing separates
+        // those two immediately.
+        float nearestD = 1e30f; uint32_t nearestEid = 0; uintptr_t nearestEnt = 0;
         ForEachEntity(mgr, [&](uintptr_t e) {
             uint32_t eid = 0;
             if (!game::Eid(e, &eid)) return true;
@@ -1739,6 +1745,7 @@ namespace ml::loot
             if (!game::WorldPos(e, &q)) return true;
             const float dx = q.x - mp.x, dy = q.y - mp.y, dz = q.z - mp.z;
             const float d = std::sqrt(dx * dx + dy * dy + dz * dz);
+            if (d < nearestD) { nearestD = d; nearestEid = eid; nearestEnt = e; }
             if (d > cfg.scanRange) return true;
             ++inRange;
             g_seen[eid] = { e, q, now };
@@ -1822,8 +1829,18 @@ namespace ml::loot
                 char tags[160]; int w = 0;
                 for (int t = 0; t < 256 && w < 130; ++t)
                     if (tagCount[t]) w += snprintf(tags + w, sizeof tags - w, " %02X:%d", t, tagCount[t]);
-                LOG("[scan] %d world objects, %d within %.0f m of %08X at %.1f %.1f %.1f; tags:%s",
-                    total, inRange, cfg.scanRange, g_meEid, mp.x, mp.y, mp.z, w ? tags : " none");
+                char nearBy[200] = "";
+                if (nearestEnt)
+                {
+                    char node[160] = "";
+                    if (const uintptr_t c = game::Comps(nearestEnt))
+                        if (const uintptr_t gm = game::CompByClass(c, kCls_Gimmick))
+                            game::NodePrefab(gm, node, sizeof node);
+                    snprintf(nearBy, sizeof nearBy, "; nearest object %08X at %.1f m%s%s",
+                             nearestEid, nearestD, node[0] ? " " : "", node);
+                }
+                LOG("[scan] %d world objects, %d within %.0f m of %08X at %.1f %.1f %.1f; tags:%s%s",
+                    total, inRange, cfg.scanRange, g_meEid, mp.x, mp.y, mp.z, w ? tags : " none", nearBy);
             }
         }
         // A neighbourhood with nothing in it, while the world plainly has
