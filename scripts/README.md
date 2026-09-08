@@ -13,6 +13,7 @@ Item, item group, drop set and drop source tables for Crimson Desert 2.01.00 (ex
 - make_creatures_tsv.py: exports every catchable creature with the class of the item it becomes as mod/data/MasterLooter.creatures.tsv.
 - make_nodes_tsv.py: exports every gather node as mod/data/MasterLooter.nodes.tsv, keyed on the basename of the prefab it is placed from. A node's runtime id changes between sessions, so the prefab is the only durable name it has; the gimmick row's own tags (collect_botany, collect_tree, collect_mine and the rest) give the kind, and the socket name gives the item where the two share a name.
 - make_review_page.py, make_dropset_page.py: render single-file review pages from the data folder.
+- make_translation_template.py: read the menu strings out of mod/src and write docs/MasterLooter.template.txt, the file a translator fills in. Re-run it whenever a menu string is added or the template goes stale.
 
 ## What is committed and what is not
 

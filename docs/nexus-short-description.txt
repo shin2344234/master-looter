@@ -1,1 +1,1 @@
-Auto-loot with an in-game menu. Ground items, plants, ore, stone, wood, insects, fish, small animals and carcasses, each behind its own switch, filtered by class, tag and item rules. Quest items and other people's property are left alone.
+Auto-loot with an in-game menu. Ground items, plants, crops, ore, stone, wood, insects, fish, small animals, carcasses and water from wells, each behind its own switch, filtered by class, tag and item rules. Works as Kliff, Damiane or Oongka. Quest items and other people's property are left alone.

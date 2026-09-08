@@ -1,51 +1,53 @@
 For Crimson Desert 2.01.00 (exe 1.0.0.2760).
 
-Auto-loot works as Damiane and Oongka. Kliff does not need to be in the party.
+A wagon can no longer pass for your character.
 
-## Playing as anyone
+## What was wrong
 
-Every auto-loot mod for this game, this one included, centred its search on
-the player-tagged actor. As Kliff that is you. As Damiane or Oongka it is not:
-the game keeps your identity and your body as two separate entities, and the
-identity sits at a fixed spot with nothing within a kilometre of it while your
-body is off in the world wearing your armour. So the mod scanned forty metres
-of empty ground 1,700 metres from you and found nothing, which is the whole of
-"auto-loot only works with Kliff".
+1.6.0 finds the body you are steering by the gear parented to it, which is how
+auto-loot started working as Damiane and Oongka. It counted children raw. A
+wagon carries about ten attached parts and a horse carries tack, so both
+cleared the bar, and on the pass that happened to decide either could out-count
+your character. It was survivable because a wagon and a horse are normally
+parked beside you, so the scan still covered roughly the right ground. One that
+drives off takes the scan with it, and a centre fifty metres away reaches
+nothing useful.
 
-The body is found by its gear now. A dressed character is the one thing with
-a handful of items attached to it, and one of them is enough to say where you
-stand. The moment the identity proves to be standing nowhere, the search moves
-onto the body carrying the most on your own route. Loot events still go out
-under your identity, which is what the game itself does, so nothing else
-changed.
+## What changed
 
-It took eight attempts because the game hands over its list of objects a few
-at a time, and every earlier rule decided from a single pass. The fix remembers
-what was seen over fifteen seconds so the pieces add up. The five rules that
-failed are written down so nobody writes them again:
-https://github.com/shin2344234/master-looter/blob/main/docs/ore-investigation/DAMIANE.md
+Equipment counts for more than cargo. A child that the scan has already
+identified as an item is worth eight ordinary children, because a dressed
+character carries items and a cart carries cart. That count is taken from work
+the scan already does, so it costs nothing, and it only speaks for something
+close enough for its children to have been identified, which is where the
+confusion was. Your body seen from 1,700 metres still has no identified
+children and is still chosen the old way, so nothing about the Damiane fix
+moved.
 
-Confirmed as Damiane in a lavender field that had given nothing all afternoon,
-and as Oongka.
+Whatever the scan is centred on now has to be beaten rather than tied. A
+challenger needs half again the score, two more outright, and it has to hold
+that lead for two and a half seconds. The game hands the mod its list of
+objects a few at a time, so one pass is a poor witness: the pass that
+enumerates the wagon and not you reports the wagon as the only thing carrying
+anything.
 
-## Known
+Switching character clears the record. The previous body's gear was otherwise
+still on file and won the next pick outright.
 
-A wagon carries ten attached parts and a horse carries tack, both usually
-beside you, and the mod can briefly pick one of them as the body. It works
-because they are beside you; a wagon fifty metres off pulls the search with it
-for a moment. Fix to follow.
+Confirmed in a session that opened on a six-part prop with no equipment on it,
+then corrected onto the body carrying ten children with four pieces of
+equipment, and stayed there while walking.
 
 ## Also
 
-The log now says where the scan is standing and why: how many objects the
-game handed over, how many were in range, the nearest one, who is carrying
-gear and on which route, and every time the centre moves. All of it only under
-the debug log.
+The scan census in the debug log names the entity the position belongs to. It
+used to print the player identity while standing on the body, which is the one
+confusion the whole area exists to clear up.
 
 ## Checksums
 
-SHA-256 for 1.6.0:
+SHA-256 for 1.6.1:
 
-2e7e2c66c03ac5597c2de5092f3290b4c0111350d6e33b643b4a3809845df89a  MasterLooter-1.6.0-DMM.zip
-772d88f97836da77087df94e6c630619a6f55076fc06563694b2acabfdb241ec  MasterLooter-1.6.0.zip
-5e2a14e4bf404be50fcbfb883cc5e71318a7d34a8a2fb226490716ba802d93c4  MasterLooter.asi
+4f8a21e3c59c278926824a84476bd2068cb761222805e20ee2099ba0da4d0d28  MasterLooter-1.6.1-DMM.zip
+bead4702574c56a3894964629914d2d6e70cff2d2f3f65e1c2f18070dff25e42  MasterLooter-1.6.1.zip
+6c8194927abc1a9177c15e479f699abc4308143e635e83b8a8a667abbb3a2ad7  MasterLooter.asi

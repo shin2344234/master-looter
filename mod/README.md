@@ -54,7 +54,7 @@ Simplified and Traditional Chinese ship with the mod, translated by dofo7777. Bo
 
 Any other language is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
-1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 196 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
+1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 295 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
 2. Or make your own from the running game: play with the menu open, visit every tab, then General, Language, press `Write translation template`. That writes the file beside the plugin, but only the lines that have actually been drawn.
 3. Each record is the English, a tab, then your translation. `
 ` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.
@@ -73,7 +73,7 @@ Send a finished file in and it can ship with the mod, credited.
 - A carcass is searched once per session and never again, whatever the retry setting: searching an empty carcass has been seen to duplicate items, and duplicates are how saves get corrupted.
 - There is no line-of-sight check. The ranges are distances, not visibility; keep the arming range short or a node behind a thin wall can be gathered.
 - Creatures the species table cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified.
-- Gather nodes are identified by their prefab, matched against a table of 1,042 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
+- Gather nodes are identified by their prefab, matched against a table of 1,076 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 - Chests and storage boxes open a window rather than hand over an item; they are off by default and rarely respond.
 - How full the bag is is read from the bag itself. The inventory holder carries every store the player owns, 18 buckets on 2.01.00, of which bucket 0 is what you carry; its used count and its limit sit side by side as two u16 fields. Both are checked for sense before use, and the notice appears the moment the bag fills whether or not you are looting.
 - The limit was read off one bag that never grew, so a bag expansion has never been watched. If that field turns out to be a base figure that does not move, an item arriving while the bag reads as full proves the limit is higher than it says, and the mod corrects itself and carries on. The correction is dropped as soon as the field itself moves.
