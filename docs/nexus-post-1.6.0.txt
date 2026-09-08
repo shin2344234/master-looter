@@ -1,0 +1,35 @@
+[size=4][b]1.6.0: it works as Damiane and Oongka[/b][/size]
+
+Auto-loot now works whoever you are playing. Kliff does not need to be in the party and does not need to be anywhere near you.
+
+Wells this morning, this in the afternoon. Looks like I am on a roll today. I am happy I figured this one out, because I had written it off.
+
+That rule has been accepted for every auto-loot mod on this page. [b]LuxDragon[/b] put it plainly a few days ago: a game issue, the original author tried and failed, Kliff has to be there. I believed it, wrote it into a draft reply, and came within an hour of closing the issue as unfixable. It is a mistake in the mods. Every auto-loot mod, this one included, has made it since the first release.
+
+[size=4][b]What was actually wrong[/b][/size]
+
+The game keeps two separate things for you. Your [i]identity[/i] is the actor it raises all your events under. Your [i]body[/i] is the one you steer around. Play as Kliff and they are the same entity, which is why everything works. Play as Damiane or Oongka and they come apart: the identity sits at a fixed spot, the same coordinates every session, with nothing within a kilometre of it, while your body is off in the world wearing your armour.
+
+Every auto-loot mod centres its search on the identity, because that is the one carrying the player tag. So as Damiane the mod stands in an empty field 1,700 metres from you, scans forty metres around itself, finds nothing, and looks broken. The other mod's binary has a log line for exactly this case, calls the body a "puppet", and ships with "Supported characters: Kliff" in the ini.
+
+[size=4][b]How it finds you now[/b][/size]
+
+By your gear. A dressed character is the one thing in the world with a sword, a shield, a helmet and a lantern hanging off it, and those are attached, so one of them is enough to say where you are standing. The mod keeps a running record of who is carrying things. The moment the identity proves to be standing nowhere, it moves its search onto the body wearing the most on your own route. Loot still goes to you, because the events go out under your identity, which is what the game itself does.
+
+Confirmed in a field of white lavender as Damiane, where the same field had produced nothing all afternoon, and then as Oongka.
+
+[size=4][b]Why it took eight attempts[/b][/size]
+
+The world arrives in pieces. The game hands the mod its list of objects a few at a time, one or two most ticks and a few hundred now and then. Five different rules for choosing the player were tried and every one failed for that single reason: each decided from one pass, and the one pass it happened to get never contained you and your gear together. What fixed it was remembering what had been seen over the last fifteen seconds so the pieces add up, which the mod already did for everything except the player.
+
+The full account, including the five rules that failed so nobody writes them again, is on GitHub:
+
+https://github.com/shin2344234/master-looter/blob/main/docs/ore-investigation/DAMIANE.md
+
+If you write mods for this game, that document and the one on wells are the useful part of the last two releases.
+
+[size=4][b]One thing to know[/b][/size]
+
+A wagon carries ten attached parts and a horse carries tack, and both are usually right beside you, so the mod can briefly pick one of them as "the body". It works because they are beside you. If a wagon wanders fifty metres off, the search follows it for a moment. The fix is on the list. If you see it looting the wrong side of the road, that is what happened, and the debug log will say so.
+
+Thanks to [b]Cmz4455[/b] for reporting it, [b]LuxDragon[/b] for stating the folklore clearly enough to test, and [b]Lunatic2134[/b], who asked for the Kliff hint on the mod page. The hint is now that you do not need one.

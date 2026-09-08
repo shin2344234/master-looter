@@ -57,6 +57,47 @@ Loot events keep going out as the identity, `g_meEid`. That is the id the game
 itself uses, and it works: the first Damiane session with this in place gathered
 lavender, wood and trees, and Oongka was confirmed working the same afternoon.
 
+## How it is done, exactly
+
+Four pieces, all in `mod/src/loot/engine.cpp`. Nothing else in the engine
+changed.
+
+**1. Record who is carrying things, every tick.** In the scan's entity walk,
+before the range filter drops anything far away:
+
+    if (const uint32_t par = game::ParentEid(e))
+        NoteHolder(par, q, game::Route(e), now);
+
+`q` is the child's world position, which is the parent's. `NoteHolder` keeps a
+table of 32 holders with the most children seen in any one tick, the last
+position, the route, and when it was last seen. Entries older than fifteen
+seconds are ignored; the stalest slot is reused when the table is full.
+
+**2. Pick the body.** `BestHolder(now, playerRoute)`: fresh, three or more
+children, on the player's route when the route is known (`events::Route()`,
+learned from the game's own first event), and carrying the most.
+
+**3. Stand there.** Immediately after the scan reads the player actor's
+position into `mp`:
+
+    if (body && (g_barrenSince || g_bodyEid == body->eid))
+        mp = body->pos;
+
+`g_barrenSince` is set when a scan finds nothing in range while the world
+plainly has objects. So as Kliff, whose actor is the body and is never barren,
+this never fires. The `g_bodyEid == body->eid` half makes it sticky: the first
+populated scan clears the barren clock, and without stickiness the centre
+would flap back to the fixture on the next tick.
+
+**4. Do not loot the body's own gear.** `IsMine(parent)` returns true for the
+identity's eid or the body's, and replaces `parent == g_meEid` in all four
+places the engine asks: the "worn or carried by you" verdict, the `own` flag
+that keeps kit out of the Nearby list, the arm loop, and the record of what was
+recently on the player that stops a thrown weapon being picked up.
+
+Loot events are unchanged. They go out as `g_meEid`, the identity, because the
+game raises the player's own events under that id whatever body is on screen.
+
 ## The one lesson under all the failures
 
 **The actor manager hands the world over a few entities at a time.** One to

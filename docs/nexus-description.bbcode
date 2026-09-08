@@ -4,6 +4,8 @@
 Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch. Every item is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game; there is no ini to edit.
 
 [size=4][b]What it collects[/b][/size]
+Works as Kliff, Damiane or Oongka. Kliff does not need to be in the party. Every other auto-loot mod centres on the player-tagged actor, which as Damiane or Oongka is a fixture a kilometre from you; this one finds the body you are steering by the gear hanging off it.
+
 Twelve switches under Looting, each on its own:
 [list]
 [*]Ground items, including what enemies drop.
@@ -60,16 +62,16 @@ Four scanners out of seventy flag the plugin, and all four are machine-learning 
 
 Worth knowing that the number moves on its own. 1.2.1 scored four, 1.4.0 four, 1.5.0 two, and 1.5.1 four again, with two of them dropping off for one release and coming back. Nothing about what the file does changed in between. That is a model guessing rather than a scanner recognising something.
 
-Both 1.5.1 reports are public: [url=https://www.virustotal.com/gui/file/9a6ba8729e28ae29364e7fd2773f4368fda883c67be0dbddef158d0de7cd18e7]the plugin[/url] and [url=https://www.virustotal.com/gui/file/3026a4e2525eed4e23cbf94d8fdf3ca7176e2b5d0a74e2f8d092285febc1bfc7]the package[/url].
+1.6.0 has not been scanned yet; both 1.5.1 reports are public: [url=https://www.virustotal.com/gui/file/9a6ba8729e28ae29364e7fd2773f4368fda883c67be0dbddef158d0de7cd18e7]the plugin[/url] and [url=https://www.virustotal.com/gui/file/3026a4e2525eed4e23cbf94d8fdf3ca7176e2b5d0a74e2f8d092285febc1bfc7]the package[/url].
 
 The shape is the whole reason. It is an unsigned DLL that a loader puts inside the game, and once there it patches instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D. A trainer does all of that, so a model trained on trainers answers trainer. It carries no signing certificate and has no install history behind it yet to argue otherwise.
 
 What it does not do is reach the network. It imports no networking library at all, writes MasterLooter.ini, .log, .presets and .backups beside itself and nothing else, reads and writes no registry key, and modifies no game file. Every line is on GitHub and one batch file builds it, if you would rather compile your own. If your browser or Defender blocks the download, restore the file and exclude the game's bin64 folder.
 
-SHA-256 for 1.5.1:
-[code]3026a4e2525eed4e23cbf94d8fdf3ca7176e2b5d0a74e2f8d092285febc1bfc7  MasterLooter-1.5.1-DMM.zip
-435e2592cc9c25e192c963f9e78be3fcf77d243d70f3efcae5da65ed7f1a0808  MasterLooter-1.5.1.zip
-9a6ba8729e28ae29364e7fd2773f4368fda883c67be0dbddef158d0de7cd18e7  MasterLooter.asi[/code]
+SHA-256 for 1.6.0:
+[code]2e7e2c66c03ac5597c2de5092f3290b4c0111350d6e33b643b4a3809845df89a  MasterLooter-1.6.0-DMM.zip
+772d88f97836da77087df94e6c630619a6f55076fc06563694b2acabfdb241ec  MasterLooter-1.6.0.zip
+5e2a14e4bf404be50fcbfb883cc5e71318a7d34a8a2fb226490716ba802d93c4  MasterLooter.asi[/code]
 
 [size=4][b]Controls[/b][/size]
 [list]
