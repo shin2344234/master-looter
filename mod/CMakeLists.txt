@@ -79,6 +79,11 @@ target_compile_definitions(MasterLooter PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX _CR
 # does not depend on somebody editing a file on the machine under test.
 #   cmake -DML_FORCE_NO_WRAP=ON ...
 option(ML_FORCE_NO_WRAP "Force the swapchain wrapper off (test builds only)" OFF)
+option(ML_NO_DRAW "Wrap as normal but never draw (test builds only)" OFF)
+if(ML_NO_DRAW)
+    target_compile_definitions(MasterLooter PRIVATE ML_NO_DRAW)
+    message(WARNING "ML_NO_DRAW is on: this build wraps the swapchain but never draws.")
+endif()
 if(ML_FORCE_NO_WRAP)
     target_compile_definitions(MasterLooter PRIVATE ML_FORCE_NO_WRAP)
     message(WARNING "ML_FORCE_NO_WRAP is on: this build ignores WrapSwapChain and never wraps.")

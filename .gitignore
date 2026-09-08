@@ -44,3 +44,4 @@ keys.local.env
 secrets.*
 !secrets.*.example
 build-nowrap/
+build-nodraw/
