@@ -169,6 +169,7 @@ namespace ml::game
         return mem::Readable(p, kOff_Mgr_ListsEnd) ? p : 0;
     }
     bool ActorManagerFound() { return g_mgrSlot != 0; }
+    uintptr_t ActorManagerSlot() { return g_mgrSlot; }
 
     // ----------------------------------------------------------- entities ----
     // Who the game says you are playing.

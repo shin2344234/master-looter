@@ -51,6 +51,8 @@ namespace ml::game
     // global that points at it. 0 until the world exists; retries every 3 s.
     uintptr_t ActorManager();
     bool ActorManagerFound();
+    // Address of the global the manager pointer is read from, for the log.
+    uintptr_t ActorManagerSlot();
 
     // --- entities -----------------------------------------------------------
     inline constexpr uint8_t kTagPlayer = 0xA0;
