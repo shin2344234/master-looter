@@ -1,7 +1,8 @@
 # Ore veins: yield and disappearance
 
-Working record. Last updated 2026-09-07. Two symptoms are open, and the evidence now
-points at both being one cause.
+Working record. Last updated 2026-09-07. Both symptoms are fixed, and they were one cause. The record below is kept as a
+trail rather than as a status: it is how the answer was reached, including the
+turns that were wrong. The fix shipped in 1.4.0 and is in the last section.
 
 Every claim below is marked **fact** (read from a log, the source, or the disassembly)
 or **inference**. Several earlier conclusions were wrong and are kept in "Retracted"

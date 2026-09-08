@@ -8,12 +8,13 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 
 ## What it does
 
-- Twelve switches for what to collect: ground items, carcasses, plants, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers and furniture nodes.
+- Fourteen switches for what to collect: ground items, carcasses, plants, crops, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers, furniture nodes and water from wells.
 - Class groups with one click (weapons and armor, damaged gear, food and drink, materials, books and papers, furniture, treasure and keepsakes, and more), a full class table, tag rules and per-item overrides with a live verdict.
 - Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
 - Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
 - Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
 - Ore veins are broken rather than emptied, the way a pickaxe does it, so the contents drop on the ground and your tool's Mining Yield Up is applied by the game. Each vein is struck once.
+- Water is lifted out of a well bucket while you turn the handle yourself. The mod drives the one state change the game makes for that and nothing else, so the bucket stays on the well and the handle stays in your hands. Off by default.
 - Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up each time the game starts and the last twelve are kept, so a version with different defaults is one button to undo. Anything that overwrites or discards asks first.
 - A notice appears when the bag is full, read from the bag's own slot count, so it shows the moment it fills whether or not you are looting. Turn it off under General.
 - The menu speaks Simplified and Traditional Chinese, both built into the plugin and one button each under General. Any other language is a text file away: a ready-made [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
@@ -45,11 +46,11 @@ The guess is easy to explain. The plugin is an unsigned DLL that a loader puts i
 
 What it does not do is reach the network. It imports no networking library, and the entire import list is `d3d12`, `dxgi`, `imm32`, `xinput9_1_0`, `kernel32`, `user32`, `gdi32`, `shell32` and `d3dcompiler_47`. It writes `MasterLooter.ini`, `MasterLooter.log` and its eleven rotated predecessors `MasterLooter.01.log` to `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups` beside itself and nothing else, reads and writes no registry key, and installs nothing that outlives the game process. Every line is in this repository, and `build.bat` will produce the file for you if you would rather not trust mine.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.0:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.1:
 
-    2e7e2c66c03ac5597c2de5092f3290b4c0111350d6e33b643b4a3809845df89a  MasterLooter-1.6.0-DMM.zip
-    772d88f97836da77087df94e6c630619a6f55076fc06563694b2acabfdb241ec  MasterLooter-1.6.0.zip
-    5e2a14e4bf404be50fcbfb883cc5e71318a7d34a8a2fb226490716ba802d93c4  MasterLooter.asi
+    4f8a21e3c59c278926824a84476bd2068cb761222805e20ee2099ba0da4d0d28  MasterLooter-1.6.1-DMM.zip
+    bead4702574c56a3894964629914d2d6e70cff2d2f3f65e1c2f18070dff25e42  MasterLooter-1.6.1.zip
+    6c8194927abc1a9177c15e479f699abc4308143e635e83b8a8a667abbb3a2ad7  MasterLooter.asi
 
 ## Controls
 
@@ -64,7 +65,9 @@ If the menu opens but will not take a click, the cursor is the usual cause and n
 
 ## How it decides
 
-A worker thread finds the game's actor manager by its RTTI class name and reads every world object around the player. Each object gets a verdict of its own. Verdicts that pass are queued, and a hook on the game's own per-frame tick sends the game's own loot events (pick up, gather, catch, search carcass), the same events the game sends when you press the interaction key.
+A worker thread finds the game's actor manager by its RTTI class name and reads every world object around the player. Each object gets a verdict of its own.
+
+It works as Kliff, Damiane or Oongka. Playing anyone but Kliff, the actor the game raises your events under is not the character you are steering: it sits at a fixed spot with nothing near it. The mod finds the body you are steering by the gear parented to it and searches from there, so nobody has to be in the party. Verdicts that pass are queued, and a hook on the game's own per-frame tick sends the game's own loot events (pick up, gather, catch, search carcass), the same events the game sends when you press the interaction key.
 
 Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters, copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, locked nodes, your own equipment and bag contents, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's Take-or-Steal check calls theft. The [plugin manual](mod/README.md) has the details, the safety notes and the known limits.
 
