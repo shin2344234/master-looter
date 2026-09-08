@@ -419,6 +419,44 @@ namespace ml::events
         }
         // Anything the game raised about itself rather than about the player
         // has already been named above if it is one of the break-related kinds.
+        //
+        // Everything past this line is about the player, and that has hidden
+        // more than one answer. A gimmick acting on itself is tagged world, so
+        // the ore vein's own removal never reached a log, and neither does
+        // whatever a well raises when the bucket comes up full: four minutes of
+        // watching produced nothing, which looked like proof no event existed.
+        // It was proof of this filter.
+        //
+        // So name a world-raised descriptor before dropping it. Three sightings
+        // each and forty distinct ids for the session, with the payload on the
+        // first sighting only, which is enough to tell what the game did without
+        // burying the log in scenery chatter.
+        if (Settings::Get().debugLog && (who >> 24) != game::kTagPlayer)
+        {
+            uintptr_t payload = 0; uint16_t payloadSize = 0, eventId = 0;
+            if (mem::ReadPtr(ev + kOff_Ev_Buffer, &payload) &&
+                mem::Read16(ev + kOff_Ev_Size, &payloadSize) && payloadSize >= 3 &&
+                mem::Read16(payload, &eventId))
+            {
+                struct Slot { volatile LONG id; volatile LONG seen; };
+                static Slot slots[40] = {};
+                const LONG want = static_cast<LONG>(eventId) + 1;   // 0 means the slot is free
+                for (int i = 0; i < 40; ++i)
+                {
+                    const LONG had = InterlockedCompareExchange(&slots[i].id, want, 0);
+                    if (had != 0 && had != want) continue;
+                    const LONG n = InterlockedIncrement(&slots[i].seen);
+                    if (n <= 3)
+                    {
+                        const DescName* nm = DescById(eventId);
+                        LOG("[world] event 0x%04X size %u from %08X sample %ld (%s)", eventId, payloadSize,
+                            who, n, nm ? nm->cls.c_str() : "unnamed");
+                        if (n == 1) LogPayload("world event", eventId, payloadSize, payload);
+                    }
+                    break;
+                }
+            }
+        }
         if ((who >> 24) != game::kTagPlayer) return;
         if (!RouteKnown() && rt)
         {
