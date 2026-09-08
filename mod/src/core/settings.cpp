@@ -101,6 +101,7 @@ namespace ml::Settings
         else if (k == "AutoArm")          c.autoArm = Flag(v);
         else if (k == "GatherVeins")      c.gatherVeins = Flag(v);
         else if (k == "BreakOre")         c.breakOre = Flag(v);
+        else if (k == "DrawWells")        c.drawWells = Flag(v);
         else if (k == "ArmRange")         c.armRange = Range(v, 0, 60, 8);
         else if (k == "ArmContainers")    c.armContainers = Flag(v);
         else if (k == "LootOwned")        c.lootOwned = Flag(v);
@@ -294,7 +295,7 @@ namespace ml::Settings
         snprintf(b, sizeof b, "ScanRange=%.1f\nLootRange=%.1f\nGatherRange=%.1f\nCatchRange=%.1f\nCorpseRange=%.1f\nMinRange=%.2f\n",
                  c.scanRange, c.lootRange, c.gatherRange, c.catchRange, c.corpseRange, c.minRange); s += b;
         snprintf(b, sizeof b, "AutoArm=%d\nArmRange=%.1f\nArmContainers=%d\nGatherVeins=%d\n", c.autoArm, c.armRange, c.armContainers, c.gatherVeins); s += b;
-        snprintf(b, sizeof b, "BreakOre=%d\n", c.breakOre); s += b;
+        snprintf(b, sizeof b, "BreakOre=%d\nDrawWells=%d\n", c.breakOre, c.drawWells); s += b;
         snprintf(b, sizeof b, "LootOwned=%d\nSkipQuestItems=%d\nSkipNoSell=%d\nMinValueCopper=%d\nTakeUnknownItems=%d\nDebugLog=%d\nConfigVersion=%d\n",
                  c.lootOwned, c.skipQuestItems, c.skipNoSell, c.minValueCopper, c.takeUnknownItems, c.debugLog, c.configVersion); s += b;
         s += "\n; class -> 1 loot, 0 skip (classes not listed are looted)\n[Classes]\n";

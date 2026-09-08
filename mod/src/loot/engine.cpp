@@ -806,6 +806,62 @@ namespace ml::loot
         if (steal != -1) g_ownAns[c.eid] = { now, steal };
         return steal;
     }
+    // --- drawing water from a well ------------------------------------------
+    //
+    // A well raises no loot event. Both loot modes were tried and both take the
+    // bucket with the water (see the note in Decide). What a hand draw does
+    // raise is a run of state transitions on the winch, captured on 2026-09-08
+    // beside a well with the debug log on, and this replays that run.
+    //
+    // Three parts matter, found by prefab. parts02 is the winch and carries
+    // nearly everything; parts02_part hangs off it; parts01 is the bucket, the
+    // one that grows a gather block when it fills, and it takes the last
+    // transition of the run.
+    //
+    // The ids are numbers because eight of the nine appear nowhere in the game's
+    // strings: name_events.py hashes every identifier in the exe and none of
+    // these match. A gimmick whose chart has no transition for an id ignores it,
+    // so a wrong id is a no-op rather than damage.
+    enum WellPart { WellWinch = 0, WellWinchPart = 1, WellBucket = 2 };
+    struct WellStep { uint32_t atMs; uint8_t part; uint32_t ev; };
+    // Timings are milliseconds from the first transition of the captured run.
+    // The repeats of D08DADE4 and EB0F048C are what the log showed, and the log
+    // caps at three samples per id, so the real run may hold more of them. If a
+    // replay stalls part way that is the first thing to suspect.
+    static const WellStep kWellRun[] = {
+        {     0, WellWinch,     0x92A049DE },
+        {     9, WellWinchPart, 0xA4078B62 },
+        {  1470, WellWinch,     0xA327105E },
+        {  1479, WellWinch,     0xD08DADE4 },
+        {  3013, WellWinch,     0xD08DADE4 },
+        {  4553, WellWinch,     0xD08DADE4 },
+        {  5106, WellWinch,     0xA327105E },
+        {  5293, WellWinch,     0xEB0F048C },
+        {  6828, WellWinch,     0xEB0F048C },
+        {  8184, WellWinch,     0xA327105E },
+        {  8238, WellWinch,     0xA809EFDF },
+        {  8247, WellWinchPart, 0xF00346BD },
+        {  8663, WellWinch,     0x0F7569ED },
+        {  8673, WellWinchPart, 0xF00346BD },
+        { 11115, WellBucket,    0x003ECC59 },
+    };
+    static constexpr int kWellSteps = static_cast<int>(sizeof kWellRun / sizeof kWellRun[0]);
+
+    struct WellRun
+    {
+        uint32_t eid[3] = {};
+        uintptr_t comp[3] = {};
+        DWORD startedAt = 0;
+        int step = 0;
+        bool active = false;
+    };
+    static WellRun g_wellRun;
+    // One well at a time, and not the same one twice in a hurry: a run takes
+    // eleven seconds and the bucket needs winding again before it holds
+    // anything.
+    static std::unordered_map<uint32_t, DWORD> g_wellDone;
+    static constexpr DWORD kWellCooldownMs = 30000;
+
     // Was this the player's a moment ago? Both halves have to agree: the same
     // entity, and the same item in it if either side knows which.
     static bool WasOnMe(const Cand& c, DWORD now)
@@ -1447,6 +1503,74 @@ namespace ml::loot
     }
 
     // ---------------------------------------------------------------- scan ----
+    // Wind a well and take what comes up. Started when a bucket is in reach and
+    // pumped once a scan; the run is eleven seconds of transitions, so it plays
+    // out across many scans rather than in one.
+    static void WellTick(const std::vector<Cand>& list, const Config& cfg, DWORD now)
+    {
+        if (g_wellRun.active)
+        {
+            const DWORD since = now - g_wellRun.startedAt;
+            while (g_wellRun.step < kWellSteps && kWellRun[g_wellRun.step].atMs <= since)
+            {
+                const WellStep& st = kWellRun[g_wellRun.step];
+                if (const uintptr_t comp = g_wellRun.comp[st.part])
+                    events::DriveEvent(comp, st.ev, g_meEid, g_me, g_wellRun.eid[st.part]);
+                ++g_wellRun.step;
+            }
+            if (g_wellRun.step >= kWellSteps)
+            {
+                LOG("[well] finished the run on bucket %08X", g_wellRun.eid[WellBucket]);
+                g_wellDone[g_wellRun.eid[WellBucket]] = now;
+                g_wellRun.active = false;
+            }
+            return;
+        }
+        if (!cfg.drawWells || !g_me) return;
+        if (g_wellDone.size() > 256) g_wellDone.clear();
+
+        for (const Cand& b : list)
+        {
+            // The bucket, by prefab. parts01 is the one that grows a gather
+            // block, and the gather block is how we know it has something in it.
+            if (!b.filled || !b.node[0] || !IStr(b.node, "/well/")) continue;
+            if (!IStr(b.node, "parts01")) continue;
+            if (b.d > (cfg.gatherRange > 0 ? cfg.gatherRange : 12.0f)) continue;
+            const auto done = g_wellDone.find(b.eid);
+            if (done != g_wellDone.end() && now - done->second < kWellCooldownMs) continue;
+
+            // Its siblings. The winch shares the bucket's parent; the winch part
+            // hangs off the winch. "parts02.prefab" rather than "parts02", or it
+            // matches parts02_part as well.
+            const Cand* winch = nullptr;
+            const Cand* winchPart = nullptr;
+            for (const Cand& o : list)
+                if (o.node[0] && o.parent == b.parent && IStr(o.node, "parts02.prefab")) { winch = &o; break; }
+            if (!winch) continue;
+            for (const Cand& o : list)
+                if (o.node[0] && o.parent == winch->eid && IStr(o.node, "parts02_part")) { winchPart = &o; break; }
+
+            WellRun r;
+            const Cand* part[3] = { winch, winchPart, &b };
+            for (int i = 0; i < 3; ++i)
+            {
+                if (!part[i]) continue;
+                r.eid[i] = part[i]->eid;
+                const uintptr_t comps = game::Comps(part[i]->ent);
+                r.comp[i] = comps ? game::CompByClass(comps, kCls_Gimmick) : 0;
+            }
+            if (!r.comp[WellWinch]) continue;   // nothing to drive
+            r.startedAt = now;
+            r.step = 0;
+            r.active = true;
+            g_wellRun = r;
+            LOG("[well] winding bucket %08X at %.1f m (winch %08X%s): %d transitions over %.1f s",
+                b.eid, b.d, r.eid[WellWinch], r.comp[WellWinchPart] ? "" : ", no winch part",
+                kWellSteps, kWellRun[kWellSteps - 1].atMs / 1000.0f);
+            break;
+        }
+    }
+
     static void Scan(const Config& cfg, bool act, bool burst)
     {
         const DWORD now = GetTickCount();
@@ -1684,6 +1808,9 @@ namespace ml::loot
                 k.inter ? "node " : "", k.item ? "item " : "", k.gather ? "gather " : "", k.ai ? "ai " : "",
                 k.twin ? "twin " : "", k.heap ? "heap " : "", k.node[0] ? k.node : "");
         }
+        // Wind a well, if one is in reach and the switch is on.
+        WellTick(list, cfg, now);
+
         // Per-entity memories grow with every object ever seen; a long session
         // sees hundreds of thousands. Forget the diagnostics wholesale and the
         // retry records once they are stale. (g_searched stays: a carcass must

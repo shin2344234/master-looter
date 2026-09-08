@@ -25,6 +25,13 @@ namespace ml::events
     // landing, then the break. The transition is what drops the ore, so this
     // replaces BreakGimmick rather than joining it. Queued off-thread like the
     // rest; the two events go out back to back on the game thread.
+    // Drive one named transition at one gimmick. DriveBreak is the vein's pair
+    // of these; a well needs a longer sequence and the ids for it are numbers
+    // rather than names, since eight of them appear nowhere in the game's
+    // strings. A gimmick whose chart has no transition for an id ignores it.
+    bool DriveEvent(uintptr_t gimmickComp, uint32_t eventId, uint32_t playerEid,
+                    uintptr_t playerActor, uint32_t targetEid);
+
     bool DriveBreak(uintptr_t gimmickComp, uint32_t playerEid, uintptr_t playerActor,
                     uint32_t targetEid, float x, float y, float z);
 

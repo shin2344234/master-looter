@@ -67,6 +67,10 @@ namespace ml
         // Mine an ore vein where it stands instead of waiting for it to be
         // broken. Off leaves veins alone and picks up only the chunks.
         bool  gatherVeins    = true;
+        // Draw water by driving the well's own winch. Off by default: it is a
+        // replay of a captured transition sequence, not an event the game
+        // offers, and a well it gets wrong is a well left visibly broken.
+        bool  drawWells      = false;
         // Break an ore vein rather than gathering it. Gathering lifts the ore
         // straight out of the node and skips the drop, which is the only place
         // the game applies an equipped tool's Mining Yield Up, so a gathered
