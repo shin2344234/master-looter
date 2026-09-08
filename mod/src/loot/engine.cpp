@@ -1070,7 +1070,11 @@ namespace ml::loot
         // Costs nothing in normal play, and nothing downstream either: the
         // species only reaches a verdict through the Catch branch, which still
         // needs the narrow gate to be entered at all.
-        const bool nameable = k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09);
+        // Byte 05 and 09 at type tag 06 is a butterfly or a beetle. Ground
+        // lizards are filed apart from those, at byte 08 with type tag 03: an
+        // iguana reads that way, and so do 65 refusals across the older logs.
+        const bool nameable = (k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
+                           || (k.type == 0x03 && k.cat2 == 0x08);
         if (k.ai && !k.inter && (nameable || g_debugLog))
         {
             const Species sp = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai), k.cat2, k.type);
@@ -1174,7 +1178,21 @@ namespace ml::loot
         // parent and bag checks above cover that, and arming can plant such a
         // pointer in a node we just touched.)
 
-        const bool catchable = (c.cat2 == 0x09 || c.cat2 == 0x05) && c.type == 0x06 && !c.inter;
+        // What can be picked up alive. Two shapes, and they are not near each
+        // other: a butterfly or a beetle is byte 05 or 09 at type tag 06, while
+        // a ground lizard is byte 08 at type tag 03. The second was refused
+        // outright until now, which is why iguanas, chameleons and the two
+        // lizards were never caught however the switches were set.
+        //
+        // The lizard shape is held to a higher bar than the insect one, because
+        // its byte has not been mapped the way 05 and 09 have and a goat could
+        // yet turn up wearing it. The creature table has to name the thing
+        // outright, not offer a relative of it, and it has to be something that
+        // becomes an item: no item row, nothing to catch, leave it alone.
+        const bool smallGame    = (c.cat2 == 0x09 || c.cat2 == 0x05) && c.type == 0x06;
+        const bool groundLizard = c.cat2 == 0x08 && c.type == 0x03 &&
+                                  c.speciesExact && c.species && c.species->itemRow >= 0;
+        const bool catchable = (smallGame || groundLizard) && !c.inter;
         const bool beastCorpse = c.dead == 1 && (c.cat2 == 0x0C || c.ai);
         if (c.dead == 1 && !beastCorpse) return skip("corpse: loot drops separately");
         if (!catchable && c.dead != 1 && !c.inter && c.ai) return skip("creature");
