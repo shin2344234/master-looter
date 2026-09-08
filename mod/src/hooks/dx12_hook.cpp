@@ -1368,17 +1368,40 @@ namespace ml::hooks
         if (guard.wasNested || FAILED(hr))
             return hr;
 
-        // Somebody else's rebuild. See g_liveWrappers: the game releases its
-        // swapchain before replacing it, so a creation arriving while ours is
-        // still alive is Streamline reconstructing its own plumbing on a frame
-        // generation toggle. Taking it over swaps an object underneath the code
-        // that made it and moves the queue we submit on to one we were never
-        // given, and the failure lands on the toggle rather than here.
-        if (InterlockedCompareExchange(&g_liveWrappers, 0, 0) > 0)
+        // Wrap the first swapchain and never a replacement.
+        //
+        // Measured on a 5060 Ti that reproduces this reliably. Six sessions,
+        // every one of them wrapping a replacement chain, every one of them
+        // dead within a couple of minutes of a frame generation toggle. A
+        // build that refuses to wrap at all survived repeated toggles in both
+        // directions, before and after loading a save. The first wrap never
+        // killed anything; the second always did.
+        //
+        // What the game does when it dies is read a null pointer, twice, in
+        // its own code: once loading an interface out of an object and calling
+        // through its vtable, once taking a getter's result and reading it at
+        // +0x30. The first of those is null-checked twenty bytes away on
+        // another path, so the game knows that pointer can be absent and
+        // assumes it cannot be there. Something it looks up during the rebuild
+        // is not found, and handing it our object in place of the real one is
+        // the obvious way to make a lookup keyed on that pointer miss.
+        //
+        // An earlier attempt gated this on a wrapper still being alive, which
+        // never fired: the game releases its swapchain before creating the
+        // replacement, so by then ours is gone. Whether one is alive is not
+        // the question. Whether we have already wrapped one is.
+        //
+        // The cost is the menu. After a toggle it stops drawing until the game
+        // is restarted, because the chain it drew through is gone and we are
+        // not taking the new one. That is the trade, and a menu that stops
+        // beats a game that stops.
+        if (g_wrapperActive)
         {
             static LONG s_said = 0;
-            if (InterlockedIncrement(&s_said) <= 4)
-                LOG("Swapchain created while ours is still live - left alone (frame generation rebuild).");
+            if (InterlockedIncrement(&s_said) <= 3)
+                LOG("Swapchain replaced (frame generation toggle or a video setting). Leaving the "
+                    "new one alone: wrapping a replacement crashes the game. The menu will not "
+                    "draw again until the game is restarted.");
             return hr;
         }
 
