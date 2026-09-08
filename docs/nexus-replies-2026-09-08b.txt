@@ -76,26 +76,29 @@ item. That is #28. One caution before I build it: multiplying loot means
 sending the same take more than once, and duplicate items are how saves get
 corrupted. I would rather be slow on that one.
 
-[b]Pets.[/b] The mod is not doing it. There is no pet code in it anywhere, and
-everything the mod takes goes through the full filter before it goes anywhere.
-So the pet ignoring your settings is the game.
+[b]Pets, and I think your pet is innocent.[/b] [b]LuxDragon[/b] worked this out
+in the thread and he is right. I checked the code and corpses skip every rule I
+have. The class rules, the tag rules and the per-item overrides all run through
+one function, and that function is only asked about things picked up off the
+ground or gathered from a node. A carcass goes down a different path, where the
+only question asked is whether carcasses are on at all. So the contents come
+across whole, whatever you have set to never.
 
-Whether I could stop it is a better question, and I gave you a worse answer to
-it than you deserved. Since the mod watches every event the game raises, and
-sits at the point where one could be dropped before the game acts on it, the
-machinery is closer to hand than I first said. Two things decide whether it
-works. A pet picking something up might raise no event at all, in which case
-there is nothing to catch. Or it might raise one stamped with you rather than
-with the pet, in which case I cannot tell it apart from your own pickups and I
-would be guessing with your inventory.
+That fits what you described better than a pet does. You said the rules held for
+everything you could watch, and the excluded things turned up anyway, and you
+could not tell where from. Me taking them off a corpse looks exactly like that.
 
-One capture settles both, and you can do it on the build you have. Turn the
-debug log on under General, let your pet take a few things, quit, and send me
-MasterLooter.log from bin64. There is a diagnostic in there already that
-records events the game raises about things other than you, which is the shape
-this would be. That blind spot has fooled me twice before, on ore veins and on
-wells, where an empty log looked like proof nothing existed and turned out to
-be proof of a filter. So I would rather look than assume.
+It is worse than I have been telling people, too. The quest item and artifact
+protections live in that same function, so they do not apply to a corpse either.
+The mod page says those are protected without qualification. That is not true on
+this path and I will fix the wording whatever else happens.
+
+Before I build anything for pets, would you try what LuxDragon suggested: set a
+"never" rule on something common, play a while without the pet out, and see
+whether it still ends up in your bag. If it does, this was never about pets and
+issue #33 covers all of it.
+
+Filed as #33, with #32 for the pet question behind it.
 
 =============================================================================
 REPLY 3 -- to jacksterson, Proton
