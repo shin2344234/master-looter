@@ -24,3 +24,5 @@ data/unmapped_groups.txt
 docs/ore-investigation/logs/
 # a third-party review dump with bundled wheels, kept for reference, not shipped
 codex/
+
+.mcp.json
