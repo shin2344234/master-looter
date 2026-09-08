@@ -293,12 +293,22 @@ namespace ml::loot::hooks
     // distinct ids for the session, debug log only.
     static const char* GuessStateName(uint32_t id)
     {
+        // Not guesses. These are the state names the game declares, read out of
+        // the .binarygimmick definitions with docs/ore-investigation/
+        // gimmick_states.py. All twelve well definitions declare Wait, Deactive,
+        // Lock and Clear; eleven add GimmickOn; the winch part adds MinAngle and
+        // the bucket arm adds PreGimmickOn and PreWait.
+        //
+        // Worth noticing what is absent. A vein has break and onbreak, and
+        // breaking is how a vein ends. A well has Clear instead, and Clear is a
+        // state with a way back to Wait, which is why drawing by hand leaves the
+        // bucket where it is and the gather event does not.
         static const char* kWords[] = {
-            "wait", "gimmickon", "gimmickoff", "break", "onbreak", "open", "close",
-            "use", "used", "on", "off", "start", "end", "fill", "filled", "empty",
-            "water", "draw", "up", "down", "reset", "idle", "action", "interact",
-            "gather", "collect", "take", "pick", "loop", "play", "stop", "hold",
-            "bucketup", "bucketdown", "begin", "finish", "enter", "leave",
+            // a well
+            "wait", "deactive", "lock", "clear", "gimmickon",
+            "minangle", "pregimmickon", "prewait",
+            // a vein, for comparison in the same log
+            "break", "onbreak", "gimmickoff",
         };
         static uint32_t s_hash[sizeof kWords / sizeof kWords[0]];
         static bool s_ready = false;
