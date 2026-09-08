@@ -35,9 +35,9 @@ Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The p
 
 ## Antivirus
 
-Nexus runs every upload through VirusTotal, so the report is public. The 1.5.0 package comes back clean: [zero detections out of sixty-seven](https://www.virustotal.com/gui/file/2a1f9bfbde2c0ede2d1fd9489ec470d3035a09a478838648de06ec7a0dbf2acc).
+Two scanners out of seventy-one flag `MasterLooter.asi`, and both are machine-learning models: Microsoft (`Trojan:Win32/Wacatac.B!ml`) and Symantec (`ML.Attribute.HighConfidence`). Both put the reason in the name. `!ml` and `ML.Attribute` mean a model guessed from the shape of the file, not that a scanner matched anything known. Kaspersky, ESET, BitDefender, Sophos, Avast, Fortinet, Dr.Web, Malwarebytes and the sixty-nine others read the same file as clean, and so now do CrowdStrike Falcon and Deep Instinct, which both flagged 1.4.0. That release scored four; this one scores two.
 
-Earlier releases did get flagged, and it is worth saying why in case it happens again. Every flag was a machine-learning verdict rather than a signature match. 1.4.0 scored four out of seventy-one, all four models: Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`), CrowdStrike Falcon (`Win/malicious_confidence_60%`) and Deep Instinct. Two of them put the reason in the name: `!ml` and `ML.Attribute` mean a model guessed from the shape of the file, not that a scanner matched anything known.
+The archive Nexus distributes scans clean outright, zero of sixty-seven, because the scanners that object are objecting to the plugin rather than the zip around it. Both reports are public: [the plugin](https://www.virustotal.com/gui/file/73d547b22f560bc1bf9c7f1bfadf714ad6026eaa15fbe5d2907fed1cf2a4dece) and [the package](https://www.virustotal.com/gui/file/2a1f9bfbde2c0ede2d1fd9489ec470d3035a09a478838648de06ec7a0dbf2acc).
 
 The guess is easy to explain. The plugin is an unsigned DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer. Nothing about the file argues back: it carries no code signing certificate, and a release a day old has no install history behind it.
 
