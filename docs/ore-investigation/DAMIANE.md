@@ -56,6 +56,7 @@ places the engine asks, or the character's armour would be looted off her back.
 Loot events keep going out as the identity, `g_meEid`. That is the id the game
 itself uses, and it works: the first Damiane session with this in place gathered
 lavender, wood and trees, and Oongka was confirmed working the same afternoon.
+Kliff, whose actor is never barren, was rechecked afterwards and is unchanged.
 
 ## How it is done, exactly
 
