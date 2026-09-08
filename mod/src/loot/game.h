@@ -55,6 +55,10 @@ namespace ml::game
     // --- entities -----------------------------------------------------------
     inline constexpr uint8_t kTagPlayer = 0xA0;
     inline constexpr uint8_t kTagWorld  = 0xB0;
+    // The actor the game itself treats as the one being played, read from its
+    // own global rather than guessed at. 0 when it cannot be followed.
+    uintptr_t LocalPlayer();
+
     bool     Eid(uintptr_t e, uint32_t* out);
     uint32_t Route(uintptr_t e);
     uint8_t  TypeTag(uintptr_t e);              // 0xFF when unreadable; 6 item, 7 plant/ore
