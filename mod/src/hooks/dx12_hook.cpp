@@ -1616,10 +1616,24 @@ namespace ml::hooks
         // patch goes into a vtable other overlay mods use as well. Anyone whose
         // game will not start alongside another overlay can turn it off in the
         // ini without launching the game, and keep everything else.
+#ifdef ML_FORCE_NO_WRAP
+        // Test build. The swapchain is left alone whatever the ini says,
+        // because the ini on the machine under test asks for wrapping and this
+        // experiment is the whole point of the build. Toggling frame
+        // generation there kills the game with two null dereferences inside
+        // game code, on a path the game null-checks elsewhere, and the wrapper
+        // is the only thing this mod puts in that path. If the crash goes away
+        // here, that is the answer.
+        (void)Settings::Get().wrapSwapChain;
+        LOG("*** TEST BUILD: swapchain wrapping is FORCED OFF, ignoring the ini. ***");
+        LOG("    The menu will not draw while frame generation is on. That is expected.");
+        LOG("    If frame generation can now be toggled without dying, the wrapper is the cause.");
+#else
         if (Settings::Get().wrapSwapChain)
             InstallSwapChainCreationPatch();
         else
             LOG("WrapSwapChain=0: the swapchain is left alone. The overlay draws through the present hook, which does not show under DLSS frame generation.");
+#endif
 
         char exePath[MAX_PATH]{};
         GetModuleFileNameA(nullptr, exePath, MAX_PATH);
