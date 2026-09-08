@@ -1897,10 +1897,13 @@ namespace ml::loot
         // the parents carrying the most. That works without knowing what tag a
         // playable character wears, which is the assumption every attempt so
         // far has been built on and none of them could justify.
-        if (g_debugLog && inRange == 0)
+        // Only worth running on a tick where the manager actually handed over
+        // a world. It used to run when nothing was in range, which is exactly
+        // the tick that enumerates one object and has nothing to group.
+        if (g_debugLog && inRange == 0 && total > 50)
         {
             static DWORD s_saidWorn = 0;
-            if (now - s_saidWorn > 5000)
+            if (now - s_saidWorn > 3000)
             {
                 s_saidWorn = now;
                 struct Holder { uint32_t eid; int kids; Vec3 pos; uint32_t route; };
