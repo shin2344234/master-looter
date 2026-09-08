@@ -1683,6 +1683,12 @@ namespace ml::loot
                     // Never ask the game to open a memory trigger, a puzzle mechanism or a
                     // fast-travel artifact. Refusing to loot one afterwards is too late.
                     if (OffLimits(k.node)) continue;
+                    // Same for a well, which the verdict has always called a mechanism
+                    // while arming went on asking anyway. A well is seven entities, so
+                    // standing beside one meant seven arm calls every five seconds, for
+                    // as long as the player stood there, at parts that never answer and
+                    // would be refused if they did.
+                    if (IsMechanism(k.node)) continue;
                     // Ore answers slowly and is therefore reached for sooner. Known from
                     // the prefab table, before anything is asked of the game.
                     const bool oreNode = k.nodeType && KindFromName(k.nodeType->kind) == GatherKind::Ore;
