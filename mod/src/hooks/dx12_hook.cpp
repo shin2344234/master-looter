@@ -902,6 +902,34 @@ namespace ml::hooks
         if (!isGameFacing)
             return false;
 
+#ifdef ML_NO_DRAW
+        // Test build. The swapchain is wrapped exactly as normal and then left
+        // completely alone: no ImGui init, no render targets, no descriptor
+        // heaps, no offscreen target, nothing submitted. Not one reference is
+        // taken on a back buffer.
+        //
+        // This is the only placement that answers the question. Wrapping does
+        // two separable things: it puts our proxy where the game expects its
+        // own swapchain, and it points our render target views at that chain's
+        // back buffers. The first version of this test returned after InitImGui
+        // had already run, so the render targets existed anyway and it would
+        // have proved nothing.
+        //
+        // Survives a frame generation toggle: the resources are the problem,
+        // and releasing them at the right moment keeps the overlay. Still dies:
+        // the proxy itself is the problem and the wrapper cannot stay.
+        {
+            static bool s_said = false;
+            if (!s_said)
+            {
+                s_said = true;
+                LOG("*** TEST BUILD: swapchain wrapped, nothing drawn and no GPU resources taken. ***");
+                LOG("    The menu will never appear. That is the point of the build.");
+            }
+        }
+        return false;
+#endif
+
         if (!g_imguiReady && !g_initFailed)
         {
             // Init needs only the swapchain (device comes from it). The present
@@ -915,25 +943,6 @@ namespace ml::hooks
             }
         }
 
-#ifdef ML_NO_DRAW
-        // Test build. The swapchain is wrapped exactly as normal, but nothing
-        // is ever drawn through it: no ImGui pass, no composite, no render
-        // targets bound, no command list submitted.
-        //
-        // This separates the two things wrapping does. One is object identity:
-        // the game holds our proxy instead of its own swapchain. The other is
-        // GPU state: our descriptor heaps and render target views reference
-        // that chain's back buffers. Not wrapping at all avoids a crash, so
-        // one of those is responsible. If the game survives a frame generation
-        // toggle while wrapped but never drawn, it is the resources, and
-        // releasing them at the right moment is a real fix. If it still dies,
-        // it is the proxy itself, and the wrapper cannot stay.
-        {
-            static bool s_said = false;
-            if (!s_said) { s_said = true; LOG("*** TEST BUILD: wrapped as usual, drawing disabled. The menu will never appear. ***"); }
-        }
-        return false;
-#endif
         if (!g_imguiReady || g_renderDisabled)
             return false;
 
