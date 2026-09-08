@@ -43,3 +43,4 @@ keys.local.env
 *api_key*
 secrets.*
 !secrets.*.example
+build-nowrap/
