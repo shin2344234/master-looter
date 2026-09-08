@@ -1079,10 +1079,12 @@ namespace ml::loot
         {
             uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
             mem::Read8(gdata + 5, &k.gkind);
-            // The well bucket grows a gather block once the player is close: no
-            // block at 14.5 m, one at 1.8 m. It is not marked a container any
-            // more, so the verdict below can reach it and ask for the water the
-            // other way round. See the note there.
+            // The well bucket. It grows a gather block once the player is close
+            // (none at 14.5 m, one at 1.8 m) and it really does hold Water, but
+            // there is no way to take that Water and leave the bucket. Marked a
+            // container so nothing downstream tries again. See the note in
+            // Decide for what was tried.
+            if (k.gkind == 0x04 && IsMechanism(k.node)) g_containers.insert(k.eid);
         }
         if (idata)
         {
@@ -1224,9 +1226,23 @@ namespace ml::loot
                 if (furniture && !cfg.lootFurniture)  return skip("furniture node (off)");
             }
         }
-        // Six of a well's seven parts never fill and stay refused. The seventh
-        // is the bucket, and once the player has wound it up it holds Water.
-        if ((IsMechanism(c.node) && !c.gather) || g_containers.count(c.eid)) return skip("mechanism part");
+        // A well is refused whole, and it is a measured refusal rather than a
+        // guess about scenery. Six of its seven parts never fill. The seventh is
+        // the bucket, it does fill, and it does pay Water.
+        //
+        // Both ways of asking take the bucket with the water. Loot travels on
+        // one descriptor, 0x0809, with a mode byte at payload+3: 0x05 gathers
+        // and 0 picks up. Gathering was tried on 2026-09-08 and the bucket
+        // vanished; picking up was tried straight after, with the bucket already
+        // wound up full by hand, and the bucket vanished again. The mode is not
+        // the difference.
+        //
+        // Drawing by hand raises no loot event at all, only a sequence of state
+        // transitions, so the game's own way of emptying a bucket does not go
+        // through this descriptor. Replaying that sequence is the only path
+        // left and it is eleven timed transitions across parts that drive each
+        // other, for a three copper item that pottery drops anyway. See #23.
+        if (IsMechanism(c.node) || g_containers.count(c.eid)) return skip("mechanism part");
         if (c.heap) return skip("stack at one point (storage contents)");
         // (A pointer to the player inside the object used to mean "yours"; the
         // parent and bag checks above cover that, and arming can plant such a
@@ -1272,19 +1288,6 @@ namespace ml::loot
                  KindFromName(c.nodeType->kind) == GatherKind::Ore)
             v.act = Action::Gather;
         else return skip("not ready (node empty)");
-
-        // Ask for the bucket's contents, not for the bucket. Gathering it hands
-        // over the Water and takes the node with it, the way gathering a plant
-        // does, and the bucket then stays missing from the well. Tested on
-        // 2026-09-08, and it is the wrong question rather than a broken answer:
-        // a well declares Clear where a vein declares break, so it is built to
-        // be emptied and refilled rather than consumed.
-        //
-        // Take and gather are the same descriptor and differ by one byte, the
-        // mode at payload+3: 0x05 gathers, 0 picks up. So this is the game's own
-        // other way of asking, not an invention. The player winds the handle;
-        // the mod lifts out what is in the bucket.
-        if (v.act == Action::Gather && IsMechanism(c.node)) v.act = Action::Take;
 
         // Item rules from the database. A live key that our table knows gets the
         // full class/tag/item verdict; a node whose yield has been learned gets
