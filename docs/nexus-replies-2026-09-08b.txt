@@ -2,132 +2,135 @@
 REPLY 1 -- to Fyreon87, the frame generation crash (highest priority)
 =============================================================================
 
-[b]Fyreon87[/b] Thank you for bisecting that. An hour and a half of load order
-elimination is more than anyone should have to do, and it is the difference
-between a report I can act on and one I have to guess at. Filed as issue #30.
+[b]Fyreon87[/b] Ninety minutes of load order elimination is a lot to ask of
+anyone and you did it before I even knew there was a problem. Thank you. It is
+issue #30 now.
 
-You have got me in the right area already. Turning frame generation on or off
-destroys and rebuilds the swapchain, and this mod draws its menu through that
-swapchain, so it is doing graphics work at exactly the moment the thing it is
-drawing into is being torn down. That is a real hazard and it is mine.
+You have put me in the right area. Flipping frame generation destroys the
+swapchain and builds a new one, and this mod draws its menu through that
+swapchain, so it is doing graphics work on an object that is being pulled out
+from under it. That is my problem to fix.
 
-Three things would let me pin it down.
+I had a theory this afternoon, wrote it up, then went back through the code and
+found it was wrong, so I am not going to guess at you. Three things would tell
+me what is actually happening.
 
-[b]1. The log from a run that crashed.[/b] MasterLooter.log in bin64, and
-MasterLooter.01.log next to it, which is the run before. I am looking for
-whether a particular line appears at the moment you flip the setting. If it
-does not, the mod never noticed the swapchain was replaced, which would explain
-everything.
+[b]1. The log from a run that crashed.[/b] MasterLooter.log in bin64, plus
+MasterLooter.01.log beside it, which holds the run before. I want to know
+whether one particular line shows up when you flip the setting. Its absence
+would explain a great deal.
 
-[b]2. Which frame generation.[/b] The game's own, DLSS, FSR, or something like
-OptiScaler on top. They are not the same code and they fail differently.
+[b]2. Which frame generation you are using.[/b] The game's own, DLSS, FSR, or
+something like OptiScaler layered on top. Those are different pieces of code
+with different failure modes.
 
 [b]3. One test.[/b] Open MasterLooter.ini in bin64 and set
 
 [code]wrapSwapChain=0[/code]
 
-then launch and toggle frame generation again. That turns off the menu drawing
-path and leaves everything else running. If it stops crashing, I know it is
-that path and not the rest of the mod. If it still crashes, I have been looking
-in the wrong place and that is worth knowing too.
+That switches off the menu drawing and leaves the rest of the mod alone. Toggle
+frame generation again and tell me what happens either way. A crash that
+survives that would mean I have been looking in the wrong place entirely, which
+is as useful to know as the alternative.
 
-No rush on any of it. The mod is not going to eat your save over this; it is a
-crash, not a corruption.
+Take your time. Nothing here can damage a save.
 
 =============================================================================
 REPLY 2 -- to lsimo, three separate things
 =============================================================================
 
-[b]lsimo[/b] That is a properly measured report, thank you. Bag totals rather
-than the number on screen is exactly what was needed. Taking your three points
-in order.
+[b]lsimo[/b] Bag totals rather than the number on screen is exactly what I
+needed, and it closes out a question left over from the 1.3.0 reports. Your
+message covers separate ground in each paragraph, so I will take them as they
+came.
 
-[b]The multiplier works, the tool does not.[/b] Five is one times five, so the
-multiplier is scaling mod-mined ore correctly. It was the older 1.3.0 report of
-x1 that was stale; 1.4.0 changed how veins are mined completely. What is
-actually missing is the Knuckledrill's own doubling, and you worked out why
-yourself without realising it: you said the tool puts ore straight into your
-inventory rather than on the floor. That is a second path, and the game runs it
-from a real weapon swing. The mod does not swing anything. It drives the vein's
-own break sequence, the ore spills on the ground, and it picks that up. So you
-get the spill, times five, and the tool's extra never fires.
+[b]The multiplier is fine. The tool is what goes missing.[/b] Five is one times
+five, so your multiplier is scaling mod-mined ore correctly. The old report of
+x1 was written against 1.3.0 and 1.4.0 changed how veins get mined completely.
 
-Worse, there is a comment in my own source saying that breaking a vein is the
-one way to get the tool bonus. I wrote that, I never verified it, and your
-numbers show it is wrong. That is now issue #31, and the comment is coming out
-whatever else happens.
+You explained the real problem yourself without noticing. You said the
+Knuckledrill puts ore into your inventory instead of on the floor. That is a
+separate path and the game runs it off a real weapon swing. The mod never
+swings anything: it drives the vein's own break sequence, the ore spills on the
+ground, and it collects that. You get the spill, times five, and the tool's
+share never happens.
 
-[b]A built-in multiplier per class.[/b] Reasonable ask, and the machinery is
-mostly there since every rule in the mod is already per class, per tag or per
-item. Filed as #28. One caution: multiplying loot means sending the same take
-more than once, and duplicate items are how saves get corrupted, so if I build
-it I will build it carefully rather than quickly.
+There is a comment in my own source claiming that breaking a vein is the one
+way to get the tool bonus. I wrote it and never checked it. Your numbers
+show it is wrong. Issue #31, and that comment comes out either way.
 
-[b]Pets.[/b] Two halves to this. The mod is not causing it: there is no pet
-code in it at all, and everything the mod itself takes goes through the full
-filter first. So the pet ignoring your settings is the game, not me.
+[b]A built-in multiplier per class.[/b] Fair ask, and most of the machinery is
+already there because every rule in the mod is keyed per class, per tag or per
+item. That is #28. One caution before I build it: multiplying loot means
+sending the same take more than once, and duplicate items are how saves get
+corrupted. I would rather be slow on that one.
 
-Whether I can stop it is a better question than I first gave you credit for,
-and I do not know yet. The mod already watches every event the game raises,
-because that is how it learned to break ore veins and draw well water, and it
-sits at the point where an event could be dropped before the game acts on it.
-So the machinery is there. What I do not know is whether a pet picking
-something up raises an event at all, and if it does, whether that event is
-stamped with the pet or with you. If it is stamped with you, I cannot tell it
-apart from your own pickups and there is nothing I can safely do.
+[b]Pets.[/b] The mod is not doing it. There is no pet code in it anywhere, and
+everything the mod takes goes through the full filter before it goes anywhere.
+So the pet ignoring your settings is the game.
 
-That is one capture away from an answer, and you can do it on the version you
-already have. Turn the debug log on under General, stand somewhere your pet
-will pick something up, let it take a few things, then quit and send me
-MasterLooter.log from bin64. There is already a diagnostic in there that
-records events the game raises about things other than you, which is exactly
-the shape this would be. If your pet shows up in that list, this is worth
-building. If nothing appears while it is looting, then it happens somewhere I
-cannot reach and I will tell you so plainly.
+Whether I could stop it is a better question, and I gave you a worse answer to
+it than you deserved. Since the mod watches every event the game raises, and
+sits at the point where one could be dropped before the game acts on it, the
+machinery is closer to hand than I first said. Two things decide whether it
+works. A pet picking something up might raise no event at all, in which case
+there is nothing to catch. Or it might raise one stamped with you rather than
+with the pet, in which case I cannot tell it apart from your own pickups and I
+would be guessing with your inventory.
+
+One capture settles both, and you can do it on the build you have. Turn the
+debug log on under General, let your pet take a few things, quit, and send me
+MasterLooter.log from bin64. There is a diagnostic in there already that
+records events the game raises about things other than you, which is the shape
+this would be. That blind spot has fooled me twice before, on ore veins and on
+wells, where an empty log looked like proof nothing existed and turned out to
+be proof of a filter. So I would rather look than assume.
 
 =============================================================================
 REPLY 3 -- to jacksterson, Proton
 =============================================================================
 
-[b]jacksterson[/b] That settles more than you might think. No log file at all
-means the plugin was never started. Since 1.2.0 the log is opened the moment
-the DLL loads, well before anything is drawn, so a plugin that started and then
-died still leaves a file behind. Yours never got that far.
+[b]jacksterson[/b] No log file at all settles more than you might expect. The
+log is opened the moment the DLL loads, well before anything gets drawn, so a
+plugin that started and then died still leaves the file behind. Yours never
+reached that point.
 
-So the mod is not crashing your game. Something upstream is stopping it from
-being loaded in the first place, and those are different problems.
+Which means the mod is not what is stopping your game. Something further
+upstream is keeping it from being loaded at all, and that is a different
+problem with a different fix.
 
-Your overrides look right, winmm=n,b is the important one and you have it. Two
-things worth checking, in this order:
+Your overrides look right to me. winmm=n,b is the one that matters and you have
+it. Two things I would check, in this order:
 
-[b]1.[/b] Is MasterLooter.asi actually sitting in bin64 inside the prefix,
-right next to winmm.dll? If your mod manager deploys through a Windows-shaped
-path it may be writing somewhere the prefix never sees.
+[b]1.[/b] Is MasterLooter.asi sitting in bin64 inside the prefix, next to
+winmm.dll? A mod manager working through a Windows-shaped path can end up
+writing somewhere the prefix never looks.
 
-[b]2.[/b] Does the game start with winmm.dll in place but MasterLooter.asi
-deleted? That separates "the loader is unhappy in this configuration" from
-"this plugin specifically kills it". If it starts fine without the .asi and
-dies with it, then the plugin is getting far enough to take the process down
-before it can even open its log, which would be genuinely new and would point
-at either the byte pattern scan or the Direct3D hook meeting DXVK rather than
-real D3D12.
+[b]2.[/b] Does the game start with winmm.dll present and MasterLooter.asi
+deleted? That tells us whether the loader is unhappy with your configuration
+generally or whether this plugin specifically is what kills it. If the game is
+fine without the .asi and dies with it, then the plugin is getting far enough
+to take the process down before it can open its own log, and I would start
+looking at the byte pattern scan or at the Direct3D hook meeting DXVK instead
+of real D3D12.
 
-I notice you are also overriding dxgi for RenoDX. This mod hooks the DXGI
-present path too, so two things wanting it under DXVK is a plausible way to
-lose the process silently. Not a diagnosis, just the next place I would look.
+One thing I noticed: you are overriding dxgi as well, for RenoDX. This mod
+hooks the DXGI present path too. Two things reaching for it under DXVK is a
+plausible way to lose a process without a word, though I want to be clear that
+is where I would look next and not a diagnosis.
 
-I do not have a Linux machine, so I am reliant on you here. Issue #15 has
-everything so far.
+There is no Linux machine here, so I am relying on you for anything past this.
+Issue #15 has everything so far.
 
 =============================================================================
 REPLY 4 -- to LuxDragon, filtering individual creatures
 =============================================================================
 
-[b]LuxDragon[/b] Filed properly now as #29 so it does not stay a to-do in my
-head.
+[b]LuxDragon[/b] This is #29 now, so it is out of my head and somewhere I will
+actually see it.
 
-The honest state of it: items have three levels of control already, per item,
-per tag and per class. Creatures have none. They are recognised by their model
-and sorted by two category bytes rather than by a row in the item table, so
-there is no stable name to hang a rule off yet. Giving them one is the actual
-work. The interface for it already exists.
+Where it really stands: items already answer to three levels of control, per
+item, per tag and per class. Creatures answer to none of them. They get
+recognised by their model and sorted by a pair of category bytes, so unlike an
+item they have no stable name for a rule to attach to. Giving them one is the
+whole job. The interface to hang it off has been there since 1.2.0.
