@@ -197,8 +197,25 @@ function Invoke-NexusApi {
 # Validate inputs before touching the network
 # --------------------------------------------------------------------------
 
+# Fall back to keys.local.env beside this script, so both this and vtscan.py
+# read one gitignored file rather than needing two environment variables set.
 if ([string]::IsNullOrWhiteSpace($ApiKey)) {
-    throw "No API key. Pass -ApiKey or set the NEXUS_API_KEY environment variable."
+    $keyFile = Join-Path $PSScriptRoot 'keys.local.env'
+    if (Test-Path -LiteralPath $keyFile) {
+        foreach ($line in Get-Content -LiteralPath $keyFile) {
+            $trimmed = $line.Trim()
+            if ($trimmed -match '^\s*(#|$)') { continue }
+            $name, $value = $trimmed -split '=', 2
+            if ($name.Trim() -eq 'NEXUS_API_KEY') {
+                $ApiKey = $value.Trim().Trim('"').Trim("'")
+                break
+            }
+        }
+    }
+}
+
+if ([string]::IsNullOrWhiteSpace($ApiKey)) {
+    throw "No API key. Get one at https://www.nexusmods.com/settings/api-keys, then pass -ApiKey, set NEXUS_API_KEY, or put NEXUS_API_KEY=<key> in keys.local.env beside this script."
 }
 
 $file = Get-Item -LiteralPath $FilePath

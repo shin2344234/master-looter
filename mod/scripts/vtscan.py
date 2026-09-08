@@ -54,6 +54,28 @@ def version_from_header():
     return m.group(1)
 
 
+# Keys come from the environment first. keys.local.env beside this script is
+# the fallback, so both keys can live in one gitignored file instead of two
+# environment variables. Nothing here ever prints a key.
+KEYFILE = os.path.join(HERE, "keys.local.env")
+
+
+def read_key(name):
+    got = os.environ.get(name)
+    if got:
+        return got.strip()
+    if not os.path.exists(KEYFILE):
+        return None
+    for line in io.open(KEYFILE, encoding="utf-8"):
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, _, v = line.partition("=")
+        if k.strip() == name:
+            return v.strip().strip('"').strip("'")
+    return None
+
+
 def sha256(path):
     h = hashlib.sha256()
     with open(path, "rb") as f:
@@ -146,11 +168,13 @@ def main():
     ap.add_argument("--version", help="override the version read from version.h")
     args = ap.parse_args()
 
-    key = os.environ.get("VT_API_KEY") or os.environ.get("VIRUSTOTAL_API_KEY")
+    key = read_key("VT_API_KEY") or read_key("VIRUSTOTAL_API_KEY")
     if not key:
         raise SystemExit(
-            "No key. Set VT_API_KEY to the key on your VirusTotal account page.\n"
-            "  setx VT_API_KEY <key>      (then open a new shell)")
+            "No key. Get one from the account menu at virustotal.com, then either\n"
+            "  setx VT_API_KEY <key>          and open a new shell, or\n"
+            "  put VT_API_KEY=<key> in %s\n"
+            "which is gitignored." % KEYFILE)
 
     version = args.version or version_from_header()
     rows = []

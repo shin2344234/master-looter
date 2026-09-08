@@ -26,3 +26,17 @@ docs/ore-investigation/logs/
 codex/
 
 .mcp.json
+
+# API keys. keys.local.env is the one the scripts read; the rest of these
+# patterns are here so a key dropped anywhere obvious cannot be committed by
+# accident. keys.local.env.example is tracked and holds no key.
+keys.local.env
+*.local.env
+.env
+.env.*
+!*.example
+*apikey*
+*api-key*
+*api_key*
+secrets.*
+!secrets.*.example
