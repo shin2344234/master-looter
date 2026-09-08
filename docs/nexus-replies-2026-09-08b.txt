@@ -11,29 +11,40 @@ swapchain and builds a new one, and this mod draws its menu through that
 swapchain, so it is doing graphics work on an object that is being pulled out
 from under it. That is my problem to fix.
 
-I had a theory this afternoon, wrote it up, then went back through the code and
-found it was wrong, so I am not going to guess at you. Three things would tell
-me what is actually happening.
+Since you posted I have had it reproducing on a borrowed 5060 Ti, which is
+further than I expected to get today, and I can tell you what it looks like
+from the inside.
 
-[b]1. The log from a run that crashed.[/b] MasterLooter.log in bin64, plus
-MasterLooter.01.log beside it, which holds the run before. I want to know
-whether one particular line shows up when you flip the setting. Its absence
-would explain a great deal.
+The game dies with two null pointer reads in its own code, a few milliseconds
+apart, while frame generation is being switched. One of them loads a pointer
+out of an object and calls through it. The interesting part is that the same
+pointer is explicitly checked for null twenty bytes further down the same
+function, on a different path. So the game knows that thing can be missing and
+assumes it cannot be on the path that dies. Something it looks for during the
+switch is not there, and it is only not there when my mod is loaded.
 
-[b]2. Which frame generation you are using.[/b] The game's own, DLSS, FSR, or
-something like OptiScaler layered on top. Those are different pieces of code
-with different failure modes.
+The mod puts exactly one thing in that path. It wraps the swapchain so the menu
+can draw before frame generation interpolates. My working theory is that
+handing the game my object instead of the real one makes a lookup miss and
+hand back nothing.
 
-[b]3. One test.[/b] Open MasterLooter.ini in bin64 and set
+Two things from you would help, and neither is urgent.
 
-[code]wrapSwapChain=0[/code]
+[b]The log from a run that crashed.[/b] MasterLooter.log in bin64, and
+MasterLooter.01.log next to it, which holds the run before that one.
 
-That switches off the menu drawing and leaves the rest of the mod alone. Toggle
-frame generation again and tell me what happens either way. A crash that
-survives that would mean I have been looking in the wrong place entirely, which
-is as useful to know as the alternative.
+[b]Which frame generation.[/b] The game's own, DLSS, FSR, or something like
+OptiScaler on top. They are different code with different failure modes, and
+the machine I borrowed may not be running the same one you are.
 
-Take your time. Nothing here can damage a save.
+I am not going to ask you to set wrapSwapChain=0, which is what I was about to
+suggest before I tried it myself. On a machine where another mod has already
+hooked the same DirectX function, turning that off leaves the mod with no way
+to run at all, and it does it silently. You would have told me it stopped
+crashing and we would both have been fooled. That is fixed in the next build,
+which also stops the mod going quiet when it cannot draw.
+
+Nothing here can damage a save.
 
 =============================================================================
 REPLY 2 -- to lsimo, three separate things
