@@ -202,7 +202,12 @@ namespace ml::game
         const uintptr_t actor = holder ? mem::Deref(holder, kOff_Actor) : 0;
         if (!actor || !mem::Readable(actor, 0x100)) return 0;
         uint32_t eid = 0;
-        if (!Eid(actor, &eid) || (eid >> 24) != kTagPlayer) return 0;
+        if (!Eid(actor, &eid) || !eid) return 0;
+        // Deliberately not requiring the player tag. That requirement was here
+        // and it threw the answer away: playing as Damiane the only 0xA0 actor
+        // sits 1700 m from anything, and the characters with gear hanging off
+        // them are 0xB0 like the rest of the world. Whatever the game points at
+        // here is the character being played, whatever it is tagged.
         return actor;
     }
 

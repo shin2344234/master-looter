@@ -1630,8 +1630,10 @@ namespace ml::loot
         // passes the actor it considers the player, and that id is captured
         // from the hook. Until it has asked once, the first player-tagged actor
         // is still the best guess available.
+        // Note the tag is not checked. The character being played is not
+        // necessarily player-tagged: as Damiane it is not.
         uint32_t id = 0;
-        if (g_me && (!game::Eid(g_me, &id) || id != g_meEid || (id >> 24) != game::kTagPlayer)) g_me = 0;
+        if (g_me && (!game::Eid(g_me, &id) || id != g_meEid)) g_me = 0;
 
         // The game keeps its own pointer to the character being played, and
         // reading it beats every rule the engine used to guess with. See
@@ -1645,7 +1647,7 @@ namespace ml::loot
                 if (s_said != lpEid)
                 {
                     s_said = lpEid;
-                    LOG("[player] the game is playing %08X; scanning around that", lpEid);
+                    LOG("[player] the game is playing %08X (tag %02X); scanning around that", lpEid, lpEid >> 24);
                 }
                 g_me = lp; g_meEid = lpEid;
             }
