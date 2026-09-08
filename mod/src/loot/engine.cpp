@@ -1070,11 +1070,10 @@ namespace ml::loot
         // Costs nothing in normal play, and nothing downstream either: the
         // species only reaches a verdict through the Catch branch, which still
         // needs the narrow gate to be entered at all.
-        // Byte 05 and 09 at type tag 06 is a butterfly or a beetle. Ground
-        // lizards are filed apart from those, at byte 08 with type tag 03: an
-        // iguana reads that way, and so do 65 refusals across the older logs.
-        const bool nameable = (k.type == 0x06 && (k.cat2 == 0x05 || k.cat2 == 0x09))
-                           || (k.type == 0x03 && k.cat2 == 0x08);
+        // The three bytes a live creature can be picked up under. Kept in step
+        // with the catchable test in Decide, which needs the species to judge
+        // the lizard byte at all.
+        const bool nameable = k.cat2 == 0x05 || k.cat2 == 0x09 || k.cat2 == 0x08;
         if (k.ai && !k.inter && (nameable || g_debugLog))
         {
             const Species sp = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai), k.cat2, k.type);
@@ -1139,7 +1138,11 @@ namespace ml::loot
         //
         // Deliberately not asking what it is attached to now. Whatever the game
         // hangs a weapon off mid-flight, having been on the player is enough.
-        if (WasOnMe(c, GetTickCount())) return skip("yours, just out of your hand");
+        //
+        // Creatures are exempt. A crow was seen attached to the player for a
+        // moment, in a catch, and this then refused it for the next
+        // forty-five seconds. Nothing alive is the player's kit coming back.
+        if (!c.ai && WasOnMe(c, GetTickCount())) return skip("yours, just out of your hand");
         if (c.item && c.parent && c.cat2 == 0x11) return skip("worn by someone");
         if (game::InventoryHas(c.iid)) return skip("already in your bag");
         if (c.node[0])
@@ -1178,19 +1181,24 @@ namespace ml::loot
         // parent and bag checks above cover that, and arming can plant such a
         // pointer in a node we just touched.)
 
-        // What can be picked up alive. Two shapes, and they are not near each
-        // other: a butterfly or a beetle is byte 05 or 09 at type tag 06, while
-        // a ground lizard is byte 08 at type tag 03. The second was refused
-        // outright until now, which is why iguanas, chameleons and the two
-        // lizards were never caught however the switches were set.
+        // What can be picked up alive, decided on the category byte alone. 05 and
+        // 09 are the insects and the small things; 08 is the ground lizards,
+        // which were refused outright until now and are why iguanas, chameleons
+        // and the two lizards were never caught however the switches were set.
         //
-        // The lizard shape is held to a higher bar than the insect one, because
-        // its byte has not been mapped the way 05 and 09 have and a goat could
-        // yet turn up wearing it. The creature table has to name the thing
-        // outright, not offer a relative of it, and it has to be something that
-        // becomes an item: no item row, nothing to catch, leave it alone.
-        const bool smallGame    = (c.cat2 == 0x09 || c.cat2 == 0x05) && c.type == 0x06;
-        const bool groundLizard = c.cat2 == 0x08 && c.type == 0x03 &&
+        // The type tag used to be required to be 06 and is not consulted at all
+        // now. It separates nothing: the same insect appears at 03 and at 06 in
+        // one session, three metres apart, and the pair that were 03 were being
+        // silently refused. What keeps people and livestock out is the byte, not
+        // the tag. NPCs are 0A and beasts are 0C, and neither is listed here.
+        //
+        // The lizard byte is held to a higher bar than the other two, because it
+        // has not been mapped the way they have and a goat could yet turn up
+        // wearing it. The creature table has to name the thing outright, not
+        // offer a relative of it, and it has to be something that becomes an
+        // item: no item row, nothing to catch, so leave it alone.
+        const bool smallGame    = c.cat2 == 0x09 || c.cat2 == 0x05;
+        const bool groundLizard = c.cat2 == 0x08 &&
                                   c.speciesExact && c.species && c.species->itemRow >= 0;
         const bool catchable = (smallGame || groundLizard) && !c.inter;
         const bool beastCorpse = c.dead == 1 && (c.cat2 == 0x0C || c.ai);
