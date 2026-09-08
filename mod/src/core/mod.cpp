@@ -217,18 +217,26 @@ namespace ml::Mod
         // installed its hooks, said so, and did nothing at all for the rest of
         // the session without a word about why. Looting has nothing to do with
         // drawing, so it no longer waits for a frame that may never come.
-        CreateThread(nullptr, 0, [](LPVOID) -> DWORD {
-            for (int i = 0; i < 100 && !State::Get().overlayReady; ++i)
-                Sleep(200);
-            if (!State::Get().overlayReady)
-            {
-                LOG_ERR("No frame has been rendered in twenty seconds. Nothing is drawing the "
-                        "overlay: the swapchain is not wrapped and the present hook belongs to "
-                        "another mod. Starting the loot engine anyway; the menu will not appear.");
-                OnRenderProcess();
-            }
-            return 0;
-        }, nullptr, 0, nullptr);
+        // Only in the game. This plugin is loaded into the game's crash
+        // reporter as well, which never renders anything, so an unconditional
+        // watchdog fires there every time, runs the whole late init in a
+        // process that has no business doing it, and claims the log out from
+        // under the real session.
+        if (HostIsGame())
+        {
+            CreateThread(nullptr, 0, [](LPVOID) -> DWORD {
+                for (int i = 0; i < 100 && !State::Get().overlayReady; ++i)
+                    Sleep(200);
+                if (!State::Get().overlayReady)
+                {
+                    LOG_ERR("No frame has been rendered in twenty seconds. Nothing is drawing the "
+                            "overlay: the swapchain is not wrapped and the present hook belongs to "
+                            "another mod. Starting the loot engine anyway; the menu will not appear.");
+                    OnRenderProcess();
+                }
+                return 0;
+            }, nullptr, 0, nullptr);
+        }
     }
 
     void OnRenderProcess()
