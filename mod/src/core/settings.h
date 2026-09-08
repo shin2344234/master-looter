@@ -71,10 +71,16 @@ namespace ml
         // replay of a captured transition sequence, not an event the game
         // offers, and a well it gets wrong is a well left visibly broken.
         bool  drawWells      = false;
-        // Break an ore vein rather than gathering it. Gathering lifts the ore
-        // straight out of the node and skips the drop, which is the only place
-        // the game applies an equipped tool's Mining Yield Up, so a gathered
-        // vein never pays the tool bonus and a broken one does.
+        // Break an ore vein rather than gathering it. Breaking makes the game
+        // spill the contents through its own drop path and retire the node, so
+        // the vein disappears the way it does by hand. That is the reason to
+        // keep it on.
+        //
+        // It does NOT pay an equipped tool's Mining Yield Up. This comment used
+        // to claim it did, which was never verified and is wrong: lsimo measured
+        // ten ore by hand with a refined Knuckledrill against five auto-mined at
+        // the same multiplier. The tool's share travels a path the game runs
+        // from a real weapon swing, and the mod swings nothing. Issue #31.
         bool  breakOre       = true;
         // safety and filters
         bool  lootOwned      = false;  // take goods the game would call stealing

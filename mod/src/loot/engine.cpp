@@ -2487,9 +2487,14 @@ namespace ml::loot
                     if (v.act == Action::Search) g_searched.insert(key);
                     // Breaking an ore vein rather than gathering it, when asked. The mod's
                     // gather lifts the ore straight out of the node; striking it makes the
-                    // game spill the contents on the ground through its own drop path, which
-                    // is the only path that applies the equipped tool's yield bonus. The
-                    // chunks are then ordinary ground items and get picked up as usual.
+                    // game spill the contents on the ground through its own drop path and
+                    // retire the node. The chunks are then ordinary ground items and get
+                    // picked up as usual.
+                    //
+                    // The drop path pays the vein's base yield. It does not pay an equipped
+                    // tool's bonus, whatever the older comment here said: nothing in the two
+                    // events this drives carries a tool, and FINDINGS.md records that no
+                    // tool query exists anywhere on the drop path. Issue #31.
                     const bool breakIt = cfg.breakOre && v.act == Action::Gather && k.nodeType &&
                                          k.nodeType->tagged && KindFromName(k.nodeType->kind) == GatherKind::Ore;
                     if (breakIt)
