@@ -35,11 +35,11 @@ Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The p
 
 ## Antivirus
 
-Two scanners out of seventy-one flag `MasterLooter.asi`, and both are machine-learning models: Microsoft (`Trojan:Win32/Wacatac.B!ml`) and Symantec (`ML.Attribute.HighConfidence`). Both put the reason in the name: `!ml` and `ML.Attribute` mean a model guessed from the shape of the file. Neither matched anything known, and the sixty-nine others read the same file as clean. The DMM archive scores zero of sixty-seven.
+Three scanners out of seventy flag `MasterLooter.asi`, and all three are machine-learning models: Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and CrowdStrike Falcon (`Win/malicious_confidence_60%`). Each puts the reason in the name: `!ml` and `ML.Attribute` mean a model guessed from the shape of the file, and the third prints its confidence as a percentage. None matched anything known, and the sixty-seven others read the same file as clean. The DMM archive scores zero of sixty-seven.
 
-The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two. CrowdStrike Falcon and Deep Instinct are the two that come and go, and they have now dropped off twice. That is what a model guessing looks like, as against a scanner recognising something.
+The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three. Microsoft and Symantec have flagged every one of them. CrowdStrike Falcon and Deep Instinct come and go, and 1.6.1 has the first without the second. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.0: [the plugin](https://www.virustotal.com/gui/file/5e2a14e4bf404be50fcbfb883cc5e71318a7d34a8a2fb226490716ba802d93c4) and [the package](https://www.virustotal.com/gui/file/2e7e2c66c03ac5597c2de5092f3290b4c0111350d6e33b643b4a3809845df89a).
+Reports for 1.6.1: [the plugin](https://www.virustotal.com/gui/file/6c8194927abc1a9177c15e479f699abc4308143e635e83b8a8a667abbb3a2ad7) and [the package](https://www.virustotal.com/gui/file/4f8a21e3c59c278926824a84476bd2068cb761222805e20ee2099ba0da4d0d28).
 
 The guess is easy to explain. The plugin is an unsigned DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer. Nothing about the file argues back: it carries no code signing certificate, and a release a day old has no install history behind it.
 
