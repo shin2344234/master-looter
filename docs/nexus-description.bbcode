@@ -58,11 +58,11 @@ Watch mode keeps the menu on screen while you play, so you can read the Nearby l
 Uninstall by deleting the MasterLooter.* files from bin64 (the plugin writes MasterLooter.ini and .log next to itself). No game file is modified and nothing is written to a save.
 
 [size=4][b]Antivirus[/b][/size]
-Four scanners out of seventy flag the plugin, and all four are machine-learning models: Microsoft (Trojan:Win32/Wacatac.B!ml), Symantec (ML.Attribute.HighConfidence), CrowdStrike Falcon (Win/malicious_confidence_60%) and Deep Instinct. Three say so on the label: !ml and ML.Attribute each mean a model guessed from the shape of the file, and the third prints its confidence as a percentage. Not one matched anything known, and the sixty-six that did not flag it read the same file as clean. The DMM archive scores one of sixty-seven, Deep Instinct again.
+Two scanners out of seventy-one flag the plugin, and both are machine-learning models: Microsoft (Trojan:Win32/Wacatac.B!ml) and Symantec (ML.Attribute.HighConfidence). Both say so on the label: !ml and ML.Attribute each mean a model guessed from the shape of the file. Neither matched anything known, and the sixty-nine that did not flag it read the same file as clean. The DMM archive scores zero of sixty-seven.
 
-Worth knowing that the number moves on its own. 1.2.1 scored four, 1.4.0 four, 1.5.0 two, and 1.5.1 four again, with two of them dropping off for one release and coming back. Nothing about what the file does changed in between. That is a model guessing rather than a scanner recognising something.
+Worth knowing that the number moves on its own. 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, and 1.6.0 two. CrowdStrike Falcon and Deep Instinct are the two that come and go, and they have now dropped off twice. Nothing about what the file does changed in between. That is a model guessing, as against a scanner recognising something.
 
-1.6.0 has not been scanned yet; both 1.5.1 reports are public: [url=https://www.virustotal.com/gui/file/9a6ba8729e28ae29364e7fd2773f4368fda883c67be0dbddef158d0de7cd18e7]the plugin[/url] and [url=https://www.virustotal.com/gui/file/3026a4e2525eed4e23cbf94d8fdf3ca7176e2b5d0a74e2f8d092285febc1bfc7]the package[/url].
+Both 1.6.0 reports are public: [url=https://www.virustotal.com/gui/file/5e2a14e4bf404be50fcbfb883cc5e71318a7d34a8a2fb226490716ba802d93c4]the plugin[/url] and [url=https://www.virustotal.com/gui/file/2e7e2c66c03ac5597c2de5092f3290b4c0111350d6e33b643b4a3809845df89a]the package[/url].
 
 The shape is the whole reason. It is an unsigned DLL that a loader puts inside the game, and once there it patches instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D. A trainer does all of that, so a model trained on trainers answers trainer. It carries no signing certificate and has no install history behind it yet to argue otherwise.
 

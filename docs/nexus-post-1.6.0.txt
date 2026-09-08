@@ -4,7 +4,7 @@ Auto-loot now works whoever you are playing. Kliff does not need to be in the pa
 
 Wells this morning, this in the afternoon. Looks like I am on a roll today. I am happy I figured this one out, because I had written it off.
 
-That rule has been accepted for every auto-loot mod on this page. [b]LuxDragon[/b] put it plainly a few days ago: a game issue, the original author tried and failed, Kliff has to be there. I believed it, wrote it into a draft reply, and came within an hour of closing the issue as unfixable. It is a mistake in the mods. Every auto-loot mod, this one included, has made it since the first release.
+The Kliff rule has been accepted for every auto-loot mod on this page. [b]LuxDragon[/b] put it plainly a few days ago: a game issue, the original author tried and failed, Kliff has to be there. I believed it, wrote it into a draft reply, and came within an hour of closing the issue as unfixable. I love proving myself wrong. It is a mistake in the mods, and every auto-loot mod, this one included, has made it since the first release.
 
 [size=4][b]What was actually wrong[/b][/size]
 
@@ -16,7 +16,7 @@ Every auto-loot mod centres its search on the identity, because that is the one 
 
 By your gear. A dressed character is the one thing in the world with a sword, a shield, a helmet and a lantern hanging off it, and those are attached, so one of them is enough to say where you are standing. The mod keeps a running record of who is carrying things. The moment the identity proves to be standing nowhere, it moves its search onto the body wearing the most on your own route. Loot still goes to you, because the events go out under your identity, which is what the game itself does.
 
-Confirmed in a field of white lavender as Damiane, where the same field had produced nothing all afternoon, and then as Oongka.
+Confirmed in a field of white lavender as Damiane, where the same field had produced nothing all afternoon, then as Oongka. Kliff was rechecked afterwards and works as he always did.
 
 [size=4][b]Why it took eight attempts[/b][/size]
 
