@@ -77,7 +77,10 @@ namespace ml::events
 
     struct PendAct { Action act; uint32_t eid, player, route; uint8_t mode; };
     struct PendArm { uintptr_t node, mode, arg3, ctx; };
-    struct PendDrive { uintptr_t comp, actor; uint32_t player, target; float x, y, z; };
+    // ev 0 means the vein's pair of transitions, which is what DriveBreak
+    // wants. Any other value is one transition driven by id, which is what a
+    // well's sequence is made of.
+    struct PendDrive { uintptr_t comp, actor; uint32_t player, target; float x, y, z; uint32_t ev; };
     static PendAct g_pendAct[64]; static int g_pendActN = 0;
     static PendArm g_pendArm[32]; static int g_pendArmN = 0;
     static PendDrive g_pendDrv[32]; static int g_pendDrvN = 0;
@@ -289,6 +292,8 @@ namespace ml::events
     static bool DriveNow(const PendDrive& d)
     {
         const float pos[3] = { d.x, d.y, d.z };
+        if (d.ev)
+            return ml::loot::hooks::DriveGimmickEvent(d.comp, d.ev, d.player, d.actor, d.target, nullptr);
         ml::loot::hooks::DriveGimmickEvent(d.comp, game::NameId("onattackimpulsecomplete"),
                                            d.player, d.actor, d.target, nullptr);
 
@@ -300,7 +305,20 @@ namespace ml::events
                     uint32_t target, float x, float y, float z)
     {
         if (!comp) return false;
-        const PendDrive d{ comp, actor, player, target, x, y, z };
+        const PendDrive d{ comp, actor, player, target, x, y, z, 0 };
+        if (OnGameThread()) return DriveNow(d);
+        Lock();
+        const bool room = g_pendDrvN < 32;
+        if (room) g_pendDrv[g_pendDrvN++] = d;
+        Unlock();
+        return room;
+    }
+
+    bool DriveEvent(uintptr_t comp, uint32_t eventId, uint32_t player,
+                    uintptr_t actor, uint32_t target)
+    {
+        if (!comp || !eventId) return false;
+        const PendDrive d{ comp, actor, player, target, 0, 0, 0, eventId };
         if (OnGameThread()) return DriveNow(d);
         Lock();
         const bool room = g_pendDrvN < 32;

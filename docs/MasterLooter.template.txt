@@ -81,6 +81,7 @@ Decision
 default	
 DirectX 12 hooks	
 does not respond	
+Draw water from wells	
 Engine	
 English	
 English. %d line(s) seen this session.	
@@ -289,6 +290,7 @@ Watch mode: the game has your controls. %s to interact, %s to close.
 Weapons and armor	
 What enters the working list at all. The ranges below are clamped to it.	
 What to collect	
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	
 Wood	
 wood off	
 World (actor manager)	
