@@ -1445,31 +1445,19 @@ namespace ml::hooks
         // is restarted, because the chain it drew through is gone and we are
         // not taking the new one. That is the trade, and a menu that stops
         // beats a game that stops.
-        // Refuse a replacement only once the overlay is actually up.
+        // Replacements are wrapped, the same as the first one.
         //
-        // "Never wrap a replacement" was too blunt and cost the menu entirely.
-        // The game recreates its swapchain two or three times while it is
-        // still starting, seconds apart, before a single frame has been drawn.
-        // Refusing those means never attaching to the chain the game settles
-        // on. A recreation before the overlay exists is harmless, because
-        // there is nothing of ours pointing at the old chain yet and nobody
-        // has been handed our object for long enough to have cached it.
+        // Two builds refused them, on the theory that handing the game our
+        // proxy in place of its own swapchain was what killed it. That was
+        // wrong, and the test that settled it wrapped every replacement while
+        // taking no GPU resources at all: five recreations across repeated
+        // frame generation toggles, no crash. The proxy is not the problem.
         //
-        // Once ImGui is up we have drawn through the wrapper and the game has
-        // been living with our object in place of its own. That is the point
-        // after which taking over a replacement kills it.
-        if (g_wrapperActive && g_imguiReady)
-        {
-            static LONG s_said = 0;
-            if (InterlockedIncrement(&s_said) <= 3)
-                LOG("Swapchain replaced after the overlay was up (frame generation toggle or a "
-                    "video setting). Leaving the new one alone: wrapping a replacement at this "
-                    "point crashes the game. The menu will not draw again until the game is "
-                    "restarted.");
-            return hr;
-        }
+        // What was killing it is that the render target views held references
+        // to back buffers of a chain the game was destroying. Those are
+        // released in the wrapper's destructor now. See the comment there.
         if (g_wrapperActive)
-            LOG("Swapchain replaced before anything was drawn; wrapping the new one.");
+            LOG("Swapchain replaced; wrapping the new one.");
 
         // For D3D12 the first argument is the swapchain's present command
         // queue - the queue that owns the back buffers. Pin it as the queue
