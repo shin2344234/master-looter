@@ -63,13 +63,27 @@ item. Filed as #28. One caution: multiplying loot means sending the same take
 more than once, and duplicate items are how saves get corrupted, so if I build
 it I will build it carefully rather than quickly.
 
-[b]Pets.[/b] This one is not mine, and I want to be straight with you rather
-than promise a switch I cannot deliver. The mod has no pet handling of any
-kind. There is no code in it that makes a pet pick anything up, and everything
-the mod itself takes goes through the full filter before it is taken. So a pet
-hoovering things up with no regard for your settings is the game doing that,
-not this mod, and a flag here would have nothing to switch off. If you can turn
-it off at all it will be in the game's own options.
+[b]Pets.[/b] Two halves to this. The mod is not causing it: there is no pet
+code in it at all, and everything the mod itself takes goes through the full
+filter first. So the pet ignoring your settings is the game, not me.
+
+Whether I can stop it is a better question than I first gave you credit for,
+and I do not know yet. The mod already watches every event the game raises,
+because that is how it learned to break ore veins and draw well water, and it
+sits at the point where an event could be dropped before the game acts on it.
+So the machinery is there. What I do not know is whether a pet picking
+something up raises an event at all, and if it does, whether that event is
+stamped with the pet or with you. If it is stamped with you, I cannot tell it
+apart from your own pickups and there is nothing I can safely do.
+
+That is one capture away from an answer, and you can do it on the version you
+already have. Turn the debug log on under General, stand somewhere your pet
+will pick something up, let it take a few things, then quit and send me
+MasterLooter.log from bin64. There is already a diagnostic in there that
+records events the game raises about things other than you, which is exactly
+the shape this would be. If your pet shows up in that list, this is worth
+building. If nothing appears while it is looting, then it happens somewhere I
+cannot reach and I will tell you so plainly.
 
 =============================================================================
 REPLY 3 -- to jacksterson, Proton
