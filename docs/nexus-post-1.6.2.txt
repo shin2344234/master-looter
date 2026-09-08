@@ -1,0 +1,67 @@
+[size=4][b]1.6.2: frame generation no longer takes the game with it[/b][/size]
+
+If you use frame generation, take this one. Turning it on or off in the game's
+settings was killing Crimson Desert, and it was my fault.
+
+[b]Fyreon87[/b] found it the hard way. They spent ninety minutes bisecting their
+load order, ran this mod on its own, ran everything except this mod, and pinned
+it on me across two versions. That is more work than anyone should have to do to
+report a bug, and it is the only reason this got fixed today.
+
+I could not reproduce it. My card has no frame generation. So I borrowed a
+machine that does, and there it died every time, within a couple of minutes of a
+toggle, exactly as described.
+
+[size=4][b]What was wrong[/b][/size]
+
+The mod wraps the game's swapchain so the menu can draw over the game. Wrapping
+it means holding on to every back buffer, because that is what drawing into them
+takes.
+
+Turning frame generation on or off throws the swapchain away and builds a new
+one. The mod was still holding the buffers while the game was taking them apart,
+so the game reached for something that was no longer whole, read a null pointer
+twice, and stopped.
+
+Letting go of the buffers before the swapchain goes is the entire fix. Three
+calls. Every other place in that file already did exactly that; the teardown was
+the one that never did.
+
+[size=4][b]Twelve builds to find three lines[/b][/size]
+
+Four of those builds were confidently wrong, and I would rather say so than
+pretend it went smoothly.
+
+I blamed the wrong thread and put a handler around the loot scan, which never
+fired. I installed a crash handler in the one slot Windows only keeps one of,
+which the game had already taken, so that never fired either. Twice I decided
+the wrapper itself was the problem and stopped it attaching to the new
+swapchain, which stopped the crash and killed the menu instead.
+
+What finally answered it was a build that wrapped the swapchain exactly as
+normal and then took nothing at all: no buffers, no drawing. It survived five
+toggles without complaint. That told me the wrapping was innocent and the
+holding was guilty, and it took me eight builds to think of running it.
+
+[size=4][b]Two others found on the way[/b][/size]
+
+The loot engine only started after the game had drawn its first frame. If
+another mod had already hooked the same DirectX function and the swapchain
+wrapper was off, no frame ever reached this mod, so it loaded, said its hooks
+were installed, and then did absolutely nothing for the rest of the session
+without a word. Looting has nothing to do with drawing and no longer waits for
+it.
+
+The file properties have said version 1.3.0 since 1.3.0. Five releases went out
+telling Windows the wrong number. Nobody noticed because nobody looks, but the
+machine I borrowed looked.
+
+[size=4][b]One thing to know[/b][/size]
+
+If another mod has already hooked the DirectX present function, the menu will
+not show while frame generation is on. There is nothing left for this mod to
+draw through. It says so in the log now instead of going quiet.
+
+The full account, including all six wrong turns, is on GitHub:
+
+https://github.com/shin2344234/master-looter/blob/main/docs/ore-investigation/FRAMEGEN.md
