@@ -1715,6 +1715,26 @@ namespace ml::loot
                         break;
                     }
             }
+            // Refuse to decide from a starved pass. The manager hands over one
+            // entity on most ticks and a few hundred occasionally, so a single
+            // enumeration is a lottery: the pass that picked last time saw only
+            // player-tagged actors and none of the gear holders, and chose the
+            // fixture again. Leaving the barren clock running means this simply
+            // tries again next scan until a populated pass arrives.
+            // Only when there is already something to fall back on. With no
+            // player at all, a thin pass still beats no pick: a small interior
+            // may never hand over fifty entities and waiting for ever would
+            // leave the engine dead there.
+            if (allN < 50 && g_me)
+            {
+                static DWORD s_saidThin = 0;
+                if (g_debugLog && now - s_saidThin > 5000)
+                {
+                    s_saidThin = now;
+                    LOG("[player] only %d entities in this pass, too few to choose from; waiting for a fuller one", allN);
+                }
+                return;
+            }
             const float lim = cfg.scanRange * cfg.scanRange;
             for (int i = 0; i < candN; ++i)
                 for (int j = 0; j < worldN; ++j)
