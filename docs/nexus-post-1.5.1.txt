@@ -1,0 +1,47 @@
+[size=4][b]1.5.1: wells work[/b][/size]
+
+Turn the handle yourself and the mod lifts the water out of the bucket. The bucket stays on the well, the handle stays in your hands. Off by default, under Looting as "Draw water from wells".
+
+[b]D8alus[/b] asked for this four days ago. I answered "not possible" twice. Both times I was wrong, and the second time I had already proved it wrong without noticing.
+
+[size=4][b]Why it looked impossible[/b][/size]
+
+Drawing water raises [i]no loot event at all[/i]. Everything the mod takes travels on one descriptor with a mode byte: 0x05 gathers, 0 picks up. Both empty the object and remove it. I tried gathering the bucket, and the water arrived and the bucket vanished. Then I tried picking it up, with the bucket already wound full by hand so only the contents should have been needed, and the water arrived and the bucket vanished again.
+
+Two destroyed buckets and a reasonable-sounding conclusion: the game has no way to take the water without the well. I closed it.
+
+That conclusion does not follow, which is the part worth admitting. "Both loot modes fail" is not "this is impossible". The loot descriptor was never the only way in.
+
+[size=4][b]What was actually in the way[/b][/size]
+
+The mod could not see what a hand draw does, and the reason was one line in its own code. Every diagnostic sits behind a check that throws away anything the game raises about itself rather than about you. A well acting on its own bucket is exactly that, so four minutes of watching a well produced an empty log, and I read the silence as proof no event existed. It was proof of the filter.
+
+With that lifted, a hand draw turns out to be fifteen state transitions over eleven seconds across three parts of the well. Fourteen of them drive the winch. One is aimed at the bucket.
+
+Driving that single transition hands over the water and leaves everything else alone.
+
+[size=4][b]The part that nearly ruined it[/b][/size]
+
+I built the full fifteen-step replay first, so the mod would wind the handle for you. It worked and paid out every time.
+
+It was also unusable. A run holds the well for eleven seconds, so the well was never free, and reaching for the handle yourself had it taken out of your hands. Nineteen back-to-back runs in two minutes during testing.
+
+The mod does not touch the winch now. You wind, it lifts. Which is what Seth had said at the very start, before I went and built the complicated version.
+
+[size=4][b]How it is done[/b][/size]
+
+Written up in full, including the three conclusions I argued confidently and got wrong:
+
+https://github.com/shin2344234/master-looter/blob/main/docs/ore-investigation/WELL.md
+
+It covers the seven entities a well is made of and which one is the bucket, the state ids and how to read whether someone has hold of the handle, both loot modes and why each destroys the bucket, the complete captured hand draw, and the four lines of code that are the entire feature. If you write mods for this game, that document is the useful part of this release.
+
+[size=4][b]Also in 1.5.1[/b][/size]
+
+[list]
+[*]A stack of four items landing counted as three pick-ups that failed. Mining a rock spills four Stones and the bag reports one type going up by four, so three of the four looked like failures. On a machine where the bag's slot count cannot be read, that could announce "bag full" in the middle of a run where everything was landing.
+[*]Standing next to a well armed seven parts of it every five seconds, indefinitely, at objects the verdict had already refused.
+[*]The log says more about what it cannot explain: creatures it turns down are named, events the world raises about itself are named instead of dropped, and an action you take by hand that the mod cannot account for leaves a line instead of silence.
+[/list]
+
+Checksums are in the description. Thanks to D8alus for asking, and for the record it took being told twice to keep going.

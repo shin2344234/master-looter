@@ -13,6 +13,7 @@ Twelve switches under Looting, each on its own:
 [*]Insects: butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the rest of what the game files as insects.
 [*]Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish, seahorses.
 [*]Small animals: rats, squirrels, birds, lizards, frogs, salamanders.
+[*]Water from a well. Turn the handle yourself and the mod lifts the water out of the bucket, leaving the bucket on the well and the handle in your hands. Off by default.
 [*]Unidentified nodes, containers and furniture nodes, all off by default.
 [/list]
 Gather nodes are armed from a distance, so a bush fills its data without you standing on it. Ore is reached for as far out as the scan can see, because a vein takes seconds to answer where a bush takes a fraction of one. Each kind has its own range, and the scan pace is yours to set.
@@ -55,18 +56,18 @@ Watch mode keeps the menu on screen while you play, so you can read the Nearby l
 Uninstall by deleting the MasterLooter.* files from bin64 (the plugin writes MasterLooter.ini and .log next to itself). No game file is modified and nothing is written to a save.
 
 [size=4][b]Antivirus[/b][/size]
-Two scanners out of seventy-one flag the plugin, and both are machine-learning models: Microsoft (Trojan:Win32/Wacatac.B!ml) and Symantec (ML.Attribute.HighConfidence). Both say so on the label: !ml and ML.Attribute each mean a model guessed from the shape of the file, not that anything known was matched. Kaspersky, ESET, BitDefender, Sophos, Avast, Fortinet, Dr.Web, Malwarebytes and the sixty-nine others read the same file as clean, and so now do CrowdStrike Falcon and Deep Instinct, which both flagged 1.4.0. That release scored four out of seventy-one; this one scores two.
+On 1.5.0, the last release scanned, two out of seventy-one flagged the plugin and both were machine-learning models: Microsoft (Trojan:Win32/Wacatac.B!ml) and Symantec (ML.Attribute.HighConfidence). Both say so on the label: !ml and ML.Attribute each mean a model guessed from the shape of the file, not that anything known was matched. Kaspersky, ESET, BitDefender, Sophos, Avast, Fortinet, Dr.Web, Malwarebytes and the sixty-nine others read the same file as clean, and so now do CrowdStrike Falcon and Deep Instinct, which both flagged 1.4.0. That release scored four out of seventy-one; this one scores two.
 
-The archive itself scans clean, zero of sixty-seven, since what those two object to is the plugin rather than the zip around it. Both reports are public: [url=https://www.virustotal.com/gui/file/73d547b22f560bc1bf9c7f1bfadf714ad6026eaa15fbe5d2907fed1cf2a4dece]the plugin[/url] and [url=https://www.virustotal.com/gui/file/2a1f9bfbde2c0ede2d1fd9489ec470d3035a09a478838648de06ec7a0dbf2acc]the package[/url].
+The archive itself scanned clean, zero of sixty-seven, since what those two object to is the plugin rather than the zip around it. Both 1.5.0 reports are public: [url=https://www.virustotal.com/gui/file/73d547b22f560bc1bf9c7f1bfadf714ad6026eaa15fbe5d2907fed1cf2a4dece]the plugin[/url] and [url=https://www.virustotal.com/gui/file/2a1f9bfbde2c0ede2d1fd9489ec470d3035a09a478838648de06ec7a0dbf2acc]the package[/url].
 
 The shape is the whole reason. It is an unsigned DLL that a loader puts inside the game, and once there it patches instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D. A trainer does all of that, so a model trained on trainers answers trainer. It carries no signing certificate and has no install history behind it yet to argue otherwise.
 
 What it does not do is reach the network. It imports no networking library at all, writes MasterLooter.ini, .log, .presets and .backups beside itself and nothing else, reads and writes no registry key, and modifies no game file. Every line is on GitHub and one batch file builds it, if you would rather compile your own. If your browser or Defender blocks the download, restore the file and exclude the game's bin64 folder.
 
-SHA-256 for 1.5.0:
-[code]2a1f9bfbde2c0ede2d1fd9489ec470d3035a09a478838648de06ec7a0dbf2acc  MasterLooter-1.5.0-DMM.zip
-e04db70028669c5e365497bf65aa8354b63fde54a3d1e9656573894b5c26a0f8  MasterLooter-1.5.0.zip
-73d547b22f560bc1bf9c7f1bfadf714ad6026eaa15fbe5d2907fed1cf2a4dece  MasterLooter.asi[/code]
+SHA-256 for 1.5.1:
+[code]3026a4e2525eed4e23cbf94d8fdf3ca7176e2b5d0a74e2f8d092285febc1bfc7  MasterLooter-1.5.1-DMM.zip
+435e2592cc9c25e192c963f9e78be3fcf77d243d70f3efcae5da65ed7f1a0808  MasterLooter-1.5.1.zip
+9a6ba8729e28ae29364e7fd2773f4368fda883c67be0dbddef158d0de7cd18e7  MasterLooter.asi[/code]
 
 [size=4][b]Controls[/b][/size]
 [list]
