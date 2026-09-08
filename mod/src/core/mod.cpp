@@ -28,6 +28,72 @@ namespace ml::Mod
         return _stricmp(name, "CrimsonDesert.exe") == 0;
     }
 
+    // Where a fatal fault happened, on whatever thread it happened on.
+    //
+    // The scan already runs under its own handler, and every memory read the
+    // mod does is guarded and counted. Neither caught the crash on Seth's
+    // second machine: three runs died at the same point and wrote nothing,
+    // which means the fault is not in the scan and is not a read the mod
+    // expected to fail. That leaves a thread this plugin does not own, most
+    // likely one of the game threads inside a hook while the world is being
+    // torn down and rebuilt.
+    //
+    // An unhandled filter is the one place that sees all of those. It runs
+    // only when nothing else has handled the exception, so the deliberate
+    // faults inside mem:: never reach it. It changes nothing: whatever filter
+    // the game installed still runs afterwards and the process still dies the
+    // way it would have. It just writes down where first.
+    static LPTOP_LEVEL_EXCEPTION_FILTER g_prevFilter = nullptr;
+
+    static LONG WINAPI LastChance(EXCEPTION_POINTERS* xp)
+    {
+        static volatile LONG s_once = 0;
+        if (InterlockedIncrement(&s_once) == 1 && xp && xp->ExceptionRecord)
+        {
+            const EXCEPTION_RECORD* er = xp->ExceptionRecord;
+            void* at = er->ExceptionAddress;
+
+            char mod[MAX_PATH] = "unknown";
+            unsigned long long off = 0;
+            HMODULE h = nullptr;
+            if (at && GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                                         GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                         static_cast<LPCSTR>(at), &h) && h)
+            {
+                char full[MAX_PATH] = "";
+                if (GetModuleFileNameA(h, full, MAX_PATH))
+                {
+                    const char* slash = strrchr(full, '\\');
+                    strncpy(mod, slash ? slash + 1 : full, sizeof mod - 1);
+                    mod[sizeof mod - 1] = 0;
+                }
+                off = static_cast<unsigned long long>(
+                          reinterpret_cast<uintptr_t>(at) - reinterpret_cast<uintptr_t>(h));
+            }
+
+            char access[128] = "";
+            if (er->ExceptionCode == EXCEPTION_ACCESS_VIOLATION && er->NumberParameters >= 2)
+            {
+                const ULONG_PTR kind = er->ExceptionInformation[0];
+                snprintf(access, sizeof access, ", %s %p",
+                         kind == 0 ? "reading" : (kind == 1 ? "writing" : "executing"),
+                         reinterpret_cast<void*>(er->ExceptionInformation[1]));
+            }
+
+            LOG_ERR("[crash] unhandled 0x%08X at %p (%s+0x%llX) on thread %lu%s",
+                    er->ExceptionCode, at, mod, off,
+                    static_cast<unsigned long>(GetCurrentThreadId()), access);
+
+            // Whose thread it is matters as much as where it faulted. Ours are
+            // the scan worker and anything the overlay runs on; everything else
+            // is the game calling into a hook.
+            LOG_ERR("[crash] this is the last line before the process goes. If the "
+                    "module above is CrimsonDesert.exe the fault is in game code the "
+                    "mod called into, not in the mod itself.");
+        }
+        return g_prevFilter ? g_prevFilter(xp) : EXCEPTION_CONTINUE_SEARCH;
+    }
+
     void Initialize(HMODULE module)
     {
         if (g_initialized)
@@ -41,6 +107,7 @@ namespace ml::Mod
         // of those must not truncate a real session's log.
         if (HostIsGame()) Log::Claim();
         LOG("Master Looter v%s for Crimson Desert %s starting (built %s %s).", ML_VERSION, ML_GAME_BUILD, __DATE__, __TIME__);
+        g_prevFilter = SetUnhandledExceptionFilter(&LastChance);
         LOG("Mod page %s | source %s", ML_MOD_PAGE, ML_SOURCE_URL);
 
         Settings::Load();
