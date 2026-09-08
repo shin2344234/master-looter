@@ -1670,24 +1670,51 @@ namespace ml::loot
             // followers too, and following it moved the scan to an actor with
             // nothing within forty metres.
             struct Pick { uintptr_t ent; uint32_t eid; Vec3 pos; int around; };   // not 'near': windows.h defines it
-            Pick cand[8]; int candN = 0;
+            Pick cand[16]; int candN = 0;
             static Vec3 world[2048]; int worldN = 0;
+            // Everything seen this pass, so a parent can be turned back into the
+            // entity that holds it.
+            struct Seen { uintptr_t ent; uint32_t eid; Vec3 pos; bool posOk; };
+            static Seen all[2048]; int allN = 0;
+            struct Kids { uint32_t eid; int n; };
+            Kids kid[64]; int kidN = 0;
             ForEachEntity(mgr, [&](uintptr_t e) {
                 uint32_t eid = 0;
                 if (!game::Eid(e, &eid)) return true;
+                Vec3 q; const bool ok = game::WorldPos(e, &q);
+                if (allN < 2048) all[allN++] = { e, eid, q, ok };
                 const uint8_t tag = static_cast<uint8_t>(eid >> 24);
-                if (tag == game::kTagPlayer && candN < 8)
+                if (tag == game::kTagPlayer && candN < 16 && ok) cand[candN++] = { e, eid, q, 0 };
+                else if (tag == game::kTagWorld && worldN < 2048 && ok) world[worldN++] = q;
+                // Who is wearing or carrying things. A dressed character is the
+                // one thing with a handful of items parented to it, and playing
+                // as Damiane that is how the body was found: the player is not
+                // player-tagged and only what hangs off it gives it away.
+                if (const uint32_t par = game::ParentEid(e))
                 {
-                    Vec3 q;
-                    if (game::WorldPos(e, &q)) cand[candN++] = { e, eid, q, 0 };
-                }
-                else if (tag == game::kTagWorld && worldN < 2048)
-                {
-                    Vec3 q;
-                    if (game::WorldPos(e, &q)) world[worldN++] = q;
+                    bool had = false;
+                    for (int i = 0; i < kidN; ++i) if (kid[i].eid == par) { ++kid[i].n; had = true; break; }
+                    if (!had && kidN < 64) kid[kidN++] = { par, 1 };
                 }
                 return true;
             });
+            // The three biggest holders join the candidates. They are usually
+            // world-tagged, which is exactly why no tag rule ever found them.
+            for (int round = 0; round < 3 && candN < 16; ++round)
+            {
+                int best = -1;
+                for (int i = 0; i < kidN; ++i) if (kid[i].n > 0 && (best < 0 || kid[i].n > kid[best].n)) best = i;
+                if (best < 0 || kid[best].n < 3) break;
+                const uint32_t want = kid[best].eid; kid[best].n = 0;
+                for (int i = 0; i < allN; ++i)
+                    if (all[i].eid == want && all[i].posOk)
+                    {
+                        bool dup = false;
+                        for (int c = 0; c < candN; ++c) if (cand[c].eid == want) dup = true;
+                        if (!dup) cand[candN++] = { all[i].ent, all[i].eid, all[i].pos, 0 };
+                        break;
+                    }
+            }
             const float lim = cfg.scanRange * cfg.scanRange;
             for (int i = 0; i < candN; ++i)
                 for (int j = 0; j < worldN; ++j)
@@ -1706,7 +1733,7 @@ namespace ml::loot
                     char line[240]; int w = 0;
                     for (int i = 0; i < candN && w < 200; ++i)
                         w += snprintf(line + w, sizeof line - w, " %08X:%d%s", cand[i].eid, cand[i].around, i == best ? "*" : "");
-                    LOG("[player] %d player-tagged actors, world objects within %.0f m of each:%s (* is the one being scanned around)",
+                    LOG("[player] %d candidates (player-tagged plus the biggest gear holders), world objects within %.0f m of each:%s (* is the one being scanned around)",
                         candN, cfg.scanRange, line);
                 }
             }
