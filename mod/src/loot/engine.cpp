@@ -375,6 +375,8 @@ namespace ml::loot
     static std::unordered_map<uint32_t, DWORD> g_slotProbeAt;  // eid -> last gimmick slot dump
 
     static uintptr_t g_me = 0;
+    // When the scan last found nothing at all around the chosen actor.
+    static DWORD g_barrenSince = 0;
     static uint32_t  g_meEid = 0, g_meRoute = 0;
 
     // --- what a gather node yields --------------------------------------------
@@ -1629,30 +1631,64 @@ namespace ml::loot
         // from the hook. Until it has asked once, the first player-tagged actor
         // is still the best guess available.
         uint32_t id = 0;
-        const uint32_t want = hooks::PlayerEidFromGame();
         if (g_me && (!game::Eid(g_me, &id) || id != g_meEid || (id >> 24) != game::kTagPlayer)) g_me = 0;
-        if (g_me && want && g_meEid != want) g_me = 0;   // the game named someone else
-        if (!g_me)
+        // Re-pick when the world around the current one is empty. Nothing in
+        // range for several seconds while the player is standing in a field is
+        // the signature of measuring from the wrong actor.
+        const bool reconsider = !g_me || (g_barrenSince && GetTickCount() - g_barrenSince > 4000);
+        if (reconsider)
         {
-            uintptr_t first = 0; uint32_t firstEid = 0;
-            static std::unordered_set<uint32_t> s_saidPlayers;
+            // Every player-tagged actor, and how much world is standing near
+            // each. The one being played has loaded content around it; a party
+            // member parked elsewhere, or a template, does not.
+            //
+            // Neither of the obvious rules works. Taking the first enumerated
+            // is a coin toss. Taking the one the game names in its own
+            // take-or-steal check is worse: it asks that question about
+            // followers too, and following it moved the scan to an actor with
+            // nothing within forty metres.
+            struct Pick { uintptr_t ent; uint32_t eid; Vec3 pos; int around; };   // not 'near': windows.h defines it
+            Pick cand[8]; int candN = 0;
+            static Vec3 world[2048]; int worldN = 0;
             ForEachEntity(mgr, [&](uintptr_t e) {
                 uint32_t eid = 0;
-                if (!game::Eid(e, &eid) || (eid >> 24) != game::kTagPlayer) return true;
-                if (g_debugLog && s_saidPlayers.size() < 16 && s_saidPlayers.insert(eid).second)
-                    LOG("[player] actor %08X is player-tagged%s", eid, eid == want ? " and is the one the game names" : "");
-                if (!first) { first = e; firstEid = eid; }
-                if (want && eid == want) { g_me = e; g_meEid = eid; return false; }
+                if (!game::Eid(e, &eid)) return true;
+                const uint8_t tag = static_cast<uint8_t>(eid >> 24);
+                if (tag == game::kTagPlayer && candN < 8)
+                {
+                    Vec3 q;
+                    if (game::WorldPos(e, &q)) cand[candN++] = { e, eid, q, 0 };
+                }
+                else if (tag == game::kTagWorld && worldN < 2048)
+                {
+                    Vec3 q;
+                    if (game::WorldPos(e, &q)) world[worldN++] = q;
+                }
                 return true;
             });
-            if (!g_me && first) { g_me = first; g_meEid = firstEid; }
-            static uint32_t s_saidPick = 0;
-            if (g_me && s_saidPick != g_meEid)
+            const float lim = cfg.scanRange * cfg.scanRange;
+            for (int i = 0; i < candN; ++i)
+                for (int j = 0; j < worldN; ++j)
+                {
+                    const float dx = world[j].x - cand[i].pos.x, dy = world[j].y - cand[i].pos.y, dz = world[j].z - cand[i].pos.z;
+                    if (dx * dx + dy * dy + dz * dz <= lim) ++cand[i].around;
+                }
+            int best = -1;
+            for (int i = 0; i < candN; ++i) if (best < 0 || cand[i].around > cand[best].around) best = i;
+            if (best >= 0)
             {
-                s_saidPick = g_meEid;
-                LOG("[player] scanning around %08X (%s)", g_meEid,
-                    want ? (g_meEid == want ? "named by the game" : "the game names someone else") : "first found; the game has not asked yet");
+                const bool changed = g_meEid != cand[best].eid;
+                g_me = cand[best].ent; g_meEid = cand[best].eid;
+                if (changed || g_debugLog)
+                {
+                    char line[240]; int w = 0;
+                    for (int i = 0; i < candN && w < 200; ++i)
+                        w += snprintf(line + w, sizeof line - w, " %08X:%d%s", cand[i].eid, cand[i].around, i == best ? "*" : "");
+                    LOG("[player] %d player-tagged actors, world objects within %.0f m of each:%s (* is the one being scanned around)",
+                        candN, cfg.scanRange, line);
+                }
             }
+            g_barrenSince = 0;
         }
         // Arm the ownership check the moment there is a player. It used to be
         // armed inside WouldSteal, the last test in Decide(), so a session
@@ -1790,6 +1826,11 @@ namespace ml::loot
                     total, inRange, cfg.scanRange, g_meEid, mp.x, mp.y, mp.z, w ? tags : " none");
             }
         }
+        // A neighbourhood with nothing in it, while the world plainly has
+        // objects, is the signature of measuring from the wrong actor. Start a
+        // clock so the pick is reconsidered rather than sat on for ever.
+        if (inRange == 0 && total > 8) { if (!g_barrenSince) g_barrenSince = now; }
+        else g_barrenSince = 0;
         const bool settling = now < s_holdUntil;
         (void)total;
 
