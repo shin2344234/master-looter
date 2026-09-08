@@ -1690,9 +1690,13 @@ namespace ml::loot
         std::vector<Cand> list;
         list.reserve(256);
         int total = 0;
+        int tagCount[256] = {};
+        int inRange = 0;
         ForEachEntity(mgr, [&](uintptr_t e) {
             uint32_t eid = 0;
-            if (!game::Eid(e, &eid) || (eid >> 24) != game::kTagWorld) return true;
+            if (!game::Eid(e, &eid)) return true;
+            ++tagCount[eid >> 24];
+            if ((eid >> 24) != game::kTagWorld) return true;
             for (const Cand& c : list) if (c.eid == eid) return true; // one entity sits in several lists
             ++total;
             Vec3 q;
@@ -1700,6 +1704,7 @@ namespace ml::loot
             const float dx = q.x - mp.x, dy = q.y - mp.y, dz = q.z - mp.z;
             const float d = std::sqrt(dx * dx + dy * dy + dz * dz);
             if (d > cfg.scanRange) return true;
+            ++inRange;
             g_seen[eid] = { e, q, now };
             Cand k; k.ent = e; k.eid = eid; k.d = d; k.pos = q;
             k.route = game::Route(e); k.type = game::TypeTag(e); k.parent = game::ParentEid(e);
@@ -1765,6 +1770,26 @@ namespace ml::loot
             }
         }
         s_lastPos = mp; s_lastMe = g_me; s_havePrev = true;
+
+        // What the scan actually saw, and where from. A world full of objects
+        // with nothing in range means the scan is centred somewhere the player
+        // is not, which is a different problem from everything being refused.
+        // The tag census is here because "which actors carry the player tag"
+        // turned out to be the wrong question and the right one is what the
+        // character you are playing is tagged as at all.
+        if (g_debugLog)
+        {
+            static DWORD s_saidAt = 0;
+            if (now - s_saidAt > 5000)
+            {
+                s_saidAt = now;
+                char tags[160]; int w = 0;
+                for (int t = 0; t < 256 && w < 130; ++t)
+                    if (tagCount[t]) w += snprintf(tags + w, sizeof tags - w, " %02X:%d", t, tagCount[t]);
+                LOG("[scan] %d world objects, %d within %.0f m of %08X at %.1f %.1f %.1f; tags:%s",
+                    total, inRange, cfg.scanRange, g_meEid, mp.x, mp.y, mp.z, w ? tags : " none");
+            }
+        }
         const bool settling = now < s_holdUntil;
         (void)total;
 
