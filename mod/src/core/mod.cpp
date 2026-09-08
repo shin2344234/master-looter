@@ -44,6 +44,80 @@ namespace ml::Mod
     // the game installed still runs afterwards and the process still dies the
     // way it would have. It just writes down where first.
     static LPTOP_LEVEL_EXCEPTION_FILTER g_prevFilter = nullptr;
+    static HMODULE g_self = nullptr;
+
+    // Naming a module from an address, for both handlers below.
+    static void WhereIs(void* at, char* mod, size_t modN, unsigned long long* off, bool* isSelf)
+    {
+        strncpy(mod, "unknown", modN - 1); mod[modN - 1] = 0;
+        *off = 0; *isSelf = false;
+        HMODULE h = nullptr;
+        if (!at || !GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                                       GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                       static_cast<LPCSTR>(at), &h) || !h)
+            return;
+        char full[MAX_PATH] = "";
+        if (GetModuleFileNameA(h, full, MAX_PATH))
+        {
+            const char* slash = strrchr(full, '\\');
+            strncpy(mod, slash ? slash + 1 : full, modN - 1);
+            mod[modN - 1] = 0;
+        }
+        *off = static_cast<unsigned long long>(
+                   reinterpret_cast<uintptr_t>(at) - reinterpret_cast<uintptr_t>(h));
+        *isSelf = (h == g_self);
+    }
+
+    // A vectored handler, because the top-level filter did not fire.
+    //
+    // SetUnhandledExceptionFilter has one global slot. The game installs its
+    // own crash reporting after this plugin loads, which replaces ours, so on
+    // the machine where this crash reproduces our filter was never called. A
+    // vectored handler sits on a chain instead and cannot be displaced.
+    //
+    // It sees every first-chance exception, including the ones mem:: raises on
+    // purpose when it probes an address and expects to be refused. Those all
+    // fault at an address inside this plugin, so faults inside this module are
+    // skipped here; the scan's own handler and the filter below still cover
+    // them. What is left is a fault in somebody else's code, which is exactly
+    // what a swapchain being torn down under us would look like.
+    static LONG CALLBACK FirstChance(EXCEPTION_POINTERS* xp)
+    {
+        static volatile LONG s_said = 0;
+        if (!xp || !xp->ExceptionRecord) return EXCEPTION_CONTINUE_SEARCH;
+        const EXCEPTION_RECORD* er = xp->ExceptionRecord;
+
+        // Only the codes that kill a process. A game raises C++ exceptions and
+        // other first-chance noise constantly and none of it is interesting.
+        const DWORD c = er->ExceptionCode;
+        if (c != EXCEPTION_ACCESS_VIOLATION &&
+            c != EXCEPTION_ILLEGAL_INSTRUCTION &&
+            c != EXCEPTION_PRIV_INSTRUCTION &&
+            c != EXCEPTION_STACK_OVERFLOW &&
+            c != EXCEPTION_INT_DIVIDE_BY_ZERO &&
+            c != 0xC0000374 /* heap corruption */)
+            return EXCEPTION_CONTINUE_SEARCH;
+
+        char mod[MAX_PATH]; unsigned long long off = 0; bool self = false;
+        WhereIs(er->ExceptionAddress, mod, sizeof mod, &off, &self);
+        if (self) return EXCEPTION_CONTINUE_SEARCH;   // mem:: probing, as designed
+
+        if (InterlockedIncrement(&s_said) <= 12)
+        {
+            char access[128] = "";
+            if (c == EXCEPTION_ACCESS_VIOLATION && er->NumberParameters >= 2)
+            {
+                const ULONG_PTR kind = er->ExceptionInformation[0];
+                snprintf(access, sizeof access, ", %s %p",
+                         kind == 0 ? "reading" : (kind == 1 ? "writing" : "executing"),
+                         reinterpret_cast<void*>(er->ExceptionInformation[1]));
+            }
+            LOG_ERR("[fault] 0x%08X at %p (%s+0x%llX) thread %lu%s",
+                    c, er->ExceptionAddress, mod, off,
+                    static_cast<unsigned long>(GetCurrentThreadId()), access);
+        }
+        return EXCEPTION_CONTINUE_SEARCH;   // change nothing, only write it down
+    }
 
     static LONG WINAPI LastChance(EXCEPTION_POINTERS* xp)
     {
@@ -107,7 +181,10 @@ namespace ml::Mod
         // of those must not truncate a real session's log.
         if (HostIsGame()) Log::Claim();
         LOG("Master Looter v%s for Crimson Desert %s starting (built %s %s).", ML_VERSION, ML_GAME_BUILD, __DATE__, __TIME__);
+        g_self = module;
         g_prevFilter = SetUnhandledExceptionFilter(&LastChance);
+        AddVectoredExceptionHandler(1 /* first */, &FirstChance);
+        LOG("[crash] handlers armed: vectored plus top-level filter.");
         LOG("Mod page %s | source %s", ML_MOD_PAGE, ML_SOURCE_URL);
 
         Settings::Load();
