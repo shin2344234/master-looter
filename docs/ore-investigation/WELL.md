@@ -59,6 +59,48 @@ does can disturb a handle someone is holding.
 
 Behind `DrawWells`, off by default.
 
+## How it is done, exactly
+
+The whole feature is one transition driven at one entity. Everything else is
+finding the right entity and knowing when it has something in it.
+
+**1. Find the bucket.** Walk the scan for a candidate whose prefab path contains
+`/well/` and `parts01`. That is the only part of a well that fills.
+
+**2. Wait for it to hold something.** The bucket grows a gather block when the
+player is close and it has been wound. In Master Looter that is `Cand::gather`,
+set in `Fill` from the gimmick component's gather data at `+0xE0`. No gather
+block means an empty bucket and nothing to take.
+
+**3. Get its gimmick component.**
+
+    const uintptr_t comps = game::Comps(bucket.ent);
+    const uintptr_t comp  = game::CompByClass(comps, kCls_Gimmick);
+
+**4. Drive one transition at it.**
+
+    events::DriveEvent(comp, 0x003ECC59, playerEid, playerActor, bucket.eid);
+
+`DriveEvent` builds a state-machine event record and calls the game's own
+gimmick state driver, the function resolved as `stateDriver`. It is the same
+call 1.4.0 uses to break ore veins, with the event id passed as a number rather
+than hashed from a name. `0x003ECC59` is the last transition of a hand draw and
+the only one aimed at the bucket rather than the winch.
+
+That is it. The water arrives and the bucket stays on the well.
+
+**What not to do.** Do not drive the winch (`parts02`). It works and it makes
+the feature unusable, for the reasons above. Do not send a loot event at the
+bucket in either mode; both take the bucket with the water.
+
+**Reading the player's grip**, if you need it: the gimmick component holds the
+name id of its current state at `+0x270`. On the winch that is `0x61964BBC`
+(`MinAngle`) while the handle is being turned and `0x866C7489` (`Wait`)
+otherwise.
+
+The implementation is `WellTick` in `mod/src/loot/engine.cpp`, and
+`events::DriveEvent` in `mod/src/loot/events.cpp`.
+
 ## Wrong turns worth remembering
 
 **"A well declares `Clear` where a vein declares `break`, so it is built to be

@@ -43,11 +43,11 @@ The guess is easy to explain. The plugin is an unsigned DLL that a loader puts i
 
 What it does not do is reach the network. It imports no networking library, and the entire import list is `d3d12`, `dxgi`, `imm32`, `xinput9_1_0`, `kernel32`, `user32`, `gdi32`, `shell32` and `d3dcompiler_47`. It writes `MasterLooter.ini`, `MasterLooter.log` and its eleven rotated predecessors `MasterLooter.01.log` to `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups` beside itself and nothing else, reads and writes no registry key, and installs nothing that outlives the game process. Every line is in this repository, and `build.bat` will produce the file for you if you would rather not trust mine.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.5.0:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.5.1:
 
-    2a1f9bfbde2c0ede2d1fd9489ec470d3035a09a478838648de06ec7a0dbf2acc  MasterLooter-1.5.0-DMM.zip
-    e04db70028669c5e365497bf65aa8354b63fde54a3d1e9656573894b5c26a0f8  MasterLooter-1.5.0.zip
-    73d547b22f560bc1bf9c7f1bfadf714ad6026eaa15fbe5d2907fed1cf2a4dece  MasterLooter.asi
+    3026a4e2525eed4e23cbf94d8fdf3ca7176e2b5d0a74e2f8d092285febc1bfc7  MasterLooter-1.5.1-DMM.zip
+    435e2592cc9c25e192c963f9e78be3fcf77d243d70f3efcae5da65ed7f1a0808  MasterLooter-1.5.1.zip
+    9a6ba8729e28ae29364e7fd2773f4368fda883c67be0dbddef158d0de7cd18e7  MasterLooter.asi
 
 ## Controls
 
