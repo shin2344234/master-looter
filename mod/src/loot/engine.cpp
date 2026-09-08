@@ -856,11 +856,20 @@ namespace ml::loot
         bool active = false;
     };
     static WellRun g_wellRun;
-    // One well at a time, and not the same one twice in a hurry: a run takes
-    // eleven seconds and the bucket needs winding again before it holds
-    // anything.
+    // One well at a time. A second apart is enough: the run itself takes eleven
+    // seconds, so this only stops a finished run restarting in the same tick.
     static std::unordered_map<uint32_t, DWORD> g_wellDone;
-    static constexpr DWORD kWellCooldownMs = 30000;
+    static constexpr DWORD kWellCooldownMs = 1000;
+
+    // A gimmick component keeps the name id of the state it is in at +0x270.
+    // Reading it is how the mod knows to keep its hands off a winch the player
+    // is already turning: winding one out from under them takes it out of their
+    // hands and leaves it unusable. Idle is Wait.
+    static uint32_t GimmickState(uintptr_t comp)
+    {
+        uint32_t st = 0;
+        return (comp && mem::Read32(comp + 0x270, &st)) ? st : 0;
+    }
 
     // Was this the player's a moment ago? Both halves have to agree: the same
     // entity, and the same item in it if either side knows which.
@@ -1520,7 +1529,8 @@ namespace ml::loot
             }
             if (g_wellRun.step >= kWellSteps)
             {
-                LOG("[well] finished the run on bucket %08X", g_wellRun.eid[WellBucket]);
+                LOG("[well] finished the run on bucket %08X; winch is in state %08X",
+                    g_wellRun.eid[WellBucket], GimmickState(g_wellRun.comp[WellWinch]));
                 g_wellDone[g_wellRun.eid[WellBucket]] = now;
                 g_wellRun.active = false;
             }
@@ -1560,12 +1570,26 @@ namespace ml::loot
                 r.comp[i] = comps ? game::CompByClass(comps, kCls_Gimmick) : 0;
             }
             if (!r.comp[WellWinch]) continue;   // nothing to drive
+
+            // Only take a winch that is standing idle. If the player has hold of
+            // it, it is in GimmickOn and driving the run would pull it out of
+            // their hands, which is what happened before this check existed.
+            const uint32_t st = GimmickState(r.comp[WellWinch]);
+            static const uint32_t kWait = game::NameId("wait");
+            if (st && st != kWait)
+            {
+                static std::unordered_set<uint32_t> said;
+                if (said.size() < 8 && said.insert(st).second)
+                    LOG("[well] winch %08X is in state %08X, not Wait (%08X): leaving it alone",
+                        winch->eid, st, kWait);
+                continue;
+            }
             r.startedAt = now;
             r.step = 0;
             r.active = true;
             g_wellRun = r;
-            LOG("[well] winding bucket %08X at %.1f m (winch %08X%s): %d transitions over %.1f s",
-                b.eid, b.d, r.eid[WellWinch], r.comp[WellWinchPart] ? "" : ", no winch part",
+            LOG("[well] winding bucket %08X at %.1f m (winch %08X in state %08X%s): %d transitions over %.1f s",
+                b.eid, b.d, r.eid[WellWinch], st, r.comp[WellWinchPart] ? "" : ", no winch part",
                 kWellSteps, kWellRun[kWellSteps - 1].atMs / 1000.0f);
             break;
         }
