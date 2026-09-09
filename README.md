@@ -2,7 +2,7 @@
 
 Auto-loot for Crimson Desert 2.01.00 with an in-game menu.
 
-Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch. Every item is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Everything is set from a menu inside the game.
+Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch. Every item it picks up is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Skinning a carcass is the exception: the game hands the yield over without the mod seeing what it is, so that one switch is all or nothing. Everything is set from a menu inside the game.
 
 [Nexus Mods page](https://www.nexusmods.com/crimsondesert/mods/3402) · [Releases](https://github.com/shin2344234/master-looter/releases) · [Plugin manual](mod/README.md) · [Data pipeline](scripts/README.md)
 

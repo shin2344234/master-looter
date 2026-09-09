@@ -1527,7 +1527,21 @@ namespace ml::loot
         // Item rules from the database. A live key that our table knows gets the
         // full class/tag/item verdict; a node whose yield has been learned gets
         // the same verdict on the yield; unknown names fall back to name checks.
-        if ((v.act == Action::Take || v.act == Action::Gather) && c.tid)
+        // Search is in this list, and it closes less than the issue title
+        // suggests. A carcass has no interaction gimmick, so idata and gdata
+        // are both null, c.tid is zero, and the `&& c.tid` gates the whole
+        // block out for one regardless. What it does close is the entity that
+        // is flagged dead and still carries real item identity: the
+        // beastCorpse test above wins the else-if chain ahead of c.item, so
+        // such a thing was routed to Search and lost every rule on the way.
+        //
+        // It does not filter what skinning pays out, and nothing here can. The
+        // Search event carries the carcass eid and nothing else. The yield
+        // never exists as an entity this scan could see, and there is no
+        // discard descriptor to shed one after it lands. The Carcasses switch
+        // is the only control over that, which is now what the menu and the
+        // README say instead of promising a filter. Issue #33.
+        if ((v.act == Action::Take || v.act == Action::Gather || v.act == Action::Search) && c.tid)
         {
             const Item* ruled = c.db ? c.db : (v.act == Action::Gather ? NodeYield(c) : nullptr);
             if (ruled)

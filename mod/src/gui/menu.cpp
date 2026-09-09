@@ -631,7 +631,7 @@ namespace ml::gui
 
         Section(TR("Filters"));
         dirty |= ImGui::Checkbox(TR("Skip quest items"), &c.skipQuestItems);
-        Help(TR("Items tagged quest are left alone so puzzles and story pickups are never auto-taken."));
+        Help(TR("Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is."));
         dirty |= ImGui::Checkbox(TR("Skip items shops refuse to buy"), &c.skipNoSell);
         dirty |= ImGui::SliderInt(TR("Minimum value (copper)"), &c.minValueCopper, 0, 500, c.minValueCopper ? "%d" : "off");
         Help(TR("Items with an unknown value are never filtered by it."));
@@ -648,7 +648,7 @@ namespace ml::gui
         struct Toggle { const char* label; bool* value; const char* help; };
         const Toggle toggles[] = {
             { "Ground items",   &c.pickUpItems,    "Items lying in the world, including drops from enemies." },
-            { "Carcasses",      &c.lootCorpses,    "The skinning interaction, once per carcass. Human corpses drop ordinary loot instead." },
+            { "Carcasses",      &c.lootCorpses,    "The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing." },
             { "Plants",         &c.gatherPlants,   "Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch." },
             { "Crops",          &c.gatherCrops,    "Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants." },
             { "Ore",            &c.gatherOre,      "Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one." },
