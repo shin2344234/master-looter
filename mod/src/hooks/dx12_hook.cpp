@@ -1222,7 +1222,20 @@ namespace ml::hooks
 
         char owner[64];
         OwningModule(dest, owner, sizeof owner);
-        for (int hop = 0; hop < 3 && IsSystemOwner(owner); ++hop)
+        // Keep walking while the destination is still not an answer.
+        //
+        // Two kinds of non-answer. A system DLL means we landed on a stub in
+        // dxgi's own padding. A "?" means no loaded module owns the address at
+        // all, which is a relay page the other mod allocated for itself, and
+        // that is the common case: the first build of this reported "into ? at
+        // 00007FFB007B04CA" for all three hooked functions, which is the same
+        // amount of information as before.
+        //
+        // A relay is usually one more jump, often the rip-relative indirect
+        // form, and that one does land in the module that owns the hook. Six
+        // hops because a chain of two or three is normal and the cost of one
+        // more is a read.
+        for (int hop = 0; hop < 6 && (IsSystemOwner(owner) || owner[0] == '?'); ++hop)
         {
             if (IsBadReadPtr(dest, 16)) break;
             uint8_t b[16];
@@ -1232,7 +1245,12 @@ namespace ml::hooks
             dest = next;
             OwningModule(dest, owner, sizeof owner);
         }
-        snprintf(out, n, ", into %s at %p", owner, dest);
+        // Ending on "?" is still worth saying, but say what it means. An
+        // address in no module is code somebody allocated, not a mystery.
+        if (owner[0] == '?')
+            snprintf(out, n, ", into an allocated stub at %p", dest);
+        else
+            snprintf(out, n, ", into %s at %p", owner, dest);
     }
 
     static const char* ExistingDetour(const uint8_t* p)
