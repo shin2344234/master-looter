@@ -1,125 +1,39 @@
-[size=4][b]1.6.4 fixes two crashes, and you only reported one of them[/b][/size]
+[size=4][b]1.6.4: the mod can finally tell one creature from another[/b][/size]
 
-The one you reported is lsimo's. They fast travelled, the game died twenty-four
-minutes into a normal session, and they pulled the crash dump apart themselves
-before I got near it: a call through a null function pointer with my plugin on
-the stack. That saved me a day.
+Set Item_Tench to never on the Items tab and tenches get left in the water while
+everything else is still caught. Same for a Camel Cricket, a Ricefish, an Iguana.
+This is the thing LuxDragon asked for back when ground lizards became catchable,
+and it needed something found this morning to work at all.
 
-I have not fixed it, and I would rather say so here than let you find out.
+Until today the mod guessed what a creature was by hunting through its memory for
+a species word in a model name. Fish all show up as "cd_fish", and the small
+insects as "cd_effectmonster_normal". Twelve sessions of logs, three species
+named correctly. Every rule you set on a creature was being skipped in silence.
 
-My theory was this. The mod cannot do everything on its own thread, so it queues
-work for the game's thread to run, and each queued job holds a pointer to the
-thing it is aimed at. A teleport throws that world away. The queue would not
-know, and would go ahead and drive a state change at a rock that no longer
-existed.
+The creature had been carrying the answer all along, two bytes into its status
+block: a row number into the game's own character table. Full account, including
+the two probes that found nothing because of my own bugs, is on GitHub:
 
-Anything queued is now dropped the moment the world changes, and the log counts
-what went. It has counted zero every single time, over many jumps across several
-sessions, including ones with ore being actively mined, which is the case most
-likely to have something outstanding.
-
-That is not a broken counter, I fixed one of those on the way. It is that the
-queue is drained off a game function that runs thousands of times a second, so
-nothing sits in it for longer than about a millisecond. There was never a queue
-to purge at a teleport.
-
-The purge stays, because it costs nothing and closes a real hole. But the crash
-lsimo hit is still out there and I no longer have a theory for it. Next step is
-to make the mod name the offending pointer at the moment it uses one, instead of
-me reasoning backwards from a log after the fact.
-
-Then I went looking for the same mistake elsewhere. Drawing a well holds the
-same kind of pointer outside the queue, so that gets let go on a world change
-too. I will not oversell it: a well draw is over in about thirty-five
-milliseconds, so nobody was crashing on that one. It is a hole closed, not a
-cause found. I had it in my head as an eleven second sequence, which is how it
-was first written and not how it has worked for a long time.
-
-[size=4][b]The one nobody reported[/b][/size]
-
-Hooking a game function means writing a redirect over its first instructions and
-keeping the originals somewhere safe. I was doing those two things in the wrong
-order: the redirect went in first, and only afterwards did the mod write down
-where the original had gone. Every redirect calls the original immediately.
-
-So there was a gap, a few instructions wide, where a game thread could arrive
-and call through nothing at all. Narrow, but these hooks go in while the world
-is loading and one of them sits on a function that runs thousands of times a
-second. From the outside it would look like the game dying on startup for no
-reason, with a log that stops mid sentence.
-
-I do not know whether anyone has hit it. Nobody could have reported it usefully
-if they had.
-
-[size=4][b]Damiane and Oongka, again[/b][/size]
-
-Cmz4455 reported no auto looting on those two, with a log, which is the only
-reason this is fixed. The scan had wandered off the player and settled on a
-steam engine. After that every part of the train read as the player's own kit
-and got skipped, so nothing anywhere near them was picked up.
-
-The mod scores candidates and a dressed character ought to beat a train without
-trying. It lost on a technicality: the train dragged enough separate objects
-into range to push the player out of a list that only holds thirty-two, and once
-the player is not in the list, none of the rules I wrote to stop exactly this
-apply to anything. Whatever the scan is standing on cannot be pushed out of that
-list any more, and a thing whose parts have never once been recognised as items
-cannot take the centre from a thing whose have.
-
-[size=4][b]Two you asked for[/b][/size]
-
-LuxDragon asked, back when ground lizards became catchable, whether specific
-creatures could be filtered. It took until now, and the answer was hiding in
-plain sight.
-
-Until today the mod worked out what a creature was by rummaging through its
-memory looking for a species word in some model name. It was worse than I
-realised. Fish all show up as "cd_fish". The small insects all show up as
-"cd_effectmonster_normal". Across twelve sessions of my own logs it managed to
-name an exact species three times. So any rule you set on a creature was being
-skipped, silently, because there was no species for it to apply to.
-
-The creature had been carrying the answer all along. Two bytes into its status
-block there is a row number into the game's own character table, and that names
-it exactly. A Tench is a Tench, a Ricefish is a Ricefish, a Camel Cricket is not
-a butterfly.
-
-So per-item overrides work on creatures now. Set Item_Tench to never on the Items
-tab and tenches get left in the water while everything else is still caught.
-There is nothing new to learn, it is the same override you already use on items.
-It just never had a species to act on before.
-
-I found it by sweeping every field of the creature and printing only the ones
-that named something my creature table recognised. Two earlier attempts found
-nothing, both times because of my own bugs rather than the game's: one looked up
-the wrong table, and the other only read 16-bit fields. Neither could have
-worked.
-
-A few unusual creatures still fall back to the old guesswork and answer to the
-category switches alone.
-
-Ahplla asked for a key for taking owned goods. It is under General, Keys, and it
-is unbound until you set one, along with a pad chord. That switch earns you a
-bounty while it is on, so it wants flipping for a few seconds and flipping back,
-and digging through a menu twice is not that.
+https://github.com/shin2344234/master-looter/blob/main/docs/ore-investigation/CREATURES.md
 
 [size=4][b]Also[/b][/size]
 
-Drawing a well was quietly opening the extra-ore window, so a vein you mined by
-hand during one collected the tool bonus. That is the single thing the setting
-promises will not happen.
+Installing a hook had a window, a few instructions wide, where a game thread
+could call through nothing at all. Narrow, but these go in while the world is
+loading and one of them sits on a function that runs thousands of times a second.
 
-An old settings file was being migrated on every launch instead of once, because
-the migration was never actually saved, which reverted a hand edit every start
-and slowly pushed your real backups out of the list.
+An old settings file was being migrated on every launch instead of once, which
+reverted a hand edit each start and pushed your real backups out of the list.
+Presets and restored backups change the menu language now. The log names whatever
+hooked DirectX before this mod did, rather than saying only that something had.
 
-Presets and restored backups change the menu language now, instead of changing
-the setting and leaving the menu in English.
+[size=4][b]The crash I did not fix[/b][/size]
 
-The log names whichever mod hooked DirectX before this one, rather than telling
-you only that something did. Faults are labelled first chance with a note saying
-most of them are the game probing memory on purpose, because people paste them
-to me as the crash and they usually are not.
+lsimo's fast travel crash is still open. The fix I shipped for it was aimed at
+queued work outliving a teleport, and the queue turns out to empty within a
+millisecond, so there was never anything there to go stale.
 
-And a lookup the scan leans on had been giving up about five seconds into every
-session and doing the slow thing from then on. It does not any more.
+So this release adds a way to catch it instead. If the mod faults while driving
+one of the game's state machines, the log now records what that object looked
+like an instant earlier, including the class it names through its vtable. A live
+object names itself; a freed one cannot. The next report settles it.
