@@ -36,9 +36,9 @@ Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The p
 
 ## Antivirus
 
-Three scanners out of seventy-one flag `MasterLooter.asi`, and all three are machine-learning models: Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and Deep Instinct. Two put the reason in the name: `!ml` and `ML.Attribute` both mean a model guessed from the shape of the file. None matched anything known, and the sixty-eight others read the same file as clean. The DMM archive scores one of sixty-seven.
+Three scanners out of seventy flag `MasterLooter.asi`, and all three are machine-learning models: Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and CrowdStrike Falcon (`win/malicious_confidence_60%`). Every one of them says so on the label. `!ml`, `ML.Attribute` and a confidence percentage are what a model reports when it has guessed from the shape of a file. None matched anything known, and the sixty-seven others read the same file as clean. Both archives score zero of sixty-seven.
 
-The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three. Microsoft and Symantec have flagged every one of them. CrowdStrike Falcon and Deep Instinct come and go, and they have now swapped places between one release and the next. That is what a model guessing looks like, as against a scanner recognising something.
+The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three. Microsoft and Symantec have flagged every one of them. CrowdStrike Falcon and Deep Instinct come and go, and they have now traded places two releases running. That is what a model guessing looks like, as against a scanner recognising something.
 
 Reports for 1.6.3: [the plugin](https://www.virustotal.com/gui/file/c70b9b597f3139331b49a62a1fc4b172ad1d2693c925d994affbe4ff67c31fa9) and [the package](https://www.virustotal.com/gui/file/6e406491e5ca70f806fada3ec1513a68819aba9879138bca69bb62c64a869795).
 
