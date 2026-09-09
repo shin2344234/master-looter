@@ -12,6 +12,11 @@ namespace ml::loot::hooks
     // state; an event it has no transition for is simply ignored, which is why
     // this is safe to aim at anything. Game thread only. Returns false when the
     // driver is unavailable or the call faulted.
+#ifdef ML_YIELD_PROBE
+    // Labels the yield lines as ours rather than a hand swing. Test builds only.
+    void MarkOurBreak(bool on);
+#endif
+
     bool DriveGimmickEvent(uintptr_t gimmickComp, uint32_t eventId,
                            uint32_t instigatorEid, uintptr_t instigatorActor,
                            uint32_t targetEid, const float* pos3);

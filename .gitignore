@@ -42,3 +42,4 @@ secrets.*
 !secrets.*.example
 build-nowrap/
 build-nodraw/
+build-probe/
