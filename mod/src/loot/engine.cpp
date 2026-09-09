@@ -1059,22 +1059,19 @@ namespace ml::loot
         bool active = false;
     };
     static WellRun g_wellRun;
-    // One well at a time.
+    // One well at a time, and a second apart on purpose.
     //
-    // The second here was sized against a run that took eleven seconds, which
-    // is how the sequence was first written. kWellTake has been a single
-    // transition at 0 ms for a long time, so a run now starts and finishes
-    // inside two scans, about 35 ms, and a one second cooldown meant standing
-    // near a well redrew it every second for as long as you stood there. A
-    // test session drew the same bucket twenty-five times in twenty-six
-    // seconds, with the winch reporting the same state before and after every
-    // one of them and nothing arriving in the bag.
+    // The comment here used to justify the second by saying a run takes eleven
+    // seconds. It does not: kWellTake is a single transition at 0 ms, so a run
+    // is over in about 35 ms and this really does allow a redraw every second.
     //
-    // Fifteen seconds stops the spam. It is not a real answer to how often a
-    // well may legitimately be drawn, because the redraws produced nothing,
-    // which says the transition is a no-op after the first. See the issue.
+    // That is deliberate and it is the pace Seth wants. I raised it to fifteen
+    // seconds after reading twenty-five draws in twenty-six seconds as spam,
+    // which was the feature working. Reverted. The absence of [loot] lines for
+    // the water misled me too: a well yields through a state transition, not a
+    // loot event, so nothing about it appears there.
     static std::unordered_map<uint32_t, DWORD> g_wellDone;
-    static constexpr DWORD kWellCooldownMs = 15000;
+    static constexpr DWORD kWellCooldownMs = 1000;
 
     // A gimmick component keeps the name id of the state it is in at +0x270.
     // Reading it is how the mod knows to keep its hands off a winch the player

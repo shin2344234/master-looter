@@ -54,7 +54,7 @@ Simplified and Traditional Chinese ship with the mod, translated by dofo7777. Bo
 
 Any other language is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
-1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 302 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
+1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 301 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
 2. Or make your own from the running game: play with the menu open, visit every tab, then General, Language, press `Write translation template`. That writes the file beside the plugin, but only the lines that have actually been drawn.
 3. Each record is the English, a tab, then your translation. `
 ` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.
@@ -72,7 +72,7 @@ Send a finished file in and it can ship with the mod, credited.
 - Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default; the Classes and Items tabs can lift most of that, on purpose, per class or per item.
 - A carcass is searched once per session and never again, whatever the retry setting: searching an empty carcass has been seen to duplicate items, and duplicates are how saves get corrupted.
 - There is no line-of-sight check. The ranges are distances, not visibility; keep the arming range short or a node behind a thin wall can be gathered.
-- Creatures the species table cannot name are only caught when every category they could belong to is on. Fish and the larger animals are recognised by their model. The small flying insects have no model at all: the game hands every one of them over under the same asset name, so the mod can tell it is an insect and can never tell which, and no per-species filter can reach them.
+- Creatures are caught by category, and only by category. The mod almost never learns the species: the game hands nearly everything catchable over under a generic model name, `cd_fish` for fish and `cd_effectmonster_normal` for the small insects, and across twelve recorded sessions an exact species was named three times. So a per-item rule does not reach a live catch, because the code path that consults it needs a species the mod does not have. The Insects, Fish and Small animals switches are the whole of the control.
 - Gather nodes are identified by their prefab, matched against a table of 1,076 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 - Chests and storage boxes open a window rather than hand over an item; they are off by default and rarely respond.
 - How full the bag is is read from the bag itself. The inventory holder carries every store the player owns, 18 buckets on 2.01.00, of which bucket 0 is what you carry; its used count and its limit sit side by side as two u16 fields. Both are checked for sense before use, and the notice appears the moment the bag fills whether or not you are looting.

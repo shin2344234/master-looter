@@ -671,8 +671,7 @@ namespace ml::gui
         // separate Creatures tab was built for this in 1.6.4 and taken out
         // again: it could only act on creatures the game names, which is a
         // smaller set than the item rules already covered.
-        ImGui::TextDisabled(TR("To leave one species alone, set what it becomes to never on the Items tab: Item_Iguana, Item_Rat, Item_Butterfly and so on. The switches here are whole categories."));
-        ImGui::TextColored(kWarn, TR("The small flying insects are the exception, and no filter can reach them. The game gives them no character model, so all of them arrive under one name and the mod cannot tell a cricket from a butterfly. The Insects switch is the only control over that group."));
+        ImGui::TextColored(kWarn, TR("These three switches are the only control over what is caught alive. A rule set on the Items tab does not reach them: the mod almost never learns which species it is looking at, because the game hands nearly every catchable creature over under a generic model name. Across twelve recorded sessions it named an exact species three times. Fish arrive as cd_fish and the small insects as cd_effectmonster_normal, and one tench is indistinguishable from another."));
         if (ImGui::BeginTable("collect", 3, ImGuiTableFlags_SizingStretchSame))
         {
             for (const Toggle& t : toggles)

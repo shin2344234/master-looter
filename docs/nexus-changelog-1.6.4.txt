@@ -63,15 +63,6 @@ A key and a pad chord for taking owned goods, asked for by Ahplla. Unbound until
 you set it, under General, Keys. Leaving that switch on earns a bounty, so it
 wants turning on for a moment and off again, which a menu is a poor shape for.
 
-## Also in this one
-
-Standing near a well redrew it once a second, for as long as you stood there,
-because a cooldown had been sized against that same eleven second run. One test
-drew the same bucket twenty-five times in twenty-six seconds. It is fifteen
-seconds now. Whether the draws were doing anything at all is a separate
-question and a separate issue, since the winch reported the same state before
-and after every one of them.
-
 ## Smaller
 
 Drawing a well no longer lets a vein you mined by hand collect the extra ore
