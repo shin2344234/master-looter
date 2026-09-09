@@ -1447,6 +1447,23 @@ namespace ml::loot
             static_cast<unsigned long long>(askPtr));
     }
 
+    // A gimmick_attach_ prefab is a piece bolted to a creature or a mechanism:
+    // stoneworm and stonetoad plating, stoneowl bases, landspider queen rocks,
+    // seraphim stones, thorny vines. Gathering one empties its visual and
+    // leaves whatever carries its damage volume standing, so burnt vines went
+    // invisible and went on hurting the player, which is issue #41. The game
+    // tags the six real mining spots under this prefix itself and those keep
+    // working; the other 110 rows were the generator guessing from the name
+    // and are gone from the table. This still earns its place twice over: a
+    // loose MasterLooter.nodes.tsv built by an older generator carries them
+    // again, and with nothing in the table they fall to Unidentified nodes,
+    // which anyone may switch on.
+    static bool AttachedPart(const char* node, const NodeType* type)
+    {
+        if (type && type->tagged) return false;
+        return IStr(node, "gimmick_attach_");
+    }
+
     static bool OffLimits(const char* node)
     {
         if (!node || !node[0]) return false;
@@ -1706,6 +1723,7 @@ namespace ml::loot
             if (IStr(c.node, "visione") || IStr(c.node, "quest") || IStr(c.node, "artifact")) return skip("quest or memory trigger");
             if (IStr(c.node, "abyssruins")) return skip("fast-travel artifact");
             if (IStr(c.node, "mission")) return skip("mission object");
+            if (AttachedPart(c.node, c.nodeType)) return skip("part of a creature or a mechanism");
             // Whatever arming refuses, the verdict refuses too. This was a
             // hand-copied list and it had drifted: "puzzle" was in OffLimits
             // and missing here. Five puzzle prefabs are tagged ore in the node
@@ -2696,6 +2714,7 @@ namespace ml::loot
                     // Never ask the game to open a memory trigger, a puzzle mechanism or a
                     // fast-travel artifact. Refusing to loot one afterwards is too late.
                     if (OffLimits(k.node)) continue;
+                    if (AttachedPart(k.node, k.nodeType)) continue;
                     // A well is seven entities and six of them never answer, so
                     // standing beside one meant seven arm calls every five seconds for
                     // as long as the player stood there. The seventh is the bucket and
