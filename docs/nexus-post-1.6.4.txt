@@ -5,15 +5,28 @@ minutes into a normal session, and they pulled the crash dump apart themselves
 before I got near it: a call through a null function pointer with my plugin on
 the stack. That saved me a day.
 
-Here is what it was. The mod cannot do everything on its own thread, so it
-queues work up for the game's thread to run, and each queued job holds a pointer
-to the thing it is aimed at. A teleport throws that entire world away and builds
-a new one. The queue had no idea, so four seconds after the jump it went ahead
-and drove a state change at a rock that no longer existed.
+I have not fixed it, and I would rather say so here than let you find out.
 
-Anything queued is now dropped the moment the world changes. If it ever happens
-again the log will say how many jobs were thrown away at each jump, which is the
-first thing I would want to look at.
+My theory was this. The mod cannot do everything on its own thread, so it queues
+work for the game's thread to run, and each queued job holds a pointer to the
+thing it is aimed at. A teleport throws that world away. The queue would not
+know, and would go ahead and drive a state change at a rock that no longer
+existed.
+
+Anything queued is now dropped the moment the world changes, and the log counts
+what went. It has counted zero every single time, over many jumps across several
+sessions, including ones with ore being actively mined, which is the case most
+likely to have something outstanding.
+
+That is not a broken counter, I fixed one of those on the way. It is that the
+queue is drained off a game function that runs thousands of times a second, so
+nothing sits in it for longer than about a millisecond. There was never a queue
+to purge at a teleport.
+
+The purge stays, because it costs nothing and closes a real hole. But the crash
+lsimo hit is still out there and I no longer have a theory for it. Next step is
+to make the mod name the offending pointer at the moment it uses one, instead of
+me reasoning backwards from a log after the fact.
 
 Then I went looking for the same mistake elsewhere. Drawing a well holds the
 same kind of pointer outside the queue, so that gets let go on a world change

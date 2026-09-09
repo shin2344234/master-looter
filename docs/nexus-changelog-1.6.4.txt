@@ -6,11 +6,18 @@ Fast travelling could kill the game. lsimo reported it and read the crash dump
 before I did: a call through a null function pointer with this plugin on the
 stack, twenty-four minutes into an ordinary session.
 
-The mod queues work to run on the game's own thread, and it holds pointers to
-the objects that work is aimed at. A teleport frees those objects. The queue did
-not know that, so four seconds after the jump it drove a state change at a
-gimmick that no longer existed. Anything queued when the world changes is now
-thrown away, and the log says how many went.
+I have not fixed it. I thought I had, and testing says otherwise, so it is worth
+being clear rather than quiet.
+
+The theory was that work queued for the game's thread outlives a teleport and
+then runs against objects the teleport freed. Anything queued is now thrown away
+on a world change, and the log reports how many went. It has reported zero every
+time, across many jumps with ore actively being worked, and the reason is that
+the queue drains off the movement tick thousands of times a second, so nothing
+is ever in it for more than about a millisecond. There was no queue to purge.
+
+The purge stays because it costs nothing and closes a real hole. It is not the
+cause of lsimo's crash, and that cause is still open.
 
 A well run holds the same kind of pointer outside the queue, where the first fix
 could not reach it, so it is dropped on a world change as well. Being straight
