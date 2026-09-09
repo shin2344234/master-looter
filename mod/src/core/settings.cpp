@@ -252,6 +252,7 @@ namespace ml::Settings
     {
         Config c;
         c.configVersion = 1; // a file that predates the version key
+        bool migrated = false;
         std::string text;
         const bool present = ReadFile(text);
         if (present) ParseInto(text, c);
@@ -263,14 +264,21 @@ namespace ml::Settings
             c.gatherRange = std::min(c.gatherRange, 6.0f);
             c.gatherUnknown = false;
             c.configVersion = 2;
-            g_dirty = true; g_dirtyAt = GetTickCount64();
+            migrated = true;
             LOG("Settings migrated to version 2: gather range %.0f m, unidentified nodes off. The file as it was is kept as a backup.", c.gatherRange);
         }
         if (!present) c.configVersion = 2;
         Clamp(c);
         g_cfg = c;
         g_knownTime = FileTime();
-        g_dirty = false;
+        // The migration used to set the dirty flag here and this line cleared it
+        // three lines later, so version 2 was never written back. A v1 file was
+        // migrated again on every launch: a hand-edited GatherUnknown=1 was
+        // reverted every time rather than once, and each launch left another
+        // "-v1" backup, so twelve slots of real backups were evicted in six
+        // crash-and-relaunch cycles.
+        g_dirty = migrated;
+        if (migrated) g_dirtyAt = GetTickCount64();
         ++g_generation;
         LOG("Settings %s: %d class rules, %d tag rules, %d item rules.", present ? "loaded" : "defaulted (no ini yet)",
             static_cast<int>(c.classRule.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
