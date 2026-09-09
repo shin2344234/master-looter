@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "../core/creaturedb.h"
 #include "../core/itemdb.h"
 #include "../core/log.h"
 #include "../core/paths.h"
@@ -949,6 +950,67 @@ namespace ml::gui
         }
     }
 
+    // Creatures, keyed by name, because the three catch switches are all or
+    // nothing per class. Same shape as the Items tab above: search to find one,
+    // and with an empty box you see only what you have already overridden.
+    static void TabCreatures(Config& c)
+    {
+        static char query[96] = "";
+        ImGui::SetNextItemWidth(360 * g_scale);
+        ImGui::InputTextWithHint("##crsearch", TR("search creature name or key (3+ letters)"), query, sizeof query);
+        ImGui::SameLine();
+        if (ImGui::Button(TR("Clear overrides"))) { c.creatureRule.clear(); Settings::MarkDirty(); }
+        ImGui::SameLine();
+        ImGui::TextDisabled(TR("%d overrides"), static_cast<int>(c.creatureRule.size()));
+        ImGui::TextDisabled(TR("These win over the Insects, Fish and Small animals switches. Only things the game lets you catch alive can be caught at all, whatever is set here."));
+
+        const std::string q = Lower(query);
+        std::vector<const Creature*> rows;
+        for (const Creature& cr : CreatureDb::All())
+        {
+            if (q.size() >= 3)
+            {
+                if (!Contains(cr.name, q) && !Contains(cr.stringKey, q) && cr.klass != q) continue;
+            }
+            else if (!c.creatureRule.count(cr.key)) continue;
+            rows.push_back(&cr);
+            if (rows.size() >= 250) break;
+        }
+        if (q.size() < 3) ImGui::TextDisabled(TR("Showing current overrides. Type to search all %d creatures."), CreatureDb::Count());
+        else ImGui::TextDisabled(TR("%d match%s%s"), static_cast<int>(rows.size()), rows.size() == 1 ? "" : "es", rows.size() >= 250 ? " (first 250)" : "");
+
+        if (ImGui::BeginTable("creatures", 4, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
+        {
+            ImGui::TableSetupScrollFreeze(0, 1);
+            ImGui::TableSetupColumn(TR("Creature"), ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn(TR("Class"), ImGuiTableColumnFlags_WidthFixed, 120 * g_scale);
+            ImGui::TableSetupColumn(TR("Becomes"), ImGuiTableColumnFlags_WidthFixed, 190 * g_scale);
+            ImGui::TableSetupColumn(TR("Override"), ImGuiTableColumnFlags_WidthFixed, 260 * g_scale);
+            ImGui::TableHeadersRow();
+            for (const Creature* cr : rows)
+            {
+                ImGui::TableNextRow();
+                ImGui::PushID(static_cast<int>(cr->key));
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextUnformatted(cr->name.c_str());
+                if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("%s (key %u)"), cr->stringKey.c_str(), cr->key); ImGui::EndTooltip(); }
+                ImGui::TableSetColumnIndex(1);
+                ImGui::TextUnformatted(cr->klass.c_str());
+                ImGui::TableSetColumnIndex(2);
+                // No item row means nothing to hand the item rules, which is
+                // exactly why naming the creature is the only way to refuse it.
+                if (const Item* it = ItemDb::ByRow(cr->itemRow)) ImGui::TextUnformatted(it->Label());
+                else ImGui::TextDisabled(TR("not an item"));
+                ImGui::TableSetColumnIndex(3);
+                auto ov = c.creatureRule.find(cr->key);
+                int cur = ov == c.creatureRule.end() ? 0 : ov->second;
+                if (TriState("ov", cur)) { if (cur == 0) c.creatureRule.erase(cr->key); else c.creatureRule[cr->key] = cur; Settings::MarkDirty(); }
+                ImGui::PopID();
+            }
+            ImGui::EndTable();
+        }
+    }
+
     static void TabNearby()
     {
         const loot::Status s = loot::GetStatus();
@@ -1189,7 +1251,8 @@ namespace ml::gui
             struct TabDef { const char* name; void (*fn)(Config&); };
             static const TabDef tabs[] = {
                 { "General", TabGeneral }, { "Looting", TabLooting }, { "Classes", TabClasses }, { "Tags", TabTags },
-                { "Items", TabItems }, { "Nearby", [](Config&) { TabNearby(); } }, { "Status", [](Config&) { TabStatus(); } },
+                { "Items", TabItems }, { "Creatures", TabCreatures },
+                { "Nearby", [](Config&) { TabNearby(); } }, { "Status", [](Config&) { TabStatus(); } },
             };
             if (ImGui::BeginTabBar("tabs", ImGuiTabBarFlags_DrawSelectedOverline))
             {
