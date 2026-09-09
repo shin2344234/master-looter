@@ -177,6 +177,29 @@ def check(path):
     return hard, warn
 
 
+# Files the repeated-sentence rule does not apply to.
+#
+# The rule exists because the same person reads a release's post and its
+# changelog back to back, so a sentence in both reads as copy and paste. That
+# reasoning does not reach these:
+#
+#   nexus-changelog.txt is a deliberate verbatim copy of the current release's
+#   changelog, so every sentence in it is a duplicate by construction.
+#
+#   README.md, mod/README.md, the mod page description and the short
+#   description are long-lived reference documents about one mod. They are
+#   supposed to say the same things, and thirteen shared sentences between the
+#   README and the description are thirteen places that are correctly in step,
+#   not thirteen mistakes. Flagging them trained me to skim the output, which
+#   is how the check stops working.
+SKIP_DUP = {
+    "nexus-changelog.txt",
+    "README.md",
+    "nexus-description.bbcode",
+    "nexus-short-description.txt",
+}
+
+
 def release_of(path):
     """The x.y.z in a filename, so only documents of one release are compared."""
     m = re.search(r"(\d+\.\d+\.\d+)", os.path.basename(path))
@@ -197,7 +220,7 @@ def duplicates(paths):
       - A sentence in three or more files is house boilerplate, not laziness.
         "For Crimson Desert 2.01.00 (exe 1.0.0.2760)." heads every changelog.
     """
-    paths = [p for p in paths if os.path.basename(p) != "nexus-changelog.txt"]
+    paths = [p for p in paths if os.path.basename(p) not in SKIP_DUP]
     everywhere = {}
     per_release = {}
     for p in paths:
