@@ -1059,10 +1059,22 @@ namespace ml::loot
         bool active = false;
     };
     static WellRun g_wellRun;
-    // One well at a time. A second apart is enough: the run itself takes eleven
-    // seconds, so this only stops a finished run restarting in the same tick.
+    // One well at a time.
+    //
+    // The second here was sized against a run that took eleven seconds, which
+    // is how the sequence was first written. kWellTake has been a single
+    // transition at 0 ms for a long time, so a run now starts and finishes
+    // inside two scans, about 35 ms, and a one second cooldown meant standing
+    // near a well redrew it every second for as long as you stood there. A
+    // test session drew the same bucket twenty-five times in twenty-six
+    // seconds, with the winch reporting the same state before and after every
+    // one of them and nothing arriving in the bag.
+    //
+    // Fifteen seconds stops the spam. It is not a real answer to how often a
+    // well may legitimately be drawn, because the redraws produced nothing,
+    // which says the transition is a no-op after the first. See the issue.
     static std::unordered_map<uint32_t, DWORD> g_wellDone;
-    static constexpr DWORD kWellCooldownMs = 1000;
+    static constexpr DWORD kWellCooldownMs = 15000;
 
     // A gimmick component keeps the name id of the state it is in at +0x270.
     // Reading it is how the mod knows to keep its hands off a winch the player
@@ -2212,7 +2224,13 @@ namespace ml::loot
                 // world is worth keeping. g_actorEid goes with it because it
                 // maps component pointers to ids and every one of those
                 // pointers is now stale. Issue #35.
-                const int dropped = events::DropPending();
+                // Accumulated, not sampled. DropPending runs on every scan of
+                // a hold and only the first finds anything, but the line below
+                // prints at most once every five seconds, so it read zero
+                // essentially always: four world changes in one test session
+                // produced four plain lines and no count at all.
+                static int s_droppedRun = 0;
+                s_droppedRun += events::DropPending();
                 g_actorEid.clear();
                 // A well run is the fourth holder of a raw component pointer and
                 // the queues were only three of them. Winding a well is eleven
@@ -2230,9 +2248,10 @@ namespace ml::loot
                 if (now - s_holdLogAt > 5000)
                 {
                     s_holdLogAt = now;
-                    if (dropped) LOG("[scan] paused: %s; dropped %d queued action%s aimed at the old world",
-                                     why, dropped, dropped == 1 ? "" : "s");
-                    else         LOG("[scan] paused: %s", why);
+                    if (s_droppedRun) LOG("[scan] paused: %s; dropped %d queued action%s aimed at the old world",
+                                          why, s_droppedRun, s_droppedRun == 1 ? "" : "s");
+                    else              LOG("[scan] paused: %s", why);
+                    s_droppedRun = 0;
                 }
             }
         }
