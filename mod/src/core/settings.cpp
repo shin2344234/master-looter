@@ -67,6 +67,7 @@ namespace ml::Settings
         else if (k == "NotifyBagFull")    c.notifyBagFull = Flag(v);
         else if (k == "WrapSwapChain")    c.wrapSwapChain = Flag(v);
         else if (k == "HookXInput")       c.hookXInput = Flag(v);
+        else if (k == "OreBonus")         c.oreBonus = Clamp(v, 0, 10);
         else if (k == "Language")         c.language = v;
         else if (k == "PadMenu")          c.padMenu   = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
         else if (k == "PadToggle")        c.padToggle = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
@@ -285,6 +286,7 @@ namespace ml::Settings
                  c.enabled, c.menuKey, c.showHud, c.notifyBagFull, c.keyToggle, c.keyBurst, c.keyWatch); s += b;
         snprintf(b, sizeof b, "WrapSwapChain=%d\n", c.wrapSwapChain); s += b;
         snprintf(b, sizeof b, "HookXInput=%d\n", c.hookXInput); s += b;
+        snprintf(b, sizeof b, "OreBonus=%d\n", c.oreBonus); s += b;
         snprintf(b, sizeof b, "Language=%s\n", c.language.c_str()); s += b;
         snprintf(b, sizeof b, "PadMenu=%u\nPadToggle=%u\nPadBurst=%u\nPadWatch=%u\n",
                  c.padMenu, c.padToggle, c.padBurst, c.padWatch); s += b;

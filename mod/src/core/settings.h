@@ -90,6 +90,22 @@ namespace ml
         // the same multiplier. The tool's share travels a path the game runs
         // from a real weapon swing, and the mod swings nothing. Issue #31.
         bool  breakOre       = true;
+        // Extra ore from a vein the mod breaks, 0 to 10, off by default.
+        //
+        // A vein pays more when a good mining tool swings at it, and the mod
+        // does not swing: it drives the node's own break sequence, and that
+        // makes the game walk one drop row where a real swing walks two.
+        // Measured on a refined drill: three ore by hand, one from the mod,
+        // every time, with both inputs to the game's own count byte-identical.
+        //
+        // Rather than forge a swing, this tells the game the vein is worth more
+        // and lets its own drop path spawn the difference. Nothing here copies
+        // an item or writes to a save. It only ever applies to a vein this mod
+        // broke, so mining by hand is untouched and the two cannot stack.
+        //
+        // Set it to what your tool pays by hand, minus one. Zero installs no
+        // hook at all.
+        int   oreBonus       = 0;
         // safety and filters
         bool  lootOwned      = false;  // take goods the game would call stealing
         bool  skipQuestItems = true;
