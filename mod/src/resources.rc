@@ -15,6 +15,7 @@ ML_NODES_TSV     RCDATA "../data/MasterLooter.nodes.tsv"
 // part of the name. Text::Load builds it that way, and a file of the matching
 // name next to the plugin still wins. Keep kBuiltIn in text.cpp in step with
 // this list.
+ML_LANG_PT_BR    RCDATA "../data/MasterLooter.pt-br.txt"
 ML_LANG_ZH_CN    RCDATA "../data/MasterLooter.zh-cn.txt"
 ML_LANG_ZH_TW    RCDATA "../data/MasterLooter.zh-tw.txt"
 
