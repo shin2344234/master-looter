@@ -1,6 +1,6 @@
 """Check prose for AI hallmarks before it goes out as Seth's words.
 
-    py -3 scripts/prose_check.py docs/nexus-post-1.6.3.txt
+    py -3 scripts/prose_check.py private/nexus/nexus-post-1.6.3.txt
     py -3 scripts/prose_check.py --all
 
 Exit code is 1 if anything in the HARD list is present. Those are mechanical

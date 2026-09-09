@@ -29,6 +29,11 @@ codex/
 CLAUDE.md
 .claude/
 .mcp.json
+.playwright-mcp/
+
+# Everything written for the Nexus page: posts, replies, changelogs, the
+# description, the header art. Seth's words, not part of the mod. Never tracked.
+private/
 
 # API keys. keys.local.env is the one the scripts read; the rest of these
 # patterns are here so a key dropped anywhere obvious cannot be committed by
