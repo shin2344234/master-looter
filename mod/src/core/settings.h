@@ -24,6 +24,12 @@ namespace ml
         int   keyToggle      = 0x79;   // VK_F10: auto-loot on/off
         int   keyBurst       = 0x7A;   // VK_F11: loot everything in range once
         int   keyWatch       = 0x24;   // VK_HOME: watch mode, menu stays up while you play
+        // Take-owned is the one switch worth a key. Leaving it on earns a
+        // bounty, so it wants turning on for a moment and off again, and the
+        // menu is the wrong shape for that. Unbound by default: every spare key
+        // already does something in this game and picking one for you is worse
+        // than making you choose. Issue #37.
+        int   keyOwned       = 0;
         // Pad shortcuts: an XINPUT button mask each, two buttons or more, 0 when
         // unbound. Two at once because every single button is already the game's.
         // Hook XInput so the menu can take the pad while it is open, and so a
@@ -36,6 +42,7 @@ namespace ml
         bool  hookXInput     = true;
         unsigned padMenu     = 0;
         unsigned padToggle   = 0;
+        unsigned padOwned    = 0;
         unsigned padBurst    = 0;
         unsigned padWatch    = 0;
         // pace

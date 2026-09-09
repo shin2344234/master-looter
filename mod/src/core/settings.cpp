@@ -76,6 +76,8 @@ namespace ml::Settings
         else if (k == "KeyToggle")        c.keyToggle = Key(v, 0x79);
         else if (k == "KeyBurst")         c.keyBurst = Key(v, 0x7A);
         else if (k == "KeyWatch")         c.keyWatch = Key(v, 0x24);
+        else if (k == "KeyOwned")         c.keyOwned = Key(v, 0);
+        else if (k == "PadOwned")         c.padOwned  = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
         else if (k == "ScansPerSec")      c.scansPerSec = Clamp(v, 1, 30);
         else if (k == "PerScan")          c.perScan = Clamp(v, 0, 64);
         else if (k == "BurstPerKey")      c.burstPerKey = Clamp(v, 0, 64);
@@ -288,6 +290,7 @@ namespace ml::Settings
         snprintf(b, sizeof b, "HookXInput=%d\n", c.hookXInput); s += b;
         snprintf(b, sizeof b, "OreBonus=%d\n", c.oreBonus); s += b;
         snprintf(b, sizeof b, "Language=%s\n", c.language.c_str()); s += b;
+        snprintf(b, sizeof b, "KeyOwned=%d\nPadOwned=%u\n", c.keyOwned, c.padOwned); s += b;
         snprintf(b, sizeof b, "PadMenu=%u\nPadToggle=%u\nPadBurst=%u\nPadWatch=%u\n",
                  c.padMenu, c.padToggle, c.padBurst, c.padWatch); s += b;
         snprintf(b, sizeof b, "ScansPerSec=%d\nPerScan=%d\nBurstPerKey=%d\nRetryAfterMs=%d\n",
