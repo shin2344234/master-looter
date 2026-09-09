@@ -24,7 +24,7 @@ Gather nodes are armed from a distance, so a bush fills its data without you sta
 [size=4][b]What it leaves alone[/b][/size]
 [list]
 [*]Anything the game would call stealing. The mod asks the same routine the game uses to decide between "Take" and "Steal", and walks past whatever would put a bounty on you. It works that question out from the player, so it is ready the moment you load in rather than waiting for the game to ask first. You can opt in under Looting, Ownership.
-[*]Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment. The Classes, Items and Creatures tabs can lift most of that on purpose, per class, per item or per species. None of it reaches what a carcass pays out when skinned, which is why that switch is all or nothing.
+[*]Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment. The Classes and Items tabs can lift most of that on purpose, per class or per item. None of it reaches what a carcass pays out when skinned, which is why that switch is all or nothing.
 [*]Fast-travel artifacts, memory triggers, locked nodes, gear worn by others and the contents of storage stacks, always.
 [/list]
 
@@ -35,10 +35,9 @@ Gather nodes are armed from a distance, so a bush fills its data without you sta
 [*]Classes: one-click groups such as Weapons and armor, Damaged gear, Food and drink, Materials, Books and papers or Treasure and keepsakes, above a table of every class with its item count.
 [*]Tags: always or never per tag; never beats always, and both beat the class rule.
 [*]Items: search any of the 6,813 items, set an override, and see the verdict the rules give it right now.
-[*]Creatures: the same, per species, for the things you catch alive. Always or never by name, over the Insects, Fish and Small animals switches. Ten catchable insects have nothing in the game's item data behind them, so this is the only way to refuse those at all.
 [*]Presets: every setting and every rule saved under a name and swapped in two clicks. Settings are backed up each time the game starts and the last twelve are kept, so an update with different defaults is one button to undo. Anything that overwrites or discards asks first.
 [*]A notice when the bag is full, with the slot count, the moment it fills.
-[*]Simplified and Traditional Chinese are built in, translated by dofo7777, with a button each under General, Language. Chinese, Japanese and Korean render properly now; they used to come out as boxes. Any other language is a text file: a template of all 309 lines is on the GitHub page, or write one from the Language section. Fill in your language, drop the file beside the plugin, and set the language. A partial translation leaves the rest in English, and a file beside the plugin overrides a built-in one.
+[*]Simplified and Traditional Chinese are built in, translated by dofo7777, with a button each under General, Language. Chinese, Japanese and Korean render properly now; they used to come out as boxes. Any other language is a text file: a template of all 302 lines is on the GitHub page, or write one from the Language section. Fill in your language, drop the file beside the plugin, and set the language. A partial translation leaves the rest in English, and a file beside the plugin overrides a built-in one.
 [*]Nearby: the objects around you with distance, class and the rule that decided each one, nearest first and without your own equipment in the way.
 [*]Status: every signature and hook, the event path, counters, recent loot and the log.
 [/list]
@@ -99,7 +98,7 @@ If the menu opens but will not take a click, the cursor is the usual cause and n
 [*]The mod sends the game the same events it sends itself when you press the interaction key, and reads memory only to decide what to send.
 [*]A carcass is searched once per session and never again, whatever the retry setting: searching an empty carcass has been seen to duplicate items, and duplicates are how saves get corrupted.
 [*]No line-of-sight check. Ranges are distances, not visibility. Keep the arming range short or a node behind a thin wall can be gathered.
-[*]Creatures the mod cannot name are only caught when every category they could belong to is on. Bugs are recognised by their model, fish by theirs; a few unusual creatures may stay unidentified and be left alone.
+[*]Creatures the mod cannot name are only caught when every category they could belong to is on. Fish and the larger animals are recognised by their model. The small flying insects have none: the game gives every one of them the same asset name, so the mod knows it is an insect and cannot tell which, and the Insects switch is the only control over them.
 [*]Gather nodes are identified by the prefab they were placed from, matched against a table of 1,076 node kinds built from the game's own data. A node outside that table is identified by what lands in your bag when it is gathered, and is otherwise left alone until you turn Unidentified nodes on.
 [*]Chests and storage boxes open a window rather than hand over an item; they are off by default.
 [*]Ownership is answered by the game's own routine, not by a guess here. If the mod ever cannot get an answer it refuses the object and says so rather than risking a bounty.

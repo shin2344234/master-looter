@@ -56,18 +56,23 @@ cannot take the centre from a thing whose have.
 [size=4][b]Two you asked for[/b][/size]
 
 LuxDragon asked, back when ground lizards became catchable, whether specific
-creatures could be filtered. There is a Creatures tab now. Search a name, set it
-to always or never, and it wins over the Insects, Fish and Small animals
-switches.
+creatures could be filtered. The answer turned out to be that they already
+could, and I did not know it while I was answering.
 
-With one hole in it that I found by testing rather than by thinking, which is
-the honest order it happened in. It does not work on the small flying insects.
-The game hands those over with no character model at all, all of them under the
-same asset name, so the mod can see that something is an insect and has no way
-to tell a cricket from a butterfly. A name you set in that tab cannot match
-something the game never names. Fish, ground lizards and small animals do have
-models and can be set one at a time. For the flying insects the old switch is
-still the only lever, and the tab says so where you would go looking.
+Anything you catch alive becomes an item, and the catch is refused whenever that
+item is refused. So Item_Iguana set to never on the Items tab has left iguanas
+alone this whole time. I built a Creatures tab for it, Seth pointed out that
+everything was already on the Items tab, and he was right: my tab could only act
+on creatures the game gives a name to, which is fewer than the item rules
+covered on their own. It is out again. The Looting tab now tells you where to go
+instead, which is the part that was actually missing.
+
+One group nothing reaches, and I would rather say it than have you find it. The
+small flying insects have no character model. Every one of them arrives under
+the same asset name, so the mod can tell that something is an insect and has no
+way at all to tell a cricket from a butterfly. There is nothing to name, so
+there is nothing to filter. The Insects switch is the whole of it, and the menu
+says so where you would look.
 
 Ahplla asked for a key for taking owned goods. It is under General, Keys, and it
 is unbound until you set one, along with a pad chord. That switch earns you a
