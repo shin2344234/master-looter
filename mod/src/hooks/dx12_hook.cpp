@@ -1131,11 +1131,25 @@ namespace ml::hooks
         return out;
     }
 
+    // Forward declared: this wants to follow a detour, and the decoder is
+    // defined below with the rest of the byte reading.
+    static void DescribeDetour(const uint8_t* p, const void* at, char* out, size_t n);
+
     static void LogHookedModule(const char* what, void* addr)
     {
         char mod[64];
         OwningModule(addr, mod, sizeof mod);
-        LOG("%s @ %p in %s", what, addr, mod);
+        // The swapchain's own Present can be detoured too, and when it is, the
+        // owning module is still the system DLL. Following the jump is the only
+        // thing that names what is really in front of us.
+        char into[96] = "";
+        if (addr && !IsBadReadPtr(addr, 16))
+        {
+            uint8_t b[16];
+            memcpy(b, addr, sizeof b);
+            DescribeDetour(b, addr, into, sizeof into);
+        }
+        LOG("%s @ %p in %s%s", what, addr, mod, into);
     }
 
     // The DLLs these addresses belong to before anyone touches them. Anything
@@ -1149,6 +1163,78 @@ namespace ml::hooks
     // A function whose first bytes are already a jump has been detoured in
     // place by someone else. The owning module stays the system DLL in that
     // case, so the module name alone cannot see it; only the bytes can.
+    // Where that jump actually lands, so the log can name the mod that got
+    // there first instead of only saying somebody did.
+    //
+    // Three of the open reports are some form of "it will not load alongside
+    // these other mods", and every one of them arrived as a log saying Present
+    // was already detoured, with no way to tell whether that was RenoDX,
+    // ReShade, OptiScaler or a transmog mod without asking the reporter to
+    // list their load order by hand.
+    //
+    // push/ret is left alone deliberately: its immediate is 32 bits, which
+    // cannot address a module on x64, so resolving it would print a number
+    // that means nothing.
+    static bool DetourTarget(const uint8_t* p, const void* at, void** out)
+    {
+        const uintptr_t a = reinterpret_cast<uintptr_t>(at);
+        if (p[0] == 0xE9)
+        {
+            int32_t rel = 0; memcpy(&rel, p + 1, sizeof rel);
+            *out = reinterpret_cast<void*>(a + 5 + static_cast<intptr_t>(rel));
+            return true;
+        }
+        if (p[0] == 0xEB)
+        {
+            *out = reinterpret_cast<void*>(a + 2 + static_cast<intptr_t>(static_cast<int8_t>(p[1])));
+            return true;
+        }
+        if (p[0] == 0xFF && p[1] == 0x25)
+        {
+            // The displacement names a slot holding the address, not the
+            // address, so this one needs a read that may fail.
+            int32_t disp = 0; memcpy(&disp, p + 2, sizeof disp);
+            void* slot = reinterpret_cast<void*>(a + 6 + static_cast<intptr_t>(disp));
+            if (IsBadReadPtr(slot, sizeof(void*))) return false;
+            memcpy(out, slot, sizeof(void*));
+            return true;
+        }
+        if (p[0] == 0x48 && p[1] == 0xB8 && p[10] == 0xFF && p[11] == 0xE0)
+        {
+            memcpy(out, p + 2, sizeof(void*));
+            return true;
+        }
+        return false;
+    }
+
+    // ", into RenoDX.asi at 00007FF..." or empty when it cannot be followed.
+    //
+    // Up to four hops, because some hook libraries land the first jump on a
+    // stub in the system DLL's own padding and only then leave for the module
+    // that owns the hook. Stopping at hop one would name dxgi.dll, which is
+    // the answer we already had. Anything that lands outside a system DLL is
+    // the answer, so the walk stops there.
+    static void DescribeDetour(const uint8_t* p, const void* at, char* out, size_t n)
+    {
+        out[0] = 0;
+        void* dest = nullptr;
+        if (!DetourTarget(p, at, &dest) || !dest) return;
+
+        char owner[64];
+        OwningModule(dest, owner, sizeof owner);
+        for (int hop = 0; hop < 3 && IsSystemOwner(owner); ++hop)
+        {
+            if (IsBadReadPtr(dest, 16)) break;
+            uint8_t b[16];
+            memcpy(b, dest, sizeof b);
+            void* next = nullptr;
+            if (!DetourTarget(b, dest, &next) || !next || next == dest) break;
+            dest = next;
+            OwningModule(dest, owner, sizeof owner);
+        }
+        snprintf(out, n, ", into %s at %p", owner, dest);
+    }
+
     static const char* ExistingDetour(const uint8_t* p)
     {
         if (p[0] == 0xE9) return "jmp rel32";
@@ -1181,7 +1267,10 @@ namespace ml::hooks
 
         if (detour)
         {
-            LOG("[hook] %s @ %p in %s starts with %s (%s): another mod detoured it first, so this one is left alone", what, addr, mod, detour, bytes);
+            char into[96];
+            DescribeDetour(b, addr, into, sizeof into);
+            LOG("[hook] %s @ %p in %s starts with %s (%s)%s: another mod detoured it first, so this one is left alone",
+                what, addr, mod, detour, bytes, into);
             return false;
         }
         if (!IsSystemOwner(mod))
