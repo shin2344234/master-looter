@@ -19,6 +19,7 @@
 %d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	
 %d objects within scan range, %d lootable now.	
 %d overrides	
+%s (key %u)	
 %s (key %u, row %d, tier %d)	
 %s (never looted)	
 %s translated by %s.	
@@ -42,6 +43,7 @@ Arming range
 Auto-loot enabled	
 Auto-loot on / off	
 Backups	
+Becomes	
 blank for English	
 Books and papers	
 Boss rewards, artifacts, memory items, coin pouches and reward chests.	
@@ -71,6 +73,7 @@ Copy to the clipboard.
 corpse	
 corpse already searched	
 corpse: loot drops separately	
+Creature	
 creature	
 Creatures	
 Crops	
@@ -166,6 +169,7 @@ no
 no interaction node	
 Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	
 none	
+not an item	
 not found yet	
 not in item database	
 not ready (node empty)	
@@ -235,11 +239,14 @@ scan %.1f ms
 Scan radius	
 Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	
 Scans per second	
+search creature name or key (3+ letters)	
 search item name or key (3+ letters)	
 Sending events	
 Set	
+set to never on the Creatures tab	
 Settings: %ls	
 Show a brief notice when auto-loot is toggled	
+Showing current overrides. Type to search all %d creatures.	
 Showing current overrides. Type to search all %d items.	
 Showing the nearest %d of %d. The rest are further away.	
 Skip all	
@@ -267,6 +274,7 @@ The game removes taken objects with a delay. This stops the same object being se
 The game treats this as stealing and will put a bounty on you.	
 The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	
 The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	
+These win over the Insects, Fish and Small animals switches. Only things the game lets you catch alive can be caught at all, whatever is set here.	
 This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	
 Timber and branches on the ground and nodes that yield them.	
 Treasure and keepsakes	
