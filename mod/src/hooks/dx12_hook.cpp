@@ -963,6 +963,10 @@ namespace ml::hooks
         {
             DrawOverlay(swapChain);
             drew = true;
+            // Proof the render path is alive. State::Captures reads this so an
+            // overlay that stops drawing releases the pad instead of holding it
+            // for the rest of the session.
+            State::Get().lastDrawAt = GetTickCount();
         }
         __except (EXCEPTION_EXECUTE_HANDLER)
         {

@@ -464,15 +464,19 @@ namespace ml::loot::hooks
         // Keep only what could be a vein. A real collect key, or a result that
         // is not the base of one, or a call made while the mod is driving a
         // break. Everything else is counted and thrown away.
-        static volatile LONG s_skipped = 0;
+        // Nothing atomic on the common path.
+        //
+        // This function is called tens of thousands of times a second. The
+        // first version ran an InterlockedIncrement on every one of them just
+        // to count the ones it was throwing away, and that was enough to cost
+        // frames: a single dpad press still registered but a press and hold
+        // stopped opening the radial menu, because a hold needs evenly timed
+        // polling and an edge does not. A probe that changes the thing it is
+        // measuring is worse than no probe.
+        //
+        // The uninteresting case now costs one comparison and a return.
         const bool worthIt = (key != 0) || (n != 1) || t_ourBreak;
-        if (!worthIt)
-        {
-            const LONG sk = InterlockedIncrement(&s_skipped);
-            if (sk == 1 || sk == 500 || sk == 5000)
-                LOG("[yield] %ld calls so far with no collect key and a base result; not ore, ignoring them.", sk);
-            return n;
-        }
+        if (!worthIt) return n;
 
         static volatile LONG s_said = 0;
         if (InterlockedIncrement(&s_said) <= 200)
