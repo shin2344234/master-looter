@@ -264,6 +264,17 @@ namespace ml::game
     }
     uintptr_t Comps(uintptr_t e) { return mem::Deref(e, kOff_Ent_Comps); }
 
+    // The status component's second category byte, read straight off an
+    // entity. Two derefs and a slot-cache hit, so it can be asked of every
+    // parented object the enumeration hands over, not only the ones in range.
+    uint8_t Cat2(uintptr_t e)
+    {
+        const uintptr_t status = CompByClass(Comps(e), kCls_Status);
+        uint8_t c = 0;
+        if (!status || !mem::Read8(status + kOff_Status_Cat2, &c)) return 0;
+        return c;
+    }
+
     // Component slots are fixed but may move between patches; the class name
     // never does. The first successful RTTI match per class caches the slot
     // and vtable so later lookups are one pointer compare.

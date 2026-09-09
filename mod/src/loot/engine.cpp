@@ -626,8 +626,9 @@ namespace ml::loot
     {
         uint32_t eid;
         int   kids, tickKids;   // children of any sort, best single tick
-        int   gear, tickGear;   // children that classified as items
-        DWORD seen, tick, gearTick;
+        int   gear, tickGear;   // children that classified as items, or carry the worn byte
+        int   tickWorn;         // worn children seen in this enumeration tick
+        DWORD seen, tick, gearTick, wornTick;
         Vec3  pos;
         uint32_t route;
         int Score() const { return gear * 8 + kids; }
@@ -701,7 +702,9 @@ namespace ml::loot
                 }
                 if (slot < 0) return;   // nothing evictable: keep what we have
             }
-            g_holders[slot] = { parent, 0, 0, 0, 0, now, now, 0, at, route };
+            Holder nh{};
+            nh.eid = parent; nh.seen = now; nh.tick = now; nh.pos = at; nh.route = route;
+            g_holders[slot] = nh;
             h = &g_holders[slot];
         }
         if (h->tick != now) { h->tick = now; h->tickKids = 0; }
@@ -733,6 +736,28 @@ namespace ml::loot
             if (h.gearTick != now) { h.gearTick = now; h.tickGear = 0; }
             ++h.tickGear;
             if (h.tickGear > h.gear) h.gear = h.tickGear;
+            return;
+        }
+    }
+
+    // A worn item says so in its own status byte, and it says so from any
+    // distance. NoteHolderGear runs in the classify pass and so only ever
+    // speaks for a holder within scan range, which was a catch-22 as Damiane:
+    // her gear is on a body far from the identity actor the scan starts on,
+    // so it never classified, so the body never scored above its raw child
+    // count, so a ship with forty-five parts won every pick and a whole
+    // session looted nothing. This counts the same gear from the enumeration
+    // instead. Same high-water mark, fed by whichever per-tick count is
+    // larger, so a child seen by both paths is not counted twice.
+    static void NoteHolderWorn(uint32_t parent, DWORD now)
+    {
+        for (int i = 0; i < g_holderN; ++i)
+        {
+            Holder& h = g_holders[i];
+            if (h.eid != parent) continue;
+            if (h.wornTick != now) { h.wornTick = now; h.tickWorn = 0; }
+            ++h.tickWorn;
+            if (h.tickWorn > h.gear) h.gear = h.tickWorn;
             return;
         }
     }
@@ -2432,7 +2457,11 @@ namespace ml::loot
             if (!game::WorldPos(e, &q)) return true;
             // Before the range filter, or gear on a body 1750 m away is never
             // seen and the body is never placed.
-            if (const uint32_t par = game::ParentEid(e)) NoteHolder(par, q, game::Route(e), now);
+            if (const uint32_t par = game::ParentEid(e))
+            {
+                NoteHolder(par, q, game::Route(e), now);
+                if (game::Cat2(e) == 0x11) NoteHolderWorn(par, now);
+            }
             const float dx = q.x - mp.x, dy = q.y - mp.y, dz = q.z - mp.z;
             const float d = std::sqrt(dx * dx + dy * dy + dz * dz);
             if (d < nearestD) { nearestD = d; nearestEid = eid; nearestEnt = e; }

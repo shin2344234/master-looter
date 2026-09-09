@@ -66,6 +66,7 @@ namespace ml::game
     uint8_t  TypeTag(uintptr_t e);              // 0xFF when unreadable; 6 item, 7 plant/ore
     uintptr_t Comps(uintptr_t e);               // component slot array
     uintptr_t CompByClass(uintptr_t comps, const char* cls); // RTTI name contains cls
+    uint8_t  Cat2(uintptr_t e);                 // status category byte; 0x11 worn item, 0 when unreadable
     uintptr_t Transform(uintptr_t comps);
     bool     WorldPos(uintptr_t e, Vec3* out);  // parent-relative position resolved to world
     uint32_t ParentEid(uintptr_t e);            // 0 when none
