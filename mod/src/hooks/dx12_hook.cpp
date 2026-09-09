@@ -1160,6 +1160,35 @@ namespace ml::hooks
                _stricmp(mod, "d3d12core.dll") == 0 || _stricmp(mod, "dxgi.DLL") == 0;
     }
 
+    // Whether the module that owns an address actually lives in the Windows
+    // system directory, as against merely being called what a system DLL is
+    // called.
+    //
+    // ReShade installs itself as dxgi.dll in the game folder, and so do other
+    // overlays. Judged by name alone that proxy passes as the system library,
+    // and this mod then writes an inline detour into another mod's code. That
+    // was the whole of the hang reproduced for issue 34: with the swapchain
+    // wrapper off the one hook still installed was ExecuteCommandLists, and it
+    // had resolved to "dxgi.dll", which on that machine was ReShade's proxy in
+    // bin64. On a clean machine the same function resolves to D3D12Core.dll.
+    static bool ModuleInSystemDir(void* addr)
+    {
+        HMODULE m = nullptr;
+        if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                reinterpret_cast<LPCSTR>(addr), &m) || !m)
+            return false;
+        char path[MAX_PATH] = "";
+        if (!GetModuleFileNameA(m, path, MAX_PATH)) return false;
+        char sys[MAX_PATH] = "";
+        const UINT n = GetSystemDirectoryA(sys, MAX_PATH);
+        if (!n || n >= MAX_PATH) return false;
+        return _strnicmp(path, sys, n) == 0 && (path[n] == '\\' || path[n] == '/');
+    }
+
+    // The same question answered by where the module lives, which is the one
+    // that cannot be fooled. ReShade installs itself as dxgi.dll beside the
+    // game,
+
     // A function whose first bytes are already a jump has been detoured in
     // place by someone else. The owning module stays the system DLL in that
     // case, so the module name alone cannot see it; only the bytes can.
@@ -1294,6 +1323,14 @@ namespace ml::hooks
         if (!IsSystemOwner(mod))
         {
             LOG("[hook] %s @ %p in %s (%s), which is not a system DLL: another mod owns it, so this one is left alone", what, addr, mod, bytes);
+            return false;
+        }
+        // Right name, wrong place. A dxgi.dll that lives beside the game is a
+        // proxy some other mod installed, and detouring it is detouring them.
+        if (!ModuleInSystemDir(addr))
+        {
+            LOG("[hook] %s @ %p in %s (%s), a module named like a system DLL but living in the game folder, "
+                "so it is another mod's proxy: left alone", what, addr, mod, bytes);
             return false;
         }
         LOG("[hook] %s @ %p in %s (%s)", what, addr, mod, bytes);
@@ -1515,6 +1552,58 @@ namespace ml::hooks
     // Our replacement for the factory's CreateSwapChainForHwnd vtable slot. Calls
     // the real slot (saved), then wraps the result. Not a MinHook detour - see
     // InstallSwapChainCreationPatch.
+    // The four detour targets, read off the game's own objects. Slot numbers
+    // are the interface layout, which is fixed: Present is IDXGISwapChain[8],
+    // ResizeBuffers [13], SetColorSpace1 is IDXGISwapChain3[38], and
+    // ExecuteCommandLists is ID3D12CommandQueue[10]. Each still goes through
+    // LogHookTarget, so anything already detoured, owned by another module, or
+    // sitting in a proxy that borrows a system DLL's name is left alone.
+    static void InstallDetoursFrom(IDXGISwapChain1* chain, IUnknown* queueUnk)
+    {
+        static bool s_done = false;
+        if (s_done || !chain) return;
+        s_done = true;
+
+        void** scVt = *reinterpret_cast<void***>(chain);
+        void* presentAddr = scVt[8];
+        void* resizeAddr  = scVt[13];
+        void* colorSpaceAddr = nullptr;
+        IDXGISwapChain3* sc3 = nullptr;
+        if (SUCCEEDED(chain->QueryInterface(IID_PPV_ARGS(&sc3))) && sc3)
+        {
+            colorSpaceAddr = (*reinterpret_cast<void***>(sc3))[38];
+            sc3->Release();
+        }
+        void* execAddr = nullptr;
+        ID3D12CommandQueue* q = nullptr;
+        if (queueUnk && SUCCEEDED(queueUnk->QueryInterface(IID_PPV_ARGS(&q))) && q)
+        {
+            execAddr = (*reinterpret_cast<void***>(q))[10];
+            q->Release();
+        }
+
+        struct Target { const char* name; void* addr; void* detour; void** orig; };
+        const Target targets[] = {
+            { "Present",             presentAddr,    reinterpret_cast<void*>(&hkPresent),             reinterpret_cast<void**>(&oPresent) },
+            { "ResizeBuffers",       resizeAddr,     reinterpret_cast<void*>(&hkResizeBuffers),       reinterpret_cast<void**>(&oResizeBuffers) },
+            { "ExecuteCommandLists", execAddr,       reinterpret_cast<void*>(&hkExecuteCommandLists), reinterpret_cast<void**>(&oExecuteCommandLists) },
+            { "SetColorSpace1",      colorSpaceAddr, reinterpret_cast<void*>(&hkSetColorSpace1),      reinterpret_cast<void**>(&oSetColorSpace1) },
+        };
+        int hooked = 0, skipped = 0;
+        for (const Target& t : targets)
+        {
+            if (!t.addr || !LogHookTarget(t.name, t.addr)) { ++skipped; continue; }
+            if (MH_CreateHook(t.addr, t.detour, t.orig) != MH_OK) { LOG_ERR("MH_CreateHook failed for %s.", t.name); ++skipped; continue; }
+            ++hooked;
+        }
+        if (skipped)
+            LOG("%d of 4 DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped);
+        if (!hooked && skipped == 4)
+            LOG_ERR("Every DirectX function was already hooked by something else. The overlay depends entirely on the swapchain wrapper now.");
+        if (hooked && MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
+            LOG_ERR("MH_EnableHook failed; the DirectX detours are not active.");
+    }
+
     static HRESULT STDMETHODCALLTYPE hkFactoryCreateSwapChainForHwnd(
         IDXGIFactory2* self, IUnknown* device, HWND hwnd,
         const DXGI_SWAP_CHAIN_DESC1* desc, const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fsDesc,
@@ -1528,6 +1617,12 @@ namespace ml::hooks
         const HRESULT hr = oFactoryCreateSwapChainForHwnd(self, device, hwnd, desc, fsDesc, restrictOut, ppSwapChain);
         if (guard.wasNested || FAILED(hr))
             return hr;
+
+        // The game's real chain and queue, the first time they exist. Tiny
+        // chains are probes and not the game's window; skip those the way
+        // WrapSwapChain does.
+        if (ppSwapChain && *ppSwapChain && desc && desc->Width >= 100 && desc->Height >= 100)
+            InstallDetoursFrom(*ppSwapChain, device);
 
         // Wrap the first swapchain and never a replacement.
         //
@@ -1580,7 +1675,8 @@ namespace ml::hooks
             PublishPresentQueue(pq, true);
             pq->Release();
         }
-        WrapSwapChain(ppSwapChain, hwnd);
+        if (Settings::Get().wrapSwapChain)
+            WrapSwapChain(ppSwapChain, hwnd);
         return hr;
     }
 
@@ -1744,84 +1840,42 @@ namespace ml::hooks
 
     bool InstallDX12Hooks()
     {
-        // Arm crash diagnostics first, before the engine's device exists.
-        EnableDredIfAvailable();
+        // No throwaway device, ever. This used to create a D3D12 device, a
+        // command queue and a swapchain purely to read vtable slots, then
+        // release them. ReShade redirects every D3D12CreateDevice, and RenoDX
+        // attaches to the first device it sees, which was ours: on the test
+        // machine its only OnInitDevice of the whole run hooked that device,
+        // we released it, and it never re-attached to the game's real one.
+        // Its injections then ran against nothing and the game died at
+        // CrimsonDesert.exe+0x30314D2, which is issue 34 exactly.
+        //
+        // The vtable slots are read instead from the game's own swapchain and
+        // queue the first time it creates them, inside the factory hook, and
+        // the detours go in then. Same addresses on a clean machine, because
+        // vtables are per class; on a machine with a proxy in front, the
+        // proxy's own vtable, which the ownership check then refuses to touch.
+        if (Settings::Get().enableDred) EnableDredIfAvailable();
+        else LOG("DRED not armed (EnableDred=0). Set EnableDred=1 to report GPU breadcrumbs on a device removal.");
 
-        void* presentAddr    = nullptr;
-        void* resizeAddr     = nullptr;
-        void* execAddr       = nullptr;
-        void* colorSpaceAddr = nullptr;
-
-        if (!GetVTableAddresses(presentAddr, resizeAddr, execAddr, colorSpaceAddr))
-        {
-            LOG_ERR("Failed to resolve DX12 vtable addresses.");
-            return false;
-        }
-
-        // Must be ready before the ExecuteCommandLists hook can fire.
         InitializeCriticalSection(&g_queueLock);
         g_queueLockReady = true;
-
-        // These four are hooked one at a time rather than all or nothing,
-        // because another overlay mod detouring the same DXGI functions is
-        // ordinary and stacking a second detour on an existing one is where
-        // this goes wrong. A skipped hook costs nothing while the swapchain
-        // wrapper is doing the drawing, which is the normal case: the wrapper
-        // overrides Present, ResizeBuffers and SetColorSpace1 itself, and these
-        // are only the fallback for a swapchain that never got wrapped.
-        struct Target { const char* name; void* addr; void* detour; void** orig; };
-        const Target targets[] = {
-            { "Present",             presentAddr,    reinterpret_cast<void*>(&hkPresent),             reinterpret_cast<void**>(&oPresent) },
-            { "ResizeBuffers",       resizeAddr,     reinterpret_cast<void*>(&hkResizeBuffers),       reinterpret_cast<void**>(&oResizeBuffers) },
-            { "ExecuteCommandLists", execAddr,       reinterpret_cast<void*>(&hkExecuteCommandLists), reinterpret_cast<void**>(&oExecuteCommandLists) },
-            { "SetColorSpace1",      colorSpaceAddr, reinterpret_cast<void*>(&hkSetColorSpace1),      reinterpret_cast<void**>(&oSetColorSpace1) },
-        };
-        int hooked = 0, skipped = 0;
-        for (const Target& t : targets)
-        {
-            if (!LogHookTarget(t.name, t.addr)) { ++skipped; continue; }
-            if (MH_CreateHook(t.addr, t.detour, t.orig) != MH_OK) { LOG_ERR("MH_CreateHook failed for %s.", t.name); ++skipped; continue; }
-            ++hooked;
-        }
-        if (skipped)
-            LOG("%d of %d DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped, hooked + skipped);
-        if (!hooked && skipped == 4)
-            LOG_ERR("Every DirectX function was already hooked by something else. The overlay depends entirely on the swapchain wrapper now.");
-
-        if (MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
-        {
-            LOG_ERR("MH_EnableHook failed.");
-            return false;
-        }
 
         // DLSS-G / Frame Generation: patch the factory's CreateSwapChainForHwnd
         // slot so the game's swapchain comes back wrapped, letting the overlay
         // draw into the writable game-facing buffer before Streamline interpolates.
-        // Done AFTER the dummy swapchain above is gone so it is never wrapped.
         // Best-effort: if it fails the native present hook still draws (non-FG).
         //
         // This is the part that reaches furthest into the process, since the
         // patch goes into a vtable other overlay mods use as well. Anyone whose
         // game will not start alongside another overlay can turn it off in the
         // ini without launching the game, and keep everything else.
-#ifdef ML_FORCE_NO_WRAP
-        // Test build. The swapchain is left alone whatever the ini says,
-        // because the ini on the machine under test asks for wrapping and this
-        // experiment is the whole point of the build. Toggling frame
-        // generation there kills the game with two null dereferences inside
-        // game code, on a path the game null-checks elsewhere, and the wrapper
-        // is the only thing this mod puts in that path. If the crash goes away
-        // here, that is the answer.
-        (void)Settings::Get().wrapSwapChain;
-        LOG("*** TEST BUILD: swapchain wrapping is FORCED OFF, ignoring the ini. ***");
-        LOG("    The menu will not draw while frame generation is on. That is expected.");
-        LOG("    If frame generation can now be toggled without dying, the wrapper is the cause.");
-#else
-        if (Settings::Get().wrapSwapChain)
-            InstallSwapChainCreationPatch();
-        else
+        // Always. The factory hook is where the game's real swapchain and its
+        // queue first appear, and that is now the only place the detour
+        // targets can be learned from. Whether the chain is then wrapped is a
+        // separate decision, made inside the hook from WrapSwapChain.
+        InstallSwapChainCreationPatch();
+        if (!Settings::Get().wrapSwapChain)
             LOG("WrapSwapChain=0: the swapchain is left alone. The overlay draws through the present hook, which does not show under DLSS frame generation.");
-#endif
 
         char exePath[MAX_PATH]{};
         GetModuleFileNameA(nullptr, exePath, MAX_PATH);
