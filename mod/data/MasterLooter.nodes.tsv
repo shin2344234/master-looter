@@ -120,122 +120,12 @@ gimmick_aka_quarry_bigstone_01	ore		Aka quarry bigstone	tag
 gimmick_aka_quarry_bigstone_02	ore		Aka quarry bigstone	tag
 gimmick_ancient_stone_soldier_01_b_gmk_05	stone		Ancient stone soldier 01 b gmk	name
 gimmick_ancient_stone_warrior_01_b_gmk_05	stone		Ancient stone warrior 01 b gmk	name
-gimmick_attach_abyssgrass_landspider_01	plant		Attach abyssgrass landspider	name
-gimmick_attach_abyssgrass_landspider_02	plant		Attach abyssgrass landspider	name
-gimmick_attach_hyena_mushroom_01	plant		Hyena poison mushroom	name
-gimmick_attach_lake_stone_01	stone	Stone_Quarry	Stone	name
-gimmick_attach_lake_stone_01_part	stone		Attach lake stone 01 part	name
-gimmick_attach_landspider_bismuthqueen_rock_01	stone		Stone	name
-gimmick_attach_landspider_bismuthqueen_rock_02	stone		Stone	name
-gimmick_attach_landspider_bismuthqueen_rock_03	stone		Stone	name
-gimmick_attach_landspider_bismuthqueen_rock_04	stone		Stone	name
-gimmick_attach_landspider_bismuthqueen_rock_05	stone		Stone	name
-gimmick_attach_landspider_bismuthqueen_rock_06	stone		Stone	name
-gimmick_attach_landspider_bismuthqueen_rock_07	stone		Stone	name
-gimmick_attach_landspider_bismuthqueen_rock_08	stone		Stone	name
-gimmick_attach_landspider_queen_rock_01	stone		Attach landspider queen rock	name
-gimmick_attach_landspider_queen_rock_02	stone		Attach landspider queen rock	name
-gimmick_attach_landspider_queen_rock_03	stone		Attach landspider queen rock	name
-gimmick_attach_landspider_queen_rock_04	stone		Attach landspider queen rock	name
-gimmick_attach_landspider_queen_rock_05	stone		Attach landspider queen rock	name
-gimmick_attach_landspider_queen_rock_06	stone		Attach landspider queen rock	name
-gimmick_attach_landspider_queen_rock_07	stone		Attach landspider queen rock	name
 gimmick_attach_mine_bismuth_place_01	ore		Mine bismuth attach	tag
 gimmick_attach_mine_diamond_place_01	ore		Mine diamond attach	tag
 gimmick_attach_mine_ironstone_place_01	ore		Mine iron attach	tag
 gimmick_attach_mine_redstone_place_01	ore		Mine redstone attach	tag
-gimmick_attach_seraphim_innerstone_01	stone		Attach seraphim innerstone	name
-gimmick_attach_seraphim_lowerstone_01	stone		Attach seraphim lowerstone	name
-gimmick_attach_seraphim_lowerstone_02	stone		Attach seraphim lowerstone	name
-gimmick_attach_seraphim_lowerstone_03	stone		Attach seraphim lowerstone	name
-gimmick_attach_seraphim_lowerstone_04	stone		Attach seraphim lowerstone	name
-gimmick_attach_seraphim_lowerstone_05	stone		Attach seraphim lowerstone	name
-gimmick_attach_seraphim_upperstone_01	stone		Attach seraphim upperstone	name
-gimmick_attach_seraphim_upperstone_02	stone		Attach seraphim upperstone	name
 gimmick_attach_spot_tower_bismuth_01_break	ore		Ore	tag
 gimmick_attach_spot_tower_bismuth_06_break	ore		Ore	tag
-gimmick_attach_stoneowl_01_base	stone		Stoneowl 01 base	name
-gimmick_attach_stoneowl_01_turret_launcher	stone		Stone	name
-gimmick_attach_stoneowl_02_base	stone		Desert stoneowl 01 base	name
-gimmick_attach_stoneowl_02_base_index01	stone		Snow stoneowl 01 base	name
-gimmick_attach_stoneowl_elite_01_base	stone		Stoneowl elite 01 base	name
-gimmick_attach_stoneowl_elite_02_base	stone		Desert stoneowl elite 01 base	name
-gimmick_attach_stoneowl_elite_02_base_index01	stone		Snow stoneowl elite 01 base	name
-gimmick_attach_stonetoad_01	stone		Attach stonetoad	name
-gimmick_attach_stonetoad_01_index01	stone		Attach stonetoad 01 index01	name
-gimmick_attach_stonetoad_01_index02	stone		Attach stonetoad 01 index02	name
-gimmick_attach_stonetoad_01_index03	stone		Attach stonetoad 01 index03	name
-gimmick_attach_stonetoad_01_vegetation	stone		Attach stonetoad 01 vegetation	name
-gimmick_attach_stonetoad_02	stone		Attach stonetoad	name
-gimmick_attach_stonetoad_02_index01	stone		Attach stonetoad 02 index01	name
-gimmick_attach_stonetoad_02_index02	stone		Attach stonetoad 02 index02	name
-gimmick_attach_stonetoad_02_index03	stone		Attach stonetoad 02 index03	name
-gimmick_attach_stoneworm_01	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_02	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_03	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_04	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_05	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_06	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_07	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_08	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_09	stone		Attach stoneworm	name
-gimmick_attach_stoneworm_index01_01	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index01_02	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index01_03	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index01_04	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index01_05	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index01_06	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index01_07	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index01_08	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index01_09	stone		Attach stoneworm index01	name
-gimmick_attach_stoneworm_index02_01	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index02_02	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index02_03	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index02_04	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index02_05	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index02_06	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index02_07	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index02_08	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index02_09	stone		Attach stoneworm index02	name
-gimmick_attach_stoneworm_index03_01	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index03_02	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index03_03	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index03_04	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index03_05	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index03_06	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index03_07	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index03_08	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index03_09	stone		Attach stoneworm index03	name
-gimmick_attach_stoneworm_index04_01	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index04_02	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index04_03	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index04_04	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index04_05	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index04_06	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index04_07	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index04_08	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index04_09	stone		Attach stoneworm index04	name
-gimmick_attach_stoneworm_index05_01	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index05_02	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index05_03	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index05_04	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index05_05	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index05_06	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index05_07	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index05_08	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index05_09	stone		Attach stoneworm index05	name
-gimmick_attach_stoneworm_index06_01	stone		Attach stoneworm index06	name
-gimmick_attach_stoneworm_index06_02	stone		Attach stoneworm index06	name
-gimmick_attach_stoneworm_index06_03	stone		Attach stoneworm index06	name
-gimmick_attach_stoneworm_index06_04	stone		Attach stoneworm index06	name
-gimmick_attach_stoneworm_index06_05	stone		Attach stoneworm index06	name
-gimmick_attach_stoneworm_index06_06	stone		Attach stoneworm index06	name
-gimmick_attach_stoneworm_index06_07	stone		Attach stoneworm index06	name
-gimmick_attach_stoneworm_index06_08	stone		Attach stoneworm index06	name
-gimmick_attach_stoneworm_index06_09	stone		Attach stoneworm index06	name
-gimmick_attach_thornyvine_01	plant		Character attach thornyvine	name
-gimmick_attach_thornyvine_02	plant		Character attach thornyvine	name
-gimmick_attach_thornyvine_03	plant		Character attach thornyvine	name
 gimmick_beacon_firewood_0001	wood		Beacon firewood	name
 gimmick_beacon_firewood_01	wood		Beacon firewood	name
 gimmick_beacon_firewood_03	wood		Beacon firewood	name

@@ -38,7 +38,8 @@ TAG_KIND = {
 FRUIT_TAGS = ("catch_treefruit", "catch_berries", "catch_groundfruit", "catch_crops", "catch_vegetable")
 
 # Fallback for gather nodes the table does not tag, read off the prefab name.
-# Ordered: the first hit wins.
+# Ordered: the first hit wins. Never consulted for a gimmick_attach_ prefab;
+# see kind_for().
 NAME_KIND = [
     ("wood",  ("_log", "log_", "firewood", "timber", "stump", "branch", "_tree", "tree_")),
     # No ore branch. The game tags every mine and ore gather node it has, so a
@@ -158,7 +159,7 @@ NOT_A_VEIN = ("pipe", "shop", "npctable", "store", "fountain", "airballoon",
               "visione", "abyss", "magnet", "vehicle", "cannon", "furnace")
 
 
-def kind_for(tags, name):
+def kind_for(tags, name, prefab):
     """The kind, and whether the game said so or the name merely suggested it."""
     for t in FRUIT_TAGS:
         if t in tags:
@@ -170,6 +171,15 @@ def kind_for(tags, name):
     # and as something other than a gather node. Guessing from the name here
     # would be second-guessing it.
     if tags:
+        return "", False
+    # A gimmick_attach_ prefab is a piece bolted to a creature or a mechanism:
+    # stoneworm and stonetoad plating, stoneowl bases, landspider queen rocks,
+    # seraphim stones, thorny vines. None of them is something a player
+    # gathers, and gathering one empties its visual while whatever carries its
+    # damage volume stays put, which is issue #41. The game tags the six real
+    # mining spots under this prefix itself, so the guess can only add false
+    # positives here, and it added 110 of them.
+    if prefab.startswith("gimmick_attach_"):
         return "", False
     low = name.lower()
     for kind, words in NAME_KIND:
@@ -212,11 +222,11 @@ def main():
             continue
         stats["with_path"] += 1
         tags = {s for s in ss if s.startswith(("collect", "catch"))}
-        kind, vouched = kind_for(tags, name)
+        base = prefab_key(path)
+        kind, vouched = kind_for(tags, name, base)
         if not kind:
             continue
         stats["tagged" if vouched else "by_name"] += 1
-        base = prefab_key(path)
         if base in seen:
             continue
         seen.add(base)
