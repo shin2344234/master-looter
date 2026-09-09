@@ -642,6 +642,21 @@ namespace ml::loot
     static constexpr DWORD kBodyHoldMs = 2500;
     static uint32_t s_challenger = 0;
     static DWORD    s_challengeSince = 0;
+    static bool     s_challengeSaid = false;   // the takeover line, once per challenger
+    static uint32_t s_missingSaid = 0;         // the body the absence line was last written for
+
+    // Gear first, score second. A child that classified as an item is the only
+    // evidence that a holder is a person, and no count of parts equals one of
+    // them. Score alone put a war ship at 40 and the player identity at 63 in
+    // one reporter's log, and the ship still held the centre for four minutes
+    // and forty seconds, so whatever let it through was not the arithmetic.
+    // This is asked wherever a winner is picked, not only when an incumbent is
+    // being defended.
+    static bool Beats(const Holder& a, const Holder& b)
+    {
+        if ((a.gear > 0) != (b.gear > 0)) return a.gear > 0;
+        return a.Score() > b.Score();
+    }
     // The current scan's timestamp, so the classify pass stamps its gear counts
     // with the same tick the enumeration used. Two calls to GetTickCount a few
     // milliseconds apart would read as two ticks and reset the per-tick count.
@@ -743,10 +758,31 @@ namespace ml::loot
             if (now - h.seen > kHolderFreshMs || h.kids < 3) continue;
             if (playerRoute && h.route && h.route != playerRoute) continue;
             if (g_bodyEid && h.eid == g_bodyEid) incumbent = &h;
-            if (!best || h.Score() > best->Score()) best = &h;
+            if (!best || Beats(h, *best)) best = &h;
         }
         // Nothing held yet, or what was held has gone stale: take the best.
-        if (!incumbent) { s_challenger = 0; return best; }
+        if (!incumbent)
+        {
+            // Issue #36. This branch has no margin, no hold and no gear test,
+            // so if a body was held a moment ago and is not here now, this is
+            // where a cargo ship takes the centre outright. Nothing in any
+            // log has ever said which filter dropped the body, so say it,
+            // once per body, in the terms the filters above use.
+            if (g_bodyEid && s_missingSaid != g_bodyEid)
+            {
+                s_missingSaid = g_bodyEid;
+                const Holder* h = nullptr;
+                for (int i = 0; i < g_holderN; ++i) if (g_holders[i].eid == g_bodyEid) { h = &g_holders[i]; break; }
+                if (!h)
+                    LOG("[player] the body %08X is not in the holder table at all (%d of 32 slots used); choosing afresh", g_bodyEid, g_holderN);
+                else
+                    LOG("[player] the body %08X is in the table but filtered out: seen %lu ms ago (limit %lu), %d children, %d of them equipment, route %08X against the player's %08X; choosing afresh",
+                        g_bodyEid, static_cast<unsigned long>(now - h->seen), static_cast<unsigned long>(kHolderFreshMs),
+                        h->kids, h->gear, h->route, playerRoute);
+            }
+            s_challenger = 0; return best;
+        }
+        s_missingSaid = 0;
         if (!best || best->eid == incumbent->eid) { s_challenger = 0; return incumbent; }
 
         // Parts are not gear. Something that has never had a single child
@@ -757,13 +793,27 @@ namespace ml::loot
         // does not, because a big enough object can out-count seven items on
         // raw children alone.
         if (best->gear == 0 && incumbent->gear > 0) { s_challenger = 0; return incumbent; }
+        // And its mirror. Something with gear takes the centre from something
+        // without, whatever the counts say, after the same hold. In the same
+        // log a prison wagon kept the centre for eighty seconds against the
+        // real body because the body's score did not clear the margin.
+        const bool gearOverParts = best->gear > 0 && incumbent->gear == 0;
 
         // Half again as much, and two more outright, or it is noise.
         const int mine = incumbent->Score(), theirs = best->Score();
-        if (theirs < mine + 2 || theirs * 2 < mine * 3) { s_challenger = 0; return incumbent; }
+        if (!gearOverParts && (theirs < mine + 2 || theirs * 2 < mine * 3)) { s_challenger = 0; return incumbent; }
 
-        if (s_challenger != best->eid) { s_challenger = best->eid; s_challengeSince = now; }
+        if (s_challenger != best->eid) { s_challenger = best->eid; s_challengeSince = now; s_challengeSaid = false; }
         if (now - s_challengeSince < kBodyHoldMs) return incumbent;
+        // Both sides of the decision, once. The caller's line names the winner
+        // and where it stands; this one says what it beat and by how much.
+        if (!s_challengeSaid)
+        {
+            s_challengeSaid = true;
+            LOG("[player] %08X (%d children, %d equipment, score %d) takes the centre from %08X (%d children, %d equipment, score %d)%s",
+                best->eid, best->kids, best->gear, theirs, incumbent->eid, incumbent->kids, incumbent->gear, mine,
+                gearOverParts ? ", on gear alone" : "");
+        }
         return best;
     }
 
