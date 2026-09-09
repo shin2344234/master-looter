@@ -141,9 +141,23 @@ namespace ml::farhook
         Entry& e = g_entries[g_n];
         e.target = target; e.stolen = stolen;
         memcpy(e.orig, reinterpret_cast<const void*>(target), stolen);
-        if (!WriteCode(target, patch, stolen, why, whyLen)) return false;
-        ++g_n;
+
+        // Publish the trampoline before the entry patch, never after.
+        //
+        // The patch is what sends callers to the detour, and every detour calls
+        // its original straight away: hkMove opens with oMove(...) and nothing
+        // checks it first. Writing the patch first leaves a window, a few
+        // instructions wide, in which a game thread already inside the process
+        // can enter the detour and call through a null pointer. The movement
+        // tick runs thousands of times a second and these hooks go in during
+        // world load, so the window is small but it is aimed at a firehose.
+        //
+        // Publishing early is safe in a way publishing late is not: the
+        // trampoline is complete here, and until the patch lands nothing can
+        // reach the detour that would use it.
         *original = tramp;
+        if (!WriteCode(target, patch, stolen, why, whyLen)) { *original = nullptr; return false; }
+        ++g_n;
         return true;
     }
 
