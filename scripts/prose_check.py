@@ -61,6 +61,36 @@ PHRASES = [
 OPENERS = ("furthermore moreover additionally consequently notably "
            "importantly interestingly").split()
 
+# My own tics, added as they get caught. Seth has asked four times now, so the
+# ones that keep coming back stop being a judgement call and become a failure.
+# Every one of these was written more than once in a single day.
+#
+# Matched against whitespace-collapsed text, because these span line breaks in a
+# wrapped document and a pattern with a space in it silently misses otherwise.
+# The first version of this list also had every \b turned into a literal
+# backspace by a shell heredoc, so it matched nothing at all and reported a
+# clean run. Build the patterns in a file, never in a heredoc.
+TICS = [
+    (r"which is what .{0,40} looks like", 'which is what X looks like'),
+    (r"\bis the tell\b", 'is the tell'),
+    (r"\bthe giveaway (?:was|is)\b", 'the giveaway was'),
+    (r"\bI would rather\b", 'performed honesty: I would rather'),
+    (r"\b(?:my own fault|my fault|I was wrong|I had it wrong)\b", 'narrating my own error'),
+    (r"\bwhich is worse than\b", 'which is worse than'),
+    (r"\brather than a theory\b", 'rather than a theory'),
+    (r"\bthe whole (?:design|point|trick|of it)\b", 'the whole X'),
+    (r"\bthat is the (?:whole|entire) \w+", 'that is the whole X'),
+    (r"\bwhat actually happened\b", 'what actually happened'),
+    (r"\bnot a theory\b", 'not a theory'),
+    (r"\boff a log\b", 'off a log'),
+    (r"\bworth (?:saying|having|knowing) (?:plainly|rather than)\b", 'worth saying plainly'),
+    (r"\bhonest(?:ly)? (?:state|answer|position|about)\b", 'announcing my own honesty'),
+]
+
+# Saying "I got this wrong" once is candour. Five times in one document is a
+# mannerism, and it reads as performance.
+CONFESSION = r"\b(?:my own|my fault|I was wrong|I had assumed|I never checked|I should have|I failed)\b"
+
 # Product and proper names that are capitalised legitimately, so the Title Case
 # heading test does not fire on "With Definitive Mod Manager (DMM)".
 PROPER = [
@@ -112,6 +142,7 @@ def check(path):
     raw = io.open(path, encoding="utf-8").read()
     body = strip_exempt(raw)
     low = body.lower()
+    flat = re.sub(r"\s+", " ", low)
     hard, warn = [], []
 
     for ch, what in DASHES + QUOTES:
@@ -128,7 +159,7 @@ def check(path):
         if re.search(r"\b%s\b" % re.escape(w), low):
             hard.append("banned word: %s" % w)
     for p in PHRASES:
-        if p in low:
+        if p in flat:
             hard.append("stock phrase: %s" % p)
     for s in sentences(body):
         first = s.split(" ")[0].strip(",").lower()
@@ -145,6 +176,14 @@ def check(path):
         words = [w for w in re.findall(r"[A-Za-z']+", head) if len(w) > 3]
         if len(words) >= 3 and sum(w[0].isupper() for w in words) > len(words) * 0.6:
             hard.append("Title Case heading: %s" % m.group(1)[:50])
+
+    for pat, why in TICS:
+        for m in re.finditer(pat, flat):
+            hard.append("tic: %s -> ...%s..." % (why, m.group(0)[:60]))
+
+    n_conf = len(re.findall(CONFESSION, flat))
+    if n_conf > 2:
+        warn.append("%d self-corrections in one piece; once is honest, five is a mannerism" % n_conf)
 
     for w in SOFT_VOCAB:
         if re.search(r"\b%s\b" % re.escape(w), low):
