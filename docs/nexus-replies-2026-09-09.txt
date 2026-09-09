@@ -1,0 +1,100 @@
+=== to ardenness (the crash, mod 3402 posts) ===
+
+That is a properly narrowed report and it gets further than the two logs did.
+Removing RenoDX fixing it, the DLSS and RR variants making no difference, and
+Crimson Weather being fine alongside all point the same way, so thank you for
+doing that.
+
+Two things would help, one of which might just get you playing.
+
+Set WrapSwapChain=0 in MasterLooter.ini, which can be edited without starting
+the game. That stops this mod touching the swapchain at all. You lose the
+in-game menu while frame generation is on and nothing else: since 1.6.2 the
+looting no longer waits on a rendered frame, so it all still works. If the crash
+goes away with that set, the swapchain wrapper is where the collision is and I
+have somewhere specific to look.
+
+Then, if you would, 1.6.4 and a fresh log. Those three lines about Present,
+ResizeBuffers and SetColorSpace1 now follow the jump and name the module that
+got there first, instead of saying only that something had. On my own machine
+they came back as gameoverlayrenderer64.dll, the Steam overlay. On yours they
+will name whichever of RenoDX or Crimson Route is holding them, and that is the
+piece I have been guessing at.
+
+What your log already says: the mod wraps a three buffer chain, something
+rebuilds it as a two buffer waitable one, and about two seconds later the game
+dies at the same address every time reading offset 0x30 off a null pointer.
+Whatever recreates that chain is doing it while somebody still holds the old
+one. Working out whether that somebody is me is the whole question.
+
+
+=== to dofo7777 (Crimson Route author) ===
+
+Appreciated, and easier if I just tell you exactly what this mod does to the
+swapchain so you can see where it could collide.
+
+It patches one vtable slot on the DXGI factory, CreateSwapChainForHwnd,
+replacing the slot rather than detouring the function, so anything already there
+still runs. When the game creates a swapchain it hands back a proxy object
+implementing IDXGISwapChain4 that owns the real one and forwards everything,
+including the waitable methods.
+
+It deliberately does not hook Present, ResizeBuffers or SetColorSpace1 when it
+finds those already detoured. It checks the first bytes for a jump and leaves
+them alone if there is one, so two detours never end up stacked.
+
+Since 1.6.2 it releases its back buffer references before a chain is destroyed,
+which was its own crash on frame generation toggles.
+
+The shape I would suspect is two proxies over one chain, where one of us hands
+the other an object it does not expect to be handed. So the useful question is
+whether Crimson Route also wraps or replaces the swapchain, or works through
+Present alone, and what changes between your Present and DirectComposition
+modes. ardenness found that with this mod removed, DirectComposition still
+crashed for them and Present did not, which suggests the interaction is not
+purely mine.
+
+Happy to make a build with anything switched off if it would isolate something
+for you.
+
+
+=== to devikyn ===
+
+Yours may be a different problem from ardenness's, and the difference is the
+log. They got one, which means the plugin loaded and ran. You are getting none
+at all.
+
+Since 1.2.0 the log is written the moment the plugin loads, before anything is
+drawn, so no log almost always means the plugin was never injected at all. Worth checking bin64 for MasterLooter.log after a failed
+launch, and whether MasterLooter.asi is still sitting there afterwards, since
+some antivirus removes it.
+
+If a log does turn up, post it. The first ten lines name every DirectX function
+something else had already hooked, and in 1.6.4 they name which module.
+
+
+=== to Cedricdur ===
+
+The .asi disappearing from bin64 is almost certainly your antivirus taking it,
+not the game or the mod manager. It is an unsigned DLL that gets injected into a
+game and rewrites instructions in memory. A trainer does the same things, so a
+model trained on trainers answers trainer. Four of seventy flag it, all of them
+guesses, and none matching a known family.
+
+Restore it from quarantine and exclude the game's bin64 folder, or build it
+yourself from the GitHub source if you would rather not trust mine.
+
+That also explains Insert doing nothing: no plugin, no menu. Once the file
+survives a session it should behave.
+
+
+=== to Ahplla ===
+
+Done, it is in 1.6.4. General, Keys, "Take goods that belong to someone", with a
+pad chord next to it. Unbound until you set one, because every spare key in this
+game already does something and picking one for you seemed worse than making you
+choose.
+
+Flipping it clears the mod's remembered ownership answers, since those were
+given about the other case, and it says on screen which way it went. That switch
+earns you a bounty while it is on, so knowing at a glance matters.
