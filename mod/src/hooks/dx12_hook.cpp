@@ -1327,7 +1327,12 @@ namespace ml::hooks
         }
         // Right name, wrong place. A dxgi.dll that lives beside the game is a
         // proxy some other mod installed, and detouring it is detouring them.
-        if (!ModuleInSystemDir(addr))
+        // D3D12Core.dll is the Agility SDK runtime, which a game ships in its
+        // own folder on purpose, so the game-folder rule does not apply to it.
+        // The detour check above has already ruled out another mod's jump on
+        // it. Judged by place alone, ExecuteCommandLists was refused on
+        // LuxDragon's machine and the queue had no fallback.
+        if (!ModuleInSystemDir(addr) && _stricmp(mod, "d3d12core.dll") != 0)
         {
             LOG("[hook] %s @ %p in %s (%s), a module named like a system DLL but living in the game folder, "
                 "so it is another mod's proxy: left alone", what, addr, mod, bytes);
@@ -1499,6 +1504,20 @@ namespace ml::hooks
     // Replace *pp (the real swapchain the game just created) with a wrapper that
     // owns it, so every Present routes through us first. hwnd is the window the
     // swapchain was created for - used to ignore auxiliary windows.
+    // A probe is not the game. Crimson Route creates a 100 by 100 chain on a
+    // window of its own to read vtables, OptiScaler does the same, and 1.6.5
+    // took the first chain it saw as the game's: detours were read off it,
+    // the queue was pinned to it, the main window was locked to Route's, and
+    // Route was handed our wrapper back as its own probe. The game's real
+    // chains then arrived on another window and were refused as auxiliary.
+    // Nothing drew, Route saw no presents, and the menu key had nowhere to be
+    // read. LuxDragon's 1.6.6 log, issue #47. The old guard let exactly 100
+    // through. Nothing playable is under 256 on a side.
+    static bool IsProbeChain(UINT w, UINT h)
+    {
+        return w < 256 || h < 256;
+    }
+
     static void WrapSwapChain(IDXGISwapChain1** pp, HWND hwnd)
     {
         if (!pp || !*pp) return;
@@ -1506,7 +1525,7 @@ namespace ml::hooks
         // Skip tiny probe/overlay swapchains (matches OptiScaler) - never wrap our
         // own or a capability-probe surface.
         DXGI_SWAP_CHAIN_DESC1 d1 = {};
-        if (SUCCEEDED((*pp)->GetDesc1(&d1)) && (d1.Width < 100 || d1.Height < 100))
+        if (SUCCEEDED((*pp)->GetDesc1(&d1)) && IsProbeChain(d1.Width, d1.Height))
             return;
 
         // Once we have locked onto the game's main window, ignore swapchains on any
@@ -1621,7 +1640,13 @@ namespace ml::hooks
         // The game's real chain and queue, the first time they exist. Tiny
         // chains are probes and not the game's window; skip those the way
         // WrapSwapChain does.
-        if (ppSwapChain && *ppSwapChain && desc && desc->Width >= 100 && desc->Height >= 100)
+        if (desc && IsProbeChain(desc->Width, desc->Height))
+        {
+            LOG("[hook] a %ux%u swapchain on window %p (%s) is another mod's probe, not the game's: no detours, no queue, no wrapper",
+                desc->Width, desc->Height, static_cast<void*>(hwnd), hwnd && IsWindowVisible(hwnd) ? "visible" : "hidden");
+            return hr;
+        }
+        if (ppSwapChain && *ppSwapChain)
             InstallDetoursFrom(*ppSwapChain, device);
 
         // Wrap the first swapchain and never a replacement.
