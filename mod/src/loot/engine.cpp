@@ -355,6 +355,56 @@ namespace ml::loot
         auto hit = g_speciesByEid.find(eid);
         if (hit != g_speciesByEid.end()) return hit->second;
         if (g_speciesMiss.count(eid)) return sp;
+
+        // The creature says what it is, at status+0x30.
+        //
+        // Everything below this is a guess built out of model names, and it had
+        // run out: across twelve sessions every word it matched was a generic
+        // one, and it named an exact species three times. Fish all arrive as
+        // "cd_fish" and the small insects as "cd_effectmonster_normal", so
+        // c.species stayed null, the catch branch never reached the item
+        // verdict, and no item rule could refuse a live catch. Issue #39.
+        //
+        // status+0x30 is a 16-bit row of the characterinfo table and it names
+        // the creature outright. Found by sweeping every field of the four
+        // blocks this function walks and reporting only values that resolved to
+        // a creature our own table knows: it was the most frequent hit by a
+        // margin, and the class always agreed. Three fish in a shoal all read
+        // 4000, Small Rasbora; two crickets read 3860, Camel Cricket; a firefly
+        // cluster read 3932. The handful of other offsets that ever hit gave a
+        // different animal each time, which is what coincidence looks like.
+        //
+        // Exact, because this is the game's own answer rather than a word that
+        // might be shared. The string walk stays as the fallback for anything
+        // this cannot name.
+        if (status)
+        {
+            uint32_t rows = 0;
+            if (const uintptr_t chr = game::CharacterInfoTable(&rows))
+            {
+                uint16_t row = 0;
+                if (mem::Read16(status + 0x30, &row) && row && row < rows)
+                {
+                    char key[96];
+                    if (game::KeyInTable(chr, row, key, sizeof key))
+                        if (const Creature* cr = CreatureDb::ByKey(key))
+                        {
+                            sp.row = cr; sp.klass = cr->klass.c_str();
+                            sp.exact = true; sp.trust = 5;
+                            sp.word = cr->name; sp.from = key;
+                            static int s_said = 0;
+                            if (s_said < 12)
+                            {
+                                ++s_said;
+                                LOG("[species] %08X is %s (%s), from characterinfo row %u at status+0x30",
+                                    eid, cr->name.c_str(), cr->klass.c_str(), row);
+                            }
+                            g_speciesByEid[eid] = sp;
+                            return sp;
+                        }
+                }
+            }
+        }
         // A budget per category byte rather than two buckets. The old pair sent
         // every byte that was not 05 into the 09 bucket, so with live creatures
         // now identified whatever their byte, a field of beasts would spend the
