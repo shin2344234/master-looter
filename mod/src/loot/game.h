@@ -109,4 +109,9 @@ namespace ml::game
     int  EnumTables(const TableRef** out);
     // Reads the string key of one row, trying both def-array offsets.
     bool KeyInTable(uintptr_t global, uint32_t row, char* out, size_t n);
+    // The characterinfo table, resolved once. Several static tables carry that
+    // name and only one is the real one, so this takes the largest: the real
+    // one has 7250 rows and the impostor that cost a probe round has four.
+    // Returns 0 when it cannot be found.
+    uintptr_t CharacterInfoTable(uint32_t* rowsOut);
 }

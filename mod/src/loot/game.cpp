@@ -686,6 +686,29 @@ namespace ml::game
         return g_tableN;
     }
 
+    uintptr_t CharacterInfoTable(uint32_t* rowsOut)
+    {
+        static uintptr_t g_chr = 0;
+        static uint32_t  g_chrRows = 0;
+        static bool      g_looked = false;
+        if (!g_looked)
+        {
+            g_looked = true;
+            const TableRef* t = nullptr;
+            const int n = EnumTables(&t);
+            for (int i = 0; i < n; ++i)
+            {
+                if (_stricmp(t[i].name, "characterinfo") != 0) continue;
+                if (t[i].count <= g_chrRows) continue;
+                g_chr = t[i].global; g_chrRows = t[i].count;
+            }
+            if (g_chr) LOG("[table] characterinfo: %u rows, used to name creatures", g_chrRows);
+            else       LOG_ERR("[table] no characterinfo table; creatures cannot be named");
+        }
+        if (rowsOut) *rowsOut = g_chrRows;
+        return g_chr;
+    }
+
     bool KeyInTable(uintptr_t global, uint32_t row, char* out, size_t n)
     {
         for (unsigned off : { kOff_Table_DefsA, kOff_Table_DefsB })
