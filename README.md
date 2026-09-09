@@ -17,7 +17,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Water is lifted out of a well bucket while you turn the handle yourself. The mod drives the one state change the game makes for that and nothing else, so the bucket stays on the well and the handle stays in your hands. Off by default.
 - Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up each time the game starts and the last twelve are kept, so a version with different defaults is one button to undo. Anything that overwrites or discards asks first.
 - A notice appears when the bag is full, read from the bag's own slot count, so it shows the moment it fills whether or not you are looting. Turn it off under General.
-- The menu speaks Simplified and Traditional Chinese, both built into the plugin and one button each under General. Any other language is a text file away: a ready-made [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
+- The menu speaks Brazilian Portuguese plus Simplified and Traditional Chinese, all built into the plugin and available with one button each under General. Any other language is a text file away: a ready-made [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
 - A Nearby tab lists the objects around you, nearest first, with the rule that decided each one and a note when there are more than it can show; a Status tab shows every hook and signature.
 - Watch mode keeps the menu on screen while you play. Every key is rebindable, and each one can also be a two-button controller shortcut. The overlay works with DLSS frame generation and HDR.
 - Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, and `sigcheck.py` reports what a game patch broke without launching the game.
@@ -96,6 +96,7 @@ MIT, see [LICENSE](LICENSE). Third-party terms are in [mod/THIRD_PARTY_NOTICES.m
 - CDLoot: the reverse engineering of the loot event protocol, the entity layout, the ownership check and node arming. Used as knowledge; the code here is new.
 - Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time. Ultimate ASI Loader, which every ASI mod depends on.
 - dofo7777: the Simplified and Traditional Chinese menus, both done from the template within an hour of it being posted.
+- Kyo-70: the Brazilian Portuguese menu.
 
 ## Discord and Patreon
 
