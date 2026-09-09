@@ -11,6 +11,7 @@
 #include "signatures.h"
 #include "../core/log.h"
 #include "../core/settings.h"
+#include "../core/state.h"
 
 namespace ml::loot::hooks
 {
@@ -398,8 +399,19 @@ namespace ml::loot::hooks
         }
         __except (EXCEPTION_EXECUTE_HANDLER)
         {
-            LOG_ERR("[drive] exception 0x%08X driving event %08X; disabling", GetExceptionCode(), eventId);
-            oStateDriver = nullptr;   // one fault is enough, never try again this session
+            // One fault is enough: never drive again this session. The cost of
+            // being wrong the other way is the game's own state machine walking
+            // off a freed object, which is how issue #35 killed a process.
+            //
+            // Say so where the player can see it, though. Silently switching
+            // off ore breaking and well drawing for the rest of a session, with
+            // one line in a log nobody has open, reads as the mod quietly
+            // getting worse rather than as something that went wrong once.
+            LOG_ERR("[drive] exception 0x%08X driving event %08X. Breaking ore veins and drawing "
+                    "wells are off for the rest of this session; restart the game to get them "
+                    "back. Everything else keeps working.", GetExceptionCode(), eventId);
+            State::Get().Notify("Master Looter: ore breaking is off for this session, restart to restore it", 6000);
+            oStateDriver = nullptr;
             return false;
         }
         return changed;

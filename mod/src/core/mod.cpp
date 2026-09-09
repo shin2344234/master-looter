@@ -135,7 +135,17 @@ namespace ml::Mod
                          kind == 0 ? "reading" : (kind == 1 ? "writing" : "executing"),
                          reinterpret_cast<void*>(er->ExceptionInformation[1]));
             }
-            LOG_ERR("[fault] 0x%08X at %p (%s+0x%llX) thread %lu%s",
+            // Said once, because these lines get pasted into reports as "the
+            // crash" and most of them are nothing. The game probes memory with
+            // guarded reads that expect to be refused, exactly as this mod
+            // does, and every one of those arrives here first.
+            static volatile LONG s_explained = 0;
+            if (InterlockedIncrement(&s_explained) == 1)
+                LOG("[fault] the lines below are first-chance reports, written as the fault "
+                    "happens and before anyone has had a chance to handle it. Most are the "
+                    "game probing memory on purpose and are harmless. The one worth reading "
+                    "is the last one before the log stops.");
+            LOG_ERR("[fault] first chance 0x%08X at %p (%s+0x%llX) thread %lu%s",
                     c, er->ExceptionAddress, mod, off,
                     static_cast<unsigned long>(GetCurrentThreadId()), access);
         }
