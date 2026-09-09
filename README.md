@@ -40,7 +40,7 @@ Three scanners out of seventy flag `MasterLooter.asi`, and all three are machine
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three. Microsoft and Symantec have flagged every one of them. CrowdStrike Falcon and Deep Instinct come and go, and they have now traded places two releases running. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.4: [the plugin](https://www.virustotal.com/gui/file/caaea767aa446aa8193bad72c4d46fa8c2442d752a3d9dbe3a06e2d2aa507af1) and [the package](https://www.virustotal.com/gui/file/8c2ef70fb217498715dd9d69e9908d183a191ed2bc97d5c8801435c7fd425433).
+Reports for 1.6.4: [the plugin](https://www.virustotal.com/gui/file/749f4803f5876a6b3f38a0679ea12088fb8ed6b27a5784102800d8ab40fc6e58) and [the package](https://www.virustotal.com/gui/file/2ffeb06540cdf70604cd98efbade930afbd95ffa5c275d3575f23fc276fe150e).
 
 The guess is easy to explain. The plugin is an unsigned DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer. Nothing about the file argues back: it carries no code signing certificate, and a release a day old has no install history behind it.
 
@@ -48,9 +48,9 @@ What it does not do is reach the network. It imports no networking library, and 
 
 If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.4:
 
-    8c2ef70fb217498715dd9d69e9908d183a191ed2bc97d5c8801435c7fd425433  MasterLooter-1.6.4-DMM.zip
-    7008927149601636bd73ec4f0c6c50edbb7c6a72364f6cb4305a1034cbf7e9d5  MasterLooter-1.6.4.zip
-    caaea767aa446aa8193bad72c4d46fa8c2442d752a3d9dbe3a06e2d2aa507af1  MasterLooter.asi
+    2ffeb06540cdf70604cd98efbade930afbd95ffa5c275d3575f23fc276fe150e  MasterLooter-1.6.4-DMM.zip
+    392d2994d82151cac1efc86a5182395fdcdf8cd35d82840f3748e325222e0ac6  MasterLooter-1.6.4.zip
+    749f4803f5876a6b3f38a0679ea12088fb8ed6b27a5784102800d8ab40fc6e58  MasterLooter.asi
 
 ## Controls
 
