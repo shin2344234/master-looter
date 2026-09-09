@@ -2,6 +2,9 @@
 // MIT License, Copyright (c) 2026 XeTrinityz. See THIRD_PARTY_NOTICES.md.
 // Changes: Master Looter namespaces, logger, settings and menu hooks; icon atlas code removed.
 #include "xinput_hook.h"
+
+#include "../core/log.h"
+#include "../core/settings.h"
 #include <cstdio>
 
 #include <MinHook.h>
@@ -64,6 +67,21 @@ namespace ml::hooks
         static bool s_allDone = false;
         if (s_allDone)
             return;
+
+        // Nothing at all when it is switched off: no detour on any XInput
+        // module, no polling for shortcuts, the pad untouched.
+        if (!Settings::Get().hookXInput)
+        {
+            static bool s_said = false;
+            if (!s_said)
+            {
+                s_said = true;
+                LOG("HookXInput=0: the controller is left alone. The menu will not take the pad "
+                    "while it is open, and controller shortcuts will not work.");
+            }
+            s_allDone = true;
+            return;
+        }
 
         bool anyPending = false;
         for (auto& t : g_targets)
