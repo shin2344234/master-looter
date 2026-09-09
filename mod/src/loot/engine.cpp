@@ -1101,6 +1101,44 @@ namespace ml::loot
         return GatherKind::Item;
     }
 
+    // What the node is, in order of how much it can be trusted: the prefab it
+    // was placed from, the item it is already known to hold, then what one of
+    // its kind yielded earlier this session.
+    static GatherKind NodeKind(const Cand& c)
+    {
+        GatherKind kind = c.nodeType ? KindFromName(c.nodeType->kind) : GatherKind::Unknown;
+        // "item" is the game's own catch-all for a collection socket and it
+        // covers 44 of the 72 in the table, nearly all of them crops, so it is
+        // not an answer on its own. Ask what the node yields before settling
+        // for it; a real item still comes back as one.
+        if (kind == GatherKind::Unknown || kind == GatherKind::Item)
+        {
+            const GatherKind byYield = KindOf(c.db ? c.db : NodeYield(c));
+            if (byYield != GatherKind::Unknown) kind = byYield;
+        }
+        return kind;
+    }
+
+    // The switch that owns this kind, or null when it is on. Both the verdict
+    // and the arm loop ask, and they must give the same answer: arming a node
+    // the verdict will refuse is work done for nothing at best, and on a
+    // damaging thorn it half-transitions the vine and leaves the volume that
+    // hurts the player standing in thin air. Issue #41.
+    static const char* GatherSwitchOff(GatherKind kind, const Config& cfg)
+    {
+        switch (kind)
+        {
+        case GatherKind::Plant:     return cfg.gatherPlants   ? nullptr : "plants off";
+        case GatherKind::Crop:      return cfg.gatherCrops    ? nullptr : "crops off";
+        case GatherKind::Ore:       return cfg.gatherOre      ? nullptr : "ore off";
+        case GatherKind::Stone:     return cfg.gatherStone    ? nullptr : "stone off";
+        case GatherKind::Wood:      return cfg.gatherWood     ? nullptr : "wood off";
+        case GatherKind::Item:      return cfg.pickUpItems    ? nullptr : "pick up off";
+        case GatherKind::Furniture: return cfg.lootFurniture  ? nullptr : "furniture off";
+        default:                    return cfg.gatherUnknown  ? nullptr : "unidentified nodes off";
+        }
+    }
+
     // An object gets up to four attempts, each waiting longer than the last
     // (the game may refuse an event sent from too far away, and the object is
     // still there when we come closer). Only after that is it given up for
@@ -1471,7 +1509,12 @@ namespace ml::loot
         // _ice_block_break, _stone_wall_break and _pickaxe_break_point as
         // collect_mine, so they read as ordinary ore and the mod would open
         // them. Breaking the wall is the puzzle; solving it is the player's.
-        static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle" };
+        // "woodthorn" is the damaging vine of issue #41. Arming one drives a
+        // transition the node does not declare: the vine's visual goes and the
+        // volume that hurts the player stays, which left the Duskwood pillar
+        // puzzle unfinishable. It holds nothing, so nothing is lost by never
+        // touching it, and this stands even when Unidentified nodes is on.
+        static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle", "woodthorn" };
         for (const char* w : kWords) if (IStr(node, w)) return true;
         return false;
     }
@@ -1870,30 +1913,7 @@ namespace ml::loot
         }
         case Action::Gather:
         {
-            // What the node is, in order of how much it can be trusted: the
-            // prefab it was placed from, the item it is already known to hold,
-            // then what one of its kind yielded earlier this session.
-            GatherKind kind = c.nodeType ? KindFromName(c.nodeType->kind) : GatherKind::Unknown;
-            // "item" is the game's own catch-all for a collection socket and it
-            // covers 44 of the 72 in the table, nearly all of them crops, so it
-            // is not an answer on its own. Ask what the node yields before
-            // settling for it; a real item still comes back as one.
-            if (kind == GatherKind::Unknown || kind == GatherKind::Item)
-            {
-                const GatherKind byYield = KindOf(c.db ? c.db : NodeYield(c));
-                if (byYield != GatherKind::Unknown) kind = byYield;
-            }
-            switch (kind)
-            {
-            case GatherKind::Plant:   if (!cfg.gatherPlants)  return skip("plants off"); break;
-            case GatherKind::Crop:    if (!cfg.gatherCrops)   return skip("crops off"); break;
-            case GatherKind::Ore:     if (!cfg.gatherOre)     return skip("ore off"); break;
-            case GatherKind::Stone:   if (!cfg.gatherStone)   return skip("stone off"); break;
-            case GatherKind::Wood:    if (!cfg.gatherWood)    return skip("wood off"); break;
-            case GatherKind::Item:    if (!cfg.pickUpItems)   return skip("pick up off"); break;
-            case GatherKind::Furniture: if (!cfg.lootFurniture) return skip("furniture off"); break;
-            default:                  if (!cfg.gatherUnknown) return skip("unidentified nodes off"); break;
-            }
+            if (const char* off = GatherSwitchOff(NodeKind(c), cfg)) return skip(off);
             break;
         }
         default:
@@ -2721,6 +2741,13 @@ namespace ml::loot
                     // fills on its own once the player is close, so nothing is lost by
                     // leaving the whole thing alone.
                     if (IsMechanism(k.node)) continue;
+                    // Arming used to consult no looting switch whatsoever. It
+                    // reached for a node whose kind the player had turned off,
+                    // and the verdict that would have refused it never ran,
+                    // because arming comes first. With every switch that could
+                    // apply set to off, the mod still armed a damaging thorn
+                    // 28 times in one session.
+                    if (GatherSwitchOff(NodeKind(k), cfg)) continue;
                     // Ore answers slowly and is therefore reached for sooner. Known from
                     // the prefab table, before anything is asked of the game.
                     const bool oreNode = k.nodeType && KindFromName(k.nodeType->kind) == GatherKind::Ore;
