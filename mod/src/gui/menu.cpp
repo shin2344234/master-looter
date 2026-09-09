@@ -671,7 +671,7 @@ namespace ml::gui
         // separate Creatures tab was built for this in 1.6.4 and taken out
         // again: it could only act on creatures the game names, which is a
         // smaller set than the item rules already covered.
-        ImGui::TextColored(kWarn, TR("These three switches are the only control over what is caught alive. A rule set on the Items tab does not reach them: the mod almost never learns which species it is looking at, because the game hands nearly every catchable creature over under a generic model name. Across twelve recorded sessions it named an exact species three times. Fish arrive as cd_fish and the small insects as cd_effectmonster_normal, and one tench is indistinguishable from another."));
+        ImGui::TextDisabled(TR("To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only."));
         if (ImGui::BeginTable("collect", 3, ImGuiTableFlags_SizingStretchSame))
         {
             for (const Toggle& t : toggles)
