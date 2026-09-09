@@ -629,6 +629,11 @@ namespace ml::loot
         int   gear, tickGear;   // children that classified as items, or carry the worn byte
         int   tickWorn;         // worn children seen in this enumeration tick
         DWORD seen, tick, gearTick, wornTick;
+        // The entity itself has been enumerated wearing the pair of bytes only
+        // the played body has shown: type tag 04 with status category 0E. Two
+        // Damiane logs from two machines, against 03/0A for people and 03/0C
+        // for beasts, so it is a preference and not a rule until a third says.
+        bool  played;
         Vec3  pos;
         uint32_t route;
         int Score() const { return gear * 8 + kids; }
@@ -655,6 +660,7 @@ namespace ml::loot
     // being defended.
     static bool Beats(const Holder& a, const Holder& b)
     {
+        if (a.played != b.played) return a.played;
         if ((a.gear > 0) != (b.gear > 0)) return a.gear > 0;
         return a.Score() > b.Score();
     }
@@ -697,7 +703,7 @@ namespace ml::loot
                 for (int i = 0; i < 32; ++i)
                 {
                     const uint32_t e = g_holders[i].eid;
-                    if (e && (e == g_bodyEid || e == g_meEid)) continue;
+                    if (e && (e == g_bodyEid || e == g_meEid || g_holders[i].played)) continue;
                     if (slot < 0 || g_holders[i].seen < g_holders[slot].seen) slot = i;
                 }
                 if (slot < 0) return;   // nothing evictable: keep what we have
@@ -755,10 +761,15 @@ namespace ml::loot
     // object a scan, the body a metre from the centre, and after fifteen
     // seconds without a child the body aged out of its own table, twice in one
     // session. Seeing the holder is as good as seeing one of its children.
-    static void TouchHolder(uint32_t eid, const Vec3& at, DWORD now)
+    static void TouchHolder(uint32_t eid, const Vec3& at, DWORD now, bool played)
     {
         for (int i = 0; i < g_holderN; ++i)
-            if (g_holders[i].eid == eid) { g_holders[i].seen = now; g_holders[i].pos = at; return; }
+            if (g_holders[i].eid == eid)
+            {
+                g_holders[i].seen = now; g_holders[i].pos = at;
+                if (played) g_holders[i].played = true;
+                return;
+            }
     }
 
     static void NoteHolderWorn(uint32_t parent, DWORD now)
@@ -830,6 +841,11 @@ namespace ml::loot
         // does not, because a big enough object can out-count seven items on
         // raw children alone.
         if (best->gear == 0 && incumbent->gear > 0) { s_challenger = 0; return incumbent; }
+        // The played body is not displaced by anything that is not one, and a
+        // pack cow with eleven items of cargo classified is the case in hand:
+        // score 101 against the body's 36, and it took the centre.
+        if (incumbent->played && !best->played) { s_challenger = 0; return incumbent; }
+        const bool playedOverNot = best->played && !incumbent->played;
         // And its mirror. Something with gear takes the centre from something
         // without, whatever the counts say, after the same hold. In the same
         // log a prison wagon kept the centre for eighty seconds against the
@@ -838,7 +854,7 @@ namespace ml::loot
 
         // Half again as much, and two more outright, or it is noise.
         const int mine = incumbent->Score(), theirs = best->Score();
-        if (!gearOverParts && (theirs < mine + 2 || theirs * 2 < mine * 3)) { s_challenger = 0; return incumbent; }
+        if (!gearOverParts && !playedOverNot && (theirs < mine + 2 || theirs * 2 < mine * 3)) { s_challenger = 0; return incumbent; }
 
         if (s_challenger != best->eid) { s_challenger = best->eid; s_challengeSince = now; s_challengeSaid = false; }
         if (now - s_challengeSince < kBodyHoldMs) return incumbent;
@@ -849,7 +865,7 @@ namespace ml::loot
             s_challengeSaid = true;
             LOG("[player] %08X (%d children, %d equipment, score %d) takes the centre from %08X (%d children, %d equipment, score %d)%s",
                 best->eid, best->kids, best->gear, theirs, incumbent->eid, incumbent->kids, incumbent->gear, mine,
-                gearOverParts ? ", on gear alone" : "");
+                playedOverNot ? ", as the played body" : gearOverParts ? ", on gear alone" : "");
         }
         return best;
     }
@@ -1714,7 +1730,12 @@ namespace ml::loot
         k.gather = gdata != 0;
         // Who is dressed. An item hanging off something says that something is
         // wearing it; ten planks hanging off a wagon say nothing of the kind.
-        if (k.item && k.parent) NoteHolderGear(k.parent, g_scanNow);
+        // Worn only. Cargo classifies as items just the same, and a pack cow
+        // carrying ten crates of equipment and a bolt of silk counted as a
+        // person wearing eleven things; it outscored Damiane's body three to
+        // one and took the centre. The worn byte is what NoteHolderWorn reads
+        // at enumeration, so the two paths now agree on what gear is.
+        if (k.item && k.parent && k.cat2 == 0x11) NoteHolderGear(k.parent, g_scanNow);
         if (gdata)
         {
             uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
@@ -2474,7 +2495,13 @@ namespace ml::loot
                 NoteHolder(par, q, game::Route(e), now);
                 if (game::Cat2(e) == 0x11) NoteHolderWorn(par, now);
             }
-            if (g_bodyEid && eid == g_bodyEid) TouchHolder(eid, q, now);
+            // Any holder is kept fresh by its own entity passing through, and
+            // the body's pair of bytes is read on the way. The tag is one
+            // deref and gates the category read, so most objects cost one.
+            {
+                const bool played = game::TypeTag(e) == 0x04 && game::Cat2(e) == 0x0E;
+                if (played || g_holderN) TouchHolder(eid, q, now, played);
+            }
             const float dx = q.x - mp.x, dy = q.y - mp.y, dz = q.z - mp.z;
             const float d = std::sqrt(dx * dx + dy * dy + dz * dz);
             if (d < nearestD) { nearestD = d; nearestEid = eid; nearestEnt = e; }
