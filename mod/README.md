@@ -50,7 +50,7 @@ If the game will not launch alongside another overlay mod, set `WrapSwapChain=0`
 
 ## Translating the menu
 
-Simplified and Traditional Chinese ship with the mod, translated by dofo7777. Both are built into the plugin, so they survive a mod manager that deploys the .asi on its own, and each has a button under General, Language.
+Brazilian Portuguese ships with the mod, translated by Kyo-70, alongside the Simplified and Traditional Chinese from dofo7777. All three are built into the plugin, so they survive a mod manager that deploys the .asi on its own, and each has a button under General, Language.
 
 Any other language is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
@@ -114,3 +114,4 @@ MIT, see the LICENSE file in the repository root. Third-party terms are in THIRD
 - CDLoot: the reverse engineering behind the loot engine. The event protocol, the entity and component layout, the ownership oracle and node arming were worked out there. This engine uses that knowledge; its code is new.
 - Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time.
 - dofo7777: the Simplified and Traditional Chinese menus.
+- Kyo-70: the Brazilian Portuguese menu.
