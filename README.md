@@ -97,6 +97,8 @@ MIT, see [LICENSE](LICENSE). Third-party terms are in [mod/THIRD_PARTY_NOTICES.m
 - Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time. Ultimate ASI Loader, which every ASI mod depends on.
 - dofo7777: the Simplified and Traditional Chinese menus, both done from the template within an hour of it being posted.
 
-## Buy me a coffee
+## Discord and Patreon
 
-[buymeacoffee.com/sethwalker234](https://buymeacoffee.com/sethwalker234) if you want to.
+Discord: [Shin234's Mods 'n Stuff](https://discord.gg/AZ2ztQYy74), for questions and for watching what is in progress. Bugs are still best filed as issues on this repo so they get tracked.
+
+Patreon: [patreon.com/cw/Shin234](https://www.patreon.com/cw/Shin234), with the posts at [patreon.com/cw/Shin234/posts](https://www.patreon.com/cw/Shin234/posts) since the new page layout buries them. Everything published stays free, and nothing is held back for it.
