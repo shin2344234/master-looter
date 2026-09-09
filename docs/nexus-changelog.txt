@@ -32,8 +32,8 @@ yield exists the game has already handed it over. Class rules, tag rules,
 per-item rules, the value floor and the quest filter have therefore never applied
 to skinning, and they cannot be made to.
 
-The Carcasses switch has been the only real control the whole time. The
-description, the README and two menu strings say that now.
+That switch has always been the only thing here that actually decides
+anything. The description, the README and two menu strings say so now.
 
 One thing next to it was a real bug and is fixed. Anything the game flagged as
 dead went to the skinning path before the mod looked at whether it was carrying
