@@ -98,3 +98,46 @@ choose.
 Flipping it clears the mod's remembered ownership answers, since those were
 given about the other case, and it says on screen which way it went. That switch
 earns you a bounty while it is on, so knowing at a glance matters.
+
+
+=== to lsimo (bug report: game crashed after teleporting) ===
+
+You have had no reply on this and you should have, so: still open, and I have
+already been wrong about it once.
+
+Pulling the dump apart yourself was the useful part. The return address landing
+in MasterLooter.asi and RAX being zero told me where to look, and your log said
+the rest. It faulted inside the game's own gimmick driver, the guard around that
+call caught it and switched driving off, and a moment later something called
+through a null pointer and took the process.
+
+What I thought was happening: the mod queues work for the game's thread, each
+job holding a pointer to the thing it aims at, and a teleport frees those
+things. So 1.6.4 throws away anything queued when the world changes, and counts
+what it threw.
+
+That count has read zero every time, over many jumps, including ones with ore
+actively being mined. The queue drains off a function that runs thousands of
+times a second, so nothing sits in it longer than about a millisecond. There was
+never a queue to purge, and my fix cannot be the fix. It stays in because it
+costs nothing, but I have stopped claiming it.
+
+So 1.6.4 does something more useful instead. Before the mod drives one of the
+game's state machines, it now records what that object looked like an instant
+earlier: its address, whether it was still readable, and the class it names
+through its vtable. A live object names itself. A freed one has had its memory
+reused and cannot. If this happens to you again, one line will say which, and
+that ends the guessing.
+
+No need to go hunting for it. It happened once in twenty-four minutes and not
+since, so please just carry on and send the log if it ever comes back.
+
+One thing you may have noticed after that crash: ore veins stopped breaking for
+the rest of the session. That is deliberate, one fault and driving is switched
+off rather than risking it again, but it used to happen silently. In 1.6.4 it
+says so on screen and the log explains what still works and that a restart
+brings it back.
+
+Your hunch about the animation trimmer is reasonable. An instant teleport
+narrows any window between the world going away and the mod noticing, and it
+would explain why this is rare enough that I cannot reproduce it here.
