@@ -129,7 +129,7 @@ Items
 Items lying in the world, including drops from enemies.	
 Items no shop will buy, across every class.	
 Items on the ground	
-Items tagged quest are left alone so puzzles and story pickups are never auto-taken.	
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	
 Items with an unknown value are never filtered by it.	
 Keep the menu on screen while you play. %s brings it back, %s closes it.	
 Keys	
@@ -264,7 +264,7 @@ The game fills a node's data only when it thinks you can reach it. Arming asks i
 The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	
 The game treats this as stealing and will put a bounty on you.	
 The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	
-The skinning interaction, once per carcass. Human corpses drop ordinary loot instead.	
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	
 This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	
 Timber and branches on the ground and nodes that yield them.	
 Treasure and keepsakes	
