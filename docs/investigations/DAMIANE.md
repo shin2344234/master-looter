@@ -175,8 +175,8 @@ a log line added for it a build earlier, which is the way to do this.
 every parented object in the world, but a child only counted as gear once the
 classify pass had looked at it, and that pass runs within forty metres of the
 centre. As Damiane the gear is on a body far from the identity actor the scan
-starts on, so it never classified, the body never scored above its raw
-children, and a ship with forty-five parts won every pick. A whole session
+starts on, so it never classified and the body never scored above its raw
+children. A ship with forty-five parts won every pick, and a whole session
 looted nothing. A worn item says what it is in its own status byte, `0x11`,
 readable from any distance, so the enumeration now credits the parent of every
 `0x11` child with gear as it goes.
@@ -199,14 +199,15 @@ with type tag `04` and status category `0E`, on two machines; people are
 deref for the tag and two more on a hit, and the holder it names is marked as
 played. A played holder wins the pick outright, is never displaced by one that
 is not, is never evicted, and stays fresh whenever its own entity passes
-through. Two logs is a pattern and not a rule, so it stands ahead of gear as a
-preference; a companion carrying the same pair would be decided by the worn
+through. Two logs make a pattern, so it ranks ahead of gear without excluding
+anything; a companion carrying the same pair would be decided by the worn
 count and the log would say so.
 
 Two things ruled out on the way. Damiane's gear does not point back at the
 player actor: the `mine` flag, printed for the first time, lit on nothing. And
-six quiet minutes with two hundred objects in range were not a bug: everything
-in reach was a trader's owned goods, refused as theft with owned looting off.
+six quiet minutes with two hundred objects in range turned out to be correct:
+everything in reach was a trader's owned goods, refused as theft with owned
+looting off.
 
 ## Diagnostics that stay
 
