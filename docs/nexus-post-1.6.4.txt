@@ -56,23 +56,34 @@ cannot take the centre from a thing whose have.
 [size=4][b]Two you asked for[/b][/size]
 
 LuxDragon asked, back when ground lizards became catchable, whether specific
-creatures could be filtered. The answer turned out to be that they already
-could, and I did not know it while I was answering.
+creatures could be filtered. It took until now, and the answer was hiding in
+plain sight.
 
-Anything you catch alive becomes an item, and the catch is refused whenever that
-item is refused. So Item_Iguana set to never on the Items tab has left iguanas
-alone this whole time. I built a Creatures tab for it, Seth pointed out that
-everything was already on the Items tab, and he was right: my tab could only act
-on creatures the game gives a name to, which is fewer than the item rules
-covered on their own. It is out again. The Looting tab now tells you where to go
-instead, which is the part that was actually missing.
+Until today the mod worked out what a creature was by rummaging through its
+memory looking for a species word in some model name. It was worse than I
+realised. Fish all show up as "cd_fish". The small insects all show up as
+"cd_effectmonster_normal". Across twelve sessions of my own logs it managed to
+name an exact species three times. So any rule you set on a creature was being
+skipped, silently, because there was no species for it to apply to.
 
-One group nothing reaches, and I would rather say it than have you find it. The
-small flying insects have no character model. Every one of them arrives under
-the same asset name, so the mod can tell that something is an insect and has no
-way at all to tell a cricket from a butterfly. There is nothing to name, so
-there is nothing to filter. The Insects switch is the whole of it, and the menu
-says so where you would look.
+The creature had been carrying the answer all along. Two bytes into its status
+block there is a row number into the game's own character table, and that names
+it exactly. A Tench is a Tench, a Ricefish is a Ricefish, a Camel Cricket is not
+a butterfly.
+
+So per-item overrides work on creatures now. Set Item_Tench to never on the Items
+tab and tenches get left in the water while everything else is still caught.
+There is nothing new to learn, it is the same override you already use on items.
+It just never had a species to act on before.
+
+I found it by sweeping every field of the creature and printing only the ones
+that named something my creature table recognised. Two earlier attempts found
+nothing, both times because of my own bugs rather than the game's: one looked up
+the wrong table, and the other only read 16-bit fields. Neither could have
+worked.
+
+A few unusual creatures still fall back to the old guesswork and answer to the
+category switches alone.
 
 Ahplla asked for a key for taking owned goods. It is under General, Keys, and it
 is unbound until you set one, along with a pad chord. That switch earns you a

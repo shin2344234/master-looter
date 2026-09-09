@@ -44,20 +44,26 @@ the centre from something whose have.
 
 ## New
 
-LuxDragon asked after 1.5.0 whether specific creatures could be filtered. They
-already could, and I did not know it. A creature you can catch becomes an item,
-the catch is refused whenever that item is refused, so setting Item_Iguana to
-never on the Items tab has always left iguanas alone.
+LuxDragon asked after 1.5.0 whether specific creatures could be filtered. Now
+they can, individually, by name.
 
-I built a Creatures tab for this and then took it out again, because it could
-only act on creatures the game names, which is fewer than the item rules already
-covered. What was missing was never the control. It was any way of knowing the
-control was there, so the Looting tab now says where to go.
+The mod used to work out what a creature was by hunting through its memory for a
+species word in a model name. That barely worked. Fish all arrive as "cd_fish"
+and the small insects as "cd_effectmonster_normal", so across twelve recorded
+sessions it named an exact species three times, and every rule you set was
+quietly skipped because there was nothing to apply it to.
 
-The small flying insects are the one group nothing reaches. The game gives them
-no character model, and every one arrives under the same asset name, so the mod
-can tell it is an insect and cannot tell which. The Insects switch is all there
-is for them, and the menu says so.
+The creature has been carrying the answer the whole time. At status+0x30 there
+is a row into the game's own character table, and that names it outright. So the
+mod knows a Tench from a Ricefish before it decides anything.
+
+Which makes item overrides work on them. Set Item_Tench to never on the Items
+tab and tenches are left alone while every other fish is still caught. Nothing
+new to learn: it is the same per-item control that has always been there, it
+simply never had a species to act on before.
+
+A few unusual creatures still fall back to the old model-name guess and answer
+to the category switches only.
 
 A key and a pad chord for taking owned goods, asked for by Ahplla. Unbound until
 you set it, under General, Keys. Leaving that switch on earns a bounty, so it
@@ -92,6 +98,6 @@ again.
 
 SHA-256 for 1.6.4:
 
-1d6b87db399fb6415f19a928a9e35bb60903b2ef588ee886e8f291e9110c14d8  MasterLooter-1.6.4-DMM.zip
-70a88a96877774e543926afe21ef39fad8b4ab4fbd6dbeee56775efd598a8c40  MasterLooter-1.6.4.zip
-a03f2f293f801839dfe336f39457a2106d6ff7bbe3f799d458ed62d963b87e64  MasterLooter.asi
+8c2ef70fb217498715dd9d69e9908d183a191ed2bc97d5c8801435c7fd425433  MasterLooter-1.6.4-DMM.zip
+7008927149601636bd73ec4f0c6c50edbb7c6a72364f6cb4305a1034cbf7e9d5  MasterLooter-1.6.4.zip
+caaea767aa446aa8193bad72c4d46fa8c2442d752a3d9dbe3a06e2d2aa507af1  MasterLooter.asi
