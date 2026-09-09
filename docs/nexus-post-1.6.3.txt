@@ -1,62 +1,46 @@
-[size=4][b]1.6.3: your pickaxe finally counts, and an apology about carcasses[/b][/size]
+[size=4][b]1.6.3 makes your mining tool count[/b][/size]
 
-Two things, and one of them is me correcting something the mod page has been
-telling you that was not true.
+Mine an iron vein by hand with a refined drill and you get three ore. The mod,
+working the same vein, brings back one. That has been true since veins went in.
 
-[size=4][b]The ore[/b][/size]
+The mod never swings anything. It drives the vein's own break sequence, which is
+why the node spills and vanishes the way it does under a real pickaxe instead of
+evaporating out from under you. Somewhere in that, the game decides to walk two
+drop rows for your swing and one for the mod's.
 
-Break a vein by hand with a refined drill and you get three. Let the mod break
-the same vein and you get one. Someone was going to notice eventually, and the
-answer took eleven builds.
+I put a log line on the function that picks the number, mined a vein by hand,
+then let the mod take the next one. Every value that function reads is the same
+in both cases. Same arithmetic, one fewer row.
 
-The mod does not swing a pickaxe. It drives the vein's own break sequence, which
-is the whole reason the node spills and disappears exactly the way it does under
-a real swing rather than evaporating in your hand. It turns out the game walks
-two drop rows for a swing it counts as yours, and one for this.
+Eleven builds and I still cannot tell you where that second row comes from.
 
-I found the function that decides the number and put a log line on it, then
-mined by hand and let the mod mine, and compared. Every single input that
-function reads is identical between the two. Same instigator, same vein, same
-key. So it is not doing smaller arithmetic for the mod. There is a second row it
-simply never reaches.
+So this is the crude version. Reaching nodes has a slider now, Extra ore per
+vein. Whatever you set goes out through the game's own drop path, so it spills
+on the ground with the rest of the vein rather than appearing in your bag. Set it
+to what your tool pays by hand minus one, so a drill that gives you three wants
+2. Veins you break yourself are untouched and the two never stack. Off unless you
+turn it on, and you can move it while you play.
 
-Where that row comes from I still do not know, and I would rather say that than
-invent a reason.
+[size=4][b]About carcasses[/b][/size]
 
-So the fix is blunt. There is a new slider under Reaching nodes, Extra ore per
-vein, and the ore it adds goes out through the game's own drop path, so it lands
-on the ground with the rest of what the vein spills. Nothing gets copied into
-your bag and nothing touches your save.
+The mod page has been telling you something that is not true. Skinning a carcass
+ignores every filter you have set: class rules, tag rules, your per-item list,
+the minimum value, Skip quest items. None of them have ever applied there.
 
-Set it to what your tool pays by hand, minus one. If your drill gives three,
-put it on 2. It only applies to a vein this mod broke, so mining by hand is
-untouched and the two cannot stack. It is off unless you turn it on, and you can
-move it mid-session without restarting.
+I cannot make them apply. A carcass carries nothing the mod is able to read, and
+the event that skins it names the carcass without saying what comes out of it. By
+the time anything exists to be judged, the game has already handed it to you.
 
-[size=4][b]The carcasses[/b][/size]
+The Carcasses switch has been the only real control the whole time. The
+description, the README and the menu say that now.
 
-This part is a correction, not a feature.
+Human corpses are a separate thing and were never involved. Their gear drops on
+the ground as ordinary items and gets the full check.
 
-The description said every item is checked against the item database. For
-skinning a carcass that has never been true, and it cannot be made true. A
-carcass carries nothing the mod can read. The event that skins it names the
-carcass and nothing else, the yield never exists as anything the mod could look
-at, and once the game hands you an item there is no way to give it back.
+One real bug did turn up next door and is fixed. Anything the game had flagged as
+dead went down the skinning path before the mod looked at whether it was carrying
+normal item data, so a dead thing that did have an identity got past every rule.
+That goes through the same check as everything else now.
 
-So your class rules, your tag rules, your per-item list, the minimum value and
-Skip quest items have all been sitting there not applying to skinning, while the
-page told you they did. The Carcasses switch is the only control and always was.
-On skins everything, off skins nothing. That is what the description, the README
-and the menu say now.
-
-Human corpses were never part of this. Their gear lands on the ground as
-ordinary items and gets the full check like anything else.
-
-There was a real bug hiding next to it, and that one is fixed. Anything the game
-had flagged as dead went down the skinning path before the mod checked whether
-it was carrying ordinary item data, so a dead thing that did have an identity
-lost every rule on the way past. It goes through the same filter as everything
-else now.
-
-If you have been relying on Skip quest items while skinning, nothing has changed
-in what the mod does. What changed is that it now tells you the truth about it.
+If you had Skip quest items on and assumed it covered skinning, turn Carcasses
+off.

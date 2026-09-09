@@ -1,49 +1,44 @@
 For Crimson Desert 2.01.00 (exe 1.0.0.2760).
 
-Your mining tool counts for something now, and carcasses stop being advertised
-as something they are not.
-
 ## Mining tools
 
 A vein the mod broke paid one lump of ore whatever you were carrying. Break the
-same vein by hand with a refined drill and it pays three. Same vein, same
-character, same tool.
+same vein by hand with a refined drill and it pays three.
 
 The mod does not swing a pickaxe. It drives the vein's own break sequence, which
 is what makes the node spill and disappear the way a real swing does. The game
-walks two drop rows for a swing it counts as yours, and one for this. I found
-the function that decides the number and logged both cases side by side: every
-input it reads is identical between a hand swing and the mod's break. So the
-difference is a row the game never walks, not a number it works out differently.
+walks two drop rows for a swing it counts as yours, and one for this.
 
-Where that second row comes from, I do not know. Eleven builds went looking.
+I found the function that decides the number and logged both cases side by side.
+Every input it reads is identical between a hand swing and the mod's break, so
+what is missing is a row the game never walks.
 
-The fix is not clever. Reaching nodes has a new slider, Extra ore per vein, and
-what it adds goes through the game's own drop path, so it lands as ore on the
-ground with everything else the vein spills. Nothing is copied and nothing is
-written to a save. Set it to what your tool pays by hand minus one: three by
-hand wants 2. It only ever applies to a vein this mod broke, so mining by hand
-is untouched and the two cannot stack. Off by default, and it takes effect while
-you play rather than at the next restart.
+Where that row comes from, I do not know. Eleven builds went looking.
+
+Reaching nodes has a new slider, Extra ore per vein. What it adds goes through
+the game's own drop path, so it lands as ore on the ground with everything else
+the vein spills. Nothing is copied and nothing is written to a save. Set it to
+what your tool pays by hand minus one: three by hand wants 2. It only ever
+applies to a vein this mod broke, so mining by hand is untouched and the two
+cannot stack. Off by default, and it takes effect while you play.
 
 ## Carcasses
 
 Skinning a carcass has never checked your filters, and the mod page said it did.
 
 A carcass carries no interaction data for the mod to read. The event that skins
-it names the carcass and nothing else. The yield never exists as a thing the mod
-could look at, and there is no way to hand an item back once the game has given
-it to you. Class rules, tag rules, per-item rules, the value floor and the quest
-filter have therefore never applied to skinning, and they cannot be made to.
+it names the carcass without saying what comes out of it, and by the time the
+yield exists the game has already handed it over. Class rules, tag rules,
+per-item rules, the value floor and the quest filter have therefore never applied
+to skinning, and they cannot be made to.
 
-The Carcasses switch is the real control and always was. On skins everything,
-off skins nothing. The description, the README and two menu strings say that now
-instead of promising a filter that was not there.
+The Carcasses switch has been the only real control the whole time. The
+description, the README and two menu strings say that now.
 
 One thing next to it was a real bug and is fixed. Anything the game flagged as
 dead went to the skinning path before the mod looked at whether it was carrying
-ordinary item data, so a dead thing that did have an identity lost every rule on
-the way through. It goes through the same filter as everything else now.
+ordinary item data, so a dead thing that did have an identity got past every
+rule. It goes through the same check as everything else now.
 
 Human corpses are unaffected either way. Their gear reaches the ground as
 ordinary items and always got the full check.
