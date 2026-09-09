@@ -40,17 +40,17 @@ Three scanners out of seventy-one flag `MasterLooter.asi`, and all three are mac
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three. Microsoft and Symantec have flagged every one of them. CrowdStrike Falcon and Deep Instinct come and go, and they have now swapped places between one release and the next. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.2: [the plugin](https://www.virustotal.com/gui/file/660326ae232d840634f33c4961cc7b49dfbff44cdbead4b9000ffd9eb3e6279d) and [the package](https://www.virustotal.com/gui/file/5a1c883c8d7b188c049318b966d2febbb04ad9092af5f697542de62537abc08f).
+Reports for 1.6.3: [the plugin](https://www.virustotal.com/gui/file/c70b9b597f3139331b49a62a1fc4b172ad1d2693c925d994affbe4ff67c31fa9) and [the package](https://www.virustotal.com/gui/file/6e406491e5ca70f806fada3ec1513a68819aba9879138bca69bb62c64a869795).
 
 The guess is easy to explain. The plugin is an unsigned DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer. Nothing about the file argues back: it carries no code signing certificate, and a release a day old has no install history behind it.
 
 What it does not do is reach the network. It imports no networking library, and the entire import list is `d3d12`, `dxgi`, `imm32`, `xinput9_1_0`, `kernel32`, `user32`, `gdi32`, `shell32` and `d3dcompiler_47`. It writes `MasterLooter.ini`, `MasterLooter.log` and its eleven rotated predecessors `MasterLooter.01.log` to `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups` beside itself and nothing else, reads and writes no registry key, and installs nothing that outlives the game process. Every line is in this repository, and `build.bat` will produce the file for you if you would rather not trust mine.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.2:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.3:
 
-    5a1c883c8d7b188c049318b966d2febbb04ad9092af5f697542de62537abc08f  MasterLooter-1.6.2-DMM.zip
-    ae2b11083b6e9f0fd99997dd4b5a9bb01ff69a63f1bb75b123cdeff4cea723f2  MasterLooter-1.6.2.zip
-    660326ae232d840634f33c4961cc7b49dfbff44cdbead4b9000ffd9eb3e6279d  MasterLooter.asi
+    6e406491e5ca70f806fada3ec1513a68819aba9879138bca69bb62c64a869795  MasterLooter-1.6.3-DMM.zip
+    9ab28124303c256501b816396203be5217bc5b9efbc770d73dc9ffce3a0a03d2  MasterLooter-1.6.3.zip
+    c70b9b597f3139331b49a62a1fc4b172ad1d2693c925d994affbe4ff67c31fa9  MasterLooter.asi
 
 ## Controls
 
