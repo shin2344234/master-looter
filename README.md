@@ -97,6 +97,7 @@ MIT, see [LICENSE](LICENSE). Third-party terms are in [mod/THIRD_PARTY_NOTICES.m
 - Dear ImGui (MIT) and MinHook (BSD 2-Clause), fetched at build time. Ultimate ASI Loader, which every ASI mod depends on.
 - dofo7777: the Simplified and Traditional Chinese menus, both done from the template within an hour of it being posted.
 - Kyo-70: the Brazilian Portuguese menu.
+- Lyntear and Fyreon87, who reported the thorn vines and named the puzzle they were blocking.
 
 ## Discord and Patreon
 
