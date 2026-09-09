@@ -25,6 +25,10 @@ namespace ml
         // still hung alongside Crimson Route and RenoDX, and loaded with this
         // plugin absent, so the difference had to be in what was left.
         bool  hookDX12       = true;
+        // Arm D3D12 DRED (breadcrumbs and page-fault reporting on device
+        // removal). Off by default since 1.6.5: it is diagnostic only, it runs
+        // before the game has made a device, and nothing in looting needs it.
+        bool  enableDred     = false;
         // Menu language: empty or "en" is English, otherwise the suffix of a
         // MasterLooter.<lang>.txt file next to the plugin.
         std::string language;
