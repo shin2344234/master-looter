@@ -1,0 +1,79 @@
+=================== to lsimo (bug report: crashed after teleporting) ===================
+
+Still open, and I have already been wrong about it once, so here is where it actually stands.
+
+Pulling the dump apart yourself was the useful part. The return address landing in MasterLooter.asi and RAX being zero told me where to look, and your log said the rest. It faulted inside the game's own gimmick driver, the guard around that call caught it and switched driving off, and a moment later something called through a null pointer and took the process.
+
+[b]What I thought was happening.[/b] The mod queues work for the game's thread, each job holding a pointer to the thing it aims at, and a teleport frees those things. So 1.6.4 throws away anything queued when the world changes, and counts what it threw.
+
+[b]Why that is wrong.[/b] That count has read zero every time, over many jumps, including ones with ore actively being mined. The queue drains off a function that runs thousands of times a second, so nothing sits in it longer than about a millisecond. There was never a queue to purge, and my fix cannot be the fix. It stays in because it costs nothing, but I have stopped claiming it.
+
+[b]What 1.6.4 does instead.[/b] Before the mod drives one of the game's state machines, it records what that object looked like an instant earlier: its address, whether it was still readable, and the class it names through its vtable. A live object names itself. A freed one has had its memory reused and cannot. If this happens to you again, one line will say which, and that ends the guessing.
+
+No need to go hunting for it. It happened once in twenty-four minutes and not since, so please just carry on and send the log if it ever comes back.
+
+One thing you may have noticed after that crash: ore veins stopped breaking for the rest of the session. That is deliberate, one fault and driving is switched off rather than risking it again, but it used to happen silently. In 1.6.4 it says so on screen and the log explains what still works and that a restart brings it back.
+
+Your hunch about the animation trimmer is reasonable. An instant teleport narrows any window between the world going away and the mod noticing, and it would explain why this is rare enough that I cannot reproduce it here.
+
+
+=================== to ardenness (the crash) ===================
+
+That is a properly narrowed report and it gets further than the two logs did. Removing RenoDX fixing it, the DLSS and RR variants making no difference, and Crimson Weather being fine alongside all point the same way, so thank you for doing that.
+
+Two things would help, one of which might just get you playing.
+
+[b]1. Set WrapSwapChain=0 in MasterLooter.ini[/b], which can be edited without starting the game. That stops this mod touching the swapchain at all. You lose the in-game menu while frame generation is on and nothing else: since 1.6.2 the looting no longer waits on a rendered frame, so it all still works. If the crash goes away with that set, the swapchain wrapper is where the collision is and I have somewhere specific to look.
+
+[b]2. Then 1.6.4 and a fresh log, if you would.[/b] Those three lines about Present, ResizeBuffers and SetColorSpace1 now follow the jump and name the module that got there first, instead of saying only that something had. On my own machine they came back as gameoverlayrenderer64.dll, the Steam overlay. On yours they will name whichever of RenoDX or Crimson Route is holding them, and that is the piece I have been guessing at.
+
+What your log already says: the mod wraps a three buffer chain, something rebuilds it as a two buffer waitable one, and about two seconds later the game dies at the same address every time reading offset 0x30 off a null pointer.
+
+[code]Swapchain wrapped (2560x1440, 3 buffers, flags 0x800)
+Swapchain re-wrapped after recreation (2560x1440, 2 buffers, flags 0x840)
+fault 0xC0000005 at CrimsonDesert.exe+0x30314D2, reading 0000000000000030[/code]
+
+Whatever recreates that chain is doing it while somebody still holds the old one. Working out whether that somebody is me is the whole question.
+
+
+=================== to dofo7777 (Crimson Route author) ===================
+
+Appreciated, and easier if I just tell you exactly what this mod does to the swapchain so you can see where it could collide.
+
+[list]
+[*]It patches one vtable slot on the DXGI factory, [b]CreateSwapChainForHwnd[/b], replacing the slot rather than detouring the function, so anything already there still runs.
+[*]When the game creates a swapchain it hands back a proxy implementing [b]IDXGISwapChain4[/b] that owns the real one and forwards everything, including the waitable methods.
+[*]It deliberately does not hook [b]Present[/b], [b]ResizeBuffers[/b] or [b]SetColorSpace1[/b] when it finds those already detoured. It checks the first bytes for a jump and leaves them alone if there is one, so two detours never end up stacked.
+[*]Since 1.6.2 it releases its back buffer references before a chain is destroyed, which was its own crash on frame generation toggles.
+[/list]
+
+The shape I would suspect is two proxies over one chain, where one of us hands the other an object it does not expect to be handed. So the useful question is whether Crimson Route also wraps or replaces the swapchain, or works through Present alone, and what changes between your Present and DirectComposition modes.
+
+ardenness found that with this mod removed, DirectComposition still crashed for them and Present did not, which suggests the interaction is not purely mine.
+
+Happy to make a build with anything switched off if it would isolate something for you.
+
+
+=================== to devikyn ===================
+
+Yours may be a different problem from ardenness's, and the difference is the log. They got one, which means the plugin loaded and ran. You are getting none at all.
+
+Since 1.2.0 the log is written the moment the plugin loads, before anything is drawn, so no log almost always means the plugin was never injected at all. Worth checking [b]bin64[/b] for [b]MasterLooter.log[/b] after a failed launch, and whether [b]MasterLooter.asi[/b] is still sitting there afterwards, since some antivirus removes it.
+
+If a log does turn up, post it. The first ten lines name every DirectX function something else had already hooked, and in 1.6.4 they name which module.
+
+
+=================== to Cedricdur ===================
+
+The .asi disappearing from bin64 is almost certainly your antivirus taking it, not the game or the mod manager. It is an unsigned DLL that gets injected into a game and rewrites instructions in memory. A trainer does the same things, so a model trained on trainers answers trainer. Four of seventy flag it, all of them guesses, and none matching a known family.
+
+Restore it from quarantine and exclude the game's [b]bin64[/b] folder, or build it yourself from the GitHub source if you would rather not trust mine.
+
+That also explains Insert doing nothing: no plugin, no menu. Once the file survives a session it should behave.
+
+
+=================== to Ahplla ===================
+
+Done, it is in 1.6.4. [b]General, Keys, "Take goods that belong to someone"[/b], with a pad chord next to it. Unbound until you set one, because every spare key in this game already does something and picking one for you seemed worse than making you choose.
+
+Flipping it clears the mod's remembered ownership answers, since those were given about the other case, and it says on screen which way it went. That switch earns you a bounty while it is on, so knowing at a glance matters.
