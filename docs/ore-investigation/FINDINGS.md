@@ -2040,3 +2040,42 @@ confident answer by following a chain that stopped short of the yield and
 assuming the last link. Both were thrown out by the challenge pass for exactly
 that. The chain has to reach the number.
 
+## Measured at last, 2026-09-08 19:20
+
+The count function was hooked and its arguments logged on a live session, with a
+character carrying a mining drill that pays three ore by hand.
+
+**A hand swing makes the game evaluate two drop rows. A driven break evaluates
+one.** Matching the yield calls against the mod's own `[loot] break` lines
+separates them without ambiguity:
+
+    hand   19:19:20   two calls on vein C5EFF300, paid 1 and 1     total 2
+    hand   19:20:00   two calls on vein C2AEF800, paid 2 and 1     total 3
+    mod    19:19:28   one call each on three veins, paid 1         total 1 each
+    mod    19:20:05   one call each on three veins, paid 1         total 1 each
+
+**Both candidates this probe was built to test are dead.** The player term at
+`[instigator+0x68]->+0x20->+0x3E8` is byte-identical on every line, hand and
+driven alike, and so is the count beside it at `+0x3F0`. The vein term at
+`+0x1A0` reads zero throughout, on hand swings that paid three as much as on
+driven breaks that paid one. The `[[vein+0x88]+1] == 7` gate is satisfied in
+every case.
+
+Neither term differs. The number of times the function is called does.
+
+So the missing ore is not a smaller number coming back from the count. It is a
+whole drop row that the game never walks when the mod drives the break. That
+moves the question to the row walk at 0x1775790 and the conditions that admit a
+row, which is where the conditioninfo 9107/9108 BonusMining gate lives.
+
+Note on the labels: every line above printed HAND, including the driven ones.
+The marker is set for the length of DriveNow and the drop resolves after that
+returns, so it never covers the call. The `[loot] break` timestamps are what
+separated them, within about 30 ms. A later probe should hold the marker open
+for a window after the drive rather than for the call itself.
+
+Also worth recording: the first probe logged everything and spent a sixty-line
+budget in thirty seconds on calls with no collect key that returned one, before
+the player reached a vein. This function is asked about far more than mining.
+Filter on a real collect key, a result other than one, or the mod's own break.
+
