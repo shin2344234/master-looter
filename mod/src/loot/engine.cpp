@@ -289,6 +289,30 @@ namespace ml::loot
                     eid, names[o], off, v, tbl, key, cr->name.c_str(), cr->klass.c_str());
             }
         }
+        // The same blocks again as 32-bit values, tested against the numeric
+        // CharacterInfo key rather than a row index.
+        //
+        // The first probe only read 16-bit fields, which can only ever hold a
+        // row index. But creatures.tsv is keyed by character_key, 517 of the
+        // 1004 of those do not fit in 16 bits, and the largest is 3653044009.
+        // An actor is more likely to carry its own key than an index into a
+        // table, so this was the more probable answer and the first version
+        // could not have found it.
+        for (int o = 0; o < 4 && hits < 12; ++o)
+        {
+            if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
+            for (unsigned off = 0; off + 4 <= lens[o] && hits < 12; off += 4)
+            {
+                uint32_t v = 0;
+                if (!mem::Read32(objs[o] + off, &v)) continue;
+                const Creature* cr = CreatureDb::ByCharacterKey(v);
+                if (!cr) continue;
+                ++hits;
+                LOG("[cid] %08X  %s+0x%X = %u is the character key of %s (%s)",
+                    eid, names[o], off, v, cr->name.c_str(), cr->klass.c_str());
+            }
+        }
+
         // One hop out, since FindSpecies finds most of what it finds there.
         for (int o = 0; o < 4 && hits < 12; ++o)
         {
@@ -299,6 +323,15 @@ namespace ml::loot
                 if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x200)) continue;
                 for (unsigned off2 = 0; off2 + 2 <= 0x200 && hits < 12; off2 += 2)
                 {
+                    uint32_t w = 0;
+                    if (mem::Read32(mid + off2, &w))
+                        if (const Creature* ck = CreatureDb::ByCharacterKey(w))
+                        {
+                            ++hits;
+                            LOG("[cid] %08X  [%s+0x%X]+0x%X = %u is the character key of %s (%s)",
+                                eid, names[o], off, off2, w, ck->name.c_str(), ck->klass.c_str());
+                            continue;
+                        }
                     uint16_t v = 0;
                     if (!mem::Read16(mid + off2, &v)) continue;
                     char key[96]; const char* tbl = "?";

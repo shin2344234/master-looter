@@ -23,6 +23,11 @@ namespace ml
         const char* Source();
         int  Count();
         const Creature* ByKey(const char* stringKey);
+        // By the numeric CharacterInfo key, which is what the actor is more
+        // likely to carry than a row index: 517 of the 1004 rows have a key
+        // above 65535 and the largest is 3653044009, so this is a 32-bit field
+        // wherever it lives.
+        const Creature* ByCharacterKey(uint32_t key);
         // The creature whose string key appears inside `text` (longest wins), e.g.
         // an animation or behaviour asset name that embeds it. Null when none.
         const Creature* InText(const char* text);

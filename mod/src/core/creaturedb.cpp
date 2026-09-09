@@ -149,6 +149,19 @@ namespace ml::CreatureDb
         return m;
     }
 
+    const Creature* ByCharacterKey(uint32_t key)
+    {
+        if (!key) return nullptr;
+        static std::unordered_map<uint32_t, const Creature*> byNum;
+        if (byNum.size() != g_rows.size())
+        {
+            byNum.clear();
+            for (const Creature& c : g_rows) if (c.key) byNum[c.key] = &c;
+        }
+        auto it = byNum.find(key);
+        return it == byNum.end() ? nullptr : it->second;
+    }
+
     bool Loaded() { return g_loaded; }
     const char* Source() { return g_source; }
     int  Count()  { return static_cast<int>(g_rows.size()); }
