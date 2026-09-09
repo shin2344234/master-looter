@@ -517,9 +517,6 @@ namespace ml::loot::hooks
     static void InstallOreBonus()
     {
         const int bonus = Settings::Get().oreBonus;
-#ifndef ML_YIELD_PROBE
-        if (bonus <= 0) return;   // no setting, no hook, no cost
-#endif
         const uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
         const uintptr_t at   = base + kCountRva;
         if (!mem::Readable(at, sizeof kCountHead))
@@ -537,10 +534,16 @@ namespace ml::loot::hooks
                     static_cast<unsigned long long>(kCountRva));
             return;
         }
+        // Installed whether or not there is a bonus set, because hkCount reads
+        // the number on every call. That makes the slider take effect without a
+        // restart, and it means the log always says what the setting was, which
+        // is how the first round of this went missing: the number had been typed
+        // into the wrong section of the ini, the hook quietly never installed,
+        // and there was nothing in the log to say so either way.
         if (Hook("ore count", at, reinterpret_cast<void*>(&hkCount),
                  reinterpret_cast<void**>(&oCount)))
-            LOG("[ore] tool bonus on: a vein this mod breaks pays %d more, from the game's own "
-                "drop path. Mining by hand is untouched.", bonus);
+            LOG("[ore] tool bonus hooked, set to +%d. A vein this mod breaks pays that much more "
+                "through the game's own drop path; mining by hand is untouched.", bonus);
     }
 
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original)

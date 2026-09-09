@@ -103,8 +103,9 @@ namespace ml
         // an item or writes to a save. It only ever applies to a vein this mod
         // broke, so mining by hand is untouched and the two cannot stack.
         //
-        // Set it to what your tool pays by hand, minus one. Zero installs no
-        // hook at all.
+        // Set it to what your tool pays by hand, minus one. The hook is
+        // installed either way and reads this on every call, so the slider
+        // takes effect without a restart.
         int   oreBonus       = 0;
         // safety and filters
         bool  lootOwned      = false;  // take goods the game would call stealing
