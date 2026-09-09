@@ -1,0 +1,60 @@
+Reproducing issue 34 (ardenness's startup crash with RenoDX)
+
+WHAT IS ALREADY IN bin64
+
+  CrimsonRoute.asi 6.9.6 and a fresh CrimsonRoute.ini, Renderer=Present, which is
+  the default and what ardenness had when it crashed. Your old ini is kept as
+  CrimsonRoute.ini.pre-repro34.bak.
+  renodx-crimsondesert.addon64, the "No DLSS 5 or RR 4.5" build. ardenness
+  confirmed the crash happens with this variant, and your card has no use for
+  the other one.
+  Master Looter 1.6.4 with DebugLog=1 and WrapSwapChain=1, so the run records
+  everything and the wrapper is on, which is the crashing case.
+
+ONE THING YOU HAVE TO DO
+
+  The addon file does nothing without ReShade with addon support, and the
+  classifier will not let me download an installer. It is 4.1 MB from ReShade's
+  own site:
+
+      https://reshade.me/downloads/ReShade_Setup_6.8.0_Addon.exe
+
+  Run it. Pick CrimsonDesert.exe in D:\SteamLibrary\steamapps\common\Crimson
+  Desert\bin64, choose DirectX 10/11/12, and on the effects page untick
+  everything and continue, since we want the addon and not the shaders. It
+  writes dxgi.dll and ReShade.ini beside the game and finishes.
+
+  If you would rather I run it, drop the exe into my scratch folder and say so;
+  it has a headless mode.
+
+THE TEST
+
+  1. Launch the game. Do nothing else. ardenness's crash came six to fifteen
+     seconds after start, before any input, so just let it sit on the title
+     screen or load your save and stand still.
+  2. If it dies, say "crashed". If it is still running after a minute, say
+     "still up" and I will read the log either way.
+
+  Nothing more than that. No looting, no teleporting, no menu.
+
+WHAT I WILL READ
+
+  The three hook lines near the top, which now name the module that detoured
+  Present. On your machine without ReShade that was the Steam overlay; with it
+  installed it should say something else, and which one matters.
+
+  Whether the swapchain gets rebuilt as a 2 buffer waitable chain (flags 0x840)
+  the way it did for ardenness, and whether the game dies about two seconds
+  after that at CrimsonDesert.exe+0x30314D2. Same address, same shape, and this
+  is reproduced.
+
+IF IT DOES CRASH, THE SECOND RUN
+
+  Set WrapSwapChain=0 in MasterLooter.ini and launch again. If that alone stops
+  it, the collision is in the swapchain wrapper and I know exactly where to look.
+
+TO PUT THINGS BACK AFTERWARDS
+
+  Delete CrimsonRoute.asi, renodx-crimsondesert.addon64, dxgi.dll, ReShade.ini
+  and ReShade.log from bin64, and rename CrimsonRoute.ini.pre-repro34.bak to
+  CrimsonRoute.ini if you want your old settings back.
