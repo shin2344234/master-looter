@@ -18,6 +18,13 @@ namespace ml
         // when frame generation is on, and takes this mod off a path other
         // overlay mods also patch. Read once at startup.
         bool  wrapSwapChain  = true;
+        // Install the DirectX hooks at all. Off means no menu, no overlay and
+        // no ExecuteCommandLists detour, with looting untouched, so a load-order
+        // collision can be split into "the render layer" and "everything else"
+        // in one run. Added to bisect issue 34: with the wrapper off the game
+        // still hung alongside Crimson Route and RenoDX, and loaded with this
+        // plugin absent, so the difference had to be in what was left.
+        bool  hookDX12       = true;
         // Menu language: empty or "en" is English, otherwise the suffix of a
         // MasterLooter.<lang>.txt file next to the plugin.
         std::string language;

@@ -230,14 +230,27 @@ namespace ml::Mod
             return;
         }
 
-        if (!hooks::InstallDX12Hooks())
+        // Skipping the render layer on purpose is not the same as it failing.
+        // A failure aborts the whole plugin; a deliberate skip leaves looting
+        // running with no menu, which is the point of the switch. The
+        // watchdog below starts the loot engine when no frame ever comes, so
+        // nothing else has to know the overlay is absent.
+        if (!Settings::Get().hookDX12)
+        {
+            LOG("HookDX12=0: the DirectX layer is not installed this session. No menu and no "
+                "overlay; looting runs as normal. This exists to bisect load-order conflicts.");
+        }
+        else if (!hooks::InstallDX12Hooks())
         {
             LOG_ERR("DX12 hooks failed; no menu this session.");
             MH_Uninitialize();
             Log::Claim();
             return;
         }
-        State::Get().hooksOk = true;
+        else
+        {
+            State::Get().hooksOk = true;
+        }
 
         g_initialized = true;
         LOG_OK("Hooks installed. The menu key (default Insert) opens the menu once the game renders.");
