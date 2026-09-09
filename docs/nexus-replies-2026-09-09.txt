@@ -102,8 +102,8 @@ earns you a bounty while it is on, so knowing at a glance matters.
 
 === to lsimo (bug report: game crashed after teleporting) ===
 
-You have had no reply on this and you should have, so: still open, and I have
-already been wrong about it once.
+Still open, and I have already been wrong about it once, so here is where it
+actually stands.
 
 Pulling the dump apart yourself was the useful part. The return address landing
 in MasterLooter.asi and RAX being zero told me where to look, and your log said
