@@ -405,6 +405,106 @@ namespace ml::loot::hooks
         return changed;
     }
 
+#ifdef ML_YIELD_PROBE
+    static bool Hook(const char* what, uintptr_t target, void* detour, void** original);
+
+    // How much a vein pays, measured rather than reasoned about.
+    //
+    // Disassembly found the function that decides the number and its three
+    // inputs, and then ran out of things it could prove without a running game.
+    // The two candidates left are both readable here at the moment the decision
+    // is made, which is the only moment either of them is worth reading.
+    //
+    //   count(rcx = instigator object, rdx = vein component, r8d = collect key)
+    //     rcx null      -> 1
+    //     player term    [rcx+0x68] -> +0x20 -> table at +0x3E8, keyed by the
+    //                    collect key, count at +0x3F0
+    //     vein term      [rdx+0x68] -> +0x30 -> +0x1A0, gated on the byte at
+    //                    [[rdx+0x88]+1] == 7
+    //     then scaled by a million and rolled
+    //
+    // A player term of exactly 1,000,000 turns a base of one into a base of
+    // two, which is the difference this is chasing.
+    //
+    // Found at a fixed address: the exe has relocations stripped and no ASLR,
+    // so an RVA is an address. The prologue is checked before anything is
+    // hooked, because attaching a detour to the wrong function is worse than
+    // not measuring at all.
+    static constexpr uintptr_t kCountRva = 0xE0AD9F0;
+    static const unsigned char kCountHead[] = {
+        0x48,0x89,0x5C,0x24,0x10, 0x48,0x89,0x6C,0x24,0x18,
+        0x48,0x89,0x74,0x24,0x20, 0x57, 0x48,0x83,0xEC,0x20
+    };
+
+    using CountFn = uint32_t(__fastcall*)(uintptr_t, uintptr_t, uint32_t);
+    static CountFn oCount = nullptr;
+
+    // Set while the mod is driving a break, so a line can say which kind of
+    // swing produced it without having to line up timestamps by hand.
+    static thread_local bool t_ourBreak = false;
+    void MarkOurBreak(bool on) { t_ourBreak = on; }
+
+    static uint32_t __fastcall hkCount(uintptr_t instigator, uintptr_t vein, uint32_t key)
+    {
+        const uint32_t n = oCount ? oCount(instigator, vein, key) : 0;
+
+        static volatile LONG s_said = 0;
+        if (InterlockedIncrement(&s_said) <= 60)
+        {
+            uintptr_t pA = 0, pB = 0, vA = 0, vB = 0, gateObj = 0;
+            uint64_t  pTerm = 0, pCount = 0, vTerm = 0;
+            uint8_t   gate = 0xFF;
+
+            if (instigator && mem::ReadPtr(instigator + 0x68, &pA) && pA)
+            {
+                mem::ReadPtr(pA + 0x20, &pB);
+                if (pB) { mem::Read64(pB + 0x3E8, &pTerm); mem::Read64(pB + 0x3F0, &pCount); }
+            }
+            if (vein && mem::ReadPtr(vein + 0x68, &vA) && vA)
+            {
+                mem::ReadPtr(vA + 0x30, &vB);
+                if (vB) mem::Read64(vB + 0x1A0, &vTerm);
+            }
+            if (vein && mem::ReadPtr(vein + 0x88, &gateObj) && gateObj)
+                mem::Read8(gateObj + 1, &gate);
+
+            LOG("[yield] %s paid %u | key %u | instigator %p player[+0x3E8]=%llu [+0x3F0]=%llu | "
+                "vein[+0x1A0]=%llu gate=%02X (needs 07)",
+                t_ourBreak ? "MOD  " : "HAND ", n, key,
+                reinterpret_cast<void*>(instigator),
+                static_cast<unsigned long long>(pTerm),
+                static_cast<unsigned long long>(pCount),
+                static_cast<unsigned long long>(vTerm), gate);
+        }
+        return n;
+    }
+
+    static void InstallYieldProbe()
+    {
+        const uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
+        const uintptr_t at   = base + kCountRva;
+        if (!mem::Readable(at, sizeof kCountHead))
+        {
+            LOG_ERR("[yield] %llX is not readable; probe not installed",
+                    static_cast<unsigned long long>(at));
+            return;
+        }
+        unsigned char head[sizeof kCountHead] = {};
+        if (!mem::ReadBytes(at, head, sizeof head) ||
+            memcmp(head, kCountHead, sizeof head) != 0)
+        {
+            LOG_ERR("[yield] the function at +%llX is not the one this was written for; "
+                    "probe not installed. The game has probably been patched.",
+                    static_cast<unsigned long long>(kCountRva));
+            return;
+        }
+        if (Hook("yield count", at, reinterpret_cast<void*>(&hkCount),
+                 reinterpret_cast<void**>(&oCount)))
+            LOG("[yield] probe on. Mine a vein by hand and let the mod mine one, then compare "
+                "the HAND and MOD lines.");
+    }
+#endif
+
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original)
     {
         if (!target) return false;
@@ -432,6 +532,9 @@ namespace ml::loot::hooks
             g_enqueuePump = true;
             g_pump = "event queue";
         }
+#ifdef ML_YIELD_PROBE
+        InstallYieldProbe();
+#endif
         Hook("ownership oracle", f.ownCheck, reinterpret_cast<void*>(&hkOwn), reinterpret_cast<void**>(&oOwn));
         Hook("node arming", f.armFn, reinterpret_cast<void*>(&hkArm), reinterpret_cast<void**>(&oArm));
         Hook("gimmick driver", f.stateDriver, reinterpret_cast<void*>(&hkStateDriver), reinterpret_cast<void**>(&oStateDriver));

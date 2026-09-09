@@ -80,6 +80,11 @@ target_compile_definitions(MasterLooter PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX _CR
 #   cmake -DML_FORCE_NO_WRAP=ON ...
 option(ML_FORCE_NO_WRAP "Force the swapchain wrapper off (test builds only)" OFF)
 option(ML_NO_DRAW "Wrap as normal but never draw (test builds only)" OFF)
+option(ML_YIELD_PROBE "Log what the game's ore-count function is given (test builds only)" OFF)
+if(ML_YIELD_PROBE)
+    target_compile_definitions(MasterLooter PRIVATE ML_YIELD_PROBE)
+    message(WARNING "ML_YIELD_PROBE is on: this build hooks the game's yield function to log it.")
+endif()
 if(ML_NO_DRAW)
     target_compile_definitions(MasterLooter PRIVATE ML_NO_DRAW)
     message(WARNING "ML_NO_DRAW is on: this build wraps the swapchain but never draws.")
