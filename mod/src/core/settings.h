@@ -26,6 +26,14 @@ namespace ml
         int   keyWatch       = 0x24;   // VK_HOME: watch mode, menu stays up while you play
         // Pad shortcuts: an XINPUT button mask each, two buttons or more, 0 when
         // unbound. Two at once because every single button is already the game's.
+        // Hook XInput so the menu can take the pad while it is open, and so a
+        // two-button shortcut can be spotted. Turning this off gives up both
+        // and leaves the controller entirely alone.
+        //
+        // Here because it is the only part of this mod that touches the pad,
+        // and when a controller misbehaves the first question is whether this
+        // is why. Answering that should not need a custom build.
+        bool  hookXInput     = true;
         unsigned padMenu     = 0;
         unsigned padToggle   = 0;
         unsigned padBurst    = 0;

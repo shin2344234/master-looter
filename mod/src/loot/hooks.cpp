@@ -1,4 +1,3 @@
-#include <intrin.h>
 #include "hooks.h"
 
 #include <Windows.h>
@@ -447,13 +446,24 @@ namespace ml::loot::hooks
 
     static uint32_t __fastcall hkCount(uintptr_t instigator, uintptr_t vein, uint32_t key)
     {
-        // Who asked. The count is reached from three separate call sites, and a
-        // hand swing produces two calls on one vein where a driven break
-        // produces one. If the second call comes from a different site, that
-        // locates the row the mod never reaches without having to parse the
-        // 1474-byte row walk at all.
-        const uintptr_t from = reinterpret_cast<uintptr_t>(_ReturnAddress());
-
+        // No _ReturnAddress here, and no <intrin.h> at the top of this file.
+        //
+        // Knowing which of the three call sites asked would be useful, and it
+        // cost the game its controller. Seth hand-mined a vein on the build
+        // before this one, which needs the radial menu and so needs a dpad
+        // press and hold; the next build, whose only functional change was
+        // reading the return address, broke press and hold while leaving a
+        // single press working. Removing the atomic from the discard path
+        // changed nothing, which fits: the return address was the difference,
+        // not the cost.
+        //
+        // This file holds every game hook the mod installs, including the
+        // movement tick the whole engine is pumped from, so an intrinsic that
+        // changes how the translation unit is generated is not a small thing
+        // to add to the top of it.
+        //
+        // The call site can be had another way later, by hooking the three
+        // sites themselves rather than asking the callee who called it.
         const uint32_t n = oCount ? oCount(instigator, vein, key) : 0;
 
         // The first cut logged everything and spent its whole budget in thirty
@@ -498,10 +508,9 @@ namespace ml::loot::hooks
             if (vein && mem::ReadPtr(vein + 0x88, &gateObj) && gateObj)
                 mem::Read8(gateObj + 1, &gate);
 
-            LOG("[yield] %s paid %u | from +%llX | key %u | vein %p instigator %p | player[+0x3E8]=%llu "
+            LOG("[yield] %s paid %u | key %u | vein %p instigator %p | player[+0x3E8]=%llu "
                 "[+0x3F0]=%llu | vein[+0x1A0]=%llu gate=%02X (needs 07)",
-                t_ourBreak ? "MOD  " : "HAND ", n,
-                static_cast<unsigned long long>(mem::Rva(from)), key,
+                t_ourBreak ? "MOD  " : "HAND ", n, key,
                 reinterpret_cast<void*>(vein),
                 reinterpret_cast<void*>(instigator),
                 static_cast<unsigned long long>(pTerm),
