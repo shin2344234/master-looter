@@ -1,135 +1,71 @@
 Test plan for 1.6.4
 
-Two things changed since the last version of this plan. The Creatures tab is
-gone, so the step about it is replaced. And the count of dropped work now
-accumulates, so the world-change check will actually report something; the last
-run showed nothing because of a fault in my logging, not because nothing
-happened.
+Only what is new and still unproven. No regression sweep: nothing in this
+release touches ordinary pickup, gathering or mining, and you would notice
+before I would. The one exception is at the bottom, because there is a specific
+line of code behind it.
 
-Start by confirming the log's first line:
+Already confirmed, nothing to do:
 
-    Master Looter v1.6.4 for Crimson Desert 2.01.00
-
-The plugin should hash to a03f2f29... If you want to be certain it is the file
-I packaged, that is the check.
-
-
-BEFORE PLAYING
-
-1. The hook lines.
-   Near the top of the log, the three lines about Present, ResizeBuffers and
-   SetColorSpace1 that say another mod detoured them first. Each should now end
-   with where the jump lands:
-
-       ..., into SOMETHING.asi at 00007FF...: another mod detoured it first
-
-   Last time this read "into ? at ...", because the jump landed on a page the
-   other mod allocated and the walk stopped there. It follows those now. If it
-   still says "into an allocated stub at ...", the chain ends somewhere with no
-   module attached and I want to see the line.
-
-2. Language on a preset.
-   Looting, Presets: save your current settings as "langtest". Then General,
-   Language, click a different language and watch the menu change. Go back and
-   load "langtest". The menu should return to English as the preset loads,
-   without you touching a language button.
+  Creature naming and item overrides. Six Ricefish and two Tench refused by
+  rule, species named individually.
+  The detour lines. They resolve to gameoverlayrenderer64.dll, so what hooks
+  DirectX on your machine is the Steam overlay, not a mod.
+  Well pace, back to once a second.
+  Faults. None occurred, so there was nothing for the wording change to label.
 
 
-PLAYING
-
-3. Ordinary looting.
-   Ground items, an ore vein, an insect. The regression check that matters most,
-   since the hook installer and the scan both changed underneath everything
-   else. If loot stops arriving, stop there.
-
-4. Mount and dismount a few times while looting is running.
-   Easier than fast travelling and it trips the same purge, through the
-   player-actor-changed trigger rather than the distance one. Do it near things
-   actively being looted, then search the log for "dropped":
+1. Mount and dismount, a few times, while looting is running.
+   The only test that has never produced a result. Do it near things actively
+   being looted, then search the log for "dropped":
 
        [scan] paused: player actor changed (mount, cutscene or area); dropped N queued actions aimed at the old world
 
-   A count above zero is the crash not happening. This is the one test that
-   failed to report last time, so it is the one I most want a result from.
+   The count used to be sampled once every five seconds while the thing it
+   counted happened on the first scan of a hold, so it always read zero. It
+   accumulates now. A number above zero is lsimo's crash not happening.
 
-5. Leaving one species alone, from the Items tab.
-   This replaces the Creatures tab step. Creatures you catch become items, and
-   refusing the item refuses the catch, which has always been true.
+   Still zero after several tries means nothing is ever queued at a world
+   change, which would tell me his crash came from somewhere I have not looked.
 
-   In the Looting tab, above the collection switches, there should now be a line
-   saying so, and a warning in orange about the small flying insects. Both are
-   new.
-
-   Then: Items tab, search "iguana", set Item_Iguana to never, and go and stand
-   next to an iguana with Small animals switched on. It should be left alone.
-   The ini should gain a line in [Items], not [Creatures], which no longer
-   exists.
-
-   Do not try this with a butterfly or a cricket. The game gives the small
-   flying insects no model, so the mod cannot tell them apart and no filter
-   reaches them. That is what went wrong on your last run.
-
-6. The owned goods key.
-   General, Keys, "Take goods that belong to someone", unbound by default. The
-   control is a Rebind button; press it and then press the key you want. Find
-   something the log is refusing with "owned by someone (theft)" and press it:
+2. The owned goods key.
+   General, Keys, "Take goods that belong to someone". Unbound. Press Rebind,
+   then press a key. Find something the log is refusing with "owned by someone
+   (theft)" and press it:
 
        Master Looter: taking owned goods, the game calls this stealing
 
-   The item should then be taken. Press again for "leaving owned goods alone".
-   After quitting, [MasterLooter] in the ini should have KeyOwned set to a
-   number.
+   The item should then be taken, and pressing again should say it is leaving
+   them alone. Quit and check KeyOwned in [MasterLooter] holds a number, since
+   it currently reads 0.
 
-7. Ore bonus during a well.
-   Set "Extra ore per vein" to 2, turn OFF "Mine ore veins for you", turn ON
-   "Draw water from wells". Find a well with a vein near it. Draw the water, and
-   when the log says "[well] took from bucket", swing your own pickaxe at the
-   vein within about two seconds. You should get your normal amount and no
-
-       [ore] vein the mod broke paid
-
-   line for it. Miss the window and the result means nothing.
-
-8. Wells.
-   Nothing to test. I changed the redraw cooldown from one second to fifteen
-   after misreading your log, you told me the old pace was what you wanted, and
-   it is back to one second. Confirm it feels the way it did before and that is
-   the whole check.
-
-   For the record on why I got it wrong: no [loot] lines appear for well water,
-   because a well yields through a state transition rather than a loot event, so
-   the log looked like twenty-five draws producing nothing.
+3. The settings migration. Two restarts, one edit.
+   Copy MasterLooter.ini somewhere safe. Delete the line reading
+   ConfigVersion=2. Start, quit. The ini should say ConfigVersion=2 again and
+   the log should say it migrated. Start and quit once more: it must not migrate
+   twice, and MasterLooter.backups must not gain a second file ending -v1.
 
 
-IN THE FILES AFTERWARDS
+THE ONE REGRESSION WORTH CHECKING
 
-9. MasterLooter.ini: [Items] should carry your iguana override as a numeric key,
-   [MasterLooter] should have KeyOwned and PadOwned. There should be no
-   [Creatures] section at all now.
+Naming creatures from status+0x30 runs on every creature, not only the ones you
+filter, so it is the one change that could quietly do the wrong thing. If a
+species resolved wrongly, the wrong item rule would apply and something would be
+refused that should not be.
 
-10. The settings migration. Copy the ini somewhere safe, delete the line reading
-    ConfigVersion=2, start the game, quit. The ini should say ConfigVersion=2
-    again and the log should say it migrated. Start and quit once more: it must
-    not migrate a second time, and MasterLooter.backups must not gain a second
-    file ending -v1.
+Leave Item_Ricefish set to never and go back to the water. Ricefish should be
+left alone and everything else should still be caught. If other fish stop being
+caught too, the row is over-matching and I want the log.
 
-11. Faults. Search the log for "[fault]". Each should read "first chance", and
-    the first should be preceded by a line saying most of them are the game
-    probing memory on purpose. They are not the crash, and they get sent to me
-    as though they were.
+That is the whole check. One observation, and it separates "naming works" from
+"naming matches too much".
 
 
-WHAT CANNOT BE TESTED HERE
+NOT WORTH YOUR TIME
 
-The train that #36 was about. I cannot put you next to one, and a horse or a
-wagon proves nothing since the old build handled those correctly.
+The ore bonus during a well. Real fix, one line moved, but testing it means
+hand-swinging a vein inside the two seconds a well is winding. Skip unless vein
+counts start looking wrong.
 
-The hook installer race. A few instructions wide and not triggerable on purpose.
-The only evidence is unexplained crashes at world load stopping, which is not
-evidence anyone can go and collect.
-
-The memory cache. It only ever showed up as scan time. If you want a soft look,
-note the "scan X.X ms" figure on the Nearby tab early and again an hour in.
-
-Filtering a specific small flying insect. Not a test, a limitation: there is
-nothing in the game's data to filter on.
+The hook installer race, the train from #36, and the memory cache. None can be
+triggered on purpose, and I said so before.
