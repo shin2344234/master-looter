@@ -22,8 +22,6 @@ namespace ml
         bool Loaded();
         const char* Source();
         int  Count();
-        // Every row, for the Creatures tab to search. Empty until Load().
-        const std::vector<Creature>& All();
         const Creature* ByKey(const char* stringKey);
         // The creature whose string key appears inside `text` (longest wins), e.g.
         // an animation or behaviour asset name that embeds it. Null when none.

@@ -1619,26 +1619,6 @@ namespace ml::loot
         case Action::Search: if (!cfg.lootCorpses) return skip("carcasses off"); break;
         case Action::Catch:
         {
-            // Named creatures answer for themselves first.
-            //
-            // The three catch switches are all or nothing per class, so wanting
-            // butterflies but not ground lizards had nowhere to be said. This
-            // is also the only control that reaches the ten catchable insects
-            // whose table row has no item behind it, since those never get as
-            // far as Rules::Decide below.
-            //
-            // Exact matches only. FindSpecies will hand back a representative
-            // when a word is shared, and every butterfly says "butterfly", so a
-            // stand-in must not answer for a species the player never named.
-            if (c.speciesExact && c.species)
-            {
-                const auto r = cfg.creatureRule.find(c.species->key);
-                if (r != cfg.creatureRule.end())
-                {
-                    if (r->second < 0) return skip("set to never on the Creatures tab");
-                    break;   // set to always: over the switches and the item verdict alike
-                }
-            }
             if (c.speciesClass)
             {
                 const std::string cl = c.speciesClass;

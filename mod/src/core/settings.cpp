@@ -236,7 +236,6 @@ namespace ml::Settings
             else if (section == "Classes") c.classRule[k] = atoi(v.c_str()) != 0 ? 1 : 0;
             else if (section == "Tags") { const int r = atoi(v.c_str()); if (r == 1 || r == -1) c.tagRule[k] = r; }
             else if (section == "Items") { const int r = atoi(v.c_str()); const unsigned long key = strtoul(k.c_str(), nullptr, 10); if (key && (r == 1 || r == -1)) c.itemRule[static_cast<uint32_t>(key)] = r; }
-            else if (section == "Creatures") { const int r = atoi(v.c_str()); const unsigned long key = strtoul(k.c_str(), nullptr, 10); if (key && (r == 1 || r == -1)) c.creatureRule[static_cast<uint32_t>(key)] = r; }
         }
     }
 
@@ -320,8 +319,6 @@ namespace ml::Settings
         for (const auto& kv : c.tagRule) { s += kv.first; s += kv.second > 0 ? "=1\n" : "=-1\n"; }
         s += "\n; item key -> 1 always loot, -1 never loot (wins over everything)\n[Items]\n";
         for (const auto& kv : c.itemRule) { snprintf(b, sizeof b, "%u=%d\n", kv.first, kv.second); s += b; }
-        s += "\n; creature key -> 1 always catch, -1 never (wins over the catch switches)\n[Creatures]\n";
-        for (const auto& kv : c.creatureRule) { snprintf(b, sizeof b, "%u=%d\n", kv.first, kv.second); s += b; }
         return s;
     }
 
