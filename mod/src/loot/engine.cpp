@@ -1350,12 +1350,6 @@ namespace ml::loot
         {
             uint16_t t = 0; if (mem::Read16(gdata, &t)) { k.tid = t; k.gtid = t; }
             mem::Read8(gdata + 5, &k.gkind);
-            // The well bucket. It grows a gather block once the player is close
-            // (none at 14.5 m, one at 1.8 m) and it really does hold Water, but
-            // there is no way to take that Water and leave the bucket. Marked a
-            // container so nothing downstream tries again. See the note in
-            // Decide for what was tried.
-            if (k.gkind == 0x04 && IsMechanism(k.node)) g_containers.insert(k.eid);
         }
         if (idata)
         {
@@ -1376,6 +1370,20 @@ namespace ml::loot
             // it meant an ore vein was never recognised as ore until after it had
             // already opened, which is the one moment the answer is of no use.
             if (k.node[0]) k.nodeType = NodeDb::ByPrefab(k.node);
+            // The well bucket. It grows a gather block once the player is close
+            // (none at 14.5 m, one at 1.8 m) and it really does hold Water, but
+            // there is no way to take that Water and leave the bucket. Marked a
+            // container so nothing downstream tries again. See the note in
+            // Decide for what was tried.
+            //
+            // This used to sit up with the gather read, where k.node is still
+            // empty because the prefab is not read until here, so IsMechanism
+            // never matched and nothing was ever marked. Harmless so far only
+            // because Decide and the arm loop both re-test the prefab
+            // themselves, but the comment claimed a marking that never
+            // happened, and anything later built on g_containers holding well
+            // parts would have quietly not worked.
+            if (k.gkind == 0x04 && IsMechanism(k.node)) g_containers.insert(k.eid);
         }
         // Live creatures: which species, from the CharacterInfo row they point at.
         //

@@ -64,11 +64,22 @@ namespace ml::mem
     {
         if (!Plausible(a) || n == 0) return false;
         const DWORD now = GetTickCount();
+        // Which slot to refresh when the answer turns out to be stale.
+        //
+        // A stale hit used to fall through to VirtualQuery and then append a
+        // second entry for the same region, leaving the stale one in place and
+        // earlier in the array. The scan returns the first match, so from then
+        // on it found the stale copy every time, broke out, and queried again.
+        // The cache stopped working permanently for exactly the hot regions it
+        // exists to cover, five seconds into a session, and filled with
+        // duplicates while doing it.
+        int reuse = -1;
         RegLock();
         for (int i = 0; i < g_regN; ++i)
         {
             if (a < g_regs[i].base || a + n > g_regs[i].end) continue;
             if (now - g_regs[i].when < 5000) { const bool ok = g_regs[i].ok; RegUnlock(); return ok; }
+            reuse = i;
             break;
         }
         RegUnlock();
@@ -79,7 +90,11 @@ namespace ml::mem
         const uintptr_t end  = base + mbi.RegionSize;
         RegLock();
         int slot;
-        if (g_regN < 256) slot = g_regN++;
+        // The lock was dropped for the VirtualQuery, so another thread may have
+        // moved this slot on. Overwriting it is still correct: it is a cache,
+        // and the worst case is evicting somebody else's fresh entry.
+        if (reuse >= 0 && reuse < g_regN) slot = reuse;
+        else if (g_regN < 256) slot = g_regN++;
         else { slot = g_regNext; g_regNext = (g_regNext + 1) % 256; }
         g_regs[slot] = { base, end, now, ok };
         RegUnlock();
