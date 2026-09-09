@@ -54,7 +54,7 @@ if ([string]::IsNullOrWhiteSpace($Version)) {
 }
 
 $archive   = Join-Path $mod  ("dist\MasterLooter-{0}-DMM.zip" -f $Version)
-$changelog = Join-Path $repo ("docs\nexus-changelog-{0}.txt" -f $Version)
+$changelog = Join-Path $repo ("private\nexus\nexus-changelog-{0}.txt" -f $Version)
 
 if (-not (Test-Path -LiteralPath $archive)) {
     throw "No archive at $archive. Run package.py first."
@@ -118,6 +118,6 @@ if ($Apply)             { $args['Apply']               = $true }
 if ($Apply) {
     Write-Host ""
     Write-Host "Still manual, because the v3 API has no endpoint for either:" -ForegroundColor Yellow
-    Write-Host "  the page description  -> docs\nexus-description.bbcode"
-    Write-Host ("  the update post       -> docs\nexus-post-{0}.txt" -f $Version)
+    Write-Host "  the page description  -> private\nexus\nexus-description.bbcode"
+    Write-Host ("  the update post       -> private\nexus\nexus-post-{0}.txt" -f $Version)
 }
