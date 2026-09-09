@@ -15,11 +15,12 @@ Anything queued is now dropped the moment the world changes. If it ever happens
 again the log will say how many jobs were thrown away at each jump, which is the
 first thing I would want to look at.
 
-Then I went looking for the same mistake elsewhere and found it. Winding a well
-is eleven seconds of timed steps, and it was holding the same kind of pointer
-across all of them, outside the queue where the first fix could reach. Fast
-travel in the middle of drawing water and it kept going, at objects that were
-gone. That run gets abandoned now.
+Then I went looking for the same mistake elsewhere. Drawing a well holds the
+same kind of pointer outside the queue, so that gets let go on a world change
+too. I will not oversell it: a well draw is over in about thirty-five
+milliseconds, so nobody was crashing on that one. It is a hole closed, not a
+cause found. I had it in my head as an eleven second sequence, which is how it
+was first written and not how it has worked for a long time.
 
 [size=4][b]The one nobody reported[/b][/size]
 
