@@ -749,6 +749,18 @@ namespace ml::loot
     // session looted nothing. This counts the same gear from the enumeration
     // instead. Same high-water mark, fed by whichever per-tick count is
     // larger, so a child seen by both paths is not counted twice.
+    // The body itself is handed over every tick. Its gear is handed over only
+    // when the game thinks something about it changed, and standing still
+    // beside a ship that was once in four minutes: the enumeration ran at one
+    // object a scan, the body a metre from the centre, and after fifteen
+    // seconds without a child the body aged out of its own table, twice in one
+    // session. Seeing the holder is as good as seeing one of its children.
+    static void TouchHolder(uint32_t eid, const Vec3& at, DWORD now)
+    {
+        for (int i = 0; i < g_holderN; ++i)
+            if (g_holders[i].eid == eid) { g_holders[i].seen = now; g_holders[i].pos = at; return; }
+    }
+
     static void NoteHolderWorn(uint32_t parent, DWORD now)
     {
         for (int i = 0; i < g_holderN; ++i)
@@ -2462,6 +2474,7 @@ namespace ml::loot
                 NoteHolder(par, q, game::Route(e), now);
                 if (game::Cat2(e) == 0x11) NoteHolderWorn(par, now);
             }
+            if (g_bodyEid && eid == g_bodyEid) TouchHolder(eid, q, now);
             const float dx = q.x - mp.x, dy = q.y - mp.y, dz = q.z - mp.z;
             const float d = std::sqrt(dx * dx + dy * dy + dz * dz);
             if (d < nearestD) { nearestD = d; nearestEid = eid; nearestEnt = e; }
