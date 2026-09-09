@@ -545,6 +545,8 @@ namespace ml::gui
         dirty |= KeyRow("Auto-loot on / off", c.keyToggle, 1);
         dirty |= KeyRow("Loot everything in range once", c.keyBurst, 2);
         dirty |= KeyRow("Watch mode (menu stays up, you keep playing)", c.keyWatch, 3);
+        dirty |= KeyRow("Take goods that belong to someone, on / off", c.keyOwned, 4);
+        Help(TR("Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu."));
 
         Section(TR("Language"));
         {
@@ -620,6 +622,7 @@ namespace ml::gui
         dirty |= PadRow("Auto-loot on / off", c.padToggle, 11);
         dirty |= PadRow("Loot everything in range once", c.padBurst, 12);
         dirty |= PadRow("Watch mode", c.padWatch, 13);
+        dirty |= PadRow("Take owned goods on / off", c.padOwned, 14);
 
         Section(TR("Pace"));
         dirty |= ImGui::SliderInt(TR("Scans per second"), &c.scansPerSec, 1, 30);

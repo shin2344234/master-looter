@@ -443,9 +443,36 @@ namespace ml::loot
         for (int i = 0; i < g_holderN; ++i) if (g_holders[i].eid == parent) { h = &g_holders[i]; break; }
         if (!h)
         {
-            // Reuse the stalest slot rather than refusing when full.
-            int slot = g_holderN < 32 ? g_holderN++ : 0;
-            if (g_holderN == 32) for (int i = 1; i < 32; ++i) if (g_holders[i].seen < g_holders[slot].seen) slot = i;
+            int slot;
+            if (g_holderN < 32) slot = g_holderN++;
+            else
+            {
+                // Full, so something has to go, and it must not be whatever the
+                // scan is currently standing on.
+                //
+                // An evicted incumbent is not an incumbent. BestHolder looks the
+                // body up by eid, finds nothing, and takes the "nothing held
+                // yet" branch, which returns the highest score outright with no
+                // margin and no 2.5 s hold. Every protection against a cart
+                // stealing the centre is bypassed by the cart quietly pushing
+                // the player out of a 32 slot table first, and a steam engine
+                // has more than enough distinct parents nearby to do it. That
+                // is Cmz4455's log: the scan left A0100001, which was carrying
+                // seven items, for a train carrying none. Issue #36.
+                //
+                // The old line had a second problem. It claimed a fresh slot
+                // with g_holderN++ and then, because that made the count 32,
+                // immediately searched for the stalest and overwrote a
+                // different one, abandoning the slot it had just taken.
+                slot = -1;
+                for (int i = 0; i < 32; ++i)
+                {
+                    const uint32_t e = g_holders[i].eid;
+                    if (e && (e == g_bodyEid || e == g_meEid)) continue;
+                    if (slot < 0 || g_holders[i].seen < g_holders[slot].seen) slot = i;
+                }
+                if (slot < 0) return;   // nothing evictable: keep what we have
+            }
             g_holders[slot] = { parent, 0, 0, 0, 0, now, now, 0, at, route };
             h = &g_holders[slot];
         }
@@ -508,6 +535,15 @@ namespace ml::loot
         // Nothing held yet, or what was held has gone stale: take the best.
         if (!incumbent) { s_challenger = 0; return best; }
         if (!best || best->eid == incumbent->eid) { s_challenger = 0; return incumbent; }
+
+        // Parts are not gear. Something that has never had a single child
+        // classify as an item does not take the centre from something that
+        // has, however many pieces it is built from. A steam engine enumerates
+        // thirty-two parts and a dressed character seven items, and the score
+        // already says the character wins; this is the backstop for when it
+        // does not, because a big enough object can out-count seven items on
+        // raw children alone.
+        if (best->gear == 0 && incumbent->gear > 0) { s_challenger = 0; return incumbent; }
 
         // Half again as much, and two more outright, or it is noise.
         const int mine = incumbent->Score(), theirs = best->Score();
@@ -2690,7 +2726,7 @@ namespace ml::loot
         Note("waiting for the world");
         LOG_OK("[loot] engine ready; pump: %s", hooks::PumpName());
 
-        bool toggleWas = false, burstWas = false;
+        bool toggleWas = false, burstWas = false, ownedWas = false;
         while (InterlockedCompareExchange(&g_running, 0, 0))
         {
             // A copy: the render thread edits the live Config while the menu is up.
@@ -2705,6 +2741,11 @@ namespace ml::loot
                 const bool b = KeyDown(cfg.keyBurst) || ml::hooks::PadChordHeld(cfg.padBurst);
                 if (b && !burstWas) { InterlockedExchange(&g_burst, 1); State::Get().Notify("Master Looter: looting everything in range", 1500); }
                 burstWas = b;
+                // Unbound reads as nothing held, so an unset key never fires.
+                const bool o = (cfg.keyOwned && KeyDown(cfg.keyOwned)) ||
+                               (cfg.padOwned && ml::hooks::PadChordHeld(cfg.padOwned));
+                if (o && !ownedWas) { SetLootOwned(!cfg.lootOwned); cfg.lootOwned = !cfg.lootOwned; }
+                ownedWas = o;
             }
             if (InterlockedExchange(&g_forget, 0))
             {
@@ -2774,5 +2815,16 @@ namespace ml::loot
     {
         { std::lock_guard<std::recursive_mutex> lk(Settings::Mutex()); Settings::Get().enabled = on; Settings::MarkDirty(); }
         State::Get().Notify(on ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off");
+    }
+
+    // Said plainly, because the cost of leaving this on is a bounty and the
+    // player has to be able to tell at a glance which way they just flipped it.
+    void SetLootOwned(bool on)
+    {
+        { std::lock_guard<std::recursive_mutex> lk(Settings::Mutex()); Settings::Get().lootOwned = on; Settings::MarkDirty(); }
+        // Every remembered take-or-steal answer was given about the other case.
+        g_ownAns.clear();
+        State::Get().Notify(on ? "Master Looter: taking owned goods, the game calls this stealing"
+                               : "Master Looter: leaving owned goods alone", 2500);
     }
 }
