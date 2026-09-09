@@ -389,6 +389,36 @@ namespace ml::loot::hooks
         const uintptr_t subject =
             (instigatorActor && mem::Readable(instigatorActor, 0x80)) ? instigatorActor : 0;
 
+        // A picture of the component before we touch it, so a fault can say
+        // whether the object was already dead rather than leaving it to be
+        // argued about backwards from a log a day later. Issue #35.
+        //
+        // Taken here on purpose. Everything read is the caller's own argument
+        // and memory the game owns, so there is no cross-thread read of any of
+        // the engine's own bookkeeping: g_seen and the rest belong to the scan
+        // worker and this runs on the game thread.
+        //
+        // RTTI is the strong signal. A live gimmick component names itself
+        // through its vtable. A freed one has had that memory reused, so the
+        // name comes back null or as something absurd, and that single line
+        // separates "the pointer went stale" from "the game faulted on its own
+        // business" without any further guessing.
+        char shape[160] = "";
+        {
+            const char* rtti = mem::RttiShort(comp);
+            unsigned char head[16] = {};
+            const bool readable = mem::Readable(comp, 0x400);
+            const bool got = mem::ReadBytes(comp, head, sizeof head);
+            int w = snprintf(shape, sizeof shape, "comp %p rtti %s readable %d",
+                             reinterpret_cast<void*>(comp), rtti ? rtti : "(none)", readable ? 1 : 0);
+            if (got)
+            {
+                w += snprintf(shape + w, sizeof shape - w, " head");
+                for (int i = 0; i < 8 && w < static_cast<int>(sizeof shape) - 4; ++i)
+                    w += snprintf(shape + w, sizeof shape - w, " %02X", head[i]);
+            }
+        }
+
         bool changed = false;
         // Straight to the trampoline: going back through the detour would only
         // watch the mod talk to itself.
@@ -407,12 +437,25 @@ namespace ml::loot::hooks
             // off ore breaking and well drawing for the rest of a session, with
             // one line in a log nobody has open, reads as the mod quietly
             // getting worse rather than as something that went wrong once.
-            LOG_ERR("[drive] exception 0x%08X driving event %08X. Breaking ore veins and drawing "
-                    "wells are off for the rest of this session; restart the game to get them "
-                    "back. Everything else keeps working.", GetExceptionCode(), eventId);
+            LOG_ERR("[drive] exception 0x%08X driving event %08X at target %08X. Breaking ore "
+                    "veins and drawing wells are off for the rest of this session; restart the "
+                    "game to get them back. Everything else keeps working.",
+                    GetExceptionCode(), eventId, targetEid);
+            LOG_ERR("[drive] the object as it was just before the call: %s", shape);
+            LOG_ERR("[drive] if the rtti above is not a gimmick component, the pointer was stale "
+                    "and issue #35 is a lifetime problem. If it names one, the fault is inside "
+                    "the game's own driver on a live object and #35 is something else.");
             State::Get().Notify("Master Looter: ore breaking is off for this session, restart to restore it", 6000);
             oStateDriver = nullptr;
             return false;
+        }
+        // A few good ones for comparison, so the faulting line has something to
+        // be read against instead of standing alone.
+        if (Settings::Get().debugLog)
+        {
+            static volatile LONG s_shown = 0;
+            if (InterlockedIncrement(&s_shown) <= 5)
+                LOG("[drive] ok, event %08X at target %08X: %s", eventId, targetEid, shape);
         }
         return changed;
     }

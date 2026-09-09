@@ -6,17 +6,34 @@ Fast travelling could kill the game. lsimo reported it and read the crash dump
 before I did: a call through a null function pointer with this plugin on the
 stack, twenty-four minutes into an ordinary session.
 
-The mod queues work to run on the game's own thread, and it holds pointers to
-the objects that work is aimed at. A teleport frees those objects. The queue did
-not know that, so four seconds after the jump it drove a state change at a
-gimmick that no longer existed. Anything queued when the world changes is now
-thrown away, and the log says how many went.
+I have not fixed it. I thought I had, and testing says otherwise, so it is worth
+being clear rather than quiet.
 
-A well run turned out to be a fourth place holding the same kind of pointer, and
-the first fix only covered three. Winding a well is eleven seconds of timed
-steps spread over many scans, so fast travelling part way through left it
-driving freed objects on its own schedule. A run is abandoned when the world
-changes under it.
+The theory was that work queued for the game's thread outlives a teleport and
+then runs against objects the teleport freed. Anything queued is now thrown away
+on a world change, and the log reports how many went. It has reported zero every
+time, across many jumps with ore actively being worked, and the reason is that
+the queue drains off the movement tick thousands of times a second, so nothing
+is ever in it for more than about a millisecond. There was no queue to purge.
+
+The purge stays because it costs nothing and closes a real hole. It is not the
+cause of lsimo's crash, and that cause is still open.
+
+What this release does add is a way to find it. If a fault ever happens while
+the mod is driving one of the game's own state machines, the log now records
+what that object looked like an instant before: its address, whether it was
+still readable, its first bytes, and the class it names through its vtable. A
+live object names itself. A freed one has had its memory reused and cannot. So
+the next report of this settles in one line whether the pointer had gone stale
+or whether the game faulted on its own business, instead of being argued about
+from the outside.
+
+A well run holds the same kind of pointer outside the queue, where the first fix
+could not reach it, so it is dropped on a world change as well. Being straight
+about the size of that one: a run finishes in about thirty-five milliseconds, so
+the window is far too small to have been crashing anyone. It is defensive, not a
+second cause. I described it as eleven seconds while writing this up, which came
+from an older design that never shipped.
 
 The second crash nobody had reported. Installing a hook wrote the redirect into
 the game's function before saving the address of the original, and every
@@ -43,11 +60,26 @@ the centre from something whose have.
 
 ## New
 
-A Creatures tab, asked for by LuxDragon after ground lizards became catchable.
-Search a species by name and set it to always or never. It beats the Insects,
-Fish and Small animals switches, the same way a per-item override beats its
-class. Ten catchable insects have no item behind them in the game's data, so
-naming them was the only way to refuse them at all.
+LuxDragon asked after 1.5.0 whether specific creatures could be filtered. Now
+they can, individually, by name.
+
+The mod used to work out what a creature was by hunting through its memory for a
+species word in a model name. That barely worked. Fish all arrive as "cd_fish"
+and the small insects as "cd_effectmonster_normal", so across twelve recorded
+sessions it named an exact species three times, and every rule you set was
+quietly skipped because there was nothing to apply it to.
+
+The creature has been carrying the answer the whole time. At status+0x30 there
+is a row into the game's own character table, and that names it outright. So the
+mod knows a Tench from a Ricefish before it decides anything.
+
+Which makes item overrides work on them. Set Item_Tench to never on the Items
+tab and tenches are left alone while every other fish is still caught. Nothing
+new to learn: it is the same per-item control that has always been there, it
+simply never had a species to act on before.
+
+A few unusual creatures still fall back to the old model-name guess and answer
+to the category switches only.
 
 A key and a pad chord for taking owned goods, asked for by Ahplla. Unbound until
 you set it, under General, Keys. Leaving that switch on earns a bounty, so it
@@ -82,6 +114,6 @@ again.
 
 SHA-256 for 1.6.4:
 
-8c2ef70fb217498715dd9d69e9908d183a191ed2bc97d5c8801435c7fd425433  MasterLooter-1.6.4-DMM.zip
-7008927149601636bd73ec4f0c6c50edbb7c6a72364f6cb4305a1034cbf7e9d5  MasterLooter-1.6.4.zip
-caaea767aa446aa8193bad72c4d46fa8c2442d752a3d9dbe3a06e2d2aa507af1  MasterLooter.asi
+2ffeb06540cdf70604cd98efbade930afbd95ffa5c275d3575f23fc276fe150e  MasterLooter-1.6.4-DMM.zip
+392d2994d82151cac1efc86a5182395fdcdf8cd35d82840f3748e325222e0ac6  MasterLooter-1.6.4.zip
+749f4803f5876a6b3f38a0679ea12088fb8ed6b27a5784102800d8ab40fc6e58  MasterLooter.asi

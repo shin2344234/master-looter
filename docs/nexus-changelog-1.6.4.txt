@@ -19,6 +19,15 @@ is ever in it for more than about a millisecond. There was no queue to purge.
 The purge stays because it costs nothing and closes a real hole. It is not the
 cause of lsimo's crash, and that cause is still open.
 
+What this release does add is a way to find it. If a fault ever happens while
+the mod is driving one of the game's own state machines, the log now records
+what that object looked like an instant before: its address, whether it was
+still readable, its first bytes, and the class it names through its vtable. A
+live object names itself. A freed one has had its memory reused and cannot. So
+the next report of this settles in one line whether the pointer had gone stale
+or whether the game faulted on its own business, instead of being argued about
+from the outside.
+
 A well run holds the same kind of pointer outside the queue, where the first fix
 could not reach it, so it is dropped on a world change as well. Being straight
 about the size of that one: a run finishes in about thirty-five milliseconds, so
@@ -105,6 +114,6 @@ again.
 
 SHA-256 for 1.6.4:
 
-8c2ef70fb217498715dd9d69e9908d183a191ed2bc97d5c8801435c7fd425433  MasterLooter-1.6.4-DMM.zip
-7008927149601636bd73ec4f0c6c50edbb7c6a72364f6cb4305a1034cbf7e9d5  MasterLooter-1.6.4.zip
-caaea767aa446aa8193bad72c4d46fa8c2442d752a3d9dbe3a06e2d2aa507af1  MasterLooter.asi
+2ffeb06540cdf70604cd98efbade930afbd95ffa5c275d3575f23fc276fe150e  MasterLooter-1.6.4-DMM.zip
+392d2994d82151cac1efc86a5182395fdcdf8cd35d82840f3748e325222e0ac6  MasterLooter-1.6.4.zip
+749f4803f5876a6b3f38a0679ea12088fb8ed6b27a5784102800d8ab40fc6e58  MasterLooter.asi
