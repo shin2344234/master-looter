@@ -96,6 +96,10 @@ def strip_exempt(text):
     text = re.sub(r"^\s{4,}\S.*$", " ", text, flags=re.M)
     text = re.sub(r"^[0-9a-f]{64}\s+\S+$", " ", text, flags=re.M)
     text = re.sub(r"`[^`\n]*`", " ", text)
+    # Quoted reporter text is exempt, and reporters write however they like.
+    # Markdown blockquotes and bbcode [quote] both carry someone else's words.
+    text = re.sub(r"^\s*>.*$", " ", text, flags=re.M)
+    text = re.sub(r"\[quote.*?\[/quote\]", " ", text, flags=re.S | re.I)
     return text
 
 
