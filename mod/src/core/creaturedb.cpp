@@ -152,6 +152,7 @@ namespace ml::CreatureDb
     bool Loaded() { return g_loaded; }
     const char* Source() { return g_source; }
     int  Count()  { return static_cast<int>(g_rows.size()); }
+    const std::vector<Creature>& All() { return g_rows; }
 
     const Creature* InText(const char* text)
     {
