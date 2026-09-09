@@ -1949,3 +1949,94 @@ the answer.
   of the mod and must never become part of it; see the watchpoint section above.
 - `../../codex/` first Codex review: descriptor disassembly, break symbols, exe hash.
 - `../../codex/log-review/` second Codex review, against the logs.
+
+# The yield function, found 2026-09-08
+
+Four parallel investigations, each challenged by a second pass. Two conclusions
+survived, two were thrown out. What follows is only what survived scrutiny.
+
+## The number comes from one function
+
+**RVA 0x0E0AD9F0.** Reached only through the thunk 0x020737B0, from three call
+sites: 0x1775C78, 0x20504C8, 0x22168E5.
+
+    count(rcx = instigator object, rdx = vein component, r8d = collect key)
+
+      rcx null                  -> return 1                    (0xE0ADA0D)
+      player term               [rcx+0x68] -> +0x20 -> table at +0x3E8,
+                                keyed by the collect key, count at +0x3F0
+      vein term                 [rdx+0x68] -> +0x30 -> +0x1A0, which is what
+                                SetAdditionalCollectDropRate writes,
+                                gated on byte [[rdx+0x88]+1] == 7   (0xE0ADA7D)
+      then scaled by 1e6, rolled through an MSVC LCG, returns rbx + setl + 1
+
+A player term of exactly 1,000,000 turns a base of one into a base of two. That
+is lsimo's five against ten with an external times-five on top, and it is the
+first arithmetic in this file that predicts the reported numbers exactly.
+
+## The event record is not involved. At all.
+
+**This kills the hypothesis the rest of this file was built on.** The count
+function does not take the event record as an argument. Verified twice
+independently, by disassembling the prologue and by tracing the row-walk call
+site 0x1775C71, which loads rcx from an incoming argument threaded from the
+spawn routine 0x29E45D0 and the descriptor callback 0x2B65B60. That callback
+resolves the actor from an EID through the manager 0x029B3E10.
+
+So `+0x08`, the context pointer this file called "the strongest remaining
+candidate for the missing second ore", cannot reach the yield. Neither can
+`+0x04`, `+0x18`, or any other byte. The null check that inspired that theory is
+real, but it guards the count's own instigator argument, which is resolved from
+record `+0x10` and which the mod already fills correctly.
+
+Corrections to the record table earlier in this file, which is stale:
+
+- The mod does a full 0xE8 copy of a learned record, not a three-field build.
+- The mod passes the real player actor as the driver's arg3, not zero.
+- `+0x08` on a driven break holds a live, readable actor from the first learned
+  vein. Wrong vein, but not garbage, and not dereferenced on this path anyway.
+
+## Also dead
+
+**No direct-to-inventory ore path.** lsimo's "puts ore right into my inventory"
+is instant pickup of floor drops, not a separate spawn. Session O logged a
+hand-mined vein producing two ground entities with parent 0 while the drill was
+equipped. No inventory descriptor is raised on a break in roughly twenty-five
+logged sessions.
+
+**The BonusMining gate is not the missing row.** Satisfying it *removes* a floor
+row rather than adding one, which is what the earlier "inverted polarity" note
+was seeing. Waiting for the gate would lower the yield.
+
+One useful fact did come out of that angle and it stands on its own: **buff tags
+are Jenkins lookup3 over the lowercase name**, the same hash the mod already uses
+for events. This file previously recorded that the tag hash "is not CRC32, FNV-1
+or FNV-1a" and stopped there; lookup3-lowercase was never tried.
+
+    bonusmining_1  0xE04443D9
+    bonusmining_2  0x0154D670
+
+Both live in buffinfo key 1000176, BuffLevel_Drop_Mining, one leveled buff.
+
+## What is actually left
+
+Two inputs, and the answer is one of them:
+
+1. **The player term.** The buff table at `[instigator+0x68]->+0x20->+0x3E8`
+   keyed by the collect key. Either the mod's break resolves an instigator whose
+   table lacks the entry, or the tool's buff is not active at that moment.
+2. **The vein term.** `veinComp+0x1A0`, written only by
+   SetAdditionalCollectDropRate. A real swing runs a chart branch that may call
+   it; the driven break may never reach that branch, leaving it zero. The
+   `[[vein+0x88]+1] == 7` gate has never been read on a live vein either.
+
+**Stop disassembling and measure.** Both inputs are readable at the moment of a
+break. Hook the count, or read its three arguments, and compare a hand-mined
+vein against a driven one in the same session. That single capture decides it,
+and no amount of further static reading will.
+
+The standing lesson from this round: two of the four investigations reached a
+confident answer by following a chain that stopped short of the yield and
+assuming the last link. Both were thrown out by the challenge pass for exactly
+that. The chain has to reach the number.
+
