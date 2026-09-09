@@ -90,21 +90,15 @@ PLAYING
 
    line for it. Miss the window and the result means nothing.
 
-8. Wells, the corrected version.
-   My earlier step asked you to interrupt an eleven second winding animation.
-   There is no such thing: a draw is a single transition, over in about
-   thirty-five milliseconds. That test was unrunnable and your log is what
-   showed it.
+8. Wells.
+   Nothing to test. I changed the redraw cooldown from one second to fifteen
+   after misreading your log, you told me the old pace was what you wanted, and
+   it is back to one second. Confirm it feels the way it did before and that is
+   the whole check.
 
-   Instead: with wells on, stand near one for half a minute. You should see at
-   most two or three "[well] took from bucket" lines. Last run it fired
-   twenty-five times in twenty-six seconds, because a cooldown had been sized
-   against that same imaginary eleven seconds.
-
-   Separately, watch whether any water actually reaches your bag. Last time none
-   did, across all twenty-five, and the winch reported the same state before and
-   after every one. That is issue #39's neighbour, #38, and it is the open
-   question about whether well drawing works at all.
+   For the record on why I got it wrong: no [loot] lines appear for well water,
+   because a well yields through a state transition rather than a loot event, so
+   the log looked like twenty-five draws producing nothing.
 
 
 IN THE FILES AFTERWARDS
