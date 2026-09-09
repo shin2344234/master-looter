@@ -448,8 +448,26 @@ namespace ml::loot::hooks
     {
         const uint32_t n = oCount ? oCount(instigator, vein, key) : 0;
 
+        // The first cut logged everything and spent its whole budget in thirty
+        // seconds on calls that were not ore: collect key zero, result one, and
+        // forty of them inside a single millisecond, all before the player had
+        // reached a vein. This function is asked about far more than mining.
+        //
+        // Keep only what could be a vein. A real collect key, or a result that
+        // is not the base of one, or a call made while the mod is driving a
+        // break. Everything else is counted and thrown away.
+        static volatile LONG s_skipped = 0;
+        const bool worthIt = (key != 0) || (n != 1) || t_ourBreak;
+        if (!worthIt)
+        {
+            const LONG sk = InterlockedIncrement(&s_skipped);
+            if (sk == 1 || sk == 500 || sk == 5000)
+                LOG("[yield] %ld calls so far with no collect key and a base result; not ore, ignoring them.", sk);
+            return n;
+        }
+
         static volatile LONG s_said = 0;
-        if (InterlockedIncrement(&s_said) <= 60)
+        if (InterlockedIncrement(&s_said) <= 200)
         {
             uintptr_t pA = 0, pB = 0, vA = 0, vB = 0, gateObj = 0;
             uint64_t  pTerm = 0, pCount = 0, vTerm = 0;
@@ -468,9 +486,10 @@ namespace ml::loot::hooks
             if (vein && mem::ReadPtr(vein + 0x88, &gateObj) && gateObj)
                 mem::Read8(gateObj + 1, &gate);
 
-            LOG("[yield] %s paid %u | key %u | instigator %p player[+0x3E8]=%llu [+0x3F0]=%llu | "
-                "vein[+0x1A0]=%llu gate=%02X (needs 07)",
+            LOG("[yield] %s paid %u | key %u | vein %p instigator %p | player[+0x3E8]=%llu "
+                "[+0x3F0]=%llu | vein[+0x1A0]=%llu gate=%02X (needs 07)",
                 t_ourBreak ? "MOD  " : "HAND ", n, key,
+                reinterpret_cast<void*>(vein),
                 reinterpret_cast<void*>(instigator),
                 static_cast<unsigned long long>(pTerm),
                 static_cast<unsigned long long>(pCount),
