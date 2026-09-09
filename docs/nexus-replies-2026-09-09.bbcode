@@ -1,3 +1,23 @@
+=================== to Nurri (antivirus blocks the download) ===================
+
+Fair question, and the short answer is that the other hundred mods were not programs.
+
+Almost everything on Nexus is data: textures, meshes, config files, scripts for a game's own engine. None of that is executable code, so none of it is ever scanned as one. This is a native DLL that gets injected into the running game, rewrites instructions in memory, searches the game's own code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does every one of those things, so a model trained on trainers answers trainer.
+
+Four scanners out of seventy flag the plugin, and three of them say on the label that they are guessing: [b]!ml[/b] in Microsoft's name, [b]ML.Attribute[/b] in Symantec's, and a confidence percentage from CrowdStrike. The fourth returns a score and names nothing. Not one of the four matches a known family. Both zip archives come back clean.
+
+The thing that argues back is what the file is able to do. Its entire import list:
+
+[code]d3d12.dll  dxgi.dll  D3DCOMPILER_47.dll  XINPUT9_1_0.dll
+KERNEL32.dll  USER32.dll  GDI32.dll  SHELL32.dll  IMM32.dll[/code]
+
+No networking library of any kind. It cannot reach the internet because it has nothing to reach it with. It writes MasterLooter.ini and MasterLooter.log beside itself and nothing else, touches no registry key, and installs nothing that outlives the game.
+
+The count also moves on its own. 1.2.1 scored four, 1.5.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four. Deep Instinct flagged it for a while and then stopped. Cynet turned up for the first time on a build whose only new code writes a diagnostic line to a log file. Nothing about what the plugin does changed across any of that.
+
+So an exception is the reasonable call. If you would rather not take my word for it, every line is on GitHub and build.bat will produce the file for you from source.
+
+
 =================== to lsimo (bug report: crashed after teleporting) ===================
 
 Still open, and I have already been wrong about it once, so here is where it actually stands.
@@ -65,11 +85,11 @@ If a log does turn up, post it. The first ten lines name every DirectX function 
 
 =================== to Cedricdur ===================
 
-The .asi disappearing from bin64 is almost certainly your antivirus taking it, not the game or the mod manager. It is an unsigned DLL that gets injected into a game and rewrites instructions in memory. A trainer does the same things, so a model trained on trainers answers trainer. Four of seventy flag it, all of them guesses, and none matching a known family.
+A file that vanishes from bin64 after every session is your antivirus taking it. Check the quarantine list and it should be sitting there with a timestamp matching when you quit.
 
-Restore it from quarantine and exclude the game's [b]bin64[/b] folder, or build it yourself from the GitHub source if you would rather not trust mine.
+Restore it and exclude the game's [b]bin64[/b] folder. That also explains Insert doing nothing: no plugin, no menu, and nothing in the log because the log never got written either.
 
-That also explains Insert doing nothing: no plugin, no menu. Once the file survives a session it should behave.
+If you want the reasoning behind why it gets flagged at all, I have written it out in the reply to Nurri further up this page.
 
 
 =================== to Ahplla ===================
