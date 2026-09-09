@@ -24,6 +24,15 @@
 
     Report only unless you pass -Apply, same as the script it wraps.
 
+    The previous version is left listed, never archived. Archiving hides it,
+    and people who need an older build (kfen72 asked, 9 September 2026) then
+    have nothing to download. What it should become is an Old files entry,
+    and the v3 API cannot do that: updateModFile changes the name and nothing
+    else, and the category enum for a new file has no old_version value. So
+    after -Apply, open Manage Files on the mod page and move the previous
+    version to Old files by hand. -ArchivePrevious is there for the one case
+    where an old build must be pulled outright.
+
 .EXAMPLE
     .\publish-nexus.ps1
     .\publish-nexus.ps1 -Apply
@@ -36,8 +45,10 @@ param(
     # Override the version read from version.h.
     [string] $Version,
 
-    # Leave the previous version listed instead of archiving it.
-    [switch] $KeepPrevious
+    # Archive the previous version. Off by default: archiving hides it, and an
+    # older build should stay downloadable under Old files, which is a manual
+    # move on the site because the API cannot set that category.
+    [switch] $ArchivePrevious
 )
 
 $ErrorActionPreference = 'Stop'
@@ -110,7 +121,7 @@ $args = @{
     UpdateModVersion          = $true
     PrimaryModManagerDownload = $true
 }
-if (-not $KeepPrevious) { $args['ArchiveExistingFile'] = $true }
+if ($ArchivePrevious) { $args['ArchiveExistingFile'] = $true }
 if ($Apply)             { $args['Apply']               = $true }
 
 & (Join-Path $here 'Publish-NexusModUpdate.ps1') @args
@@ -120,4 +131,5 @@ if ($Apply) {
     Write-Host "Still manual, because the v3 API has no endpoint for either:" -ForegroundColor Yellow
     Write-Host "  the page description  -> private\nexus\nexus-description.bbcode"
     Write-Host ("  the update post       -> private\nexus\nexus-post-{0}.txt" -f $Version)
+    Write-Host "  the previous version  -> Manage Files, change its category to Old files (it is still listed as Main)"
 }
