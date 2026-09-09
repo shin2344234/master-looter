@@ -208,23 +208,67 @@ namespace ml::loot
     // random 16-bit value will land on some row of some table constantly, and
     // almost never on one that names a creature.
     static void ProbeCreatureIdentity(uint32_t eid, uintptr_t ent, uintptr_t actor,
-                                      uintptr_t status, uintptr_t ai, uint8_t cat2)
+                                      uintptr_t status, uintptr_t ai, uint8_t cat2,
+                                      const char* klass)
     {
         if (!CreatureDb::Loaded()) return;
-        static int s_budget = 0;
         static std::unordered_set<uint32_t> s_seen;
-        if (s_budget >= 8 || !s_seen.insert(eid).second) return;
-        ++s_budget;
+        if (!s_seen.insert(eid).second) return;
 
+        // A budget per class, not one pool.
+        //
+        // The category byte does not separate these: fish and the small insects
+        // are both 05, so a single pool means walking to a lake spends the whole
+        // allowance on insects and the fish, which are the case actually worth
+        // probing, never get looked at.
+        //
+        // A class stops being probed once it has answered three times, which is
+        // enough to see whether an offset is stable. The sweep is not cheap:
+        // four blocks at two-byte steps, then a hop out, with a table lookup at
+        // every step.
+        static std::unordered_map<std::string, int> s_tried;
+        static std::unordered_map<std::string, int> s_hit;
+        const std::string cls = klass ? klass : "unknown";
+        if (s_hit[cls] >= 3) return;
+        if (s_tried[cls] >= 10) return;
+        ++s_tried[cls];
+
+        // Every table, not one picked by name.
+        //
+        // The first version of this looked up the table called "characterinfo"
+        // and took the first match. There are 111 static tables in the image and
+        // more than one carries that name: the one it found has four rows, while
+        // the real one has 7250. With a count of four, the bounds test threw away
+        // every candidate value, so the probe reported "nothing found" on every
+        // creature while testing nothing at all.
+        //
+        // Trying them all removes the guess. It costs more, but the cross-check
+        // below is what makes a hit meaningful, not which table it came from: a
+        // value only gets reported when the key it resolves to names a creature
+        // our own table knows, and that almost never happens by chance.
         const game::TableRef* tables = nullptr;
         const int nTables = game::EnumTables(&tables);
-        int chr = -1;
-        for (int i = 0; i < nTables; ++i)
-            if (_stricmp(tables[i].name, "characterinfo") == 0) { chr = i; break; }
-        if (chr < 0) { LOG("[cid] %08X: no characterinfo table found, cannot probe", eid); return; }
+        if (nTables <= 0) { LOG("[cid] %08X: no static tables resolved, cannot probe", eid); return; }
 
-        LOG("[cid] %08X (byte %02X): looking for a characterinfo row on the actor, %u rows in the table",
-            eid, cat2, tables[chr].count);
+        LOG("[cid] %08X (%s, byte %02X): looking for a row that names a creature, across %d tables",
+            eid, cls.c_str(), cat2, nTables);
+
+        // Given a value, does any table turn it into a creature we know?
+        auto naming = [&](uint16_t v, char* key, size_t keyN, const char** tableName) -> const Creature*
+        {
+            if (v < 64) return nullptr;
+            for (int i = 0; i < nTables; ++i)
+            {
+                if (v >= tables[i].count || tables[i].count < 256) continue;
+                if (!game::KeyInTable(tables[i].global, v, key, keyN)) continue;
+                if (const Creature* cr = CreatureDb::ByKey(key))
+                {
+                    *tableName = tables[i].name[0] ? tables[i].name : "?";
+                    return cr;
+                }
+            }
+            return nullptr;
+        };
 
         const uintptr_t objs[4] = { ent, actor, status, ai };
         const char*     names[4] = { "ent", "actor", "status", "ai" };
@@ -236,14 +280,13 @@ namespace ml::loot
             for (unsigned off = 0; off + 2 <= lens[o] && hits < 12; off += 2)
             {
                 uint16_t v = 0;
-                if (!mem::Read16(objs[o] + off, &v) || v < 64 || v >= tables[chr].count) continue;
-                char key[96];
-                if (!game::KeyInTable(tables[chr].global, v, key, sizeof key)) continue;
-                const Creature* cr = CreatureDb::ByKey(key);
+                if (!mem::Read16(objs[o] + off, &v)) continue;
+                char key[96]; const char* tbl = "?";
+                const Creature* cr = naming(v, key, sizeof key, &tbl);
                 if (!cr) continue;
                 ++hits;
-                LOG("[cid] %08X  %s+0x%X = %u -> \"%s\" = %s (%s)",
-                    eid, names[o], off, v, key, cr->name.c_str(), cr->klass.c_str());
+                LOG("[cid] %08X  %s+0x%X = %u -> %s \"%s\" = %s (%s)",
+                    eid, names[o], off, v, tbl, key, cr->name.c_str(), cr->klass.c_str());
             }
         }
         // One hop out, since FindSpecies finds most of what it finds there.
@@ -257,18 +300,19 @@ namespace ml::loot
                 for (unsigned off2 = 0; off2 + 2 <= 0x200 && hits < 12; off2 += 2)
                 {
                     uint16_t v = 0;
-                    if (!mem::Read16(mid + off2, &v) || v < 64 || v >= tables[chr].count) continue;
-                    char key[96];
-                    if (!game::KeyInTable(tables[chr].global, v, key, sizeof key)) continue;
-                    const Creature* cr = CreatureDb::ByKey(key);
+                    if (!mem::Read16(mid + off2, &v)) continue;
+                    char key[96]; const char* tbl = "?";
+                    const Creature* cr = naming(v, key, sizeof key, &tbl);
                     if (!cr) continue;
                     ++hits;
-                    LOG("[cid] %08X  [%s+0x%X]+0x%X = %u -> \"%s\" = %s (%s)",
-                        eid, names[o], off, off2, v, key, cr->name.c_str(), cr->klass.c_str());
+                    LOG("[cid] %08X  [%s+0x%X]+0x%X = %u -> %s \"%s\" = %s (%s)",
+                        eid, names[o], off, off2, v, tbl, key, cr->name.c_str(), cr->klass.c_str());
                 }
             }
         }
-        if (!hits) LOG("[cid] %08X: no field of any block resolves to a creature this table knows", eid);
+        if (hits) ++s_hit[cls];
+        else LOG("[cid] %08X (%s): nothing resolves to a creature this table knows, %d of 10 tried",
+                 eid, cls.c_str(), s_tried[cls]);
     }
 
     static Species FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai, uint8_t cat2, uint8_t tag)
@@ -1506,7 +1550,7 @@ namespace ml::loot
             k.species = sp.row; k.speciesClass = sp.klass; k.speciesExact = sp.exact;
             // Only for the ones that stayed anonymous, which is the case worth
             // solving, and only with the debug log on.
-            if (g_debugLog && !sp.exact) ProbeCreatureIdentity(k.eid, k.ent, comps, status, aiComp, k.cat2);
+            if (g_debugLog && !sp.exact) ProbeCreatureIdentity(k.eid, k.ent, comps, status, aiComp, k.cat2, sp.klass);
         }
         if (k.gather && k.gtid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.gtid; }
         if (g_actorEid.size() > 4096) g_actorEid.clear();
