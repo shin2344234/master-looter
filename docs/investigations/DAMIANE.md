@@ -163,6 +163,51 @@ otherwise still on record and wins the next pick outright.
 
 Issue #27.
 
+## Telling a body from a ship, a cow and an empty world
+
+Issue #36, the day after the wagon rule above. A reporter on 1.6.5 lost the
+centre to a war ship for four minutes and forty seconds with every wagon
+protection in the build, and four sessions as Damiane beside a ship on
+9 September 2026 found three holes behind that one symptom. Each was named by
+a log line added for it a build earlier, which is the way to do this.
+
+**Gear was only counted where the scan already stood.** Holders are noted for
+every parented object in the world, but a child only counted as gear once the
+classify pass had looked at it, and that pass runs within forty metres of the
+centre. As Damiane the gear is on a body far from the identity actor the scan
+starts on, so it never classified, the body never scored above its raw
+children, and a ship with forty-five parts won every pick. A whole session
+looted nothing. A worn item says what it is in its own status byte, `0x11`,
+readable from any distance, so the enumeration now credits the parent of every
+`0x11` child with gear as it goes.
+
+**A held body aged out while standing still.** The game hands the body over
+every tick and its gear only when something about it changed. Beside the ship,
+seventy-five of eighty-two scans handed over exactly one object, the body a
+metre from the centre, and after fifteen seconds without a child the body was
+filtered out of its own table and a fifteen-part object took the centre for
+two and a half seconds. Seeing the holder now counts as seeing it.
+
+**Cargo classified as items.** A Clothing Loaded Cow with ten crates of
+equipment, a bolt of silk and a carpet counted as a person wearing eleven
+things and outscored the body three to one. Cargo carries category `0x0D`, worn
+gear `0x11`, and both gear paths now count `0x11` alone.
+
+Under all three sat something better than counting. The body is the one entity
+with type tag `04` and status category `0E`, on two machines; people are
+`03/0A`, beasts `03/0C`. Every enumerated object is asked for that pair, one
+deref for the tag and two more on a hit, and the holder it names is marked as
+played. A played holder wins the pick outright, is never displaced by one that
+is not, is never evicted, and stays fresh whenever its own entity passes
+through. Two logs is a pattern and not a rule, so it stands ahead of gear as a
+preference; a companion carrying the same pair would be decided by the worn
+count and the log would say so.
+
+Two things ruled out on the way. Damiane's gear does not point back at the
+player actor: the `mine` flag, printed for the first time, lit on nothing. And
+six quiet minutes with two hundred objects in range were not a bug: everything
+in reach was a trader's owned goods, refused as theft with owned looting off.
+
 ## Diagnostics that stay
 
 All cost nothing with the debug log off, and they are what any further work
@@ -175,3 +220,7 @@ starts from:
 - `[player]` every centre switch, with what was chosen, how many of its
   children were equipment, and whether it won on a first pick or by holding a
   lead. Also every time the body is forgotten, with the reason.
+  Since 9 September 2026 also both sides of a takeover with their scores and
+  whether it was won on gear or as the played body, and, once per body, which
+  filter dropped a held body from the table: absent and how full the table
+  is, or present and how stale, how few children, or on which route.
