@@ -291,13 +291,20 @@ namespace ml::events
     // the pair at something that is not a vein is a no-op, not a mistake.
     static bool DriveNow(const PendDrive& d)
     {
+        const float pos[3] = { d.x, d.y, d.z };
+        // A named single transition is not a vein break. This is how a well is
+        // wound, and the marker below opens a two second window in which the
+        // ore bonus treats any vein payout as ours. Stamping it here kept that
+        // window open across the eleven seconds of a well run, so a vein the
+        // player swung at by hand during it collected the bonus, which is the
+        // one outcome the marker exists to prevent.
+        if (d.ev)
+            return ml::loot::hooks::DriveGimmickEvent(d.comp, d.ev, d.player, d.actor, d.target, nullptr);
+
         // Stamp the time so the ore bonus knows this vein was broken by the
         // mod. The drop resolves after this returns, so a flag held only for
         // the call would never cover it.
         ml::loot::hooks::MarkOurBreak(true);
-        const float pos[3] = { d.x, d.y, d.z };
-        if (d.ev)
-            return ml::loot::hooks::DriveGimmickEvent(d.comp, d.ev, d.player, d.actor, d.target, nullptr);
         ml::loot::hooks::DriveGimmickEvent(d.comp, game::NameId("onattackimpulsecomplete"),
                                            d.player, d.actor, d.target, nullptr);
 

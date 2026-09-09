@@ -2206,6 +2206,19 @@ namespace ml::loot
                 // pointers is now stale. Issue #35.
                 const int dropped = events::DropPending();
                 g_actorEid.clear();
+                // A well run is the fourth holder of a raw component pointer and
+                // the queues were only three of them. Winding a well is eleven
+                // seconds of timed transitions spread over many scans, and
+                // g_wellRun keeps the bucket's and the winch's component
+                // pointers for all of it. Teleporting part way through leaves
+                // WellTick driving gimmicks the world change has freed, on its
+                // own schedule, which is precisely what #35 was.
+                if (g_wellRun.active)
+                {
+                    LOG("[well] abandoning the run at %08X: the world changed under it",
+                        g_wellRun.eid[WellBucket]);
+                    g_wellRun.active = false;
+                }
                 if (now - s_holdLogAt > 5000)
                 {
                     s_holdLogAt = now;

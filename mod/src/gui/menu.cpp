@@ -1206,6 +1206,25 @@ namespace ml::gui
         // Every tab edits the live Config; the loot worker copies it under this lock.
         std::lock_guard<std::recursive_mutex> lock(Settings::Mutex());
         Config& c = Settings::Get();
+
+        // Language follows the config wherever the config came from.
+        //
+        // It used to be applied in exactly two places, both of them buttons on
+        // the Language section, so a preset, a restored backup or a hand edit
+        // picked up by the live reload all changed the setting and left the menu
+        // in the old language. The Load-preset tooltip promises it replaces
+        // every setting, and this was the one it silently did not. Worse, the
+        // text box then showed the stale value, which is a one-click way to
+        // overwrite what was just restored.
+        //
+        // Here rather than in Settings on purpose: every Text::Load call has
+        // always run on the render thread, and the string table is read while
+        // this function draws.
+        static std::string s_appliedLang;
+        static bool s_langInit = false;
+        if (!s_langInit) { s_appliedLang = c.language; s_langInit = true; }
+        else if (c.language != s_appliedLang) { s_appliedLang = c.language; Text::Load(c.language.c_str()); }
+
         ImGuiIO& io = ImGui::GetIO();
         const bool capt = st.Captures();
         io.MouseDrawCursor = capt;
