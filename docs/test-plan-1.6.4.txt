@@ -1,140 +1,141 @@
 Test plan for 1.6.4
 
-First, the log's opening line must read:
+Two things changed since the last version of this plan. The Creatures tab is
+gone, so the step about it is replaced. And the count of dropped work now
+accumulates, so the world-change check will actually report something; the last
+run showed nothing because of a fault in my logging, not because nothing
+happened.
+
+Start by confirming the log's first line:
 
     Master Looter v1.6.4 for Crimson Desert 2.01.00
 
-Anything else and every result below is measuring the wrong binary.
+The plugin should hash to a03f2f29... If you want to be certain it is the file
+I packaged, that is the check.
 
 
-BEFORE YOU START PLAYING
+BEFORE PLAYING
 
 1. The hook lines.
-   Near the top of the log are three lines about Present, ResizeBuffers and
-   SetColorSpace1 saying another mod detoured them first. This does not print a
-   list of mods. Each of those lines should now end with the destination of the
-   jump:
+   Near the top of the log, the three lines about Present, ResizeBuffers and
+   SetColorSpace1 that say another mod detoured them first. Each should now end
+   with where the jump lands:
 
        ..., into SOMETHING.asi at 00007FF...: another mod detoured it first
 
-   If it says "into an allocated stub at ...", the other mod's redirect lands on
-   a page it allocated and the walk could not get past it, which is worth
-   telling me but is not a failure of anything else.
-
-   On your machine all three targets sat about 128 bytes apart, which is one
-   allocation holding three relays, so a single mod hooked all three rather than
-   three mods each taking one.
+   Last time this read "into ? at ...", because the jump landed on a page the
+   other mod allocated and the walk stopped there. It follows those now. If it
+   still says "into an allocated stub at ...", the chain ends somewhere with no
+   module attached and I want to see the line.
 
 2. Language on a preset.
-   Insert, then Looting, Presets. Save your current settings as "langtest".
-   Now General, Language, and click a different language; the menu changes.
-   Go back and load "langtest". The menu should return to English on its own as
-   the preset loads. If it stays in the other language, the setting is right and
-   the menu is stale, which is the bug.
+   Looting, Presets: save your current settings as "langtest". Then General,
+   Language, click a different language and watch the menu change. Go back and
+   load "langtest". The menu should return to English as the preset loads,
+   without you touching a language button.
 
 
 PLAYING
 
 3. Ordinary looting.
-   Ground items, an iron vein, an insect. This is the regression check that
-   matters most: the hook installer and the scan both changed under everything
-   else here. If loot stops arriving, stop and tell me.
+   Ground items, an ore vein, an insect. The regression check that matters most,
+   since the hook installer and the scan both changed underneath everything
+   else. If loot stops arriving, stop there.
 
-4. Mount and dismount, several times, while looting is running.
-   This is the easy way to test the crash fix, and much easier than fast
-   travelling. Getting on and off a horse swaps the player actor, which trips
-   the same purge a teleport does. Do it a few times near things being looted,
-   then search the log for "dropped":
+4. Mount and dismount a few times while looting is running.
+   Easier than fast travelling and it trips the same purge, through the
+   player-actor-changed trigger rather than the distance one. Do it near things
+   actively being looted, then search the log for "dropped":
 
        [scan] paused: player actor changed (mount, cutscene or area); dropped N queued actions aimed at the old world
 
-   A count above zero is the crash not happening. Zero every time just means
-   nothing was in flight at that instant, so try again next to an ore vein or a
-   few corpses, where there is more queued. Fast travel exercises the same code
-   through the other trigger, so do that too when you happen to.
+   A count above zero is the crash not happening. This is the one test that
+   failed to report last time, so it is the one I most want a result from.
 
-5. A creature by name.
-   Creatures tab, new, after Items. Search "butterfly" and find Meadow
-   Butterfly, key 1000886. Use that one specifically: it is a genuine catchable
-   insect. Do not use a rabbit, they have no catch item behind them and the
-   override never gets consulted.
+5. Leaving one species alone, from the Items tab.
+   This replaces the Creatures tab step. Creatures you catch become items, and
+   refusing the item refuses the catch, which has always been true.
 
-   Set it to never, find one, and it should be left alone while other insects
-   are still caught. With the debug log on its [why] line reads:
+   In the Looting tab, above the collection switches, there should now be a line
+   saying so, and a warning in orange about the small flying insects. Both are
+   new.
 
-       set to never on the Creatures tab
+   Then: Items tab, search "iguana", set Item_Iguana to never, and go and stand
+   next to an iguana with Small animals switched on. It should be left alone.
+   The ini should gain a line in [Items], not [Creatures], which no longer
+   exists.
 
-   Then set it to always and switch Insects off entirely. It should still be
-   caught. That half is the one that proves the override beats the class switch
-   instead of merely agreeing with it. The other 48 butterflies stay skipped,
-   so make sure you are looking at a Meadow one.
+   Do not try this with a butterfly or a cricket. The game gives the small
+   flying insects no model, so the mod cannot tell them apart and no filter
+   reaches them. That is what went wrong on your last run.
 
 6. The owned goods key.
-   General, Keys, "Take goods that belong to someone". Unbound; bind something.
-   Find an item the log is already refusing with "owned by someone (theft)" and
-   press the key. On-screen:
+   General, Keys, "Take goods that belong to someone", unbound by default. The
+   control is a Rebind button; press it and then press the key you want. Find
+   something the log is refusing with "owned by someone (theft)" and press it:
 
        Master Looter: taking owned goods, the game calls this stealing
 
    The item should then be taken. Press again for "leaving owned goods alone".
+   After quitting, [MasterLooter] in the ini should have KeyOwned set to a
+   number.
 
 7. Ore bonus during a well.
    Set "Extra ore per vein" to 2, turn OFF "Mine ore veins for you", turn ON
    "Draw water from wells". Find a well with a vein near it. Draw the water, and
-   the moment the log says "[well] took from bucket", swing your own pickaxe at
-   the vein. You should get your normal amount and there should be no
+   when the log says "[well] took from bucket", swing your own pickaxe at the
+   vein within about two seconds. You should get your normal amount and no
 
        [ore] vein the mod broke paid
 
-   line for it. If that line appears, the well is still marking hand-mined veins
-   as the mod's, which is the one thing that setting promises cannot happen.
-   Miss the two-second window and the result means nothing, so have the pickaxe
-   already up.
+   line for it. Miss the window and the result means nothing.
 
-8. Wells, but not the way I first asked.
-   My earlier step here asked you to interrupt an eleven second winding
-   animation. There is no such thing: a well draw is a single transition and is
-   over in about thirty-five milliseconds, so the run cannot be caught partway
-   through and that test was unrunnable. My mistake, and your log is what showed
-   it.
+8. Wells, the corrected version.
+   My earlier step asked you to interrupt an eleven second winding animation.
+   There is no such thing: a draw is a single transition, over in about
+   thirty-five milliseconds. That test was unrunnable and your log is what
+   showed it.
 
-   What is worth doing instead: turn "Draw water from wells" on, stand near a
-   well for half a minute, and check the log. You should see at most two or
-   three "[well] took from bucket" lines, not twenty-five. If it is still firing
-   once a second, the cooldown fix did not take.
+   Instead: with wells on, stand near one for half a minute. You should see at
+   most two or three "[well] took from bucket" lines. Last run it fired
+   twenty-five times in twenty-six seconds, because a cooldown had been sized
+   against that same imaginary eleven seconds.
+
+   Separately, watch whether any water actually reaches your bag. Last time none
+   did, across all twenty-five, and the winch reported the same state before and
+   after every one. That is issue #39's neighbour, #38, and it is the open
+   question about whether well drawing works at all.
 
 
-AFTERWARDS, IN THE FILES
+IN THE FILES AFTERWARDS
 
-9. MasterLooter.ini should have a [Creatures] section after [Items], holding
-   numeric keys rather than names: 1000886=1 or =-1 for the butterfly. In
-   [MasterLooter] there should be KeyOwned and PadOwned lines matching what you
-   bound. Both have to be in those sections; a key in the wrong section is
-   discarded without a word.
+9. MasterLooter.ini: [Items] should carry your iguana override as a numeric key,
+   [MasterLooter] should have KeyOwned and PadOwned. There should be no
+   [Creatures] section at all now.
 
-10. The settings migration. Copy the ini somewhere safe, then delete the line
-    reading ConfigVersion=2. Start the game, quit. The ini should say
-    ConfigVersion=2 again and the log should say it migrated. Start and quit
-    once more: it should not migrate a second time, and MasterLooter.backups
-    should not have gained a second file ending -v1. Before this fix it
-    re-migrated on every launch and left a backup each time, pushing your real
-    backups out of the twelve that are kept.
+10. The settings migration. Copy the ini somewhere safe, delete the line reading
+    ConfigVersion=2, start the game, quit. The ini should say ConfigVersion=2
+    again and the log should say it migrated. Start and quit once more: it must
+    not migrate a second time, and MasterLooter.backups must not gain a second
+    file ending -v1.
 
-11. Faults. Search the log for "[fault]". Mining and looting throw a few in any
-    session. Every one should read "first chance", and the first should be
-    preceded by a line explaining that most of them are the game probing memory
-    on purpose. They are not the crash and get pasted to me as though they were.
+11. Faults. Search the log for "[fault]". Each should read "first chance", and
+    the first should be preceded by a line saying most of them are the game
+    probing memory on purpose. They are not the crash, and they get sent to me
+    as though they were.
 
 
 WHAT CANNOT BE TESTED HERE
 
-The train. Cmz4455's scan settled on a steam engine and I cannot put you next to
-one. A horse or a wagon proves nothing, since the old build handled those.
+The train that #36 was about. I cannot put you next to one, and a horse or a
+wagon proves nothing since the old build handled those correctly.
 
-The hook installer race. A few instructions wide, and not something you can
-trigger deliberately. The only evidence is crashes at world load stopping, which
-is not evidence you can go and collect.
+The hook installer race. A few instructions wide and not triggerable on purpose.
+The only evidence is unexplained crashes at world load stopping, which is not
+evidence anyone can go and collect.
 
-The memory cache. It only ever showed up as scan time. If you want a rough look,
-note the "scan X.X ms" figure on the Nearby tab early on and again an hour in,
-and see whether it has climbed. That is a soft signal, not a pass or fail.
+The memory cache. It only ever showed up as scan time. If you want a soft look,
+note the "scan X.X ms" figure on the Nearby tab early and again an hour in.
+
+Filtering a specific small flying insect. Not a test, a limitation: there is
+nothing in the game's data to filter on.
