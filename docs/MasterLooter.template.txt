@@ -175,6 +175,7 @@ not in item database
 not ready (node empty)	
 not resolved yet	
 not started	
+Not the small flying insects. The game gives them no character model, so every one arrives as cd_effectmonster_normal and the mod cannot tell a cricket from a butterfly. Nothing set here reaches them, and the Insects switch is still the only control over that whole group. Fish, ground lizards and the small animals do carry a model and can be named.	
 not yet	
 Nothing else is drawn while the menu is closed.	
 nothing taken yet this session	

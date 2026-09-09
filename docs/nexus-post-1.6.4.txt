@@ -58,8 +58,16 @@ cannot take the centre from a thing whose have.
 LuxDragon asked, back when ground lizards became catchable, whether specific
 creatures could be filtered. There is a Creatures tab now. Search a name, set it
 to always or never, and it wins over the Insects, Fish and Small animals
-switches. Ten catchable insects have nothing in the game's item data behind
-them, so naming the creature is the only way to refuse them.
+switches.
+
+With one hole in it that I found by testing rather than by thinking, which is
+the honest order it happened in. It does not work on the small flying insects.
+The game hands those over with no character model at all, all of them under the
+same asset name, so the mod can see that something is an insect and has no way
+to tell a cricket from a butterfly. A name you set in that tab cannot match
+something the game never names. Fish, ground lizards and small animals do have
+models and can be set one at a time. For the flying insects the old switch is
+still the only lever, and the tab says so where you would go looking.
 
 Ahplla asked for a key for taking owned goods. It is under General, Keys, and it
 is unbound until you set one, along with a pad chord. That switch earns you a

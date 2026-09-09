@@ -963,6 +963,7 @@ namespace ml::gui
         ImGui::SameLine();
         ImGui::TextDisabled(TR("%d overrides"), static_cast<int>(c.creatureRule.size()));
         ImGui::TextDisabled(TR("These win over the Insects, Fish and Small animals switches. Only things the game lets you catch alive can be caught at all, whatever is set here."));
+        ImGui::TextColored(kWarn, TR("Not the small flying insects. The game gives them no character model, so every one arrives as cd_effectmonster_normal and the mod cannot tell a cricket from a butterfly. Nothing set here reaches them, and the Insects switch is still the only control over that whole group. Fish, ground lizards and the small animals do carry a model and can be named."));
 
         const std::string q = Lower(query);
         std::vector<const Creature*> rows;

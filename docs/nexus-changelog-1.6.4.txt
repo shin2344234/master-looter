@@ -47,8 +47,14 @@ the centre from something whose have.
 A Creatures tab, asked for by LuxDragon after ground lizards became catchable.
 Search a species by name and set it to always or never. It beats the Insects,
 Fish and Small animals switches, the same way a per-item override beats its
-class. Ten catchable insects have no item behind them in the game's data, so
-naming them was the only way to refuse them at all.
+class.
+
+It does not reach the small flying insects, and I would rather say that here
+than have you find it. The game gives them no character model: every one of them
+arrives as cd_effectmonster_normal, so the mod knows it is looking at an insect
+and cannot tell which. Nothing named in that tab can apply to something the game
+never names. Fish, ground lizards and the small animals do carry a model and can
+be set individually. The Insects switch is still all or nothing.
 
 A key and a pad chord for taking owned goods, asked for by Ahplla. Unbound until
 you set it, under General, Keys. Leaving that switch on earns a bounty, so it
