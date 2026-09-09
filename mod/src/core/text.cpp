@@ -23,6 +23,7 @@ namespace ml::Text
     // Kept in step with the RCDATA entries in resources.rc. Adding a
     // language means a line in each.
     static const Lang kBuiltIn[] = {
+        { "pt-br", "Português (Brasil)", "Kyo-70" },
         { "zh-cn", "简体中文", "dofo7777" },
         { "zh-tw", "繁體中文", "dofo7777" },
     };
@@ -75,6 +76,7 @@ namespace ml::Text
                 if (s[i + 1] == 'n') { out += '\n'; ++i; continue; }
                 if (s[i + 1] == 't') { out += '\t'; ++i; continue; }
                 if (s[i + 1] == '\\') { out += '\\'; ++i; continue; }
+                if (s[i + 1] == '"') { out += '"'; ++i; continue; }
             }
             out += s[i];
         }
