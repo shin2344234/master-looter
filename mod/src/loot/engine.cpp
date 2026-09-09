@@ -2790,11 +2790,15 @@ namespace ml::loot
             if (it != g_why.end() && it->second == v.why) continue;
             g_why[k.eid] = v.why;
             ++g_whyLines;
-            LOG("[why] %08X %.1fm %s: %s%s%s | type %u tag %02X cat %02X/%02X dead %u parent %08X %s%s%s%s%s%s%s",
+            // "mine" is the back-reference to the player actor found in the
+            // item's own fields. Printed so a log can say whether Damiane's
+            // worn gear points at her, which decides whether the body can be
+            // anchored on it outright instead of by counting worn items.
+            LOG("[why] %08X %.1fm %s: %s%s%s | type %u tag %02X cat %02X/%02X dead %u parent %08X %s%s%s%s%s%s%s%s",
                 k.eid, k.d, Label(k), v.why, v.detail[0] ? ": " : "", v.detail,
                 k.tid, k.type, k.cat, k.cat2, k.dead, k.parent,
                 k.inter ? "node " : "", k.item ? "item " : "", k.gather ? "gather " : "", k.ai ? "ai " : "",
-                k.twin ? "twin " : "", k.heap ? "heap " : "", k.node[0] ? k.node : "");
+                k.twin ? "twin " : "", k.heap ? "heap " : "", k.mine ? "mine " : "", k.node[0] ? k.node : "");
         }
         // Wind a well, if one is in reach and the switch is on.
         WellTick(list, cfg, now);
