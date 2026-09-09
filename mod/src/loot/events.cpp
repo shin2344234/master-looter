@@ -291,6 +291,14 @@ namespace ml::events
     // the pair at something that is not a vein is a no-op, not a mistake.
     static bool DriveNow(const PendDrive& d)
     {
+#ifdef ML_YIELD_PROBE
+        // Everything the yield probe sees between here and the end of this
+        // function is ours; anything outside it is the player swinging.
+        struct Mark {
+            Mark()  { ml::loot::hooks::MarkOurBreak(true);  }
+            ~Mark() { ml::loot::hooks::MarkOurBreak(false); }
+        } mark;
+#endif
         const float pos[3] = { d.x, d.y, d.z };
         if (d.ev)
             return ml::loot::hooks::DriveGimmickEvent(d.comp, d.ev, d.player, d.actor, d.target, nullptr);
