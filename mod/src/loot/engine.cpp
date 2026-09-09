@@ -185,6 +185,92 @@ namespace ml::loot
         return improved;
     }
 
+    // Which creature is this, asked of the game's own table instead of its
+    // model name.
+    //
+    // Naming a creature from strings has hit its ceiling. Across twelve logged
+    // sessions every word the mod ever matched was a generic one: fish arrive
+    // as "cd_fish", the small insects as "cd_effectmonster_normal", and an
+    // exact species was named three times in total. So c.species is null
+    // almost always, the catch branch never reaches ItemDb::ByRow, and no item
+    // rule can refuse a live catch. Issue #39.
+    //
+    // creatures.tsv is keyed by CharacterInfo string key, and the mod can
+    // already turn a row index of that table into its key: EnumTables finds
+    // characterinfo with 7250 rows and KeyInTable reads a row's name. So if the
+    // actor carries its CharacterInfo row anywhere reachable, the whole problem
+    // is one offset away.
+    //
+    // This looks for that offset and does nothing else. Every 2-byte field of
+    // the four blocks FindSpecies already walks is tried as a row index, and a
+    // hit is only reported when the key it resolves to is a creature our own
+    // table knows. That cross-check is what makes the answer unambiguous: a
+    // random 16-bit value will land on some row of some table constantly, and
+    // almost never on one that names a creature.
+    static void ProbeCreatureIdentity(uint32_t eid, uintptr_t ent, uintptr_t actor,
+                                      uintptr_t status, uintptr_t ai, uint8_t cat2)
+    {
+        if (!CreatureDb::Loaded()) return;
+        static int s_budget = 0;
+        static std::unordered_set<uint32_t> s_seen;
+        if (s_budget >= 8 || !s_seen.insert(eid).second) return;
+        ++s_budget;
+
+        const game::TableRef* tables = nullptr;
+        const int nTables = game::EnumTables(&tables);
+        int chr = -1;
+        for (int i = 0; i < nTables; ++i)
+            if (_stricmp(tables[i].name, "characterinfo") == 0) { chr = i; break; }
+        if (chr < 0) { LOG("[cid] %08X: no characterinfo table found, cannot probe", eid); return; }
+
+        LOG("[cid] %08X (byte %02X): looking for a characterinfo row on the actor, %u rows in the table",
+            eid, cat2, tables[chr].count);
+
+        const uintptr_t objs[4] = { ent, actor, status, ai };
+        const char*     names[4] = { "ent", "actor", "status", "ai" };
+        const unsigned  lens[4] = { 0x300, 0x300, 0x400, 0x300 };
+        int hits = 0;
+        for (int o = 0; o < 4 && hits < 12; ++o)
+        {
+            if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
+            for (unsigned off = 0; off + 2 <= lens[o] && hits < 12; off += 2)
+            {
+                uint16_t v = 0;
+                if (!mem::Read16(objs[o] + off, &v) || v < 64 || v >= tables[chr].count) continue;
+                char key[96];
+                if (!game::KeyInTable(tables[chr].global, v, key, sizeof key)) continue;
+                const Creature* cr = CreatureDb::ByKey(key);
+                if (!cr) continue;
+                ++hits;
+                LOG("[cid] %08X  %s+0x%X = %u -> \"%s\" = %s (%s)",
+                    eid, names[o], off, v, key, cr->name.c_str(), cr->klass.c_str());
+            }
+        }
+        // One hop out, since FindSpecies finds most of what it finds there.
+        for (int o = 0; o < 4 && hits < 12; ++o)
+        {
+            if (!objs[o] || !mem::Readable(objs[o], lens[o])) continue;
+            for (unsigned off = 0; off < lens[o] && hits < 12; off += 8)
+            {
+                const uintptr_t mid = mem::Deref(objs[o], off);
+                if (!mid || mem::InImage(mid) || !mem::Readable(mid, 0x200)) continue;
+                for (unsigned off2 = 0; off2 + 2 <= 0x200 && hits < 12; off2 += 2)
+                {
+                    uint16_t v = 0;
+                    if (!mem::Read16(mid + off2, &v) || v < 64 || v >= tables[chr].count) continue;
+                    char key[96];
+                    if (!game::KeyInTable(tables[chr].global, v, key, sizeof key)) continue;
+                    const Creature* cr = CreatureDb::ByKey(key);
+                    if (!cr) continue;
+                    ++hits;
+                    LOG("[cid] %08X  [%s+0x%X]+0x%X = %u -> \"%s\" = %s (%s)",
+                        eid, names[o], off, off2, v, key, cr->name.c_str(), cr->klass.c_str());
+                }
+            }
+        }
+        if (!hits) LOG("[cid] %08X: no field of any block resolves to a creature this table knows", eid);
+    }
+
     static Species FindSpecies(uint32_t eid, uintptr_t ent, uintptr_t actor, uintptr_t status, uintptr_t ai, uint8_t cat2, uint8_t tag)
     {
         Species sp;
@@ -1415,8 +1501,12 @@ namespace ml::loot
         const bool nameable = k.cat2 == 0x05 || k.cat2 == 0x09 || k.cat2 == 0x08;
         if (k.ai && !k.inter && (nameable || g_debugLog))
         {
-            const Species sp = FindSpecies(k.eid, k.ent, comps, status, game::CompByClass(comps, kCls_Ai), k.cat2, k.type);
+            const uintptr_t aiComp = game::CompByClass(comps, kCls_Ai);
+            const Species sp = FindSpecies(k.eid, k.ent, comps, status, aiComp, k.cat2, k.type);
             k.species = sp.row; k.speciesClass = sp.klass; k.speciesExact = sp.exact;
+            // Only for the ones that stayed anonymous, which is the case worth
+            // solving, and only with the debug log on.
+            if (g_debugLog && !sp.exact) ProbeCreatureIdentity(k.eid, k.ent, comps, status, aiComp, k.cat2);
         }
         if (k.gather && k.gtid) { if (g_nodeType.size() > 4096) g_nodeType.clear(); g_nodeType[k.eid] = k.gtid; }
         if (g_actorEid.size() > 4096) g_actorEid.clear();
