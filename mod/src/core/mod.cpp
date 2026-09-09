@@ -102,7 +102,30 @@ namespace ml::Mod
         WhereIs(er->ExceptionAddress, mod, sizeof mod, &off, &self);
         if (self) return EXCEPTION_CONTINUE_SEARCH;   // mem:: probing, as designed
 
-        if (InterlockedIncrement(&s_said) <= 12)
+        // One line per faulting instruction, not one per fault.
+        //
+        // The game probes memory the same way this mod does, with a guarded
+        // read that expects to be refused. A live 1.6.2 session produced eleven
+        // lines from a single instruction inside a couple of milliseconds, all
+        // handled, none of them a crash. Counting those against the budget
+        // means a real crash later in the session may find no room left to
+        // report itself, which defeats the whole point of the handler.
+        {
+            static CRITICAL_SECTION s_lock;
+            static bool s_lockReady = false;
+            static uintptr_t s_seen[64] = {};
+            static int s_seenN = 0;
+            if (!s_lockReady) { InitializeCriticalSection(&s_lock); s_lockReady = true; }
+            const uintptr_t at = reinterpret_cast<uintptr_t>(er->ExceptionAddress);
+            bool known = false;
+            EnterCriticalSection(&s_lock);
+            for (int i = 0; i < s_seenN; ++i) if (s_seen[i] == at) { known = true; break; }
+            if (!known && s_seenN < 64) s_seen[s_seenN++] = at;
+            LeaveCriticalSection(&s_lock);
+            if (known) return EXCEPTION_CONTINUE_SEARCH;
+        }
+
+        if (InterlockedIncrement(&s_said) <= 24)
         {
             char access[128] = "";
             if (c == EXCEPTION_ACCESS_VIOLATION && er->NumberParameters >= 2)
