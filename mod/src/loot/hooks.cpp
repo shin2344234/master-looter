@@ -303,7 +303,7 @@ namespace ml::loot::hooks
     static const char* GuessStateName(uint32_t id)
     {
         // Not guesses. These are the state names the game declares, read out of
-        // the .binarygimmick definitions with docs/ore-investigation/
+        // the .binarygimmick definitions with docs/investigations/
         // gimmick_states.py. All twelve well definitions declare Wait, Deactive,
         // Lock and Clear; eleven add GimmickOn; the winch part adds MinAngle and
         // the bucket arm adds PreGimmickOn and PreWait.
