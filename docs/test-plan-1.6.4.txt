@@ -91,16 +91,17 @@ PLAYING
    Miss the two-second window and the result means nothing, so have the pickaxe
    already up.
 
-8. A well interrupted.
-   Fiddly, so leave it last. General, Pace: drop Scans per second to 1, which
-   widens the window from a fifth of a second to about one second. Stand a horse
-   next to a well. Start the well winding and mount the horse while the bucket
-   is still moving. Look for:
+8. Wells, but not the way I first asked.
+   My earlier step here asked you to interrupt an eleven second winding
+   animation. There is no such thing: a well draw is a single transition and is
+   over in about thirty-five milliseconds, so the run cannot be caught partway
+   through and that test was unrunnable. My mistake, and your log is what showed
+   it.
 
-       [well] abandoning the run at ...: the world changed under it
-
-   The game should carry on normally. Several attempts may be needed; a miss
-   proves nothing. Put Scans per second back afterwards.
+   What is worth doing instead: turn "Draw water from wells" on, stand near a
+   well for half a minute, and check the log. You should see at most two or
+   three "[well] took from bucket" lines, not twenty-five. If it is still firing
+   once a second, the cooldown fix did not take.
 
 
 AFTERWARDS, IN THE FILES
