@@ -12,7 +12,7 @@ Fourteen switches under Looting, each on its own:
 [*]Animal carcasses, skinned once each. Human corpses drop ordinary loot instead.
 [*]Plants: herb, flower and mushroom nodes, and the same lying loose.
 [*]Crops: barley, sweet potatoes and the rest of the game's vegetables, fruit and grain, on the plant or lying loose. Their own switch since 1.4.0, because before that turning Plants off still left most of a field being harvested.
-[*]Ore, stone and wood, as chunks on the ground and as nodes that yield them. Ore veins are broken for you through the game's own path: the mod fires the two events your pickaxe fires, the swing landing and then the break, so the node spills its contents and disappears exactly as it does when you swing at it. What falls out is picked up from the ground. A vein pays one or two ore depending on whether you are carrying a mining bonus buff, and it pays a hand swing the same way, so the mod is not costing you anything there.
+[*]Ore, stone and wood, as chunks on the ground and as nodes that yield them. Ore veins are broken for you through the game's own path: the mod fires the two events your pickaxe fires, the swing landing and then the break, so the node spills its contents and disappears exactly as it does when you swing at it. What falls out is picked up from the ground. A vein the mod breaks pays less than one you swing at with a good mining tool. The game walks two drop rows for a swing it counts as yours and one for the mod's break, and I have not found where the second row is decided. Extra ore per vein, under Reaching nodes, adds the difference back through the game's own drop path. Set it to what your tool pays by hand minus one.
 [*]Insects: butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the rest of what the game files as insects.
 [*]Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish, seahorses.
 [*]Small animals: rats, squirrels, birds, lizards, frogs, salamanders.
@@ -24,7 +24,7 @@ Gather nodes are armed from a distance, so a bush fills its data without you sta
 [size=4][b]What it leaves alone[/b][/size]
 [list]
 [*]Anything the game would call stealing. The mod asks the same routine the game uses to decide between "Take" and "Steal", and walks past whatever would put a bounty on you. It works that question out from the player, so it is ready the moment you load in rather than waiting for the game to ask first. You can opt in under Looting, Ownership.
-[*]Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment. The Classes and Items tabs can lift most of that on purpose, per class or per item. None of it reaches what a carcass pays out when skinned, which is why that switch is all or nothing.
+[*]Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment. The Classes, Items and Creatures tabs can lift most of that on purpose, per class, per item or per species. None of it reaches what a carcass pays out when skinned, which is why that switch is all or nothing.
 [*]Fast-travel artifacts, memory triggers, locked nodes, gear worn by others and the contents of storage stacks, always.
 [/list]
 
@@ -35,6 +35,7 @@ Gather nodes are armed from a distance, so a bush fills its data without you sta
 [*]Classes: one-click groups such as Weapons and armor, Damaged gear, Food and drink, Materials, Books and papers or Treasure and keepsakes, above a table of every class with its item count.
 [*]Tags: always or never per tag; never beats always, and both beat the class rule.
 [*]Items: search any of the 6,813 items, set an override, and see the verdict the rules give it right now.
+[*]Creatures: the same, per species, for the things you catch alive. Always or never by name, over the Insects, Fish and Small animals switches. Ten catchable insects have nothing in the game's item data behind them, so this is the only way to refuse those at all.
 [*]Presets: every setting and every rule saved under a name and swapped in two clicks. Settings are backed up each time the game starts and the last twelve are kept, so an update with different defaults is one button to undo. Anything that overwrites or discards asks first.
 [*]A notice when the bag is full, with the slot count, the moment it fills.
 [*]Simplified and Traditional Chinese are built in, translated by dofo7777, with a button each under General, Language. Chinese, Japanese and Korean render properly now; they used to come out as boxes. Any other language is a text file: a template of all 308 lines is on the GitHub page, or write one from the Language section. Fill in your language, drop the file beside the plugin, and set the language. A partial translation leaves the rest in English, and a file beside the plugin overrides a built-in one.
@@ -63,16 +64,16 @@ Three scanners out of seventy flag the plugin, and all three are machine-learnin
 
 Worth knowing that the number moves on its own. 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three and 1.6.3 three. Microsoft and Symantec have flagged every one. CrowdStrike Falcon and Deep Instinct come and go, and they have now traded places two releases running. Nothing about what the file does changed in between. That is a model guessing, as against a scanner recognising something.
 
-Both 1.6.3 reports are public: [url=https://www.virustotal.com/gui/file/c70b9b597f3139331b49a62a1fc4b172ad1d2693c925d994affbe4ff67c31fa9]the plugin[/url] and [url=https://www.virustotal.com/gui/file/6e406491e5ca70f806fada3ec1513a68819aba9879138bca69bb62c64a869795]the package[/url].
+Both 1.6.4 reports are public: [url=https://www.virustotal.com/gui/file/9c3ca09273636ec1e1110ebc14847c91e00b8fec458d5afe36c8705dca448a7b]the plugin[/url] and [url=https://www.virustotal.com/gui/file/8e2c22580a196b23d46fdbe2a7055f448e03e0e8008d7487dedd3bc5ff5d31c2]the package[/url].
 
 The shape is the whole reason. It is an unsigned DLL that a loader puts inside the game, and once there it patches instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D. A trainer does all of that, so a model trained on trainers answers trainer. It carries no signing certificate and has no install history behind it yet to argue otherwise.
 
 What it does not do is reach the network. It imports no networking library at all, writes MasterLooter.ini, .log, .presets and .backups beside itself and nothing else, reads and writes no registry key, and modifies no game file. Every line is on GitHub and one batch file builds it, if you would rather compile your own. If your browser or Defender blocks the download, restore the file and exclude the game's bin64 folder.
 
-SHA-256 for 1.6.3:
-[code]6e406491e5ca70f806fada3ec1513a68819aba9879138bca69bb62c64a869795  MasterLooter-1.6.3-DMM.zip
-9ab28124303c256501b816396203be5217bc5b9efbc770d73dc9ffce3a0a03d2  MasterLooter-1.6.3.zip
-c70b9b597f3139331b49a62a1fc4b172ad1d2693c925d994affbe4ff67c31fa9  MasterLooter.asi[/code]
+SHA-256 for 1.6.4:
+[code]8e2c22580a196b23d46fdbe2a7055f448e03e0e8008d7487dedd3bc5ff5d31c2  MasterLooter-1.6.4-DMM.zip
+481c530d6b0c01a2e3dd51c8618480654ecd06c78a66807c8b3ee116a14313a0  MasterLooter-1.6.4.zip
+9c3ca09273636ec1e1110ebc14847c91e00b8fec458d5afe36c8705dca448a7b  MasterLooter.asi[/code]
 
 [size=4][b]Controls[/b][/size]
 [list]

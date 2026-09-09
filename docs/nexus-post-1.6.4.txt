@@ -1,0 +1,87 @@
+[size=4][b]1.6.4 fixes two crashes, and you only reported one of them[/b][/size]
+
+The one you reported is lsimo's. They fast travelled, the game died twenty-four
+minutes into a normal session, and they pulled the crash dump apart themselves
+before I got near it: a call through a null function pointer with my plugin on
+the stack. That saved me a day.
+
+Here is what it was. The mod cannot do everything on its own thread, so it
+queues work up for the game's thread to run, and each queued job holds a pointer
+to the thing it is aimed at. A teleport throws that entire world away and builds
+a new one. The queue had no idea, so four seconds after the jump it went ahead
+and drove a state change at a rock that no longer existed.
+
+Anything queued is now dropped the moment the world changes. If it ever happens
+again the log will say how many jobs were thrown away at each jump, which is the
+first thing I would want to look at.
+
+Then I went looking for the same mistake elsewhere and found it. Winding a well
+is eleven seconds of timed steps, and it was holding the same kind of pointer
+across all of them, outside the queue where the first fix could reach. Fast
+travel in the middle of drawing water and it kept going, at objects that were
+gone. That run gets abandoned now.
+
+[size=4][b]The one nobody reported[/b][/size]
+
+Hooking a game function means writing a redirect over its first instructions and
+keeping the originals somewhere safe. I was doing those two things in the wrong
+order: the redirect went in first, and only afterwards did the mod write down
+where the original had gone. Every redirect calls the original immediately.
+
+So there was a gap, a few instructions wide, where a game thread could arrive
+and call through nothing at all. Narrow, but these hooks go in while the world
+is loading and one of them sits on a function that runs thousands of times a
+second. From the outside it would look like the game dying on startup for no
+reason, with a log that stops mid sentence.
+
+I do not know whether anyone has hit it. Nobody could have reported it usefully
+if they had.
+
+[size=4][b]Damiane and Oongka, again[/b][/size]
+
+Cmz4455 reported no auto looting on those two, with a log, which is the only
+reason this is fixed. The scan had wandered off the player and settled on a
+steam engine. After that every part of the train read as the player's own kit
+and got skipped, so nothing anywhere near them was picked up.
+
+The mod scores candidates and a dressed character ought to beat a train without
+trying. It lost on a technicality: the train dragged enough separate objects
+into range to push the player out of a list that only holds thirty-two, and once
+the player is not in the list, none of the rules I wrote to stop exactly this
+apply to anything. Whatever the scan is standing on cannot be pushed out of that
+list any more, and a thing whose parts have never once been recognised as items
+cannot take the centre from a thing whose have.
+
+[size=4][b]Two you asked for[/b][/size]
+
+LuxDragon asked, back when ground lizards became catchable, whether specific
+creatures could be filtered. There is a Creatures tab now. Search a name, set it
+to always or never, and it wins over the Insects, Fish and Small animals
+switches. Ten catchable insects have nothing in the game's item data behind
+them, so naming the creature is the only way to refuse them.
+
+Ahplla asked for a key for taking owned goods. It is under General, Keys, and it
+is unbound until you set one, along with a pad chord. That switch earns you a
+bounty while it is on, so it wants flipping for a few seconds and flipping back,
+and digging through a menu twice is not that.
+
+[size=4][b]Also[/b][/size]
+
+Drawing a well was quietly opening the extra-ore window, so a vein you mined by
+hand during one collected the tool bonus. That is the single thing the setting
+promises will not happen.
+
+An old settings file was being migrated on every launch instead of once, because
+the migration was never actually saved, which reverted a hand edit every start
+and slowly pushed your real backups out of the list.
+
+Presets and restored backups change the menu language now, instead of changing
+the setting and leaving the menu in English.
+
+The log names whichever mod hooked DirectX before this one, rather than telling
+you only that something did. Faults are labelled first chance with a note saying
+most of them are the game probing memory on purpose, because people paste them
+to me as the crash and they usually are not.
+
+And a lookup the scan leans on had been giving up about five seconds into every
+session and doing the slow thing from then on. It does not any more.
