@@ -17,7 +17,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Water is lifted out of a well bucket while you turn the handle yourself. The mod drives the one state change the game makes for that and nothing else, so the bucket stays on the well and the handle stays in your hands. Off by default.
 - Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up each time the game starts and the last twelve are kept, so a version with different defaults is one button to undo. Anything that overwrites or discards asks first.
 - A notice appears when the bag is full, read from the bag's own slot count, so it shows the moment it fills whether or not you are looting. Turn it off under General.
-- The menu speaks Brazilian Portuguese plus Simplified and Traditional Chinese, all built into the plugin and available with one button each under General. Any other language is a text file away: a ready-made [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
+- The menu speaks Brazilian Portuguese, from Kyo-70, and Simplified and Traditional Chinese, from dofo7777. All three are built into the plugin and take one button each under General. Any other language is a text file away: a ready-made [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
 - A Nearby tab lists the objects around you, nearest first, with the rule that decided each one and a note when there are more than it can show; a Status tab shows every hook and signature.
 - Watch mode keeps the menu on screen while you play. Every key is rebindable, and each one can also be a two-button controller shortcut. The overlay works with DLSS frame generation and HDR.
 - Nothing hardcoded: every game address comes from a byte pattern or a class name resolved at load, and `sigcheck.py` reports what a game patch broke without launching the game.
@@ -46,10 +46,10 @@ The guess is easy to explain. The plugin is an unsigned DLL that a loader puts i
 
 What it does not do is reach the network. It imports no networking library, and the entire import list is `d3d12`, `dxgi`, `imm32`, `xinput9_1_0`, `kernel32`, `user32`, `gdi32`, `shell32` and `d3dcompiler_47`. It writes `MasterLooter.ini`, `MasterLooter.log` and its eleven rotated predecessors `MasterLooter.01.log` to `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups` beside itself and nothing else, reads and writes no registry key, and installs nothing that outlives the game process. Every line is in this repository, and `build.bat` will produce the file for you if you would rather not trust mine.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.5:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.6:
 
-    583d56d9f2348cbe63cbbfae113c12e0cc0b9da3aa291f7442633975c7c7de48  MasterLooter-1.6.5-DMM.zip
-    3240efbd681451d393e2d3902f7b198e2a08227b24400ce6b269eaf402d7b28e  MasterLooter-1.6.5.zip
+    e3da24d6a85e65fea238041be71d95c0d6d4c73fb958e1949ea5c0a6014c143f  MasterLooter-1.6.6-DMM.zip
+    fa20a608dc635be52206de74ab68fc5df043dda99bc393e83a9deeb755db1f57  MasterLooter-1.6.6.zip
     f9e2d6c5b9bde0cd96401312e846019e97be1f39392b3f5c3318abd1c25049e6  MasterLooter.asi
 
 ## Controls
