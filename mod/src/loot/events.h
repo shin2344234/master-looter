@@ -41,6 +41,10 @@ namespace ml::events
     bool Arm(uintptr_t gimmickComp, uintptr_t mode, uintptr_t arg3, uintptr_t ctx); // arg3 0 = a zeroed scratch buffer
     // Game thread only: run queued sends and arms.
     void Drain();
+    // Throw away everything queued and say how many went. For a world change:
+    // a queued arm or drive holds a raw component pointer captured before it,
+    // and the game frees those across a teleport. Issue #35.
+    int DropPending();
     // Enqueue hook feeds every event here to learn the player's route id.
     void SpyEnqueue(uintptr_t ev);
 

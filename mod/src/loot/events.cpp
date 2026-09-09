@@ -353,6 +353,26 @@ namespace ml::events
         return room;
     }
 
+    // Everything queued was aimed at a world that has since been replaced.
+    //
+    // An arm and a drive both carry a raw component pointer, and after a
+    // teleport the object behind it is freed. Checking the pointer does not
+    // help: mem::Readable only proves the page is still mapped, and a freed
+    // gimmick sits on a heap that very much is, so the check passes and the
+    // game reads a null out of the wreckage. lsimo's log has it happening
+    // inside the driver at +0x891EDC, four seconds after a 20 m jump, followed
+    // by a call through a null function pointer that took the process. The
+    // pending sends carry only entity ids, which are safer, but a recycled id
+    // now names something else entirely, so those go too.
+    int DropPending()
+    {
+        Lock();
+        const int n = g_pendActN + g_pendArmN + g_pendDrvN;
+        g_pendActN = g_pendArmN = g_pendDrvN = 0;
+        Unlock();
+        return n;
+    }
+
     void Drain()
     {
         if (InterlockedCompareExchange(&g_draining, 1, 0) != 0) return;

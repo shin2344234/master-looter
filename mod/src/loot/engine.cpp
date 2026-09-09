@@ -2141,7 +2141,22 @@ namespace ml::loot
                 // of a particular player, so a mount, a cutscene or an area
                 // change makes every remembered answer somebody else's.
                 g_ownAns.clear();
-                if (now - s_holdLogAt > 5000) { s_holdLogAt = now; LOG("[scan] paused: %s", why); }
+                // Pausing the scan used to leave the queues alone, and that is
+                // what killed lsimo's game: a drive queued before a teleport
+                // still held the component pointer of a gimmick the game had
+                // freed by the time the queue drained. Nothing aimed at the old
+                // world is worth keeping. g_actorEid goes with it because it
+                // maps component pointers to ids and every one of those
+                // pointers is now stale. Issue #35.
+                const int dropped = events::DropPending();
+                g_actorEid.clear();
+                if (now - s_holdLogAt > 5000)
+                {
+                    s_holdLogAt = now;
+                    if (dropped) LOG("[scan] paused: %s; dropped %d queued action%s aimed at the old world",
+                                     why, dropped, dropped == 1 ? "" : "s");
+                    else         LOG("[scan] paused: %s", why);
+                }
             }
         }
         s_lastPos = mp; s_lastMe = g_me; s_havePrev = true;
