@@ -405,31 +405,36 @@ namespace ml::loot::hooks
         return changed;
     }
 
-#ifdef ML_YIELD_PROBE
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original);
 
-    // How much a vein pays, measured rather than reasoned about.
+    // Paying the mining tool bonus the mod cannot earn.
     //
-    // Disassembly found the function that decides the number and its three
-    // inputs, and then ran out of things it could prove without a running game.
-    // The two candidates left are both readable here at the moment the decision
-    // is made, which is the only moment either of them is worth reading.
+    // A vein pays more when a good tool swings at it. The mod does not swing:
+    // it drives the node's own break sequence, and measurement showed that
+    // makes the game walk one drop row where a real swing walks two. On a
+    // refined drill, three ore by hand and one from the mod, every time. Both
+    // inputs to the count were byte-identical in each case, so nothing about
+    // the player or the vein was different. Only the number of rows.
     //
     //   count(rcx = instigator object, rdx = vein component, r8d = collect key)
     //     rcx null      -> 1
-    //     player term    [rcx+0x68] -> +0x20 -> table at +0x3E8, keyed by the
-    //                    collect key, count at +0x3F0
-    //     vein term      [rdx+0x68] -> +0x30 -> +0x1A0, gated on the byte at
-    //                    [[rdx+0x88]+1] == 7
-    //     then scaled by a million and rolled
+    //     player term    [rcx+0x68] -> +0x20 -> table at +0x3E8, keyed by key
+    //     vein term      [rdx+0x68] -> +0x30 -> +0x1A0, gated on [[rdx+0x88]+1] == 7
+    //     scaled by a million, rolled, returns rbx + setl + 1
     //
-    // A player term of exactly 1,000,000 turns a base of one into a base of
-    // two, which is the difference this is chasing.
+    // Rather than forge a swing, tell the game the vein is worth more and let
+    // its own drop path spawn the difference. The mod never copies an item and
+    // never writes to a save; the game spawns ore the way it always does, and
+    // the mod picks it off the ground the way it always does.
+    //
+    // Only ever applied to a vein this mod broke, inside a short window after
+    // the break, so mining by hand is untouched and a bonus cannot stack on top
+    // of one the game already paid.
     //
     // Found at a fixed address: the exe has relocations stripped and no ASLR,
     // so an RVA is an address. The prologue is checked before anything is
     // hooked, because attaching a detour to the wrong function is worse than
-    // not measuring at all.
+    // paying no bonus at all. Nothing is hooked when the setting is zero.
     static constexpr uintptr_t kCountRva = 0xE0AD9F0;
     static const unsigned char kCountHead[] = {
         0x48,0x89,0x5C,0x24,0x10, 0x48,0x89,0x6C,0x24,0x18,
@@ -439,94 +444,87 @@ namespace ml::loot::hooks
     using CountFn = uint32_t(__fastcall*)(uintptr_t, uintptr_t, uint32_t);
     static CountFn oCount = nullptr;
 
-    // Set while the mod is driving a break, so a line can say which kind of
-    // swing produced it without having to line up timestamps by hand.
-    static thread_local bool t_ourBreak = false;
-    void MarkOurBreak(bool on) { t_ourBreak = on; }
+    // When the mod last drove a break. The drop resolves after the drive
+    // returns, so a flag held only for the call never covers it; a timestamp
+    // does. Two seconds is far longer than the gap measured between a break
+    // and its count, and far shorter than a player could hand-mine in.
+    static volatile LONG g_lastDriveAt = 0;
+    void MarkOurBreak(bool on)
+    {
+        if (on) InterlockedExchange(&g_lastDriveAt, static_cast<LONG>(GetTickCount()));
+    }
+    static bool DrivenRecently()
+    {
+        const LONG at = InterlockedCompareExchange(&g_lastDriveAt, 0, 0);
+        return at != 0 && (static_cast<LONG>(GetTickCount()) - at) < 2000;
+    }
 
     static uint32_t __fastcall hkCount(uintptr_t instigator, uintptr_t vein, uint32_t key)
     {
-        // No _ReturnAddress here, and no <intrin.h> at the top of this file.
-        //
-        // Knowing which of the three call sites asked would be useful, and it
-        // cost the game its controller. Seth hand-mined a vein on the build
-        // before this one, which needs the radial menu and so needs a dpad
-        // press and hold; the next build, whose only functional change was
-        // reading the return address, broke press and hold while leaving a
-        // single press working. Removing the atomic from the discard path
-        // changed nothing, which fits: the return address was the difference,
-        // not the cost.
-        //
-        // This file holds every game hook the mod installs, including the
-        // movement tick the whole engine is pumped from, so an intrinsic that
-        // changes how the translation unit is generated is not a small thing
-        // to add to the top of it.
-        //
-        // The call site can be had another way later, by hooking the three
-        // sites themselves rather than asking the callee who called it.
-        const uint32_t n = oCount ? oCount(instigator, vein, key) : 0;
+        // No _ReturnAddress here and no <intrin.h> at the top of this file.
+        // Reading the return address in this detour broke controller press and
+        // hold in the game, and this file holds every hook the mod installs,
+        // including the movement tick the engine is pumped from.
+        uint32_t n = oCount ? oCount(instigator, vein, key) : 0;
 
-        // The first cut logged everything and spent its whole budget in thirty
-        // seconds on calls that were not ore: collect key zero, result one, and
-        // forty of them inside a single millisecond, all before the player had
-        // reached a vein. This function is asked about far more than mining.
-        //
-        // Keep only what could be a vein. A real collect key, or a result that
-        // is not the base of one, or a call made while the mod is driving a
-        // break. Everything else is counted and thrown away.
-        // Nothing atomic on the common path.
-        //
-        // This function is called tens of thousands of times a second. The
-        // first version ran an InterlockedIncrement on every one of them just
-        // to count the ones it was throwing away, and that was enough to cost
-        // frames: a single dpad press still registered but a press and hold
-        // stopped opening the radial menu, because a hold needs evenly timed
-        // polling and an edge does not. A probe that changes the thing it is
-        // measuring is worse than no probe.
-        //
-        // The uninteresting case now costs one comparison and a return.
-        const bool worthIt = (key != 0) || (n != 1) || t_ourBreak;
-        if (!worthIt) return n;
-
-        static volatile LONG s_said = 0;
-        if (InterlockedIncrement(&s_said) <= 200)
+        // Nothing atomic and nothing read on the common path: this is called
+        // tens of thousands of times a second, and an atomic here alone was
+        // enough to cost frames.
+        const int bonus = Settings::Get().oreBonus;
+        if (bonus > 0 && key != 0 && DrivenRecently())
         {
-            uintptr_t pA = 0, pB = 0, vA = 0, vB = 0, gateObj = 0;
-            uint64_t  pTerm = 0, pCount = 0, vTerm = 0;
-            uint8_t   gate = 0xFF;
-
-            if (instigator && mem::ReadPtr(instigator + 0x68, &pA) && pA)
-            {
-                mem::ReadPtr(pA + 0x20, &pB);
-                if (pB) { mem::Read64(pB + 0x3E8, &pTerm); mem::Read64(pB + 0x3F0, &pCount); }
-            }
-            if (vein && mem::ReadPtr(vein + 0x68, &vA) && vA)
-            {
-                mem::ReadPtr(vA + 0x30, &vB);
-                if (vB) mem::Read64(vB + 0x1A0, &vTerm);
-            }
-            if (vein && mem::ReadPtr(vein + 0x88, &gateObj) && gateObj)
-                mem::Read8(gateObj + 1, &gate);
-
-            LOG("[yield] %s paid %u | key %u | vein %p instigator %p | player[+0x3E8]=%llu "
-                "[+0x3F0]=%llu | vein[+0x1A0]=%llu gate=%02X (needs 07)",
-                t_ourBreak ? "MOD  " : "HAND ", n, key,
-                reinterpret_cast<void*>(vein),
-                reinterpret_cast<void*>(instigator),
-                static_cast<unsigned long long>(pTerm),
-                static_cast<unsigned long long>(pCount),
-                static_cast<unsigned long long>(vTerm), gate);
+            n += static_cast<uint32_t>(bonus);
+            static volatile LONG s_said = 0;
+            if (InterlockedIncrement(&s_said) <= 5)
+                LOG("[ore] vein the mod broke paid %u, plus %d for the tool bonus you set.",
+                    n - static_cast<uint32_t>(bonus), bonus);
         }
+
+#ifdef ML_YIELD_PROBE
+        if (key != 0 || n != 1 || DrivenRecently())
+        {
+            static volatile LONG s_probe = 0;
+            if (InterlockedIncrement(&s_probe) <= 200)
+            {
+                uintptr_t pA = 0, pB = 0, vA = 0, vB = 0, gateObj = 0;
+                uint64_t  pTerm = 0, pCount = 0, vTerm = 0;
+                uint8_t   gate = 0xFF;
+                if (instigator && mem::ReadPtr(instigator + 0x68, &pA) && pA)
+                {
+                    mem::ReadPtr(pA + 0x20, &pB);
+                    if (pB) { mem::Read64(pB + 0x3E8, &pTerm); mem::Read64(pB + 0x3F0, &pCount); }
+                }
+                if (vein && mem::ReadPtr(vein + 0x68, &vA) && vA)
+                {
+                    mem::ReadPtr(vA + 0x30, &vB);
+                    if (vB) mem::Read64(vB + 0x1A0, &vTerm);
+                }
+                if (vein && mem::ReadPtr(vein + 0x88, &gateObj) && gateObj)
+                    mem::Read8(gateObj + 1, &gate);
+                LOG("[yield] %s paid %u | key %u | vein %p | player[+0x3E8]=%llu [+0x3F0]=%llu | "
+                    "vein[+0x1A0]=%llu gate=%02X",
+                    DrivenRecently() ? "MOD  " : "HAND ", n, key,
+                    reinterpret_cast<void*>(vein),
+                    static_cast<unsigned long long>(pTerm),
+                    static_cast<unsigned long long>(pCount),
+                    static_cast<unsigned long long>(vTerm), gate);
+            }
+        }
+#endif
         return n;
     }
 
-    static void InstallYieldProbe()
+    static void InstallOreBonus()
     {
+        const int bonus = Settings::Get().oreBonus;
+#ifndef ML_YIELD_PROBE
+        if (bonus <= 0) return;   // no setting, no hook, no cost
+#endif
         const uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
         const uintptr_t at   = base + kCountRva;
         if (!mem::Readable(at, sizeof kCountHead))
         {
-            LOG_ERR("[yield] %llX is not readable; probe not installed",
+            LOG_ERR("[ore] %llX is not readable; the tool bonus is off this session.",
                     static_cast<unsigned long long>(at));
             return;
         }
@@ -534,17 +532,16 @@ namespace ml::loot::hooks
         if (!mem::ReadBytes(at, head, sizeof head) ||
             memcmp(head, kCountHead, sizeof head) != 0)
         {
-            LOG_ERR("[yield] the function at +%llX is not the one this was written for; "
-                    "probe not installed. The game has probably been patched.",
+            LOG_ERR("[ore] the function at +%llX is not the one this was written against, so the "
+                    "tool bonus is off this session. The game has probably been updated.",
                     static_cast<unsigned long long>(kCountRva));
             return;
         }
-        if (Hook("yield count", at, reinterpret_cast<void*>(&hkCount),
+        if (Hook("ore count", at, reinterpret_cast<void*>(&hkCount),
                  reinterpret_cast<void**>(&oCount)))
-            LOG("[yield] probe on. Mine a vein by hand and let the mod mine one, then compare "
-                "the HAND and MOD lines.");
+            LOG("[ore] tool bonus on: a vein this mod breaks pays %d more, from the game's own "
+                "drop path. Mining by hand is untouched.", bonus);
     }
-#endif
 
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original)
     {
@@ -573,9 +570,7 @@ namespace ml::loot::hooks
             g_enqueuePump = true;
             g_pump = "event queue";
         }
-#ifdef ML_YIELD_PROBE
-        InstallYieldProbe();
-#endif
+        InstallOreBonus();
         Hook("ownership oracle", f.ownCheck, reinterpret_cast<void*>(&hkOwn), reinterpret_cast<void**>(&oOwn));
         Hook("node arming", f.armFn, reinterpret_cast<void*>(&hkArm), reinterpret_cast<void**>(&oArm));
         Hook("gimmick driver", f.stateDriver, reinterpret_cast<void*>(&hkStateDriver), reinterpret_cast<void**>(&oStateDriver));
