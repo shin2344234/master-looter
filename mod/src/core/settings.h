@@ -129,11 +129,6 @@ namespace ml
         std::map<std::string, int> tagRule;
         // [Items] item key -> 1 always / -1 never.
         std::map<uint32_t, int> itemRule;
-        // Per-creature, keyed by CharacterInfo key: 1 always catch, -1 never.
-        // The three catch switches are all-or-nothing per class, so someone who
-        // wants butterflies but not lizards had nowhere to say so. Wins over
-        // those switches the way an item override wins over its class. Issue #29.
-        std::map<uint32_t, int> creatureRule;
     };
 
     namespace Settings

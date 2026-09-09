@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 
-#include "../core/creaturedb.h"
 #include "../core/itemdb.h"
 #include "../core/log.h"
 #include "../core/paths.h"
@@ -665,6 +664,15 @@ namespace ml::gui
             { "Containers",     &c.lootContainers, "Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default." },
             { "Furniture", &c.lootFurniture, "Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default." },
         };
+        // Where to say this, because the Items tab is the answer and nobody
+        // thinks to look for a live animal there. A creature that can be caught
+        // becomes an item, and the catch is refused if that item is refused, so
+        // Item_Iguana set to never on the Items tab leaves iguanas alone. A
+        // separate Creatures tab was built for this in 1.6.4 and taken out
+        // again: it could only act on creatures the game names, which is a
+        // smaller set than the item rules already covered.
+        ImGui::TextDisabled(TR("To leave one species alone, set what it becomes to never on the Items tab: Item_Iguana, Item_Rat, Item_Butterfly and so on. The switches here are whole categories."));
+        ImGui::TextColored(kWarn, TR("The small flying insects are the exception, and no filter can reach them. The game gives them no character model, so all of them arrive under one name and the mod cannot tell a cricket from a butterfly. The Insects switch is the only control over that group."));
         if (ImGui::BeginTable("collect", 3, ImGuiTableFlags_SizingStretchSame))
         {
             for (const Toggle& t : toggles)
@@ -950,68 +958,6 @@ namespace ml::gui
         }
     }
 
-    // Creatures, keyed by name, because the three catch switches are all or
-    // nothing per class. Same shape as the Items tab above: search to find one,
-    // and with an empty box you see only what you have already overridden.
-    static void TabCreatures(Config& c)
-    {
-        static char query[96] = "";
-        ImGui::SetNextItemWidth(360 * g_scale);
-        ImGui::InputTextWithHint("##crsearch", TR("search creature name or key (3+ letters)"), query, sizeof query);
-        ImGui::SameLine();
-        if (ImGui::Button(TR("Clear overrides"))) { c.creatureRule.clear(); Settings::MarkDirty(); }
-        ImGui::SameLine();
-        ImGui::TextDisabled(TR("%d overrides"), static_cast<int>(c.creatureRule.size()));
-        ImGui::TextDisabled(TR("These win over the Insects, Fish and Small animals switches. Only things the game lets you catch alive can be caught at all, whatever is set here."));
-        ImGui::TextColored(kWarn, TR("Not the small flying insects. The game gives them no character model, so every one arrives as cd_effectmonster_normal and the mod cannot tell a cricket from a butterfly. Nothing set here reaches them, and the Insects switch is still the only control over that whole group. Fish, ground lizards and the small animals do carry a model and can be named."));
-
-        const std::string q = Lower(query);
-        std::vector<const Creature*> rows;
-        for (const Creature& cr : CreatureDb::All())
-        {
-            if (q.size() >= 3)
-            {
-                if (!Contains(cr.name, q) && !Contains(cr.stringKey, q) && cr.klass != q) continue;
-            }
-            else if (!c.creatureRule.count(cr.key)) continue;
-            rows.push_back(&cr);
-            if (rows.size() >= 250) break;
-        }
-        if (q.size() < 3) ImGui::TextDisabled(TR("Showing current overrides. Type to search all %d creatures."), CreatureDb::Count());
-        else ImGui::TextDisabled(TR("%d match%s%s"), static_cast<int>(rows.size()), rows.size() == 1 ? "" : "es", rows.size() >= 250 ? " (first 250)" : "");
-
-        if (ImGui::BeginTable("creatures", 4, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
-        {
-            ImGui::TableSetupScrollFreeze(0, 1);
-            ImGui::TableSetupColumn(TR("Creature"), ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn(TR("Class"), ImGuiTableColumnFlags_WidthFixed, 120 * g_scale);
-            ImGui::TableSetupColumn(TR("Becomes"), ImGuiTableColumnFlags_WidthFixed, 190 * g_scale);
-            ImGui::TableSetupColumn(TR("Override"), ImGuiTableColumnFlags_WidthFixed, 260 * g_scale);
-            ImGui::TableHeadersRow();
-            for (const Creature* cr : rows)
-            {
-                ImGui::TableNextRow();
-                ImGui::PushID(static_cast<int>(cr->key));
-                ImGui::TableSetColumnIndex(0);
-                ImGui::TextUnformatted(cr->name.c_str());
-                if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("%s (key %u)"), cr->stringKey.c_str(), cr->key); ImGui::EndTooltip(); }
-                ImGui::TableSetColumnIndex(1);
-                ImGui::TextUnformatted(cr->klass.c_str());
-                ImGui::TableSetColumnIndex(2);
-                // No item row means nothing to hand the item rules, which is
-                // exactly why naming the creature is the only way to refuse it.
-                if (const Item* it = ItemDb::ByRow(cr->itemRow)) ImGui::TextUnformatted(it->Label());
-                else ImGui::TextDisabled(TR("not an item"));
-                ImGui::TableSetColumnIndex(3);
-                auto ov = c.creatureRule.find(cr->key);
-                int cur = ov == c.creatureRule.end() ? 0 : ov->second;
-                if (TriState("ov", cur)) { if (cur == 0) c.creatureRule.erase(cr->key); else c.creatureRule[cr->key] = cur; Settings::MarkDirty(); }
-                ImGui::PopID();
-            }
-            ImGui::EndTable();
-        }
-    }
-
     static void TabNearby()
     {
         const loot::Status s = loot::GetStatus();
@@ -1271,8 +1217,7 @@ namespace ml::gui
             struct TabDef { const char* name; void (*fn)(Config&); };
             static const TabDef tabs[] = {
                 { "General", TabGeneral }, { "Looting", TabLooting }, { "Classes", TabClasses }, { "Tags", TabTags },
-                { "Items", TabItems }, { "Creatures", TabCreatures },
-                { "Nearby", [](Config&) { TabNearby(); } }, { "Status", [](Config&) { TabStatus(); } },
+                { "Items", TabItems }, { "Nearby", [](Config&) { TabNearby(); } }, { "Status", [](Config&) { TabStatus(); } },
             };
             if (ImGui::BeginTabBar("tabs", ImGuiTabBarFlags_DrawSelectedOverline))
             {
