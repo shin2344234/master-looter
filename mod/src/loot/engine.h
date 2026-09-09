@@ -56,4 +56,5 @@ namespace ml::loot
     void RequestBurst();             // loot everything allowed in range once
     void ForgetLearned();            // clear the learned node yields (file too)
     void SetAuto(bool on);           // same as Config.enabled, saved
+    void SetLootOwned(bool on);      // same as Config.lootOwned, saved, and drops the cached verdicts
 }
