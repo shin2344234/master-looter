@@ -23,8 +23,28 @@ namespace ml
         DWORD noticeUntil     = 0;
         bool  noticeImportant = false;
 
+        // When the overlay last actually drew a frame. The menu can only be
+        // opened or closed from inside the render path, so if drawing stops
+        // while it is open there is no way left to close it.
+        DWORD lastDrawAt = 0;
+
         // True while the menu owns keyboard, mouse and pad.
-        bool Captures() const { return menuOpen && !menuWatch; }
+        //
+        // Gated on the overlay having drawn recently. Without that, an overlay
+        // that stops drawing with the menu open leaves the pad zeroed for the
+        // rest of the session and no key can undo it, because the key that
+        // would close the menu is read from the render path that has stopped.
+        // The symptom is a dead controller and no menu on screen, which looks
+        // nothing like a mod problem and is entirely a mod problem.
+        //
+        // Half a second is far longer than a frame and far shorter than anyone
+        // would spend wondering why the pad died.
+        bool Captures() const
+        {
+            if (!menuOpen || menuWatch) return false;
+            const DWORD now = GetTickCount();
+            return lastDrawAt && (now - lastDrawAt) < 500;
+        }
 
         void Notify(const char* text, DWORD ms = 2500, bool important = false)
         {
