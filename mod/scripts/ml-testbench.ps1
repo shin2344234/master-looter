@@ -98,6 +98,27 @@ while ($true) {
         }
         $wasRunning = $running
 
+        # Plugin switches, so a test without Crimson Route or another .asi can
+        # be set up from the far end. A file named disable-<plugin>.asi in the
+        # deploy folder renames that plugin to .asi.off in bin64; enable-<plugin>.asi
+        # renames it back. Only .asi files, only in bin64, only while the game
+        # is closed, and the marker is removed once acted on. Added 10 September
+        # 2026 for the Steam overlay test on the wrapped path.
+        if (-not $running) {
+            foreach ($m in Get-ChildItem -LiteralPath $Deploy -Filter '*.asi' -ErrorAction SilentlyContinue) {
+                if ($m.Name -match '^(disable|enable)-(.+\.asi)$') {
+                    $verb = $Matches[1]; $plugin = $Matches[2]
+                    if ($plugin -ieq 'MasterLooter.asi') { Say "ignoring $($m.Name): this script only ever installs that one"; Remove-Item -LiteralPath $m.FullName -Force; continue }
+                    $on  = Join-Path $Bin64 $plugin
+                    $off = "$on.off"
+                    if ($verb -eq 'disable' -and (Test-Path -LiteralPath $on)) { Rename-Item -LiteralPath $on -NewName (Split-Path $off -Leaf); Say "disabled $plugin (renamed to .off)" }
+                    elseif ($verb -eq 'enable' -and (Test-Path -LiteralPath $off)) { Rename-Item -LiteralPath $off -NewName $plugin; Say "enabled $plugin" }
+                    else { Say "nothing to do for $($m.Name): $plugin is already $verb`d or absent" }
+                    Remove-Item -LiteralPath $m.FullName -Force
+                }
+            }
+        }
+
         # A new build arrived: install it, but never under a running game.
         if (Test-Path -LiteralPath $source) {
             $srcHash = Hash $source
