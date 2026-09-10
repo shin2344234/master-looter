@@ -91,8 +91,8 @@ namespace ml::gui
     {
         ImFontGlyphRangesBuilder b;
         b.AddRanges(ImGui::GetIO().Fonts->GetGlyphRangesDefault());
-        // The language buttons are drawn whatever is loaded, English included,
-        // so their names belong in the atlas even when no translation is on.
+        // The language list is drawn whatever is loaded, English included,
+        // so its names belong in the atlas even when no translation is on.
         int n = 0;
         if (const Text::Lang* langs = Text::BuiltIn(n))
             for (int i = 0; i < n; ++i) b.AddText(langs[i].name);
@@ -115,9 +115,9 @@ namespace ml::gui
     // be merged cheaply. Four groups, the first face of each that loads:
     // the script of the loaded language first, so Japanese kanji come from a
     // Japanese face rather than the Chinese forms Microsoft YaHei draws;
-    // then Hangul, Thai and Chinese, which the language buttons need in
+    // then Hangul, Thai and Chinese, which the language list needs in
     // every build (Yu Gothic has no glyph for the simplified character in
-    // the Simplified Chinese button's name, so a Chinese face follows the
+    // the Simplified Chinese entry's name, so a Chinese face follows the
     // Japanese one); then a face for whatever Segoe UI or Georgia lacks,
     // such as Vietnamese in the serif. Ordered within a group by what suits the
     // language first and what a Windows install is likely to hold second.
@@ -586,9 +586,10 @@ namespace ml::gui
             static bool s_init = false;
             if (!s_init) { s_init = true; snprintf(s_lang, sizeof s_lang, "%s", c.language.c_str()); }
 
-            // The languages that ship with the mod get a button each, since
-            // asking someone to type "zh-tw" to read the menu in their own
-            // language is asking them to read the English first.
+            // The languages that ship with the mod are picked from a list by
+            // their own names, since asking someone to type "zh-tw" to read
+            // the menu in their own language is asking them to read the
+            // English first.
             // The new language almost certainly needs characters the atlas was
             // not built with, so it is rebuilt before the next frame is drawn.
             auto pick = [&](const char* code) {
@@ -599,24 +600,26 @@ namespace ml::gui
                 Settings::MarkDirty();
             };
             const bool english = c.language.empty() || _stricmp(c.language.c_str(), "en") == 0;
-            // Twenty-nine buttons do not fit on one line. Each goes beside
-            // the last while there is room for it and starts a new row
-            // when there is not, so the rows come out as wide as the window.
-            const float rowRight = ImGui::GetCursorScreenPos().x + ImGui::GetContentRegionAvail().x;
-            const ImGuiStyle& style = ImGui::GetStyle();
-            if (english) ImGui::BeginDisabled();
-            if (ImGui::Button(TR("English"))) pick("");
-            if (english) ImGui::EndDisabled();
             int nlangs = 0;
             const Text::Lang* langs = Text::BuiltIn(nlangs);
-            for (int i = 0; i < nlangs; ++i)
+            // One dropdown, English first and the rest in the order of the
+            // table. The closed box shows the language in use; a language
+            // typed by hand that is not built in shows as its code, since
+            // the mod has no name for it.
+            const Text::Lang* cur = english ? nullptr : Text::Find(c.language.c_str());
+            const char* preview = english ? TR("English") : cur ? cur->name : c.language.c_str();
+            ImGui::SetNextItemWidth(240 * g_scale);
+            if (ImGui::BeginCombo("##builtin", preview, ImGuiComboFlags_HeightLarge))
             {
-                const float w = ImGui::CalcTextSize(langs[i].name).x + style.FramePadding.x * 2;
-                if (ImGui::GetItemRectMax().x + style.ItemSpacing.x + w <= rowRight) ImGui::SameLine();
-                const bool on = _stricmp(c.language.c_str(), langs[i].code) == 0;
-                if (on) ImGui::BeginDisabled();
-                if (ImGui::Button(langs[i].name)) pick(langs[i].code);
-                if (on) ImGui::EndDisabled();
+                if (ImGui::Selectable(TR("English"), english)) pick("");
+                if (english) ImGui::SetItemDefaultFocus();
+                for (int i = 0; i < nlangs; ++i)
+                {
+                    const bool on = _stricmp(c.language.c_str(), langs[i].code) == 0;
+                    if (ImGui::Selectable(langs[i].name, on)) pick(langs[i].code);
+                    if (on) ImGui::SetItemDefaultFocus();
+                }
+                ImGui::EndCombo();
             }
 
             ImGui::SetNextItemWidth(120 * g_scale);

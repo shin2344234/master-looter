@@ -50,7 +50,7 @@ If the game will not launch alongside another overlay mod, set `WrapSwapChain=0`
 
 ## Translating the menu
 
-The menu ships in 28 languages besides English, the set Steam itself offers, all built into the plugin so they survive a mod manager that deploys the .asi on its own. Each has a button under General, Language. Three were done by people: Brazilian Portuguese by Kyo-70, Simplified and Traditional Chinese by dofo7777. The other 25 came out of machine translation and nobody who speaks them has checked them yet, which the menu says whenever one is selected. A wrong word in one of those is worth reporting, as an issue or as a corrected file.
+The menu ships in 28 languages besides English, the set Steam itself offers, all built into the plugin so they survive a mod manager that deploys the .asi on its own. All of them sit in one dropdown under General, Language. Three were done by people: Brazilian Portuguese by Kyo-70, Simplified and Traditional Chinese by dofo7777. The other 25 came out of machine translation and nobody who speaks them has checked them yet, which the menu says whenever one is selected. A wrong word in one of those is worth reporting, as an issue or as a corrected file.
 
 A language not in that set, or a correction to one that is, is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
