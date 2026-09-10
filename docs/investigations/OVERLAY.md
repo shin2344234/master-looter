@@ -350,6 +350,45 @@ In this order, each one launch.
    them.
 8. Proton, if anyone on issue #15 will run it.
 
+## Continuing this locally
+
+This was written in a cloud session whose proxy refuses the connection to
+learn.microsoft.com, devblogs.microsoft.com, nexusmods.com and reshade.me.
+The refusal is a 403 on the CONNECT from the gateway, so a browser driven by
+Playwright is blocked the same way as curl. Everything from those hosts came
+through a GitHub mirror or a search result, and the following is what a local
+session with a browser should read to close the gaps.
+
+1. The reshade.me thread "ReShade API does not allow access to ImGui
+   context", in the add-ons discussion forum, id 8251. Option 3 says add-ons
+   cannot add a font to the atlas because the function table has no such
+   entry. Confirm that from the thread and see whether crosire offers a way
+   round it, since that decides whether the Chinese and Portuguese menus
+   could exist on that path at all.
+2. Crimson Route's Nexus page, mod 3175, and the `CrimsonRoute.ini` it ships.
+   `Renderer=Present` is the default per `docs/repro-34.txt`; list the other
+   values and read any compatibility note dofo7777 has written. Trinity's page
+   docs tab, mod 3273, has a compatibility section worth the same read.
+3. DesertLink, mod 3444, and CrimsonDesertTelemetry, mod 3374. Find out what
+   DesertLink's Overlay mode is built from, a layered window, a browser or
+   something else, and whether its author has written about fullscreen or
+   focus problems. It is the nearest precedent for option 1 in this game.
+4. Microsoft's "Demystifying Full Screen Optimizations" post on the DirectX
+   developer blog. The fullscreen optimisation claims above rest on
+   PCGamingWiki's summary; the post is the primary source. Kenny Kerr's MSDN
+   Magazine article from June 2014 only surfaced as a title; read it before
+   option 2 is ever revisited.
+
+The raw files that were read directly, the ReShade headers, both NVIDIA
+guides, Trinity's README and the three Microsoft pages from the docs mirror,
+can be fetched again with `fetch_overlay_sources.py` in this folder. It puts
+them in `docs/investigations/sources/`, which is ignored by git, and prints
+the lines the text above cites so they can be checked without opening each
+file.
+
+The eight tests in the previous section need the game and are the other half
+of continuing this.
+
 ## Sources
 
 - This repository: `mod/src/hooks/dx12_hook.cpp`, `input.cpp`, `input.h`,

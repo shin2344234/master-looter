@@ -48,3 +48,6 @@ secrets.*
 build-nowrap/
 build-nodraw/
 build-probe/
+
+# third-party reference material fetched by docs/investigations/fetch_overlay_sources.py
+docs/investigations/sources/
