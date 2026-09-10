@@ -1,10 +1,5 @@
 # Texto do menu do Master Looter em Português do Brasil (pt-BR).
-# Tradução por Kyo-70.
-#
-# As linhas acrescentadas depois da tradução de Kyo-70 são tradução
-# automática feita por Claude, uma IA da Anthropic, e ainda não foram
-# revisadas por um falante nativo. Correções são bem-vindas no GitHub
-# (github.com/shin2344234/master-looter) ou na página do mod no Nexus.
+# Tradução e revisão por Kyo-70.
 #
 # Uma linha por texto: o original em inglês, uma tabulação e a tradução.
 # Linhas iniciadas por # são ignoradas, \n representa uma quebra de linha e
@@ -17,7 +12,7 @@
 # um arquivo com este nome ao lado de MasterLooter.asi.
 
   bag full	  bolsa cheia
- (first 250)	 (primeiros 250)
+ (first 250)	 (os 250 primeiros)
 %-18s %s (%zu hits)%s	%-18s %s (%zu acertos)%s
 %d classes	%d classes
 %d items, %d classes, %d tags	%d itens, %d classes, %d etiquetas
@@ -28,12 +23,13 @@
 %d overrides	%d substituições
 %s (key %u, row %d, tier %d)	%s (chave %u, linha %d, nível %d)
 %s (never looted)	%s (nunca saqueado)
-%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s é uma tradução automática que ainda não foi revisada por ninguém. Correções são bem-vindas no GitHub ou na página do Nexus.
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s é uma tradução automática que ainda não passou por revisão. Correções são bem-vindas no GitHub ou na página do Nexus.
 %s translated by %s.	%s traduzido por %s.
 %s, let go to keep it	%s, solte para manter
 1 match%s	1 resultado%s
 3 of 3	3 de 3
 \"%s\" already exists. Saving over it asks first.	\"%s\" já existe. Será solicitada uma confirmação antes de sobrescrevê-lo.
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Um mascote recolhe os itens que quiser, e o jogo não oferece uma opção para impedir isso. Quando ativada, esta opção remove do inventário qualquer item recolhido por um mascote ou companheiro que seria recusado por suas regras de itens, etiquetas, classes ou valor mínimo. Itens de missão e itens protegidos nunca são removidos. Itens que você recolher manualmente nos mesmos dois segundos serão avaliados pelas mesmas regras.
 A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Baldes de poço e objetos semelhantes nunca são saqueados, mas ativá-los faz o jogo oferecer a interação para que você possa usá-los manualmente.
 Abyss and Kuku	Abismo e Kuku
 Abyss gear, Kuku pots and their parts.	Equipamentos do Abismo, potes Kuku e suas peças.
@@ -50,18 +46,18 @@ Arming ignores walls. Keep it short or you will gather through the wall of the n
 Arming range	Alcance de ativação
 Auto-loot enabled	Saque automático ativado
 Auto-loot on / off	Ativar/desativar saque automático
-Backups	Backups
+Backups	Cópias de segurança
 blank for English	deixe em branco para inglês
+Bodies	Corpos
+bodies off	corpos desativados
 Books and papers	Livros e papéis
 Boss rewards, artifacts, memory items, coin pouches and reward chests.	Recompensas de chefes, artefatos, itens de memória, bolsas de moedas e baús de recompensa.
 Break veins open rather than emptying them	Quebrar os veios em vez de esvaziá-los
-Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	A quebra aciona a máquina de estados do próprio jogo no veio: primeiro o golpe acerta e depois ocorre a ruptura, fazendo o ponto derramar seu conteúdo no chão e desaparecer exatamente como sob uma picareta. Esvaziá-lo, por outro lado, retira o minério diretamente e ignora completamente a queda. Nenhuma das rotas aplica o bônus de rendimento de mineração da sua ferramenta, que o jogo só concede a um golpe reconhecido como seu; portanto, defina o adicional abaixo para compensar a diferença. Cada veio é atingido uma vez e então deixado em paz até reaparecer.
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	A quebra aciona a máquina de estados do próprio jogo no veio: primeiro o golpe acerta e depois ocorre a ruptura, fazendo o ponto derramar seu conteúdo no chão e desaparecer exatamente como sob uma picareta. Esvaziá-lo, por outro lado, retira o minério diretamente e ignora completamente o item derrubado. Nenhuma das opções aplica o efeito Aumento do Rendimento da Produção de Mineração da sua ferramenta, que o jogo só concede a um golpe reconhecido como seu; portanto, defina o adicional abaixo para compensar a diferença. Cada veio é atingido uma vez e então deixado em paz até reaparecer.
 Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Borboletas, besouros, libélulas, abelhas, aranhas, escorpiões, caracóis e outros seres pequenos que o jogo classifica como insetos. As espécies vêm da tabela de criaturas; uma criatura que a tabela não consegue nomear só é capturada quando todas as categorias às quais ela poderia pertencer estão ativadas (algo voador pode ser peixe, inseto ou ave).
 captured	capturado
 Carcasses	Carcaças
-Bodies	Corpos
 carcasses off	carcaças desativadas
-bodies off	corpos desligado
 Catching	Captura
 Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Criaturas capturáveis, vivas ou caídas pelo cenário; uma criatura que a tabela consegue nomear segue a regra de sua classe. Caranguejos, camarões e lulas são frutos do mar em Alimentos e bebidas.
 Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Baús, caixotes e pontos de conjuntos de saque. Eles raramente respondem ao evento de saque. Desativado por padrão.
@@ -178,7 +174,7 @@ Nearby	Por perto
 never	nunca
 no	não
 no interaction node	sem ponto de interação
-Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Pontos que a tabela de prefabs não nomeia e que ainda não produziram nada nesta sessão. Desativado (o padrão) os deixa em paz. Ativado faz o mod coletá-los para descobrir o que são, o que significa que uma planta pode ser coletada mesmo com Plantas desativado.
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Pontos que a tabela de prefabs não nomeia e que ainda não produziram nada nesta sessão. Quando desativada (o padrão), a opção os deixa em paz. Quando ativada, faz o mod coletá-los para descobrir o que são, o que significa que uma planta pode ser coletada mesmo com a opção Plantas desativada.
 none	nenhum
 not found yet	ainda não encontrado
 not in item database	não está no banco de dados de itens
@@ -187,7 +183,7 @@ not resolved yet	ainda não resolvido
 not started	não iniciado
 not yet	ainda não
 Nothing else is drawn while the menu is closed.	Nada mais é desenhado enquanto o menu está fechado.
-nothing taken yet this session	nada obtido nesta sessão ainda
+nothing taken yet this session	nenhum item coletado nesta sessão
 Object	Objeto
 object	objeto
 Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Os objetos são listados do mais próximo ao mais distante, com a regra que decidiu cada caso. Pontos vazios aparecem como não prontos até que o jogo ou a ativação os preencha. O que você veste e carrega fica de fora.
@@ -197,15 +193,15 @@ Objects per scan	Objetos por varredura
 on the player	no jogador
 On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Ativado, um veio é extraído onde está e você nunca balança uma picareta. Desativado, os veios são deixados em paz e somente os fragmentos que você desprender serão recolhidos. Requer ativação, pois pedir ao veio que se abra é o que torna isso possível.
 On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Ativado, a sobreposição é desenhada sob a geração de quadros do DLSS, o que exige que este mod entregue ao jogo um swapchain encapsulado.\n\nDesativado, a sobreposição é desenhada pelo hook de apresentação. Tudo fica igual, exceto quando a geração de quadros está ativa, e o mod evita um caminho que outros mods de sobreposição também modificam. Tente isso se o jogo não iniciar junto com outro mod de sobreposição; a opção pode ser definida como WrapSwapChain no MasterLooter.ini sem abrir o jogo.
-One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Um backup é gravado sempre que o jogo inicia e os doze mais recentes são mantidos em MasterLooter.backups, ao lado do plugin. As predefinições ficam em MasterLooter.presets. Copie qualquer uma das pastas para preservá-la durante uma reinstalação.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Uma cópia de segurança é criada sempre que o jogo inicia, e as doze mais recentes são mantidas em MasterLooter.backups, ao lado do plugin. As predefinições ficam em MasterLooter.presets. Copie qualquer uma das pastas para preservá-la durante uma reinstalação.
 One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Um clique por família. A tabela abaixo ainda configura classes individuais; um grupo exibe um traço quando apenas parte dele está ativada.
 Open and close this menu	Abrir e fechar este menu
 Open folder	Abrir pasta
 Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Abre a pasta no Explorador de Arquivos. O registro é regravado a cada inicialização e deve ser anexado a um relatório de problema.
 Ore	Minério
-Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Fragmentos de minério no chão e qualquer ponto que produza minério, incluindo veios. Um veio é quebrado onde está e seu conteúdo é recolhido do chão, exatamente como sua picareta faz — e é isso que torna útil carregar uma picareta melhor: o bônus de rendimento de mineração da ferramenta é aplicado à queda, não ao ponto. Cada veio é atingido uma vez e deixado em paz até reaparecer. A tentativa de alcançar veios começa no limite visível da varredura, pois eles levam segundos para responder, enquanto um arbusto leva apenas uma fração disso.
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Fragmentos de minério no chão e qualquer ponto que produza minério, incluindo veios. Um veio é quebrado onde está e seu conteúdo é recolhido do chão, exatamente como sua picareta faz — e é isso que torna útil carregar uma picareta melhor: o efeito Aumento do Rendimento da Produção de Mineração da ferramenta se aplica ao item derrubado, não ao ponto de coleta. Cada veio é atingido uma vez e deixado em paz até reaparecer. A tentativa de alcançar veios começa no limite visível da varredura, pois eles levam segundos para responder, enquanto um arbusto leva apenas uma fração disso.
 ore off	minério desativado
-Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Minério, gemas, pedra, madeira, peles, ervas, mercadorias e outros materiais de fabricação.
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Minérios, gemas, pedras, madeira, couros, ervas, itens de troca e outros materiais de fabricação.
 out of range	fora do alcance
 Overlay	Sobreposição
 Override	Substituição
@@ -215,6 +211,7 @@ Ownership oracle	Verificador de propriedade
 Pace	Ritmo
 part of a creature or a mechanism	parte de uma criatura ou de um mecanismo
 paused: %s	pausado: %s
+Pets and companions follow the filters	Mascotes e companheiros seguem os filtros
 pick up off	recolhimento desativado
 Plants	Plantas
 plants off	plantas desativadas
@@ -237,7 +234,7 @@ Rebind	Reatribuir
 Recent loot	Saques recentes
 Refresh	Atualizar
 Reload now	Recarregar agora
-Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Substitui todas as configurações e todas as regras de classe, etiqueta e item pelo conteúdo da predefinição, gravando tudo em MasterLooter.ini. Nada das configurações atuais é mantido; portanto, faça um backup antes se quiser preservá-las.
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Substitui todas as configurações e todas as regras de classe, etiqueta e item pelo conteúdo da predefinição, gravando tudo em MasterLooter.ini. Nada das configurações atuais é mantido; portanto, faça uma cópia de segurança antes se quiser preservá-las.
 Reset all tags	Redefinir todas as etiquetas
 resolved	resolvido
 Retry the same object after (ms)	Repetir o mesmo objeto após (ms)
@@ -251,12 +248,14 @@ Scan radius	Raio de varredura
 Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Varreduras: %ld; eventos enviados: %ld; ciclos de processamento: %ld; falhas protegidas: %ld; tipos de ponto identificados: %d
 Scans per second	Varreduras por segundo
 search item name or key (3+ letters)	pesquisar nome ou chave do item (3+ letras)
+Searching the people you kill, once per body. Animals go under Carcasses. What a search pays out is not checked against your filters, so this switch is all or nothing too.	Revista cada pessoa abatida uma única vez. Animais ficam na categoria Carcaças. Os itens obtidos ao revistar não são verificados pelos filtros, portanto esta opção também é tudo ou nada.
 Sending events	Enviando eventos
 Set	Definir
 Settings: %ls	Configurações: %ls
 Show a brief notice when auto-loot is toggled	Mostrar um aviso breve ao alternar o saque automático
 Showing current overrides. Type to search all %d items.	Exibindo as substituições atuais. Digite para pesquisar todos os %d itens.
 Showing the nearest %d of %d. The rest are further away.	Exibindo os %d mais próximos de %d. Os demais estão mais distantes.
+Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Esfola cada animal abatido uma única vez. Pessoas ficam na categoria Corpos. Os itens obtidos pelo esfolamento não são verificados pelos filtros. O mod não consegue vê-los antes que sejam recebidos, portanto esta opção é tudo ou nada.
 Skip all	Ignorar tudo
 Skip items shops refuse to buy	Ignorar itens que as lojas se recusam a comprar
 Skip quest items	Ignorar itens de missão
@@ -276,17 +275,13 @@ tags, any of which can be set to never in the Tags tab:	etiquetas, cada uma pode
 Take goods that belong to someone	Pegar bens que pertencem a alguém
 Take goods that belong to someone, on / off	Ativar/desativar coleta de bens que pertencem a alguém
 Take items the database cannot name	Pegar itens que o banco de dados não consegue nomear
-Pets and companions follow the filters	Pets e companheiros seguem os filtros
-A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Um pet pega o que quiser e o jogo não tem nenhuma opção para isso. Ligado: tudo o que um pet ou companheiro pegar e que suas regras de itens, tags, classes ou piso de valor teriam recusado é apagado do inventário assim que chega. Itens de missão e itens protegidos nunca são apagados. O que você mesmo pegar nesses mesmos dois segundos é julgado pelas mesmas regras.
 Take owned goods on / off	Ativar/desativar coleta de bens alheios
 takes effect next launch	entra em vigor na próxima inicialização
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	O mecanismo examina a área ao seu redor e pega o que as regras permitem. Desativado significa que nada é coletado automaticamente; a tecla de saque imediato continua funcionando.
 The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	O jogo preenche os dados de um ponto somente quando considera que você pode alcançá-lo. A ativação pede que isso seja feito à distância, o que também permite extrair um veio de minério onde ele está. Veios levam vários segundos para responder, enquanto um arbusto leva apenas uma fração disso.
 The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	O jogo remove objetos coletados com um pequeno atraso. Isso impede que o mesmo objeto seja enviado duas vezes enquanto desaparece.
 The game treats this as stealing and will put a bounty on you.	O jogo considera isso roubo e colocará uma recompensa pela sua captura.
-The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	O mod nunca balança uma picareta. Ele aciona a sequência de quebra do próprio veio, e o jogo percorre uma linha de queda nesse caso, enquanto um golpe real percorre duas; por isso, o bônus da sua ferramenta de mineração não produz nada quando o mod minera. Esta opção devolve o minério ausente pelo mesmo caminho de queda usado pelo jogo, então é minério real derramado no chão, não um item copiado para sua bolsa. Defina-a como o rendimento manual da sua ferramenta menos um: uma broca que rende três manualmente deve usar 2 aqui. Isso só se aplica a um veio quebrado por este mod, portanto a mineração manual não é alterada e os dois efeitos não podem se acumular.
-Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Esfolar os animais que você mata, uma vez por carcaça. Pessoas ficam em Corpos. O que o esfolamento rende não é verificado contra seus filtros. O mod nunca vê isso antes de chegar, então este interruptor é tudo ou nada.
-Searching the people you kill, once per body. Animals go under Carcasses. What a search pays out is not checked against your filters, so this switch is all or nothing too.	Vasculhar as pessoas que você mata, uma vez por corpo. Animais ficam em Carcaças. O que uma busca rende não é verificado contra seus filtros, então este interruptor também é tudo ou nada.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	O mod nunca golpeia com a picareta. Ele aciona a sequência de quebra do próprio veio, e o jogo percorre uma linha de itens derrubados nesse caso, enquanto um golpe real percorre duas. Por isso, o efeito Aumento do Rendimento da Produção de Mineração da sua ferramenta não concede nada quando o mod minera. Esta opção repõe o minério ausente pelo mesmo caminho de itens derrubados usado pelo jogo, portanto é minério real espalhado no chão, não um item copiado para a sua bolsa. Defina-a como o rendimento manual da ferramenta menos um: se uma broca rende três ao minerar manualmente, use 2 aqui. Ela só se aplica aos veios quebrados por este mod, portanto não afeta a mineração manual nem permite acumular os dois efeitos.
 This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Nesta sessão: %ld recolhidos, %ld coletados, %ld capturados, %ld carcaças
 Timber and branches on the ground and nodes that yield them.	Madeira e galhos no chão, além de pontos que os produzem.
 To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Para deixar uma espécie em paz, defina como “nunca” o item em que ela se transforma na aba Itens: Item_Tench, Item_Ricefish, Item_Iguana. O mod lê a linha da própria criatura na tabela de personagens do jogo, então sabe qual espécie está observando antes de capturá-la. Para algumas criaturas incomuns, ele ainda precisa deduzir pelo nome do modelo, e elas são capturadas apenas pela categoria.
