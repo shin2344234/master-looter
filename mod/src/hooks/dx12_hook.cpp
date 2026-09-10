@@ -1092,6 +1092,17 @@ namespace ml::hooks
         return hr;
     }
 
+    typedef HRESULT (WINAPI* Present1_t)(IDXGISwapChain1*, UINT, UINT, const DXGI_PRESENT_PARAMETERS*);
+    static Present1_t oPresent1 = nullptr;
+    static HRESULT WINAPI hkPresent1(IDXGISwapChain1* swapChain, UINT syncInterval, UINT flags, const DXGI_PRESENT_PARAMETERS* pp)
+    {
+        // Only reached on the stacked path (see the factory hook), where the
+        // chain is the game's own IDXGISwapChain4 and the cast holds.
+        const bool drew = RenderOverlay(static_cast<IDXGISwapChain3*>(swapChain), !g_wrapperActive);
+        const HRESULT hr = oPresent1(swapChain, syncInterval, flags, pp);
+        PostPresentDeviceCheck(drew);
+        return hr;
+    }
     static HRESULT WINAPI hkResizeBuffers(
         IDXGISwapChain3* swapChain, UINT bufferCount,
         UINT width, UINT height, DXGI_FORMAT format, UINT flags)
@@ -1294,7 +1305,57 @@ namespace ml::hooks
 
     // Returns false when someone else has already detoured this function, in
     // which case stacking a second detour on top is what we must not do.
-    static bool LogHookTarget(const char* what, void* addr)
+    // Which module's code an existing detour on fn lands in, following relay
+    // stubs the way DescribeDetour does. False when fn is not detoured.
+    static bool DetourOwner(void* fn, char* out, size_t n)
+    {
+        if (!fn || IsBadReadPtr(fn, 16)) return false;
+        uint8_t b[16];
+        memcpy(b, fn, sizeof b);
+        if (!ExistingDetour(b)) return false;
+        void* dest = nullptr;
+        if (!DetourTarget(b, fn, &dest) || !dest) { strncpy(out, "?", n); out[n - 1] = 0; return true; }
+        OwningModule(dest, out, n);
+        for (int hop = 0; hop < 6 && (IsSystemOwner(out) || out[0] == '?'); ++hop)
+        {
+            if (IsBadReadPtr(dest, 16)) break;
+            uint8_t c[16];
+            memcpy(c, dest, sizeof c);
+            void* next = nullptr;
+            if (!DetourTarget(c, dest, &next) || !next) break;
+            dest = next;
+            OwningModule(dest, out, n);
+        }
+        return true;
+    }
+
+    // Detours on Present that the wrapper has always lived alongside. Steam's
+    // overlay draws and keys nothing; the frame generation interposer is the
+    // proxy the wrapper was built to sit under. Anything else that got to
+    // Present first is assumed to key its own work on the swapchain object it
+    // was handed, which Crimson Route does, and such a mod must not be handed
+    // the wrapper.
+    static bool BenignPresentOwner(const char* mod)
+    {
+        if (!mod || !mod[0] || mod[0] == '?') return false;
+        if (IsSystemOwner(mod)) return true;
+        if (_stricmp(mod, "gameoverlayrenderer64.dll") == 0) return true;
+        if (_stricmp(mod, "MasterLooter.asi") == 0) return true;
+        if (_strnicmp(mod, "sl.", 3) == 0 || _strnicmp(mod, "nvngx", 5) == 0) return true;
+        return false;
+    }
+
+    // A detour's prologue names only the mod that detoured Present last. One
+    // that keys the swapchain but hooked before Steam's overlay is invisible
+    // that way, so the mods known to key it are also checked by name.
+    static const char* KeyingOverlayLoaded()
+    {
+        static const char* const kMods[] = { "CrimsonRoute.asi" };
+        for (const char* m : kMods) if (GetModuleHandleA(m)) return m;
+        return nullptr;
+    }
+
+    static bool LogHookTarget(const char* what, void* addr, bool stack = false)
     {
         char mod[64];
         OwningModule(addr, mod, sizeof mod);
@@ -1316,9 +1377,20 @@ namespace ml::hooks
         {
             char into[96];
             DescribeDetour(b, addr, into, sizeof into);
-            LOG("[hook] %s @ %p in %s starts with %s (%s)%s: another mod detoured it first, so this one is left alone",
-                what, addr, mod, detour, bytes, into);
-            return false;
+            if (stack)
+            {
+                // Stacking is what every overlay does and what this mod
+                // avoided; here it is the only way to draw without handing
+                // another mod the wrapper. Ours runs first and calls theirs.
+                LOG("[hook] %s @ %p in %s starts with %s (%s)%s: another mod detoured it first; stacking this mod's detour on top, so ours runs and then theirs",
+                    what, addr, mod, detour, bytes, into);
+            }
+            else
+            {
+                LOG("[hook] %s @ %p in %s starts with %s (%s)%s: another mod detoured it first, so this one is left alone",
+                    what, addr, mod, detour, bytes, into);
+                return false;
+            }
         }
         if (!IsSystemOwner(mod))
         {
@@ -1577,15 +1649,16 @@ namespace ml::hooks
     // ExecuteCommandLists is ID3D12CommandQueue[10]. Each still goes through
     // LogHookTarget, so anything already detoured, owned by another module, or
     // sitting in a proxy that borrows a system DLL's name is left alone.
-    static void InstallDetoursFrom(IDXGISwapChain1* chain, IUnknown* queueUnk)
+    static void InstallDetoursFrom(IDXGISwapChain1* chain, IUnknown* queueUnk, bool stack)
     {
         static bool s_done = false;
         if (s_done || !chain) return;
         s_done = true;
 
         void** scVt = *reinterpret_cast<void***>(chain);
-        void* presentAddr = scVt[8];
-        void* resizeAddr  = scVt[13];
+        void* presentAddr  = scVt[8];
+        void* present1Addr = scVt[22];
+        void* resizeAddr   = scVt[13];
         void* colorSpaceAddr = nullptr;
         IDXGISwapChain3* sc3 = nullptr;
         if (SUCCEEDED(chain->QueryInterface(IID_PPV_ARGS(&sc3))) && sc3)
@@ -1601,23 +1674,26 @@ namespace ml::hooks
             q->Release();
         }
 
-        struct Target { const char* name; void* addr; void* detour; void** orig; };
+        // ExecuteCommandLists is never stacked: the queue comes from the
+        // creation pin, and Trinity sits on that function.
+        struct Target { const char* name; void* addr; void* detour; void** orig; bool mayStack; };
         const Target targets[] = {
-            { "Present",             presentAddr,    reinterpret_cast<void*>(&hkPresent),             reinterpret_cast<void**>(&oPresent) },
-            { "ResizeBuffers",       resizeAddr,     reinterpret_cast<void*>(&hkResizeBuffers),       reinterpret_cast<void**>(&oResizeBuffers) },
-            { "ExecuteCommandLists", execAddr,       reinterpret_cast<void*>(&hkExecuteCommandLists), reinterpret_cast<void**>(&oExecuteCommandLists) },
-            { "SetColorSpace1",      colorSpaceAddr, reinterpret_cast<void*>(&hkSetColorSpace1),      reinterpret_cast<void**>(&oSetColorSpace1) },
+            { "Present",             presentAddr,    reinterpret_cast<void*>(&hkPresent),             reinterpret_cast<void**>(&oPresent),             true  },
+            { "Present1",            present1Addr,   reinterpret_cast<void*>(&hkPresent1),            reinterpret_cast<void**>(&oPresent1),            true  },
+            { "ResizeBuffers",       resizeAddr,     reinterpret_cast<void*>(&hkResizeBuffers),       reinterpret_cast<void**>(&oResizeBuffers),       true  },
+            { "ExecuteCommandLists", execAddr,       reinterpret_cast<void*>(&hkExecuteCommandLists), reinterpret_cast<void**>(&oExecuteCommandLists), false },
+            { "SetColorSpace1",      colorSpaceAddr, reinterpret_cast<void*>(&hkSetColorSpace1),      reinterpret_cast<void**>(&oSetColorSpace1),      true  },
         };
         int hooked = 0, skipped = 0;
         for (const Target& t : targets)
         {
-            if (!t.addr || !LogHookTarget(t.name, t.addr)) { ++skipped; continue; }
+            if (!t.addr || !LogHookTarget(t.name, t.addr, stack && t.mayStack)) { ++skipped; continue; }
             if (MH_CreateHook(t.addr, t.detour, t.orig) != MH_OK) { LOG_ERR("MH_CreateHook failed for %s.", t.name); ++skipped; continue; }
             ++hooked;
         }
         if (skipped)
-            LOG("%d of 4 DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped);
-        if (!hooked && skipped == 4)
+            LOG("%d of 5 DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped);
+        if (!hooked && skipped == 5)
             LOG_ERR("Every DirectX function was already hooked by something else. The overlay depends entirely on the swapchain wrapper now.");
         if (hooked && MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
             LOG_ERR("MH_EnableHook failed; the DirectX detours are not active.");
@@ -1646,8 +1722,34 @@ namespace ml::hooks
                 desc->Width, desc->Height, static_cast<void*>(hwnd), hwnd && IsWindowVisible(hwnd) ? "visible" : "hidden");
             return hr;
         }
+        // Who owns Present on the chain the game is about to use, decided once.
+        // Steam's overlay and the frame generation interposer coexist with the
+        // wrapper. Anything else that detoured Present first is assumed to key
+        // its own work on the object it is handed, which Crimson Route does:
+        // above this mod at the factory it keyed the wrapper, met the real
+        // chain in its detour, and drew nothing. For such a mod the wrapper is
+        // skipped and this mod's detours stack on top of its instead, ours
+        // first, theirs next, dxgi last. The overlay then draws where it drew
+        // before the wrapper existed, after frame generation. Issue #47.
+        static bool s_decided = false, s_stack = false;
+        if (!s_decided && ppSwapChain && *ppSwapChain)
+        {
+            s_decided = true;
+            void** vt = *reinterpret_cast<void***>(*ppSwapChain);
+            char owner[64] = "";
+            if (DetourOwner(vt[8], owner, sizeof owner) && !BenignPresentOwner(owner))
+            {
+                s_stack = true;
+                LOG("[hook] %s detoured Present before this mod and would be handed the wrapper: not wrapping; stacking this mod's detours on top of its instead", owner);
+            }
+            else if (const char* keying = KeyingOverlayLoaded())
+            {
+                s_stack = true;
+                LOG("[hook] %s is loaded and keys its work on the swapchain object it is handed: not wrapping; stacking this mod's detours instead", keying);
+            }
+        }
         if (ppSwapChain && *ppSwapChain)
-            InstallDetoursFrom(*ppSwapChain, device);
+            InstallDetoursFrom(*ppSwapChain, device, s_stack);
 
         // Wrap the first swapchain and never a replacement.
         //
@@ -1718,7 +1820,7 @@ namespace ml::hooks
             PublishPresentQueue(pq, true);
             pq->Release();
         }
-        if (Settings::Get().wrapSwapChain)
+        if (Settings::Get().wrapSwapChain && !s_stack)
             WrapSwapChain(ppSwapChain, hwnd);
         return hr;
     }
