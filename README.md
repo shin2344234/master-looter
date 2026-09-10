@@ -42,21 +42,23 @@ Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The p
 
 ## Antivirus
 
-Four scanners out of seventy flag `MasterLooter.asi`: Cynet (`Malicious (score: 100)`), Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and Webroot (`Win.Hacktool.Gen`). Two of them say what they are on the label, since `!ml` and `ML.Attribute` are both how a model reports a guess about the shape of a file. Cynet returns a score and names nothing. Webroot's label is its generic name for anything shaped like a trainer. None of the four matched a known family, and the sixty-six others read the same file as clean. Webroot alone objects to the archives, one of sixty-seven on each, for the same file inside them.
+Two scanners out of seventy flag `MasterLooter.asi` on 1.6.10, the first signed build: Microsoft (`Trojan:Win32/Wacatac.C!ml`) and Webroot (`Win.Hacktool.Gen`). Symantec and Cynet, which had flagged every unsigned build, stopped on the signed one. The `!ml` on Microsoft's label is how a model reports a guess about the shape of a file, and Webroot's label is its generic name for anything shaped like a trainer. Neither matched a known family, and the sixty-eight others read the same file as clean. Webroot alone objects to the archives, one of sixty-four and one of sixty-seven, for the same file inside them.
 
-The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four. Microsoft and Symantec have flagged every one of them. Everything else comes and goes: Deep Instinct has left, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7 and is back on 1.6.9, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8 and was gone again on 1.6.9. That is what a model guessing looks like, as against a scanner recognising something.
+The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, and 1.6.10, the first signed build, two. Microsoft has flagged every one of them, and Symantec every unsigned one. Everything else comes and goes: Deep Instinct has left, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8 and was gone again on 1.6.9. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.9: [the plugin](https://www.virustotal.com/gui/file/d383ae59f26d1ac22187469490108cc72b5f4c5ed3fc87d4e3202d5ddeaa1ac3) and [the package](https://www.virustotal.com/gui/file/f7c42a41a7c5851963370e21f6e539190172b817abdf610c15e68214cd5d9b3f).
+Reports for 1.6.10: [the plugin](https://www.virustotal.com/gui/file/2a72ca805861b11ff513f1983d63f4059090970d0b8e59030ccb6a49242db6af) and [the package](https://www.virustotal.com/gui/file/edf93f92752dac07ef5a57e516f020064213a676cfd1a25e2fab02ee6351258c).
 
 The guess is easy to explain. The plugin is an unsigned DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer. Nothing about the file argues back: it carries no code signing certificate, and a release a day old has no install history behind it. Signing it is likely at some point, and an unsigned binary with no history is the single biggest thing these models react to, so a certificate should quiet most of this down.
 
 What it does not do is reach the network. It imports no networking library, and the entire import list is `d3d12`, `dxgi`, `imm32`, `xinput9_1_0`, `kernel32`, `user32`, `gdi32`, `shell32` and `d3dcompiler_47`. It writes `MasterLooter.ini`, `MasterLooter.log` and its eleven rotated predecessors `MasterLooter.01.log` to `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups` beside itself and nothing else, reads and writes no registry key, and installs nothing that outlives the game process. Every line is in this repository, and `build.bat` will produce the file for you if you would rather not trust mine.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.9:
+Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-    f7c42a41a7c5851963370e21f6e539190172b817abdf610c15e68214cd5d9b3f  MasterLooter-1.6.9-DMM.zip
-    3b9720da1ea08c52a5326acfe2ce217e8f248fee7ba12a0f8a4c034ee24a12f1  MasterLooter-1.6.9.zip
-    d383ae59f26d1ac22187469490108cc72b5f4c5ed3fc87d4e3202d5ddeaa1ac3  MasterLooter.asi
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.10:
+
+    edf93f92752dac07ef5a57e516f020064213a676cfd1a25e2fab02ee6351258c  MasterLooter-1.6.10-DMM.zip
+    45932b751c9e7ca52e03bec432377aa786b2b176e5ca82e7a652ac87fb5a3f0d  MasterLooter-1.6.10.zip
+    2a72ca805861b11ff513f1983d63f4059090970d0b8e59030ccb6a49242db6af  MasterLooter.asi
 
 ## Controls
 
