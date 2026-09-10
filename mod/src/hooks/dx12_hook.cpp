@@ -54,10 +54,6 @@ namespace ml::hooks
     using CSFH_t = HRESULT (STDMETHODCALLTYPE*)(IDXGIFactory2*, IUnknown*, HWND, const DXGI_SWAP_CHAIN_DESC1*, const DXGI_SWAP_CHAIN_FULLSCREEN_DESC*, IDXGIOutput*, IDXGISwapChain1**);
 
     static CSFH_t oFactoryCreateSwapChainForHwnd = nullptr;
-    // The factory class vtable and what sat in slot 15 before this mod, so the
-    // patch can be put back on top of anyone who patches over it later.
-    static void** g_factoryVt = nullptr;
-    static CSFH_t oFactoryReal = nullptr;
 
     // Set once a swapchain has been wrapped: the wrapper now does all overlay
     // drawing, so the native Present byte-hook must stop drawing (its buffers are
@@ -1637,13 +1633,7 @@ namespace ml::hooks
         // through the same patched slot during an FG toggle - let it complete
         // untouched, otherwise we recurse into the interposer mid-rebuild.
         CreateGuard guard;
-        // A nested call goes to the function that was there before this mod,
-        // never to the slot's current previous. After a re-assert the previous
-        // is another mod's hook whose own saved original is this function, and
-        // calling it from the nested position would loop forever.
-        const HRESULT hr = guard.wasNested
-            ? oFactoryReal(self, device, hwnd, desc, fsDesc, restrictOut, ppSwapChain)
-            : oFactoryCreateSwapChainForHwnd(self, device, hwnd, desc, fsDesc, restrictOut, ppSwapChain);
+        const HRESULT hr = oFactoryCreateSwapChainForHwnd(self, device, hwnd, desc, fsDesc, restrictOut, ppSwapChain);
         if (guard.wasNested || FAILED(hr))
             return hr;
 
@@ -1777,51 +1767,11 @@ namespace ml::hooks
         }
         if (PatchVtableSlot(vt, 15, reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd),
                             reinterpret_cast<void**>(&oFactoryCreateSwapChainForHwnd)))
-        {
-            g_factoryVt = vt;
-            oFactoryReal = oFactoryCreateSwapChainForHwnd;
             LOG("FG: CreateSwapChainForHwnd patched - new swapchains will be wrapped.");
-        }
         else
             LOG_ERR("FG: VirtualProtect of CreateSwapChainForHwnd slot failed.");
 
         factory->Release();
-    }
-
-    // Whoever patches the factory slot last is outermost, and the outermost
-    // hook is the one the game's swapchain pointer passes through last. Crimson
-    // Route patches the same slot about a second after this mod loads, keys its
-    // command queue on whatever object comes back, and then meets the real
-    // chain in its Present detour. With this mod underneath it, what came back
-    // was this mod's wrapper, the two never matched, and Route drew nothing:
-    // present_d3d12_bind_failed, queue_unavailable, in its own log. 1.6.4
-    // happened to load slower and so sat on top, which is why it worked.
-    //
-    // So the slot is watched for the first twenty seconds and this mod goes
-    // back on top whenever something has patched over it. The order is then
-    // game, this mod, Route, dxgi: Route sees and keys the real chain, and the
-    // game gets the wrapper. Capped, so two mods doing this cannot fight all
-    // session; the log says if it came to that.
-    void ReassertFactoryPatch()
-    {
-        if (!g_factoryVt) return;
-        void* top = g_factoryVt[15];
-        if (top == reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd)) return;
-        static int s_times = 0;
-        if (s_times >= 4)
-        {
-            static bool s_gaveUp = false;
-            if (!s_gaveUp) { s_gaveUp = true; LOG_ERR("[hook] the factory slot has been patched over this mod four times; leaving it to whoever wants it that badly."); }
-            return;
-        }
-        char mod[64];
-        OwningModule(top, mod, sizeof mod);
-        if (PatchVtableSlot(g_factoryVt, 15, reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd),
-                            reinterpret_cast<void**>(&oFactoryCreateSwapChainForHwnd)))
-        {
-            ++s_times;
-            LOG("[hook] %s patched the factory slot over this mod; put back on top of it, so it sees the real chain and the game gets the wrapper (time %d)", mod, s_times);
-        }
     }
 
     // Arm DRED so a later device removal is diagnosable. MUST run before the game

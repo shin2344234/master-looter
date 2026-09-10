@@ -272,13 +272,7 @@ namespace ml::Mod
         {
             CreateThread(nullptr, 0, [](LPVOID) -> DWORD {
                 for (int i = 0; i < 100 && !State::Get().overlayReady; ++i)
-                {
                     Sleep(200);
-                    // Another mod patching the factory slot over this one in
-                    // its first seconds is the Crimson Route case; see the
-                    // note on ReassertFactoryPatch.
-                    hooks::ReassertFactoryPatch();
-                }
                 if (!State::Get().overlayReady)
                 {
                     LOG_ERR("No frame has been rendered in twenty seconds. Nothing is drawing the "
