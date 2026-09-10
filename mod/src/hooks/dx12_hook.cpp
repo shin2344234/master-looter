@@ -1919,21 +1919,39 @@ namespace ml::hooks
             }
         }
 
-        // Unlike the four above, this replaces a vtable pointer rather than
-        // detouring code, so sitting on top of another mod's detour is fine:
-        // ours runs, then theirs, then the real one. Still worth naming who is
-        // underneath.
+        // The function is detoured, never the slot. Until 1.6.9 this replaced
+        // the vtable pointer with a function in this DLL, and Steam's overlay
+        // refuses to hook any factory whose create slot "points to another
+        // module": whenever Steam looked at the factory after this patch and
+        // after its own hook reset, it skipped the factory the game then made
+        // its swapchain through, never hooked Present, and never drew. Found
+        // on 10 September 2026 with HookDX12=0 as the control: Steam's overlay
+        // came back the moment this patch was absent. An inline detour on
+        // dxgi's own function leaves the slot in dxgi.dll, Steam hooks the
+        // slot above us, Streamline and Route patch the slot above us too, and
+        // this mod is the innermost caller either way, which is the ordering
+        // every working run has had (see the issue #47 note). Stacking on a
+        // detour Route already put on the function is the same arrangement as
+        // Present, ours first and theirs next.
         void** vt = *reinterpret_cast<void***>(factory);
+        void* fn = vt[15];
+        if (LogHookTarget("Factory CreateSwapChainForHwnd", fn, true) &&
+            MH_CreateHook(fn, reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd),
+                          reinterpret_cast<void**>(&oFactoryCreateSwapChainForHwnd)) == MH_OK &&
+            MH_EnableHook(fn) == MH_OK)
         {
-            char mod[64];
-            OwningModule(vt[15], mod, sizeof mod);
-            LOG("[hook] Factory CreateSwapChainForHwnd @ %p in %s (the slot is replaced, so anything already there still runs)", vt[15], mod);
+            LOG("FG: CreateSwapChainForHwnd detoured in place - the factory slot still points into dxgi.dll, so Steam's overlay keeps its hooks.");
         }
-        if (PatchVtableSlot(vt, 15, reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd),
-                            reinterpret_cast<void**>(&oFactoryCreateSwapChainForHwnd)))
-            LOG("FG: CreateSwapChainForHwnd patched - new swapchains will be wrapped.");
         else
-            LOG_ERR("FG: VirtualProtect of CreateSwapChainForHwnd slot failed.");
+        {
+            // The slot patch is the fallback, with the Steam cost named.
+            LOG_ERR("FG: could not detour CreateSwapChainForHwnd in place; replacing the vtable slot instead, which Steam's overlay may refuse to hook over.");
+            if (PatchVtableSlot(vt, 15, reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd),
+                                reinterpret_cast<void**>(&oFactoryCreateSwapChainForHwnd)))
+                LOG("FG: CreateSwapChainForHwnd slot patched.");
+            else
+                LOG_ERR("FG: VirtualProtect of CreateSwapChainForHwnd slot failed.");
+        }
 
         factory->Release();
     }
