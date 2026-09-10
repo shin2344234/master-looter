@@ -1,6 +1,11 @@
 # Texto do menu do Master Looter em Português do Brasil (pt-BR).
 # Tradução por Kyo-70.
 #
+# As linhas acrescentadas depois da tradução de Kyo-70 são tradução
+# automática feita por Claude, uma IA da Anthropic, e ainda não foram
+# revisadas por um falante nativo. Correções são bem-vindas no GitHub
+# (github.com/shin2344234/master-looter) ou na página do mod no Nexus.
+#
 # Uma linha por texto: o original em inglês, uma tabulação e a tradução.
 # Linhas iniciadas por # são ignoradas, \n representa uma quebra de linha e
 # uma linha sem tradução após a tabulação continua sendo exibida em inglês.
@@ -12,18 +17,21 @@
 # um arquivo com este nome ao lado de MasterLooter.asi.
 
   bag full	  bolsa cheia
+ (first 250)	 (primeiros 250)
 %-18s %s (%zu hits)%s	%-18s %s (%zu acertos)%s
 %d classes	%d classes
 %d items, %d classes, %d tags	%d itens, %d classes, %d etiquetas
 %d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d linha(s) foi(ram) ignorada(s): os marcadores %%d ou %%s não correspondem ao original em inglês e seu uso exibiria valores incorretos.
-%d match%s%s	%d resultado%s%s
+%d matches%s	%d resultados%s
 %d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d tipos de ponto foram identificados nesta sessão. Os pontos recebem o nome do prefab usado para posicioná-los; o que não estiver nessa tabela será identificado na primeira vez que produzir algo. O número de tipo de um ponto muda entre sessões, portanto nada é lembrado após você sair.
 %d objects within scan range, %d lootable now.	%d objetos dentro do alcance da varredura, %d disponíveis para saque agora.
 %d overrides	%d substituições
 %s (key %u, row %d, tier %d)	%s (chave %u, linha %d, nível %d)
 %s (never looted)	%s (nunca saqueado)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s é uma tradução automática que ainda não foi revisada por ninguém. Correções são bem-vindas no GitHub ou na página do Nexus.
 %s translated by %s.	%s traduzido por %s.
 %s, let go to keep it	%s, solte para manter
+1 match%s	1 resultado%s
 3 of 3	3 de 3
 \"%s\" already exists. Saving over it asks first.	\"%s\" já existe. Será solicitada uma confirmação antes de sobrescrevê-lo.
 A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Baldes de poço e objetos semelhantes nunca são saqueados, mas ativá-los faz o jogo oferecer a interação para que você possa usá-los manualmente.
@@ -200,6 +208,7 @@ owned by someone (theft)	pertence a alguém (roubo)
 Ownership	Propriedade
 Ownership oracle	Verificador de propriedade
 Pace	Ritmo
+part of a creature or a mechanism	parte de uma criatura ou de um mecanismo
 paused: %s	pausado: %s
 pick up off	recolhimento desativado
 Plants	Plantas

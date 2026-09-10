@@ -1,0 +1,322 @@
+# Κείμενο μενού του Master Looter στα Ελληνικά.
+# Αυτή είναι αυτόματη μετάφραση από το Claude, ένα AI της Anthropic, και δεν
+# την έχει ελέγξει ακόμα κανένας φυσικός ομιλητής. Διορθώσεις είναι ευπρόσδεκτες
+# στο GitHub (github.com/shin2344234/master-looter) ή στη σελίδα του mod στο Nexus.
+#
+# Μία γραμμή ανά κείμενο: το αγγλικό πρωτότυπο, μια στηλοθέτηση (tab) και μετά
+# η μετάφραση. Γραμμές που ξεκινούν με # αγνοούνται. Το \n μέσα σε ένα κείμενο
+# σημαίνει αλλαγή γραμμής. Μια γραμμή χωρίς μετάφραση μετά τη στηλοθέτηση
+# εμφανίζεται στα αγγλικά, οπότε ένα μισοτελειωμένο αρχείο λειτουργεί κανονικά.
+# Κάθε %d, %s, %.1f και τα λοιπά πρέπει να διατηρηθούν ακριβώς όπως είναι και
+# με την ίδια σειρά: αντικαθίστανται με αριθμούς και ονόματα κατά την εκτέλεση,
+# και μια γραμμή που τα αλλάζει αγνοείται αντί να ρισκάρει λάθος τιμές.
+#
+# Αποθήκευσέ το ως MasterLooter.el.txt δίπλα στο plugin ώστε να αντικαταστήσει
+# το ενσωματωμένο αντίγραφο, και όρισε Language=el στο MasterLooter.ini ή
+# πληκτρολόγησε τη γλώσσα στο General, Language.
+
+  bag full	  τσάντα γεμάτη
+ (first 250)	 (πρώτα 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu ευρήματα)%s
+%d classes	%d κατηγορίες
+%d items, %d classes, %d tags	%d αντικείμενα, %d κατηγορίες, %d ετικέτες
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d γραμμή(ές) αγνοήθηκαν: οι δεσμευτικές θέσεις %%d ή %%s τους δεν ταίριαζαν με το αγγλικό, και η χρήση τους θα εμφάνιζε λανθασμένες τιμές.
+%d matches%s	%d αποτελέσματα%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d είδη κόμβων μαθεύτηκαν σε αυτή τη συνεδρία. Οι κόμβοι ονομάζονται από το prefab από το οποίο τοποθετήθηκαν· ό,τι λείπει από αυτόν τον πίνακα αναγνωρίζεται την πρώτη φορά που αποδίδει κάτι. Ο αριθμός τύπου ενός κόμβου αλλάζει μεταξύ συνεδριών, οπότε τίποτα δεν θυμάται μετά την έξοδο.
+%d objects within scan range, %d lootable now.	%d αντικείμενα εντός εμβέλειας σάρωσης, %d με δυνατότητα λουτ τώρα.
+%d overrides	%d παρακάμψεις
+%s (key %u, row %d, tier %d)	%s (κλειδί %u, γραμμή %d, βαθμίδα %d)
+%s (never looted)	%s (δεν λεηλατήθηκε ποτέ)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s είναι αυτόματη μετάφραση που δεν έχει ελέγξει ακόμη κανείς. Διορθώσεις είναι ευπρόσδεκτες στο GitHub ή στη σελίδα του Nexus.
+%s translated by %s.	%s, μετάφραση από %s.
+%s, let go to keep it	%s, άσε τα πλήκτρα για να το κρατήσεις
+1 match%s	1 αποτέλεσμα%s
+3 of 3	3 από 3
+\"%s\" already exists. Saving over it asks first.	Το \"%s\" υπάρχει ήδη. Η αντικατάστασή του θα ζητήσει επιβεβαίωση πρώτα.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Ένας κουβάς πηγαδιού και παρόμοια αντικείμενα δεν μπαίνουν ποτέ σε λουτ, αλλά η όπλισή του κάνει το παιχνίδι να προσφέρει την αλληλεπίδρασή του ώστε να το χρησιμοποιήσεις με το χέρι.
+Abyss and Kuku	Abyss και Kuku
+Abyss gear, Kuku pots and their parts.	Εξοπλισμός Abyss, δοχεία Kuku και τα μέρη τους.
+Accessories	Αξεσουάρ
+allowed	επιτρέπεται
+already in your bag	ήδη στην τσάντα σου
+always	πάντα
+always beats the class rule; never beats always	το πάντα νικά τον κανόνα κατηγορίας· το ποτέ νικά το πάντα
+Ammunition	Πυρομαχικά
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Οτιδήποτε έχει ετικέτα αποστολής, σε κάθε κατηγορία. Ανενεργό κρατάει τα αντικείμενα ιστορίας και τα κομμάτια γρίφων για τα δικά σου χέρια.
+Arm mechanism containers too	Όπλισε και τους μηχανισμούς-δοχεία
+Arm nodes ourselves	Αυτόματη όπλιση κόμβων
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Η όπλιση αγνοεί τους τοίχους. Κράτησέ την μικρή, αλλιώς θα συλλέγεις μέσα από τον τοίχο του διπλανού δωματίου. Το μετάλλευμα αποτελεί εξαίρεση και οπλίζεται πάντα μέχρι και 25 μ., γιατί μια φλέβα χρειάζεται δευτερόλεπτα για να απαντήσει, και αν τη ρωτήσεις μόνο όταν είσαι από πάνω της ανοίγει πολύ αργά για να χρησιμεύσει.
+Arming range	Εμβέλεια όπλισης
+Auto-loot enabled	Αυτόματο λουτ ενεργό
+Auto-loot on / off	Αυτόματο λουτ ενεργό / ανενεργό
+Backups	Αντίγραφα ασφαλείας
+blank for English	κενό για αγγλικά
+Books and papers	Βιβλία και χαρτιά
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Ανταμοιβές αφεντικών, αρχαία αντικείμενα, αντικείμενα μνήμης, πουγκιά νομισμάτων και κιβώτια ανταμοιβής.
+Break veins open rather than emptying them	Σπάσε τις φλέβες αντί να τις αδειάσεις
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Το σπάσιμο οδηγεί την ίδια τη μηχανή κατάστασης του παιχνιδιού στη φλέβα, το χτύπημα και μετά το σπάσιμο, οπότε ο κόμβος χύνει το περιεχόμενό του στο έδαφος και εξαφανίζεται ακριβώς όπως και με μια αξίνα. Το άδειασμα αντίθετα βγάζει το μετάλλευμα κατευθείαν και παρακάμπτει εντελώς την πτώση. Καμία από τις δύο μεθόδους δεν πληρώνει το Mining Yield Up του εργαλείου σου, που το παιχνίδι το χορηγεί μόνο σε χτύπημα που θεωρεί δικό σου, οπότε όρισε το επιπλέον παρακάτω για να καλύψεις τη διαφορά. Κάθε φλέβα χτυπιέται μία φορά και μετά μένει ανέγγιχτη μέχρι το παιχνίδι να την αναδημιουργήσει.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Πεταλούδες, σκαθάρια, λιβελλούλες, μέλισσες, αράχνες, σκορπιοί, σαλιγκάρια και τα υπόλοιπα μικρά πλάσματα που το παιχνίδι καταχωρεί ως έντομα. Τα είδη προέρχονται από τον πίνακα πλασμάτων· ένα πλάσμα που ο πίνακας δεν μπορεί να ονομάσει πιάνεται μόνο όταν είναι ενεργές όλες οι κατηγορίες στις οποίες θα μπορούσε να ανήκει (κάτι που πετάει μπορεί να είναι ψάρι, έντομο ή πουλί).
+captured	πιάστηκε
+Carcasses	Κουφάρια
+carcasses off	κουφάρια ανενεργά
+Catching	Πιάσιμο
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Πλάσματα που πιάνονται, ζωντανά ή πεσμένα τριγύρω· ένα πλάσμα που ο πίνακας μπορεί να ονομάσει ακολουθεί τον κανόνα κατηγορίας του. Τα καβούρια, οι γαρίδες και τα καλαμάρια είναι θαλασσινά κάτω από το Φαγητό και ποτό.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Κιβώτια, κασόνια και κόμβοι drop-set. Σπάνια ανταποκρίνονται στο συμβάν λουτ. Ανενεργό εξ ορισμού.
+Class	Κατηγορία
+class %s	κατηγορία %s
+Classes	Κατηγορίες
+Clear	Καθαρισμός
+Clear overrides	Καθαρισμός παρακάμψεων
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Καθαρίζει ό,τι υπολόγισε αυτή η συνεδρία από την τσάντα σου. Οι κόμβοι που ονομάζονται από τον πίνακα prefab δεν επηρεάζονται.
+Close	Κλείσιμο
+container (off)	δοχείο (ανενεργό)
+Containers	Δοχεία
+Controller	Χειριστήριο
+Copper	Χαλκός
+Copy	Αντιγραφή
+Copy path	Αντιγραφή διαδρομής
+Copy to the clipboard.	Αντιγραφή στο πρόχειρο.
+corpse	πτώμα
+corpse already searched	το πτώμα έχει ήδη ερευνηθεί
+corpse: loot drops separately	πτώμα: το λουτ πέφτει ξεχωριστά
+creature	πλάσμα
+Creatures	Πλάσματα
+Crops	Καλλιέργειες
+crops off	καλλιέργειες ανενεργές
+Damaged gear	Φθαρμένος εξοπλισμός
+Dead zone around you	Νεκρή ζώνη γύρω σου
+Decision	Απόφαση
+default	προεπιλογή
+DirectX 12 hooks	Hooks DirectX 12
+does not respond	δεν ανταποκρίνεται
+Draw water from wells	Άντλησε νερό από πηγάδια
+Engine	Μηχανή
+English	Αγγλικά
+English. %d line(s) seen this session.	Αγγλικά. %d γραμμή(ές) εμφανίστηκαν σε αυτή τη συνεδρία.
+entity	οντότητα
+entity %08X	οντότητα %08X
+entity %08X, %d items across every store	οντότητα %08X, %d αντικείμενα σε όλες τις αποθήκες
+entity %08X, bag %d of %d slots, %d items across every store	οντότητα %08X, τσάντα %d από %d θέσεις, %d αντικείμενα σε όλες τις αποθήκες
+Event descriptors	Περιγραφείς συμβάντων
+Extra ore per vein	Επιπλέον μετάλλευμα ανά φλέβα
+failed	απέτυχε
+fast-travel artifact	αντικείμενο γρήγορης μετακίνησης
+filter classes	φιλτράρισμα κατηγοριών
+filter tags	φιλτράρισμα ετικετών
+Filters	Φίλτρα
+Fish	Ψάρια
+fish off	ψάρια ανενεργά
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Ψάρια, και ό,τι άλλο πιάνεις μέσα στο νερό: καβούρια, γαρίδες, καλαμάρια, αστερίες και ιππόκαμποι.
+Food and drink	Φαγητό και ποτό
+Forget	Ξέχνα το
+found	βρέθηκε
+Furniture	Έπιπλα
+Furniture and decor	Έπιπλα και διακόσμηση
+furniture node (off)	κόμβος επίπλου (ανενεργός)
+furniture off	έπιπλα ανενεργά
+Game functions	Λειτουργίες παιχνιδιού
+Game functions did not resolve; see Status.	Οι λειτουργίες παιχνιδιού δεν εντοπίστηκαν· δες την Κατάσταση.
+Game-thread pump	Άντληση του game thread
+gather node	κόμβος συλλογής
+Gathering	Συλλογή
+Ground items	Αντικείμενα στο έδαφος
+Groups	Ομάδες
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Κόμβοι βοτάνων, λουλουδιών και μανιταριών, και τα ίδια πεσμένα στο έδαφος. Οι καλλιέργειες τροφίμων έχουν δικό τους διακόπτη.
+hold two buttons (Escape cancels)	κράτα πατημένα δύο πλήκτρα (το Escape ακυρώνει)
+Household clutter and collectibles, most of it worthless.	Οικιακά μπιχλιμπίδια και συλλεκτικά, τα περισσότερα άχρηστα.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Το πόσο γεμάτη είναι η τσάντα διαβάζεται από την ίδια την τσάντα, οπότε η ειδοποίηση εμφανίζεται τη στιγμή που γεμίζει, είτε κάνεις λουτ είτε όχι. Αν αυτοί οι αριθμοί σταματήσουν κάποτε να βγάζουν νόημα, το mod καταφεύγει στο να παρακολουθεί τι συμβαίνει μετά από κάθε μάζεμα: τρία στη σειρά που δεν πιάνουν τίποτα ενεργοποιούν την ειδοποίηση, και ένα που πετυχαίνει την καθαρίζει.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Πόσο συχνά διαβάζεται η σκηνή. Η σάρωση τρέχει στο δικό της thread· μόνο το τελικό αποτέλεσμα κοστίζει στο παιχνίδι ένα κλάσμα του χιλιοστού του δευτερολέπτου.
+incomplete	ημιτελές
+Insects	Έντομα
+insects off	έντομα ανενεργά
+installed	εγκατεστημένο
+Item	Αντικείμενο
+Item database	Βάση δεδομένων αντικειμένων
+Item table	Πίνακας αντικειμένων
+Items	Αντικείμενα
+Items lying in the world, including drops from enemies.	Αντικείμενα πεσμένα στον κόσμο, μαζί με αυτά που ρίχνουν οι εχθροί.
+Items no shop will buy, across every class.	Αντικείμενα που κανένα μαγαζί δεν αγοράζει, σε κάθε κατηγορία.
+Items on the ground	Αντικείμενα στο έδαφος
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Τα αντικείμενα με ετικέτα αποστολής μένουν ανέγγιχτα, ώστε γρίφοι και αντικείμενα ιστορίας να μην παίρνονται αυτόματα. Αυτό διαβάζει τις ίδιες τις ετικέτες του αντικειμένου, οπότε καλύπτει οτιδήποτε μαζεύεται, συλλέγεται ή ανοίγεται σπάζοντας. Το γδάρσιμο ενός κουφαριού μένει εκτός: αυτή η απόδοση φτάνει χωρίς το mod να δει ποτέ τι είναι.
+Items with an unknown value are never filtered by it.	Αντικείμενα με άγνωστη αξία δεν φιλτράρονται ποτέ από αυτό.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Κράτα το μενού στην οθόνη ενώ παίζεις. Το %s το επαναφέρει, το %s το κλείνει.
+Keys	Πλήκτρα
+Keys and tools	Κλειδιά και εργαλεία
+Language	Γλώσσα
+Language \"%s\": %d line(s) translated, %d seen this session.	Γλώσσα \"%s\": %d γραμμή(ές) μεταφρασμένες, %d εμφανίστηκαν σε αυτή τη συνεδρία.
+learned from the game	μαθεύτηκε από το παιχνίδι
+Load	Φόρτωση
+loaded	φορτώθηκε
+locked	κλειδωμένο
+Log	Αρχείο καταγραφής
+Log: %ls	Αρχείο καταγραφής: %ls
+Loot	Λουτ
+Loot all	Λεηλάτησε όλα
+Loot engine	Μηχανή λουτ
+Loot engine not started.	Η μηχανή λουτ δεν έχει ξεκινήσει.
+Loot everything in range now	Λεηλάτησε τα πάντα εντός εμβέλειας τώρα
+Loot everything in range once	Λεηλάτησε τα πάντα εντός εμβέλειας μία φορά
+loot: %s	λουτ: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s για έκδοση παιχνιδιού %s
+Materials	Υλικά
+mechanism part	μέρος μηχανισμού
+Memory chips and puzzle parts	Τσιπ μνήμης και κομμάτια γρίφων
+Mine ore veins for you	Εξόρυξε φλέβες μεταλλεύματος για σένα
+Minimum value (copper)	Ελάχιστη αξία (χαλκός)
+missing	λείπει
+missing MasterLooter.items.tsv	λείπει το MasterLooter.items.tsv
+mission object	αντικείμενο αποστολής
+Mounts and vehicles	Ζώα ιππασίας και οχήματα
+name a new preset	όνομα νέας προεπιλογής
+never	ποτέ
+no	όχι
+no interaction node	κόμβος χωρίς αλληλεπίδραση
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Κόμβοι που ο πίνακας prefab δεν ονομάζει και δεν έχουν αποδώσει τίποτα ακόμα σε αυτή τη συνεδρία. Ανενεργό (η προεπιλογή) τους αφήνει ανέγγιχτους. Ενεργό κάνει το mod να τους συλλέγει για να μάθει, πράγμα που σημαίνει ότι ένα φυτό μπορεί να παρθεί ενώ τα Φυτά είναι ανενεργά.
+none	κανένα
+not found yet	δεν βρέθηκε ακόμα
+not in item database	δεν είναι στη βάση δεδομένων αντικειμένων
+not ready (node empty)	μη έτοιμο (ο κόμβος είναι άδειος)
+not resolved yet	δεν έχει εντοπιστεί ακόμα
+not started	δεν έχει ξεκινήσει
+not yet	όχι ακόμα
+Nothing else is drawn while the menu is closed.	Τίποτα άλλο δεν σχεδιάζεται ενώ το μενού είναι κλειστό.
+nothing taken yet this session	δεν έχει παρθεί τίποτα ακόμα σε αυτή τη συνεδρία
+Object	Αντικείμενο
+object	αντικείμενο
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Τα αντικείμενα εμφανίζονται με το πιο κοντινό πρώτο, μαζί με τον κανόνα που αποφάσισε για το καθένα. Οι άδειοι κόμβοι εμφανίζονται ως μη έτοιμοι μέχρι το παιχνίδι ή η όπλιση να τους γεμίσει. Ό,τι φοράς και κουβαλάς μένει εκτός.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Αντικείμενα πιο κοντινά από αυτό αντιμετωπίζονται ως δικός σου εξοπλισμός. Ένα δίχτυ ασφαλείας· ο εξοπλισμός σου αναγνωρίζεται και με άλλους τρόπους.
+Objects per burst press	Αντικείμενα ανά πάτημα ριπής
+Objects per scan	Αντικείμενα ανά σάρωση
+on the player	πάνω στον παίκτη
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Ενεργό, μια φλέβα συλλέγεται εκεί που στέκεται και δεν χτυπάς ποτέ με αξίνα. Ανενεργό, οι φλέβες μένουν ανέγγιχτες και μαζεύονται μόνο τα κομμάτια που σπας. Χρειάζεται όπλιση, αφού το να ζητήσεις από τη φλέβα να ανοίξει είναι όλο το κόλπο.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Ενεργό, η επικάλυψη σχεδιάζεται κάτω από τη δημιουργία καρέ του DLSS, κάτι που απαιτεί το mod να δώσει στο παιχνίδι ένα τυλιγμένο swapchain.\n\nΑνενεργό, η επικάλυψη σχεδιάζεται μέσω του present hook αντ' αυτού. Όλα φαίνονται ίδια εκτός αν η δημιουργία καρέ είναι ενεργή, και το mod μένει μακριά από ένα μονοπάτι που μπαλώνουν και άλλα mods επικάλυψης. Δοκίμασέ το αν το παιχνίδι δεν ξεκινάει μαζί με άλλο mod επικάλυψης· μπορεί να οριστεί ως WrapSwapChain στο MasterLooter.ini χωρίς να ανοίξεις το παιχνίδι.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Ένα αντίγραφο ασφαλείας γράφεται κάθε φορά που ξεκινάει το παιχνίδι και κρατιούνται τα τελευταία δώδεκα, στο MasterLooter.backups δίπλα στο plugin. Οι προεπιλογές βρίσκονται στο MasterLooter.presets. Αντέγραψε όποιον από τους δύο φακέλους θες για να τον κρατήσεις μετά από επανεγκατάσταση.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Ένα κλικ ανά οικογένεια. Ο παρακάτω πίνακας εξακολουθεί να ορίζει μεμονωμένες κατηγορίες· μια ομάδα δείχνει παύλα όταν μόνο μέρος της είναι ενεργό.
+Open and close this menu	Άνοιγμα και κλείσιμο αυτού του μενού
+Open folder	Άνοιγμα φακέλου
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Ανοίγει τον φάκελο στον Explorer. Το αρχείο καταγραφής ξαναγράφεται σε κάθε εκκίνηση και είναι αυτό που πρέπει να επισυνάψεις σε μια αναφορά.
+Ore	Μετάλλευμα
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Κομμάτια μεταλλεύματος στο έδαφος και κάθε κόμβος που αποδίδει μετάλλευμα, φλέβες συμπεριλαμβανομένων. Μια φλέβα σπάει εκεί που στέκεται και το περιεχόμενό της μαζεύεται από το πάτωμα, ακριβώς αυτό που κάνει η αξίνα σου και αυτό που κάνει μια καλύτερη αξίνα να αξίζει τον κόπο: το Mining Yield Up του εργαλείου εφαρμόζεται στην πτώση, όχι στον κόμβο. Κάθε φλέβα χτυπιέται μία φορά και μένει ανέγγιχτη μέχρι το παιχνίδι να την επαναφέρει. Το φτάσιμο σε φλέβες ξεκινάει όσο μακριά μπορεί να δει η σάρωση, γιατί χρειάζονται δευτερόλεπτα για να απαντήσουν εκεί που ένας θάμνος χρειάζεται κλάσμα ενός.
+ore off	μετάλλευμα ανενεργό
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Μετάλλευμα, πετράδια, πέτρα, ξυλεία, δέρματα, βότανα, εμπορεύματα και άλλα υλικά κατασκευής.
+out of range	εκτός εμβέλειας
+Overlay	Επικάλυψη
+Override	Παράκαμψη
+owned by someone (theft)	ανήκει σε κάποιον (κλοπή)
+Ownership	Ιδιοκτησία
+Ownership oracle	Μαντείο ιδιοκτησίας
+Pace	Ρυθμός
+part of a creature or a mechanism	μέρος πλάσματος ή μηχανισμού
+paused: %s	σε παύση: %s
+pick up off	μάζεμα ανενεργό
+Plants	Φυτά
+plants off	φυτά ανενεργά
+Player	Παίκτης
+Player equipment.	Εξοπλισμός παίκτη.
+Player not found in the scene yet.	Ο παίκτης δεν έχει βρεθεί ακόμα στη σκηνή.
+Presets	Προεπιλογές
+press a key (Escape cancels)	πάτησε ένα πλήκτρο (το Escape ακυρώνει)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Προστατευμένο εξ ορισμού: ένα τσιπ μνήμης ξεκινάει μια σκηνή μνήμης όταν παρθεί, και ένα κομμάτι γρίφου χαλάει τον γρίφο του. Ενεργοποίησέ το μόνο αν θέλεις να παίρνονται αυτόματα.
+protected item name	όνομα προστατευμένου αντικειμένου
+Puts every setting and rule back to what it was at that moment.	Επαναφέρει κάθε ρύθμιση και κανόνα σε αυτό που ήταν εκείνη τη στιγμή.
+puzzle or protected mechanism	γρίφος ή προστατευμένος μηχανισμός
+Quest items	Αντικείμενα αποστολής
+quest or memory trigger	ενεργοποιητής αποστολής ή μνήμης
+Ranges (metres)	Εμβέλειες (μέτρα)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Αρουραίοι, σκίουροι, πουλιά, σαύρες, βάτραχοι και σαλαμάνδρες: ό,τι άλλο βάζει το παιχνίδι ολόκληρο στην τσάντα.
+Reaching nodes	Φτάσιμο κόμβων
+Read from the file beside the plugin, not the copy inside it.	Διαβάζεται από το αρχείο δίπλα στο plugin, όχι το αντίγραφο μέσα σε αυτό.
+Rebind	Επαναρύθμιση
+Recent loot	Πρόσφατα λάφυρα
+Refresh	Ανανέωση
+Reload now	Επαναφόρτωση τώρα
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Αντικαθιστά κάθε ρύθμιση και κάθε κανόνα κατηγορίας, ετικέτας και αντικειμένου με ό,τι περιέχει η προεπιλογή, και το γράφει στο MasterLooter.ini. Τίποτα από τις τρέχουσες ρυθμίσεις δεν κρατιέται, οπότε πάρε αντίγραφο ασφαλείας πρώτα αν τις θέλεις.
+Reset all tags	Επαναφορά όλων των ετικετών
+resolved	εντοπίστηκε
+Retry the same object after (ms)	Ξαναδοκίμασε το ίδιο αντικείμενο μετά από (ms)
+Route id	Αναγνωριστικό διαδρομής
+Rule	Κανόνας
+Save now	Αποθήκευση τώρα
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Αποθηκεύτηκε ως \"%s\": ένα όνομα προεπιλογής κρατάει γράμματα, ψηφία, κενά, παύλες και κάτω παύλες.
+Say so on screen when the bag stops taking things	Δείξε το στην οθόνη όταν η τσάντα σταματήσει να δέχεται πράγματα
+scan %.1f ms	σάρωση %.1f ms
+Scan radius	Ακτίνα σάρωσης
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Σαρώσεις %ld, συμβάντα στάλθηκαν %ld, pump ticks %ld, φυλαγμένα σφάλματα %ld, είδη κόμβων μαθεύτηκαν %d
+Scans per second	Σαρώσεις ανά δευτερόλεπτο
+search item name or key (3+ letters)	αναζήτησε όνομα ή κλειδί αντικειμένου (3+ γράμματα)
+Sending events	Αποστολή συμβάντων
+Set	Ορισμός
+Settings: %ls	Ρυθμίσεις: %ls
+Show a brief notice when auto-loot is toggled	Δείξε σύντομη ειδοποίηση όταν αλλάζει το αυτόματο λουτ
+Showing current overrides. Type to search all %d items.	Εμφανίζονται οι τρέχουσες παρακάμψεις. Πληκτρολόγησε για αναζήτηση σε όλα τα %d αντικείμενα.
+Showing the nearest %d of %d. The rest are further away.	Εμφανίζονται τα %d πιο κοντινά από %d. Τα υπόλοιπα είναι πιο μακριά.
+Skip all	Παράλειψη όλων
+Skip items shops refuse to buy	Παράλειψε αντικείμενα που τα μαγαζιά αρνούνται να αγοράσουν
+Skip quest items	Παράλειψε αντικείμενα αποστολής
+skip: %s	παράλειψη: %s
+Small animals	Μικρά ζώα
+small animals off	μικρά ζώα ανενεργά
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Κάποια αντικείμενα του κόσμου δεν έχουν αναγνώσιμο όνομα αντικειμένου. Ενεργό: πάρ' τα ούτως ή άλλως. Ανενεργό: άφησε ό,τι είναι αταύτιστο.
+stack at one point (storage contents)	στοίβα σε ένα σημείο (περιεχόμενα αποθήκευσης)
+Stone	Πέτρα
+stone off	πέτρα ανενεργή
+Stone on the ground and nodes that yield stone.	Πέτρα στο έδαφος και κόμβοι που αποδίδουν πέτρα.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Τραπέζια, καρέκλες, κρεβάτια, χαλιά, λάμπες, κεριά, πίνακες, δοχεία και τα υπόλοιπα ενός επιπλωμένου δωματίου, είτε τα μαζεύεις από το πάτωμα είτε τα παίρνεις από τον δικό τους κόμβο αλληλεπίδρασης. Τα περισσότερα αξίζουν ένα-δύο χαλκά, αλλά τα χαλιά και τα πολυτελή κρεβάτια φτάνουν στις χιλιάδες, οπότε ενεργοποίησέ το πριν επιπλώσεις ένα σπίτι. Τα κιβώτια και τα άλλα πράγματα που κρατούν κάτι υπάγονται στα Δοχεία αντί για εδώ. Ανενεργό εξ ορισμού.
+Tag	Ετικέτα
+tags, any of which can be set to never in the Tags tab:	ετικέτες, καθεμία από τις οποίες μπορεί να οριστεί σε ποτέ στην καρτέλα Ετικέτες:
+Take goods that belong to someone	Πάρε αγαθά που ανήκουν σε κάποιον
+Take goods that belong to someone, on / off	Πάρε αγαθά που ανήκουν σε κάποιον, ενεργό / ανενεργό
+Take items the database cannot name	Πάρε αντικείμενα που η βάση δεδομένων δεν μπορεί να ονομάσει
+Take owned goods on / off	Πάρε ιδιόκτητα αγαθά, ενεργό / ανενεργό
+takes effect next launch	ισχύει από την επόμενη εκκίνηση
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Η μηχανή σαρώνει γύρω σου και παίρνει ό,τι επιτρέπουν οι κανόνες. Ανενεργό σημαίνει ότι δεν παίρνεται τίποτα αυτόματα· το πλήκτρο ριπής εξακολουθεί να δουλεύει.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Το παιχνίδι γεμίζει τα δεδομένα ενός κόμβου μόνο όταν πιστεύει ότι μπορείς να τον φτάσεις. Η όπλιση του ζητάει να το κάνει αυτό από απόσταση, κάτι που επιτρέπει επίσης μια φλέβα μεταλλεύματος να συλλέγεται εκεί που στέκεται. Οι φλέβες χρειάζονται αρκετά δευτερόλεπτα για να απαντήσουν εκεί που ένας θάμνος χρειάζεται κλάσμα ενός.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Το παιχνίδι αφαιρεί τα παρμένα αντικείμενα με καθυστέρηση. Αυτό εμποδίζει το ίδιο αντικείμενο να σταλεί δύο φορές όσο ξεθωριάζει.
+The game treats this as stealing and will put a bounty on you.	Το παιχνίδι το θεωρεί κλοπή και θα βάλει κεφαλή σε σένα.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Το mod δεν χτυπάει ποτέ με αξίνα. Οδηγεί την ίδια την ακολουθία σπασίματος της φλέβας, και το παιχνίδι διατρέχει μία σειρά πτώσης για αυτό εκεί που ένα πραγματικό χτύπημα διατρέχει δύο, οπότε το μπόνους του εργαλείου εξόρυξής σου δεν πληρώνει τίποτα όταν την εξόρυξη την κάνει το mod. Αυτό προσθέτει πίσω το μετάλλευμα που λείπει μέσα από το ίδιο μονοπάτι πτώσης που χρησιμοποιεί το παιχνίδι, οπότε είναι πραγματικό μετάλλευμα χυμένο στο έδαφος, όχι αντικείμενο αντιγραμμένο στην τσάντα σου. Όρισέ το σε ό,τι πληρώνει το εργαλείο σου με το χέρι μείον ένα: ένα τρυπάνι που δίνει τρία με το χέρι θέλει 2 εδώ. Ισχύει μόνο για φλέβα που έσπασε αυτό το mod, οπότε η εξόρυξη με το χέρι μένει ανέγγιχτη και τα δύο δεν μπορούν να προστεθούν μαζί.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Η αλληλεπίδραση γδαρσίματος, μία φορά ανά κουφάρι. Τα ανθρώπινα πτώματα ρίχνουν συνηθισμένο λουτ αντ' αυτού. Ό,τι αποδίδει το γδάρσιμο δεν ελέγχεται με τα φίλτρα σου. Το mod δεν το βλέπει ποτέ πριν προσγειωθεί, οπότε αυτός ο διακόπτης είναι όλα ή τίποτα.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Αυτή η συνεδρία: %ld μαζεύτηκαν, %ld συλλέχθηκαν, %ld πιάστηκαν, %ld κουφάρια
+Timber and branches on the ground and nodes that yield them.	Ξυλεία και κλαδιά στο έδαφος και κόμβοι που τα αποδίδουν.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Για να αφήσεις ένα είδος ανέγγιχτο, όρισε αυτό που γίνεται σε ποτέ στην καρτέλα Αντικείμενα: Item_Tench, Item_Ricefish, Item_Iguana. Το mod διαβάζει τη δική της γραμμή του πλάσματος στον πίνακα χαρακτήρων του παιχνιδιού, οπότε ξέρει ποιο είδος βλέπει πριν πιάσει οτιδήποτε. Μερικά ασυνήθιστα πλάσματα εξακολουθούν να μαντεύονται από το όνομα του μοντέλου τους και πιάνονται μόνο κατά κατηγορία.
+Treasure and keepsakes	Θησαυρός και ενθύμια
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Δύο πλήκτρα μαζί, ποτέ ένα: κάθε μεμονωμένο πλήκτρο κάνει ήδη κάτι σε αυτό το παιχνίδι. Το mod απλώς διαβάζει το χειριστήριο, οπότε το παιχνίδι εξακολουθεί να βλέπει και τα δύο πλήκτρα. Διάλεξε ένα ζευγάρι που δεν κάνει τίποτα μαζί, όπως τα δύο πλήκτρα ώμου, ή το Back και ένα πλήκτρο όψης.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Χωρίς ανάθεση μέχρι να το ορίσεις. Το παιχνίδι ονομάζει κλοπή το να παίρνεις ιδιόκτητα αγαθά και σου βάζει κεφαλή για αυτό, οπότε αυτός είναι ο διακόπτης που θες ενεργό για μια στιγμή και μετά ανενεργό ξανά, κάτι που ταιριάζει άσχημα σε ένα μενού.
+Unidentified nodes	Αταύτιστοι κόμβοι
+unidentified nodes off	αταύτιστοι κόμβοι ανενεργοί
+unidentified: could be a fish, a flying insect or a bird	αταύτιστο: μπορεί να είναι ψάρι, πετούμενο έντομο ή πουλί
+unidentified: could be an insect or a small animal	αταύτιστο: μπορεί να είναι έντομο ή μικρό ζώο
+unnamed item	ανώνυμο αντικείμενο
+Unsellable items	Αντικείμενα που δεν πωλούνται
+Use this language	Χρήση αυτής της γλώσσας
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Χρησιμοποιεί τον δικό του έλεγχο Πάρε ή Κλέψε του παιχνιδιού· τα ιδιόκτητα αγαθά παραλείπονται μέχρι να παρατηρηθεί μία φορά.
+using the player's own field	χρησιμοποιώντας το δικό του πεδίο του παίκτη
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Λαχανικά, φρούτα και δημητριακά: γλυκοπατάτα, κριθάρι, λάχανο, μήλα, σταφύλια και τα υπόλοιπα καλλιεργημένα και μαζεμένα τρόφιμα, πάνω στο φυτό ή πεσμένα ελεύθερα. Αυτά παλιότερα υπάγονταν στα Αντικείμενα στο έδαφος, γι' αυτό η απενεργοποίηση των Φυτών άδειαζε ακόμα ένα χωράφι: από τις 72 θέσεις συλλογής στο παιχνίδι, οι 44 είναι καλλιέργειες και μόνο 28 είναι φυτά.
+Verbose log	Αναλυτικό αρχείο καταγραφής
+Verdict	Ετυμηγορία
+waiting	αναμονή
+waiting for the game to check an item	αναμονή για να ελέγξει το παιχνίδι ένα αντικείμενο
+waiting for the game to check ownership once	αναμονή για να ελέγξει το παιχνίδι την ιδιοκτησία μία φορά
+Waiting for the world to load.	Αναμονή να φορτωθεί ο κόσμος.
+Watch	Παρακολούθηση
+Watch mode	Λειτουργία παρακολούθησης
+Watch mode (menu stays up, you keep playing)	Λειτουργία παρακολούθησης (το μενού μένει ανοιχτό, εσύ συνεχίζεις να παίζεις)
+Watch mode: the game has your controls. %s to interact, %s to close.	Λειτουργία παρακολούθησης: το παιχνίδι έχει τα χειριστήριά σου. %s για αλληλεπίδραση, %s για κλείσιμο.
+Weapons and armor	Όπλα και πανοπλίες
+What enters the working list at all. The ranges below are clamped to it.	Τι μπαίνει καν στη λίστα εργασίας. Οι παρακάτω εμβέλειες περιορίζονται σε αυτό.
+What to collect	Τι να συλλέγεται
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Γυρίζει τη χειρολαβή για σένα και παίρνει ό,τι ανεβαίνει, οδηγώντας τις ίδιες μεταβάσεις κατάστασης που οδηγεί το παιχνίδι όταν κρατάς πατημένο το πλήκτρο αλληλεπίδρασης. Ένα πηγάδι δεν εγείρει κανένα συμβάν λουτ, οπότε αυτό είναι μια επανάληψη μιας καταγεγραμμένης ακολουθίας και όχι το παιχνίδι να του ζητείται κάτι. Ανενεργό εξ ορισμού, γιατί ένα πηγάδι που πάει στραβά μένει χωρίς τον κουβά του.
+Wood	Ξύλο
+wood off	ξύλο ανενεργό
+World (actor manager)	Κόσμος (διαχειριστής actor)
+worn by someone	φοριέται από κάποιον
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Φορεμένος εξοπλισμός που ρίχνουν οι εχθροί καθώς πεθαίνουν. Φτηνός και βαρύς, αλλά άφθονος.
+worn or carried by you	φοριέται ή κουβαλιέται από σένα
+worth %lld copper	αξίζει %lld χαλκό
+Wrap the swapchain	Τύλιξε το swapchain
+Write translation template	Εγγραφή προτύπου μετάφρασης
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Γράφει το MasterLooter.template.txt δίπλα στο plugin, με κάθε γραμμή που έχει εμφανίσει το μενού σε αυτή τη συνεδρία. Άνοιξε πρώτα κάθε καρτέλα, αφού μια γραμμή εμφανίζεται μόνο αφού έχει σχεδιαστεί. Μετάφρασε τη δεξιά πλευρά κάθε εγγραφής, αποθήκευσέ το ως MasterLooter.<γλώσσα>.txt, και βάλε αυτή τη γλώσσα εδώ.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Γράφει τις ρυθμίσεις όπως είναι τώρα μέσα στο \"%s\". Φόρτωσέ το, άλλαξε ό,τι θες, και μετά αποθήκευσέ το ξανά.
+Writes the settings as they are now, named %s.	Γράφει τις ρυθμίσεις όπως είναι τώρα, με όνομα %s.
+yes	ναι
+yours, just out of your hand	δικό σου, μόλις έξω από το χέρι σου

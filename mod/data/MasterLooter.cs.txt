@@ -1,0 +1,321 @@
+# Text menu Master Looter v češtině.
+# Toto je strojový překlad vytvořený Claude, umělou inteligencí od
+# Anthropicu, a zatím ho nezkontroloval žádný rodilý mluvčí. Opravy jsou
+# vítány na GitHubu (github.com/shin2344234/master-looter) nebo na
+# stránce modu na Nexusu.
+#
+# Jeden řádek na text: anglický originál, tabulátor a pak překlad.
+# Řádky začínající # se ignorují. \n znamená zalomení řádku, a řádek bez
+# překladu za tabulátorem zůstává zobrazen anglicky.
+# Každé %d, %s, %.1f a podobné zástupné symboly musí zůstat na stejném
+# místě a ve stejném pořadí jako v angličtině, protože se za běhu
+# nahrazují hodnotami; řádek, který je změní, se při načítání ignoruje.
+#
+# Soubor s tímto názvem umístěný vedle MasterLooter.asi přepíše vestavěnou
+# kopii.
+
+  bag full	  batoh plný
+ (first 250)	 (prvních 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu zásahů)%s
+%d classes	%d tříd
+%d items, %d classes, %d tags	%d předmětů, %d tříd, %d štítků
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d řádků bylo ignorováno: jejich zástupné symboly %%d nebo %%s neodpovídaly anglickému originálu, a jejich použití by vypsalo nesprávné hodnoty.
+%d matches%s	%d výsledků%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d druhů uzlů zjištěno v této relaci. Uzly se pojmenovávají podle prefabu, ze kterého byly umístěny; cokoli, co tato tabulka nezná, se identifikuje ve chvíli, kdy to poprvé něco vydá. Číslo typu uzlu se mezi relacemi mění, takže po ukončení hry si mod nic nepamatuje.
+%d objects within scan range, %d lootable now.	%d objektů v dosahu skenování, %d lze nyní lootovat.
+%d overrides	%d výjimek
+%s (key %u, row %d, tier %d)	%s (klíč %u, řádek %d, úroveň %d)
+%s (never looted)	%s (nikdy nelootováno)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s je strojový překlad, který zatím nikdo nezkontroloval. Opravy jsou vítány na GitHubu nebo na stránce Nexus.
+%s translated by %s.	%s, překlad: %s.
+%s, let go to keep it	%s, uvolněním tlačítek to uložíš
+1 match%s	1 výsledek%s
+3 of 3	3 ze 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" už existuje. Přepsání se nejprve zeptá na potvrzení.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Kbelík od studny a podobné věci se nikdy nelootují, ale jejich aktivace donutí hru nabídnout interakci, takže je můžeš použít ručně.
+Abyss and Kuku	Abyss a Kuku
+Abyss gear, Kuku pots and their parts.	Vybavení Abyss, hrnce Kuku a jejich součásti.
+Accessories	Doplňky
+allowed	povoleno
+already in your bag	už v batohu
+always	vždy
+always beats the class rule; never beats always	vždy má přednost před pravidlem třídy; nikdy má přednost i před vždy
+Ammunition	Munice
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Cokoli označené jako questovní, napříč všemi třídami. Vypnuto ponechá příběhové předměty a části hádanek pro tvé vlastní ruce.
+Arm mechanism containers too	Aktivovat i kontejnery s mechanismem
+Arm nodes ourselves	Aktivovat uzly automaticky
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Aktivace ignoruje zdi. Nastav ji krátkou, jinak budeš sbírat i skrz zeď vedlejší místnosti. Ruda je výjimkou a vždy se aktivuje až do 25 m, protože žíle trvá několik sekund, než odpoví, a když se zeptáš, až u ní stojíš, otevře se pozdě na to, aby to bylo k něčemu.
+Arming range	Dosah aktivace
+Auto-loot enabled	Auto-loot zapnut
+Auto-loot on / off	Auto-loot zapnuto / vypnuto
+Backups	Zálohy
+blank for English	prázdné pro angličtinu
+Books and papers	Knihy a papíry
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Odměny za bosse, artefakty, vzpomínkové předměty, měšce s mincemi a truhly s odměnami.
+Break veins open rather than emptying them	Rozbíjet žíly místo jejich vyprazdňování
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Rozbití spouští vlastní stavový automat hry na žíle: dopad úderu a poté rozlomení, takže uzel vysype svůj obsah na zem a zmizí přesně tak, jako pod krumpáčem. Vyprázdnění naproti tomu vytáhne rudu rovnou ven a celé vysypání přeskočí. Žádná z cest nevyplácí bonus Mining Yield Up tvého nástroje, protože ten hra přiznává jen úderu, který počítá jako tvůj vlastní, takže si rozdíl doplň v nastavení níže. Každá žíla je udeřena jednou a pak ponechána, dokud ji hra znovu nevytvoří.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Motýli, brouci, vážky, včely, pavouci, štíři, šneci a další drobné tvory, které hra řadí mezi hmyz. Druhy pocházejí z tabulky tvorů; tvora, kterého tabulka nedokáže pojmenovat, mod uloví jen tehdy, když jsou zapnuté všechny kategorie, do kterých by mohl patřit (létající tvor může být ryba, hmyz nebo pták).
+captured	zachyceno
+Carcasses	Zdechliny
+carcasses off	zdechliny vypnuty
+Catching	Chytání
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Ulovení tvorové, živí i ležící kolem; tvor, kterého tabulka dokáže pojmenovat, se řídí pravidlem své třídy. Krabi, krevety a olihně jsou plody moře, spadající pod Jídlo a pití.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Truhly, bedny a uzly typu drop-set. Na loot událost reagují jen zřídka. Ve výchozím stavu vypnuto.
+Class	Třída
+class %s	třída %s
+Classes	Třídy
+Clear	Vymazat
+Clear overrides	Vymazat výjimky
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Vymaže, co tato relace zjistila z tvého batohu. Uzly pojmenované podle tabulky prefabů zůstanou beze změny.
+Close	Zavřít
+container (off)	kontejner (vypnuto)
+Containers	Kontejnery
+Controller	Ovladač
+Copper	Měďáky
+Copy	Kopírovat
+Copy path	Kopírovat cestu
+Copy to the clipboard.	Zkopírovat do schránky.
+corpse	mrtvola
+corpse already searched	mrtvola už prohledána
+corpse: loot drops separately	mrtvola: loot padá zvlášť
+creature	tvor
+Creatures	Tvorové
+Crops	Plodiny
+crops off	plodiny vypnuty
+Damaged gear	Poškozené vybavení
+Dead zone around you	Mrtvá zóna kolem tebe
+Decision	Rozhodnutí
+default	výchozí
+DirectX 12 hooks	DirectX 12 hooks
+does not respond	neodpovídá
+Draw water from wells	Čerpat vodu ze studní
+Engine	Engine
+English	Angličtina
+English. %d line(s) seen this session.	Angličtina. %d řádků zobrazeno v této relaci.
+entity	entity
+entity %08X	entity %08X
+entity %08X, %d items across every store	entity %08X, %d předmětů napříč všemi úložišti
+entity %08X, bag %d of %d slots, %d items across every store	entity %08X, batoh %d z %d slotů, %d předmětů napříč všemi úložišti
+Event descriptors	Popisovače událostí
+Extra ore per vein	Extra ruda na žílu
+failed	selhalo
+fast-travel artifact	artefakt rychlého cestování
+filter classes	filtrovat třídy
+filter tags	filtrovat štítky
+Filters	Filtry
+Fish	Ryby
+fish off	ryby vypnuty
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Ryby a cokoli dalšího, co ulovíš ve vodě: krabi, krevety, olihně, hvězdice a mořští koníci.
+Food and drink	Jídlo a pití
+Forget	Zapomenout
+found	nalezeno
+Furniture	Nábytek
+Furniture and decor	Nábytek a dekorace
+furniture node (off)	uzel nábytku (vypnuto)
+furniture off	nábytek vypnut
+Game functions	Herní funkce
+Game functions did not resolve; see Status.	Herní funkce se nepodařilo najít; viz Status.
+Game-thread pump	Pumpa herního vlákna
+gather node	sběrný uzel
+Gathering	Sbírání
+Ground items	Předměty na zemi
+Groups	Skupiny
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Uzly bylin, květin a hub, a totéž ležící na zemi. Plodiny mají vlastní přepínač.
+hold two buttons (Escape cancels)	podrž dvě tlačítka (Escape zruší)
+Household clutter and collectibles, most of it worthless.	Domácí harampádí a sběratelské předměty, většinou bezcenné.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Naplněnost batohu se čte přímo z něj, takže se upozornění objeví ve chvíli, kdy se zaplní, ať už zrovna lootuješ nebo ne. Pokud tahle čísla někdy přestanou dávat smysl, mod se přepne na sledování toho, co se stane po sebrání: tři po sobě jdoucí pokusy, které nikam nedorazí, upozornění vyvolají, a jeden úspěšný ho zase zruší.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Jak často se čte scéna. Sken běží na vlastním vlákně; hru stojí jen závěrečné zpracování, a to zlomek milisekundy.
+incomplete	neúplné
+Insects	Hmyz
+insects off	hmyz vypnut
+installed	nainstalováno
+Item	Předmět
+Item database	Databáze předmětů
+Item table	Tabulka předmětů
+Items	Předměty
+Items lying in the world, including drops from enemies.	Předměty ležící ve světě, včetně dropů od nepřátel.
+Items no shop will buy, across every class.	Předměty, které nekoupí žádný obchod, napříč všemi třídami.
+Items on the ground	Předměty ležící na zemi
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Předměty se štítkem quest zůstávají netknuté, takže hádanky a příběhové předměty se automaticky neberou. Toto čte vlastní štítky předmětu, takže to pokrývá cokoli sebraného, nasbíraného nebo rozbitého. Stahování kůže ze zdechliny je mimo tohle: jeho výnos dorazí, aniž by mod kdy viděl, co to je.
+Items with an unknown value are never filtered by it.	Předměty s neznámou hodnotou tímto nikdy nejsou filtrovány.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Nech menu na obrazovce, zatímco hraješ. %s ho vrátí zpět, %s ho zavře.
+Keys	Klávesy
+Keys and tools	Klíče a nástroje
+Language	Jazyk
+Language \"%s\": %d line(s) translated, %d seen this session.	Jazyk \"%s\": %d řádků přeloženo, %d viděno v této relaci.
+learned from the game	zjištěno ze hry
+Load	Načíst
+loaded	načteno
+locked	zamčeno
+Log	Log
+Log: %ls	Log: %ls
+Loot	Loot
+Loot all	Lootovat vše
+Loot engine	Loot engine
+Loot engine not started.	Loot engine nebyl spuštěn.
+Loot everything in range now	Lootovat vše v dosahu hned
+Loot everything in range once	Lootovat vše v dosahu jednou
+loot: %s	loot: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s pro herní build %s
+Materials	Materiály
+mechanism part	část mechanismu
+Memory chips and puzzle parts	Paměťové čipy a části hádanek
+Mine ore veins for you	Těžit rudné žíly za tebe
+Minimum value (copper)	Minimální hodnota (měďáky)
+missing	chybí
+missing MasterLooter.items.tsv	chybí MasterLooter.items.tsv
+mission object	misijní objekt
+Mounts and vehicles	Jízdní zvířata a vozidla
+name a new preset	pojmenuj nový preset
+never	nikdy
+no	ne
+no interaction node	uzel bez interakce
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Uzly, které tabulka prefabů nepojmenovává a které v této relaci ještě nic nevydaly. Vypnuto (výchozí) je ponechá být. Zapnuto donutí mod je nasbírat, aby zjistil, co jsou zač, což znamená, že rostlinu lze vzít i s vypnutými Rostlinami.
+none	žádné
+not found yet	zatím nenalezeno
+not in item database	není v databázi předmětů
+not ready (node empty)	není připraveno (uzel prázdný)
+not resolved yet	zatím nenalezeno
+not started	nespuštěno
+not yet	ještě ne
+Nothing else is drawn while the menu is closed.	Když je menu zavřené, nic dalšího se nevykresluje.
+nothing taken yet this session	v této relaci zatím nic vzato
+Object	Objekt
+object	objekt
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Objekty jsou seřazené od nejbližšího, s pravidlem, které o každém rozhodlo. Prázdné uzly se zobrazují jako nepřipravené, dokud je hra nebo aktivace nenaplní. To, co máš na sobě a co neseš, je vynecháno.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Objekty blíž než tohle jsou považovány za tvé vlastní vybavení. Je to pojistka; tvé vybavení mod pozná i jinými způsoby.
+Objects per burst press	Objektů na jedno stisknutí
+Objects per scan	Objektů na sken
+on the player	na hráči
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Zapnuto: žíla se vytěží tam, kde stojí, a ty nikdy nezvedneš krumpáč. Vypnuto: žíly zůstávají netknuté a sbírají se jen kusy, které sám vyrazíš. Vyžaduje aktivaci, protože přimět žílu, aby se otevřela, je celý trik.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Zapnuto: překryvná vrstva se vykresluje pod generováním snímků DLSS, což vyžaduje, aby mod hře předal zabalený swapchain.\n\nVypnuto: překryvná vrstva se místo toho vykresluje přes present hook. Pokud není zapnuté generování snímků, vypadá vše stejně, a mod tak zůstává mimo cestu, kterou si patchují i jiné překryvné mody. Zkus to, pokud se hra nespustí spolu s jiným překryvným modem; dá se to nastavit jako WrapSwapChain v MasterLooter.ini i bez spuštění hry.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Jedna záloha se zapíše pokaždé, když hra nastartuje, a posledních dvanáct se uchovává ve složce MasterLooter.backups vedle pluginu. Presety leží v MasterLooter.presets. Kteroukoli složku zkopíruj, pokud si to chceš uchovat i přes přeinstalaci.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Jedno kliknutí na celou rodinu. Tabulka níže pořád nastavuje jednotlivé třídy; skupina zobrazuje pomlčku, když je zapnutá jen její část.
+Open and close this menu	Otevřít a zavřít toto menu
+Open folder	Otevřít složku
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Otevře složku v Průzkumníkovi. Log se přepisuje při každém spuštění a je to to, co přiložit k hlášení.
+Ore	Ruda
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Kusy rudy na zemi a jakýkoli uzel, který rudu vydává, žíly nevyjímaje. Žíla se rozbije tam, kde stojí, a její obsah se sebere z podlahy, což dělá i tvůj krumpáč, a proto se vyplatí nosit lepší krumpáč: bonus nástroje Mining Yield Up se uplatní na to, co vypadne, ne na uzel. Každá žíla je udeřena jednou a pak ponechána, dokud ji hra znovu nepřinese zpět. Aktivace žil začíná už na hranici dohledu skenu, protože jim odpověď trvá vteřiny, zatímco keři zlomek vteřiny.
+ore off	ruda vypnuta
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Ruda, drahokamy, kámen, dřevo, kůže, byliny, obchodní zboží a další suroviny pro řemeslo.
+out of range	mimo dosah
+Overlay	Overlay
+Override	Výjimka
+owned by someone (theft)	patří někomu (krádež)
+Ownership	Vlastnictví
+Ownership oracle	Orákulum vlastnictví
+Pace	Tempo
+part of a creature or a mechanism	část tvora nebo mechanismu
+paused: %s	pozastaveno: %s
+pick up off	sebrání vypnuto
+Plants	Rostliny
+plants off	rostliny vypnuty
+Player	Hráč
+Player equipment.	Vybavení hráče.
+Player not found in the scene yet.	Hráč ve scéně zatím nenalezen.
+Presets	Presety
+press a key (Escape cancels)	stiskni klávesu (Escape zruší)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Ve výchozím stavu chráněno: paměťový čip po sebrání spustí vzpomínkovou scénu a část hádanky rozbije svou hádanku. Zapni jen tehdy, pokud je chceš brát automaticky.
+protected item name	název chráněného předmětu
+Puts every setting and rule back to what it was at that moment.	Vrátí každé nastavení a pravidlo do stavu, v jakém bylo v ten moment.
+puzzle or protected mechanism	hádanka nebo chráněný mechanismus
+Quest items	Questovní předměty
+quest or memory trigger	questovní nebo vzpomínkový spouštěč
+Ranges (metres)	Dosahy (metry)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Krysy, veverky, ptáci, ještěrky, žáby a mloci: cokoli dalšího, co hra dá do batohu celé.
+Reaching nodes	Dosah k uzlům
+Read from the file beside the plugin, not the copy inside it.	Čte se ze souboru vedle pluginu, ne z kopie uvnitř něj.
+Rebind	Přenastavit
+Recent loot	Nedávný loot
+Refresh	Obnovit
+Reload now	Načíst znovu
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Nahradí každé nastavení a každé pravidlo třídy, štítku i předmětu tím, co obsahuje preset, a zapíše to do MasterLooter.ini. Ze současného nastavení se nic neuchová, takže si ho nejdřív zazálohuj, pokud ho chceš.
+Reset all tags	Resetovat všechny štítky
+resolved	nalezeno
+Retry the same object after (ms)	Zkusit stejný objekt znovu po (ms)
+Route id	ID trasy
+Rule	Pravidlo
+Save now	Uložit teď
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Uloženo jako \"%s\": název presetu si ponechává písmena, číslice, mezery, pomlčky a podtržítka.
+Say so on screen when the bag stops taking things	Ukázat na obrazovce, když batoh přestane brát věci
+scan %.1f ms	sken %.1f ms
+Scan radius	Poloměr skenování
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Skenů %ld, odeslaných událostí %ld, tiků pumpy %ld, ošetřených chyb %ld, zjištěných druhů uzlů %d
+Scans per second	Skenů za sekundu
+search item name or key (3+ letters)	hledej název předmětu nebo klíč (3+ písmena)
+Sending events	Odesílání událostí
+Set	Nastavit
+Settings: %ls	Nastavení: %ls
+Show a brief notice when auto-loot is toggled	Zobrazit krátké upozornění při přepnutí auto-lootu
+Showing current overrides. Type to search all %d items.	Zobrazují se aktuální výjimky. Piš pro hledání ve všech %d předmětech.
+Showing the nearest %d of %d. The rest are further away.	Zobrazeno %d nejbližších z %d. Zbytek je dál.
+Skip all	Přeskočit vše
+Skip items shops refuse to buy	Přeskočit předměty, které obchody odmítají koupit
+Skip quest items	Přeskočit questovní předměty
+skip: %s	přeskočit: %s
+Small animals	Malá zvířata
+small animals off	malá zvířata vypnuta
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Některé objekty ve světě nenesou čitelný název předmětu. Zapnuto: vzít je i tak. Vypnuto: nechat vše neidentifikované být.
+stack at one point (storage contents)	hromada na jednom místě (obsah úložiště)
+Stone	Kámen
+stone off	kámen vypnut
+Stone on the ground and nodes that yield stone.	Kámen na zemi a uzly, které kámen vydávají.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Stoly, židle, postele, koberce, lampy, svíčky, obrazy, hrnce a zbytek zařízené místnosti, ať už to seberes z podlahy nebo to vezmeš z vlastního interakčního uzlu. Většina toho má hodnotu měďák nebo dva, ale koberce a luxusní postele se šplhají do tisíců, takže tohle zapni, než si zařídíš dům. Truhly a další věci, které něco obsahují, spadají místo toho pod Kontejnery. Ve výchozím stavu vypnuto.
+Tag	Štítek
+tags, any of which can be set to never in the Tags tab:	štítky, z nichž kterýkoli lze v záložce Štítky nastavit na nikdy:
+Take goods that belong to someone	Brát věci, které někomu patří
+Take goods that belong to someone, on / off	Brát věci, které někomu patří, zapnuto / vypnuto
+Take items the database cannot name	Brát předměty, které databáze nedokáže pojmenovat
+Take owned goods on / off	Brát vlastněné věci zapnuto / vypnuto
+takes effect next launch	projeví se až při dalším spuštění
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Engine skenuje okolí a bere, co pravidla dovolí. Vypnuto znamená, že se nic nebere automaticky; klávesa pro jednorázové sebrání pořád funguje.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Hra naplní data uzlu jen tehdy, když si myslí, že na něj dosáhneš. Aktivace ji požádá, aby to udělala na dálku, a totéž umožňuje vytěžit rudnou žílu tam, kde stojí. Žílám trvá odpověď několik sekund, zatímco keři zlomek vteřiny.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Hra odstraňuje vzaté objekty se zpožděním. Tohle brání tomu, aby byl stejný objekt odeslán dvakrát, zatímco mizí.
+The game treats this as stealing and will put a bounty on you.	Hra tohle považuje za krádež a dá na tebe odměnu.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Mod nikdy nezvedne krumpáč. Spouští vlastní sekvenci rozbití žíly, a hra si u toho projde jeden řádek výsypu, zatímco u skutečného úderu projde dva, takže bonus tvého těžebního nástroje nevyplatí nic, když těží mod. Tohle chybějící rudu doplní zpátky přes tu samou cestu výsypu, kterou používá hra, takže jde o skutečnou rudu vysypanou na zem, ne o předmět zkopírovaný do batohu. Nastav to na to, co ti nástroj vyplácí ručně, minus jedna: vrtačka, která ručně dává tři, tu chce 2. Platí to jen pro žílu, kterou rozbil mod, takže ruční těžba zůstává nedotčená a obě se nemohou sčítat.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Interakce stahování kůže, jednou na zdechlinu. Lidské mrtvoly místo toho pouští běžný loot. Co stahování kůže vyplatí, se nekontroluje proti tvým filtrům. Mod to nikdy neuvidí, dokud to nedopadne na zem, takže tento přepínač je buď všechno, nebo nic.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Tato relace: %ld sebráno, %ld nasbíráno, %ld uloveno, %ld zdechlin
+Timber and branches on the ground and nodes that yield them.	Dřevo a větve na zemi a uzly, které je vydávají.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Aby jeden druh zůstal netknutý, nastav, čím se stává, na nikdy v záložce Předměty: Item_Tench, Item_Ricefish, Item_Iguana. Mod čte vlastní řádek tvora v herní tabulce postav, takže ví, na jaký druh se dívá, ještě než něco uloví. Několik neobvyklých tvorů se stále spoléhá na odhad podle názvu modelu a loví se jen podle kategorie.
+Treasure and keepsakes	Poklady a suvenýry
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Dvě tlačítka najednou, nikdy jedno: každé jednotlivé tlačítko už v této hře něco dělá. Mod jen čte ovladač, takže hra pořád vidí obě tlačítka. Vyber dvojici, která dohromady nic nedělá, například obě ramenní tlačítka, nebo Back a jedno z čelních tlačítek.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Nepřiřazeno, dokud si to nenastavíš. Hra považuje braní vlastněných věcí za krádež a dá za to na tebe odměnu, takže tohle je přepínač, který chceš na chvíli zapnout a zase vypnout, což se do menu moc nehodí.
+Unidentified nodes	Neidentifikované uzly
+unidentified nodes off	neidentifikované uzly vypnuty
+unidentified: could be a fish, a flying insect or a bird	neidentifikováno: může to být ryba, létající hmyz nebo pták
+unidentified: could be an insect or a small animal	neidentifikováno: může to být hmyz nebo malé zvíře
+unnamed item	nepojmenovaný předmět
+Unsellable items	Neprodejné předměty
+Use this language	Použít tento jazyk
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Používá vlastní kontrolu hry \"Take or Steal\"; vlastněné věci se přeskakují, dokud nebyla aspoň jednou pozorována.
+using the player's own field	pomocí hráčova vlastního pole
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Zelenina, ovoce a obilí: batáty, ječmen, zelí, jablka, hrozny a zbytek pěstované i sbírané potravy, ať už na rostlině nebo volně ležící. Tohle dřív spadalo pod Předměty na zemi, a proto vypnutí Rostlin pořád vyprázdnilo pole: ze 72 sběrných slotů ve hře je 44 plodin a jen 28 rostlin.
+Verbose log	Podrobný log
+Verdict	Verdikt
+waiting	čeká se
+waiting for the game to check an item	čeká se, až hra zkontroluje předmět
+waiting for the game to check ownership once	čeká se, až hra jednou zkontroluje vlastnictví
+Waiting for the world to load.	Čeká se na načtení světa.
+Watch	Sledování
+Watch mode	Režim sledování
+Watch mode (menu stays up, you keep playing)	Režim sledování (menu zůstává otevřené, ty dál hraješ)
+Watch mode: the game has your controls. %s to interact, %s to close.	Režim sledování: hra má tvé ovládání. %s pro interakci, %s pro zavření.
+Weapons and armor	Zbraně a zbroj
+What enters the working list at all. The ranges below are clamped to it.	Co se vůbec dostane do pracovního seznamu. Rozsahy níže jsou tímhle omezené.
+What to collect	Co sbírat
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Otočí klikou za tebe a vezme, co vytáhne, tím, že spouští stejné přechody stavu, jaké spouští hra, když držíš tlačítko interakce. Studna nevyvolává vůbec žádnou loot událost, takže jde o přehrání zachycené sekvence, ne o to, že by se hra o něco žádala. Ve výchozím stavu vypnuto, protože studna, kterou to pokazí, je studna, co zůstane stát bez kbelíku.
+Wood	Dřevo
+wood off	dřevo vypnuto
+World (actor manager)	Svět (actor manager)
+worn by someone	nošeno někým
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Nošené vybavení, které nepřátelé upustí, když zemřou. Levné a těžké, ale je ho hodně.
+worn or carried by you	nošeno nebo neseno tebou
+worth %lld copper	hodnota %lld měďáků
+Wrap the swapchain	Zabalit swapchain
+Write translation template	Zapsat překladovou šablonu
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Zapíše MasterLooter.template.txt vedle pluginu, obsahující každý řádek, který menu v této relaci zobrazilo. Nejdřív otevři všechny záložky, protože řádek se objeví, až jakmile je vykreslen. Přelož pravou stranu každého záznamu, ulož to jako MasterLooter.<jazyk>.txt a ten jazyk zadej sem.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Zapíše nastavení tak, jak je teď, do \"%s\". Načti ho, změň, co chceš, a pak ho zase ulož.
+Writes the settings as they are now, named %s.	Zapíše nastavení tak, jak je teď, pod názvem %s.
+yes	ano
+yours, just out of your hand	tvoje, právě ti to vypadlo z ruky

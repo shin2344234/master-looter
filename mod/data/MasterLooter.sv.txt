@@ -1,0 +1,321 @@
+# Master Looter-menyns text på svenska.
+# Maskinöversatt av Claude, en AI från Anthropic. Ingen som talar
+# svenska som modersmål har granskat den här filen än. Rättelser tas
+# gärna emot på GitHub (github.com/shin2344234/master-looter) eller på
+# moddens Nexus-sida.
+#
+# En rad per text: originalet på engelska, ett tabbtecken, sedan
+# översättningen. Rader som börjar med # ignoreras. \n betyder ett
+# radbyte i texten. En rad utan översättning efter tabbtecknet visas
+# på engelska. Behåll alla %d, %s, %.1f och liknande exakt som de
+# står och i samma ordning: de fylls i med siffror och namn när
+# spelet körs.
+#
+# En fil med det här namnet bredvid MasterLooter.asi ersätter den
+# inbyggda kopian.
+
+  bag full	  väska full
+ (first 250)	 (första 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu träffar)%s
+%d classes	%d klasser
+%d items, %d classes, %d tags	%d föremål, %d klasser, %d taggar
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d rad(er) ignorerades: deras %%d- eller %%s-platshållare matchade inte den engelska texten, och att använda dem hade skrivit ut fel värden.
+%d matches%s	%d träffar%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d nodtyper har lärts in denna session. Noder namnges efter den prefab de placerades från; allt som saknas i den tabellen identifieras första gången det ger något. En nods typnummer ändras mellan sessioner, så inget kommer ihåg efter att du avslutat.
+%d objects within scan range, %d lootable now.	%d objekt inom skanningsavstånd, %d går att loota nu.
+%d overrides	%d undantag
+%s (key %u, row %d, tier %d)	%s (tangent %u, rad %d, nivå %d)
+%s (never looted)	%s (aldrig lootat)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s är en maskinöversättning som ingen har granskat än. Rättelser tas emot på GitHub eller på Nexus-sidan.
+%s translated by %s.	%s översatt av %s.
+%s, let go to keep it	%s, släpp för att spara
+1 match%s	1 träff%s
+3 of 3	3 av 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" finns redan. Att spara över den kräver bekräftelse.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	En brunnshink och liknande lootas aldrig, men att trigga en gör att spelet erbjuder sin interaktion så att du kan använda den för hand.
+Abyss and Kuku	Abyss och Kuku
+Abyss gear, Kuku pots and their parts.	Abyss-utrustning, Kuku-krukor och deras delar.
+Accessories	Tillbehör
+allowed	tillåtet
+already in your bag	redan i din väska
+always	alltid
+always beats the class rule; never beats always	alltid vinner över klassregeln; aldrig vinner över alltid
+Ammunition	Ammunition
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Allt taggat quest, oavsett klass. Av håller kvar berättelseföremål och pusselbitar för dina egna händer.
+Arm mechanism containers too	Trigga även mekanismbehållare
+Arm nodes ourselves	Trigga noder själva
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Triggning ignorerar väggar. Håll den kort, annars skördar du genom väggen till nästa rum. Malm är undantaget och nås alltid på upp till 25 m, eftersom en åder tar sekunder att svara, och att fråga först när du står ovanpå den gör att den öppnas för sent för att vara till någon nytta.
+Arming range	Triggavstånd
+Auto-loot enabled	Autoloot aktiverat
+Auto-loot on / off	Autoloot på/av
+Backups	Säkerhetskopior
+blank for English	tomt för engelska
+Books and papers	Böcker och papper
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Bossbelöningar, artefakter, minnesföremål, myntpåsar och belöningskistor.
+Break veins open rather than emptying them	Bryt upp ådror i stället för att tömma dem
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Att bryta driver spelets egen tillståndsmaskin vid ådern: hugget landar och sedan brottet, så noden spiller sitt innehåll på marken och försvinner precis som under en hacka. Att tömma lyfter i stället ut malmen direkt och hoppar över spillet helt. Ingen av vägarna betalar ut ditt verktygs Ökad malmutvinning, som spelet bara ger för ett hugg det räknar som ditt, så ställ in tillägget nedan för att kompensera för skillnaden. Varje åder träffas en gång och lämnas sedan orörd tills spelet återskapar den.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Fjärilar, skalbaggar, trollsländor, bin, spindlar, skorpioner, snäckor och andra småkryp som spelet klassar som insekter. Arter hämtas från varelsetabellen; en varelse som tabellen inte kan namnge fångas bara när alla kategorier den skulle kunna tillhöra är på (något flygande kan vara en fisk, en insekt eller en fågel).
+captured	fångad
+Carcasses	Kadaver
+carcasses off	kadaver av
+Catching	Fångst
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Fångade varelser, levande eller liggande; en varelse som tabellen kan namnge följer sin klassregel. Krabbor, räkor och bläckfisk räknas som skaldjur under Mat och dryck.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Kistor, lådor och drop-set-noder. De svarar sällan på loot-händelsen. Av som standard.
+Class	Klass
+class %s	klass %s
+Classes	Klasser
+Clear	Rensa
+Clear overrides	Rensa undantag
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Rensar det som den här sessionen räknat ut från din väska. Noder som namnges av prefab-tabellen påverkas inte.
+Close	Stäng
+container (off)	behållare (av)
+Containers	Behållare
+Controller	Handkontroll
+Copper	Koppar
+Copy	Kopiera
+Copy path	Kopiera sökväg
+Copy to the clipboard.	Kopiera till urklipp.
+corpse	lik
+corpse already searched	liket redan genomsökt
+corpse: loot drops separately	lik: bytet faller separat
+creature	varelse
+Creatures	Varelser
+Crops	Grödor
+crops off	grödor av
+Damaged gear	Skadad utrustning
+Dead zone around you	Dödzon runt dig
+Decision	Beslut
+default	standard
+DirectX 12 hooks	DirectX 12-hookar
+does not respond	svarar inte
+Draw water from wells	Dra upp vatten ur brunnar
+Engine	Motor
+English	Engelska
+English. %d line(s) seen this session.	Engelska. %d rad(er) sedda denna session.
+entity	entitet
+entity %08X	entitet %08X
+entity %08X, %d items across every store	entitet %08X, %d föremål i alla förråd
+entity %08X, bag %d of %d slots, %d items across every store	entitet %08X, väska %d av %d platser, %d föremål i alla förråd
+Event descriptors	Händelsedeskriptorer
+Extra ore per vein	Extra malm per åder
+failed	misslyckad
+fast-travel artifact	snabbreseartefakt
+filter classes	filtrera klasser
+filter tags	filtrera taggar
+Filters	Filter
+Fish	Fisk
+fish off	fisk av
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Fisk, och allt annat du fångar i vattnet: krabbor, räkor, bläckfisk, sjöstjärnor och sjöhästar.
+Food and drink	Mat och dryck
+Forget	Glöm
+found	hittad
+Furniture	Möbler
+Furniture and decor	Möbler och dekor
+furniture node (off)	möbelnod (av)
+furniture off	möbler av
+Game functions	Spelfunktioner
+Game functions did not resolve; see Status.	Spelfunktionerna slogs inte upp; se Status.
+Game-thread pump	Speltrådspump
+gather node	skördenod
+Gathering	Skörd
+Ground items	Föremål på marken
+Groups	Grupper
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Noder för örter, blommor och svamp, samt desamma liggande på marken. Matgrödor har en egen inställning.
+hold two buttons (Escape cancels)	håll in två knappar (Escape avbryter)
+Household clutter and collectibles, most of it worthless.	Hushållsskräp och samlarföremål, mestadels värdelöst.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Hur full väskan är läses från väskan själv, så meddelandet dyker upp i samma stund den blir full, oavsett om du lootar eller inte. Om de siffrorna någon gång slutar stämma faller modden tillbaka på att bevaka vad som händer efter en upplockning: tre i rad som inte ger något visar meddelandet, och en som lyckas tar bort det.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Hur ofta scenen läses av. Skanningen körs på en egen tråd; bara det sista steget kostar spelet en bråkdel av en millisekund.
+incomplete	ofullständig
+Insects	Insekter
+insects off	insekter av
+installed	installerad
+Item	Föremål
+Item database	Föremålsdatabas
+Item table	Föremålstabell
+Items	Föremål
+Items lying in the world, including drops from enemies.	Föremål som ligger i världen, inklusive det som fiender tappar.
+Items no shop will buy, across every class.	Föremål som ingen butik köper, oavsett klass.
+Items on the ground	Föremål på marken
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Föremål taggade quest lämnas orörda, så pussel och berättelseföremål tas inte automatiskt. Detta läser föremålets egna taggar, så det täcker allt som plockas upp, skördas eller bryts upp. Att flå ett kadaver ligger utanför detta: den avkastningen kommer fram utan att modden någonsin ser vad det är.
+Items with an unknown value are never filtered by it.	Föremål med okänt värde filtreras aldrig av det.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Håll menyn kvar på skärmen medan du spelar. %s tar tillbaka den, %s stänger den.
+Keys	Tangenter
+Keys and tools	Nycklar och verktyg
+Language	Språk
+Language \"%s\": %d line(s) translated, %d seen this session.	Språk \"%s\": %d rad(er) översatta, %d sedda denna session.
+learned from the game	inlärt från spelet
+Load	Läs in
+loaded	inläst
+locked	låst
+Log	Logg
+Log: %ls	Logg: %ls
+Loot	Loota
+Loot all	Loota allt
+Loot engine	Lootmotor
+Loot engine not started.	Lootmotorn är inte startad.
+Loot everything in range now	Loota allt inom räckhåll nu
+Loot everything in range once	Loota allt inom räckhåll en gång
+loot: %s	loota: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s för spelbygge %s
+Materials	Material
+mechanism part	mekanismdel
+Memory chips and puzzle parts	Minneschips och pusseldelar
+Mine ore veins for you	Bryter malmådror åt dig
+Minimum value (copper)	Minsta värde (koppar)
+missing	saknas
+missing MasterLooter.items.tsv	MasterLooter.items.tsv saknas
+mission object	uppdragsobjekt
+Mounts and vehicles	Riddjur och fordon
+name a new preset	namnge en ny förinställning
+never	aldrig
+no	nej
+no interaction node	ingen interaktionsnod
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Noder som prefab-tabellen inte namnger och som inte gett något ännu denna session. Av (standard) lämnar dem orörda. På gör att modden skördar dem för att ta reda på vad de är, vilket innebär att en växt kan tas även om Växter är av.
+none	ingen
+not found yet	inte hittad än
+not in item database	inte i föremålsdatabasen
+not ready (node empty)	inte redo (noden tom)
+not resolved yet	inte uppslagen än
+not started	inte startad
+not yet	inte än
+Nothing else is drawn while the menu is closed.	Inget annat ritas medan menyn är stängd.
+nothing taken yet this session	inget taget än denna session
+Object	Objekt
+object	objekt
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Objekt listas närmast först, tillsammans med regeln som avgjorde vart och ett. Tomma noder visas som inte redo tills spelet eller triggningen fyller dem. Det du bär eller har på dig utelämnas.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Objekt närmare än så här behandlas som din egen utrustning. Ett skyddsnät; din utrustning känns även igen på andra sätt.
+Objects per burst press	Objekt per snabbtryckning
+Objects per scan	Objekt per skanning
+on the player	på spelaren
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	På skördas en åder där den står och du svingar aldrig en hacka. Av lämnas ådror orörda och bara de bitar du slår loss plockas upp. Kräver triggning, eftersom hela tricket är att be ådern öppna sig.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	På ritas overlayn under DLSS frame generation, vilket kräver att modden ger spelet en inlindad swapchain.\n\nAv ritas overlayn genom present-hooken i stället. Allt ser likadant ut om inte frame generation är på, och modden håller sig borta från en väg som andra overlay-moddar också patchar. Testa det här om spelet inte startar tillsammans med en annan overlay-mod; det kan ställas in som WrapSwapChain i MasterLooter.ini utan att starta spelet.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	En säkerhetskopia skrivs varje gång spelet startar och de senaste tolv behålls, i MasterLooter.backups bredvid pluginen. Förinställningar ligger i MasterLooter.presets. Kopiera endera mappen för att behålla den vid en ominstallation.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Ett klick per familj. Tabellen nedan ställer fortfarande in enskilda klasser; en grupp visar ett streck när bara en del av den är på.
+Open and close this menu	Öppna och stäng den här menyn
+Open folder	Öppna mapp
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Öppnar mappen i Utforskaren. Loggen skrivs om vid varje start och är det som ska bifogas en rapport.
+Ore	Malm
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Malmbitar på marken och alla noder som ger malm, inklusive ådror. En åder bryts där den står och innehållet plockas upp från marken, vilket är precis vad din hacka gör och varför en bättre hacka är värd att bära: verktygets Ökad malmutvinning gäller spillet, inte noden. Varje åder träffas en gång och lämnas sedan orörd tills spelet för tillbaka den. Att nå ådror börjar så långt bort som skanningen kan se, eftersom de tar sekunder att svara där en buske tar en bråkdel av en sekund.
+ore off	malm av
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Malm, ädelstenar, sten, timmer, skinn, örter, handelsvaror och andra tillverkningsmaterial.
+out of range	utom räckhåll
+Overlay	Overlay
+Override	Undantag
+owned by someone (theft)	ägs av någon (stöld)
+Ownership	Ägarskap
+Ownership oracle	Ägarskapsorakel
+Pace	Tempo
+part of a creature or a mechanism	del av en varelse eller en mekanism
+paused: %s	pausad: %s
+pick up off	upplockning av
+Plants	Växter
+plants off	växter av
+Player	Spelare
+Player equipment.	Spelarens utrustning.
+Player not found in the scene yet.	Spelaren har inte hittats i scenen än.
+Presets	Förinställningar
+press a key (Escape cancels)	tryck på en tangent (Escape avbryter)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Skyddat som standard: ett minneschip startar en minnesscen när det tas, och en pusseldel bryter sitt pussel. Slå på bara om du vill att de ska tas automatiskt.
+protected item name	skyddat föremålsnamn
+Puts every setting and rule back to what it was at that moment.	Återställer varje inställning och regel till vad den var vid det tillfället.
+puzzle or protected mechanism	pussel eller skyddad mekanism
+Quest items	Uppdragsföremål
+quest or memory trigger	uppdrags- eller minnesutlösare
+Ranges (metres)	Avstånd (meter)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Råttor, ekorrar, fåglar, ödlor, grodor och salamandrar: allt annat som spelet lägger helt i väskan.
+Reaching nodes	Nå noder
+Read from the file beside the plugin, not the copy inside it.	Läses från filen bredvid pluginen, inte kopian inuti den.
+Rebind	Bind om
+Recent loot	Senaste byte
+Refresh	Uppdatera
+Reload now	Ladda om nu
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Ersätter varje inställning och varje klass-, tagg- och föremålsregel med det förinställningen innehåller, och skriver det till MasterLooter.ini. Inget av de nuvarande inställningarna behålls, så säkerhetskopiera dem först om du vill ha kvar dem.
+Reset all tags	Återställ alla taggar
+resolved	uppslagen
+Retry the same object after (ms)	Försök samma objekt igen efter (ms)
+Route id	Rutt-id
+Rule	Regel
+Save now	Spara nu
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Sparad som \"%s\": ett förinställningsnamn behåller bokstäver, siffror, mellanslag, bindestreck och understreck.
+Say so on screen when the bag stops taking things	Visa det på skärmen när väskan slutar ta emot saker
+scan %.1f ms	skanning %.1f ms
+Scan radius	Skanningsradie
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Skanningar %ld, händelser skickade %ld, pumptick %ld, skyddade fel %ld, nodtyper inlärda %d
+Scans per second	Skanningar per sekund
+search item name or key (3+ letters)	sök föremålsnamn eller nyckel (3+ bokstäver)
+Sending events	Skickar händelser
+Set	Ställ in
+Settings: %ls	Inställningar: %ls
+Show a brief notice when auto-loot is toggled	Visa ett kort meddelande när autoloot växlas
+Showing current overrides. Type to search all %d items.	Visar aktuella undantag. Skriv för att söka bland alla %d föremål.
+Showing the nearest %d of %d. The rest are further away.	Visar de %d närmaste av %d. Resten ligger längre bort.
+Skip all	Hoppa över alla
+Skip items shops refuse to buy	Hoppa över föremål som butiker vägrar köpa
+Skip quest items	Hoppa över uppdragsföremål
+skip: %s	hoppa över: %s
+Small animals	Smådjur
+small animals off	smådjur av
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Vissa objekt i världen saknar ett läsbart föremålsnamn. På: ta dem ändå. Av: lämna allt oidentifierat.
+stack at one point (storage contents)	stapel på en plats (förrådsinnehåll)
+Stone	Sten
+stone off	sten av
+Stone on the ground and nodes that yield stone.	Sten på marken och noder som ger sten.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bord, stolar, sängar, mattor, lampor, ljus, tavlor, krukor och resten av ett möblerat rum, oavsett om du plockar upp det från golvet eller tar det från sin egen interaktionsnod. Det mesta är värt en koppar eller två, men mattorna och lyxsängarna går upp i tusental, så slå på det här innan du möblerar ett hus. Kistor och andra saker som rymmer något lyder under Behållare i stället. Av som standard.
+Tag	Tagg
+tags, any of which can be set to never in the Tags tab:	taggar, som var och en kan sättas till aldrig i fliken Taggar:
+Take goods that belong to someone	Ta varor som tillhör någon
+Take goods that belong to someone, on / off	Ta varor som tillhör någon, på/av
+Take items the database cannot name	Ta föremål som databasen inte kan namnge
+Take owned goods on / off	Ta ägda varor på/av
+takes effect next launch	träder i kraft vid nästa start
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Motorn skannar runt dig och tar det reglerna tillåter. Av innebär att inget tas automatiskt; snabbtryckningstangenten fungerar fortfarande.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Spelet fyller en nods data bara när det tror att du kan nå den. Triggning ber det göra det på avstånd, vilket också är det som låter en malmåder skördas där den står. Ådror tar flera sekunder att svara där en buske tar en bråkdel av en sekund.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Spelet tar bort tagna objekt med en fördröjning. Detta hindrar samma objekt från att skickas två gånger medan det tonas bort.
+The game treats this as stealing and will put a bounty on you.	Spelet räknar det här som stöld och sätter en belöning på ditt huvud.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Modden svingar aldrig en hacka. Den driver ådrans egen brottsekvens, och spelet går igenom en droppningsrad för det där ett riktigt hugg går igenom två, så ditt gruvverktygs bonus ger ingenting när modden gör brytningen. Det här lägger tillbaka den saknade malmen genom samma droppningsväg som spelet använder, så det är riktig malm som spills på marken, inte ett föremål kopierat till din väska. Ställ in det på vad ditt verktyg ger för hand minus ett: en borr som ger tre för hand vill ha 2 här. Det gäller bara en åder som modden bröt, så brytning för hand berörs inte och de två kan inte staplas.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Flåningsinteraktionen, en gång per kadaver. Mänskliga lik tappar vanligt loot i stället. Det flåningen ger kontrolleras inte mot dina filter. Modden ser det aldrig innan det landar, så den här inställningen är allt eller inget.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Denna session: %ld upplockade, %ld skördade, %ld fångade, %ld kadaver
+Timber and branches on the ground and nodes that yield them.	Timmer och grenar på marken och noder som ger dem.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	För att lämna en art orörd, sätt vad den blir till aldrig på fliken Föremål: Item_Tench, Item_Ricefish, Item_Iguana. Modden läser varelsens egen rad i spelets teckentabell, så den vet vilken art den ser på innan den fångar något. Några ovanliga varelser faller ändå tillbaka på att gissa utifrån sitt modellnamn och fångas bara efter kategori.
+Treasure and keepsakes	Skatter och minnessaker
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Två knappar samtidigt, aldrig en: varje enskild knapp gör redan något i det här spelet. Modden bara läser handkontrollen, så spelet ser fortfarande båda knapparna. Välj ett par som inte gör något tillsammans, som de två axelknapparna, eller Back och en ansiktsknapp.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Obunden tills du ställer in den. Spelet kallar det stöld att ta ägda varor och sätter en belöning på ditt huvud för det, så det här är inställningen du vill slå på ett ögonblick och sedan av igen, vilket passar dåligt i en meny.
+Unidentified nodes	Oidentifierade noder
+unidentified nodes off	oidentifierade noder av
+unidentified: could be a fish, a flying insect or a bird	oidentifierad: kan vara en fisk, en flygande insekt eller en fågel
+unidentified: could be an insect or a small animal	oidentifierad: kan vara en insekt eller ett smådjur
+unnamed item	namnlöst föremål
+Unsellable items	Osäljbara föremål
+Use this language	Använd det här språket
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Använder spelets egen Ta eller Stjäl-kontroll; ägda varor hoppas över tills den observerats en gång.
+using the player's own field	med hjälp av spelarens eget fält
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Grönsaker, frukt och spannmål: sötpotatis, korn, kål, äpplen, vindruvor och resten av den odlade och insamlade maten, på plantan eller liggande löst. De lydde tidigare under Föremål på marken, vilket är varför att slå av Växter ändå tömde ett fält: av spelets 72 insamlingsplatser är 44 grödor och bara 28 växter.
+Verbose log	Utförlig logg
+Verdict	Utslag
+waiting	väntar
+waiting for the game to check an item	väntar på att spelet ska kontrollera ett föremål
+waiting for the game to check ownership once	väntar på att spelet ska kontrollera ägarskap en gång
+Waiting for the world to load.	Väntar på att världen ska läsas in.
+Watch	Bevaka
+Watch mode	Bevakningsläge
+Watch mode (menu stays up, you keep playing)	Bevakningsläge (menyn ligger kvar, du fortsätter spela)
+Watch mode: the game has your controls. %s to interact, %s to close.	Bevakningsläge: spelet har dina kontroller. %s för att interagera, %s för att stänga.
+Weapons and armor	Vapen och rustning
+What enters the working list at all. The ranges below are clamped to it.	Vad som över huvud taget kommer in i arbetslistan. Avstånden nedan begränsas till det.
+What to collect	Vad som ska samlas in
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Vevar handtaget åt dig och tar det som kommer upp, genom att driva samma tillståndsövergångar som spelet driver när du håller ner interagera-knappen. En brunn ger aldrig upphov till någon loot-händelse alls, så det här är en uppspelning av en fångad sekvens snarare än att spelet tillfrågas om något. Av som standard, eftersom en brunn den gör fel blir en brunn som står kvar utan sin hink.
+Wood	Trä
+wood off	trä av
+World (actor manager)	Värld (aktörshanterare)
+worn by someone	bärs av någon
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Buren utrustning som fiender tappar när de dör. Billigt och tungt, men rikligt.
+worn or carried by you	bärs av dig
+worth %lld copper	värt %lld koppar
+Wrap the swapchain	Linda in swapchain
+Write translation template	Skriv översättningsmall
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Skriver MasterLooter.template.txt bredvid pluginen, med varje rad menyn har visat denna session. Öppna varje flik först, eftersom en rad bara dyker upp när den har ritats. Översätt högerkolumnen i varje post, spara den som MasterLooter.<språk>.txt, och ange det språket här.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Skriver inställningarna som de är nu till \"%s\". Läs in den, ändra vad du vill, och spara sedan tillbaka den.
+Writes the settings as they are now, named %s.	Skriver inställningarna som de är nu, med namnet %s.
+yes	ja
+yours, just out of your hand	ditt, nyss ur handen

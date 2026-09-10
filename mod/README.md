@@ -50,18 +50,18 @@ If the game will not launch alongside another overlay mod, set `WrapSwapChain=0`
 
 ## Translating the menu
 
-Brazilian Portuguese ships with the mod, translated by Kyo-70, alongside the Simplified and Traditional Chinese from dofo7777. All three are built into the plugin, so they survive a mod manager that deploys the .asi on its own, and each has a button under General, Language.
+The menu ships in 28 languages besides English, the set Steam itself offers, all built into the plugin so they survive a mod manager that deploys the .asi on its own. Each has a button under General, Language. Three were done by people: Brazilian Portuguese by Kyo-70, Simplified and Traditional Chinese by dofo7777. The other 25 came out of machine translation and nobody who speaks them has checked them yet, which the menu says whenever one is selected. A wrong word in one of those is worth reporting, as an issue or as a corrected file.
 
-Any other language is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
+A language not in that set, or a correction to one that is, is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
-1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 301 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
+1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 305 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
 2. Or make your own from the running game: play with the menu open, visit every tab, then General, Language, press `Write translation template`. That writes the file beside the plugin, but only the lines that have actually been drawn.
 3. Each record is the English, a tab, then your translation. `
 ` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.
 4. Keep every `%d`, `%s` and `%.1f` exactly as they appear and in the same order. They are replaced with numbers and names at runtime, and a line that changes them is refused at load rather than risked, since it would read the wrong values.
 5. Save it as `MasterLooter.<language>.txt`, for example `MasterLooter.de.txt`, and put `de` in the Language box, or `Language=de` in `MasterLooter.ini`.
 
-A file next to the plugin is read in preference to the copy inside it, so the shipped Chinese can be corrected, and a translation in progress can be reloaded with the Language button without a rebuild or a restart.
+A file next to the plugin is read in preference to the copy inside it, so any shipped translation can be corrected, and a translation in progress can be reloaded with the Language button without a rebuild or a restart. `scripts/check_translations.py` holds every shipped file up against the template and says what is missing, what has gone stale, and what the plugin would refuse.
 
 Send a finished file in and it can ship with the mod, credited.
 

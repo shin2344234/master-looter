@@ -66,9 +66,11 @@ add_library(MasterLooter SHARED
     src/resources.rc
 )
 
-# The data tables are compiled into the plugin (resources.rc); rebuild when they change.
+# The data tables and every translation are compiled into the plugin
+# (resources.rc, which still names each translation); rebuild when any changes.
+file(GLOB ML_LANG_FILES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/data/MasterLooter.*.txt")
 set_source_files_properties(src/resources.rc PROPERTIES OBJECT_DEPENDS
-    "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.nodes.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.pt-br.txt;${CMAKE_SOURCE_DIR}/data/MasterLooter.zh-cn.txt;${CMAKE_SOURCE_DIR}/data/MasterLooter.zh-tw.txt")
+    "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.nodes.tsv;${ML_LANG_FILES}")
 
 target_include_directories(MasterLooter PRIVATE src ${minhook_SOURCE_DIR}/src/hde)
 target_link_libraries(MasterLooter PRIVATE imgui minhook d3d12 dxgi dwmapi imm32 xinput9_1_0)
@@ -110,11 +112,10 @@ add_custom_command(TARGET MasterLooter POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.nodes.tsv" "${CMAKE_SOURCE_DIR}/dist/"
-    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.pt-br.txt" "${CMAKE_SOURCE_DIR}/dist/"
-    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.zh-cn.txt" "${CMAKE_SOURCE_DIR}/dist/"
-    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.zh-tw.txt" "${CMAKE_SOURCE_DIR}/dist/"
+    COMMAND ${CMAKE_COMMAND} -E copy ${ML_LANG_FILES} "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/README.md" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/THIRD_PARTY_NOTICES.md" "${CMAKE_SOURCE_DIR}/dist/"
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/../LICENSE" "${CMAKE_SOURCE_DIR}/dist/"
     COMMENT "Staging dist/"
+    VERBATIM
 )

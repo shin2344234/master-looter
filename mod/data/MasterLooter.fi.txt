@@ -1,0 +1,323 @@
+# Master Looterin valikkoteksti suomeksi.
+# Käännös: Claude, Anthropicin tekoäly. Tämä on konekäännös, jota kukaan
+# äidinkielinen puhuja ei ole vielä tarkistanut. Korjaukset ovat tervetulleita
+# GitHubissa (github.com/shin2344234/master-looter) tai modin Nexus-sivulla.
+#
+# Yksi teksti per rivi: englanninkielinen alkuperäinen, sarkainmerkki, sitten
+# käännös. \n tarkoittaa rivinvaihtoa. #-merkillä alkavat rivit ohitetaan, ja
+# rivi, jolla ei ole käännöstä sarkaimen jälkeen, näkyy edelleen englanniksi,
+# joten keskeneräinenkin tiedosto toimii. Jokainen %d, %s, %.1f ja muu
+# paikkamerkki on säilytettävä täsmälleen samassa muodossa ja järjestyksessä:
+# ne korvataan ajon aikana numeroilla ja nimillä, ja rivi, joka muuttaa niitä,
+# ohitetaan latauksen yhteydessä, jotta vääriä arvoja ei tulostu.
+#
+# Tallenna tiedostona MasterLooter.<kieli>.txt liitännäisen viereen; tämän
+# nimisenä tiedosto ohittaa liitännäiseen sisäänrakennetun kopion. Aseta
+# sitten Language=fi tiedostoon MasterLooter.ini, tai kirjoita kieli valikon
+# General-välilehden Language-kenttään.
+
+  bag full	  laukku täynnä
+ (first 250)	 (ensimmäiset 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu osumaa)%s
+%d classes	%d luokkaa
+%d items, %d classes, %d tags	%d esinettä, %d luokkaa, %d tunnistetta
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d rivi(ä) ohitettiin: niiden %%d- tai %%s-paikkamerkit eivät vastanneet englanninkielistä tekstiä, ja niiden käyttö olisi tulostanut väärät arvot.
+%d matches%s	%d osumaa%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d pistetyyppiä opittu tällä pelikerralla. Pisteet nimetään sen prefabin mukaan, josta ne sijoitettiin; kaiken, mitä taulukko ei tunne, tunnistetaan heti, kun se ensimmäisen kerran tuottaa jotain. Pisteen tyyppinumero vaihtuu pelikertojen välillä, joten mitään ei muisteta pelin sulkemisen jälkeen.
+%d objects within scan range, %d lootable now.	%d kohdetta hakualueella, %d lootattavissa nyt.
+%d overrides	%d poikkeusta
+%s (key %u, row %d, tier %d)	%s (näppäin %u, rivi %d, taso %d)
+%s (never looted)	%s (ei koskaan lootattu)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s on konekäännös, jota kukaan ei ole vielä tarkistanut. Korjaukset ovat tervetulleita GitHubissa tai Nexus-sivulla.
+%s translated by %s.	%s, kääntäjä: %s.
+%s, let go to keep it	%s, päästä irti tallentaaksesi
+1 match%s	1 osuma%s
+3 of 3	3/3
+\"%s\" already exists. Saving over it asks first.	\"%s\" on jo olemassa. Sen päälle tallentaminen kysyy ensin vahvistusta.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Kaivon sankoa ja vastaavia ei koskaan lootata, mutta niiden aktivointi saa pelin tarjoamaan oman toimintonsa, jotta voit käyttää sitä itse.
+Abyss and Kuku	Abyss ja Kuku
+Abyss gear, Kuku pots and their parts.	Abyssin varusteet, Kuku-padat ja niiden osat.
+Accessories	Asusteet
+allowed	sallittu
+already in your bag	jo laukussasi
+always	aina
+always beats the class rule; never beats always	aina-asetus voittaa luokkasäännön, ei koskaan -asetus voittaa aina-asetuksen
+Ammunition	Ammukset
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Kaikki tehtävä-tunnisteella merkitty, kaikissa luokissa. Pois päältä jättää tarinaesineet ja pulmapelin osat sinun itsesi poimittaviksi.
+Arm mechanism containers too	Aktivoi myös mekanismisäiliöt
+Arm nodes ourselves	Aktivoi pisteet itse
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Aktivointi ei välitä seinistä. Pidä se lyhyenä, tai keräät tavaraa viereisen huoneen seinän läpi. Malmi on poikkeus ja siihen ulotutaan aina jopa 25 metrin päästä, koska suoni vastaa vasta muutaman sekunnin kuluttua, ja jos sitä pyydetään vasta sen päällä seistessä, se aukeaa liian myöhään ollakseen hyödyksi.
+Arming range	Aktivointietäisyys
+Auto-loot enabled	Automaattilootti käytössä
+Auto-loot on / off	Automaattilootti päälle / pois
+Backups	Varmuuskopiot
+blank for English	tyhjä tarkoittaa englantia
+Books and papers	Kirjat ja paperit
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Pomopalkinnot, artefaktit, muistoesineet, kolikkopussit ja palkkioarkut.
+Break veins open rather than emptying them	Louhi suonet auki tyhjentämisen sijaan
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Louhiminen ajaa pelin omaa tilakonetta suonessa: ensin isku osuu ja sitten suoni murtuu, jolloin piste kaataa sisältönsä maahan ja katoaa aivan kuten hakulla louhittaessa. Tyhjentäminen taas nostaa malmin suoraan pois ja ohittaa pudotuksen kokonaan. Kumpikaan tapa ei maksa työkalusi Louhinnan lisäsaalis -bonusta, jonka peli myöntää vain iskusta, jonka se laskee omaksesi, joten aseta alla oleva lisäys korvaamaan erotus. Jokaista suonta isketään kerran, ja sen jälkeen se jätetään rauhaan, kunnes peli synnyttää sen uudelleen.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Perhoset, kovakuoriaiset, sudenkorennot, mehiläiset, hämähäkit, skorpionit, etanat ja muut pienet otukset, jotka peli luokittelee hyönteisiksi. Lajit tulevat olentotaulukosta; olentoa, jota taulukko ei osaa nimetä, saadaan kiinni vain, kun jokainen luokka, johon se voisi kuulua, on päällä (lentävä olento voi olla kala, hyönteinen tai lintu).
+captured	kiinni saatu
+Carcasses	Raadot
+carcasses off	raadot pois päältä
+Catching	Pyydystys
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Kiinni saadut olennot, elävät tai maassa makaavat; olento, jonka taulukko osaa nimetä, noudattaa oman luokkansa sääntöä. Ravut, katkaravut ja mustekalat ovat äyriäisiä ja simpukoita kohdassa Ruoka ja juoma.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Arkut, laatikot ja pudotusryhmäpisteet. Ne vastaavat harvoin loottitapahtumaan. Oletuksena pois päältä.
+Class	Luokka
+class %s	luokka %s
+Classes	Luokat
+Clear	Tyhjennä
+Clear overrides	Tyhjennä poikkeukset
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Tyhjentää sen, mitä tämä pelikerta on päätellyt laukustasi. Prefab-taulukon nimeämiin pisteisiin tämä ei vaikuta.
+Close	Sulje
+container (off)	säiliö (pois päältä)
+Containers	Säiliöt
+Controller	Ohjain
+Copper	Kupari
+Copy	Kopioi
+Copy path	Kopioi polku
+Copy to the clipboard.	Kopioi leikepöydälle.
+corpse	ruumis
+corpse already searched	ruumis jo tutkittu
+corpse: loot drops separately	ruumis: lootti pudotetaan erikseen
+creature	olento
+Creatures	Olennot
+Crops	Viljelykasvit
+crops off	viljelykasvit pois päältä
+Damaged gear	Vaurioituneet varusteet
+Dead zone around you	Kuollut alue ympärilläsi
+Decision	Päätös
+default	oletus
+DirectX 12 hooks	DirectX 12 -hookit
+does not respond	ei vastaa
+Draw water from wells	Nosta vettä kaivoista
+Engine	Moottori
+English	Englanti
+English. %d line(s) seen this session.	Englanti. %d riviä nähty tällä pelikerralla.
+entity	entity
+entity %08X	entity %08X
+entity %08X, %d items across every store	entity %08X, %d esinettä kaikissa varastoissa
+entity %08X, bag %d of %d slots, %d items across every store	entity %08X, laukku %d/%d paikkaa, %d esinettä kaikissa varastoissa
+Event descriptors	Tapahtumakuvaajat
+Extra ore per vein	Lisämalmia per suoni
+failed	epäonnistui
+fast-travel artifact	pikamatka-artefakti
+filter classes	suodata luokkia
+filter tags	suodata tunnisteita
+Filters	Suodattimet
+Fish	Kalat
+fish off	kalat pois päältä
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Kalat ja mitä tahansa muuta saat vedestä: ravut, katkaravut, mustekalat, meritähdet ja merihevoset.
+Food and drink	Ruoka ja juoma
+Forget	Unohda
+found	löydetty
+Furniture	Huonekalut
+Furniture and decor	Huonekalut ja sisustus
+furniture node (off)	huonekalupiste (pois päältä)
+furniture off	huonekalut pois päältä
+Game functions	Pelin toiminnot
+Game functions did not resolve; see Status.	Pelin toimintoja ei saatu selvitettyä; katso Tila.
+Game-thread pump	Pelisäikeen pumppu
+gather node	keräyspiste
+Gathering	Keräys
+Ground items	Maassa olevat esineet
+Groups	Ryhmät
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Yrtti-, kukka- ja sienipisteet, sekä samat maassa lojumassa. Ruokaviljelmillä on oma kytkimensä.
+hold two buttons (Escape cancels)	pidä kahta näppäintä pohjassa (Escape peruuttaa)
+Household clutter and collectibles, most of it worthless.	Kodin sekalaista tavaraa ja keräilyesineitä, suurin osa arvottomia.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Laukun täyttöaste luetaan suoraan laukusta, joten ilmoitus ilmestyy heti, kun se täyttyy, lootasitpa juuri sillä hetkellä tai et. Jos nuo luvut joskus lakkaavat olemasta järkeviä, modi turvautuu sen sijaan seuraamaan, mitä poiminnan jälkeen tapahtuu: kolme peräkkäistä, jotka eivät tuota mitään, nostavat ilmoituksen, ja yksi onnistunut poistaa sen.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Miten usein näkymä luetaan. Haku ajetaan omassa säikeessään; ainoastaan lopullinen tulosten käsittely maksaa pelille murto-osan millisekunnista.
+incomplete	kesken
+Insects	Hyönteiset
+insects off	hyönteiset pois päältä
+installed	asennettu
+Item	Esine
+Item database	Esinetietokanta
+Item table	Esinetaulukko
+Items	Esineet
+Items lying in the world, including drops from enemies.	Maailmassa lojuvat esineet, mukaan lukien vihollisten pudottamat.
+Items no shop will buy, across every class.	Esineet, joita mikään kauppa ei osta, kaikissa luokissa.
+Items on the ground	Maassa olevat esineet
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Tehtävä-tunnisteella merkityt esineet jätetään rauhaan, jotta pulmapelien osia ja tarinaesineitä ei oteta automaattisesti. Tämä lukee esineen omat tunnisteet, joten se kattaa kaiken poimitun, kerätyn tai rikki lyödyn. Raadon nylkeminen on tämän ulkopuolella: sen tuotto saapuu ilman, että modi näkee koskaan, mitä se on.
+Items with an unknown value are never filtered by it.	Esineitä, joiden arvo on tuntematon, ei koskaan suodateta tällä.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Pidä valikko näytöllä pelin aikana. %s tuo sen takaisin, %s sulkee sen.
+Keys	Avaimet
+Keys and tools	Avaimet ja työkalut
+Language	Kieli
+Language \"%s\": %d line(s) translated, %d seen this session.	Kieli \"%s\": %d riviä käännetty, %d nähty tällä pelikerralla.
+learned from the game	opittu pelistä
+Load	Lataa
+loaded	ladattu
+locked	lukittu
+Log	Loki
+Log: %ls	Loki: %ls
+Loot	Lootti
+Loot all	Lootaa kaikki
+Loot engine	Lootausmoottori
+Loot engine not started.	Lootausmoottoria ei ole käynnistetty.
+Loot everything in range now	Lootaa kaikki kantaman sisällä nyt
+Loot everything in range once	Lootaa kaikki kantaman sisällä kerran
+loot: %s	lootaa: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s, pelin versio %s
+Materials	Materiaalit
+mechanism part	mekanismin osa
+Memory chips and puzzle parts	Muistisirut ja pulmapelin osat
+Mine ore veins for you	Louhi malmisuonet puolestasi
+Minimum value (copper)	Vähimmäisarvo (kupari)
+missing	puuttuu
+missing MasterLooter.items.tsv	MasterLooter.items.tsv puuttuu
+mission object	tehtäväkohde
+Mounts and vehicles	Ratsut ja ajoneuvot
+name a new preset	nimeä uusi esiasetus
+never	ei koskaan
+no	ei
+no interaction node	ei vuorovaikutuspistettä
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Pisteet, joita prefab-taulukko ei nimeä ja jotka eivät ole vielä tuottaneet mitään tällä pelikerralla. Pois päältä (oletus) jättää ne rauhaan. Päällä saa modin keräämään ne selvittääkseen, mitä ne ovat, mikä tarkoittaa, että kasvi voidaan ottaa, vaikka Kasvit olisi pois päältä.
+none	ei mitään
+not found yet	ei vielä löytynyt
+not in item database	ei esinetietokannassa
+not ready (node empty)	ei valmis (piste tyhjä)
+not resolved yet	ei vielä selvitetty
+not started	ei käynnistetty
+not yet	ei vielä
+Nothing else is drawn while the menu is closed.	Mitään muuta ei piirretä, kun valikko on suljettu.
+nothing taken yet this session	ei mitään otettu vielä tällä pelikerralla
+Object	Kohde
+object	kohde
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Kohteet luetellaan lähimmästä alkaen, ja mukana on sääntö, joka ratkaisi kunkin kohdan. Tyhjät pisteet näkyvät ei valmis -tilassa, kunnes peli tai aktivointi täyttää ne. Se, mitä sinulla on yllä tai mukanasi, jätetään pois.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Tätä lähempänä olevat kohteet käsitellään omina varusteinasi. Tämä on varmuuden vuoksi; varusteesi tunnistetaan myös muilla keinoin.
+Objects per burst press	Kohteita per pikalootin painallus
+Objects per scan	Kohteita per haku
+on the player	pelaajan päällä
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Päällä ollessaan suoni louhitaan siinä missä se on, etkä koskaan heiluta hakkua. Pois päältä ollessaan suonet jätetään rauhaan, ja vain irti lyömäsi palaset poimitaan. Vaatii aktivoinnin, sillä koko temppu on pyytää suonta aukeamaan.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Päällä ollessaan overlay piirtyy DLSS-kehystenluonnin alle, mikä vaatii tämän modin antavan pelille käärityn swapchainin.\n\nPois päältä ollessaan overlay piirtyy sen sijaan present-hookin kautta. Kaikki näyttää samalta, ellei kehystenluonti ole päällä, ja modi pysyy pois poluilta, joita muutkin overlay-modit muokkaavat. Kokeile tätä, jos peli ei käynnisty toisen overlay-modin kanssa; sen voi asettaa WrapSwapChain-arvona MasterLooter.ini-tiedostossa käynnistämättä peliä.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Yksi varmuuskopio kirjoitetaan joka kerta, kun peli käynnistyy, ja viimeiset kaksitoista säilytetään kansiossa MasterLooter.backups liitännäisen vieressä. Esiasetukset ovat kansiossa MasterLooter.presets. Kopioi kumpi tahansa kansio säilyttääksesi sen uudelleenasennuksen yli.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Yksi klikkaus per perhe. Alla oleva taulukko asettaa silti yksittäisiä luokkia; ryhmä näyttää viivan, kun vain osa siitä on päällä.
+Open and close this menu	Avaa ja sulje tämä valikko
+Open folder	Avaa kansio
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Avaa kansion Resurssienhallinnassa. Loki kirjoitetaan uudelleen joka käynnistyksellä, ja se on se, mikä liitetään vikailmoitukseen.
+Ore	Malmi
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Malmipalat maassa ja mikä tahansa piste, joka tuottaa malmia, suonet mukaan lukien. Suoni murretaan siinä missä se on, ja sen sisältö poimitaan maasta, mikä on juuri sitä, mitä hakkusi tekee, ja mikä tekee paremman hakun kantamisesta kannattavaa: työkalun Louhinnan lisäsaalis -bonus kohdistuu pudotukseen, ei pisteeseen. Jokaista suonta isketään kerran, ja se jätetään rauhaan, kunnes peli tuo sen takaisin. Suoniin ulotutaan jo niin kaukaa kuin haku näkee, koska ne vastaavat vasta muutaman sekunnin kuluttua, kun pensas vastaa murto-osassa siitä.
+ore off	malmi pois päältä
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Malmi, jalokivet, kivi, puutavara, nahat, yrtit, kauppatavarat ja muut valmistuksen raaka-aineet.
+out of range	kantaman ulkopuolella
+Overlay	Overlay
+Override	Poikkeus
+owned by someone (theft)	jonkun omistuksessa (varkaus)
+Ownership	Omistajuus
+Ownership oracle	Omistajuustarkistin
+Pace	Tahti
+part of a creature or a mechanism	osa olentoa tai mekanismia
+paused: %s	tauolla: %s
+pick up off	poiminta pois päältä
+Plants	Kasvit
+plants off	kasvit pois päältä
+Player	Pelaaja
+Player equipment.	Pelaajan varusteet.
+Player not found in the scene yet.	Pelaajaa ei löytynyt näkymästä vielä.
+Presets	Esiasetukset
+press a key (Escape cancels)	paina näppäintä (Escape peruuttaa)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Suojattu oletuksena: muistisiru käynnistää muistokohtauksen, kun se otetaan, ja pulmapelin osa rikkoo pulman. Kytke päälle vain, jos haluat ne otettavan automaattisesti.
+protected item name	suojatun esineen nimi
+Puts every setting and rule back to what it was at that moment.	Palauttaa jokaisen asetuksen ja säännön siihen, mitä se oli sillä hetkellä.
+puzzle or protected mechanism	pulma tai suojattu mekanismi
+Quest items	Tehtäväesineet
+quest or memory trigger	tehtävä- tai muistolaukaisin
+Ranges (metres)	Kantamat (metriä)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Rotat, oravat, linnut, liskot, sammakot ja salamanterit: kaikki muu, minkä peli laittaa laukkuun kokonaisena.
+Reaching nodes	Pisteisiin ulottuminen
+Read from the file beside the plugin, not the copy inside it.	Luetaan liitännäisen vieressä olevasta tiedostosta, ei sen sisällä olevasta kopiosta.
+Rebind	Sido uudelleen
+Recent loot	Viimeisin saalis
+Refresh	Päivitä
+Reload now	Lataa uudelleen nyt
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Korvaa jokaisen asetuksen sekä jokaisen luokka-, tunniste- ja esinesäännön sillä, mitä esiasetus sisältää, ja kirjoittaa sen MasterLooter.ini-tiedostoon. Mitään nykyisistä asetuksista ei säilytetä, joten varmuuskopioi ne ensin, jos haluat säilyttää ne.
+Reset all tags	Nollaa kaikki tunnisteet
+resolved	selvitetty
+Retry the same object after (ms)	Yritä samaa kohdetta uudelleen (ms)
+Route id	Reitin tunnus
+Rule	Sääntö
+Save now	Tallenna nyt
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Tallennettu nimellä \"%s\": esiasetuksen nimi säilyttää kirjaimet, numerot, välilyönnit, väliviivat ja alaviivat.
+Say so on screen when the bag stops taking things	Näytä ilmoitus, kun laukku lakkaa ottamasta tavaraa
+scan %.1f ms	haku %.1f ms
+Scan radius	Hakusäde
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Hakuja %ld, tapahtumia lähetetty %ld, pumpputikkejä %ld, suojattuja virheitä %ld, pistetyyppejä opittu %d
+Scans per second	Hakuja sekunnissa
+search item name or key (3+ letters)	hae esineen nimeä tai avainta (3+ kirjainta)
+Sending events	Tapahtumien lähetys
+Set	Aseta
+Settings: %ls	Asetukset: %ls
+Show a brief notice when auto-loot is toggled	Näytä lyhyt ilmoitus, kun automaattilootti kytketään
+Showing current overrides. Type to search all %d items.	Näytetään nykyiset poikkeukset. Kirjoita hakeaksesi kaikista %d esineestä.
+Showing the nearest %d of %d. The rest are further away.	Näytetään lähimmät %d/%d. Loput ovat kauempana.
+Skip all	Ohita kaikki
+Skip items shops refuse to buy	Ohita esineet, joita kaupat eivät osta
+Skip quest items	Ohita tehtäväesineet
+skip: %s	ohita: %s
+Small animals	Pienet eläimet
+small animals off	pienet eläimet pois päältä
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Joillakin maailman kohteilla ei ole luettavaa esineen nimeä. Päällä: ota ne silti. Pois päältä: jätä kaikki tunnistamaton rauhaan.
+stack at one point (storage contents)	pino yhdessä pisteessä (varaston sisältö)
+Stone	Kivi
+stone off	kivi pois päältä
+Stone on the ground and nodes that yield stone.	Kivi maassa ja pisteet, jotka tuottavat kiveä.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Pöydät, tuolit, sängyt, matot, lamput, kynttilät, taulut, ruukut ja loput sisustetun huoneen tavarasta, poiminetpa sen lattialta tai otat sen omasta vuorovaikutuspisteestään. Suurin osa on arvoltaan kupari tai pari, mutta matot ja luksussängyt nousevat tuhansiin, joten kytke tämä päälle ennen talon sisustamista. Arkut ja muut jotain säilyttävät esineet kuuluvat sen sijaan kohtaan Säiliöt. Oletuksena pois päältä.
+Tag	Tunniste
+tags, any of which can be set to never in the Tags tab:	tunnisteet, joista minkä tahansa voi asettaa arvoon ei koskaan Tunnisteet-välilehdellä:
+Take goods that belong to someone	Ota tavaraa, joka kuuluu jollekulle
+Take goods that belong to someone, on / off	Ota jollekulle kuuluvaa tavaraa, päälle / pois
+Take items the database cannot name	Ota esineet, joita tietokanta ei osaa nimetä
+Take owned goods on / off	Ota omistettua tavaraa, päälle / pois
+takes effect next launch	astuu voimaan seuraavalla käynnistyksellä
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Moottori hakee ympäriltäsi ja ottaa sen, minkä säännöt sallivat. Pois päältä tarkoittaa, ettei mitään oteta automaattisesti; pikalootin näppäin toimii silti.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Peli täyttää pisteen tiedot vain, kun se arvioi sinun ulottuvan siihen. Aktivointi pyytää sitä tekemään niin etäältä, mikä myös mahdollistaa malmisuonen louhimisen siinä missä se on. Suonet vastaavat vasta useiden sekuntien kuluttua, kun pensas vastaa murto-osassa siitä.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Peli poistaa otetut kohteet viiveellä. Tämä estää saman kohteen lähettämisen kahdesti, kun se on häviämässä.
+The game treats this as stealing and will put a bounty on you.	Peli käsittelee tätä varkautena ja asettaa sinulle etsintäkuulutuksen.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Modi ei koskaan heiluta hakkua. Se ajaa suonen omaa murtumissekvenssiä, ja peli käy siinä läpi yhden pudotusrivin, kun oikea isku käy läpi kaksi, joten louhintatyökalusi bonus ei maksa mitään, kun modi tekee louhinnan. Tämä lisää puuttuvan malmin takaisin samaa pudotuspolkua pitkin, jota peli käyttää, joten kyseessä on oikeaa maahan valunutta malmia, ei laukkuun kopioitu esine. Aseta se siihen, mitä työkalusi maksaa käsin louhittaessa miinus yksi: pora, joka antaa käsin kolme, haluaa tähän 2. Tämä koskee vain suonta, jonka tämä modi murtaa, joten käsin louhiminen pysyy koskemattomana eivätkä kaksi voi kasautua.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Nylkemisen vuorovaikutus, kerran per raato. Ihmisten ruumiit pudottavat sen sijaan tavallista lootia. Sitä, mitä nylkeminen maksaa, ei tarkisteta suodattimiasi vasten. Modi ei koskaan näe sitä ennen kuin se laskeutuu, joten tämä kytkin on kaikki tai ei mitään.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Tällä pelikerralla: %ld poimittu, %ld kerätty, %ld pyydystetty, %ld raatoa
+Timber and branches on the ground and nodes that yield them.	Puutavara ja oksat maassa ja pisteet, jotka tuottavat niitä.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Jättääksesi yhden lajin rauhaan, aseta se, mihin se muuttuu, arvoon ei koskaan Esineet-välilehdellä: Item_Tench, Item_Ricefish, Item_Iguana. Modi lukee olennon oman rivin pelin hahmotaulukosta, joten se tietää, mitä lajia se katsoo, ennen kuin se saa mitään kiinni. Muutama epätavallinen olento joutuu silti arvaamaan mallinsa nimestä ja saadaan kiinni vain luokan perusteella.
+Treasure and keepsakes	Aarteet ja muistoesineet
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Kaksi näppäintä samaan aikaan, ei koskaan yhtä: jokainen yksittäinen näppäin tekee jo jotain tässä pelissä. Modi vain lukee ohjainta, joten peli näkee silti molemmat näppäimet. Valitse pari, joka ei tee yhdessä mitään, kuten kaksi olkanäppäintä, tai Back ja jokin etunäppäin.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Sitomaton, kunnes asetat sen. Peli kutsuu omistetun tavaran ottamista varkaudeksi ja asettaa sinulle siitä etsintäkuulutuksen, joten tämä on kytkin, jonka haluat hetkeksi päälle ja sitten taas pois, mikä sopii huonosti valikkoon.
+Unidentified nodes	Tunnistamattomat pisteet
+unidentified nodes off	tunnistamattomat pisteet pois päältä
+unidentified: could be a fish, a flying insect or a bird	tunnistamaton: voi olla kala, lentävä hyönteinen tai lintu
+unidentified: could be an insect or a small animal	tunnistamaton: voi olla hyönteinen tai pieni eläin
+unnamed item	nimeämätön esine
+Unsellable items	Myymättömät esineet
+Use this language	Käytä tätä kieltä
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Käyttää pelin omaa Ota tai varasta -tarkistusta; omistettu tavara ohitetaan, kunnes se on havaittu kerran.
+using the player's own field	käyttäen pelaajan omaa kenttää
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Vihannekset, hedelmät ja vilja: bataatti, ohra, kaali, omenat, viinirypäleet ja loput viljellystä ja kerätystä ruoasta, joko kasvissa kiinni tai irti maassa. Nämä vastasivat aiemmin kohtaan Maassa olevat esineet, minkä vuoksi Kasvien kytkeminen pois päältä silti tyhjensi pellon: pelin 72 keräyspaikasta 44 on viljelykasveja ja vain 28 on kasveja.
+Verbose log	Yksityiskohtainen loki
+Verdict	Tulos
+waiting	odottaa
+waiting for the game to check an item	odottaa, että peli tarkistaa esineen
+waiting for the game to check ownership once	odottaa, että peli tarkistaa omistajuuden kerran
+Waiting for the world to load.	Odotetaan maailman latautumista.
+Watch	Seuraa
+Watch mode	Seurantatila
+Watch mode (menu stays up, you keep playing)	Seurantatila (valikko pysyy näkyvissä, sinä jatkat pelaamista)
+Watch mode: the game has your controls. %s to interact, %s to close.	Seurantatila: peli hallitsee ohjaimiasi. %s ollaksesi vuorovaikutuksessa, %s sulkeaksesi.
+Weapons and armor	Aseet ja panssarit
+What enters the working list at all. The ranges below are clamped to it.	Mikä ylipäätään pääsee työlistalle. Alla olevat kantamat rajoittuvat tähän.
+What to collect	Mitä kerätä
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Kampeaa kammen puolestasi ja ottaa sen, mikä nousee ylös, ajamalla samat tilasiirtymät, joita peli ajaa, kun pidät vuorovaikutusnäppäintä pohjassa. Kaivo ei nosta lainkaan loottitapahtumaa, joten tämä on tallennetun sekvenssin toisto sen sijaan, että peliltä pyydettäisiin mitään. Oletuksena pois päältä, koska väärin menevä kaivo on kaivo, joka jää seisomaan ilman sankoaan.
+Wood	Puu
+wood off	puu pois päältä
+World (actor manager)	Maailma (aktorien hallinta)
+worn by someone	jonkun yllä
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Puetut varusteet, jotka viholliset pudottavat kuollessaan. Halpoja ja painavia, mutta runsaita.
+worn or carried by you	sinun yllä tai mukanasi
+worth %lld copper	arvoltaan %lld kuparia
+Wrap the swapchain	Kääri swapchain
+Write translation template	Kirjoita käännösmalli
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Kirjoittaa tiedoston MasterLooter.template.txt liitännäisen viereen, ja se sisältää jokaisen rivin, jonka valikko on näyttänyt tällä pelikerralla. Avaa ensin jokainen välilehti, sillä rivi ilmestyy vasta, kun se on piirretty. Käännä jokaisen tietueen oikea puoli, tallenna se nimellä MasterLooter.<kieli>.txt, ja kirjoita se kieli tähän.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Kirjoittaa asetukset sellaisina kuin ne ovat nyt tiedostoon \"%s\". Lataa se, muuta mitä haluat, ja tallenna se sitten takaisin.
+Writes the settings as they are now, named %s.	Kirjoittaa asetukset sellaisina kuin ne ovat nyt, nimellä %s.
+yes	kyllä
+yours, just out of your hand	sinun, juuri kädestäsi pudonnut

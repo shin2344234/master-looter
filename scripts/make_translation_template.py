@@ -81,7 +81,11 @@ def from_engine(path):
     """The verdicts the Nearby table shows, which reach TR() at draw time."""
     s = open(path, encoding="utf-8").read()
     out = set()
-    for pat in (r"\bskip\(\s*\"((?:[^\"\\]|\\.)*)\"", r"v\.why\s*=\s*\"((?:[^\"\\]|\\.)*)\""):
+    # skip("..."), v.why = "...", and the switch names GatherSwitchOff hands
+    # back as `on ? nullptr : "..."`, which reach skip() through a variable.
+    for pat in (r"\bskip\(\s*\"((?:[^\"\\]|\\.)*)\"",
+                r"v\.why\s*=\s*\"((?:[^\"\\]|\\.)*)\"",
+                r"\?\s*nullptr\s*:\s*\"((?:[^\"\\]|\\.)*)\""):
         out |= set(re.findall(pat, s))
     # what Label() falls back to when an object has no name of its own
     for word in ("corpse", "creature", "object", "entity", "gather node"):

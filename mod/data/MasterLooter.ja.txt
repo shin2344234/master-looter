@@ -1,0 +1,319 @@
+# Master Looterメニューのテキスト、日本語。
+# この翻訳はAnthropicのAIであるClaudeによる機械翻訳で、まだネイティブスピーカーによる
+# 確認を受けていません。修正はGitHub（github.com/shin2344234/master-looter）または
+# Nexusのページで歓迎します。
+#
+# 1行につき1つの文字列：英語原文、タブ、翻訳の順に並んでいます。#で始まる行は無視されます。
+# \nは改行を表し、タブの後に何もない行はそのまま英語で表示されるため、翻訳が途中の
+# ファイルでも問題なく使えます。
+# %d、%s、%.1fなどのプレースホルダーはすべて元の順序のまま、そのまま残してください。
+# 実行時に数値や名前に置き換えられるため、これらが変わった行は読み込み時に無視され、
+# 誤った表示を防ぎます。
+# このファイルの内容はプラグインに内蔵されています。再ビルドせずに変更するには、
+# MasterLooter.asiの隣に同じ名前のファイルを置いてください。そちらが優先して読み込まれます。
+
+  bag full	  バッグが満杯
+ (first 250)	（先頭250件）
+%-18s %s (%zu hits)%s	%-18s %s（%zu件ヒット）%s
+%d classes	%dクラス
+%d items, %d classes, %d tags	アイテム%d件、クラス%d件、タグ%d件
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d行は無視されました。%%dまたは%%sのプレースホルダーが英語原文と一致しないため、そのまま使うと誤った値が表示されるおそれがあります。
+%d matches%s	%d件一致%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	今回のセッションで%d種類の採集ポイントを学習しました。採集ポイントは生成元のプレハブ名で識別され、テーブルにない場合は何かを産出した時点で初めて識別されます。種類番号はセッションごとに変わるため、終了すると記憶は残りません。
+%d objects within scan range, %d lootable now.	スキャン範囲内に%d個のオブジェクト、うち現在ルート可能なのは%d個です。
+%d overrides	上書き設定%d件
+%s (key %u, row %d, tier %d)	%s（キー%u、行%d、等級%d）
+%s (never looted)	%s（常にルートしない）
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%sは機械翻訳であり、まだ誰も確認していません。修正はGitHubまたはNexusのページで歓迎します。
+%s translated by %s.	%s（翻訳：%s）
+%s, let go to keep it	%s、離すと保存されます
+1 match%s	1件一致%s
+3 of 3	3/3
+\"%s\" already exists. Saving over it asks first.	\"%s\"は既に存在します。上書き保存時には確認が入ります。
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	井戸のバケツなどは自動ルートの対象になりませんが、起動しておくと近づいたときに手動で使える状態になります。
+Abyss and Kuku	アビスとクク
+Abyss gear, Kuku pots and their parts.	アビス製の装備、ククの壺とその部品。
+Accessories	アクセサリー
+allowed	許可
+already in your bag	バッグに既にあります
+always	常に
+always beats the class rule; never beats always	「常に」はクラスのルールより優先され、「決して」は「常に」より優先されます
+Ammunition	弾薬
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	クラスを問わず「クエスト」タグが付いたすべてのアイテム。オフにするとストーリー用アイテムやパズルの部品は自分で拾うことになります。
+Arm mechanism containers too	機関の入れ物も起動する
+Arm nodes ourselves	採集ポイントを自動起動する
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	起動は壁を無視します。距離を短く保たないと、隣の部屋の壁越しに採集してしまいます。鉱脈は例外で、反応するまで数秒かかり、真上まで来てから頼んでは遅すぎて使い物にならないため、常に最大25mまで対象にします。
+Arming range	起動範囲
+Auto-loot enabled	自動ルート有効
+Auto-loot on / off	自動ルート オン/オフ
+Backups	バックアップ
+blank for English	空欄で英語のまま
+Books and papers	本と書類
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	ボス報酬、アーティファクト、記憶アイテム、金貨袋、報酬の箱。
+Break veins open rather than emptying them	鉱脈を空にするのではなく打ち割る
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	「打ち割る」はゲーム自身の状態遷移、つるはしの命中とその後の破壊を実行するため、採集ポイントは実際に採掘したときと同じように中身を地面へ散らして消えます。「空にする」は代わりに鉱石をそのまま取り出し、ドロップの過程を省略します。どちらの方法でも採掘道具の採掘量アップは反映されません。ゲームは自分が行ったとみなす一撃にしかそれを与えないため、その差は下の追加量で補ってください。各鉱脈は一度打たれると、ゲームが再生成するまで放置されます。
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	蝶、甲虫、トンボ、蜂、蜘蛛、サソリ、カタツムリなど、ゲームが昆虫として分類する小さな生き物。種はクリーチャーテーブルから取得されます。テーブルが名前を判別できない生き物は、該当しうる全カテゴリがオンの場合にのみ捕獲されます（飛ぶものは魚、昆虫、鳥のいずれかの可能性があります）。
+captured	取得済み
+Carcasses	死骸
+carcasses off	死骸オフ
+Catching	捕獲
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	生きたまま、または死んで転がっている捕獲対象の生き物。テーブルが名前を判別できるクリーチャーはそのクラスのルールに従います。カニ、エビ、イカは「食料と飲料」の海産物に分類されます。
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	宝箱、木箱、ドロップセット式の採集ポイント。ルートイベントに反応しないことが多いため、初期値はオフです。
+Class	クラス
+class %s	クラス：%s
+Classes	クラス
+Clear	クリア
+Clear overrides	上書き設定をクリア
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	このセッション中にバッグから推測した内容をクリアします。プレハブテーブルで名前が判明している採集ポイントには影響しません。
+Close	閉じる
+container (off)	入れ物（オフ）
+Containers	入れ物
+Controller	コントローラー
+Copper	銅貨
+Copy	コピー
+Copy path	パスをコピー
+Copy to the clipboard.	クリップボードにコピーします。
+corpse	死体
+corpse already searched	死体は捜索済み
+corpse: loot drops separately	死体：ルートは別途ドロップ
+creature	クリーチャー
+Creatures	クリーチャー
+Crops	農作物
+crops off	農作物オフ
+Damaged gear	破損した装備
+Dead zone around you	自分周囲の不感帯
+Decision	判定
+default	既定
+DirectX 12 hooks	DirectX 12フック
+does not respond	反応しません
+Draw water from wells	井戸から水を汲む
+Engine	エンジン
+English	英語
+English. %d line(s) seen this session.	英語。このセッションで%d行が表示されました。
+entity	エンティティ
+entity %08X	エンティティ %08X
+entity %08X, %d items across every store	エンティティ %08X、全格納先合計%d個
+entity %08X, bag %d of %d slots, %d items across every store	エンティティ %08X、バッグ%d/%dスロット、全格納先合計%d個
+Event descriptors	イベント記述子
+Extra ore per vein	鉱脈ごとの追加鉱石
+failed	失敗
+fast-travel artifact	ファストトラベルの遺物
+filter classes	クラスで絞り込み
+filter tags	タグで絞り込み
+Filters	フィルター
+Fish	魚
+fish off	魚オフ
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	魚、およびカニ、エビ、イカ、ヒトデ、タツノオトシゴなど水中で獲れるその他すべて。
+Food and drink	食料と飲料
+Forget	忘れる
+found	検出済み
+Furniture	家具
+Furniture and decor	家具と装飾品
+furniture node (off)	家具の採集ポイント（オフ）
+furniture off	家具オフ
+Game functions	ゲーム関数
+Game functions did not resolve; see Status.	ゲーム関数を解決できませんでした。「ステータス」を参照してください。
+Game-thread pump	ゲームスレッドポンプ
+gather node	採集ポイント
+Gathering	採集
+Ground items	地面のアイテム
+Groups	グループ
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	薬草、花、キノコの採集ポイント、および地面に落ちている同種のもの。食用作物には専用のスイッチがあります。
+hold two buttons (Escape cancels)	2つのボタンを同時押し（Escapeでキャンセル）
+Household clutter and collectibles, most of it worthless.	生活雑貨や収集品。ほとんどは無価値です。
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	バッグの空き状況はバッグ自体から直接読み取るため、ルート中かどうかに関わらず満杯になった瞬間に通知が表示されます。その数値がおかしくなった場合、MODは拾得後の結果を監視する方式に切り替わります。3回連続で何も入らなければ通知を出し、1回でも入れば通知を消します。
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	シーンを読み取る頻度です。スキャンは専用スレッドで実行され、ゲーム本体にかかる負荷は最終的な取得処理のわずか数ミリ秒未満だけです。
+incomplete	不完全
+Insects	昆虫
+insects off	昆虫オフ
+installed	導入済み
+Item	アイテム
+Item database	アイテムデータベース
+Item table	アイテムテーブル
+Items	アイテム
+Items lying in the world, including drops from enemies.	世界に落ちているアイテム。敵のドロップ品も含みます。
+Items no shop will buy, across every class.	クラスを問わず、どの店でも買い取ってもらえないアイテム。
+Items on the ground	地面のアイテム
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	「クエスト」タグの付いたアイテムは触れられないため、パズルやストーリー用アイテムは自動で取得されません。これはアイテム自身のタグを読み取るため、拾得、採集、開封のいずれで得たものにも適用されます。死骸の解体だけは対象外で、その産出物はMODが中身を確認する前に届きます。
+Items with an unknown value are never filtered by it.	価値が不明なアイテムはこれによる絞り込みの対象になりません。
+Keep the menu on screen while you play. %s brings it back, %s closes it.	プレイ中もメニューを画面に表示したままにします。%sで呼び戻し、%sで閉じます。
+Keys	キー
+Keys and tools	鍵と道具
+Language	言語
+Language \"%s\": %d line(s) translated, %d seen this session.	言語 \"%s\"：%d行を翻訳済み、このセッションで%d行を表示。
+learned from the game	ゲームから学習済み
+Load	読み込み
+loaded	読み込み済み
+locked	ロック済み
+Log	ログ
+Log: %ls	ログ：%ls
+Loot	ルート
+Loot all	全てルート
+Loot engine	ルートエンジン
+Loot engine not started.	ルートエンジンは開始していません。
+Loot everything in range now	範囲内を今すぐ全てルート
+Loot everything in range once	範囲内を1回だけ全てルート
+loot: %s	ルート：%s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s（対応ゲームビルド %s）
+Materials	素材
+mechanism part	機関の部品
+Memory chips and puzzle parts	記憶チップとパズルの部品
+Mine ore veins for you	鉱脈を代わりに採掘する
+Minimum value (copper)	最低価値（銅貨）
+missing	見つかりません
+missing MasterLooter.items.tsv	MasterLooter.items.tsvが見つかりません
+mission object	ミッションオブジェクト
+Mounts and vehicles	騎乗動物と乗り物
+name a new preset	新しいプリセットの名前
+never	決して
+no	いいえ
+no interaction node	対話ノードなし
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	プレハブテーブルに名前がなく、このセッションでまだ何も産出していない採集ポイントです。オフ（既定）では手を付けません。オンにするとMODが試しに採集して確認するため、「植物」がオフでも植物が取得されることがあります。
+none	なし
+not found yet	まだ見つかっていません
+not in item database	アイテムデータベースにありません
+not ready (node empty)	未準備（採集ポイントが空）
+not resolved yet	まだ解決していません
+not started	未開始
+not yet	まだ
+Nothing else is drawn while the menu is closed.	メニューが閉じている間、他には何も描画されません。
+nothing taken yet this session	このセッションではまだ何も取得していません
+Object	オブジェクト
+object	オブジェクト
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	オブジェクトは近い順に並び、それぞれの判定理由も表示されます。空の採集ポイントは、ゲームまたは起動によってデータが埋まるまで「未準備」と表示されます。自分が装備・所持しているものは含まれません。
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	この距離より近いオブジェクトは自分の装備として扱われます。これは保険であり、自分の装備は他の方法でも識別されます。
+Objects per burst press	1回の一斉取得あたりのオブジェクト数
+Objects per scan	1回のスキャンあたりのオブジェクト数
+on the player	本人に近すぎる
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	オンにすると鉱脈はその場で採掘され、つるはしを振ることは一切ありません。オフでは鉱脈には手を付けず、自分で崩した鉱石片だけが拾われます。鉱脈を開かせること自体が仕組みの核心のため、起動が必要です。
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	オンにするとオーバーレイはDLSSフレーム生成の下で描画されます。これにはMODがゲームへラップ済みのスワップチェーンを渡す必要があります。\n\nオフではオーバーレイはPresentフックを介して描画されます。フレーム生成がオンでない限り見た目は変わらず、他のオーバーレイMODも介入する経路をMODが避けるようになります。他のオーバーレイMODと同時に起動できない場合はこれを試してください。ゲームを起動せずにMasterLooter.iniのWrapSwapChainとして設定することもできます。
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	ゲームを起動するたびにバックアップが1つ書き込まれ、直近12個がプラグイン横のMasterLooter.backupsに保存されます。プリセットはMasterLooter.presetsにあります。再インストールをまたいで残したい場合はどちらかのフォルダをコピーしてください。
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	グループ単位で1クリックです。下の表では個別のクラスも設定でき、グループは一部だけオンの場合にダッシュ記号で表示されます。
+Open and close this menu	このメニューを開閉
+Open folder	フォルダを開く
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	エクスプローラーでフォルダを開きます。ログは起動のたびに書き直され、報告の際に添付するものです。
+Ore	鉱石
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	地面の鉱石片と、鉱脈を含む鉱石を産出するすべての採集ポイント。鉱脈はその場で打ち割られ、中身は床から拾われます。これはつるはしが行うことと同じで、良いつるはしを持つ意味もそこにあります。道具の採掘量アップはドロップに適用され、採集ポイント自体には適用されません。各鉱脈は一度打たれると、ゲームが元に戻すまで放置されます。鉱脈への起動はスキャンが見渡せる限り遠くから始まります。鉱脈は反応するまで数秒かかる一方、茂みは一瞬で反応するためです。
+ore off	鉱石オフ
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	鉱石、宝石、石材、木材、毛皮、薬草、交易品など、その他の製作素材。
+out of range	範囲外
+Overlay	オーバーレイ
+Override	上書き
+owned by someone (theft)	所有者あり（窃盗）
+Ownership	所有権
+Ownership oracle	所有権オラクル
+Pace	ペース
+part of a creature or a mechanism	クリーチャーまたは機関の一部
+paused: %s	一時停止中：%s
+pick up off	拾得オフ
+Plants	植物
+plants off	植物オフ
+Player	プレイヤー
+Player equipment.	プレイヤーの装備。
+Player not found in the scene yet.	プレイヤーがまだシーンで見つかっていません。
+Presets	プリセット
+press a key (Escape cancels)	キーを押してください（Escapeでキャンセル）
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	既定では保護されています。記憶チップは取得すると記憶シーンが始まり、パズルの部品は取得するとパズルが崩れます。自動取得したい場合のみオンにしてください。
+protected item name	保護対象アイテム名
+Puts every setting and rule back to what it was at that moment.	すべての設定とルールをその時点の状態に戻します。
+puzzle or protected mechanism	パズルまたは保護された機関
+Quest items	クエストアイテム
+quest or memory trigger	クエストまたは記憶のトリガー
+Ranges (metres)	範囲（メートル）
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	ネズミ、リス、鳥、トカゲ、カエル、サンショウウオなど、ゲームが丸ごとバッグに入れるその他の生き物。
+Reaching nodes	採集ポイントへの到達
+Read from the file beside the plugin, not the copy inside it.	プラグイン内蔵の版ではなく、プラグイン横のファイルから読み込みます。
+Rebind	再割り当て
+Recent loot	最近のルート
+Refresh	更新
+Reload now	今すぐ再読み込み
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	すべての設定、および全クラス・タグ・アイテムのルールをプリセットの内容で置き換え、MasterLooter.iniに書き込みます。現在の設定は一切保持されないため、残したい場合は先にバックアップしてください。
+Reset all tags	全タグをリセット
+resolved	解決済み
+Retry the same object after (ms)	同じオブジェクトの再試行間隔（ミリ秒）
+Route id	経路ID
+Rule	ルール
+Save now	今すぐ保存
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	\"%s\"として保存しました。プリセット名には英数字、空白、ハイフン、アンダースコアのみ使用できます。
+Say so on screen when the bag stops taking things	バッグが受け付けなくなったら画面に表示する
+scan %.1f ms	スキャン %.1f ミリ秒
+Scan radius	スキャン半径
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	スキャン回数%ld、送信イベント%ld、ポンプTick数%ld、保護された例外%ld、学習済み採集ポイント種類%d
+Scans per second	毎秒スキャン回数
+search item name or key (3+ letters)	アイテム名またはキーで検索（3文字以上）
+Sending events	イベント送信中
+Set	設定
+Settings: %ls	設定：%ls
+Show a brief notice when auto-loot is toggled	自動ルートを切り替えた際に短い通知を表示する
+Showing current overrides. Type to search all %d items.	現在の上書き設定を表示中です。入力すると全%d件のアイテムから検索できます。
+Showing the nearest %d of %d. The rest are further away.	最も近い%d件（全%d件中）を表示中です。残りはさらに遠くにあります。
+Skip all	全てスキップ
+Skip items shops refuse to buy	店が買い取らないアイテムをスキップ
+Skip quest items	クエストアイテムをスキップ
+skip: %s	スキップ：%s
+Small animals	小動物
+small animals off	小動物オフ
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	一部のワールドオブジェクトには読み取れるアイテム名がありません。オン：それでも取得します。オフ：未識別のものには手を付けません。
+stack at one point (storage contents)	1か所に集積（格納物）
+Stone	石材
+stone off	石材オフ
+Stone on the ground and nodes that yield stone.	地面の石材と、石材を産出する採集ポイント。
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	テーブル、椅子、ベッド、カーペット、ランプ、キャンドル、絵画、壺など、床から拾う場合も専用の採集ポイントから取得する場合も含む、家具一式。ほとんどは銅貨数枚程度の価値ですが、カーペットや高級ベッドは数千に達するため、家を家具で整える前にオンにしてください。何かを収納する宝箱などは代わりに「入れ物」が対象です。初期値はオフです。
+Tag	タグ
+tags, any of which can be set to never in the Tags tab:	タグ。「タグ」タブでそれぞれを「決して」に設定できます。
+Take goods that belong to someone	他人の所有物を取得する
+Take goods that belong to someone, on / off	他人の所有物を取得 オン/オフ
+Take items the database cannot name	データベースに名前がないアイテムを取得する
+Take owned goods on / off	所有物の取得 オン/オフ
+takes effect next launch	次回起動時に反映されます
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	エンジンは周囲をスキャンし、ルールが許可するものを取得します。オフにすると自動取得は行われませんが、一斉取得キーは引き続き使えます。
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	ゲームは、プレイヤーが到達できると判断したときにのみ採集ポイントのデータを埋めます。起動はこれを離れた場所から要求するもので、鉱脈をその場で採掘できるのもこの仕組みによります。鉱脈が反応するまで数秒かかる一方、茂みは一瞬で反応します。
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	ゲームは取得済みオブジェクトを遅延させて消去します。これにより、消える途中の同じオブジェクトが二重に送信されるのを防ぎます。
+The game treats this as stealing and will put a bounty on you.	ゲームはこれを窃盗とみなし、賞金をかけます。
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	MODはつるはしを振ることはありません。鉱脈自身の破壊シーケンスを実行しますが、そのとき使われるドロップ行は実際の一撃の半分しかなく、MODが採掘するとき採掘道具のボーナスは反映されません。この設定はゲームと同じドロップ経路で不足分の鉱石を追加するため、バッグに複製されたアイテムではなく、地面に実際に散らばる鉱石になります。手動採掘での道具のボーナスから1引いた値に設定してください。手動で3個産出するドリルなら、ここは2です。これはMODが打ち割った鉱脈にのみ適用されるため、手動採掘には影響せず、二つが重複することもありません。
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	解体の対話操作で、1体につき1回です。人間の死体は代わりに通常のルートをドロップします。解体で得られるものはフィルターと照合されません。MODは地面に落ちるまで中身を確認できないため、このスイッチはオンかオフかのどちらかです。
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	このセッション：拾得%ld、採集%ld、捕獲%ld、死骸%ld
+Timber and branches on the ground and nodes that yield them.	地面の木材や枝と、それらを産出する採集ポイント。
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	特定の種だけ手を付けないようにするには、「アイテム」タブでその変換先を「決して」に設定してください：Item_Tench、Item_Ricefish、Item_Iguana。MODはゲームのキャラクターテーブルにあるクリーチャー自身の行を読み取るため、何かを捕獲する前にその種を把握しています。ただし一部の特殊なクリーチャーはモデル名からの推測に頼るしかなく、カテゴリのみで捕獲されます。
+Treasure and keepsakes	財宝と形見の品
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	単独では不可、必ず2つのボタンを同時に使ってください。このゲームでは単一のボタンにはすでに何らかの機能が割り当てられています。MODはパッドの入力を読み取るだけなので、ゲーム側にも両方のボタンが届きます。同時押しでは何も起きない組み合わせ、例えば両肩ボタン、あるいはBackとフェイスボタンの組み合わせを選んでください。
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	設定するまでは未割り当てです。ゲームは所有物の取得を窃盗とみなし賞金をかけるため、このスイッチは一瞬だけオンにしてすぐオフに戻したいものであり、メニュー操作には向きません。
+Unidentified nodes	未識別の採集ポイント
+unidentified nodes off	未識別の採集ポイントオフ
+unidentified: could be a fish, a flying insect or a bird	未識別：魚、飛ぶ昆虫、鳥のいずれかの可能性
+unidentified: could be an insect or a small animal	未識別：昆虫または小動物の可能性
+unnamed item	無名のアイテム
+Unsellable items	売却不可のアイテム
+Use this language	この言語を使用
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	ゲーム自体の「取得か窃盗か」の判定を利用します。所有物は一度観測されるまでスキップされます。
+using the player's own field	プレイヤー自身のフィールドを使用中
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	野菜、果物、穀物：さつまいも、大麦、キャベツ、りんご、ぶどうなど、栽培または採取される食料全般で、植えられている状態でも落ちている状態でも対象です。これらはかつて「地面のアイテム」の対象でした。そのため「植物」をオフにしても畑が空になっていたのはこのためです。ゲーム内の72個の採集ソケットのうち、44個が農作物で、植物はわずか28個です。
+Verbose log	詳細ログ
+Verdict	判定
+waiting	待機中
+waiting for the game to check an item	ゲームによるアイテムの確認を待機中
+waiting for the game to check ownership once	ゲームによる所有権確認を待機中
+Waiting for the world to load.	ワールドの読み込みを待機中です。
+Watch	監視
+Watch mode	監視モード
+Watch mode (menu stays up, you keep playing)	監視モード（メニュー表示中もプレイ継続）
+Watch mode: the game has your controls. %s to interact, %s to close.	監視モード：操作はゲーム側にあります。%sで対話、%sで閉じます。
+Weapons and armor	武器と防具
+What enters the working list at all. The ranges below are clamped to it.	そもそも対象リストに入るかどうかを決めます。下の各範囲はこれによって制限されます。
+What to collect	収集対象
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	ハンドルを代わりに回し、汲み上がったものを取得します。対話ボタンを押し続けたときにゲームが行うのと同じ状態遷移を実行することで実現しています。井戸はルートイベントを一切発生させないため、これはゲームに何かを要求するのではなく、記録済みの手順を再生しているだけです。失敗した井戸はバケツを失ったまま放置されるため、初期値はオフです。
+Wood	木材
+wood off	木材オフ
+World (actor manager)	ワールド（アクターマネージャー）
+worn by someone	誰かが装備中
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	敵が死亡時に落とす装備品。安価で重いものの、数は豊富です。
+worn or carried by you	自分が装備または所持
+worth %lld copper	価値 %lld 銅貨
+Wrap the swapchain	スワップチェーンをラップする
+Write translation template	翻訳テンプレートを書き出す
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	プラグイン横にMasterLooter.template.txtを書き出し、このセッションでメニューに表示されたすべての行を収めます。行は描画されて初めて現れるため、先に全てのタブを開いてください。各項目の右側を翻訳し、MasterLooter.<language>.txtとして保存し、その言語名をここに入力してください。
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	現在の設定を\"%s\"へ書き込みます。読み込んで好きに変更し、再度保存してください。
+Writes the settings as they are now, named %s.	現在の設定を%sという名前で書き込みます。
+yes	はい
+yours, just out of your hand	自分のもの、手から離れただけ

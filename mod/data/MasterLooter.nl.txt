@@ -1,0 +1,320 @@
+# Master Looter-menutekst in het Nederlands (nl).
+# Machinevertaling door Claude, een AI van Anthropic. Nog niet gecontroleerd
+# door een moedertaalspreker. Correcties zijn welkom op GitHub
+# (github.com/shin2344234/master-looter) of op de Nexus-pagina van de mod.
+#
+# Een tekst per regel: het Engelse origineel, een tab, dan de vertaling.
+# Regels die met # beginnen worden genegeerd, \n staat voor een regeleinde,
+# en een regel zonder vertaling na de tab blijft gewoon in het Engels staan.
+# Elke %d, %s, %.1f en dergelijke plaatshouder moet exact behouden blijven
+# en in dezelfde volgorde staan: ze worden tijdens het spelen vervangen door
+# waarden, en een regel die ze verandert wordt bij het laden genegeerd.
+#
+# Sla dit bestand op als MasterLooter.nl.txt naast de plugin om de
+# ingebouwde kopie te overschrijven.
+
+  bag full	  tas vol
+ (first 250)	 (eerste 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu treffers)%s
+%d classes	%d klassen
+%d items, %d classes, %d tags	%d items, %d klassen, %d labels
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d regel(s) genegeerd: hun %%d- of %%s-plaatshouders kwamen niet overeen met het Engels, en gebruik ervan zou de verkeerde waarden weergeven.
+%d matches%s	%d resultaten%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d puntsoorten geleerd deze sessie. Punten worden genoemd naar het prefab waarmee ze geplaatst zijn; alles wat in die tabel ontbreekt, wordt geïdentificeerd zodra het voor het eerst iets oplevert. Het typenummer van een punt verandert tussen sessies, dus er wordt niets onthouden nadat je afsluit.
+%d objects within scan range, %d lootable now.	%d objecten binnen scanbereik, %d nu te looten.
+%d overrides	%d uitzonderingen
+%s (key %u, row %d, tier %d)	%s (sleutel %u, rij %d, niveau %d)
+%s (never looted)	%s (nooit geloot)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s is een machinevertaling die nog door niemand is gecontroleerd. Correcties zijn welkom op GitHub of de Nexus-pagina.
+%s translated by %s.	%s vertaald door %s.
+%s, let go to keep it	%s, laat los om te bevestigen
+1 match%s	1 resultaat%s
+3 of 3	3 van 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" bestaat al. Overschrijven vraagt eerst om bevestiging.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Een putemmer en dergelijke worden nooit geloot, maar door er een te activeren biedt het spel de interactie aan, zodat je hem zelf kunt gebruiken.
+Abyss and Kuku	Abyss en Kuku
+Abyss gear, Kuku pots and their parts.	Abyss-uitrusting, Kuku-potten en hun onderdelen.
+Accessories	Accessoires
+allowed	toegestaan
+already in your bag	al in je tas
+always	altijd
+always beats the class rule; never beats always	altijd wint van de klasseregel; nooit wint van altijd
+Ammunition	Munitie
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Alles met het label missie, in elke klasse. Uit houdt verhaalvoorwerpen en puzzelstukken voor je eigen handen.
+Arm mechanism containers too	Ook mechanismecontainers activeren
+Arm nodes ourselves	Punten zelf activeren
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Activeren negeert muren. Houd het bereik kort, anders verzamel je door de muur van de volgende kamer heen. Erts is de uitzondering en wordt altijd tot 25 m geactiveerd, omdat een ader seconden nodig heeft om te reageren; pas vragen zodra je erbovenop staat, betekent dat hij te laat opengaat om nog nuttig te zijn.
+Arming range	Activeringsbereik
+Auto-loot enabled	Automatisch looten ingeschakeld
+Auto-loot on / off	Automatisch looten aan/uit
+Backups	Back-ups
+blank for English	leeg voor Engels
+Books and papers	Boeken en papieren
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Boss-beloningen, artefacten, geheugenvoorwerpen, geldbuidels en beloningskisten.
+Break veins open rather than emptying them	Aders openbreken in plaats van leegmaken
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Openbreken stuurt de eigen toestandsmachine van het spel bij de ader aan: eerst de zwaai die raakt, dan de breuk, zodat het punt zijn inhoud op de grond stort en verdwijnt zoals bij een pikhouweel. Leegmaken haalt het erts in plaats daarvan meteen eruit en slaat de drop volledig over. Geen van beide routes geeft de Mijnbouwopbrengst-bonus van je gereedschap, die het spel alleen toekent aan een zwaai die het als van jou beschouwt; stel daarom het extra bedrag hieronder in om het verschil goed te maken. Elke ader wordt één keer geraakt en daarna met rust gelaten tot het spel hem laat terugkeren.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Vlinders, kevers, libellen, bijen, spinnen, schorpioenen, slakken en de andere kleine dingen die het spel als insecten classificeert. Soorten komen uit de schepseltabel; een schepsel dat de tabel niet kan benoemen wordt alleen gevangen als elke categorie waartoe het zou kunnen behoren aan staat (een vlieger kan een vis, een insect of een vogel zijn).
+captured	gevangen
+Carcasses	Kadavers
+carcasses off	kadavers uit
+Catching	Vangen
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Gevangen schepsels, levend of rondliggend; een schepsel dat de tabel kan benoemen volgt zijn klasseregel. Krabben, garnalen en inktvis vallen onder zeevruchten bij Eten en drinken.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Kisten, kratten en drop-set-punten. Ze reageren zelden op de lootgebeurtenis. Standaard uit.
+Class	Klasse
+class %s	klasse %s
+Classes	Klassen
+Clear	Wissen
+Clear overrides	Uitzonderingen wissen
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Wist wat deze sessie uit je tas heeft afgeleid. Punten die door de prefabtabel worden benoemd, blijven ongewijzigd.
+Close	Sluiten
+container (off)	container (uit)
+Containers	Containers
+Controller	Controller
+Copper	Koper
+Copy	Kopiëren
+Copy path	Pad kopiëren
+Copy to the clipboard.	Kopiëren naar het klembord.
+corpse	lijk
+corpse already searched	lijk al doorzocht
+corpse: loot drops separately	lijk: loot valt apart
+creature	schepsel
+Creatures	Schepsels
+Crops	Gewassen
+crops off	gewassen uit
+Damaged gear	Beschadigde uitrusting
+Dead zone around you	Dode zone om je heen
+Decision	Beslissing
+default	standaard
+DirectX 12 hooks	DirectX 12-hooks
+does not respond	reageert niet
+Draw water from wells	Water uit putten halen
+Engine	Engine
+English	Engels
+English. %d line(s) seen this session.	Engels. %d regel(s) gezien deze sessie.
+entity	entiteit
+entity %08X	entiteit %08X
+entity %08X, %d items across every store	entiteit %08X, %d items in alle opslagplaatsen
+entity %08X, bag %d of %d slots, %d items across every store	entiteit %08X, tas %d van %d vakjes, %d items in alle opslagplaatsen
+Event descriptors	Gebeurtenisdescriptors
+Extra ore per vein	Extra erts per ader
+failed	mislukt
+fast-travel artifact	snelreisartefact
+filter classes	klassen filteren
+filter tags	labels filteren
+Filters	Filters
+Fish	Vis
+fish off	vis uit
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Vis, en al het andere dat je in het water vangt: krabben, garnalen, inktvis, zeesterren en zeepaardjes.
+Food and drink	Eten en drinken
+Forget	Vergeten
+found	gevonden
+Furniture	Meubels
+Furniture and decor	Meubels en decoratie
+furniture node (off)	meubelpunt (uit)
+furniture off	meubels uit
+Game functions	Spelfuncties
+Game functions did not resolve; see Status.	Spelfuncties zijn niet opgelost; zie Status.
+Game-thread pump	Spelthread-verwerking
+gather node	verzamelpunt
+Gathering	Verzamelen
+Ground items	Voorwerpen op de grond
+Groups	Groepen
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Punten met kruiden, bloemen en paddenstoelen, en dezelfde dingen die op de grond liggen. Voedselgewassen hebben hun eigen schakelaar.
+hold two buttons (Escape cancels)	houd twee knoppen ingedrukt (Escape annuleert)
+Household clutter and collectibles, most of it worthless.	Huishoudelijke rommel en verzamelobjecten, het meeste waardeloos.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Hoe vol de tas is, wordt uit de tas zelf gelezen, dus de melding verschijnt op het moment dat hij vol raakt, of je nu aan het looten bent of niet. Als die cijfers ooit geen zin meer maken, valt de mod terug op het observeren van wat er na een oppak gebeurt: drie op een rij die niets opleveren tonen de melding, en één die wel aankomt heft hem weer op.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Hoe vaak de scene wordt uitgelezen. De scan draait op zijn eigen thread; alleen het uiteindelijke meenemen kost het spel een fractie van een milliseconde.
+incomplete	onvolledig
+Insects	Insecten
+insects off	insecten uit
+installed	geïnstalleerd
+Item	Item
+Item database	Itemdatabase
+Item table	Itemtabel
+Items	Items
+Items lying in the world, including drops from enemies.	Voorwerpen die in de wereld liggen, inclusief drops van vijanden.
+Items no shop will buy, across every class.	Items die geen enkele winkel opkoopt, in elke klasse.
+Items on the ground	Items op de grond
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Items met het label missie worden met rust gelaten, zodat puzzels en verhaalvoorwerpen niet automatisch worden meegenomen. Dit leest de eigen labels van het item, dus het geldt voor alles wat wordt opgepakt, verzameld of opengebroken. Het villen van een kadaver valt hierbuiten: die opbrengst komt binnen zonder dat de mod ooit ziet wat het is.
+Items with an unknown value are never filtered by it.	Items met een onbekende waarde worden er nooit door gefilterd.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Houd het menu op het scherm terwijl je speelt. %s brengt het terug, %s sluit het.
+Keys	Toetsen
+Keys and tools	Sleutels en gereedschap
+Language	Taal
+Language \"%s\": %d line(s) translated, %d seen this session.	Taal \"%s\": %d regel(s) vertaald, %d gezien deze sessie.
+learned from the game	geleerd van het spel
+Load	Laden
+loaded	geladen
+locked	vergrendeld
+Log	Logboek
+Log: %ls	Logboek: %ls
+Loot	Loot
+Loot all	Alles looten
+Loot engine	Lootengine
+Loot engine not started.	Lootengine niet gestart.
+Loot everything in range now	Nu alles binnen bereik looten
+Loot everything in range once	Eenmalig alles binnen bereik looten
+loot: %s	loot: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s voor spelversie %s
+Materials	Materialen
+mechanism part	mechanismeonderdeel
+Memory chips and puzzle parts	Geheugenchips en puzzelstukken
+Mine ore veins for you	Ertsaders voor je delven
+Minimum value (copper)	Minimumwaarde (koper)
+missing	ontbreekt
+missing MasterLooter.items.tsv	MasterLooter.items.tsv ontbreekt
+mission object	missievoorwerp
+Mounts and vehicles	Rijdieren en voertuigen
+name a new preset	geef een nieuwe voorinstelling een naam
+never	nooit
+no	nee
+no interaction node	geen interactiepunt
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Punten die de prefabtabel niet benoemt en die deze sessie nog niets hebben opgeleverd. Uit (de standaard) laat ze met rust. Aan laat de mod ze verzamelen om erachter te komen, wat betekent dat een plant kan worden meegenomen terwijl Planten uit staat.
+none	geen
+not found yet	nog niet gevonden
+not in item database	niet in de itemdatabase
+not ready (node empty)	nog niet klaar (punt leeg)
+not resolved yet	nog niet opgelost
+not started	niet gestart
+not yet	nog niet
+Nothing else is drawn while the menu is closed.	Er wordt verder niets getekend terwijl het menu gesloten is.
+nothing taken yet this session	nog niets meegenomen deze sessie
+Object	Object
+object	object
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Objecten worden van dichtbij naar ver weg vermeld, met de regel die elk ervan heeft bepaald. Lege punten worden gelezen als nog niet klaar totdat het spel of activering ze vult. Wat je draagt en bij je hebt, wordt weggelaten.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Objecten die dichterbij zijn dan dit worden behandeld als je eigen uitrusting. Een vangnet; je uitrusting wordt ook op andere manieren herkend.
+Objects per burst press	Objecten per snelle druk
+Objects per scan	Objecten per scan
+on the player	op de speler
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Aan wordt een ader ter plekke ontgonnen en zwaai je nooit een pikhouweel. Uit worden aders met rust gelaten en worden alleen de brokken die je losslaat opgepakt. Vereist activering, want de ader vragen om open te gaan is de hele truc.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Aan tekent de overlay onder DLSS-framegeneratie, waarvoor deze mod het spel een gewrapte swapchain moet geven.\n\nUit tekent de overlay via de present-hook in plaats daarvan. Alles ziet er hetzelfde uit tenzij framegeneratie aan staat, en de mod blijft weg van een pad dat andere overlay-mods ook patchen. Probeer dit als het spel niet start naast een andere overlay-mod; het kan als WrapSwapChain in MasterLooter.ini worden ingesteld zonder het spel te starten.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Er wordt telkens een back-up geschreven wanneer het spel start en de laatste twaalf worden bewaard, in MasterLooter.backups naast de plugin. Voorinstellingen staan in MasterLooter.presets. Kopieer een van beide mappen om ze bij een herinstallatie te behouden.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Eén klik per familie. De tabel hieronder stelt nog steeds individuele klassen in; een groep toont een streepje wanneer slechts een deel ervan aan staat.
+Open and close this menu	Dit menu openen en sluiten
+Open folder	Map openen
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Opent de map in Verkenner. Het logboek wordt bij elke start opnieuw geschreven en is wat je bij een melding moet bijvoegen.
+Ore	Erts
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Ertsbrokken op de grond en elk punt dat erts oplevert, aders inbegrepen. Een ader wordt ter plekke opengebroken en de inhoud wordt van de vloer opgepakt, precies wat je pikhouweel doet en wat een betere pikhouweel de moeite waard maakt om mee te dragen: de Mijnbouwopbrengst-bonus van het gereedschap geldt voor de drop, niet voor het punt. Elke ader wordt één keer geraakt en daarna met rust gelaten tot het spel hem terugbrengt. Het reiken naar aders begint al zo ver als de scan kan zien, omdat ze seconden nodig hebben om te reageren waar een struik een fractie daarvan nodig heeft.
+ore off	erts uit
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Erts, edelstenen, steen, hout, huiden, kruiden, handelswaar en andere grondstoffen voor crafting.
+out of range	buiten bereik
+Overlay	Overlay
+Override	Uitzondering
+owned by someone (theft)	eigendom van iemand (diefstal)
+Ownership	Eigendom
+Ownership oracle	Eigendomsorakel
+Pace	Tempo
+part of a creature or a mechanism	onderdeel van een schepsel of mechanisme
+paused: %s	gepauzeerd: %s
+pick up off	oppakken uit
+Plants	Planten
+plants off	planten uit
+Player	Speler
+Player equipment.	Uitrusting van de speler.
+Player not found in the scene yet.	Speler nog niet gevonden in de scene.
+Presets	Voorinstellingen
+press a key (Escape cancels)	druk op een toets (Escape annuleert)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Standaard beschermd: een geheugenchip start een geheugenscène zodra hij wordt meegenomen, en een puzzelstuk verbreekt zijn puzzel. Zet dit alleen aan als je ze automatisch wilt laten meenemen.
+protected item name	naam van beschermd item
+Puts every setting and rule back to what it was at that moment.	Zet alle instellingen en regels terug naar wat ze op dat moment waren.
+puzzle or protected mechanism	puzzel of beschermd mechanisme
+Quest items	Missie-items
+quest or memory trigger	missie- of geheugentrigger
+Ranges (metres)	Bereiken (meter)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Ratten, eekhoorns, vogels, hagedissen, kikkers en salamanders: al het andere dat het spel in zijn geheel in de tas stopt.
+Reaching nodes	Punten bereiken
+Read from the file beside the plugin, not the copy inside it.	Gelezen uit het bestand naast de plugin, niet de kopie erin.
+Rebind	Opnieuw toewijzen
+Recent loot	Recente loot
+Refresh	Vernieuwen
+Reload now	Nu herladen
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Vervangt alle instellingen en elke klasse-, label- en itemregel door wat de voorinstelling bevat, en schrijft dit naar MasterLooter.ini. Niets van de huidige instellingen blijft bewaard, dus maak eerst een back-up als je ze wilt behouden.
+Reset all tags	Alle labels resetten
+resolved	opgelost
+Retry the same object after (ms)	Zelfde object opnieuw proberen na (ms)
+Route id	Route-id
+Rule	Regel
+Save now	Nu opslaan
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Opgeslagen als \"%s\": een naam voor een voorinstelling behoudt letters, cijfers, spaties, streepjes en underscores.
+Say so on screen when the bag stops taking things	Toon dit op het scherm wanneer de tas niets meer opneemt
+scan %.1f ms	scan %.1f ms
+Scan radius	Scanradius
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Scans %ld, gebeurtenissen verzonden %ld, pompticks %ld, afgevangen fouten %ld, puntsoorten geleerd %d
+Scans per second	Scans per seconde
+search item name or key (3+ letters)	zoek itemnaam of sleutel (3+ letters)
+Sending events	Gebeurtenissen verzenden
+Set	Instellen
+Settings: %ls	Instellingen: %ls
+Show a brief notice when auto-loot is toggled	Toon een korte melding wanneer automatisch looten wordt aan- of uitgezet
+Showing current overrides. Type to search all %d items.	Huidige uitzonderingen worden getoond. Typ om alle %d items te doorzoeken.
+Showing the nearest %d of %d. The rest are further away.	De dichtstbijzijnde %d van %d worden getoond. De rest is verder weg.
+Skip all	Alles overslaan
+Skip items shops refuse to buy	Items overslaan die winkels weigeren op te kopen
+Skip quest items	Missie-items overslaan
+skip: %s	overslaan: %s
+Small animals	Kleine dieren
+small animals off	kleine dieren uit
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Sommige objecten in de wereld hebben geen leesbare itemnaam. Aan: pak ze toch mee. Uit: laat alles wat niet geïdentificeerd is liggen.
+stack at one point (storage contents)	stapel op één punt (opslaginhoud)
+Stone	Steen
+stone off	steen uit
+Stone on the ground and nodes that yield stone.	Steen op de grond en punten die steen opleveren.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Tafels, stoelen, bedden, tapijten, lampen, kaarsen, schilderijen, potten en de rest van een ingerichte kamer, of je ze nu van de vloer oppakt of uit hun eigen interactiepunt haalt. Het meeste is een koperstuk of twee waard, maar de tapijten en luxe bedden lopen op tot duizenden, dus zet dit aan voordat je een huis inricht. Kisten en andere dingen die iets bevatten, vallen in plaats daarvan onder Containers. Standaard uit.
+Tag	Label
+tags, any of which can be set to never in the Tags tab:	labels, elk daarvan kan op nooit worden gezet in het tabblad Labels:
+Take goods that belong to someone	Goederen meenemen die van iemand anders zijn
+Take goods that belong to someone, on / off	Goederen van iemand anders meenemen aan/uit
+Take items the database cannot name	Items meenemen die de database niet kan benoemen
+Take owned goods on / off	Eigendom van anderen meenemen aan/uit
+takes effect next launch	wordt actief bij de volgende start
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	De engine scant je omgeving en neemt mee wat de regels toestaan. Uit betekent dat er niets automatisch wordt meegenomen; de sneltoets voor direct looten werkt nog steeds.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Het spel vult de gegevens van een punt pas wanneer het denkt dat je het kunt bereiken. Activeren vraagt het spel dit op afstand te doen, wat ook een ertsader in staat stelt om ter plekke ontgonnen te worden. Aders hebben meerdere seconden nodig om te reageren waar een struik een fractie daarvan nodig heeft.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Het spel verwijdert meegenomen objecten met vertraging. Dit voorkomt dat hetzelfde object twee keer wordt verzonden terwijl het vervaagt.
+The game treats this as stealing and will put a bounty on you.	Het spel ziet dit als diefstal en zet een premie op je hoofd.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	De mod zwaait nooit een pikhouweel. Hij stuurt de eigen breeksequentie van de ader aan, en het spel doorloopt daarvoor één droprij waar een echte zwaai er twee doorloopt, dus de bonus van je mijnbouwgereedschap levert niets op wanneer de mod het delven doet. Dit voegt het ontbrekende erts terug toe via hetzelfde droppad dat het spel gebruikt, dus het is echt erts dat op de grond valt, geen item dat naar je tas wordt gekopieerd. Stel het in op wat je gereedschap met de hand oplevert min één: een boor die met de hand drie geeft, wil hier 2. Dit geldt alleen voor een ader die deze mod heeft opengebroken, dus met de hand delven blijft onaangetast en de twee kunnen niet stapelen.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	De vilinteractie, eenmaal per kadaver. Menselijke lijken laten in plaats daarvan gewone loot vallen. Wat villen oplevert wordt niet tegen je filters gecontroleerd. De mod ziet het nooit voordat het aankomt, dus deze schakelaar is alles of niets.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Deze sessie: %ld opgepakt, %ld verzameld, %ld gevangen, %ld kadavers
+Timber and branches on the ground and nodes that yield them.	Hout en takken op de grond en punten die ze opleveren.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Om één soort met rust te laten, zet wat hij wordt op nooit in het tabblad Items: Item_Tench, Item_Ricefish, Item_Iguana. De mod leest de eigen rij van het schepsel in de personagetabel van het spel, dus hij weet naar welke soort hij kijkt voordat hij iets vangt. Een paar ongewone schepsels vallen nog steeds terug op raden aan de hand van hun modelnaam en worden alleen op categorie gevangen.
+Treasure and keepsakes	Schatten en aandenkens
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Twee knoppen tegelijk, nooit één: elke afzonderlijke knop doet al iets in dit spel. De mod leest alleen de controller uit, dus het spel ziet nog steeds beide knoppen. Kies een combinatie die samen niets doet, zoals de twee schouderknoppen, of Back en een frontknop.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Niet toegewezen totdat je hem instelt. Het spel noemt het meenemen van andermans bezit stelen en zet er een premie op je hoofd voor, dus dit is een schakelaar die je even aan en dan weer uit wilt zetten, wat slecht past bij een menu.
+Unidentified nodes	Niet-geïdentificeerde punten
+unidentified nodes off	niet-geïdentificeerde punten uit
+unidentified: could be a fish, a flying insect or a bird	niet geïdentificeerd: kan een vis, vliegend insect of vogel zijn
+unidentified: could be an insect or a small animal	niet geïdentificeerd: kan een insect of klein dier zijn
+unnamed item	naamloos item
+Unsellable items	Onverkoopbare items
+Use this language	Gebruik deze taal
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Gebruikt de eigen Nemen-of-Stelen-controle van het spel; eigendom van anderen wordt overgeslagen totdat dit één keer is waargenomen.
+using the player's own field	met behulp van het eigen veld van de speler
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Groenten, fruit en graan: zoete aardappel, gerst, kool, appels, druiven en de rest van het verbouwde en verzamelde voedsel, aan de plant of los liggend. Deze vielen vroeger onder Voorwerpen op de grond, wat verklaart waarom Planten uitzetten toch een veld leegmaakte: van de 72 verzamelpunten in het spel zijn er 44 gewas en slechts 28 plant.
+Verbose log	Uitgebreid logboek
+Verdict	Oordeel
+waiting	wachten
+waiting for the game to check an item	wachten tot het spel een item controleert
+waiting for the game to check ownership once	wachten tot het spel eigendom één keer controleert
+Waiting for the world to load.	Wachten tot de wereld laadt.
+Watch	Kijken
+Watch mode	Kijkmodus
+Watch mode (menu stays up, you keep playing)	Kijkmodus (menu blijft open, je blijft spelen)
+Watch mode: the game has your controls. %s to interact, %s to close.	Kijkmodus: het spel heeft je besturing. %s om te interageren, %s om te sluiten.
+Weapons and armor	Wapens en pantser
+What enters the working list at all. The ranges below are clamped to it.	Wat er überhaupt in de werklijst terechtkomt. De bereiken hieronder worden hierdoor begrensd.
+What to collect	Wat te verzamelen
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Draait de hendel voor je en neemt mee wat naar boven komt, door dezelfde toestandsovergangen aan te sturen die het spel aanstuurt wanneer je de interactieknop ingedrukt houdt. Een put geeft helemaal geen lootgebeurtenis af, dus dit is een herhaling van een vastgelegde reeks in plaats van dat er iets aan het spel wordt gevraagd. Standaard uit, want een put die verkeerd gaat, is een put die zonder emmer blijft staan.
+Wood	Hout
+wood off	hout uit
+World (actor manager)	Wereld (actormanager)
+worn by someone	gedragen door iemand
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Gedragen uitrusting die vijanden laten vallen als ze sterven. Goedkoop en zwaar, maar in overvloed.
+worn or carried by you	door jou gedragen of vastgehouden
+worth %lld copper	waard %lld koper
+Wrap the swapchain	De swapchain wrappen
+Write translation template	Vertaalsjabloon schrijven
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Schrijft MasterLooter.template.txt naast de plugin, met elke regel die het menu deze sessie heeft getoond. Open eerst elk tabblad, want een regel verschijnt pas nadat hij getekend is. Vertaal de rechterkant van elk record, sla het op als MasterLooter.<language>.txt en vul die taal hier in.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Schrijft de huidige instellingen naar \"%s\". Laad het, wijzig wat je wilt en sla het weer op.
+Writes the settings as they are now, named %s.	Schrijft de huidige instellingen, genaamd %s.
+yes	ja
+yours, just out of your hand	van jou, net uit je hand

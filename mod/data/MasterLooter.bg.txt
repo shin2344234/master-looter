@@ -1,0 +1,324 @@
+# Текст на менюто на Master Looter на български език.
+# Това е машинен превод, направен от Claude, изкуствен интелект на Anthropic.
+# Никой носител на езика все още не го е проверявал; поправки са добре дошли
+# в GitHub (github.com/shin2344234/master-looter) или на страницата на мода
+# в Nexus.
+#
+# По един ред на текст: английският оригинал, табулация, после превода.
+# Редове, започващи с #, се пренебрегват. \n означава нов ред, а ред без
+# превод след табулацията остава на английски, така че недовършен файл
+# си е напълно използваем.
+#
+# Всеки заместител като %d, %s или %.1f трябва да остане точно както е
+# написан и в същия ред: тези места се запълват с числа и имена по време
+# на изпълнение, а ред, който ги променя, се пренебрегва, за да не се
+# отпечата грешна стойност.
+#
+# Запази файла като MasterLooter.bg.txt до MasterLooter.asi, за да замени
+# вградената в плъгина версия.
+
+  bag full	  чантата е пълна
+ (first 250)	 (първите 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu съвпадения)%s
+%d classes	%d класа
+%d items, %d classes, %d tags	%d предмета, %d класа, %d етикета
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d ред(а) бяха пренебрегнати: заместителите %%d или %%s в тях не съвпадат с английския текст, а използването им би отпечатало грешни стойности.
+%d matches%s	%d съвпадения%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d разпознати вида точки в тази сесия. Точките се именуват по префаба, от който са поставени; всичко, което тази таблица пропуска, се разпознава при първото нещо, което произведе. Номерът на типа на дадена точка се различава между отделните сесии, затова нищо не се помни след излизане от играта.
+%d objects within scan range, %d lootable now.	%d обекта в обхвата на сканиране, %d готови за лут сега.
+%d overrides	%d изключения
+%s (key %u, row %d, tier %d)	%s (ключ %u, ред %d, ниво %d)
+%s (never looted)	%s (никога не е бил вземан)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s е машинен превод, който все още не е проверен от никого. Поправки са добре дошли в GitHub или на страницата в Nexus.
+%s translated by %s.	%s, преведено от %s.
+%s, let go to keep it	%s, пусни, за да го запазиш
+1 match%s	1 съвпадение%s
+3 of 3	3 от 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" вече съществува. Презаписването му първо ще поиска потвърждение.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Кофа на кладенец и подобни никога не се лутват, но активирането ѝ кара играта да предложи взаимодействието си, за да я използваш ръчно.
+Abyss and Kuku	Абис и Куку
+Abyss gear, Kuku pots and their parts.	Екипировка на Абис, съдове на Куку и техните части.
+Accessories	Аксесоари
+allowed	разрешено
+already in your bag	вече е в чантата ти
+always	винаги
+always beats the class rule; never beats always	„винаги“ бие правилото на класа; „никога“ бие „винаги“
+Ammunition	Муниции
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Всичко с етикет „мисия“, във всички класове. Изключено запазва предметите от сюжета и частите от пъзели за твоите собствени ръце.
+Arm mechanism containers too	Активирай и контейнерите, които са механизми
+Arm nodes ourselves	Активирай точките сам
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Активирането игнорира стените. Дръж обхвата кратък, иначе ще събираш през стената на съседната стая. Рудата е изключение и винаги се достига до 25 м, защото на една жила ѝ трябват секунди да отговори, а ако попиташ едва когато си върху нея, тя се отваря твърде късно, за да е от полза.
+Arming range	Обхват на активиране
+Auto-loot enabled	Автоматичният лут е включен
+Auto-loot on / off	Автоматичен лут – вкл./изкл.
+Backups	Резервни копия
+blank for English	остави празно за английски
+Books and papers	Книги и документи
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Награди от бос, артефакти, предмети за спомени, кесии с монети и сандъци с награди.
+Break veins open rather than emptying them	Разбивай жилите, вместо да ги изпразваш
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Разбиването задейства собствената машина от състояния на играта при жилата – първо удар, после счупване, – така че точката разсипва съдържанието си по земята и изчезва точно както под кирка. Изпразването вместо това вади рудата направо и напълно пропуска изпадането. Нито един от двата пътя не отчита бонуса „Добив от копаене“ на инструмента ти, който играта дава само на удар, който брои за твой, затова задай допълнението по-долу, за да компенсираш разликата. Всяка жила се удря веднъж и после се оставя на мира, докато играта не я възроди.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Пеперуди, бръмбари, водни кончета, пчели, паяци, скорпиони, охлюви и другите дребни създания, които играта категоризира като насекоми. Видовете идват от таблицата с животни; създание, което таблицата не може да назове, се улавя само когато всички категории, към които би могло да принадлежи, са включени (летящо създание може да е риба, насекомо или птица).
+captured	прихванат
+Carcasses	Трупове
+carcasses off	труповете изключени
+Catching	Улов
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Уловими създания, живи или лежащи наоколо; създание, което таблицата може да назове, следва правилото на своя клас. Раци, скариди и калмари са морски дарове в Храна и напитки.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Сандъци, каси и точки с фиксиран дроп. Рядко реагират на събитието за лут. Изключено по подразбиране.
+Class	Клас
+class %s	клас %s
+Classes	Класове
+Clear	Изчисти
+Clear overrides	Изчисти изключенията
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Изчиства това, което тази сесия е установила от чантата ти. Точките, назовани от таблицата с префаби, не се засягат.
+Close	Затвори
+container (off)	контейнер (изключено)
+Containers	Контейнери
+Controller	Контролер
+Copper	Мед
+Copy	Копирай
+Copy path	Копирай пътя
+Copy to the clipboard.	Копирай в клипборда.
+corpse	труп
+corpse already searched	трупът вече е претърсен
+corpse: loot drops separately	труп: лутът пада отделно
+creature	създание
+Creatures	Създания
+Crops	Култури
+crops off	културите изключени
+Damaged gear	Повредена екипировка
+Dead zone around you	Мъртва зона около теб
+Decision	Решение
+default	по подразбиране
+DirectX 12 hooks	DirectX 12 хукове
+does not respond	не отговаря
+Draw water from wells	Тегли вода от кладенци
+Engine	Двигател
+English	Английски
+English. %d line(s) seen this session.	Английски. %d ред(а) видени в тази сесия.
+entity	ентити
+entity %08X	ентити %08X
+entity %08X, %d items across every store	ентити %08X, %d предмета във всички хранилища
+entity %08X, bag %d of %d slots, %d items across every store	ентити %08X, чанта %d от %d слота, %d предмета във всички хранилища
+Event descriptors	Дескриптори на събития
+Extra ore per vein	Допълнителна руда на жила
+failed	неуспешно
+fast-travel artifact	артефакт за бързо пътуване
+filter classes	филтрирай класове
+filter tags	филтрирай етикети
+Filters	Филтри
+Fish	Риба
+fish off	рибата изключена
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Риба и всичко останало, което хващаш във водата: раци, скариди, калмари, морски звезди и морски кончета.
+Food and drink	Храна и напитки
+Forget	Забрави
+found	намерен
+Furniture	Мебели
+Furniture and decor	Мебели и декор
+furniture node (off)	точка за мебели (изключено)
+furniture off	мебелите изключени
+Game functions	Функции на играта
+Game functions did not resolve; see Status.	Функциите на играта не бяха открити; виж Статус.
+Game-thread pump	Помпа на нишката на играта
+gather node	точка за събиране
+Gathering	Събиране
+Ground items	Предмети на земята
+Groups	Групи
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Точки с билки, цветя и гъби, както и същите лежащи на земята. Хранителните култури имат свой собствен превключвател.
+hold two buttons (Escape cancels)	задръж два бутона (Escape отменя)
+Household clutter and collectibles, most of it worthless.	Домакински дреболии и колекционерски предмети, повечето без стойност.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Колко пълна е чантата се чете направо от самата чанта, затова известието се появява в мига, в който тя се напълни, независимо дали в момента лутиш. Ако тези числа някога престанат да имат смисъл, модът преминава към наблюдение на това какво става след вдигане на предмет: три поредни опита, които не стигат доникъде, вдигат известието, а едно успешно вземане го изчиства.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Колко често се чете сцената. Сканирането работи в собствена нишка; само крайното вземане на резултата струва на играта частица от милисекундата.
+incomplete	непълно
+Insects	Насекоми
+insects off	насекомите изключени
+installed	инсталирани
+Item	Предмет
+Item database	База данни с предмети
+Item table	Таблица с предмети
+Items	Предмети
+Items lying in the world, including drops from enemies.	Предмети, лежащи в света, включително дропнати от врагове.
+Items no shop will buy, across every class.	Предмети, които никой магазин не купува, във всички класове.
+Items on the ground	Предмети на земята
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Предметите с етикет „мисия“ се оставят на мира, за да не се вземат автоматично пъзели и сюжетни предмети. Това чете собствените етикети на предмета, така че покрива всичко вдигнато, събрано или извадено от разбито. Дерането на труп остава извън обхвата му: добивът от него пристига, без модът някога да види какво е.
+Items with an unknown value are never filtered by it.	Предмети с непозната стойност никога не се филтрират по нея.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Задръж менюто на екрана, докато играеш. %s го връща обратно, %s го затваря.
+Keys	Клавиши
+Keys and tools	Ключове и инструменти
+Language	Език
+Language \"%s\": %d line(s) translated, %d seen this session.	Език \"%s\": %d ред(а) преведени, %d видени в тази сесия.
+learned from the game	научено от играта
+Load	Зареди
+loaded	заредена
+locked	заключено
+Log	Дневник
+Log: %ls	Дневник: %ls
+Loot	Лут
+Loot all	Събери всичко
+Loot engine	Двигател за лут
+Loot engine not started.	Двигателят за лут не е стартиран.
+Loot everything in range now	Събери всичко в обхват сега
+Loot everything in range once	Събери всичко в обхват еднократно
+loot: %s	лут: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s за билд %s на играта
+Materials	Материали
+mechanism part	част от механизъм
+Memory chips and puzzle parts	Чипове за спомени и части от пъзели
+Mine ore veins for you	Копай рудните жили вместо теб
+Minimum value (copper)	Минимална стойност (мед)
+missing	липсва
+missing MasterLooter.items.tsv	липсва MasterLooter.items.tsv
+mission object	обект от мисия
+Mounts and vehicles	Яздитни животни и превозни средства
+name a new preset	име за нов пресет
+never	никога
+no	не
+no interaction node	няма точка за взаимодействие
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Точки, които таблицата с префаби не назовава и които все още не са дали нищо в тази сесия. Изключено (по подразбиране) ги оставя на мира. Включено кара мода да ги събира, за да разбере какви са, което означава, че растение може да бъде взето, докато Растения е изключено.
+none	няма
+not found yet	все още не е намерен
+not in item database	не е в базата данни с предмети
+not ready (node empty)	не е готова (точката е празна)
+not resolved yet	все още не е открито
+not started	не е стартиран
+not yet	все още не
+Nothing else is drawn while the menu is closed.	Нищо друго не се изчертава, докато менюто е затворено.
+nothing taken yet this session	нищо взето досега в тази сесия
+Object	Обект
+object	обект
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Обектите са изброени, започвайки от най-близките, заедно с правилото, което е решило всеки от тях. Празните точки се показват като неготови, докато играта или активирането не ги запълни. Това, което носиш и с което си облечен, е изключено от списъка.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Обекти по-близки от това разстояние се третират като твоя собствена екипировка. Предпазна мярка; екипировката ти се разпознава и по други начини.
+Objects per burst press	Обекти на едно бързо натискане
+Objects per scan	Обекти на сканиране
+on the player	върху играча
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Включено, жилата се добива на място и никога не замахваш с кирка. Изключено, жилите се оставят на мира и се вдигат само отломките, които разхлабиш сам. Изисква активиране, защото поискването жилата да се отвори е целият номер.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Включено, наслагването се изчертава под генерирането на кадри на DLSS, което изисква модът да подаде на играта обвит swapchain.\n\nИзключено, наслагването се изчертава чрез хука на Present вместо това. Всичко изглежда еднакво, освен ако генерирането на кадри не е включено, а модът стои настрана от път, който закърпват и други модове за наслагване. Пробвай това, ако играта не стартира заедно с друг мод за наслагване; може да се зададе като WrapSwapChain в MasterLooter.ini, без да се пуска играта.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Едно резервно копие се записва всеки път, когато играта стартира, а последните дванайсет се пазят в MasterLooter.backups до плъгина. Пресетите се намират в MasterLooter.presets. Копирай която и да е от двете папки, за да я запазиш след преинсталиране.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Едно кликване на семейство. Таблицата по-долу все още задава отделни класове; групата показва тире, когато само част от нея е включена.
+Open and close this menu	Отвори и затвори това меню
+Open folder	Отвори папката
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Отваря папката в Explorer. Дневникът се презаписва при всяко стартиране и е това, което трябва да се прикачи към доклад.
+Ore	Руда
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Парчета руда на земята и всяка точка, която дава руда, включително жили. Жила се разбива на място, а съдържанието ѝ се вдига от пода – точно каквото прави и кирката ти, и точно затова си струва да носиш по-добра кирка: бонусът „Добив от копаене“ на инструмента се прилага към падналото, а не към точката. Всяка жила се удря веднъж и се оставя на мира, докато играта не я върне. Посягането към жили започва от най-далечния предел, който сканирането вижда, защото на тях им трябват секунди да отговорят, докато на един храст му трябва частица от секунда.
+ore off	рудата изключена
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Руда, скъпоценни камъни, камък, дървен материал, кожи, билки, търговски стоки и други материали за крафтене.
+out of range	извън обхват
+Overlay	Наслагване
+Override	Изключение
+owned by someone (theft)	притежание на някого (кражба)
+Ownership	Собственост
+Ownership oracle	Оракул за собственост
+Pace	Темп
+part of a creature or a mechanism	част от създание или механизъм
+paused: %s	на пауза: %s
+pick up off	вдигането изключено
+Plants	Растения
+plants off	растенията изключени
+Player	Играч
+Player equipment.	Екипировка на играча.
+Player not found in the scene yet.	Играчът все още не е намерен в сцената.
+Presets	Пресети
+press a key (Escape cancels)	натисни клавиш (Escape отменя)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Защитени по подразбиране: чип за спомени стартира сцена със спомен, когато бъде взет, а част от пъзел чупи пъзела си. Включи само ако искаш да се вземат автоматично.
+protected item name	име на защитен предмет
+Puts every setting and rule back to what it was at that moment.	Връща всяка настройка и правило обратно към това, което е било в онзи момент.
+puzzle or protected mechanism	пъзел или защитен механизъм
+Quest items	Предмети за мисии
+quest or memory trigger	мисия или тригер за спомен
+Ranges (metres)	Обхвати (метри)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Плъхове, катерици, птици, гущери, жаби и саламандри: всичко останало, което играта прибира цяло в чантата.
+Reaching nodes	Посягане към точки
+Read from the file beside the plugin, not the copy inside it.	Прочетено от файла до плъгина, не от копието вътре в него.
+Rebind	Преназначи
+Recent loot	Скорошен лут
+Refresh	Опресни
+Reload now	Презареди сега
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Заменя всяка настройка и всяко правило за клас, етикет и предмет с това, което съдържа пресетът, и го записва в MasterLooter.ini. Нищо от текущите настройки не се пази, затова направи резервно копие първо, ако искаш да ги запазиш.
+Reset all tags	Нулирай всички етикети
+resolved	открити
+Retry the same object after (ms)	Повтори опита за същия обект след (мс)
+Route id	ID на маршрута
+Rule	Правило
+Save now	Запази сега
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Записано като \"%s\": името на пресет пази букви, цифри, интервали, тирета и долни черти.
+Say so on screen when the bag stops taking things	Покажи го на екрана, когато чантата спре да поема неща
+scan %.1f ms	сканиране %.1f мс
+Scan radius	Радиус на сканиране
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Сканирания %ld, изпратени събития %ld, тиктакания на помпата %ld, охранявани грешки %ld, разпознати видове точки %d
+Scans per second	Сканирания в секунда
+search item name or key (3+ letters)	търси име на предмет или ключ (3+ букви)
+Sending events	Изпращане на събития
+Set	Задай
+Settings: %ls	Настройки: %ls
+Show a brief notice when auto-loot is toggled	Покажи кратко известие при превключване на автоматичния лут
+Showing current overrides. Type to search all %d items.	Показват се текущите изключения. Пиши, за да търсиш във всички %d предмета.
+Showing the nearest %d of %d. The rest are further away.	Показват се най-близките %d от %d. Останалите са по-далеч.
+Skip all	Пропусни всичко
+Skip items shops refuse to buy	Пропускай предмети, които магазините отказват да купят
+Skip quest items	Пропускай предметите за мисии
+skip: %s	пропусни: %s
+Small animals	Малки животни
+small animals off	малките животни изключени
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Някои обекти в света нямат четимо име на предмет. Включено: вземай ги въпреки това. Изключено: остави всичко неидентифицирано.
+stack at one point (storage contents)	купчина на едно място (съдържание на склад)
+Stone	Камък
+stone off	камъкът изключен
+Stone on the ground and nodes that yield stone.	Камък на земята и точки, които дават камък.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Маси, столове, легла, килими, лампи, свещи, картини, съдове и всичко останало в обзаведена стая, независимо дали го вдигаш от пода или го вземаш от собствената му точка за взаимодействие. Повечето от тях струват по мед-два, но килимите и луксозните легла стигат до хиляди, затова включи това, преди да обзаведеш къща. Сандъците и другите неща, които съдържат нещо, отговарят на Контейнери вместо това. Изключено по подразбиране.
+Tag	Етикет
+tags, any of which can be set to never in the Tags tab:	етикети, всеки от които може да се зададе на „никога“ в раздела Етикети:
+Take goods that belong to someone	Взимай стоки, които принадлежат на някого
+Take goods that belong to someone, on / off	Взимане на неща, които принадлежат на някого – вкл./изкл.
+Take items the database cannot name	Взимай предмети, които базата данни не може да назове
+Take owned goods on / off	Взимане на чужди стоки – вкл./изкл.
+takes effect next launch	влиза в сила при следващото стартиране
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Двигателят сканира около теб и взима това, което правилата позволяват. Изключено означава, че нищо не се взима автоматично; клавишът за еднократен лут продължава да работи.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Играта попълва данните на точка само когато смята, че можеш да я достигнеш. Активирането я моли да направи това от разстояние, което е и начинът, по който рудна жила може да бъде добита на място. На жилите им трябват няколко секунди да отговорят, докато на храст му трябва частица от секунда.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Играта премахва взетите обекти със закъснение. Това пречи един и същ обект да бъде изпратен два пъти, докато изчезва.
+The game treats this as stealing and will put a bounty on you.	Играта третира това като кражба и ще сложи награда за главата ти.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Модът никога не замахва с кирка. Той задейства собствената последователност на счупване на жилата, а играта минава през един ред за изпадане за нея, докато истински замах минава през два, затова бонусът на твоя миньорски инструмент не дава нищо, когато модът копае. Това добавя липсващата руда обратно през същия път за изпадане, който играта използва, така че е истинска руда, разсипана на земята, а не предмет, копиран в чантата ти. Задай го на това, което инструментът ти дава ръчно минус едно: свредло, което дава три на ръка, иска 2 тук. Прилага се само за жила, разбита от този мод, затова копаенето на ръка остава непроменено и двете не могат да се сумират.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Взаимодействието за дране, веднъж на труп. Човешките трупове вместо това пускат обикновен лут. Това, което дава дренето, не се проверява спрямо филтрите ти. Модът никога не го вижда, преди то да пристигне, затова този превключвател е или всичко, или нищо.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Тази сесия: %ld вдигнати, %ld събрани, %ld уловени, %ld трупа
+Timber and branches on the ground and nodes that yield them.	Дървен материал и клони на земята и точки, които ги дават.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	За да оставиш един вид на мира, задай на „никога“ това, в което се превръща, в раздела Предмети: Item_Tench, Item_Ricefish, Item_Iguana. Модът чете собствения ред на създанието в таблицата с персонажи на играта, така че знае кой вид гледа, преди да улови каквото и да било. Няколко необичайни създания все още прибягват до отгатване по името на модела си и се улавят само по категория.
+Treasure and keepsakes	Съкровища и сувенири
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Два бутона едновременно, никога един: всеки отделен бутон вече прави нещо в тази игра. Модът само чете контролера, затова играта все пак вижда и двата бутона. Избери двойка, която не прави нищо заедно, като двата рамкови бутона или Back и някой лицев бутон.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Непривързан, докато не го зададеш. Играта нарича взимането на чужди стоки кражба и слага награда за главата ти за това, затова това е превключвател, който искаш включен за миг и после отново изключен – нещо, което не пасва добре на меню.
+Unidentified nodes	Неидентифицирани точки
+unidentified nodes off	неидентифицираните точки изключени
+unidentified: could be a fish, a flying insect or a bird	неидентифицирано: може да е риба, летящо насекомо или птица
+unidentified: could be an insect or a small animal	неидентифицирано: може да е насекомо или малко животно
+unnamed item	предмет без име
+Unsellable items	Непродаваеми предмети
+Use this language	Използвай този език
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Използва собствената проверка „Вземи или открадни“ на играта; чуждите стоки се пропускат, докато не бъде наблюдавана поне веднъж.
+using the player's own field	използвайки собственото поле на играча
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Зеленчуци, плодове и зърно: сладък картоф, ечемик, зеле, ябълки, грозде и останалата отгледана или набрана храна, на растението или лежаща разпръсната. Преди те отговаряха на Предмети на земята, затова изключването на Растения все пак изпразваше поле: от 72-те точки за бране в играта 44 са култури и само 28 са растения.
+Verbose log	Подробен дневник
+Verdict	Присъда
+waiting	изчаква
+waiting for the game to check an item	чака играта да провери предмет
+waiting for the game to check ownership once	чака играта да провери собствеността веднъж
+Waiting for the world to load.	Изчаква се светът да се зареди.
+Watch	Наблюдение
+Watch mode	Режим на наблюдение
+Watch mode (menu stays up, you keep playing)	Режим на наблюдение (менюто остава отворено, а ти продължаваш да играеш)
+Watch mode: the game has your controls. %s to interact, %s to close.	Режим на наблюдение: играта държи контролите ти. %s за взаимодействие, %s за затваряне.
+Weapons and armor	Оръжия и брони
+What enters the working list at all. The ranges below are clamped to it.	Какво изобщо влиза в работния списък. Обхватите по-долу са ограничени спрямо него.
+What to collect	Какво да се събира
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Върти дръжката вместо теб и взима каквото излезе, като задейства същите преходи на състояние, които играта задейства, когато задържиш бутона за взаимодействие. Кладенец изобщо не вдига събитие за лут, затова това е повторение на заснета последователност, а не молба към играта за каквото и да било. Изключено по подразбиране, защото сгрешен кладенец е кладенец, оставен без кофата си.
+Wood	Дърво
+wood off	дървото изключено
+World (actor manager)	Свят (мениджър на актьори)
+worn by someone	носено от някого
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Носена екипировка, която враговете изпускат, докато умират. Евтина и тежка, но изобилна.
+worn or carried by you	носено или пренасяно от теб
+worth %lld copper	струва %lld мед
+Wrap the swapchain	Обвий swapchain-а
+Write translation template	Запиши шаблон за превод
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Записва MasterLooter.template.txt до плъгина, съдържащ всеки ред, който менюто е показало в тази сесия. Отвори всеки раздел първо, защото ред се появява едва след като е бил изчертан. Преведи дясната страна на всеки запис, запази го като MasterLooter.<language>.txt и посочи този език тук.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Записва настройките такива, каквито са сега, в \"%s\". Зареди го, промени каквото искаш, после го запази обратно.
+Writes the settings as they are now, named %s.	Записва настройките такива, каквито са сега, под името %s.
+yes	да
+yours, just out of your hand	твое, току-що изпуснато от ръката ти

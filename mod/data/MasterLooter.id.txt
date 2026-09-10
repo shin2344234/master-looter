@@ -1,0 +1,320 @@
+# Teks menu Master Looter dalam Bahasa Indonesia (id).
+# Terjemahan mesin oleh Claude, AI dari Anthropic; belum diperiksa oleh
+# penutur asli. Koreksi dipersilakan di GitHub
+# (github.com/shin2344234/master-looter) atau di halaman Nexus mod ini.
+#
+# Satu baris per teks: bahasa Inggris asli, satu tab, lalu terjemahannya.
+# Baris yang diawali # diabaikan, \n berarti ganti baris, dan baris tanpa
+# terjemahan setelah tab tetap ditampilkan dalam bahasa Inggris.
+# Setiap %d, %s, %.1f, dan penanda lain harus tetap berada di urutan yang
+# sama, karena nilainya disisipkan saat game berjalan; baris yang mengubah
+# penanda ini diabaikan saat dimuat agar tidak menampilkan nilai yang salah.
+#
+# Simpan file dengan nama ini di sebelah MasterLooter.asi untuk menimpa
+# salinan bawaan di dalam plugin.
+
+  bag full	  tas penuh
+ (first 250)	 (250 pertama)
+%-18s %s (%zu hits)%s	%-18s %s (%zu hasil)%s
+%d classes	%d kelas
+%d items, %d classes, %d tags	%d item, %d kelas, %d tag
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d baris diabaikan: placeholder %%d atau %%s miliknya tidak cocok dengan bahasa Inggris, sehingga jika dipakai akan menampilkan nilai yang salah.
+%d matches%s	%d hasil%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d jenis node dipelajari sesi ini. Node diberi nama sesuai prefab tempat mereka ditempatkan; apa pun yang terlewat oleh tabel itu diidentifikasi pertama kali saat menghasilkan sesuatu. Nomor jenis sebuah node berubah antar sesi, jadi tidak ada yang diingat setelah kamu keluar.
+%d objects within scan range, %d lootable now.	%d objek dalam jangkauan pemindaian, %d bisa dijarah sekarang.
+%d overrides	%d override
+%s (key %u, row %d, tier %d)	%s (kunci %u, baris %d, tingkat %d)
+%s (never looted)	%s (tidak pernah dijarah)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s adalah terjemahan mesin yang belum diperiksa siapa pun. Koreksi diterima di GitHub atau halaman Nexus.
+%s translated by %s.	%s diterjemahkan oleh %s.
+%s, let go to keep it	%s, lepaskan untuk menyimpannya
+1 match%s	1 hasil%s
+3 of 3	3 dari 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" sudah ada. Menyimpan di atasnya akan meminta konfirmasi dulu.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Ember sumur dan sejenisnya tidak pernah dijarah, tapi mengaktifkannya membuat game menawarkan interaksinya sehingga kamu bisa memakainya sendiri.
+Abyss and Kuku	Abyss dan Kuku
+Abyss gear, Kuku pots and their parts.	Perlengkapan Abyss, pot Kuku, dan bagian-bagiannya.
+Accessories	Aksesori
+allowed	diizinkan
+already in your bag	sudah ada di tasmu
+always	selalu
+always beats the class rule; never beats always	selalu mengalahkan aturan kelas; tidak pernah mengalahkan selalu
+Ammunition	Amunisi
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Apa pun yang diberi tag quest, di semua kelas. Nonaktifkan untuk menyisakan barang cerita dan potongan teka-teki untuk kamu ambil sendiri.
+Arm mechanism containers too	Aktifkan juga wadah mekanisme
+Arm nodes ourselves	Aktifkan node secara mandiri
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Pengaktifan mengabaikan tembok. Jaga jangkauannya tetap pendek, atau kamu akan mengumpulkan barang menembus tembok ruangan sebelah. Bijih adalah pengecualian dan selalu dijangkau hingga 25 m, karena urat bijih butuh beberapa detik untuk merespons dan jika baru diminta saat kamu sudah tepat di atasnya, responsnya datang terlalu lambat untuk berguna.
+Arming range	Jangkauan pengaktifan
+Auto-loot enabled	Loot otomatis aktif
+Auto-loot on / off	Aktifkan/nonaktifkan loot otomatis
+Backups	Cadangan
+blank for English	kosongkan untuk bahasa Inggris
+Books and papers	Buku dan kertas
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Hadiah bos, artefak, item memori, kantong koin, dan peti hadiah.
+Break veins open rather than emptying them	Pecahkan urat bijih daripada mengosongkannya
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Memecahkan menjalankan mesin status game itu sendiri pada urat bijih: ayunan mendarat lalu terjadi pecah, sehingga node menumpahkan isinya ke tanah dan menghilang persis seperti di bawah beliung. Mengosongkan justru mengangkat bijih langsung keluar dan melewatkan jatuhannya sama sekali. Kedua cara sama-sama tidak membayar Mining Yield Up alatmu, yang hanya diberikan game pada ayunan yang dianggapnya milikmu, jadi atur nilai tambahan di bawah untuk menutup selisihnya. Setiap urat bijih dipukul sekali lalu dibiarkan sampai game memunculkannya kembali.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Kupu-kupu, kumbang, capung, lebah, laba-laba, kalajengking, siput, dan makhluk kecil lain yang digolongkan game sebagai serangga. Spesies berasal dari tabel makhluk; makhluk yang tidak bisa diberi nama oleh tabel hanya ditangkap kalau semua kategori yang mungkin ditempatinya aktif (makhluk terbang bisa jadi ikan, serangga, atau burung).
+captured	tertangkap
+Carcasses	Bangkai
+carcasses off	bangkai nonaktif
+Catching	Penangkapan
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Makhluk yang ditangkap, hidup atau tergeletak; makhluk yang bisa diberi nama oleh tabel mengikuti aturan kelasnya. Kepiting, udang, dan cumi masuk makanan laut di Makanan dan minuman.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Peti, krat, dan node kumpulan jatuhan. Jarang merespons event loot. Nonaktif secara default.
+Class	Kelas
+class %s	kelas %s
+Classes	Kelas
+Clear	Hapus
+Clear overrides	Hapus override
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Menghapus apa yang dipelajari sesi ini dari tasmu. Node yang sudah diberi nama oleh tabel prefab tidak terpengaruh.
+Close	Tutup
+container (off)	wadah (nonaktif)
+Containers	Wadah
+Controller	Kontroler
+Copper	Tembaga
+Copy	Salin
+Copy path	Salin jalur
+Copy to the clipboard.	Salin ke clipboard.
+corpse	mayat
+corpse already searched	mayat sudah digeledah
+corpse: loot drops separately	mayat: jarahan jatuh terpisah
+creature	makhluk
+Creatures	Makhluk
+Crops	Tanaman pangan
+crops off	tanaman pangan nonaktif
+Damaged gear	Perlengkapan rusak
+Dead zone around you	Zona mati di sekitarmu
+Decision	Keputusan
+default	default
+DirectX 12 hooks	Hook DirectX 12
+does not respond	tidak merespons
+Draw water from wells	Ambil air dari sumur
+Engine	Mesin
+English	Inggris
+English. %d line(s) seen this session.	Inggris. %d baris terlihat sesi ini.
+entity	entitas
+entity %08X	entitas %08X
+entity %08X, %d items across every store	entitas %08X, %d item di semua penyimpanan
+entity %08X, bag %d of %d slots, %d items across every store	entitas %08X, tas %d dari %d slot, %d item di semua penyimpanan
+Event descriptors	Deskriptor event
+Extra ore per vein	Bijih ekstra per urat
+failed	gagal
+fast-travel artifact	artefak fast travel
+filter classes	filter kelas
+filter tags	filter tag
+Filters	Filter
+Fish	Ikan
+fish off	ikan nonaktif
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Ikan, dan apa pun lain yang kamu tangkap di air: kepiting, udang, cumi, bintang laut, dan kuda laut.
+Food and drink	Makanan dan minuman
+Forget	Lupakan
+found	ditemukan
+Furniture	Furnitur
+Furniture and decor	Furnitur dan dekorasi
+furniture node (off)	node furnitur (nonaktif)
+furniture off	furnitur nonaktif
+Game functions	Fungsi game
+Game functions did not resolve; see Status.	Fungsi game tidak ditemukan; lihat Status.
+Game-thread pump	Pompa thread game
+gather node	node kumpul
+Gathering	Pengumpulan
+Ground items	Barang di tanah
+Groups	Grup
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Node herba, bunga, dan jamur, serta barang serupa yang tergeletak di tanah. Tanaman pangan punya sakelar sendiri.
+hold two buttons (Escape cancels)	tahan dua tombol (Escape membatalkan)
+Household clutter and collectibles, most of it worthless.	Barang rumah tangga dan koleksi, sebagian besar tidak bernilai.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Seberapa penuh tas dibaca langsung dari tasnya, jadi notifikasi muncul begitu tas penuh, baik kamu sedang menjarah atau tidak. Jika angka-angka itu suatu saat tidak lagi masuk akal, mod beralih mengamati apa yang terjadi setelah mengambil barang: tiga kali berturut-turut tanpa hasil memunculkan notifikasi, dan satu kali berhasil menghapusnya.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Seberapa sering adegan dibaca. Pemindaian berjalan di thread-nya sendiri; hanya pengambilan akhir yang membebani game sepersekian milidetik.
+incomplete	tidak lengkap
+Insects	Serangga
+insects off	serangga nonaktif
+installed	terpasang
+Item	Item
+Item database	Database item
+Item table	Tabel item
+Items	Item
+Items lying in the world, including drops from enemies.	Barang yang tergeletak di dunia, termasuk jatuhan dari musuh.
+Items no shop will buy, across every class.	Item yang tidak dibeli toko mana pun, di semua kelas.
+Items on the ground	Barang di tanah
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Item yang diberi tag quest dibiarkan saja, sehingga teka-teki dan barang cerita tidak diambil otomatis. Ini membaca tag milik item itu sendiri, jadi berlaku untuk apa pun yang diambil, dikumpulkan, atau dibongkar. Pengulitan bangkai berada di luar ini: hasilnya datang tanpa mod pernah tahu apa isinya.
+Items with an unknown value are never filtered by it.	Item dengan nilai tidak diketahui tidak pernah difilter olehnya.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Jaga menu tetap di layar selagi kamu bermain. %s memunculkannya lagi, %s menutupnya.
+Keys	Tombol
+Keys and tools	Kunci dan alat
+Language	Bahasa
+Language \"%s\": %d line(s) translated, %d seen this session.	Bahasa \"%s\": %d baris diterjemahkan, %d terlihat sesi ini.
+learned from the game	dipelajari dari game
+Load	Muat
+loaded	dimuat
+locked	terkunci
+Log	Log
+Log: %ls	Log: %ls
+Loot	Loot
+Loot all	Loot semua
+Loot engine	Mesin loot
+Loot engine not started.	Mesin loot belum dimulai.
+Loot everything in range now	Loot semua yang ada di jangkauan sekarang
+Loot everything in range once	Loot semua yang ada di jangkauan sekali
+loot: %s	loot: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s untuk build game %s
+Materials	Material
+mechanism part	bagian mekanisme
+Memory chips and puzzle parts	Chip memori dan bagian teka-teki
+Mine ore veins for you	Tambang urat bijih untukmu
+Minimum value (copper)	Nilai minimum (tembaga)
+missing	tidak ada
+missing MasterLooter.items.tsv	MasterLooter.items.tsv tidak ditemukan
+mission object	objek misi
+Mounts and vehicles	Tunggangan dan kendaraan
+name a new preset	beri nama preset baru
+never	tidak pernah
+no	tidak
+no interaction node	tidak ada node interaksi
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Node yang tidak diberi nama oleh tabel prefab dan belum menghasilkan apa pun di sesi ini. Nonaktif (default) membiarkannya. Aktif membuat mod mengumpulkannya untuk mencari tahu, artinya tanaman bisa terambil meski Tanaman dinonaktifkan.
+none	tidak ada
+not found yet	belum ditemukan
+not in item database	tidak ada di database item
+not ready (node empty)	belum siap (node kosong)
+not resolved yet	belum terselesaikan
+not started	belum dimulai
+not yet	belum
+Nothing else is drawn while the menu is closed.	Tidak ada lagi yang digambar selagi menu tertutup.
+nothing taken yet this session	belum ada yang diambil sesi ini
+Object	Objek
+object	objek
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Objek ditampilkan dari yang terdekat, beserta aturan yang memutuskan tiap objek. Node kosong terbaca sebagai belum siap sampai game atau pengaktifan mengisinya. Apa yang kamu kenakan dan bawa tidak disertakan.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Objek yang lebih dekat dari ini dianggap sebagai perlengkapanmu sendiri. Ini jaring pengaman; perlengkapanmu juga dikenali lewat cara lain.
+Objects per burst press	Objek per tekan burst
+Objects per scan	Objek per pemindaian
+on the player	pada pemain
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Aktif, urat bijih dipanen di tempatnya dan kamu tidak pernah mengayunkan beliung. Nonaktif, urat bijih dibiarkan dan hanya pecahan yang kamu lepaskan yang diambil. Butuh pengaktifan, karena meminta urat bijih terbuka adalah inti triknya.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Aktif, overlay digambar di bawah frame generation DLSS, yang mengharuskan mod ini menyerahkan swapchain yang dibungkus ke game.\n\nNonaktif, overlay digambar lewat present hook. Semuanya terlihat sama kecuali frame generation aktif, dan mod ini tetap menghindari jalur yang juga ditambal oleh mod overlay lain. Coba ini kalau game tidak mau berjalan bersama mod overlay lain; bisa diatur sebagai WrapSwapChain di MasterLooter.ini tanpa perlu membuka game.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Satu cadangan ditulis setiap kali game dimulai dan dua belas terakhir disimpan, di MasterLooter.backups di sebelah plugin. Preset berada di MasterLooter.presets. Salin salah satu folder untuk menyimpannya lewat instal ulang.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Satu klik per keluarga. Tabel di bawah tetap mengatur kelas satu per satu; grup menampilkan tanda hubung kalau hanya sebagian aktif.
+Open and close this menu	Buka dan tutup menu ini
+Open folder	Buka folder
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Membuka folder di Explorer. Log ditulis ulang setiap kali dijalankan dan inilah yang harus dilampirkan ke laporan.
+Ore	Bijih
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Pecahan bijih di tanah dan node apa pun yang menghasilkan bijih, termasuk urat bijih. Urat bijih dipecahkan di tempatnya dan isinya diambil dari lantai, persis seperti yang dilakukan beliungmu dan yang membuat beliung lebih baik layak dibawa: Mining Yield Up alat berlaku pada jatuhannya, bukan pada node-nya. Setiap urat bijih dipukul sekali lalu dibiarkan sampai game memunculkannya kembali. Jangkauan ke urat bijih dimulai sejauh pemindaian bisa melihat, karena mereka butuh beberapa detik untuk merespons sementara semak hanya butuh sepersekiannya.
+ore off	bijih nonaktif
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Bijih, permata, batu, kayu, kulit, herba, barang dagangan, dan bahan crafting lainnya.
+out of range	di luar jangkauan
+Overlay	Overlay
+Override	Override
+owned by someone (theft)	milik orang lain (pencurian)
+Ownership	Kepemilikan
+Ownership oracle	Oracle kepemilikan
+Pace	Kecepatan
+part of a creature or a mechanism	bagian dari makhluk atau mekanisme
+paused: %s	dijeda: %s
+pick up off	ambil barang nonaktif
+Plants	Tanaman
+plants off	tanaman nonaktif
+Player	Pemain
+Player equipment.	Perlengkapan pemain.
+Player not found in the scene yet.	Pemain belum ditemukan di scene.
+Presets	Preset
+press a key (Escape cancels)	tekan tombol (Escape membatalkan)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Terlindungi secara default: chip memori memulai adegan memori saat diambil, dan bagian teka-teki merusak teka-tekinya. Aktifkan hanya jika kamu ingin keduanya diambil otomatis.
+protected item name	nama item terlindungi
+Puts every setting and rule back to what it was at that moment.	Mengembalikan semua pengaturan dan aturan ke keadaannya pada saat itu.
+puzzle or protected mechanism	teka-teki atau mekanisme terlindungi
+Quest items	Item quest
+quest or memory trigger	pemicu quest atau memori
+Ranges (metres)	Jangkauan (meter)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Tikus, tupai, burung, kadal, katak, dan salamander: apa pun lain yang dimasukkan game utuh ke tas.
+Reaching nodes	Menjangkau node
+Read from the file beside the plugin, not the copy inside it.	Dibaca dari file di sebelah plugin, bukan salinan di dalamnya.
+Rebind	Atur ulang
+Recent loot	Jarahan terbaru
+Refresh	Segarkan
+Reload now	Muat ulang sekarang
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Mengganti semua pengaturan serta setiap aturan kelas, tag, dan item dengan isi preset, lalu menulisnya ke MasterLooter.ini. Tidak ada pengaturan saat ini yang disimpan, jadi cadangkan dulu kalau kamu ingin menyimpannya.
+Reset all tags	Reset semua tag
+resolved	ditemukan
+Retry the same object after (ms)	Coba lagi objek yang sama setelah (ms)
+Route id	ID rute
+Rule	Aturan
+Save now	Simpan sekarang
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Disimpan sebagai \"%s\": nama preset hanya boleh berisi huruf, angka, spasi, tanda hubung, dan garis bawah.
+Say so on screen when the bag stops taking things	Tampilkan di layar saat tas berhenti menerima barang
+scan %.1f ms	pindai %.1f ms
+Scan radius	Radius pemindaian
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Pemindaian %ld, event terkirim %ld, tick pompa %ld, fault terjaga %ld, jenis node dipelajari %d
+Scans per second	Pemindaian per detik
+search item name or key (3+ letters)	cari nama atau kunci item (3+ huruf)
+Sending events	Mengirim event
+Set	Atur
+Settings: %ls	Pengaturan: %ls
+Show a brief notice when auto-loot is toggled	Tampilkan notifikasi singkat saat loot otomatis diubah
+Showing current overrides. Type to search all %d items.	Menampilkan override saat ini. Ketik untuk mencari semua %d item.
+Showing the nearest %d of %d. The rest are further away.	Menampilkan %d terdekat dari %d. Sisanya lebih jauh.
+Skip all	Lewati semua
+Skip items shops refuse to buy	Lewati item yang ditolak semua toko
+Skip quest items	Lewati item quest
+skip: %s	lewati: %s
+Small animals	Hewan kecil
+small animals off	hewan kecil nonaktif
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Sebagian objek di dunia tidak punya nama item yang bisa dibaca. Aktif: tetap ambil. Nonaktif: biarkan semua yang tidak teridentifikasi.
+stack at one point (storage contents)	tumpukan di satu titik (isi penyimpanan)
+Stone	Batu
+stone off	batu nonaktif
+Stone on the ground and nodes that yield stone.	Batu di tanah dan node yang menghasilkan batu.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Meja, kursi, ranjang, karpet, lampu, lilin, lukisan, pot, dan sisa perabot ruangan lainnya, entah kamu mengambilnya dari lantai atau dari node interaksinya sendiri. Kebanyakan hanya bernilai satu-dua tembaga, tapi karpet dan ranjang mewah bisa mencapai ribuan, jadi aktifkan ini sebelum memperabot rumah. Peti dan benda lain yang menyimpan sesuatu diatur lewat Wadah, bukan ini. Nonaktif secara default.
+Tag	Tag
+tags, any of which can be set to never in the Tags tab:	tag, yang masing-masing bisa diatur ke tidak pernah di tab Tag:
+Take goods that belong to someone	Ambil barang milik orang lain
+Take goods that belong to someone, on / off	Ambil barang milik orang lain, aktif / nonaktif
+Take items the database cannot name	Ambil item yang tidak bisa diberi nama oleh database
+Take owned goods on / off	Ambil barang bertuan, aktif / nonaktif
+takes effect next launch	berlaku mulai peluncuran berikutnya
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Mesin memindai sekitarmu dan mengambil apa yang diizinkan aturan. Nonaktif berarti tidak ada yang diambil otomatis; tombol burst tetap berfungsi.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Game mengisi data node hanya saat menganggap kamu bisa menjangkaunya. Pengaktifan meminta game melakukannya dari jarak jauh, yang juga memungkinkan urat bijih dipanen di tempatnya. Urat bijih butuh beberapa detik untuk merespons, sementara semak hanya butuh sepersekiannya.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Game menghapus objek yang diambil dengan jeda. Ini mencegah objek yang sama terkirim dua kali selagi memudar.
+The game treats this as stealing and will put a bounty on you.	Game menganggap ini pencurian dan akan menjadikanmu buronan.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Mod ini tidak pernah mengayunkan beliung. Ia menjalankan urutan pecah milik urat bijih itu sendiri, dan dalam hal itu game hanya melewati satu baris jatuhan padahal ayunan asli melewati dua, jadi bonus alat pertambanganmu tidak menghasilkan apa-apa saat mod yang menambang. Ini menambahkan kembali bijih yang hilang lewat jalur jatuhan yang sama dipakai game, jadi ini benar-benar bijih yang tumpah di tanah, bukan item yang disalin ke tasmu. Atur ke nilai yang dibayar alatmu secara manual dikurangi satu: bor yang memberi tiga secara manual butuh 2 di sini. Ini hanya berlaku pada urat bijih yang dipecahkan mod ini, jadi menambang manual tidak terpengaruh dan keduanya tidak bisa ditumpuk.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Interaksi pengulitan, sekali per bangkai. Mayat manusia menjatuhkan loot biasa. Hasil pengulitan tidak diperiksa lewat filtermu. Mod tidak pernah melihatnya sebelum mendarat, jadi sakelar ini semua-atau-tidak-sama-sekali.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Sesi ini: %ld diambil, %ld dikumpulkan, %ld ditangkap, %ld bangkai
+Timber and branches on the ground and nodes that yield them.	Kayu dan ranting di tanah serta node yang menghasilkannya.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Untuk membiarkan satu spesies saja, atur item yang dihasilkannya ke tidak pernah di tab Item: Item_Tench, Item_Ricefish, Item_Iguana. Mod membaca baris makhluk itu sendiri di tabel karakter game, jadi ia tahu spesies apa yang sedang dilihatnya sebelum menangkap apa pun. Beberapa makhluk tidak umum masih mengandalkan tebakan dari nama modelnya dan hanya ditangkap berdasarkan kategori.
+Treasure and keepsakes	Harta dan kenang-kenangan
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Dua tombol sekaligus, jangan satu: setiap tombol tunggal sudah punya fungsi di game ini. Mod hanya membaca pad, jadi game tetap menerima kedua tombol. Pilih pasangan yang tidak melakukan apa-apa bersamaan, seperti dua tombol bahu, atau Back dengan satu tombol wajah.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Belum terikat sampai kamu mengaturnya. Game menyebut pengambilan barang bertuan sebagai pencurian dan menjadikanmu buronan karenanya, jadi ini sakelar yang ingin kamu aktifkan sebentar lalu nonaktifkan lagi, yang kurang cocok untuk sebuah menu.
+Unidentified nodes	Node tak dikenal
+unidentified nodes off	node tak dikenal nonaktif
+unidentified: could be a fish, a flying insect or a bird	tak dikenal: bisa jadi ikan, serangga terbang, atau burung
+unidentified: could be an insect or a small animal	tak dikenal: bisa jadi serangga atau hewan kecil
+unnamed item	item tanpa nama
+Unsellable items	Item tak terjual
+Use this language	Gunakan bahasa ini
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Memakai pemeriksaan Take or Steal milik game sendiri; barang bertuan dilewati sampai pemeriksaan itu teramati sekali.
+using the player's own field	memakai field milik pemain sendiri
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Sayur, buah, dan biji-bijian: ubi jalar, barli, kubis, apel, anggur, dan sisa makanan hasil tani atau kumpulan lainnya, masih di tanaman atau tergeletak lepas. Dulu ini masuk Barang di tanah, itulah sebabnya menonaktifkan Tanaman tetap mengosongkan ladang: dari 72 slot koleksi di game, 44 adalah tanaman pangan dan hanya 28 adalah tanaman.
+Verbose log	Log rinci
+Verdict	Putusan
+waiting	menunggu
+waiting for the game to check an item	menunggu game memeriksa item
+waiting for the game to check ownership once	menunggu game memeriksa kepemilikan sekali
+Waiting for the world to load.	Menunggu dunia dimuat.
+Watch	Pantau
+Watch mode	Mode pantau
+Watch mode (menu stays up, you keep playing)	Mode pantau (menu tetap terbuka, kamu terus bermain)
+Watch mode: the game has your controls. %s to interact, %s to close.	Mode pantau: game memegang kontrolmu. %s untuk berinteraksi, %s untuk menutup.
+Weapons and armor	Senjata dan zirah
+What enters the working list at all. The ranges below are clamped to it.	Apa saja yang masuk ke daftar kerja. Jangkauan di bawah dibatasi olehnya.
+What to collect	Apa yang dikumpulkan
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Memutar engkol untukmu dan mengambil apa yang naik, dengan menjalankan transisi status yang sama seperti saat kamu menahan tombol interaksi. Sumur sama sekali tidak memunculkan event loot, jadi ini adalah pemutaran ulang urutan yang sudah direkam, bukan game yang diminta sesuatu. Nonaktif secara default, karena sumur yang salah diproses adalah sumur yang tertinggal tanpa embernya.
+Wood	Kayu
+wood off	kayu nonaktif
+World (actor manager)	Dunia (actor manager)
+worn by someone	dikenakan orang lain
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Perlengkapan yang dikenakan yang dijatuhkan musuh saat mati. Murah dan berat, tapi berlimpah.
+worn or carried by you	dikenakan atau dibawa olehmu
+worth %lld copper	senilai %lld tembaga
+Wrap the swapchain	Bungkus swapchain
+Write translation template	Tulis template terjemahan
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Menulis MasterLooter.template.txt di sebelah plugin, berisi setiap baris yang sudah ditampilkan menu di sesi ini. Buka semua tab dulu, karena satu baris baru muncul setelah digambar. Terjemahkan sisi kanan tiap catatan, simpan sebagai MasterLooter.<language>.txt, lalu masukkan nama bahasa itu di sini.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Menulis pengaturan saat ini ke \"%s\". Muat, ubah sesukamu, lalu simpan kembali.
+Writes the settings as they are now, named %s.	Menulis pengaturan saat ini, dengan nama %s.
+yes	ya
+yours, just out of your hand	milikmu, baru saja lepas dari tanganmu

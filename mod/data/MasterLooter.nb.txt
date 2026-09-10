@@ -1,0 +1,325 @@
+# Master Looter-menyteksten på norsk bokmål (nb).
+# Dette er en maskinoversettelse laget av Claude, en KI fra Anthropic.
+# Ingen som har norsk som morsmål har korrekturlest den ennå. Rettelser
+# mottas gjerne på GitHub (github.com/shin2344234/master-looter) eller
+# på moddens Nexus-side.
+#
+# Én linje per tekst: originalen på engelsk, en tabulator, så
+# oversettelsen. \n er et linjeskift: behold samme antall som i
+# originalen. En linje uten oversettelse etter tabulatoren vises
+# fortsatt på engelsk, så en delvis ferdig fil fungerer fint.
+# Behold hver %d, %s, %.1f og lignende plassholder nøyaktig som den
+# står og i samme rekkefølge: de erstattes med tall og navn når
+# spillet kjører, og en linje som endrer dem blir ignorert.
+#
+# Lagre filen som MasterLooter.<språk>.txt ved siden av
+# MasterLooter.asi, for eksempel MasterLooter.nb.txt, og sett
+# Language=nb i MasterLooter.ini, eller skriv inn språket under
+# Generelt, Språk. En fil med dette navnet der overstyrer den
+# innebygde kopien i pluginen.
+
+  bag full	  sekken full
+ (first 250)	 (de første 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu treff)%s
+%d classes	%d klasser
+%d items, %d classes, %d tags	%d gjenstander, %d klasser, %d tagger
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d linje(r) ble ignorert: plassholderne %%d eller %%s stemte ikke med den engelske teksten, og å bruke dem ville vist feil verdier.
+%d matches%s	%d treff%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d punkttyper lært denne økten. Punkter navngis etter prefaben de ble plassert fra; alt tabellen mangler blir identifisert første gang det gir noe. Et punkts typenummer endres mellom økter, så ingenting huskes etter at du avslutter.
+%d objects within scan range, %d lootable now.	%d objekter innenfor skanneområdet, %d kan lootes nå.
+%d overrides	%d overstyringer
+%s (key %u, row %d, tier %d)	%s (nøkkel %u, rad %d, nivå %d)
+%s (never looted)	%s (aldri lootet)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s er en maskinoversettelse som ingen har sjekket ennå. Rettelser mottas gjerne på GitHub eller Nexus-siden.
+%s translated by %s.	%s oversatt av %s.
+%s, let go to keep it	%s, slipp for å beholde den
+1 match%s	1 treff%s
+3 of 3	3 av 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" finnes allerede. Du blir spurt før den overskrives.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	En brønnbøtte og lignende blir aldri lootet, men å klargjøre en får spillet til å tilby sin interaksjon slik at du kan bruke den for hånd.
+Abyss and Kuku	Abyss and Kuku
+Abyss gear, Kuku pots and their parts.	Abyss-utstyr, Kuku-krukker og delene deres.
+Accessories	Tilbehør
+allowed	tillatt
+already in your bag	allerede i sekken din
+always	alltid
+always beats the class rule; never beats always	alltid overstyrer klasseregelen; aldri overstyrer alltid
+Ammunition	Ammunisjon
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Alt merket quest, i alle klasser. Av lar historiegjenstander og puslespillbiter være til dine egne hender.
+Arm mechanism containers too	Klargjør også mekanismebeholdere
+Arm nodes ourselves	Klargjør punkter selv
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Klargjøring ignorerer vegger. Hold den kort, ellers sanker du gjennom veggen til neste rom. Malm er unntaket og nås alltid opptil 25 m unna, fordi en åre bruker sekunder på å svare, og å spørre først når du står oppå den betyr at den åpner seg for sent til å være til nytte.
+Arming range	Klargjøringsavstand
+Auto-loot enabled	Autoloot aktivert
+Auto-loot on / off	Autoloot på/av
+Backups	Sikkerhetskopier
+blank for English	tom for engelsk
+Books and papers	Bøker og papirer
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Sjefsbelønninger, artefakter, minnegjenstander, myntposer og belønningskister.
+Break veins open rather than emptying them	Bryt opp årer i stedet for å tømme dem
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Å bryte opp åren kjører spillets egen tilstandsmaskin ved åren: slaget treffer, så følger bruddet, slik at punktet spruter innholdet ut på bakken og forsvinner akkurat som under en hakke. Å tømme løfter i stedet malmen rett ut og hopper helt over droppet. Ingen av metodene gir verktøyets Mining Yield Up, som spillet bare gir for et slag det regner som ditt, så sett ekstraen under for å ta igjen forskjellen. Hver åre brytes én gang og blir så stående til spillet gjenoppretter den.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Sommerfugler, biller, øyenstikkere, bier, edderkopper, skorpioner, snegler og de andre småtingene spillet fører som insekter. Arten kommer fra skapningstabellen; en skapning tabellen ikke kan navngi blir bare fanget når alle kategoriene den kan tilhøre er på (noe flygende kan være en fisk, et insekt eller en fugl).
+captured	fanget opp
+Carcasses	Kadavre
+carcasses off	kadavre av
+Catching	Fangst
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Fangede skapninger, levende eller liggende rundt omkring; en skapning tabellen kan navngi følger sin klasseregel. Krabber, reker og blekksprut er sjømat under Mat og drikke.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Kister, kasser og drop-set-punkter. De svarer sjelden på loot-hendelsen. Av som standard.
+Class	Klasse
+class %s	klasse %s
+Classes	Klasser
+Clear	Tøm
+Clear overrides	Tøm overstyringer
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Tømmer det denne økten har funnet ut fra sekken din. Punkter navngitt av prefab-tabellen påvirkes ikke.
+Close	Lukk
+container (off)	beholder (av)
+Containers	Beholdere
+Controller	Kontroller
+Copper	Kobber
+Copy	Kopier
+Copy path	Kopier sti
+Copy to the clipboard.	Kopier til utklippstavlen.
+corpse	lik
+corpse already searched	liket er allerede ransaket
+corpse: loot drops separately	lik: loot slippes separat
+creature	skapning
+Creatures	Skapninger
+Crops	Avlinger
+crops off	avlinger av
+Damaged gear	Skadet utstyr
+Dead zone around you	Dødsone rundt deg
+Decision	Beslutning
+default	standard
+DirectX 12 hooks	DirectX 12-hooker
+does not respond	svarer ikke
+Draw water from wells	Hent vann fra brønner
+Engine	Motor
+English	Engelsk
+English. %d line(s) seen this session.	Engelsk. %d linje(r) sett denne økten.
+entity	entity
+entity %08X	entity %08X
+entity %08X, %d items across every store	entity %08X, %d gjenstander i alle lagre
+entity %08X, bag %d of %d slots, %d items across every store	entity %08X, sekk %d av %d plasser, %d gjenstander i alle lagre
+Event descriptors	Hendelsesdeskriptorer
+Extra ore per vein	Ekstra malm per åre
+failed	mislyktes
+fast-travel artifact	hurtigreiseartefakt
+filter classes	filtrer klasser
+filter tags	filtrer tagger
+Filters	Filtre
+Fish	Fisk
+fish off	fisk av
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Fisk, og alt annet du fanger i vannet: krabber, reker, blekksprut, sjøstjerner og sjøhester.
+Food and drink	Mat og drikke
+Forget	Glem
+found	funnet
+Furniture	Møbler
+Furniture and decor	Møbler og dekor
+furniture node (off)	møbelpunkt (av)
+furniture off	møbler av
+Game functions	Spillfunksjoner
+Game functions did not resolve; see Status.	Spillfunksjoner ble ikke funnet; se Status.
+Game-thread pump	Spilltrådpumpe
+gather node	sankepunkt
+Gathering	Sanking
+Ground items	Gjenstander på bakken
+Groups	Grupper
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Urte-, blomster- og soppunkter, og det samme liggende på bakken. Matvekster har sin egen bryter.
+hold two buttons (Escape cancels)	hold inne to knapper (Escape avbryter)
+Household clutter and collectibles, most of it worthless.	Husholdningsrot og samleobjekter, det meste uten verdi.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Hvor full sekken er leses fra selve sekken, så varselet dukker opp i det øyeblikket den fylles, uansett om du looter eller ikke. Hvis disse tallene noen gang slutter å gi mening, faller modden tilbake på å observere hva som skjer etter en oppplukking: tre på rad som ikke havner noe sted utløser varselet, og én som lander fjerner det.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Hvor ofte scenen leses. Skanningen kjører på sin egen tråd; bare selve resultatet koster spillet en brøkdel av et millisekund.
+incomplete	ufullstendig
+Insects	Insekter
+insects off	insekter av
+installed	installert
+Item	Gjenstand
+Item database	Gjenstandsdatabase
+Item table	Gjenstandstabell
+Items	Gjenstander
+Items lying in the world, including drops from enemies.	Gjenstander som ligger i verden, inkludert drops fra fiender.
+Items no shop will buy, across every class.	Gjenstander ingen butikk vil kjøpe, i alle klasser.
+Items on the ground	Gjenstander på bakken
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Gjenstander merket quest blir latt i fred, slik at puslespill og historiegjenstander ikke tas automatisk. Dette leser gjenstandens egne tagger, så det dekker alt som plukkes opp, sankes eller brytes opp. Å flå et kadaver faller utenfor: det utbyttet kommer inn uten at modden noen gang ser hva det er.
+Items with an unknown value are never filtered by it.	Gjenstander med ukjent verdi blir aldri filtrert av den.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Hold menyen på skjermen mens du spiller. %s henter den tilbake, %s lukker den.
+Keys	Nøkler
+Keys and tools	Nøkler og verktøy
+Language	Språk
+Language \"%s\": %d line(s) translated, %d seen this session.	Språk \"%s\": %d linje(r) oversatt, %d sett denne økten.
+learned from the game	lært fra spillet
+Load	Last inn
+loaded	lastet inn
+locked	låst
+Log	Logg
+Log: %ls	Logg: %ls
+Loot	Loot
+Loot all	Loot alt
+Loot engine	Lootmotor
+Loot engine not started.	Lootmotoren er ikke startet.
+Loot everything in range now	Loot alt innenfor rekkevidde nå
+Loot everything in range once	Loot alt innenfor rekkevidde én gang
+loot: %s	loot: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s for spillversjon %s
+Materials	Materialer
+mechanism part	mekanismedel
+Memory chips and puzzle parts	Minnebrikker og puslespilldeler
+Mine ore veins for you	Bryt malmårer for deg
+Minimum value (copper)	Minimumsverdi (kobber)
+missing	mangler
+missing MasterLooter.items.tsv	MasterLooter.items.tsv mangler
+mission object	oppdragsobjekt
+Mounts and vehicles	Ridedyr og kjøretøy
+name a new preset	navngi en ny forhåndsinnstilling
+never	aldri
+no	nei
+no interaction node	intet interaksjonspunkt
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Punkter prefab-tabellen ikke navngir og som ikke har gitt noe ennå denne økten. Av (standard) lar dem være i fred. På får modden til å sanke dem for å finne ut, noe som betyr at en plante kan bli tatt mens Planter er av.
+none	ingen
+not found yet	ikke funnet ennå
+not in item database	ikke i gjenstandsdatabasen
+not ready (node empty)	ikke klar (punktet er tomt)
+not resolved yet	ikke løst ennå
+not started	ikke startet
+not yet	ikke ennå
+Nothing else is drawn while the menu is closed.	Ingenting annet tegnes mens menyen er lukket.
+nothing taken yet this session	ingenting tatt ennå denne økten
+Object	Objekt
+object	objekt
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Objekter listes nærmest først, med regelen som avgjorde hvert av dem. Tomme punkter vises som ikke klare til spillet eller klargjøring fyller dem. Det du har på deg og bærer er utelatt.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Objekter nærmere enn dette behandles som ditt eget utstyr. Et sikkerhetsnett; utstyret ditt gjenkjennes også på andre måter.
+Objects per burst press	Objekter per trykk
+Objects per scan	Objekter per skanning
+on the player	på spilleren
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	På blir en åre høstet der den står, og du svinger aldri en hakke. Av blir årer latt i fred, og bare bitene du slår løs plukkes opp. Krever klargjøring, siden det er selve trikset å be åren åpne seg.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	På tegnes overlayet under DLSS frame generation, noe som krever at modden gir spillet en innpakket swapchain.\n\nAv tegnes overlayet gjennom present-hooken i stedet. Alt ser likt ut med mindre frame generation er på, og modden holder seg unna en sti andre overlay-mods også patcher. Prøv dette hvis spillet ikke vil starte sammen med en annen overlay-mod; det kan settes som WrapSwapChain i MasterLooter.ini uten å starte spillet.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Én sikkerhetskopi skrives hver gang spillet starter, og de siste tolv beholdes, i MasterLooter.backups ved siden av pluginen. Forhåndsinnstillinger ligger i MasterLooter.presets. Kopier en av mappene for å beholde den ved en ominstallering.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Ett klikk per familie. Tabellen under setter fortsatt enkeltklasser; en gruppe viser en strek når bare deler av den er på.
+Open and close this menu	Åpne og lukk denne menyen
+Open folder	Åpne mappe
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Åpner mappen i Utforsker. Loggen skrives på nytt ved hver oppstart, og er det du skal legge ved en rapport.
+Ore	Malm
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Malmbiter på bakken og alle punkter som gir malm, årer inkludert. En åre brytes der den står, og innholdet plukkes opp fra gulvet, som er det hakken din gjør og det som gjør en bedre hakke verdt å bære: verktøyets Mining Yield Up gjelder droppet, ikke punktet. Hver åre brytes én gang og blir så latt i fred til spillet bringer den tilbake. Å nå etter årer starter så langt ute som skanningen kan se, fordi de bruker sekunder på å svare der en busk bruker en brøkdel av ett.
+ore off	malm av
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Malm, edelstener, stein, tømmer, skinn, urter, handelsvarer og annet håndverksmateriale.
+out of range	utenfor rekkevidde
+Overlay	Overlay
+Override	Overstyring
+owned by someone (theft)	eid av noen (tyveri)
+Ownership	Eierskap
+Ownership oracle	Eierskapsorakel
+Pace	Tempo
+part of a creature or a mechanism	del av en skapning eller en mekanisme
+paused: %s	pauset: %s
+pick up off	plukking av
+Plants	Planter
+plants off	planter av
+Player	Spiller
+Player equipment.	Spillerens utstyr.
+Player not found in the scene yet.	Spilleren er ikke funnet i scenen ennå.
+Presets	Forhåndsinnstillinger
+press a key (Escape cancels)	trykk en tast (Escape avbryter)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Beskyttet som standard: en minnebrikke starter en minnescene når den tas, og en puslespilldel ødelegger puslespillet sitt. Slå på bare hvis du vil at de skal tas automatisk.
+protected item name	navn på beskyttet gjenstand
+Puts every setting and rule back to what it was at that moment.	Setter alle innstillinger og regler tilbake til slik de var i det øyeblikket.
+puzzle or protected mechanism	puslespill eller beskyttet mekanisme
+Quest items	Questgjenstander
+quest or memory trigger	quest- eller minneutløser
+Ranges (metres)	Avstander (meter)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Rotter, ekorn, fugler, øgler, frosker og salamandere: alt annet spillet legger helt i sekken.
+Reaching nodes	Å nå punkter
+Read from the file beside the plugin, not the copy inside it.	Leses fra filen ved siden av pluginen, ikke kopien inni den.
+Rebind	Bytt binding
+Recent loot	Nylig loot
+Refresh	Oppdater
+Reload now	Last inn på nytt nå
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Erstatter alle innstillinger og alle klasse-, tag- og gjenstandsregler med det forhåndsinnstillingen inneholder, og skriver det til MasterLooter.ini. Ingenting av de nåværende innstillingene beholdes, så sikkerhetskopier dem først hvis du vil ha dem.
+Reset all tags	Tilbakestill alle tagger
+resolved	løst
+Retry the same object after (ms)	Prøv samme objekt på nytt etter (ms)
+Route id	Rute-ID
+Rule	Regel
+Save now	Lagre nå
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Lagret som \"%s\": et navn på en forhåndsinnstilling beholder bokstaver, tall, mellomrom, bindestreker og understreker.
+Say so on screen when the bag stops taking things	Vis det på skjermen når sekken slutter å ta imot ting
+scan %.1f ms	skanning %.1f ms
+Scan radius	Skanneradius
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Skanninger %ld, hendelser sendt %ld, pumpetikk %ld, fangede feil %ld, punkttyper lært %d
+Scans per second	Skanninger per sekund
+search item name or key (3+ letters)	søk etter gjenstandsnavn eller nøkkel (3+ bokstaver)
+Sending events	Sender hendelser
+Set	Sett
+Settings: %ls	Innstillinger: %ls
+Show a brief notice when auto-loot is toggled	Vis et kort varsel når autoloot slås av eller på
+Showing current overrides. Type to search all %d items.	Viser nåværende overstyringer. Skriv for å søke blant alle %d gjenstander.
+Showing the nearest %d of %d. The rest are further away.	Viser de %d nærmeste av %d. Resten er lenger unna.
+Skip all	Hopp over alt
+Skip items shops refuse to buy	Hopp over gjenstander butikker nekter å kjøpe
+Skip quest items	Hopp over questgjenstander
+skip: %s	hopp over: %s
+Small animals	Små dyr
+small animals off	små dyr av
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Noen objekter i verden har ikke noe lesbart gjenstandsnavn. På: ta dem likevel. Av: la alt uidentifisert være i fred.
+stack at one point (storage contents)	stables på ett sted (lagerinnhold)
+Stone	Stein
+stone off	stein av
+Stone on the ground and nodes that yield stone.	Stein på bakken og punkter som gir stein.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bord, stoler, senger, tepper, lamper, lys, malerier, krukker og resten av et møblert rom, enten du plukker det opp fra gulvet eller tar det fra sitt eget interaksjonspunkt. Det meste er verdt en kobber eller to, men teppene og luksussengene går opp i tusener, så slå dette på før du møblerer et hus. Kister og andre ting som inneholder noe hører til Beholdere i stedet. Av som standard.
+Tag	Tagg
+tags, any of which can be set to never in the Tags tab:	tagger, som hver kan settes til aldri i Tagger-fanen:
+Take goods that belong to someone	Ta varer som tilhører noen
+Take goods that belong to someone, on / off	Ta varer som tilhører noen, på/av
+Take items the database cannot name	Ta gjenstander databasen ikke kan navngi
+Take owned goods on / off	Ta eide varer på/av
+takes effect next launch	trer i kraft ved neste oppstart
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Motoren skanner rundt deg og tar det reglene tillater. Av betyr at ingenting tas automatisk; trykk-tasten fungerer fortsatt.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Spillet fyller et punkts data bare når det tror du kan nå det. Klargjøring ber det gjøre det på avstand, noe som også er det som lar en malmåre bli høstet der den står. Årer bruker flere sekunder på å svare der en busk bruker en brøkdel av ett.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Spillet fjerner tatte objekter med en forsinkelse. Dette hindrer at det samme objektet sendes to ganger mens det forsvinner.
+The game treats this as stealing and will put a bounty on you.	Spillet regner dette som tyveri og setter en dusør på deg.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Modden svinger aldri en hakke. Den kjører årens egen bruddsekvens, og spillet går gjennom én droprad for det der et ekte slag går gjennom to, så bonusen fra gruveverktøyet ditt gir ingenting når modden gjør gravingen. Dette legger den manglende malmen tilbake gjennom samme droppsti spillet bruker, så det er ekte malm som spruter ut på bakken, ikke en gjenstand kopiert inn i sekken din. Sett den til det verktøyet ditt gir for hånd minus én: en drill som gir tre for hånd vil ha 2 her. Det gjelder bare en åre denne modden brøt, så graving for hånd er upåvirket, og de to kan ikke stables.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Flåingsinteraksjonen, én gang per kadaver. Menneskelik slipper vanlig loot i stedet. Det flåingen gir ut sjekkes ikke mot filtrene dine. Modden ser det aldri før det lander, så denne bryteren er alt eller ingenting.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Denne økten: %ld plukket opp, %ld sanket, %ld fanget, %ld kadavre
+Timber and branches on the ground and nodes that yield them.	Tømmer og grener på bakken og punkter som gir dem.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	For å la én art være i fred, sett det den blir til til aldri i Gjenstander-fanen: Item_Tench, Item_Ricefish, Item_Iguana. Modden leser skapningens egen rad i spillets karaktertabell, så den vet hvilken art den ser på før den fanger noe. Noen få uvanlige skapninger faller fortsatt tilbake på å gjette ut fra modellnavnet og fanges bare etter kategori.
+Treasure and keepsakes	Skatter og minner
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	To knapper samtidig, aldri én: hver eneste knapp gjør allerede noe i dette spillet. Modden bare leser paden, så spillet ser fortsatt begge knappene. Velg et par som ikke gjør noe sammen, som de to skulderknappene, eller Back og en frontknapp.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Ubundet til du setter den. Spillet kaller det å ta eide varer for tyveri og setter en dusør på deg for det, så dette er bryteren du vil ha på et øyeblikk og av igjen, noe som passer dårlig i en meny.
+Unidentified nodes	Uidentifiserte punkter
+unidentified nodes off	uidentifiserte punkter av
+unidentified: could be a fish, a flying insect or a bird	uidentifisert: kan være en fisk, et flygende insekt eller en fugl
+unidentified: could be an insect or a small animal	uidentifisert: kan være et insekt eller et lite dyr
+unnamed item	navnløs gjenstand
+Unsellable items	Gjenstander som ikke kan selges
+Use this language	Bruk dette språket
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Bruker spillets egen Take or Steal-sjekk; eide varer hoppes over til den er observert én gang.
+using the player's own field	ved hjelp av spillerens eget felt
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Grønnsaker, frukt og korn: søtpotet, bygg, kål, epler, druer og resten av den dyrkede og sankede maten, på planten eller liggende løst. Disse hørte tidligere til Gjenstander på bakken, som er hvorfor det å slå av Planter likevel tømte et jorde: av de 72 innsamlingssoklene i spillet er 44 avlinger og bare 28 planter.
+Verbose log	Detaljert logg
+Verdict	Avgjørelse
+waiting	venter
+waiting for the game to check an item	venter på at spillet sjekker en gjenstand
+waiting for the game to check ownership once	venter på at spillet sjekker eierskap én gang
+Waiting for the world to load.	Venter på at verdenen skal laste inn.
+Watch	Vis
+Watch mode	Visningsmodus
+Watch mode (menu stays up, you keep playing)	Visningsmodus (menyen blir stående, du fortsetter å spille)
+Watch mode: the game has your controls. %s to interact, %s to close.	Visningsmodus: spillet har kontrollen din. %s for å interagere, %s for å lukke.
+Weapons and armor	Våpen og rustning
+What enters the working list at all. The ranges below are clamped to it.	Hva som i det hele tatt kommer inn på arbeidslisten. Avstandene under er begrenset til denne.
+What to collect	Hva som skal samles inn
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Vinsjer håndtaket for deg og tar det som kommer opp, ved å kjøre de samme tilstandsovergangene spillet kjører når du holder inne interaksjonsknappen. En brønn utløser ingen loot-hendelse i det hele tatt, så dette er en avspilling av en fanget sekvens snarere enn at spillet blir spurt om noe. Av som standard, fordi en brønn den gjør feil er en brønn som blir stående uten bøtten sin.
+Wood	Tre
+wood off	tre av
+World (actor manager)	Verden (actor manager)
+worn by someone	båret av noen
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Utstyr fiender bærer og slipper når de dør. Billig og tungt, men rikelig.
+worn or carried by you	båret eller holdt av deg
+worth %lld copper	verdt %lld kobber
+Wrap the swapchain	Pakk inn swapchainen
+Write translation template	Skriv oversettelsesmal
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Skriver MasterLooter.template.txt ved siden av pluginen, med hver linje menyen har vist denne økten. Åpne alle fanene først, siden en linje bare dukker opp etter at den er tegnet. Oversett høyre side av hver oppføring, lagre den som MasterLooter.<språk>.txt, og skriv det språket her.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Skriver innstillingene slik de er nå til \"%s\". Last den inn, endre det du vil, og lagre den tilbake.
+Writes the settings as they are now, named %s.	Skriver innstillingene slik de er nå, med navnet %s.
+yes	ja
+yours, just out of your hand	ditt, rett utenfor hånden din

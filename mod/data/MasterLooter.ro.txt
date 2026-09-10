@@ -1,0 +1,321 @@
+# Textul meniului Master Looter in limba romana (ro).
+# Traducere automata realizata de Claude, un model de inteligenta artificiala
+# de la Anthropic; niciun vorbitor nativ nu a verificat-o inca. Corecturile
+# sunt binevenite pe GitHub (github.com/shin2344234/master-looter) sau pe
+# pagina de Nexus a modului.
+#
+# O linie per text: originalul in engleza, o tabulare, apoi traducerea.
+# Liniile care incep cu # sunt ignorate. \n reprezinta o schimbare de linie.
+# O linie fara nimic dupa tabulare ramane afisata in engleza, deci un fisier
+# partial tradus este perfect utilizabil. Pastreaza fiecare %d, %s, %.1f si
+# celelalte substituente exact cum apar si in aceeasi ordine: sunt inlocuite
+# cu numere si nume in timpul rularii.
+#
+# Salveaza ca MasterLooter.ro.txt langa MasterLooter.asi pentru a suprascrie
+# copia inclusa in plugin, apoi seteaza Language=ro in MasterLooter.ini sau
+# scrie limba in meniul General, Language.
+  bag full	  inventar plin
+ (first 250)	 (primele 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu potriviri)%s
+%d classes	%d clase
+%d items, %d classes, %d tags	%d obiecte, %d clase, %d etichete
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d linie(linii) ignorată(e): substituenții %%d sau %%s nu corespund celor din engleză, iar folosirea lor ar afișa valori greșite.
+%d matches%s	%d rezultate%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d tipuri de puncte identificate în această sesiune. Punctele sunt numite după prefab-ul din care au fost plasate; tot ce lipsește din acel tabel este identificat prima dată când oferă ceva. Numărul de tip al unui punct se schimbă între sesiuni, deci nimic nu este reținut după ce ieși din joc.
+%d objects within scan range, %d lootable now.	%d obiecte în raza de scanare, %d pot fi luate acum.
+%d overrides	%d excepții
+%s (key %u, row %d, tier %d)	%s (cheie %u, rând %d, nivel %d)
+%s (never looted)	%s (niciodată luat)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s este o traducere automată pe care nimeni nu a verificat-o încă. Corecturile sunt binevenite pe GitHub sau pe pagina de Nexus.
+%s translated by %s.	%s tradus de %s.
+%s, let go to keep it	%s, eliberează pentru a păstra
+1 match%s	1 rezultat%s
+3 of 3	3 din 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" există deja. Suprascrierea cere confirmare mai întâi.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Găleata unei fântâni și altele asemenea nu sunt niciodată luate, dar activarea uneia face ca jocul să ofere interacțiunea, ca s-o poți folosi manual.
+Abyss and Kuku	Abyss și Kuku
+Abyss gear, Kuku pots and their parts.	Echipament Abyss, oale Kuku și piesele lor.
+Accessories	Accesorii
+allowed	permis
+already in your bag	deja în inventar
+always	întotdeauna
+always beats the class rule; never beats always	întotdeauna bate regula clasei; niciodată bate întotdeauna
+Ammunition	Muniție
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Orice obiect etichetat quest, din orice clasă. Dezactivat păstrează obiectele de poveste și piesele de puzzle pentru mâinile tale.
+Arm mechanism containers too	Activează și recipientele mecanismelor
+Arm nodes ourselves	Activare automată a punctelor
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Activarea ignoră pereții. Ține raza mică, altfel vei recolta prin peretele camerei alăturate. Minereul este excepția și este întotdeauna vizat de la până la 25 m, pentru că un zăcământ are nevoie de câteva secunde ca să răspundă, iar dacă întrebi abia când ești deasupra lui, se deschide prea târziu ca să mai fie de folos.
+Arming range	Raza de activare
+Auto-loot enabled	Loot automat activat
+Auto-loot on / off	Activare/dezactivare loot automat
+Backups	Copii de rezervă
+blank for English	gol pentru engleză
+Books and papers	Cărți și hârtii
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Recompense de la șefi, artefacte, obiecte de memorie, pungi cu monede și cufere de recompensă.
+Break veins open rather than emptying them	Sparge zăcămintele în loc să le golești
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Spargerea acționează chiar mecanismul de stări al jocului la zăcământ: mai întâi lovitura, apoi ruptura, astfel încât punctul își varsă conținutul pe jos și dispare exact ca sub un târnăcop. Golirea, în schimb, scoate minereul direct și sare complet peste vărsare. Niciuna dintre cele două metode nu primește bonusul Mining Yield Up al uneltei tale, pe care jocul îl acordă doar unei lovituri pe care o consideră a ta, așa că setează valoarea suplimentară de mai jos ca să compensezi diferența. Fiecare zăcământ este lovit o singură dată și apoi lăsat în pace până când jocul îl regenerează.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Fluturi, gândaci, libelule, albine, păianjeni, scorpioni, melci și celelalte viețuitoare mici pe care jocul le clasifică drept insecte. Speciile provin din tabelul de creaturi; o creatură pe care tabelul nu o poate numi este prinsă doar când sunt activate toate categoriile din care ar putea face parte (o viețuitoare zburătoare ar putea fi pește, insectă sau pasăre).
+captured	capturat
+Carcasses	Carcase
+carcasses off	carcase dezactivate
+Catching	Capturare
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Creaturi capturabile, vii sau căzute prin preajmă; o creatură pe care tabelul o poate numi urmează regula clasei sale. Crabii, creveții și calamarii sunt fructe de mare, la Alimente și băuturi.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Cufere, lăzi și puncte de tip drop-set. Răspund rar la evenimentul de loot. Dezactivat implicit.
+Class	Clasă
+class %s	clasa %s
+Classes	Clase
+Clear	Șterge
+Clear overrides	Șterge excepțiile
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Șterge ce a dedus această sesiune din inventarul tău. Punctele numite din tabelul de prefab-uri nu sunt afectate.
+Close	Închide
+container (off)	recipient (dezactivat)
+Containers	Recipiente
+Controller	Controler
+Copper	Aramă
+Copy	Copiază
+Copy path	Copiază calea
+Copy to the clipboard.	Copiază în clipboard.
+corpse	cadavru
+corpse already searched	cadavru deja scotocit
+corpse: loot drops separately	cadavru: prada cade separat
+creature	creatură
+Creatures	Creaturi
+Crops	Culturi
+crops off	culturi dezactivate
+Damaged gear	Echipament deteriorat
+Dead zone around you	Zonă moartă în jurul tău
+Decision	Decizie
+default	implicit
+DirectX 12 hooks	Hook-uri DirectX 12
+does not respond	nu răspunde
+Draw water from wells	Scoate apă din fântâni
+Engine	Motor
+English	Engleză
+English. %d line(s) seen this session.	Engleză. %d linie(linii) văzută(e) în această sesiune.
+entity	entitate
+entity %08X	entitate %08X
+entity %08X, %d items across every store	entitate %08X, %d obiecte în toate depozitele
+entity %08X, bag %d of %d slots, %d items across every store	entitate %08X, inventar %d din %d sloturi, %d obiecte în toate depozitele
+Event descriptors	Descriptori de evenimente
+Extra ore per vein	Minereu suplimentar per zăcământ
+failed	eșuat
+fast-travel artifact	artefact de călătorie rapidă
+filter classes	filtrează clase
+filter tags	filtrează etichete
+Filters	Filtre
+Fish	Pești
+fish off	pești dezactivați
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Pești și orice altceva prinzi în apă: crabi, creveți, calamari, stele de mare și căluți de mare.
+Food and drink	Alimente și băuturi
+Forget	Uită
+found	găsit
+Furniture	Mobilier
+Furniture and decor	Mobilier și decorațiuni
+furniture node (off)	punct de mobilier (dezactivat)
+furniture off	mobilier dezactivat
+Game functions	Funcții ale jocului
+Game functions did not resolve; see Status.	Funcțiile jocului nu au fost rezolvate; vezi Status.
+Game-thread pump	Pompa thread-ului de joc
+gather node	punct de recoltare
+Gathering	Recoltare
+Ground items	Obiecte de pe jos
+Groups	Grupuri
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Puncte de plante, flori și ciuperci, plus aceleași aflate pe jos. Culturile alimentare au propriul comutator.
+hold two buttons (Escape cancels)	ține apăsate două butoane (Escape anulează)
+Household clutter and collectibles, most of it worthless.	Vechituri de uz casnic și obiecte de colecție, majoritatea fără valoare.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Cât de plin este inventarul se citește direct din inventar, deci avertizarea apare chiar în clipa în care se umple, indiferent dacă faci loot sau nu. Dacă acele numere încetează vreodată să aibă sens, modul trece la observarea a ce se întâmplă după o colectare: trei la rând care nu ajung nicăieri declanșează avertizarea, iar una reușită o șterge.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Cât de des este citită scena. Scanarea rulează pe propriul thread; doar preluarea finală costă jocul o fracțiune de milisecundă.
+incomplete	incomplet
+Insects	Insecte
+insects off	insecte dezactivate
+installed	instalat
+Item	Obiect
+Item database	Baza de date de obiecte
+Item table	Tabelul de obiecte
+Items	Obiecte
+Items lying in the world, including drops from enemies.	Obiecte aflate în lume, inclusiv cele lăsate de inamici.
+Items no shop will buy, across every class.	Obiecte pe care niciun magazin nu le cumpără, din orice clasă.
+Items on the ground	Obiecte de pe jos
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Obiectele etichetate quest sunt lăsate în pace, ca piesele de puzzle și obiectele de poveste să nu fie luate automat. Asta citește etichetele proprii ale obiectului, deci acoperă orice e ridicat, recoltat sau scos prin spargere. Jupuirea unei carcase rămâne în afara ei: acel rezultat ajunge fără ca modul să vadă vreodată ce este.
+Items with an unknown value are never filtered by it.	Obiectele cu valoare necunoscută nu sunt niciodată filtrate după ea.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Ține meniul pe ecran cât timp joci. %s îl aduce înapoi, %s îl închide.
+Keys	Taste
+Keys and tools	Chei și unelte
+Language	Limbă
+Language \"%s\": %d line(s) translated, %d seen this session.	Limba \"%s\": %d linie(linii) tradusă(e), %d văzută(e) în această sesiune.
+learned from the game	învățat din joc
+Load	Încarcă
+loaded	încărcat
+locked	blocat
+Log	Jurnal
+Log: %ls	Jurnal: %ls
+Loot	Loot
+Loot all	Ia tot
+Loot engine	Motorul de loot
+Loot engine not started.	Motorul de loot nu a pornit.
+Loot everything in range now	Culege tot din raza de acțiune acum
+Loot everything in range once	Culege tot din raza de acțiune o dată
+loot: %s	ia: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s pentru versiunea de joc %s
+Materials	Materiale
+mechanism part	piesă de mecanism
+Memory chips and puzzle parts	Cipuri de memorie și piese de puzzle
+Mine ore veins for you	Minează zăcămintele pentru tine
+Minimum value (copper)	Valoare minimă (aramă)
+missing	lipsă
+missing MasterLooter.items.tsv	lipsește MasterLooter.items.tsv
+mission object	obiect de misiune
+Mounts and vehicles	Monturi și vehicule
+name a new preset	denumește o presetare nouă
+never	niciodată
+no	nu
+no interaction node	punct fără interacțiune
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Puncte pe care tabelul de prefab-uri nu le numește și care nu au oferit încă nimic în această sesiune. Dezactivat (implicit) le lasă în pace. Activat face modul să le recolteze ca să afle ce sunt, ceea ce înseamnă că o plantă poate fi luată chiar dacă Plante este dezactivat.
+none	niciunul
+not found yet	încă negăsit
+not in item database	nu e în baza de date de obiecte
+not ready (node empty)	nepregătit (punct gol)
+not resolved yet	încă nerezolvat
+not started	nepornit
+not yet	încă nu
+Nothing else is drawn while the menu is closed.	Nimic altceva nu este desenat cât timp meniul e închis.
+nothing taken yet this session	nimic luat încă în această sesiune
+Object	Obiect
+object	obiect
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Obiectele sunt listate începând cu cele mai apropiate, împreună cu regula care a decis fiecare caz. Punctele goale apar ca nepregătite până când jocul sau activarea le umple. Ce porți și cari nu apare în listă.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Obiectele mai apropiate decât atât sunt tratate ca fiind propriul tău echipament. E o plasă de siguranță; echipamentul tău este recunoscut și prin alte metode.
+Objects per burst press	Obiecte per apăsare rapidă
+Objects per scan	Obiecte per scanare
+on the player	pe jucător
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Activat, un zăcământ este recoltat exact acolo unde se află și nu ridici niciodată târnăcopul. Dezactivat, zăcămintele sunt lăsate în pace și doar bucățile desprinse de tine sunt ridicate. Necesită activare, pentru că a cere zăcământului să se deschidă este toată șmecheria.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Activat, suprapunerea se desenează sub generarea de cadre DLSS, ceea ce cere ca acest mod să predea jocului un swapchain încapsulat.\n\nDezactivat, suprapunerea se desenează prin hook-ul de present în loc de asta. Totul arată la fel, cu excepția cazului în care generarea de cadre este activă, iar modul evită o cale pe care o modifică și alte mod-uri de suprapunere. Încearcă asta dacă jocul nu pornește alături de un alt mod de suprapunere; poate fi setat ca WrapSwapChain în MasterLooter.ini fără să pornești jocul.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	O copie de rezervă este scrisă de fiecare dată când pornește jocul, iar ultimele douăsprezece sunt păstrate în MasterLooter.backups, lângă plugin. Presetările se află în MasterLooter.presets. Copiază oricare dintre foldere ca s-o păstrezi la o reinstalare.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Un singur clic per familie. Tabelul de mai jos tot mai setează clase individuale; un grup arată o linie când doar o parte din el e activată.
+Open and close this menu	Deschide și închide acest meniu
+Open folder	Deschide folderul
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Deschide folderul în Explorer. Jurnalul este rescris la fiecare pornire și este ceea ce trebuie atașat la un raport.
+Ore	Minereu
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Bucăți de minereu pe jos și orice punct care oferă minereu, inclusiv zăcăminte. Un zăcământ este spart exact acolo unde se află, iar conținutul lui e ridicat de pe jos, exact ce face târnăcopul tău și de ce merită să cari unul mai bun: bonusul Mining Yield Up al uneltei se aplică la ce cade, nu la punct. Fiecare zăcământ este lovit o singură dată și lăsat în pace până când jocul îl aduce înapoi. Vizarea zăcămintelor începe de la cea mai mare distanță la care ajunge scanarea, pentru că au nevoie de câteva secunde ca să răspundă, față de fracțiunea de secundă a unui tufiș.
+ore off	minereu dezactivat
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Minereu, pietre prețioase, piatră, lemn, piei, plante, mărfuri de schimb și alte materiale pentru meșteșugit.
+out of range	în afara razei
+Overlay	Suprapunere
+Override	Excepție
+owned by someone (theft)	aparține cuiva (furt)
+Ownership	Proprietate
+Ownership oracle	Verificator de proprietate
+Pace	Ritm
+part of a creature or a mechanism	parte a unei creaturi sau a unui mecanism
+paused: %s	pauzat: %s
+pick up off	ridicare dezactivată
+Plants	Plante
+plants off	plante dezactivate
+Player	Jucător
+Player equipment.	Echipamentul jucătorului.
+Player not found in the scene yet.	Jucătorul nu a fost găsit încă în scenă.
+Presets	Presetări
+press a key (Escape cancels)	apasă o tastă (Escape anulează)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Protejate implicit: un cip de memorie pornește o scenă de amintire când este luat, iar o piesă de puzzle strică puzzle-ul respectiv. Activează doar dacă vrei să fie luate automat.
+protected item name	nume de obiect protejat
+Puts every setting and rule back to what it was at that moment.	Readuce toate setările și regulile la ce erau în acel moment.
+puzzle or protected mechanism	puzzle sau mecanism protejat
+Quest items	Obiecte de misiune
+quest or memory trigger	declanșator de misiune sau amintire
+Ranges (metres)	Distanțe (metri)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Șobolani, veverițe, păsări, șopârle, broaște și salamandre: orice altceva pune jocul întreg în inventar.
+Reaching nodes	Ajungerea la puncte
+Read from the file beside the plugin, not the copy inside it.	Citit din fișierul de lângă plugin, nu din copia inclusă în el.
+Rebind	Reatribuie
+Recent loot	Pradă recentă
+Refresh	Reîmprospătează
+Reload now	Reîncarcă acum
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Înlocuiește fiecare setare și fiecare regulă de clasă, etichetă și obiect cu ce conține presetarea, și le scrie în MasterLooter.ini. Nimic din setările curente nu este păstrat, așa că fă-ți o copie de rezervă mai întâi dacă vrei să le păstrezi.
+Reset all tags	Resetează toate etichetele
+resolved	rezolvat
+Retry the same object after (ms)	Reîncearcă același obiect după (ms)
+Route id	ID de rută
+Rule	Regulă
+Save now	Salvează acum
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Salvat ca \"%s\": numele unei presetări păstrează litere, cifre, spații, cratime și underscore-uri.
+Say so on screen when the bag stops taking things	Afișează pe ecran când inventarul nu mai primește obiecte
+scan %.1f ms	scanare %.1f ms
+Scan radius	Raza de scanare
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Scanări %ld, evenimente trimise %ld, tick-uri de pompă %ld, erori gestionate %ld, tipuri de puncte identificate %d
+Scans per second	Scanări pe secundă
+search item name or key (3+ letters)	caută nume sau cheie de obiect (3+ litere)
+Sending events	Trimitere evenimente
+Set	Setează
+Settings: %ls	Setări: %ls
+Show a brief notice when auto-loot is toggled	Afișează un mesaj scurt când loot automat este comutat
+Showing current overrides. Type to search all %d items.	Se afișează excepțiile curente. Scrie pentru a căuta printre toate cele %d obiecte.
+Showing the nearest %d of %d. The rest are further away.	Se afișează cele mai apropiate %d din %d. Restul sunt mai departe.
+Skip all	Ignoră tot
+Skip items shops refuse to buy	Ignoră obiectele pe care magazinele refuză să le cumpere
+Skip quest items	Ignoră obiectele de misiune
+skip: %s	ignoră: %s
+Small animals	Animale mici
+small animals off	animale mici dezactivate
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Unele obiecte din lume nu au un nume de obiect lizibil. Activat: ia-le oricum. Dezactivat: lasă tot ce e neidentificat.
+stack at one point (storage contents)	grămadă într-un singur punct (conținut de depozitare)
+Stone	Piatră
+stone off	piatră dezactivată
+Stone on the ground and nodes that yield stone.	Piatră pe jos și puncte care oferă piatră.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Mese, scaune, paturi, covoare, lămpi, lumânări, tablouri, oale și restul unei camere mobilate, fie că ridici un obiect de pe jos, fie că-l iei din propriul lui punct de interacțiune. Majoritatea valorează una-două monede de aramă, dar covoarele și paturile de lux ajung la mii, așa că activează asta înainte să mobilezi o casă. Cuferele și celelalte lucruri care conțin ceva răspund la Recipiente în loc de asta. Dezactivat implicit.
+Tag	Etichetă
+tags, any of which can be set to never in the Tags tab:	etichete, oricare dintre ele poate fi setată la niciodată în fila Etichete:
+Take goods that belong to someone	Ia bunuri care aparțin cuiva
+Take goods that belong to someone, on / off	Activare/dezactivare luare bunuri ale altcuiva
+Take items the database cannot name	Ia obiecte pe care baza de date nu le poate numi
+Take owned goods on / off	Activare/dezactivare luare bunuri deținute
+takes effect next launch	are efect la următoarea pornire
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Motorul scanează în jurul tău și ia ce permit regulile. Dezactivat înseamnă că nimic nu este luat automat; tasta de recoltare rapidă tot funcționează.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Jocul completează datele unui punct doar când consideră că poți ajunge la el. Activarea îi cere să facă asta de la distanță, ceea ce e și ce permite unui zăcământ de minereu să fie recoltat exact acolo unde se află. Zăcămintele au nevoie de câteva secunde ca să răspundă, față de fracțiunea de secundă a unui tufiș.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Jocul elimină obiectele luate cu o întârziere. Asta oprește trimiterea aceluiași obiect de două ori cât timp acesta dispare treptat.
+The game treats this as stealing and will put a bounty on you.	Jocul tratează asta ca furt și îți va pune recompensă pe cap.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Modul nu ridică niciodată un târnăcop. El acționează secvența proprie de spargere a zăcământului, iar jocul parcurge un singur rând de cădere pentru asta, unde o lovitură reală parcurge două, deci bonusul uneltei tale de minerit nu dă nimic când modul face mineritul. Asta adaugă minereul lipsă înapoi prin aceeași cale de cădere pe care o folosește jocul, deci este minereu real vărsat pe jos, nu un obiect copiat în inventarul tău. Setează-o la ce oferă unealta ta manual minus unu: un burghiu care dă trei manual vrea 2 aici. Se aplică doar unui zăcământ spart de acest mod, deci mineritul manual rămâne neatins și cele două nu se pot acumula.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Interacțiunea de jupuire, o dată per carcasă. Cadavrele umane lasă în schimb pradă obișnuită. Ce oferă jupuirea nu este verificat cu filtrele tale. Modul nu o vede niciodată înainte să ajungă la tine, deci acest comutator este totul sau nimic.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Această sesiune: %ld ridicate, %ld recoltate, %ld capturate, %ld carcase
+Timber and branches on the ground and nodes that yield them.	Lemn și crengi pe jos, plus puncte care le oferă.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Ca să lași o specie în pace, setează la niciodată obiectul în care se transformă, în fila Obiecte: Item_Tench, Item_Ricefish, Item_Iguana. Modul citește rândul propriu al creaturii din tabelul de personaje al jocului, deci știe ce specie observă înainte să prindă ceva. Câteva creaturi neobișnuite tot recurg la ghicire după numele modelului și sunt prinse doar după categorie.
+Treasure and keepsakes	Comori și suveniruri
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Două butoane deodată, niciodată unul singur: fiecare buton face deja ceva în acest joc. Modul doar citește controllerul, deci jocul tot vede ambele butoane. Alege o pereche care nu face nimic împreună, cum ar fi cele două butoane din spate, sau Back și un buton frontal.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Neasignat până îl setezi. Jocul numește furt luarea bunurilor deținute și îți pune recompensă pe cap pentru asta, deci acesta e comutatorul pe care vrei să-l activezi pentru o clipă și să-l dezactivezi la loc, ceva ce se potrivește prost cu un meniu.
+Unidentified nodes	Puncte neidentificate
+unidentified nodes off	puncte neidentificate dezactivate
+unidentified: could be a fish, a flying insect or a bird	neidentificat: ar putea fi pește, insectă zburătoare sau pasăre
+unidentified: could be an insect or a small animal	neidentificat: ar putea fi insectă sau animal mic
+unnamed item	obiect fără nume
+Unsellable items	Obiecte nevandabile
+Use this language	Folosește această limbă
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Folosește propria verificare a jocului de tip Ia sau Fură; bunurile deținute sunt ignorate până când aceasta a fost observată o dată.
+using the player's own field	folosind câmpul propriu al jucătorului
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Legume, fructe și cereale: cartof dulce, orz, varză, mere, struguri și restul hranei cultivate sau culese, fie pe plantă, fie căzută pe jos. Acestea răspundeau înainte la Obiecte de pe jos, de-aia dezactivarea lui Plante tot golea un câmp: din cele 72 de socluri de colectare din joc, 44 sunt culturi și doar 28 sunt plante.
+Verbose log	Jurnal detaliat
+Verdict	Verdict
+waiting	așteaptă
+waiting for the game to check an item	așteaptă ca jocul să verifice un obiect
+waiting for the game to check ownership once	așteaptă ca jocul să verifice proprietatea o dată
+Waiting for the world to load.	Se așteaptă încărcarea lumii.
+Watch	Observă
+Watch mode	Mod observare
+Watch mode (menu stays up, you keep playing)	Mod observare (meniul rămâne deschis, tu continui să joci)
+Watch mode: the game has your controls. %s to interact, %s to close.	Mod observare: jocul are controalele tale. %s pentru a interacționa, %s pentru a închide.
+Weapons and armor	Arme și armuri
+What enters the working list at all. The ranges below are clamped to it.	Ce ajunge deloc în lista de lucru. Distanțele de mai jos sunt limitate la aceasta.
+What to collect	Ce să colectezi
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Învârte manivela pentru tine și ia ce iese, acționând aceleași tranziții de stare pe care le acționează jocul când ții apăsat butonul de interacțiune. O fântână nu generează niciun eveniment de loot, deci asta este o redare a unei secvențe capturate, nu o cerere adresată jocului. Dezactivat implicit, pentru că o fântână greșită rămâne fără găleata ei.
+Wood	Lemn
+wood off	lemn dezactivat
+World (actor manager)	Lume (administrator de actori)
+worn by someone	purtat de cineva
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Echipament purtat pe care inamicii îl lasă când mor. Ieftin și greu, dar din abundență.
+worn or carried by you	purtat sau cărat de tine
+worth %lld copper	valorează %lld aramă
+Wrap the swapchain	Încapsulează swapchain-ul
+Write translation template	Scrie șablonul de traducere
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Scrie MasterLooter.template.txt lângă plugin, conținând fiecare linie afișată de meniu în această sesiune. Deschide mai întâi fiecare filă, pentru că o linie apare doar după ce a fost desenată. Tradu partea dreaptă a fiecărei înregistrări, salveaz-o ca MasterLooter.<language>.txt și pune acea limbă aici.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Scrie setările așa cum sunt acum în \"%s\". Încarc-o, schimbă ce vrei, apoi salveaz-o la loc.
+Writes the settings as they are now, named %s.	Scrie setările așa cum sunt acum, denumite %s.
+yes	da
+yours, just out of your hand	al tău, tocmai scăpat din mână

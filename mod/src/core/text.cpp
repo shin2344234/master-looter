@@ -21,11 +21,44 @@ namespace ml::Text
     static std::recursive_mutex   g_mu;
 
     // Kept in step with the RCDATA entries in resources.rc. Adding a
-    // language means a line in each.
+    // language means a line in each, and a file under mod/data.
+    //
+    // The set is the languages Steam itself offers, so a player who has the
+    // game in their own language finds the menu in it too. Three were
+    // contributed by people and carry their names. The rest were produced
+    // by machine translation and nobody who speaks them has read them yet,
+    // which the menu says whenever one is on; a corrected file beside the
+    // plugin overrides the built-in copy without a rebuild. In the order a
+    // reader of the English names would look for them.
     static const Lang kBuiltIn[] = {
-        { "pt-br", "Português (Brasil)", "Kyo-70" },
-        { "zh-cn", "简体中文", "dofo7777" },
-        { "zh-tw", "繁體中文", "dofo7777" },
+        { "bg",     "Български",                nullptr },
+        { "zh-cn",  "简体中文",                  "dofo7777" },
+        { "zh-tw",  "繁體中文",                  "dofo7777" },
+        { "cs",     "Čeština",                  nullptr },
+        { "da",     "Dansk",                    nullptr },
+        { "nl",     "Nederlands",               nullptr },
+        { "fi",     "Suomi",                    nullptr },
+        { "fr",     "Français",                 nullptr },
+        { "de",     "Deutsch",                  nullptr },
+        { "el",     "Ελληνικά",                 nullptr },
+        { "hu",     "Magyar",                   nullptr },
+        { "id",     "Bahasa Indonesia",         nullptr },
+        { "it",     "Italiano",                 nullptr },
+        { "ja",     "日本語",                    nullptr },
+        { "ko",     "한국어",                     nullptr },
+        { "nb",     "Norsk",                    nullptr },
+        { "pl",     "Polski",                   nullptr },
+        { "pt-br",  "Português (Brasil)",       "Kyo-70" },
+        { "pt-pt",  "Português (Portugal)",     nullptr },
+        { "ro",     "Română",                   nullptr },
+        { "ru",     "Русский",                  nullptr },
+        { "es",     "Español (España)",         nullptr },
+        { "es-419", "Español (Latinoamérica)",  nullptr },
+        { "sv",     "Svenska",                  nullptr },
+        { "th",     "ไทย",                      nullptr },
+        { "tr",     "Türkçe",                   nullptr },
+        { "uk",     "Українська",               nullptr },
+        { "vi",     "Tiếng Việt",               nullptr },
     };
 
     // A translation is used verbatim in printf-style calls, so one that does

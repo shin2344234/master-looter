@@ -1,0 +1,321 @@
+# Texto do menu do Master Looter em português europeu (pt-PT).
+# Tradução automática feita pela Claude, uma IA da Anthropic; ainda não foi
+# revista por um falante nativo. Correções são bem-vindas no GitHub
+# (github.com/shin2344234/master-looter) ou na página do mod no Nexus.
+#
+# Uma linha por texto: o original em inglês, uma tabulação e a tradução.
+# Linhas iniciadas por # são ignoradas. \n representa uma quebra de linha, e
+# uma linha sem tradução depois da tabulação fica em inglês, por isso um
+# ficheiro por acabar continua perfeitamente utilizável.
+# Todo o %d, %s, %.1f e outros marcadores tem de se manter exatamente como
+# aparece e pela mesma ordem: são substituídos por números e nomes durante a
+# execução, e uma linha que os altere é ignorada ao carregar.
+#
+# Um ficheiro com este nome ao lado de MasterLooter.asi substitui a cópia
+# incorporada no plugin.
+
+  bag full	  mochila cheia
+ (first 250)	 (primeiros 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu ocorrências)%s
+%d classes	%d classes
+%d items, %d classes, %d tags	%d itens, %d classes, %d etiquetas
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d linha(s) foi(ram) ignorada(s): os marcadores %%d ou %%s não correspondem ao inglês, e usá-los imprimiria valores errados.
+%d matches%s	%d resultados%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	%d tipos de ponto aprendidos nesta sessão. Os pontos recebem o nome do prefab a partir do qual foram colocados; o que essa tabela não cobrir é identificado da primeira vez que produzir algo. O número de tipo de um ponto muda entre sessões, por isso nada fica guardado depois de saíres.
+%d objects within scan range, %d lootable now.	%d objetos dentro do alcance de verificação, %d saqueáveis agora.
+%d overrides	%d substituições
+%s (key %u, row %d, tier %d)	%s (chave %u, linha %d, nível %d)
+%s (never looted)	%s (nunca saqueado)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s é uma tradução automática que ainda ninguém reviu. As correções são bem-vindas no GitHub ou na página do Nexus.
+%s translated by %s.	%s traduzido por %s.
+%s, let go to keep it	%s, larga para manter
+1 match%s	1 resultado%s
+3 of 3	3 de 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" já existe. Guardar por cima pede confirmação primeiro.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Um balde de poço, e coisas semelhantes, nunca são saqueados, mas acioná-lo faz o jogo oferecer a sua interação para que o possas usar à mão.
+Abyss and Kuku	Abismo e Kuku
+Abyss gear, Kuku pots and their parts.	Equipamento do Abismo, potes Kuku e as suas peças.
+Accessories	Acessórios
+allowed	permitido
+already in your bag	já está na tua mochila
+always	sempre
+always beats the class rule; never beats always	sempre vence a regra da classe; nunca vence sempre
+Ammunition	Munição
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Qualquer coisa marcada como missão, em todas as classes. Desativado mantém os itens da história e as peças de puzzle só para as tuas mãos.
+Arm mechanism containers too	Acionar também os recipientes de mecanismo
+Arm nodes ourselves	Acionar os pontos automaticamente
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	O acionamento ignora paredes. Mantém-no curto ou vais recolher através da parede do quarto ao lado. O minério é a exceção e é sempre alcançado até 25 m, porque um veio demora segundos a responder, e pedir só quando já estás em cima dele significa que abre tarde demais para servir de alguma coisa.
+Arming range	Alcance de acionamento
+Auto-loot enabled	Saque automático ativado
+Auto-loot on / off	Saque automático ativado/desativado
+Backups	Cópias de segurança
+blank for English	em branco para inglês
+Books and papers	Livros e papéis
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Recompensas de chefes, artefactos, itens de memória, bolsas de moedas e baús de recompensa.
+Break veins open rather than emptying them	Partir os veios em vez de os esvaziar
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Partir aciona a própria máquina de estados do jogo no veio: primeiro o golpe acerta, depois vem a rutura, e o ponto derrama o seu conteúdo no chão e desaparece exatamente como acontece com uma picareta. Esvaziar, em vez disso, retira o minério diretamente e salta a queda por completo. Nenhuma das duas vias paga o bónus de Rendimento de Mineração da tua ferramenta, que o jogo só concede a um golpe que reconhece como teu, por isso define o extra abaixo para compensar a diferença. Cada veio é atingido uma vez e depois deixado em paz até o jogo o repor.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Borboletas, besouros, libélulas, abelhas, aranhas, escorpiões, caracóis e as outras pequenas criaturas que o jogo classifica como insetos. As espécies vêm da tabela de criaturas; uma criatura que a tabela não consiga identificar só é apanhada quando todas as categorias a que poderia pertencer estiverem ativadas (um voador pode ser peixe, inseto ou ave).
+captured	capturado
+Carcasses	Carcaças
+carcasses off	carcaças desativadas
+Catching	Captura
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Criaturas capturadas, vivas ou caídas no chão; uma criatura que a tabela consegue identificar segue a regra da sua classe. Caranguejos, camarões e lulas são marisco, em Alimentos e bebidas.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Baús, caixotes e pontos de conjuntos predefinidos. Raramente respondem ao evento de saque. Desativado por predefinição.
+Class	Classe
+class %s	classe %s
+Classes	Classes
+Clear	Limpar
+Clear overrides	Limpar substituições
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Limpa o que esta sessão apurou a partir da tua mochila. Os pontos nomeados pela tabela de prefabs não são afetados.
+Close	Fechar
+container (off)	recipiente (desativado)
+Containers	Recipientes
+Controller	Comando
+Copper	Cobre
+Copy	Copiar
+Copy path	Copiar caminho
+Copy to the clipboard.	Copiar para a área de transferência.
+corpse	cadáver
+corpse already searched	cadáver já revistado
+corpse: loot drops separately	cadáver: o saque cai à parte
+creature	criatura
+Creatures	Criaturas
+Crops	Cultivos
+crops off	cultivos desativados
+Damaged gear	Equipamento danificado
+Dead zone around you	Zona morta à tua volta
+Decision	Decisão
+default	predefinição
+DirectX 12 hooks	Hooks de DirectX 12
+does not respond	não responde
+Draw water from wells	Tirar água dos poços
+Engine	Motor
+English	Inglês
+English. %d line(s) seen this session.	Inglês. %d linha(s) vista(s) nesta sessão.
+entity	entidade
+entity %08X	entidade %08X
+entity %08X, %d items across every store	entidade %08X, %d itens em todos os armazenamentos
+entity %08X, bag %d of %d slots, %d items across every store	entidade %08X, mochila com %d de %d espaços, %d itens em todos os armazenamentos
+Event descriptors	Descritores de eventos
+Extra ore per vein	Minério extra por veio
+failed	falhou
+fast-travel artifact	artefacto de viagem rápida
+filter classes	filtrar classes
+filter tags	filtrar etiquetas
+Filters	Filtros
+Fish	Peixes
+fish off	peixes desativados
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Peixes, e tudo o resto que apanhas na água: caranguejos, camarões, lulas, estrelas-do-mar e cavalos-marinhos.
+Food and drink	Alimentos e bebidas
+Forget	Esquecer
+found	encontrado
+Furniture	Mobília
+Furniture and decor	Mobília e decoração
+furniture node (off)	ponto de mobília (desativado)
+furniture off	mobília desativada
+Game functions	Funções do jogo
+Game functions did not resolve; see Status.	As funções do jogo não foram resolvidas; consulta Status.
+Game-thread pump	Ciclo da thread do jogo
+gather node	ponto de recolha
+Gathering	Recolha
+Ground items	Itens no chão
+Groups	Grupos
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Pontos de ervas, flores e cogumelos, e os mesmos itens soltos no chão. Os cultivos alimentares têm a sua própria opção.
+hold two buttons (Escape cancels)	mantém dois botões premidos (Escape cancela)
+Household clutter and collectibles, most of it worthless.	Tralha doméstica e itens colecionáveis, a maior parte sem valor.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	A ocupação da mochila é lida diretamente da própria mochila, por isso o aviso aparece no momento em que ela enche, estejas ou não a saquear. Se esses números alguma vez deixarem de fazer sentido, o mod passa a observar o que acontece depois de uma apanha: três seguidas que não trazem nada fazem aparecer o aviso, e uma que resulte nalgo remove-o.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	A frequência com que a cena é lida. A verificação corre na sua própria thread; só a leitura final custa ao jogo uma fração de milissegundo.
+incomplete	incompleto
+Insects	Insetos
+insects off	insetos desativados
+installed	instalado
+Item	Item
+Item database	Base de dados de itens
+Item table	Tabela de itens
+Items	Itens
+Items lying in the world, including drops from enemies.	Itens espalhados pelo mundo, incluindo os largados pelos inimigos.
+Items no shop will buy, across every class.	Itens que nenhuma loja compra, em todas as classes.
+Items on the ground	Itens no chão
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Os itens marcados como missão são deixados em paz, para que os puzzles e os itens da história não sejam apanhados automaticamente. Isto lê as etiquetas do próprio item, por isso cobre tudo o que for apanhado, recolhido ou obtido ao partir algo. O esfolamento de uma carcaça fica fora disto: esse resultado chega sem que o mod alguma vez veja o que é.
+Items with an unknown value are never filtered by it.	Os itens com valor desconhecido nunca são filtrados por ele.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Mantém o menu no ecrã enquanto jogas. %s traz-o de volta, %s fecha-o.
+Keys	Teclas
+Keys and tools	Chaves e ferramentas
+Language	Idioma
+Language \"%s\": %d line(s) translated, %d seen this session.	Idioma \"%s\": %d linha(s) traduzida(s), %d vista(s) nesta sessão.
+learned from the game	aprendido com o jogo
+Load	Carregar
+loaded	carregado
+locked	bloqueado
+Log	Registo
+Log: %ls	Registo: %ls
+Loot	Saque
+Loot all	Saquear tudo
+Loot engine	Motor de saque
+Loot engine not started.	O motor de saque não foi iniciado.
+Loot everything in range now	Saquear tudo o que está ao alcance agora
+Loot everything in range once	Saquear tudo o que está ao alcance uma vez
+loot: %s	saque: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s para a versão %s do jogo
+Materials	Materiais
+mechanism part	peça de mecanismo
+Memory chips and puzzle parts	Chips de memória e peças de puzzle
+Mine ore veins for you	Minerar veios de minério por ti
+Minimum value (copper)	Valor mínimo (cobre)
+missing	em falta
+missing MasterLooter.items.tsv	MasterLooter.items.tsv em falta
+mission object	objeto de missão
+Mounts and vehicles	Montadas e veículos
+name a new preset	dá um nome a uma nova predefinição
+never	nunca
+no	não
+no interaction node	sem ponto de interação
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Pontos que a tabela de prefabs não identifica e que ainda não produziram nada nesta sessão. Desativado (a predefinição) deixa-os em paz. Ativado faz o mod recolhê-los para descobrir o que são, o que significa que uma planta pode ser apanhada mesmo com Plantas desativado.
+none	nenhum
+not found yet	ainda não encontrado
+not in item database	não está na base de dados de itens
+not ready (node empty)	ainda não está pronto (ponto vazio)
+not resolved yet	ainda não resolvido
+not started	não iniciado
+not yet	ainda não
+Nothing else is drawn while the menu is closed.	Nada mais é desenhado enquanto o menu está fechado.
+nothing taken yet this session	nada apanhado ainda nesta sessão
+Object	Objeto
+object	objeto
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Os objetos são listados do mais próximo ao mais distante, com a regra que decidiu cada um. Os pontos vazios aparecem como não prontos até o jogo ou o acionamento os preencherem. O que estás a vestir e a transportar fica fora da lista.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Os objetos mais próximos do que isto são tratados como sendo o teu próprio equipamento. Uma rede de segurança; o teu equipamento também é reconhecido de outras formas.
+Objects per burst press	Objetos por pressão de rajada
+Objects per scan	Objetos por verificação
+on the player	no jogador
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Ativado, um veio é extraído onde está e nunca dás um golpe de picareta. Desativado, os veios são deixados em paz e só os fragmentos que soltares são apanhados. Precisa de acionamento, já que pedir ao veio para se abrir é todo o truque.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Ativado, a sobreposição é desenhada por baixo da geração de fotogramas do DLSS, o que exige que este mod entregue ao jogo um swapchain encapsulado.\n\nDesativado, a sobreposição é desenhada através do hook de apresentação. Tudo tem o mesmo aspeto, a não ser que a geração de fotogramas esteja ativa, e o mod fica fora de um caminho que outros mods de sobreposição também alteram. Experimenta isto se o jogo não arrancar junto com outro mod de sobreposição; pode ser definido como WrapSwapChain no MasterLooter.ini sem abrir o jogo.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	É gravada uma cópia de segurança sempre que o jogo arranca, e as últimas doze são mantidas em MasterLooter.backups, ao lado do plugin. As predefinições ficam em MasterLooter.presets. Copia qualquer uma das pastas para as manteres após uma reinstalação.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Um clique por família. A tabela abaixo continua a definir classes individuais; um grupo mostra um traço quando só parte dele está ativada.
+Open and close this menu	Abrir e fechar este menu
+Open folder	Abrir pasta
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Abre a pasta no Explorador de Ficheiros. O registo é reescrito a cada arranque e é o que deves anexar a um relatório.
+Ore	Minério
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Fragmentos de minério no chão e qualquer ponto que produza minério, veios incluídos. Um veio é partido onde está e o seu conteúdo é apanhado do chão, que é o que a tua picareta faz e o que torna útil transportar uma picareta melhor: o Rendimento de Mineração da ferramenta aplica-se à queda, não ao ponto. Cada veio é atingido uma vez e deixado em paz até o jogo o repor. Alcançar veios começa tão longe quanto a verificação consegue ver, porque eles demoram segundos a responder onde um arbusto demora uma fração disso.
+ore off	minério desativado
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Minério, gemas, pedra, madeira, peles, ervas, mercadorias e outros materiais de fabrico.
+out of range	fora de alcance
+Overlay	Sobreposição
+Override	Substituição
+owned by someone (theft)	pertence a alguém (roubo)
+Ownership	Propriedade
+Ownership oracle	Oráculo de propriedade
+Pace	Ritmo
+part of a creature or a mechanism	parte de uma criatura ou de um mecanismo
+paused: %s	em pausa: %s
+pick up off	apanhar desativado
+Plants	Plantas
+plants off	plantas desativadas
+Player	Jogador
+Player equipment.	Equipamento do jogador.
+Player not found in the scene yet.	O jogador ainda não foi encontrado na cena.
+Presets	Predefinições
+press a key (Escape cancels)	prime uma tecla (Escape cancela)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Protegido por predefinição: um chip de memória inicia uma cena de memória ao ser apanhado, e uma peça de puzzle destrói o respetivo puzzle. Ativa isto só se os quiseres apanhar automaticamente.
+protected item name	nome de item protegido
+Puts every setting and rule back to what it was at that moment.	Repõe todas as definições e regras no que eram naquele momento.
+puzzle or protected mechanism	puzzle ou mecanismo protegido
+Quest items	Itens de missão
+quest or memory trigger	gatilho de missão ou de memória
+Ranges (metres)	Alcances (metros)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Ratos, esquilos, aves, lagartos, sapos e salamandras: tudo o resto que o jogo coloca inteiro na mochila.
+Reaching nodes	Alcance dos pontos
+Read from the file beside the plugin, not the copy inside it.	Lido do ficheiro ao lado do plugin, não da cópia incorporada nele.
+Rebind	Reatribuir
+Recent loot	Saques recentes
+Refresh	Atualizar
+Reload now	Recarregar agora
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Substitui todas as definições e todas as regras de classe, etiqueta e item pelo que a predefinição contém, e grava isso em MasterLooter.ini. Nada das definições atuais é mantido, por isso faz uma cópia delas primeiro se as quiseres guardar.
+Reset all tags	Repor todas as etiquetas
+resolved	resolvido
+Retry the same object after (ms)	Repetir o mesmo objeto após (ms)
+Route id	ID da rota
+Rule	Regra
+Save now	Guardar agora
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	Guardado como \"%s\": um nome de predefinição mantém letras, dígitos, espaços, hífenes e sublinhados.
+Say so on screen when the bag stops taking things	Avisar no ecrã quando a mochila deixar de aceitar coisas
+scan %.1f ms	verificação de %.1f ms
+Scan radius	Raio de verificação
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Verificações %ld, eventos enviados %ld, ciclos de processamento %ld, falhas protegidas %ld, tipos de ponto aprendidos %d
+Scans per second	Verificações por segundo
+search item name or key (3+ letters)	pesquisar nome ou chave do item (3+ letras)
+Sending events	A enviar eventos
+Set	Definir
+Settings: %ls	Definições: %ls
+Show a brief notice when auto-loot is toggled	Mostrar um aviso breve quando o saque automático for alternado
+Showing current overrides. Type to search all %d items.	A mostrar as substituições atuais. Escreve para pesquisar todos os %d itens.
+Showing the nearest %d of %d. The rest are further away.	A mostrar os %d mais próximos de %d. Os restantes estão mais longe.
+Skip all	Ignorar tudo
+Skip items shops refuse to buy	Ignorar itens que as lojas se recusam a comprar
+Skip quest items	Ignorar itens de missão
+skip: %s	ignorar: %s
+Small animals	Animais pequenos
+small animals off	animais pequenos desativados
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Alguns objetos do mundo não têm um nome de item legível. Ativado: apanha-os de qualquer forma. Desativado: deixa tudo o que não for identificado.
+stack at one point (storage contents)	pilha num só ponto (conteúdo armazenado)
+Stone	Pedra
+stone off	pedra desativada
+Stone on the ground and nodes that yield stone.	Pedra no chão e pontos que produzem pedra.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Mesas, cadeiras, camas, tapetes, candeeiros, velas, quadros, potes e o resto de uma divisão mobilada, quer a apanhes do chão quer a retires do seu próprio ponto de interação. A maior parte vale uma ou duas moedas de cobre, mas os tapetes e as camas de luxo chegam aos milhares, por isso ativa isto antes de mobilar uma casa. Os baús e as outras coisas que guardam algo respondem antes a Recipientes. Desativado por predefinição.
+Tag	Etiqueta
+tags, any of which can be set to never in the Tags tab:	etiquetas, qualquer uma das quais pode ser definida como nunca no separador Etiquetas:
+Take goods that belong to someone	Apanhar bens que pertencem a alguém
+Take goods that belong to someone, on / off	Apanhar bens que pertencem a alguém, ativado/desativado
+Take items the database cannot name	Apanhar itens que a base de dados não consegue identificar
+Take owned goods on / off	Apanhar bens alheios, ativado/desativado
+takes effect next launch	só tem efeito no próximo arranque
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	O motor faz verificações à tua volta e apanha o que as regras permitirem. Desativado significa que nada é apanhado automaticamente; a tecla de rajada continua a funcionar.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	O jogo só preenche os dados de um ponto quando acha que consegues alcançá-lo. O acionamento pede-lhe que o faça à distância, o que também é o que permite extrair um veio de minério onde ele está. Os veios demoram vários segundos a responder onde um arbusto demora uma fração disso.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	O jogo remove os objetos apanhados com um atraso. Isto impede que o mesmo objeto seja enviado duas vezes enquanto desaparece.
+The game treats this as stealing and will put a bounty on you.	O jogo trata isto como roubo e vai colocar uma recompensa sobre ti.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	O mod nunca dá um golpe de picareta. Ele aciona a própria sequência de rutura do veio, e o jogo percorre uma linha de queda nesse caso, enquanto um golpe real percorre duas, por isso o bónus de mineração da tua ferramenta não paga nada quando é o mod a minerar. Isto acrescenta de volta o minério em falta pelo mesmo caminho de queda que o jogo usa, por isso é minério real derramado no chão, não um item copiado para a tua mochila. Define-o como o que a tua ferramenta paga à mão menos um: uma broca que dá três à mão quer 2 aqui. Só se aplica a um veio que este mod tenha partido, por isso minerar à mão fica intacto e os dois não se podem acumular.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	A interação de esfolamento, uma vez por carcaça. Os cadáveres humanos largam saque comum em vez disso. O que o esfolamento dá não é verificado contra os teus filtros. O mod nunca o vê antes de chegar, por isso esta opção é tudo ou nada.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Nesta sessão: %ld apanhados, %ld recolhidos, %ld capturados, %ld carcaças
+Timber and branches on the ground and nodes that yield them.	Madeira e ramos no chão e pontos que os produzem.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Para deixares uma espécie em paz, define o que ela se torna como nunca no separador Itens: Item_Tench, Item_Ricefish, Item_Iguana. O mod lê a linha da própria criatura na tabela de personagens do jogo, por isso sabe que espécie está a ver antes de capturar seja o que for. Algumas criaturas invulgares ainda recorrem a adivinhar pelo nome do modelo e só são capturadas por categoria.
+Treasure and keepsakes	Tesouros e lembranças
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Dois botões ao mesmo tempo, nunca um só: cada botão já faz alguma coisa neste jogo. O mod só lê o comando, por isso o jogo continua a ver os dois botões. Escolhe um par que não faça nada em conjunto, como os dois botões dos ombros, ou Voltar e um botão frontal.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Sem atribuição até a definires. O jogo chama roubo a apanhar bens alheios e coloca uma recompensa sobre ti por isso, por isso esta é a opção que vais querer ligar por um instante e desligar logo a seguir, o que se adapta mal a um menu.
+Unidentified nodes	Pontos não identificados
+unidentified nodes off	pontos não identificados desativados
+unidentified: could be a fish, a flying insect or a bird	não identificado: pode ser peixe, inseto voador ou ave
+unidentified: could be an insect or a small animal	não identificado: pode ser inseto ou animal pequeno
+unnamed item	item sem nome
+Unsellable items	Itens invendáveis
+Use this language	Usar este idioma
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Usa a verificação de Apanhar ou Roubar do próprio jogo; os bens alheios são ignorados até ela ter sido observada uma vez.
+using the player's own field	usando o próprio campo do jogador
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Legumes, fruta e cereais: batata-doce, cevada, couve, maçãs, uvas e o resto da comida cultivada ou recolhida, na planta ou solta pelo chão. Estes costumavam responder a Itens no chão, por isso desativar Plantas continuava a esvaziar um campo: dos 72 pontos de recolha do jogo, 44 são cultivos e só 28 são plantas.
+Verbose log	Registo detalhado
+Verdict	Veredito
+waiting	a aguardar
+waiting for the game to check an item	a aguardar que o jogo verifique um item
+waiting for the game to check ownership once	a aguardar que o jogo verifique a propriedade uma vez
+Waiting for the world to load.	A aguardar que o mundo carregue.
+Watch	Observar
+Watch mode	Modo de observação
+Watch mode (menu stays up, you keep playing)	Modo de observação (o menu fica no ecrã e tu continuas a jogar)
+Watch mode: the game has your controls. %s to interact, %s to close.	Modo de observação: o jogo tem os teus controlos. %s para interagir, %s para fechar.
+Weapons and armor	Armas e armadura
+What enters the working list at all. The ranges below are clamped to it.	Define o que sequer entra na lista de trabalho. Os alcances abaixo ficam limitados a isto.
+What to collect	O que recolher
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Gira a manivela por ti e apanha o que vier, acionando as mesmas transições de estado que o jogo aciona quando manténs o botão de interação premido. Um poço não gera evento de saque nenhum, por isso isto é a repetição de uma sequência captada, e não o jogo a ser-lhe pedido seja o que for. Desativado por predefinição, porque um poço que corra mal é um poço que fica sem o balde.
+Wood	Madeira
+wood off	madeira desativada
+World (actor manager)	Mundo (gestor de atores)
+worn by someone	usado por alguém
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Equipamento usado que os inimigos largam ao morrer. Barato e pesado, mas abundante.
+worn or carried by you	usado ou transportado por ti
+worth %lld copper	vale %lld moedas de cobre
+Wrap the swapchain	Encapsular o swapchain
+Write translation template	Gerar modelo de tradução
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Grava o MasterLooter.template.txt ao lado do plugin, com todas as linhas que o menu mostrou nesta sessão. Abre primeiro todos os separadores, já que uma linha só aparece depois de ter sido desenhada. Traduz o lado direito de cada registo, guarda-o como MasterLooter.<language>.txt e põe esse idioma aqui.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Grava as definições como estão agora em \"%s\". Carrega-o, muda o que quiseres e depois guarda-o de novo.
+Writes the settings as they are now, named %s.	Grava as definições como estão agora, com o nome %s.
+yes	sim
+yours, just out of your hand	teu, acabado de sair da tua mão

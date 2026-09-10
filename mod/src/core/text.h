@@ -35,7 +35,9 @@ namespace ml
         // The languages that ship inside the plugin, so the menu can offer
         // them instead of expecting someone to know the code. Named in the
         // language itself: a reader who needs the Chinese cannot necessarily
-        // read the word "Chinese".
+        // read the word "Chinese". A contributed language carries its
+        // translator's name; a machine translation carries no credit and the
+        // menu says instead that nobody has checked it.
         struct Lang { const char* code; const char* name; const char* credit; };
         const Lang* BuiltIn(int& count);
         const Lang* Find(const char* code);   // null when not a built-in one

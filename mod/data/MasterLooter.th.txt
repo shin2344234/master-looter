@@ -1,0 +1,319 @@
+# ข้อความเมนูของ Master Looter ภาษาไทย
+# นี่คือคำแปลด้วยเครื่อง จัดทำโดย Claude ซึ่งเป็น AI ของ Anthropic ยังไม่มี
+# เจ้าของภาษาตรวจทานเลย ยินดีรับคำแก้ไขที่ GitHub
+# (github.com/shin2344234/master-looter) หรือที่หน้า Nexus ของม็อด
+#
+# หนึ่งบรรทัดต่อหนึ่งข้อความ: ภาษาอังกฤษต้นฉบับ ตามด้วยแท็บ แล้วตามด้วยคำแปล
+# บรรทัดที่ขึ้นต้นด้วย # จะถูกข้าม \n หมายถึงการขึ้นบรรทัดใหม่ และบรรทัดที่ไม่มี
+# คำแปลต่อจากแท็บจะยังคงแสดงเป็นภาษาอังกฤษ ซึ่งใช้งานได้ตามปกติแม้แปลไม่ครบ
+# ต้องคงสัญลักษณ์ %d, %s, %.1f และอื่น ๆ ไว้ตามลำดับเดิมเสมอ เพราะค่าตัวเลขและ
+# ชื่อจะถูกแทนที่ลงไปตอนเกมทำงาน บรรทัดที่เปลี่ยนสัญลักษณ์เหล่านี้จะถูกข้ามไป
+#
+# ไฟล์นี้เมื่อวางไว้ชื่อ MasterLooter.th.txt ข้างปลั๊กอิน จะแทนที่ชุดคำแปลที่
+# มากับตัวปลั๊กอินโดยอัตโนมัติ
+
+  bag full	  กระเป๋าเต็ม
+ (first 250)	 (250 รายการแรก)
+%-18s %s (%zu hits)%s	%-18s %s (พบ %zu ครั้ง)%s
+%d classes	%d ประเภท
+%d items, %d classes, %d tags	%d ไอเทม, %d ประเภท, %d แท็ก
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d บรรทัดถูกข้าม: ตัวยึดตำแหน่ง %%d หรือ %%s ไม่ตรงกับต้นฉบับภาษาอังกฤษ การใช้บรรทัดเหล่านี้จะแสดงค่าที่ผิดพลาด
+%d matches%s	พบ %d รายการ%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	เรียนรู้จุดเก็บของแล้ว %d ประเภทในเซสชันนี้ จุดเก็บของถูกตั้งชื่อตาม prefab ที่ใช้วางมัน สิ่งที่ตารางไม่มีจะถูกระบุตัวตนเมื่อให้ผลผลิตครั้งแรก หมายเลขประเภทของจุดเก็บของเปลี่ยนไปในแต่ละเซสชัน จึงไม่มีสิ่งใดถูกจดจำไว้หลังจากออกจากเกม
+%d objects within scan range, %d lootable now.	มีวัตถุอยู่ในระยะสแกน %d ชิ้น, ลูทได้ตอนนี้ %d ชิ้น
+%d overrides	%d การแทนที่
+%s (key %u, row %d, tier %d)	%s (คีย์ %u, แถว %d, ระดับ %d)
+%s (never looted)	%s (ไม่เคยลูทเลย)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s เป็นคำแปลจากเครื่องที่ยังไม่มีใครตรวจสอบ ยินดีรับคำแก้ไขบน GitHub หรือหน้า Nexus
+%s translated by %s.	%s แปลโดย %s
+%s, let go to keep it	%s ปล่อยปุ่มเพื่อเก็บไว้
+1 match%s	พบ 1 รายการ%s
+3 of 3	3 จาก 3
+\"%s\" already exists. Saving over it asks first.	\"%s\" มีอยู่แล้ว การบันทึกทับจะถามยืนยันก่อนเสมอ
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	ถังบ่อน้ำและสิ่งคล้ายกันจะไม่ถูกลูทเลย แต่การกระตุ้นมันจะทำให้เกมเสนอการโต้ตอบให้คุณใช้งานด้วยมือเอง
+Abyss and Kuku	Abyss และ Kuku
+Abyss gear, Kuku pots and their parts.	อุปกรณ์ Abyss, หม้อ Kuku และชิ้นส่วนของมัน
+Accessories	เครื่องประดับ
+allowed	อนุญาต
+already in your bag	อยู่ในกระเป๋าอยู่แล้ว
+always	เสมอ
+always beats the class rule; never beats always	"เสมอ" ชนะกฎของประเภทเสมอ ส่วน "ไม่เลย" ชนะ "เสมอ"
+Ammunition	กระสุน
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	ไอเทมที่ติดแท็กเควสต์ทุกประเภท ปิดไว้เพื่อเก็บของเก็บในเนื้อเรื่องและชิ้นส่วนปริศนาไว้ให้คุณเก็บเอง
+Arm mechanism containers too	กระตุ้นกล่องกลไกด้วย
+Arm nodes ourselves	กระตุ้นจุดเก็บของเอง
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	การกระตุ้นทะลุกำแพงได้ ควรตั้งระยะให้สั้น มิฉะนั้นคุณจะเก็บของทะลุกำแพงห้องถัดไป ยกเว้นแร่ซึ่งเอื้อมถึงได้ไกลสุดถึง 25 ม. เสมอ เพราะสายแร่ใช้เวลาหลายวินาทีในการตอบสนอง และถ้ารอจนยืนอยู่บนมันค่อยขอ มันจะเปิดช้าเกินจะมีประโยชน์
+Arming range	ระยะกระตุ้น
+Auto-loot enabled	เปิดใช้งานลูทอัตโนมัติ
+Auto-loot on / off	ลูทอัตโนมัติ เปิด / ปิด
+Backups	ข้อมูลสำรอง
+blank for English	เว้นว่างไว้สำหรับภาษาอังกฤษ
+Books and papers	หนังสือและเอกสาร
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	รางวัลจากบอส, สิ่งประดิษฐ์, ไอเทมความทรงจำ, ถุงเหรียญ และหีบรางวัล
+Break veins open rather than emptying them	ทุบสายแร่ให้แตกแทนการดูดของออกจากมัน
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	การทุบจะขับเคลื่อนกลไกสถานะของเกมเองที่สายแร่ ทั้งจังหวะเหวี่ยงและการแตก ทำให้จุดเก็บของกระจายของออกมาบนพื้นและหายไปเหมือนโดนอีเต้าจริง ๆ ส่วนการดูดออกจะดึงแร่ออกมาตรง ๆ และข้ามการหล่นไปเลย ทั้งสองวิธีไม่ได้รับโบนัส Mining Yield Up ของเครื่องมือ เพราะเกมมอบโบนัสนี้ให้เฉพาะการเหวี่ยงที่นับว่าเป็นของคุณเท่านั้น จึงต้องตั้งค่าส่วนเสริมด้านล่างเพื่อชดเชยส่วนต่าง สายแร่แต่ละเส้นจะถูกทุบครั้งเดียวแล้วปล่อยไว้จนกว่าเกมจะรีสปอว์นมันใหม่
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	ผีเสื้อ, ด้วง, แมลงปอ, ผึ้ง, แมงมุม, แมงป่อง, หอยทาก และสิ่งเล็ก ๆ อื่นที่เกมจัดเป็นแมลง ชนิดพันธุ์มาจากตารางสิ่งมีชีวิต สิ่งมีชีวิตที่ตารางระบุชื่อไม่ได้จะถูกจับก็ต่อเมื่อทุกหมวดที่มันอาจเป็นเปิดอยู่ทั้งหมด (สัตว์บินได้อาจเป็นปลา, แมลง หรือ นก)
+captured	จับสัญญาณได้แล้ว
+Carcasses	ซากสัตว์
+carcasses off	ซากสัตว์: ปิด
+Catching	การจับสัตว์
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	สัตว์ที่จับได้ ทั้งมีชีวิตและที่วางอยู่ สิ่งมีชีวิตที่ตารางระบุชื่อได้จะทำตามกฎของประเภทมัน ปู, กุ้ง และปลาหมึกจัดเป็นอาหารทะเลอยู่ในหมวดอาหารและเครื่องดื่ม
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	หีบ, ลัง และจุดเก็บของแบบดรอปเซ็ต มักไม่ตอบสนองต่อเหตุการณ์ลูท ปิดไว้เป็นค่าเริ่มต้น
+Class	ประเภท
+class %s	ประเภท %s
+Classes	ประเภท
+Clear	ล้าง
+Clear overrides	ล้างการแทนที่
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	ล้างสิ่งที่เซสชันนี้สรุปได้จากกระเป๋าของคุณ จุดเก็บของที่ตั้งชื่อโดยตาราง prefab จะไม่ได้รับผลกระทบ
+Close	ปิด
+container (off)	กล่อง (ปิด)
+Containers	กล่อง
+Controller	คอนโทรลเลอร์
+Copper	ทองแดง
+Copy	คัดลอก
+Copy path	คัดลอกพาธ
+Copy to the clipboard.	คัดลอกไปยังคลิปบอร์ด
+corpse	ศพ
+corpse already searched	ศพถูกค้นแล้ว
+corpse: loot drops separately	ศพ: ของหล่นแยกต่างหาก
+creature	สิ่งมีชีวิต
+Creatures	สิ่งมีชีวิต
+Crops	พืชผล
+crops off	พืชผล: ปิด
+Damaged gear	อุปกรณ์ชำรุด
+Dead zone around you	เขตปลอดภัยรอบตัวคุณ
+Decision	การตัดสิน
+default	ค่าเริ่มต้น
+DirectX 12 hooks	ฮุก DirectX 12
+does not respond	ไม่ตอบสนอง
+Draw water from wells	ตักน้ำจากบ่อ
+Engine	เอนจิน
+English	อังกฤษ
+English. %d line(s) seen this session.	อังกฤษ พบ %d บรรทัดในเซสชันนี้
+entity	entity
+entity %08X	entity %08X
+entity %08X, %d items across every store	entity %08X, %d ไอเทมในทุกที่เก็บ
+entity %08X, bag %d of %d slots, %d items across every store	entity %08X, กระเป๋า %d จาก %d ช่อง, %d ไอเทมในทุกที่เก็บ
+Event descriptors	descriptor เหตุการณ์
+Extra ore per vein	แร่ส่วนเสริมต่อสายแร่
+failed	ล้มเหลว
+fast-travel artifact	สิ่งประดิษฐ์เดินทางด่วน
+filter classes	กรองตามประเภท
+filter tags	กรองตามแท็ก
+Filters	ตัวกรอง
+Fish	ปลา
+fish off	ปลา: ปิด
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	ปลาและสิ่งอื่นที่จับได้ในน้ำ: ปู, กุ้ง, ปลาหมึก, ปลาดาว และม้าน้ำ
+Food and drink	อาหารและเครื่องดื่ม
+Forget	ลืม
+found	พบแล้ว
+Furniture	เฟอร์นิเจอร์
+Furniture and decor	เฟอร์นิเจอร์และของตกแต่ง
+furniture node (off)	จุดเฟอร์นิเจอร์ (ปิด)
+furniture off	เฟอร์นิเจอร์: ปิด
+Game functions	ฟังก์ชันของเกม
+Game functions did not resolve; see Status.	ฟังก์ชันของเกมยังไม่พบ ดูที่แท็บสถานะ
+Game-thread pump	Game-thread pump
+gather node	จุดเก็บของ
+Gathering	การเก็บเกี่ยว
+Ground items	ไอเทมบนพื้น
+Groups	กลุ่ม
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	จุดเก็บสมุนไพร, ดอกไม้ และเห็ด รวมถึงที่วางอยู่บนพื้น พืชผลทางการเกษตรมีสวิตช์แยกของตัวเอง
+hold two buttons (Escape cancels)	กดสองปุ่มค้างไว้ (Escape ยกเลิก)
+Household clutter and collectibles, most of it worthless.	ของกระจุกกระจิกในบ้านและของสะสม ส่วนใหญ่ไม่มีค่าอะไร
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	ความเต็มของกระเป๋าอ่านค่ามาจากกระเป๋าโดยตรง ดังนั้นข้อความแจ้งเตือนจะขึ้นทันทีที่กระเป๋าเต็ม ไม่ว่าคุณกำลังลูทอยู่หรือไม่ก็ตาม หากค่าตัวเลขเหล่านั้นผิดปกติ มอดจะย้อนกลับไปสังเกตสิ่งที่เกิดขึ้นหลังการเก็บของแทน: การเก็บของสามครั้งติดต่อกันที่ไม่ได้อะไรเลยจะแสดงข้อความแจ้งเตือน และเมื่อเก็บได้สำเร็จหนึ่งครั้งก็จะล้างข้อความนั้น
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	ความถี่ในการอ่านฉาก การสแกนทำงานบนเธรดของตัวเอง มีเพียงการดึงข้อมูลครั้งสุดท้ายเท่านั้นที่กินเวลาของเกมเสี้ยวมิลลิวินาที
+incomplete	ไม่ครบ
+Insects	แมลง
+insects off	แมลง: ปิด
+installed	ติดตั้งแล้ว
+Item	ไอเทม
+Item database	ฐานข้อมูลไอเทม
+Item table	ตารางไอเทม
+Items	ไอเทม
+Items lying in the world, including drops from enemies.	ไอเทมที่วางอยู่ในโลกเกม รวมถึงของที่ดรอปจากศัตรู
+Items no shop will buy, across every class.	ไอเทมที่ไม่มีร้านค้าใดรับซื้อ ทุกประเภท
+Items on the ground	ไอเทมบนพื้น
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	ไอเทมที่ติดแท็กเควสต์จะถูกเว้นไว้ เพื่อไม่ให้ปริศนาและของเก็บในเนื้อเรื่องถูกเก็บอัตโนมัติ สิ่งนี้อ่านจากแท็กของไอเทมเอง จึงครอบคลุมทุกอย่างที่เก็บ, เก็บเกี่ยว หรือทุบเปิดออกมา การถลกหนังซากสัตว์ไม่อยู่ในนี้: ผลที่ได้มาถึงโดยที่มอดไม่เคยเห็นว่ามันคืออะไร
+Items with an unknown value are never filtered by it.	ไอเทมที่ไม่ทราบมูลค่าจะไม่ถูกกรองด้วยเงื่อนไขนี้เลย
+Keep the menu on screen while you play. %s brings it back, %s closes it.	เปิดเมนูค้างไว้ขณะเล่น กด %s เพื่อเรียกกลับมา กด %s เพื่อปิด
+Keys	ปุ่ม
+Keys and tools	ปุ่มและเครื่องมือ
+Language	ภาษา
+Language \"%s\": %d line(s) translated, %d seen this session.	ภาษา \"%s\": แปลแล้ว %d บรรทัด, พบในเซสชันนี้ %d บรรทัด
+learned from the game	เรียนรู้จากเกม
+Load	โหลด
+loaded	โหลดแล้ว
+locked	ล็อกอยู่
+Log	บันทึก
+Log: %ls	บันทึก: %ls
+Loot	ลูท
+Loot all	ลูททั้งหมด
+Loot engine	เอนจินลูท
+Loot engine not started.	เอนจินลูทยังไม่เริ่มทำงาน
+Loot everything in range now	ลูททุกอย่างในระยะทันที
+Loot everything in range once	ลูททุกอย่างในระยะครั้งเดียว
+loot: %s	ลูท: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s สำหรับเกมบิลด์ %s
+Materials	วัตถุดิบ
+mechanism part	ชิ้นส่วนกลไก
+Memory chips and puzzle parts	ชิปความทรงจำและชิ้นส่วนปริศนา
+Mine ore veins for you	ทุบสายแร่ให้คุณ
+Minimum value (copper)	มูลค่าต่ำสุด (ทองแดง)
+missing	ขาดหาย
+missing MasterLooter.items.tsv	ไม่พบ MasterLooter.items.tsv
+mission object	วัตถุภารกิจ
+Mounts and vehicles	พาหนะและยานพาหนะ
+name a new preset	ตั้งชื่อพรีเซ็ตใหม่
+never	ไม่เลย
+no	ไม่
+no interaction node	ไม่มีจุดโต้ตอบ
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	จุดเก็บของที่ตาราง prefab ไม่มีชื่อ และยังไม่ให้ผลผลิตอะไรในเซสชันนี้ ปิด (ค่าเริ่มต้น) จะเว้นไว้เฉย ๆ เปิด จะทำให้มอดเก็บมันเพื่อดูว่าคืออะไร ซึ่งหมายความว่าต้นไม้อาจถูกเก็บได้แม้ปิดสวิตช์พืชอยู่
+none	ไม่มี
+not found yet	ยังไม่พบ
+not in item database	ไม่อยู่ในฐานข้อมูลไอเทม
+not ready (node empty)	ยังไม่พร้อม (จุดเก็บของว่างเปล่า)
+not resolved yet	ยังไม่พบ
+not started	ยังไม่เริ่ม
+not yet	ยังไม่
+Nothing else is drawn while the menu is closed.	ไม่มีการวาดสิ่งอื่นขณะปิดเมนู
+nothing taken yet this session	ยังไม่ได้เก็บอะไรในเซสชันนี้
+Object	วัตถุ
+object	วัตถุ
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	วัตถุถูกเรียงจากใกล้ไปไกล พร้อมกฎที่ตัดสินแต่ละชิ้น จุดเก็บของที่ว่างเปล่าจะแสดงว่ายังไม่พร้อมจนกว่าเกมหรือการกระตุ้นจะเติมข้อมูลให้ สิ่งที่คุณสวมใส่และถืออยู่จะไม่แสดงในรายการ
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	วัตถุที่อยู่ใกล้กว่านี้จะถือว่าเป็นอุปกรณ์ของคุณเอง เป็นตาข่ายนิรภัย เพราะอุปกรณ์ของคุณจะถูกจดจำด้วยวิธีอื่นด้วยเช่นกัน
+Objects per burst press	จำนวนวัตถุต่อการกดเก็บรวด
+Objects per scan	จำนวนวัตถุต่อการสแกน
+on the player	อยู่บนตัวผู้เล่น
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	เปิด สายแร่จะถูกเก็บเกี่ยวตรงที่มันอยู่ คุณจะไม่ต้องเหวี่ยงอีเต้าเลย ปิด สายแร่จะถูกปล่อยไว้ มีแค่เศษที่แตกออกมาเท่านั้นที่จะถูกเก็บ ต้องเปิดการกระตุ้นด้วย เพราะการขอให้สายแร่เปิดคือกลไกหลักทั้งหมด
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	เปิด โอเวอร์เลย์จะวาดภาพอยู่ใต้ DLSS frame generation ซึ่งต้องให้มอดนี้ส่งมอบ swapchain ที่ห่อไว้ให้เกม\n\nปิด โอเวอร์เลย์จะวาดภาพผ่าน present hook แทน ทุกอย่างจะดูเหมือนกันตราบใดที่ยังไม่ได้เปิด frame generation และมอดจะเลี่ยงเส้นทางที่มอดโอเวอร์เลย์ตัวอื่นก็แพตช์ด้วยเช่นกัน ลองปิดตัวนี้ดูหากเกมไม่ยอมเปิดพร้อมกับมอดโอเวอร์เลย์ตัวอื่น ตั้งค่าเป็น WrapSwapChain ใน MasterLooter.ini ได้โดยไม่ต้องเปิดเกม
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	ข้อมูลสำรองหนึ่งชุดจะถูกเขียนทุกครั้งที่เกมเริ่มทำงาน และเก็บไว้สิบสองชุดล่าสุด ในโฟลเดอร์ MasterLooter.backups ข้างปลั๊กอิน พรีเซ็ตอยู่ใน MasterLooter.presets คัดลอกโฟลเดอร์ใดโฟลเดอร์หนึ่งไว้เพื่อรักษาไว้ข้ามการติดตั้งใหม่
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	คลิกเดียวต่อหนึ่งตระกูล ตารางด้านล่างยังตั้งค่าแต่ละประเภทแยกได้อยู่ กลุ่มจะแสดงขีดกลางเมื่อมีเพียงบางส่วนเปิดอยู่
+Open and close this menu	เปิดและปิดเมนูนี้
+Open folder	เปิดโฟลเดอร์
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	เปิดโฟลเดอร์ใน Explorer บันทึกจะถูกเขียนใหม่ทุกครั้งที่เปิดเกม และเป็นสิ่งที่ควรแนบไปกับรายงานปัญหา
+Ore	แร่
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	ก้อนแร่บนพื้นและจุดเก็บของใด ๆ ที่ให้ผลผลิตเป็นแร่ รวมถึงสายแร่ด้วย สายแร่จะถูกทุบแตกตรงที่มันอยู่ แล้วเก็บสิ่งที่ได้ขึ้นจากพื้น ซึ่งเป็นสิ่งที่อีเต้าของคุณทำ และเป็นเหตุผลที่อีเต้าคุณภาพดีกว่าคุ้มค่าพกพา: โบนัส Mining Yield Up ของเครื่องมือใช้กับของที่หล่นลงมา ไม่ใช่กับตัวจุดเก็บของ สายแร่แต่ละเส้นจะถูกทุบครั้งเดียวแล้วปล่อยไว้จนกว่าเกมจะนำมันกลับมา การเอื้อมถึงสายแร่เริ่มไกลได้เท่าที่สแกนมองเห็น เพราะมันใช้เวลาหลายวินาทีในการตอบสนอง ขณะที่พุ่มไม้ใช้เวลาแค่เสี้ยวเดียว
+ore off	แร่: ปิด
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	แร่, อัญมณี, หิน, ไม้ซุง, หนังสัตว์, สมุนไพร, สินค้าค้าขาย และวัตถุดิบงานฝีมืออื่น ๆ
+out of range	นอกระยะ
+Overlay	โอเวอร์เลย์
+Override	การแทนที่
+owned by someone (theft)	มีเจ้าของ (การขโมย)
+Ownership	ความเป็นเจ้าของ
+Ownership oracle	ระบบตรวจสอบเจ้าของ
+Pace	จังหวะการทำงาน
+part of a creature or a mechanism	ชิ้นส่วนของสิ่งมีชีวิตหรือกลไก
+paused: %s	หยุดชั่วคราว: %s
+pick up off	การเก็บของพื้น: ปิด
+Plants	พืช
+plants off	พืช: ปิด
+Player	ผู้เล่น
+Player equipment.	อุปกรณ์ของผู้เล่น
+Player not found in the scene yet.	ยังไม่พบผู้เล่นในฉาก
+Presets	พรีเซ็ต
+press a key (Escape cancels)	กดปุ่ม (Escape ยกเลิก)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	ป้องกันไว้เป็นค่าเริ่มต้น: ชิปความทรงจำจะเริ่มฉากความทรงจำเมื่อถูกเก็บ และชิ้นส่วนปริศนาจะทำลายปริศนาของมัน เปิดเฉพาะเมื่อต้องการให้เก็บอัตโนมัติเท่านั้น
+protected item name	ชื่อไอเทมที่ป้องกันไว้
+Puts every setting and rule back to what it was at that moment.	คืนค่าทุกการตั้งค่าและกฎกลับไปเป็นแบบที่เคยเป็นในตอนนั้น
+puzzle or protected mechanism	กลไกปริศนาหรือกลไกที่ป้องกันไว้
+Quest items	ไอเทมเควสต์
+quest or memory trigger	ตัวกระตุ้นเควสต์หรือความทรงจำ
+Ranges (metres)	ระยะ (เมตร)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	หนู, กระรอก, นก, กิ้งก่า, กบ และซาลาแมนเดอร์: สิ่งอื่นที่เกมใส่ลงกระเป๋าทั้งตัว
+Reaching nodes	การเอื้อมถึงจุดเก็บของ
+Read from the file beside the plugin, not the copy inside it.	อ่านจากไฟล์ข้างปลั๊กอิน ไม่ใช่สำเนาที่อยู่ในตัวมัน
+Rebind	ผูกปุ่มใหม่
+Recent loot	ของที่ลูทล่าสุด
+Refresh	รีเฟรช
+Reload now	โหลดซ้ำตอนนี้
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	แทนที่การตั้งค่าและกฎของทุกประเภท, แท็ก และไอเทมด้วยข้อมูลในพรีเซ็ต แล้วเขียนลงใน MasterLooter.ini การตั้งค่าปัจจุบันจะไม่ถูกเก็บไว้เลย จึงควรสำรองไว้ก่อนหากต้องการ
+Reset all tags	รีเซ็ตแท็กทั้งหมด
+resolved	พบแล้ว
+Retry the same object after (ms)	ลองวัตถุเดิมซ้ำหลังจาก (มิลลิวินาที)
+Route id	รหัสเส้นทาง
+Rule	กฎ
+Save now	บันทึกตอนนี้
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	บันทึกเป็น \"%s\": ชื่อพรีเซ็ตเก็บได้เฉพาะตัวอักษร, ตัวเลข, ช่องว่าง, ขีดกลาง และขีดล่าง
+Say so on screen when the bag stops taking things	แสดงข้อความสั้น ๆ เมื่อกระเป๋าเก็บของไม่ได้อีกแล้ว
+scan %.1f ms	สแกน %.1f มิลลิวินาที
+Scan radius	รัศมีสแกน
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	สแกน %ld ครั้ง, ส่งเหตุการณ์ %ld ครั้ง, pump tick %ld ครั้ง, ข้อผิดพลาดที่ป้องกันไว้ %ld ครั้ง, เรียนรู้ประเภทจุดเก็บของ %d ประเภท
+Scans per second	จำนวนสแกนต่อวินาที
+search item name or key (3+ letters)	ค้นหาชื่อหรือคีย์ไอเทม (3 ตัวอักษรขึ้นไป)
+Sending events	การส่งเหตุการณ์
+Set	ตั้งค่า
+Settings: %ls	การตั้งค่า: %ls
+Show a brief notice when auto-loot is toggled	แสดงข้อความสั้น ๆ เมื่อสลับลูทอัตโนมัติ
+Showing current overrides. Type to search all %d items.	กำลังแสดงการแทนที่ปัจจุบัน พิมพ์เพื่อค้นหาไอเทมทั้งหมด %d รายการ
+Showing the nearest %d of %d. The rest are further away.	กำลังแสดง %d รายการที่ใกล้ที่สุดจากทั้งหมด %d รายการ ที่เหลืออยู่ไกลกว่านี้
+Skip all	ข้ามทั้งหมด
+Skip items shops refuse to buy	ข้ามไอเทมที่ร้านค้าไม่รับซื้อ
+Skip quest items	ข้ามไอเทมเควสต์
+skip: %s	ข้าม: %s
+Small animals	สัตว์ขนาดเล็ก
+small animals off	สัตว์ขนาดเล็ก: ปิด
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	วัตถุในโลกเกมบางชิ้นไม่มีชื่อไอเทมที่อ่านได้ เปิด: เก็บไปเลย ปิด: เว้นสิ่งที่ระบุไม่ได้ทั้งหมดไว้
+stack at one point (storage contents)	กองรวมที่จุดเดียว (เนื้อหาคลังเก็บ)
+Stone	หิน
+stone off	หิน: ปิด
+Stone on the ground and nodes that yield stone.	หินบนพื้นและจุดเก็บของที่ให้ผลผลิตเป็นหิน
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	โต๊ะ, เก้าอี้, เตียง, พรม, โคมไฟ, เทียน, ภาพวาด, หม้อ และของที่เหลือในห้องที่ตกแต่งไว้ ไม่ว่าจะเก็บจากพื้นหรือเก็บจากจุดโต้ตอบของมันเอง ส่วนใหญ่มีค่าแค่หนึ่งหรือสองทองแดง แต่พรมและเตียงหรูอาจมีมูลค่าถึงหลักพัน จึงควรเปิดสวิตช์นี้ก่อนตกแต่งบ้าน หีบและสิ่งอื่นที่เก็บของไว้ข้างในจะขึ้นกับสวิตช์กล่องแทน ปิดไว้เป็นค่าเริ่มต้น
+Tag	แท็ก
+tags, any of which can be set to never in the Tags tab:	แท็กใดก็ได้ ที่สามารถตั้งเป็นไม่เลยได้ในแท็บแท็ก:
+Take goods that belong to someone	เก็บของที่มีเจ้าของ
+Take goods that belong to someone, on / off	เก็บของที่มีเจ้าของ เปิด / ปิด
+Take items the database cannot name	เก็บไอเทมที่ฐานข้อมูลระบุชื่อไม่ได้
+Take owned goods on / off	เก็บของมีเจ้าของ เปิด / ปิด
+takes effect next launch	มีผลตอนเปิดเกมครั้งถัดไป
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	เอนจินจะสแกนรอบตัวคุณและเก็บของตามที่กฎอนุญาต ปิด หมายความว่าจะไม่มีอะไรถูกเก็บอัตโนมัติเลย ปุ่มเก็บรวดยังใช้งานได้อยู่
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	เกมจะเติมข้อมูลของจุดเก็บของก็ต่อเมื่อคิดว่าคุณเอื้อมถึงมันได้ การกระตุ้นคือการขอให้เกมทำแบบนั้นจากระยะไกล ซึ่งเป็นสิ่งเดียวกับที่ทำให้เก็บเกี่ยวสายแร่ได้ตรงที่มันอยู่ สายแร่ใช้เวลาหลายวินาทีในการตอบสนอง ขณะที่พุ่มไม้ใช้เวลาแค่เสี้ยวเดียว
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	เกมจะลบวัตถุที่ถูกเก็บไปหน่วงเวลาหนึ่ง สิ่งนี้ป้องกันไม่ให้วัตถุเดียวกันถูกส่งซ้ำสองครั้งระหว่างที่มันกำลังจางหาย
+The game treats this as stealing and will put a bounty on you.	เกมจะถือว่านี่คือการขโมยและจะตั้งค่าหัวรางวัลให้คุณ
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	มอดจะไม่มีวันเหวี่ยงอีเต้าเอง มันขับเคลื่อนลำดับการแตกของสายแร่เอง และเกมจะเดินแถวของหล่นเพียงแถวเดียวสำหรับกรณีนี้ ในขณะที่การเหวี่ยงจริงเดินสองแถว จึงทำให้โบนัสของเครื่องมือขุดของคุณไม่จ่ายอะไรเลยเมื่อมอดเป็นคนขุด สิ่งนี้เพิ่มแร่ที่ขาดหายไปกลับคืนผ่านเส้นทางการหล่นเดียวกับที่เกมใช้ จึงเป็นแร่จริงที่กระจายอยู่บนพื้น ไม่ใช่ไอเทมที่ถูกก็อปปี้เข้ากระเป๋า ตั้งค่าให้เท่ากับสิ่งที่เครื่องมือของคุณจ่ายเมื่อขุดด้วยมือลบหนึ่ง: สว่านที่ให้สามชิ้นเมื่อขุดด้วยมือ ต้องการค่า 2 ที่นี่ มันใช้ได้เฉพาะกับสายแร่ที่มอดนี้ทุบเท่านั้น การขุดด้วยมือจึงไม่ได้รับผลกระทบและทั้งสองอย่างไม่สามารถซ้อนกันได้
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	การโต้ตอบถลกหนัง ครั้งเดียวต่อซากหนึ่งตัว ศพมนุษย์จะดรอปของลูทปกติแทน สิ่งที่ได้จากการถลกหนังจะไม่ถูกตรวจสอบกับตัวกรองของคุณ มอดไม่เคยเห็นมันก่อนที่มันจะตกถึงพื้น ดังนั้นสวิตช์นี้จึงเป็นแบบทั้งหมดหรือไม่มีเลย
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	เซสชันนี้: เก็บแล้ว %ld ชิ้น, เก็บเกี่ยวแล้ว %ld ชิ้น, จับได้แล้ว %ld ตัว, ซากสัตว์ %ld ตัว
+Timber and branches on the ground and nodes that yield them.	ไม้ซุงและกิ่งไม้บนพื้นและจุดเก็บของที่ให้ผลผลิตเป็นไม้
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	หากต้องการเว้นสัตว์บางชนิดไว้ ให้ตั้งค่าสิ่งที่มันกลายเป็นเป็นไม่เลยในแท็บไอเทม: Item_Tench, Item_Ricefish, Item_Iguana มอดอ่านแถวของสิ่งมีชีวิตนั้นในตารางตัวละครของเกมเอง จึงรู้ว่ากำลังเจอสัตว์ชนิดใดก่อนจะจับมันด้วยซ้ำ สัตว์แปลก ๆ บางชนิดยังคงต้องเดาจากชื่อโมเดลของมัน และถูกจับตามหมวดหมู่เท่านั้น
+Treasure and keepsakes	สมบัติและของที่ระลึก
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	กดสองปุ่มพร้อมกันเสมอ ห้ามปุ่มเดียว เพราะทุกปุ่มเดี่ยวมีหน้าที่ของตัวเองอยู่แล้วในเกมนี้ มอดอ่านค่าจากเกมแพดเท่านั้น เกมจึงยังคงเห็นทั้งสองปุ่มอยู่ เลือกคู่ปุ่มที่ไม่ทำอะไรเมื่อกดพร้อมกัน เช่นปุ่มบ่าทั้งสองข้าง หรือ Back กับปุ่มหน้าใดปุ่มหนึ่ง
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	ยังไม่ได้ผูกจนกว่าคุณจะตั้งค่า เกมเรียกการเก็บของมีเจ้าของว่าการขโมยและจะตั้งค่าหัวรางวัลให้คุณ สวิตช์นี้จึงเหมาะกับการเปิดชั่วครู่แล้วปิดกลับ ซึ่งไม่ค่อยเข้ากับรูปแบบเมนูนัก
+Unidentified nodes	จุดเก็บของที่ยังไม่ระบุชนิด
+unidentified nodes off	จุดเก็บของที่ยังไม่ระบุชนิด: ปิด
+unidentified: could be a fish, a flying insect or a bird	ไม่ระบุชนิด: อาจเป็นปลา, แมลงบิน หรือ นก
+unidentified: could be an insect or a small animal	ไม่ระบุชนิด: อาจเป็นแมลงหรือสัตว์ขนาดเล็ก
+unnamed item	ไอเทมไม่มีชื่อ
+Unsellable items	ไอเทมขายไม่ได้
+Use this language	ใช้ภาษานี้
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	ใช้การตรวจสอบเก็บหรือขโมยของเกมเอง ของที่มีเจ้าของจะถูกข้ามไปจนกว่าจะถูกสังเกตเห็นหนึ่งครั้ง
+using the player's own field	ใช้ข้อมูลฟิลด์ของผู้เล่นเอง
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	ผัก, ผลไม้ และธัญพืช: มันเทศ, ข้าวบาร์เลย์, กะหล่ำปลี, แอปเปิล, องุ่น และอาหารเพาะปลูกหรือเก็บป่าอื่น ๆ ไม่ว่าจะอยู่บนต้นหรือวางอยู่ตามพื้น สิ่งเหล่านี้เคยขึ้นกับสวิตช์ไอเทมบนพื้น จึงเป็นเหตุผลที่ปิดสวิตช์พืชแล้วทุ่งนายังว่างเปล่าอยู่ดี: จาก 72 ช่องเก็บเกี่ยวในเกม 44 ช่องเป็นพืชผลทางการเกษตร มีเพียง 28 ช่องเท่านั้นที่เป็นพืช
+Verbose log	บันทึกละเอียด
+Verdict	ผลตัดสิน
+waiting	กำลังรอ
+waiting for the game to check an item	กำลังรอเกมตรวจสอบไอเทม
+waiting for the game to check ownership once	กำลังรอเกมตรวจสอบความเป็นเจ้าของครั้งแรก
+Waiting for the world to load.	กำลังรอโลกเกมโหลด
+Watch	เฝ้าดู
+Watch mode	โหมดเฝ้าดู
+Watch mode (menu stays up, you keep playing)	โหมดเฝ้าดู (เมนูค้างอยู่ คุณเล่นต่อได้)
+Watch mode: the game has your controls. %s to interact, %s to close.	โหมดเฝ้าดู: เกมควบคุมอยู่ กด %s เพื่อโต้ตอบ กด %s เพื่อปิด
+Weapons and armor	อาวุธและชุดเกราะ
+What enters the working list at all. The ranges below are clamped to it.	สิ่งที่จะเข้ารายการทำงานเลย ระยะด้านล่างถูกจำกัดไว้ด้วยค่านี้
+What to collect	สิ่งที่จะเก็บ
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	หมุนด้ามให้คุณและรับสิ่งที่ได้ขึ้นมา โดยขับเคลื่อนการเปลี่ยนสถานะเดียวกับที่เกมทำเมื่อคุณกดปุ่มโต้ตอบค้างไว้ บ่อน้ำไม่สร้างเหตุการณ์ลูทใด ๆ เลย นี่จึงเป็นการเล่นซ้ำลำดับที่จับไว้ได้ ไม่ใช่การขอสิ่งใดจากเกม ปิดไว้เป็นค่าเริ่มต้น เพราะบ่อน้ำที่ทำผิดพลาดคือบ่อน้ำที่เหลือทิ้งไว้โดยไม่มีถัง
+Wood	ไม้
+wood off	ไม้: ปิด
+World (actor manager)	โลกเกม (actor manager)
+worn by someone	สวมใส่โดยผู้อื่น
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	อุปกรณ์สวมใส่ที่ศัตรูทำหล่นตอนตาย ราคาถูกแต่หนัก ทว่ามีเยอะ
+worn or carried by you	สวมใส่หรือถืออยู่โดยคุณ
+worth %lld copper	มูลค่า %lld ทองแดง
+Wrap the swapchain	ห่อ swapchain
+Write translation template	เขียนเทมเพลตคำแปล
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	เขียน MasterLooter.template.txt ไว้ข้างปลั๊กอิน โดยมีทุกบรรทัดที่เมนูแสดงในเซสชันนี้ ควรเปิดทุกแท็บก่อน เพราะบรรทัดจะปรากฏก็ต่อเมื่อถูกวาดแล้วเท่านั้น แปลฝั่งขวาของแต่ละรายการ บันทึกเป็น MasterLooter.<language>.txt แล้วใส่ชื่อภาษานั้นที่นี่
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	เขียนการตั้งค่าปัจจุบันลงใน \"%s\" โหลดมันขึ้นมา แก้ไขตามต้องการ แล้วบันทึกกลับ
+Writes the settings as they are now, named %s.	เขียนการตั้งค่าปัจจุบัน ตั้งชื่อว่า %s
+yes	ใช่
+yours, just out of your hand	ของคุณเอง เพิ่งหลุดจากมือไป

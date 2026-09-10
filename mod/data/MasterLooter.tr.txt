@@ -1,0 +1,321 @@
+# Master Looter menü metni - Türkçe.
+# Bu, Anthropic'in yapay zekası Claude tarafından yapılan bir makine
+# çevirisidir; henüz bir anadil konuşucusu tarafından gözden geçirilmedi.
+# Düzeltmeler GitHub'da (github.com/shin2344234/master-looter) veya
+# Nexus sayfasında memnuniyetle karşılanır.
+#
+# Satır başına bir metin: önce İngilizcesi, bir sekme, sonra çevirisi.
+# # ile başlayan satırlar yok sayılır. \n bir satır sonu anlamına gelir,
+# ve sekmeden sonrası boş bırakılan bir satır İngilizce olarak kalır.
+# Her %d, %s, %.1f ve benzeri yer tutucu aynı sırada kalmalıdır: çalışma
+# zamanında sayılarla ve adlarla değiştirilirler, bunları değiştiren bir
+# satır yüklenirken yok sayılır.
+#
+# Eklentinin yanına MasterLooter.tr.txt olarak kaydet; bu, eklentiye
+# gömülü kopyanın yerini alır.
+
+  bag full	  çanta dolu
+ (first 250)	 (ilk 250)
+%-18s %s (%zu hits)%s	%-18s %s (%zu eşleşme)%s
+%d classes	%d sınıf
+%d items, %d classes, %d tags	%d eşya, %d sınıf, %d etiket
+%d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d satır yok sayıldı: %%d veya %%s yer tutucuları İngilizce metinle eşleşmiyordu, bunların kullanılması yanlış değerler yazdırırdı.
+%d matches%s	%d eşleşme%s
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	Bu oturumda %d nokta türü öğrenildi. Noktalar, yerleştirildikleri prefaba göre adlandırılır; bu tablonun kaçırdığı her şey ilk kez bir şey verdiğinde tanımlanır. Bir noktanın tür numarası oturumlar arasında değişir, bu yüzden çıktıktan sonra hiçbir şey hatırlanmaz.
+%d objects within scan range, %d lootable now.	%d nesne tarama menzilinde, %d tanesi şu an yağmalanabilir.
+%d overrides	%d geçersiz kılma
+%s (key %u, row %d, tier %d)	%s (anahtar %u, satır %d, seviye %d)
+%s (never looted)	%s (asla yağmalanmadı)
+%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	%s, henüz kimsenin gözden geçirmediği bir makine çevirisidir. Düzeltmeler GitHub'da veya Nexus sayfasında memnuniyetle karşılanır.
+%s translated by %s.	%s, %s tarafından çevrildi.
+%s, let go to keep it	%s, kaydetmek için bırak
+1 match%s	1 eşleşme%s
+3 of 3	3/3
+\"%s\" already exists. Saving over it asks first.	\"%s\" zaten var. Üzerine kaydetmeden önce onay istenir.
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	Kuyu kovası ve benzerleri asla yağmalanmaz, ama birini etkinleştirmek oyunun etkileşimini sunmasını sağlar, böylece onu elinle kullanabilirsin.
+Abyss and Kuku	Abyss ve Kuku
+Abyss gear, Kuku pots and their parts.	Abyss ekipmanları, Kuku kapları ve parçaları.
+Accessories	Aksesuarlar
+allowed	izinli
+already in your bag	zaten çantanda
+always	her zaman
+always beats the class rule; never beats always	“her zaman” sınıf kuralına üstün gelir; “asla” da “her zaman”a üstün gelir.
+Ammunition	Cephane
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	Her sınıfta görev olarak etiketlenmiş her şey. Kapalıyken hikaye eşyaları ve bulmaca parçaları kendi ellerin için saklanır.
+Arm mechanism containers too	Mekanizma konteynerlerini de etkinleştir
+Arm nodes ourselves	Noktaları kendimiz etkinleştir
+Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	Etkinleştirme duvarları görmez. Kısa tut, yoksa bir sonraki odanın duvarından toplarsın. Maden istisnadır ve her zaman 25 m'ye kadar uzaktan denenir, çünkü bir damarın yanıt vermesi saniyeler sürer ve ancak tam üzerine geldiğinde sormak, çok geç açılıp işe yaramaması anlamına gelir.
+Arming range	Etkinleştirme menzili
+Auto-loot enabled	Otomatik yağma etkin
+Auto-loot on / off	Otomatik yağma açık / kapalı
+Backups	Yedekler
+blank for English	İngilizce için boş bırak
+Books and papers	Kitaplar ve kağıtlar
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	Patron ödülleri, eserler, hafıza eşyaları, para keseleri ve ödül sandıkları.
+Break veins open rather than emptying them	Damarları boşaltmak yerine kırarak aç
+Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	Kırma, damarda oyunun kendi durum makinesini çalıştırır: önce vuruş iner, sonra kırılma gerçekleşir, böylece nokta içeriğini yere döker ve tam olarak bir kazma altında olduğu gibi kaybolur. Boşaltma ise madeni doğrudan çıkarır ve düşmeyi tamamen atlar. Her iki yol da aletinin Maden Verimi Artışını ödemez, çünkü oyun bunu yalnızca kendi vuruşun saydığı bir vuruşa verir; farkı kapatmak için aşağıdaki ekstrayı ayarla. Her damara bir kez vurulur, sonra oyun onu yeniden oluşturana kadar dokunulmaz.
+Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	Kelebekler, böcekler, kız böcekleri, arılar, örümcekler, akrepler, salyangozlar ve oyunun böcek olarak sınıflandırdığı diğer küçük şeyler. Türler yaratık tablosundan gelir; tablonun adlandıramadığı bir yaratık, ait olabileceği her kategori açıkken yakalanır (uçan bir şey balık, böcek veya kuş olabilir).
+captured	yakalandı
+Carcasses	Leşler
+carcasses off	leşler kapalı
+Catching	Yakalama
+Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	Yakalanan yaratıklar, canlı veya etrafta duran; tablonun adlandırabildiği bir yaratık kendi sınıf kuralını izler. Yengeçler, karidesler ve mürekkep balıkları Yiyecek ve içecek altında deniz ürünüdür.
+Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	Sandıklar, kasalar ve bırakma kümesi noktaları. Yağma olayına nadiren yanıt verirler. Varsayılan olarak kapalı.
+Class	Sınıf
+class %s	sınıf %s
+Classes	Sınıflar
+Clear	Temizle
+Clear overrides	Geçersiz kılmaları temizle
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	Bu oturumun çantandan çıkardığı sonuçları temizler. Prefab tablosunun adlandırdığı noktalar bundan etkilenmez.
+Close	Kapat
+container (off)	konteyner (kapalı)
+Containers	Konteynerler
+Controller	Kumanda
+Copper	Bakır
+Copy	Kopyala
+Copy path	Yolu kopyala
+Copy to the clipboard.	Panoya kopyala.
+corpse	ceset
+corpse already searched	ceset zaten arandı
+corpse: loot drops separately	ceset: yağma ayrı düşer
+creature	yaratık
+Creatures	Yaratıklar
+Crops	Ekinler
+crops off	ekinler kapalı
+Damaged gear	Hasarlı ekipman
+Dead zone around you	Etrafındaki ölü bölge
+Decision	Karar
+default	varsayılan
+DirectX 12 hooks	DirectX 12 kancaları
+does not respond	yanıt vermiyor
+Draw water from wells	Kuyulardan su çek
+Engine	Motor
+English	İngilizce
+English. %d line(s) seen this session.	İngilizce. Bu oturumda %d satır görüldü.
+entity	varlık
+entity %08X	varlık %08X
+entity %08X, %d items across every store	varlık %08X, tüm depolarda %d eşya
+entity %08X, bag %d of %d slots, %d items across every store	varlık %08X, çanta %d/%d yuva, tüm depolarda %d eşya
+Event descriptors	Olay tanımlayıcıları
+Extra ore per vein	Damar başına ekstra maden
+failed	başarısız
+fast-travel artifact	hızlı yolculuk eseri
+filter classes	sınıfları filtrele
+filter tags	etiketleri filtrele
+Filters	Filtreler
+Fish	Balık
+fish off	balık kapalı
+Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	Balık ve suda yakaladığın her şey: yengeçler, karidesler, mürekkep balıkları, deniz yıldızları ve deniz atları.
+Food and drink	Yiyecek ve içecek
+Forget	Unut
+found	bulundu
+Furniture	Mobilya
+Furniture and decor	Mobilya ve dekor
+furniture node (off)	mobilya noktası (kapalı)
+furniture off	mobilya kapalı
+Game functions	Oyun fonksiyonları
+Game functions did not resolve; see Status.	Oyun fonksiyonları çözülemedi; Duruma bak.
+Game-thread pump	Oyun iş parçacığı pompası
+gather node	toplama noktası
+Gathering	Toplama
+Ground items	Yerdeki eşyalar
+Groups	Gruplar
+Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Şifalı bitki, çiçek ve mantar noktaları, ve yerde duran aynıları. Yiyecek ekinlerinin kendi anahtarı var.
+hold two buttons (Escape cancels)	iki tuşa birden bas (Escape iptal eder)
+Household clutter and collectibles, most of it worthless.	Ev eşyaları ve koleksiyon parçaları, çoğu değersiz.
+How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	Çantanın ne kadar dolu olduğu çantanın kendisinden okunur, bu yüzden bildirim yağma yapıyor olsan da olmasan da dolduğu anda görünür. Bu sayılar bir anlam ifade etmemeye başlarsa mod, bir alımdan sonra ne olduğunu izlemeye döner: art arda hiçbir şeye ulaşmayan üç alım bildirimi yükseltir, yerine ulaşan bir tanesi ise temizler.
+How often the scene is read. The scan runs on its own thread; only the final take costs the game a fraction of a millisecond.	Sahnenin ne sıklıkla okunduğu. Tarama kendi iş parçacığında çalışır; oyuna maliyeti yalnızca son alımın milisaniyenin bir kısmıdır.
+incomplete	tamamlanmamış
+Insects	Böcekler
+insects off	böcekler kapalı
+installed	kuruldu
+Item	Eşya
+Item database	Eşya veritabanı
+Item table	Eşya tablosu
+Items	Eşyalar
+Items lying in the world, including drops from enemies.	Dünyada duran eşyalar, düşmanların bıraktıkları dahil.
+Items no shop will buy, across every class.	Hiçbir dükkanın satın almadığı eşyalar, her sınıfta.
+Items on the ground	Yerde duran eşyalar
+Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. This reads the item's own tags, so it covers anything picked up, gathered or broken open. Skinning a carcass is outside it: that yield arrives without the mod ever seeing what it is.	Görev olarak etiketlenmiş eşyalar dokunulmadan bırakılır, böylece bulmacalar ve hikaye eşyaları otomatik alınmaz. Bu, eşyanın kendi etiketlerini okur, bu yüzden alınan, toplanan veya kırılıp açılan her şeyi kapsar. Bir leşi yüzmek bunun dışındadır: o ödül, mod ne olduğunu hiç görmeden gelir.
+Items with an unknown value are never filtered by it.	Değeri bilinmeyen eşyalar bu filtreyle asla elenmez.
+Keep the menu on screen while you play. %s brings it back, %s closes it.	Oynarken menüyü ekranda tut. %s onu geri getirir, %s kapatır.
+Keys	Tuşlar
+Keys and tools	Anahtarlar ve aletler
+Language	Dil
+Language \"%s\": %d line(s) translated, %d seen this session.	Dil \"%s\": %d satır çevrildi, bu oturumda %d satır görüldü.
+learned from the game	oyundan öğrenildi
+Load	Yükle
+loaded	yüklendi
+locked	kilitli
+Log	Günlük
+Log: %ls	Günlük: %ls
+Loot	Yağma
+Loot all	Tümünü yağmala
+Loot engine	Yağma motoru
+Loot engine not started.	Yağma motoru başlatılmadı.
+Loot everything in range now	Menzildeki her şeyi şimdi yağmala
+Loot everything in range once	Menzildeki her şeyi bir kez yağmala
+loot: %s	yağma: %s
+MASTER LOOTER	MASTER LOOTER
+Master Looter v%s for game build %s	Master Looter v%s, oyun sürümü %s içindir
+Materials	Malzemeler
+mechanism part	mekanizma parçası
+Memory chips and puzzle parts	Hafıza çipleri ve bulmaca parçaları
+Mine ore veins for you	Maden damarlarını senin yerine kaz
+Minimum value (copper)	Minimum değer (bakır)
+missing	eksik
+missing MasterLooter.items.tsv	MasterLooter.items.tsv eksik
+mission object	görev nesnesi
+Mounts and vehicles	Binekler ve araçlar
+name a new preset	yeni bir ön ayar adlandır
+never	asla
+no	hayır
+no interaction node	etkileşim noktası yok
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	Prefab tablosunun adlandırmadığı ve bu oturumda henüz bir şey vermemiş noktalar. Kapalı (varsayılan) onları dokunulmadan bırakır. Açık, modun ne olduklarını öğrenmek için onları toplamasını sağlar, yani Bitkiler kapalıyken bile bir bitki alınabilir.
+none	yok
+not found yet	henüz bulunamadı
+not in item database	eşya veritabanında yok
+not ready (node empty)	hazır değil (nokta boş)
+not resolved yet	henüz çözülmedi
+not started	başlatılmadı
+not yet	henüz değil
+Nothing else is drawn while the menu is closed.	Menü kapalıyken başka hiçbir şey çizilmez.
+nothing taken yet this session	bu oturumda henüz bir şey alınmadı
+Object	Nesne
+object	nesne
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	Nesneler en yakından başlayarak listelenir, her birini belirleyen kuralla birlikte. Boş noktalar, oyun veya etkinleştirme onları doldurana kadar hazır değil olarak okunur. Giydiğin ve taşıdığın şeyler dışarıda bırakılır.
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	Bundan daha yakın nesneler kendi ekipmanın sayılır. Bu bir güvenlik önlemidir; ekipmanın başka yollarla da tanınır.
+Objects per burst press	Ani basış başına nesne
+Objects per scan	Tarama başına nesne
+on the player	oyuncunun üzerinde
+On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	Açıkken, bir damar olduğu yerde işlenir ve sen asla kazma sallamazsın. Kapalıyken, damarlar dokunulmadan bırakılır ve yalnızca senin gevşettiğin parçalar alınır. Etkinleştirme gerektirir, çünkü işin sırrı damardan açılmasını istemektir.
+On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	Açıkken, overlay DLSS kare oluşturmanın altında çizilir; bu da bu modun oyuna sarmalanmış bir swapchain vermesini gerektirir.\n\nKapalıyken, overlay bunun yerine present kancası üzerinden çizilir. Kare oluşturma açık olmadıkça her şey aynı görünür, ve mod başka overlay modlarının da yamadığı bir yoldan uzak durur. Oyun başka bir overlay moduyla birlikte açılmıyorsa bunu dene; oyunu başlatmadan MasterLooter.ini içinde WrapSwapChain olarak ayarlanabilir.
+One backup is written each time the game starts and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall.	Oyun her başladığında bir yedek yazılır ve son on iki tanesi, eklentinin yanındaki MasterLooter.backups içinde tutulur. Ön ayarlar MasterLooter.presets içindedir. Bir yeniden kurulumda korumak için iki klasörden birini kopyala.
+One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	Aile başına tek tıklama. Aşağıdaki tablo yine de tek tek sınıfları ayarlar; bir grubun yalnızca bir kısmı açıkken tire gösterilir.
+Open and close this menu	Bu menüyü aç ve kapat
+Open folder	Klasörü aç
+Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	Klasörü Explorer'da açar. Günlük her başlatmada yeniden yazılır ve bir bildirime eklenmesi gereken dosyadır.
+Ore	Maden
+Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	Yerdeki maden parçaları ve damarlar dahil maden veren her nokta. Bir damar olduğu yerde kırılır ve içeriği yerden alınır, kazmanın yaptığı da tam olarak budur ve daha iyi bir kazma taşımaya değer kılan da budur: aletin Maden Verimi Artışı düşmeye uygulanır, noktaya değil. Her damara bir kez vurulur ve oyun onu geri getirene kadar dokunulmaz. Damarlara ulaşma, taramanın görebildiği en uzak noktadan başlar, çünkü bir çalı bir saniyenin küçük bir kısmında yanıt verirken bir damarın yanıt vermesi saniyeler alır.
+ore off	maden kapalı
+Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	Maden, mücevher, taş, kereste, deri, şifalı bitki, ticaret malı ve diğer üretim malzemeleri.
+out of range	menzil dışında
+Overlay	Overlay
+Override	Geçersiz kılma
+owned by someone (theft)	birine ait (hırsızlık)
+Ownership	Sahiplik
+Ownership oracle	Sahiplik kahini
+Pace	Hız
+part of a creature or a mechanism	bir yaratığın veya mekanizmanın parçası
+paused: %s	duraklatıldı: %s
+pick up off	yerden alma kapalı
+Plants	Bitkiler
+plants off	bitkiler kapalı
+Player	Oyuncu
+Player equipment.	Oyuncu ekipmanı.
+Player not found in the scene yet.	Oyuncu sahnede henüz bulunamadı.
+Presets	Ön ayarlar
+press a key (Escape cancels)	bir tuşa bas (Escape iptal eder)
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	Varsayılan olarak korumalı: bir hafıza çipi alındığında bir hafıza sahnesi başlatır, bir bulmaca parçası da kendi bulmacasını bozar. Yalnızca otomatik alınmalarını istiyorsan aç.
+protected item name	korumalı eşya adı
+Puts every setting and rule back to what it was at that moment.	Her ayarı ve kuralı o andaki haline geri döndürür.
+puzzle or protected mechanism	bulmaca veya korumalı mekanizma
+Quest items	Görev eşyaları
+quest or memory trigger	görev veya hafıza tetikleyicisi
+Ranges (metres)	Menziller (metre)
+Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	Fareler, sincaplar, kuşlar, kertenkeleler, kurbağalar ve semenderler: oyunun bütün halinde çantaya koyduğu diğer her şey.
+Reaching nodes	Noktalara ulaşma
+Read from the file beside the plugin, not the copy inside it.	Eklentinin içindeki kopyadan değil, yanındaki dosyadan okunur.
+Rebind	Yeniden ata
+Recent loot	Son yağma
+Refresh	Yenile
+Reload now	Şimdi yeniden yükle
+Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	Her ayarı ve her sınıf, etiket ve eşya kuralını ön ayarın içeriğiyle değiştirir ve bunu MasterLooter.ini'ye yazar. Mevcut ayarlardan hiçbiri korunmaz, bu yüzden onları istiyorsan önce yedekle.
+Reset all tags	Tüm etiketleri sıfırla
+resolved	çözüldü
+Retry the same object after (ms)	Aynı nesneyi şu süre sonra yeniden dene (ms)
+Route id	Rota kimliği
+Rule	Kural
+Save now	Şimdi kaydet
+Saved as \"%s\": a preset name keeps letters, digits, spaces, dashes and underscores.	\"%s\" olarak kaydedildi: bir ön ayar adı harfleri, rakamları, boşlukları, tireleri ve alt çizgileri koruyabilir.
+Say so on screen when the bag stops taking things	Çanta eşya almayı bıraktığında ekranda bunu bildir
+scan %.1f ms	tarama %.1f ms
+Scan radius	Tarama yarıçapı
+Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	Tarama %ld, gönderilen olay %ld, pompa tiki %ld, korunan hata %ld, öğrenilen nokta türü %d
+Scans per second	Saniyedeki tarama
+search item name or key (3+ letters)	eşya adı veya anahtarı ara (3+ harf)
+Sending events	Olaylar gönderiliyor
+Set	Ayarla
+Settings: %ls	Ayarlar: %ls
+Show a brief notice when auto-loot is toggled	Otomatik yağma değiştirildiğinde kısa bir bildirim göster
+Showing current overrides. Type to search all %d items.	Geçerli geçersiz kılmalar gösteriliyor. Tüm %d eşya arasında aramak için yaz.
+Showing the nearest %d of %d. The rest are further away.	En yakın %d gösteriliyor, toplam %d içinden. Geri kalanlar daha uzakta.
+Skip all	Tümünü atla
+Skip items shops refuse to buy	Dükkanların satın almayı reddettiği eşyaları atla
+Skip quest items	Görev eşyalarını atla
+skip: %s	atla: %s
+Small animals	Küçük hayvanlar
+small animals off	küçük hayvanlar kapalı
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Bazı dünya nesnelerinin okunabilir bir eşya adı yoktur. Açık: yine de al. Kapalı: tanımlanamayan her şeyi bırak.
+stack at one point (storage contents)	tek noktada yığın (depo içeriği)
+Stone	Taş
+stone off	taş kapalı
+Stone on the ground and nodes that yield stone.	Yerdeki taşlar ve taş veren noktalar.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Masalar, sandalyeler, yataklar, halılar, lambalar, mumlar, tablolar, çömlekler ve döşeli bir odanın geri kalanı; ister yerden alınsın ister kendi etkileşim noktasından. Çoğu bir iki bakıra değer, ama halılar ve lüks yataklar binlere çıkar, bu yüzden bir ev döşemeden önce bunu aç. Sandıklar ve bir şey barındıran diğer nesneler bunun yerine Konteynerlere yanıt verir. Varsayılan olarak kapalı.
+Tag	Etiket
+tags, any of which can be set to never in the Tags tab:	etiketler, herhangi biri Etiketler sekmesinde “asla” olarak ayarlanabilir:
+Take goods that belong to someone	Birine ait eşyaları al
+Take goods that belong to someone, on / off	Birine ait eşyaları al, açık / kapalı
+Take items the database cannot name	Veritabanının adlandıramadığı eşyaları al
+Take owned goods on / off	Sahipli eşya alımı açık / kapalı
+takes effect next launch	sonraki başlatmada etkili olur
+The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Motor etrafını tarar ve kuralların izin verdiğini alır. Kapalıyken hiçbir şey otomatik alınmaz; ani alım tuşu yine de çalışır.
+The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	Oyun, bir noktanın verisini yalnızca ona ulaşabileceğini düşündüğünde doldurur. Etkinleştirme, bunu uzaktan yapmasını ister; bu da bir maden damarının olduğu yerde işlenmesini sağlayan şeydir. Damarların yanıt vermesi birkaç saniye sürerken bir çalı bunun küçük bir kısmında yanıt verir.
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	Oyun alınan nesneleri bir gecikmeyle kaldırır. Bu, aynı nesnenin kaybolurken iki kez gönderilmesini önler.
+The game treats this as stealing and will put a bounty on you.	Oyun bunu hırsızlık sayar ve üzerine ödül koyar.
+The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Mod asla kazma sallamaz. Damarın kendi kırılma sırasını çalıştırır, ve oyun bunun için tek bir düşme satırı işlerken gerçek bir vuruş iki satır işler, bu yüzden mod madenciliği yaptığında maden aletinin bonusu hiçbir şey ödemez. Bu ayar, oyunun kullandığı aynı düşme yolundan eksik madeni geri ekler, yani yere dökülen gerçek madendir, çantana kopyalanan bir eşya değildir. Aletinin elle verdiği miktardan bir eksiğini gir: elle üç veren bir matkap burada 2 ister. Bu yalnızca bu modun kırdığı bir damara uygulanır, bu yüzden elle madencilik etkilenmez ve ikisi üst üste binmez.
+The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Yüzme etkileşimi, leş başına bir kez. İnsan cesetleri bunun yerine sıradan yağma bırakır. Yüzmenin verdiği ödül filtrelerine göre kontrol edilmez. Mod bunu düşmeden önce hiç görmez, bu yüzden bu anahtar ya hep ya hiçtir.
+This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	Bu oturum: %ld alındı, %ld toplandı, %ld yakalandı, %ld leş
+Timber and branches on the ground and nodes that yield them.	Yerdeki kereste ve dallar, onları veren noktalar.
+To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	Bir türü dokunulmadan bırakmak için, dönüştüğü eşyayı Eşyalar sekmesinde asla'ya ayarla: Item_Tench, Item_Ricefish, Item_Iguana. Mod, oyunun karakter tablosundaki yaratığın kendi satırını okur, bu yüzden bir şey yakalamadan önce hangi türe baktığını bilir. Birkaç sıra dışı yaratık hâlâ model adından tahmine dayanır ve yalnızca kategoriye göre yakalanır.
+Treasure and keepsakes	Hazine ve hatıralar
+Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	Aynı anda iki tuş, asla tek başına değil: bu oyunda zaten her tuşun bir işlevi var. Mod yalnızca kumandayı okur, bu yüzden oyun her iki tuşu da görmeye devam eder. Birlikte hiçbir şey yapmayan bir çift seç, örneğin iki omuz tuşu, ya da Back ve bir ön yüz tuşu.
+Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	Sen ayarlayana kadar atanmamış. Oyun sahipli eşya almayı hırsızlık sayar ve bunun için üzerine ödül koyar, bu yüzden bu, bir an açıp sonra tekrar kapatmak isteyeceğin bir anahtardır, bu da bir menüye pek uymaz.
+Unidentified nodes	Tanımlanamayan noktalar
+unidentified nodes off	tanımlanamayan noktalar kapalı
+unidentified: could be a fish, a flying insect or a bird	tanımlanamadı: balık, uçan böcek veya kuş olabilir
+unidentified: could be an insect or a small animal	tanımlanamadı: böcek veya küçük hayvan olabilir
+unnamed item	adsız eşya
+Unsellable items	Satılamaz eşyalar
+Use this language	Bu dili kullan
+Uses the game's own Take or Steal check; owned goods are skipped until it has been observed once.	Oyunun kendi Al veya Çal kontrolünü kullanır; sahipli eşya bir kez gözlemlenene kadar atlanır.
+using the player's own field	oyuncunun kendi alanını kullanarak
+Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants.	Sebzeler, meyveler ve tahıllar: tatlı patates, arpa, lahana, elmalar, üzümler ve yetiştirilen veya toplanan diğer yiyecekler, ister bitkinin üzerinde ister serbest halde. Bunlar eskiden Yerdeki eşyalara yanıt verirdi, bu yüzden Bitkiler'i kapatmak yine de bir tarlayı boşaltıyordu: oyundaki 72 toplama yuvasından 44'ü ekin, yalnızca 28'i bitkidir.
+Verbose log	Ayrıntılı günlük
+Verdict	Sonuç
+waiting	bekleniyor
+waiting for the game to check an item	oyunun bir eşyayı kontrol etmesi bekleniyor
+waiting for the game to check ownership once	oyunun sahipliği bir kez kontrol etmesi bekleniyor
+Waiting for the world to load.	Dünyanın yüklenmesi bekleniyor.
+Watch	İzle
+Watch mode	İzleme modu
+Watch mode (menu stays up, you keep playing)	İzleme modu (menü açık kalır, oynamaya devam edersin)
+Watch mode: the game has your controls. %s to interact, %s to close.	İzleme modu: kontroller oyunda. Etkileşim için %s, kapatmak için %s.
+Weapons and armor	Silahlar ve zırhlar
+What enters the working list at all. The ranges below are clamped to it.	Çalışma listesine neyin gireceğini belirler. Aşağıdaki menziller buna göre sınırlanır.
+What to collect	Ne toplanacağı
+Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	Kolu senin için çevirir ve yukarı geleni alır, tıpkı etkileşim tuşunu basılı tuttuğunda oyunun çalıştırdığı aynı durum geçişlerini çalıştırarak. Bir kuyu hiçbir yağma olayı doğurmaz, bu yüzden bu, oyundan bir şey istenmesi değil, yakalanmış bir dizinin yeniden oynatılmasıdır. Varsayılan olarak kapalı, çünkü yanlış giden bir kuyu, kovası olmadan kalan bir kuyudur.
+Wood	Odun
+wood off	odun kapalı
+World (actor manager)	Dünya (aktör yöneticisi)
+worn by someone	biri tarafından giyiliyor
+Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Düşmanların ölürken bıraktığı giyilen ekipman. Ucuz ve ağır, ama bol.
+worn or carried by you	senin giydiğin veya taşıdığın
+worth %lld copper	%lld bakır değerinde
+Wrap the swapchain	Swapchain'i sar
+Write translation template	Çeviri şablonu yaz
+Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Eklentinin yanına, menünün bu oturumda gösterdiği her satırı tutan MasterLooter.template.txt dosyasını yazar. Önce her sekmeyi aç, çünkü bir satır ancak çizildikten sonra görünür. Her kaydın sağ tarafını çevir, MasterLooter.<language>.txt olarak kaydet ve dili buraya gir.
+Writes the settings as they are now into \"%s\". Load it, change what you like, then save it back.	Şu anki ayarları \"%s\" içine yazar. Yükle, istediğini değiştir, sonra geri kaydet.
+Writes the settings as they are now, named %s.	Şu anki ayarları %s adıyla yazar.
+yes	evet
+yours, just out of your hand	senin, elinden yeni çıktı

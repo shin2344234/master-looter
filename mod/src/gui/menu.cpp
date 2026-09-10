@@ -110,22 +110,54 @@ namespace ml::gui
 
     // Merged into the face just added, so Latin keeps the font the menu was
     // drawn around and only what that font cannot supply comes from here.
-    // Ordered by what suits the language first and what a Windows install is
-    // likely to hold second. Oversampling off: a CJK glyph is large, and
-    // sampling it twice over spends atlas room for nothing at this size.
+    // The atlas asks for exactly the characters in use, and a merged face
+    // supplies only those it has that no earlier face had, so several can
+    // be merged cheaply. Four groups, the first face of each that loads:
+    // the script of the loaded language first, so Japanese kanji come from a
+    // Japanese face rather than the Chinese forms Microsoft YaHei draws;
+    // then Hangul, Thai and Chinese, which the language buttons need in
+    // every build (Yu Gothic has no glyph for the simplified character in
+    // the Simplified Chinese button's name, so a Chinese face follows the
+    // Japanese one); then a face for whatever Segoe UI or Georgia lacks,
+    // such as Vietnamese in the serif. Ordered within a group by what suits the
+    // language first and what a Windows install is likely to hold second.
+    // Oversampling off: a CJK glyph is large, and sampling it twice over
+    // spends atlas room for nothing at this size.
     static void MergeFallback(const std::string& fonts, float px)
     {
         static const char* kTraditional[] = { "msjh.ttc", "msyh.ttc", "mingliu.ttc", "simsun.ttc", nullptr };
+        static const char* kJapanese[]    = { "meiryo.ttc", "YuGothM.ttc", "msgothic.ttc", "msyh.ttc", nullptr };
+        static const char* kKorean[]      = { "malgun.ttf", "msyh.ttc", nullptr };
         static const char* kRest[]        = { "msyh.ttc", "msjh.ttc", "simsun.ttc", "malgun.ttf", "msgothic.ttc", nullptr };
-        ImFontConfig cfg;
-        cfg.MergeMode   = true;
-        cfg.OversampleH = 1;
-        cfg.OversampleV = 1;
-        const bool traditional = _stricmp(Text::Language(), "zh-tw") == 0;
-        for (const char** f = traditional ? kTraditional : kRest; *f; ++f)
-            if (ImGui::GetIO().Fonts->AddFontFromFileTTF((fonts + *f).c_str(), px, &cfg, g_glyphRanges.Data))
-                return;
-        LOG_ERR("No font carrying the non-Latin glyphs found in %s; that text draws as question marks.", fonts.c_str());
+        static const char* kHangul[]      = { "malgun.ttf", nullptr };
+        static const char* kThai[]        = { "leelawui.ttf", "leelawad.ttf", "tahoma.ttf", nullptr };
+        static const char* kChinese[]     = { "msyh.ttc", "msjh.ttc", "simsun.ttc", nullptr };
+        static const char* kLatinRest[]   = { "tahoma.ttf", "arial.ttf", nullptr };
+
+        const char* lang = Text::Language();
+        const char** script = kRest;
+        if      (_stricmp(lang, "zh-tw") == 0) script = kTraditional;
+        else if (_stricmp(lang, "ja") == 0)    script = kJapanese;
+        else if (_stricmp(lang, "ko") == 0)    script = kKorean;
+
+        const char** groups[] = { script, kHangul, kThai, kChinese, kLatinRest };
+        const char*  merged[5] = {};
+        int n = 0;
+        for (const char** g : groups)
+        {
+            for (const char** f = g; *f; ++f)
+            {
+                bool again = false;   // a face one group already merged has nothing left to give
+                for (int i = 0; i < n; ++i) if (_stricmp(merged[i], *f) == 0) again = true;
+                if (again) break;
+                ImFontConfig cfg;
+                cfg.MergeMode   = true;
+                cfg.OversampleH = 1;
+                cfg.OversampleV = 1;
+                if (ImGui::GetIO().Fonts->AddFontFromFileTTF((fonts + *f).c_str(), px, &cfg, g_glyphRanges.Data)) { merged[n++] = *f; break; }
+            }
+        }
+        if (!n) LOG_ERR("No font carrying the non-Latin glyphs found in %s; that text draws as question marks.", fonts.c_str());
     }
 
     static void BuildFonts()
@@ -567,6 +599,11 @@ namespace ml::gui
                 Settings::MarkDirty();
             };
             const bool english = c.language.empty() || _stricmp(c.language.c_str(), "en") == 0;
+            // Twenty-nine buttons do not fit on one line. Each goes beside
+            // the last while there is room for it and starts a new row
+            // when there is not, so the rows come out as wide as the window.
+            const float rowRight = ImGui::GetCursorScreenPos().x + ImGui::GetContentRegionAvail().x;
+            const ImGuiStyle& style = ImGui::GetStyle();
             if (english) ImGui::BeginDisabled();
             if (ImGui::Button(TR("English"))) pick("");
             if (english) ImGui::EndDisabled();
@@ -574,7 +611,8 @@ namespace ml::gui
             const Text::Lang* langs = Text::BuiltIn(nlangs);
             for (int i = 0; i < nlangs; ++i)
             {
-                ImGui::SameLine();
+                const float w = ImGui::CalcTextSize(langs[i].name).x + style.FramePadding.x * 2;
+                if (ImGui::GetItemRectMax().x + style.ItemSpacing.x + w <= rowRight) ImGui::SameLine();
                 const bool on = _stricmp(c.language.c_str(), langs[i].code) == 0;
                 if (on) ImGui::BeginDisabled();
                 if (ImGui::Button(langs[i].name)) pick(langs[i].code);
@@ -604,7 +642,15 @@ namespace ml::gui
             {
                 ImGui::TextDisabled(TR("Language \"%s\": %d line(s) translated, %d seen this session."), Text::Language(), Text::Count(), Text::Seen());
                 if (const Text::Lang* l = Text::Find(Text::Language()))
-                    ImGui::TextDisabled(TR("%s translated by %s."), l->name, l->credit);
+                {
+                    // A contributed language names its translator. A machine
+                    // one says so, because a reader who finds a wrong word
+                    // should know nobody has read the file before them.
+                    if (l->credit && *l->credit)
+                        ImGui::TextDisabled(TR("%s translated by %s."), l->name, l->credit);
+                    else
+                        ImGui::TextDisabled(TR("%s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page."), l->name);
+                }
                 if (Text::FromFile())
                     ImGui::TextDisabled(TR("Read from the file beside the plugin, not the copy inside it."));
             }
@@ -921,7 +967,14 @@ namespace ml::gui
             for (const auto& kv : c.itemRule) if (const Item* it = ItemDb::Find(kv.first)) rows.push_back(it);
         }
         if (q.size() < 3) ImGui::TextDisabled(TR("Showing current overrides. Type to search all %d items."), ItemDb::Count());
-        else ImGui::TextDisabled(TR("%d match%s%s"), static_cast<int>(rows.size()), rows.size() == 1 ? "" : "es", rows.size() >= 250 ? " (first 250)" : "");
+        else
+        {
+            // Two strings rather than a plural suffix pasted in, so a
+            // translation can word each one.
+            const char* cap = rows.size() >= 250 ? TR(" (first 250)") : "";
+            if (rows.size() == 1) ImGui::TextDisabled(TR("1 match%s"), cap);
+            else                  ImGui::TextDisabled(TR("%d matches%s"), static_cast<int>(rows.size()), cap);
+        }
 
         if (ImGui::BeginTable("items", 5, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
