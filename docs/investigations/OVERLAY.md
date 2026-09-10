@@ -6,8 +6,10 @@ in a row have gone into keeping the Direct3D 12 hooks alive next to other
 mods' Direct3D 12 hooks.
 
 Every claim below that comes from outside this repository is checked against
-the source listed at the end. Where a source could not be reached from here,
-the text says so.
+the source listed at the end. On the first pass learn.microsoft.com,
+nexusmods.com and reshade.me were out of reach and the text said so at each
+point. Later the same day a browser session got to all of them. What follows
+carries what those pages actually say.
 
 ## What the menu costs today
 
@@ -52,6 +54,23 @@ descends, still reads its addresses off a throwaway device and detours
 `Present`, `ResizeBuffers` and `ExecuteCommandLists`, per its README. There is
 no arrangement of hooks that makes N mods on one class vtable safe; there is
 only handling the next neighbour.
+
+There is a sixth neighbour the issues have not met yet. CrimsonDesertTelemetry,
+Nexus 3374 by fabianviol, MIT and on GitHub, is the ASI that DesertLink and
+any other companion map depends on for the player position, and since 2.0.0 it
+draws a HUD of its own over Direct3D 12. Its `overlay_graphics.cpp` creates a
+factory with `CreateDXGIFactory1`, reads slots 10 and 15 off it, and puts
+MinHook detours on the functions they point to, which is a code patch on the
+DXGI implementation of `CreateSwapChain` and `CreateSwapChainForHwnd` rather
+than a slot replacement, so it sits under every vtable patch and behind
+whichever detour reached the prologue first. From there it detours `Present`,
+`Present1`, `ResizeBuffers`, `ResizeBuffers1` and `SetColorSpace1`, and
+`render_capture.cpp` creates a probe queue on the game's device to read
+`ExecuteCommandLists` and detours that too. Seven targets, the same seven.
+It pins Dear ImGui 1.91.9b and carries an HDR compositor of its own. Its
+validation notes say that other overlays, DXGI wrappers and frame generation
+"need live coexistence testing", which is to say nobody has run it beside
+this mod, Route or Trinity on purpose. No issue names it yet.
 
 One dependency is easy to miss. The menu key is read inside the render path
 and the capture gate in `state.h` opens only while frames are being drawn, so
@@ -108,6 +127,22 @@ How it would go together:
 - Frame generation takes care of itself. The compositor draws the window over
   whatever the game presents, interpolated frames included.
 
+Two shipped mods already put a window over this game from outside the
+process, so most of the questions below have been asked once. DesertLink is an
+Electron app; its `app/main.js` makes a frameless `BrowserWindow` the size of
+the display, sets it always on top at the `screen-saver` level, visible over
+fullscreen windows and out of the taskbar, and shows and focuses it on a
+global hotkey, End by default. Crimson Atlas, Nexus 3381, is a resizable
+always-on-top window with the same kind of hotkey, and its page says: "For
+the best experience, run Crimson Desert in windowed or borderless mode.
+Exclusive fullscreen mode may cover external always-on-top windows." Neither
+has a report on its first page of posts of the game losing input when the
+window takes focus. Both are separate processes whose windows are topmost
+strangers to the game; the one proposed here would be owned by the game
+window from inside the process, which is the shape dofo7777 suggested to the
+Atlas author on 3 September: "a borderless window attached to the game
+process, so it can be shown or hidden with a hotkey."
+
 What it costs:
 
 - Independent flip. Microsoft's flip model page, on what happens when a
@@ -127,20 +162,32 @@ What it costs:
   second notice this means a brief mode switch each time it appears, which is
   a reason to make the notice optional, as it already is.
 - Exclusive fullscreen. A window cannot be seen over a true exclusive
-  swapchain. PCGamingWiki: since Windows 10 1607, fullscreen optimisations
-  convert exclusive fullscreen into a flip-model borderless window and the game
-  cannot tell. The game offers Fullscreen, Borderless and Windowed. A player
-  who has disabled fullscreen optimisations, or who is on Proton (issue #15),
-  is the case to test. When the window cannot be seen, nothing draws and
-  looting carries on, which is what happens today when another mod owns
-  `Present`.
+  swapchain. Microsoft's own account is "Demystifying Fullscreen
+  Optimizations" on the DirectX developer blog. Since Windows 10 an exclusive
+  fullscreen game "believes that it is running in Fullscreen Exclusive, but
+  behind the scenes, Windows has the game running in borderless windowed
+  mode". When an overlay such as the Game Bar appears, "the DWM reassumes
+  control of the display, and a slight performance overhead is incurred". The
+  switch that turns this off is on the exe's compatibility tab. The game offers
+  Fullscreen, Borderless and Windowed. A player who has ticked that box, or
+  who is on Proton (issue #15), is the case to test. When the window cannot
+  be seen, nothing draws and looting carries on, which is what happens today
+  when another mod owns `Present`.
 - Focus. The game keeps running when it is not the foreground window; the
-  Steam forum threads on alt-tab agree on that. Two of those threads describe
-  a game bug where focus is lost mid-combat and the game stops taking input
-  until the window is resized. Whether handing focus to the mod's window and
-  back trips that bug is the first thing to test. It would be a test of the
-  game: the mod would be doing nothing that a window on a second monitor does
-  not.
+  Steam threads on alt-tab agree on that. The thread to read is "Game loses
+  focus during combat / Window unresponsive until resized", opened in April
+  2026 with replies through July, and its shorter twin "Losing mouse focus
+  when using Alt key" from August. Mid-combat the Windows cursor appears, the
+  game keeps rendering and playing sound, and it ignores input; alt-tab and
+  clicking the taskbar do not bring it back, dragging the frame or toggling
+  Fullscreen and Windowed does. Every poster ties it to Alt combinations, one
+  cured it by disabling Alt+W and Alt+A, S and D in PowerToys, and one had
+  the same thing in Black Desert from the Start menu search taking focus. The
+  trigger, then, is something else taking the foreground during play. The
+  menu window would do exactly that. The recovery is a frame change, which
+  the mod could send itself if it has to. Whether it has to is the first
+  thing to test, and it is a test of the game: a window on a second monitor
+  does the same to it.
 - The cursor. `input.h` documents that the game clips and recentres the OS
   cursor every frame from more than one thread. If it keeps doing that while
   another window of the same process is foreground, the menu's cursor fights
@@ -184,6 +231,18 @@ variant, drawing into the mod's window from the game's own device and queue,
 still needs the queue, which means the factory patch stays. Faster than
 option 1, and not safer than today.
 
+Two more things about it from the sources. Kerr's article says a
+`WS_EX_NOREDIRECTIONBITMAP` window "hit tests uniformly", because the input
+subsystem does not know the client area is transparent; per-pixel
+fall-through is a layered-window feature, done on the CPU, which is the price
+option 1 pays and option 2 does not. Watch mode and the notice would need
+`WS_EX_TRANSPARENT` on the whole window instead. And Crimson Route already
+ships this design as its fallback: `CrimsonRoute.ini` says "Present is
+recommended; DirectComposition is the compatibility option", with a restart
+to switch. Route is closed source. Whether that path creates a device of its
+own, and how it has fared beside RenoDX and the interposer, only dofo7777 can
+say. Ask before option 2 is ruled out on the reasoning above alone.
+
 ### 3. Draw through ReShade when ReShade is there
 
 ReShade with add-on support exposes its own Dear ImGui to add-ons, and the
@@ -212,9 +271,16 @@ The limits are hard ones.
   the group checkboxes use `ImGuiItemFlags_MixedValue` from it.
 - The overlay callback runs "when the overlay is visible", which is ReShade's
   overlay session. `open_overlay` can open it from Insert, but the menu would
-  appear beside ReShade's own windows. A forum thread titled "ReShade API does
-  not allow access to ImGui context" is on this subject; reshade.me could not
-  be reached from here to read it.
+  appear beside ReShade's own windows.
+- The internals are reachable, pinned to a commit. The reshade.me thread
+  "ReShade API does not allow access to ImGui context" asked for the context
+  to read window rectangles. crosire's answer: no official way, because he
+  still hopes to support several ImGui versions through the table. The
+  pointer can be recovered anyway by subtracting the offset of `IO` in
+  `ImGuiContext` from what `GetIO` returns, provided the add-on is built
+  against the exact docking commit ReShade was. The asker's struct was 224
+  bytes off until he matched it. That is the version lock stated a second
+  way: anything past the function table binds the mod to one ReShade build.
 
 As a coexistence mode for the RenoDX crowd, behind a switch, it has a real
 upside: on those machines ReShade already owns the present path and already
@@ -241,12 +307,23 @@ and input arbitration so one client at a time captures the keyboard. This
 mod's `dx12_hook.cpp` is a plausible seed for it, since it is MIT and already
 carries the scars.
 
+dofo7777 has already done the cooperative thing once, and quickly. On 2
+September 2026 he asked the Crimson Atlas author on the Atlas posts tab
+whether a local API would be useful. Route 6.9.3 shipped it that evening at
+`http://127.0.0.1:17893/`; 6.9.4 fixed the first bug report the next morning.
+On 3 September he wrote that 6.9.5 "added an option for API mode to hide
+screen overlays, so Crimson Route no longer needs to install graphics hooks."
+Route's page carries no changelog, so that is his post and not a
+release note, but it changes #47 on its own: a Route user who draws routes in
+Atlas can already run Route with no Direct3D hooks at all.
+
 The problem is not technical. It works only if Crimson Route and Trinity
 adopt it, and two hosts in one load order is the original conflict again with
 extra steps. The people are known: Route is dofo7777's, per the Nexus page,
 and dofo7777 did the Chinese translations of this menu within an hour of the
 template going up. Trinity is XeTrinityz's and MIT, and this mod's hook code
-is theirs by descent. That is a better starting position than most such
+is theirs by descent. The build on Nexus today, 0.14.59, is a compatibility
+fork maintained by slingblade2047. That makes two people for Trinity. That is a better starting position than most such
 proposals have. It is also months, not days, and it does nothing for the
 next release. Worth opening as a conversation alongside whichever of the
 other options ships.
@@ -259,11 +336,15 @@ General, Looting, Classes, Tags and Items tabs is a write to that file. A
 configurator outside the game, a small executable or a page in the browser,
 could own all of it with no code inside the game process at all.
 
-DesertLink shows the shape in this very game: its Nexus page describes an App
-mode for a second monitor and an Overlay mode above the game, fed by
-CrimsonDesertTelemetry, an ASI that serves player and camera data over local
-HTTP and WebSocket. A status file rewritten every second, or a local socket,
-would carry the Nearby and Status tabs the same way.
+DesertLink shows the shape in this very game. Its page describes an App mode
+for a second monitor and an Overlay mode above the game, and the source
+confirms it is an Electron window fed by CrimsonDesertTelemetry over loopback
+HTTP and WebSocket on port 27311, a `/v1/snapshot` and a `/v1/stream`, with
+teleporting through a second ASI, DesertLinkCore, over local IPC. A status
+file rewritten every second, or a local socket, would carry the Nearby and
+Status tabs the same way. Three loopback ports are taken in this scene already:
+27311 for Telemetry, 17893 for Route's API, and 7891 for Atlas, which one user
+found by having something else on it.
 
 What would stay in the game: the hotkeys, which are `GetAsyncKeyState` and
 need no hook, and the bag-full notice, which needs a few words on screen and
@@ -291,6 +372,11 @@ proxy and null from anything else. That would replace the module-name
 heuristics in `LogHookTarget` with an answer from the layer itself. The
 `eUseDXGIFactoryProxy` preference flag, which stops the layer patching the
 factory vtable, is set by the game at `slInit` and is out of reach.
+
+Nobody in the load order uses that GUID. The nearest thing is Telemetry's
+`tools/StreamlineProbe`, an external debugger that watches `slSetConstants`
+from outside the process, which is a research tool and not a coexistence
+check.
 
 Neither changes the arithmetic. Every refinement handles one more neighbour,
 and the next mod on Nexus is one more neighbour.
@@ -330,9 +416,12 @@ In this order, each one launch.
    returns focus, and the game responds to input again. Then the same in
    Fullscreen with fullscreen optimisations on, then with them disabled in
    the exe's compatibility properties.
-2. The game's focus bug. Twenty open-and-close cycles in combat. If the game
-   stops taking input, that is the thread from the Steam forum and option 1
-   is dead on that machine.
+2. The game's focus bug. Twenty open-and-close cycles in combat, with Alt
+   held on some of them since every Steam report involves it. If the game
+   stops taking input when focus comes back, that is the April thread. Try
+   the players' own recovery from code, a `SetWindowPos` frame nudge on the
+   game window as the menu closes, before calling option 1 dead on that
+   machine.
 3. The cursor. With the menu open, watch whether the OS cursor is being
    recentred by the game. `input.h` says it does this from more than one
    thread while foreground.
@@ -345,39 +434,40 @@ In this order, each one launch.
    desktop's SDR brightness setting is acceptable or whether the notice needs
    its own alpha.
 7. The full load order from #47: Route, Trinity, Steam's overlay, frame
-   generation on, then RenoDX under ReShade from #34. Expected result is that
+   generation on, then RenoDX under ReShade from #34, then Telemetry with its
+   HUD enabled, which no issue has covered. Expected result is that
    the mod's log has no `[hook]` lines at all and nothing to say about any of
    them.
 8. Proton, if anyone on issue #15 will run it.
 
 ## Continuing this locally
 
-This was written in a cloud session whose proxy refuses the connection to
-learn.microsoft.com, devblogs.microsoft.com, nexusmods.com and reshade.me.
-The refusal is a 403 on the CONNECT from the gateway, so a browser driven by
-Playwright is blocked the same way as curl. Everything from those hosts came
-through a GitHub mirror or a search result, and the following is what a local
-session with a browser should read to close the gaps.
+This was written in a cloud session whose proxy refused the connection to
+learn.microsoft.com, devblogs.microsoft.com, nexusmods.com and reshade.me,
+and it listed four things for a local session with a browser to read. That
+session ran on 10 September and read all four, and the findings are folded
+into the sections above. For the record:
 
-1. The reshade.me thread "ReShade API does not allow access to ImGui
-   context", in the add-ons discussion forum, id 8251. Option 3 says add-ons
-   cannot add a font to the atlas because the function table has no such
-   entry. Confirm that from the thread and see whether crosire offers a way
-   round it, since that decides whether the Chinese and Portuguese menus
-   could exist on that path at all.
-2. Crimson Route's Nexus page, mod 3175, and the `CrimsonRoute.ini` it ships.
-   `Renderer=Present` is the default per `docs/repro-34.txt`; list the other
-   values and read any compatibility note dofo7777 has written. Trinity's page
-   docs tab, mod 3273, has a compatibility section worth the same read.
-3. DesertLink, mod 3444, and CrimsonDesertTelemetry, mod 3374. Find out what
-   DesertLink's Overlay mode is built from, a layered window, a browser or
-   something else, and whether its author has written about fullscreen or
-   focus problems. It is the nearest precedent for option 1 in this game.
-4. Microsoft's "Demystifying Full Screen Optimizations" post on the DirectX
-   developer blog. The fullscreen optimisation claims above rest on
-   PCGamingWiki's summary; the post is the primary source. Kenny Kerr's MSDN
-   Magazine article from June 2014 only surfaced as a title; read it before
-   option 2 is ever revisited.
+1. The reshade.me thread does not mention fonts at all; it is about reaching
+   the ImGui context, and crosire's answer pins that to one commit. The
+   font-atlas limit stands on the header alone, and nothing in the thread
+   offers a way round it.
+2. `CrimsonRoute.ini` in the game folder: `Renderer=Present` with
+   `DirectComposition` as "the compatibility option", `HideOverlay=0`, and an
+   `[API]` section, `Enabled=0`, `Port=17893`. On other overlays Route's page
+   says nothing; its one compatibility note covers ReShade and OptiScaler. Trinity's Nexus page has
+   no compatibility section; it is the slingblade2047 fork's install and
+   changelog text.
+3. DesertLink's Overlay mode is an Electron window, always on top, focused on
+   its hotkey; Crimson Atlas is the same shape and its page warns about
+   exclusive fullscreen. Neither posts tab reports a focus problem on its
+   first page.
+4. The DirectX blog post and Kerr's article are quoted above where they
+   apply.
+
+Still unread: the Atlas posts tab past its first page. Route's changelog is
+not on its page at all. Route's DirectComposition path is closed source and
+only its author can describe it.
 
 The raw files that were read directly, the ReShade headers, both NVIDIA
 guides, Trinity's README and the three Microsoft pages from the docs mirror,
@@ -402,34 +492,50 @@ of continuing this.
   throwaway device, MinHook on `Present`, `ResizeBuffers` and
   `ExecuteCommandLists`, `XInputGetState` detour, toggle polled from the render
   loop, no plugin API.
-- Microsoft, "Window Features" (Win32), read from the MicrosoftDocs/win32
-  repository on GitHub because learn.microsoft.com is unreachable from this
-  session: owned windows, layered windows, hit testing, the Windows 8 note on
-  child windows. "Extended Window Styles" from the same repository for
+- Microsoft Learn, "Window Features" (Win32): owned windows (above the owner,
+  destroyed with it, hidden when it is minimised), layered windows, and the
+  hit-testing paragraph, which says that colour-keyed or zero-alpha areas let
+  mouse messages through and that `WS_EX_TRANSPARENT` passes them under the
+  whole window regardless of shape. "Extended Window Styles" for
   `WS_EX_NOACTIVATE`, `WS_EX_TOOLWINDOW`, `WS_EX_TRANSPARENT` and
-  `WS_EX_NOREDIRECTIONBITMAP`.
-- Microsoft, "For best performance, use DXGI flip model", same repository:
-  DirectFlip, independent flip, and the sentence on other desktop content
-  coming on top.
+  `WS_EX_NOREDIRECTIONBITMAP`. `SetForegroundWindow` remarks: a process may set
+  the foreground window when it is the foreground process. All read directly
+  on the second pass.
+- Microsoft Learn, "For best performance, use DXGI flip model": DirectFlip,
+  independent flip, and the sentence on other desktop content coming on top,
+  quoted above as it stands on the page.
 - PCGamingWiki, "Windows" and "Glossary: Windowed": fullscreen optimisations
   since Windows 10 1607, and direct flip holding while nothing external sits on
-  top.
+  top. Microsoft, "Demystifying Fullscreen Optimizations", DirectX developer
+  blog, read directly: the primary source for the two quotations above.
 - Kenny Kerr, "High-Performance Window Layering Using the Windows Composition
-  Engine", MSDN Magazine, June 2014; `IDXGIFactory2::CreateSwapChainForComposition`
-  and `DXGI_ALPHA_MODE_PREMULTIPLIED` on Microsoft Learn (reached through
-  search results only).
-- emilk, `imgui_software_renderer` on GitHub: public domain, font texture only,
-  one to ten milliseconds for a complex GUI.
+  Engine", MSDN Magazine, June 2014, read in the Microsoft Learn archive:
+  uniform hit testing without a redirection surface; `IDXGIFactory2::CreateSwapChainForComposition`
+  on Microsoft Learn, whose remarks say `SetFullscreenState`, `ResizeTarget`,
+  `GetContainingOutput` and `GetHwnd` fail on such a chain.
+- emilk, `imgui_software_renderer` on GitHub: dual-licensed to the public
+  domain, font texture only, one to ten milliseconds for a complex GUI, seven
+  on the author's laptop. Last commit 12 July 2018.
 - crosire, ReShade, `include/reshade.hpp`, `reshade_api.hpp`,
   `reshade_events.hpp` and `reshade_overlay.hpp` at main, and `REFERENCE.md`.
-  The forum thread "ReShade API does not allow access to ImGui context" on
-  reshade.me was not reachable.
+  The reshade.me thread "ReShade API does not allow access to ImGui context",
+  dfw and crosire, add-ons discussion, read in full.
 - RenoDX wiki and Creepy's HDR guides: RenoDX requires ReShade 6.8.0 or later
   with full add-on support.
 - REFramework documentation, `re.on_draw_ui`; UE4SS documentation, "GUI tabs
   with a C++ Mod".
 - Nexus Mods pages for Crimson Route (3175), Crimson Atlas (3381), DesertLink
-  (3444) and CrimsonDesertTelemetry (3374), through search results only, since
-  nexusmods.com is unreachable from this session. Steam community threads on
-  Crimson Desert alt-tab and focus loss.
+  (3444) and CrimsonDesertTelemetry (3374), read directly, with the first page
+  of the Atlas posts tab for dofo7777's replies of 2, 3 and 5 September 2026.
+  `app/main.js` in `DesertLink/DesertLink-Source` on GitHub for the overlay
+  window. `overlay_graphics.cpp`, `render_capture.cpp` and
+  `docs/OVERLAY_VALIDATION.md` in `fabianviol/CrimsonDesertTelemetry` for its
+  hooks.
+- `CrimsonRoute.ini` beside the game, Route 6.9.6, for the renderer and API
+  keys. Trinity's Nexus page, 3273, docs tab.
+- Steam community, Crimson Desert general discussions: "Game loses focus
+  during combat / Window unresponsive until resized" (April to July 2026) and
+  "Losing mouse focus when using Alt key" (August 2026).
+- PCGamingWiki, "Crimson Desert": windowed and borderless both listed, HDR
+  listed, DLSS, FSR and XeSS frame generation listed.
 - Wikipedia, "Crimson Desert": developed in Pearl Abyss's proprietary engine.
