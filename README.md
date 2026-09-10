@@ -32,6 +32,12 @@ Import `MasterLooter-<version>-DMM.zip` from [Nexus Mods](https://www.nexusmods.
 
 Ultimate ASI Loader (`winmm.dll`) must be in the game's `bin64` folder. Copy `MasterLooter.asi` from `MasterLooter-<version>.zip` into `bin64` next to it while the game is closed. The item database and the creature table are compiled into the plugin. Start the game and press Insert.
 
+### When another mod ships its own `winmm.dll`
+
+OptiScaler, some frame generation builds and some ReShade setups install a `winmm.dll` of their own. That file proxies winmm for that mod and loads no ASI plugins, so putting it in place of the loader means this mod and every other `.asi` never start. Nothing in the log says so, because there is no log: the plugin was never injected.
+
+The two can share the folder on different names, because Ultimate ASI Loader answers to `version.dll` and `dinput8.dll` as well as `winmm.dll`, and `version.dll` is known to load on this game. Leave the other mod's `winmm.dll` where it is, rename the loader to `version.dll` in the same `bin64`, launch, and look for `MasterLooter.log` in `bin64`; that file appearing is the whole test. Afterwards, DMM may put its own `winmm.dll` back on the next Mount. That leaves two loaders in the folder, DMM's own Diagnose will say so, and the one to keep is whichever the other mod is not using.
+
 Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself, plus the eleven previous logs as `MasterLooter.01.log` through `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups`; no game file is modified and nothing is written to a save.
 
 ## Antivirus
