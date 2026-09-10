@@ -104,6 +104,11 @@ namespace ml::hooks
     // auxiliary creations are ignored.
     static HWND g_wrappedHwnd = nullptr;
 
+    // The window the game's first full-size swapchain was created for, set on
+    // both paths. g_wrappedHwnd is only ever set by WrapSwapChain, so on the
+    // stacked path it stays null and nothing knows which window is the game's.
+    static HWND g_gameHwnd = nullptr;
+
     // --- Rendering resources ------------------------------------------------
     struct FrameContext
     {
@@ -934,6 +939,10 @@ namespace ml::hooks
         {
             // Init needs only the swapchain (device comes from it). The present
             // queue is captured separately by hkExecuteCommandLists.
+            // Said before the attempt, not after: a Proton log for issue #15
+            // ended at the same second the first frame was due, with no fault
+            // line, and nothing recorded whether this had started.
+            LOG("[overlay] first frame through %s; initialising the menu renderer", g_wrapperActive ? "the wrapper" : "the stacked detour");
             if (InitImGui(swapChain))
                 g_imguiReady = true;
             else
@@ -1112,6 +1121,29 @@ namespace ml::hooks
         PreResizeCleanup();
         const HRESULT hr = oResizeBuffers(swapChain, bufferCount, width, height, format, flags);
         PostResizeRebuild(swapChain);
+        LOG("[hook] ResizeBuffers through the stacked detour: %ux%u, %u buffers, fmt %d, hr 0x%08X; views released before and rebuilt after",
+            width, height, bufferCount, static_cast<int>(format), static_cast<unsigned>(hr));
+        return hr;
+    }
+
+    // The wrapper overrides ResizeBuffers1 as well as ResizeBuffers, and a
+    // D3D12 game that passes a queue per buffer reconfigures through this
+    // one. The stacked path had only the plain detour, so a reconfigure that
+    // kept the size and count left the views on freed buffers.
+    typedef HRESULT (WINAPI* ResizeBuffers1_t)(IDXGISwapChain3*, UINT, UINT, UINT, DXGI_FORMAT, UINT, const UINT*, IUnknown* const*);
+    static ResizeBuffers1_t oResizeBuffers1 = nullptr;
+    static HRESULT WINAPI hkResizeBuffers1(
+        IDXGISwapChain3* swapChain, UINT bufferCount,
+        UINT width, UINT height, DXGI_FORMAT format, UINT flags,
+        const UINT* nodeMask, IUnknown* const* queues)
+    {
+        if (!g_imguiReady || g_wrapperActive)
+            return oResizeBuffers1(swapChain, bufferCount, width, height, format, flags, nodeMask, queues);
+        PreResizeCleanup();
+        const HRESULT hr = oResizeBuffers1(swapChain, bufferCount, width, height, format, flags, nodeMask, queues);
+        PostResizeRebuild(swapChain);
+        LOG("[hook] ResizeBuffers1 through the stacked detour: %ux%u, %u buffers, fmt %d, hr 0x%08X; views released before and rebuilt after",
+            width, height, bufferCount, static_cast<int>(format), static_cast<unsigned>(hr));
         return hr;
     }
 
@@ -1660,10 +1692,12 @@ namespace ml::hooks
         void* present1Addr = scVt[22];
         void* resizeAddr   = scVt[13];
         void* colorSpaceAddr = nullptr;
+        void* resize1Addr    = nullptr;
         IDXGISwapChain3* sc3 = nullptr;
         if (SUCCEEDED(chain->QueryInterface(IID_PPV_ARGS(&sc3))) && sc3)
         {
             colorSpaceAddr = (*reinterpret_cast<void***>(sc3))[38];
+            resize1Addr    = (*reinterpret_cast<void***>(sc3))[39];
             sc3->Release();
         }
         void* execAddr = nullptr;
@@ -1681,6 +1715,7 @@ namespace ml::hooks
             { "Present",             presentAddr,    reinterpret_cast<void*>(&hkPresent),             reinterpret_cast<void**>(&oPresent),             true  },
             { "Present1",            present1Addr,   reinterpret_cast<void*>(&hkPresent1),            reinterpret_cast<void**>(&oPresent1),            true  },
             { "ResizeBuffers",       resizeAddr,     reinterpret_cast<void*>(&hkResizeBuffers),       reinterpret_cast<void**>(&oResizeBuffers),       true  },
+            { "ResizeBuffers1",      resize1Addr,    reinterpret_cast<void*>(&hkResizeBuffers1),      reinterpret_cast<void**>(&oResizeBuffers1),      true  },
             { "ExecuteCommandLists", execAddr,       reinterpret_cast<void*>(&hkExecuteCommandLists), reinterpret_cast<void**>(&oExecuteCommandLists), false },
             { "SetColorSpace1",      colorSpaceAddr, reinterpret_cast<void*>(&hkSetColorSpace1),      reinterpret_cast<void**>(&oSetColorSpace1),      true  },
         };
@@ -1692,8 +1727,8 @@ namespace ml::hooks
             ++hooked;
         }
         if (skipped)
-            LOG("%d of 5 DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped);
-        if (!hooked && skipped == 5)
+            LOG("%d of 6 DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped);
+        if (!hooked && skipped == 6)
             LOG_ERR("Every DirectX function was already hooked by something else. The overlay depends entirely on the swapchain wrapper now.");
         if (hooked && MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
             LOG_ERR("MH_EnableHook failed; the DirectX detours are not active.");
@@ -1709,7 +1744,33 @@ namespace ml::hooks
         // through the same patched slot during an FG toggle - let it complete
         // untouched, otherwise we recurse into the interposer mid-rebuild.
         CreateGuard guard;
+
+        // Without a wrapper, nothing lets go of the back buffers when the game
+        // replaces its swapchain. The wrapper's destructor does that on the
+        // wrapped path, at the game's last Release. On the stacked path the
+        // views stayed on the old chain's buffers, so the chain could not
+        // finish dying, and the replacement the game then asked for on the
+        // same window failed, which is the null pointer the game reads when
+        // frame generation or a display setting is applied. The first hint
+        // that this creation is a replacement is this call, so the release
+        // has to happen here, before the original runs. A full-size chain on
+        // another window is another mod's, and is left alone.
+        if (!guard.wasNested && !g_wrapperActive && g_imguiReady && g_swapChain &&
+            desc && !IsProbeChain(desc->Width, desc->Height) &&
+            (!g_gameHwnd || hwnd == g_gameHwnd))
+        {
+            LOG("[hook] the game is replacing its %ux%u swapchain with a %ux%u one and there is no wrapper to let go of the old buffers: releasing them before the new chain is made",
+                g_scWidth, g_scHeight, desc->Width, desc->Height);
+            WaitForOverlayIdle();
+            CleanupRenderTargets();
+            ReleaseOffscreenTarget();
+            g_swapChain = nullptr;
+        }
+
         const HRESULT hr = oFactoryCreateSwapChainForHwnd(self, device, hwnd, desc, fsDesc, restrictOut, ppSwapChain);
+        if (!guard.wasNested && FAILED(hr))
+            LOG_ERR("[hook] CreateSwapChainForHwnd failed (0x%08X) for a %ux%u chain on window %p; if the game dies next, this is why",
+                    static_cast<unsigned>(hr), desc ? desc->Width : 0u, desc ? desc->Height : 0u, static_cast<void*>(hwnd));
         if (guard.wasNested || FAILED(hr))
             return hr;
 
@@ -1722,6 +1783,7 @@ namespace ml::hooks
                 desc->Width, desc->Height, static_cast<void*>(hwnd), hwnd && IsWindowVisible(hwnd) ? "visible" : "hidden");
             return hr;
         }
+        if (!g_gameHwnd && hwnd) g_gameHwnd = hwnd;
         // Who owns Present on the chain the game is about to use, decided once.
         // Steam's overlay and the frame generation interposer coexist with the
         // wrapper. Anything else that detoured Present first is assumed to key

@@ -218,6 +218,20 @@ namespace ml::Mod
         g_prevFilter = SetUnhandledExceptionFilter(&LastChance);
         AddVectoredExceptionHandler(1 /* first */, &FirstChance);
         LOG("[crash] handlers armed: vectored plus top-level filter.");
+
+        // Say when this is Wine. Two Linux reports arrived without the word
+        // in them, and under Proton the only log that records a driver abort
+        // is Steam's own, which the reporter has to be told to turn on.
+        if (const HMODULE ntdll = GetModuleHandleW(L"ntdll.dll"))
+        {
+            typedef const char* (CDECL* WineStr)();
+            const auto ver   = reinterpret_cast<WineStr>(GetProcAddress(ntdll, "wine_get_version"));
+            const auto build = reinterpret_cast<WineStr>(GetProcAddress(ntdll, "wine_get_build_id"));
+            if (ver)
+                LOG("[env] running under Wine %s (%s). If the game dies with no [fault] line below, the reason is in Steam's "
+                    "log: launch with PROTON_LOG=1 and read ~/steam-3321460.log.",
+                    ver(), build ? build() : "build id unknown");
+        }
         LOG("Mod page %s | source %s", ML_MOD_PAGE, ML_SOURCE_URL);
 
         Settings::Load();
@@ -275,9 +289,14 @@ namespace ml::Mod
                     Sleep(200);
                 if (!State::Get().overlayReady)
                 {
-                    LOG_ERR("No frame has been rendered in twenty seconds. Nothing is drawing the "
-                            "overlay: the swapchain is not wrapped and the present hook belongs to "
-                            "another mod. Starting the loot engine anyway; the menu will not appear.");
+                    // Not always a failure: a 5060 Ti took twenty seconds to
+                    // its first frame on 10 September 2026 and the overlay came
+                    // up half a second after this fired, so say what is known
+                    // and not what it used to guess. Whether anything can draw
+                    // is in the [hook] lines above this one.
+                    LOG_ERR("No frame has been rendered in twenty seconds. Starting the loot engine "
+                            "without waiting for one. If the overlay never reports ready, nothing is "
+                            "drawing it; the [hook] lines above say who owns Present.");
                     OnRenderProcess();
                 }
                 return 0;
