@@ -58,7 +58,7 @@ The menu ships in 28 languages besides English, the set Steam itself offers, all
 
 A language not in that set, or a correction to one that is, is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
-1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 312 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
+1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 315 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
 2. Or make your own from the running game: play with the menu open, visit every tab, then General, Language, press `Write translation template`. That writes the file beside the plugin, but only the lines that have actually been drawn.
 3. Each record is the English, a tab, then your translation. `
 ` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.

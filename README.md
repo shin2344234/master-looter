@@ -2,13 +2,13 @@
 
 Auto-loot for Crimson Desert 2.01.00 with an in-game menu.
 
-Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals and animal carcasses. Each kind has its own switch. Every item it picks up is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Skinning a carcass is the exception: the game hands the yield over without the mod seeing what it is, so that one switch is all or nothing. Everything is set from a menu inside the game.
+Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals, and the carcasses and bodies of anything you kill. Each kind has its own switch. Every item it picks up is checked against a database of 6,813 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Skinning a carcass is the exception: the game hands the yield over without the mod seeing what it is, so that one switch is all or nothing. Everything is set from a menu inside the game.
 
 [Nexus Mods page](https://www.nexusmods.com/crimsondesert/mods/3402) · [Releases](https://github.com/shin2344234/master-looter/releases) · [Plugin manual](mod/README.md) · [Data pipeline](scripts/README.md)
 
 ## What it does
 
-- Fourteen switches for what to collect: ground items, carcasses, plants, crops, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers, furniture nodes and water from wells.
+- Fifteen switches for what to collect: ground items, carcasses, enemy bodies, plants, crops, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers, furniture nodes and water from wells.
 - Class groups with one click (weapons and armor, damaged gear, food and drink, materials, books and papers, furniture, treasure and keepsakes, and more), a full class table, tag rules and per-item overrides with a live verdict.
 - Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
 - Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".
@@ -36,21 +36,21 @@ Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The p
 
 ## Antivirus
 
-Four scanners out of seventy flag `MasterLooter.asi`: Elastic (`malicious (moderate confidence)`), Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and Webroot (`Win.Hacktool.Gen`). Three of them say what they are on the label, since `moderate confidence`, `!ml` and `ML.Attribute` are all how a model reports a guess about the shape of a file. Webroot's label is its generic name for anything shaped like a trainer. None of the four matched a known family, and the sixty-six others read the same file as clean. Elastic and Webroot also object to the archives, two of sixty-seven on each, for the same file inside them.
+Four scanners out of seventy flag `MasterLooter.asi`: Cynet (`Malicious (score: 100)`), Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and Webroot (`Win.Hacktool.Gen`). Two of them say what they are on the label, since `!ml` and `ML.Attribute` are both how a model reports a guess about the shape of a file. Cynet returns a score and names nothing. Webroot's label is its generic name for anything shaped like a trainer. None of the four matched a known family, and the sixty-six others read the same file as clean. Webroot alone objects to the archives, one of sixty-seven on each, for the same file inside them.
 
-The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four. Microsoft and Symantec have flagged every one of them. Everything else comes and goes: Deep Instinct has left, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6 and is gone again since 1.6.7, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8. That is what a model guessing looks like, as against a scanner recognising something.
+The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four. Microsoft and Symantec have flagged every one of them. Everything else comes and goes: Deep Instinct has left, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7 and is back on 1.6.9, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8 and was gone again on 1.6.9. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.8: [the plugin](https://www.virustotal.com/gui/file/bfcbc526aa8e20d371d5a4ef12129c237527ac412a91f1b70d5bf66531cacc04) and [the package](https://www.virustotal.com/gui/file/9ace83eb35c863e7b4380ea08adcde97fe5dea348526368b8df1a9560bface30).
+Reports for 1.6.9: [the plugin](https://www.virustotal.com/gui/file/d383ae59f26d1ac22187469490108cc72b5f4c5ed3fc87d4e3202d5ddeaa1ac3) and [the package](https://www.virustotal.com/gui/file/f7c42a41a7c5851963370e21f6e539190172b817abdf610c15e68214cd5d9b3f).
 
 The guess is easy to explain. The plugin is an unsigned DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer. Nothing about the file argues back: it carries no code signing certificate, and a release a day old has no install history behind it. Signing it is likely at some point, and an unsigned binary with no history is the single biggest thing these models react to, so a certificate should quiet most of this down.
 
 What it does not do is reach the network. It imports no networking library, and the entire import list is `d3d12`, `dxgi`, `imm32`, `xinput9_1_0`, `kernel32`, `user32`, `gdi32`, `shell32` and `d3dcompiler_47`. It writes `MasterLooter.ini`, `MasterLooter.log` and its eleven rotated predecessors `MasterLooter.01.log` to `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups` beside itself and nothing else, reads and writes no registry key, and installs nothing that outlives the game process. Every line is in this repository, and `build.bat` will produce the file for you if you would rather not trust mine.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.8:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.9:
 
-    9ace83eb35c863e7b4380ea08adcde97fe5dea348526368b8df1a9560bface30  MasterLooter-1.6.8-DMM.zip
-    fbc18260e007f959687e455425c28919e13708c7627a097a3fb7bbd674068094  MasterLooter-1.6.8.zip
-    f9e2d6c5b9bde0cd96401312e846019e97be1f39392b3f5c3318abd1c25049e6  MasterLooter.asi
+    f7c42a41a7c5851963370e21f6e539190172b817abdf610c15e68214cd5d9b3f  MasterLooter-1.6.9-DMM.zip
+    3b9720da1ea08c52a5326acfe2ce217e8f248fee7ba12a0f8a4c034ee24a12f1  MasterLooter-1.6.9.zip
+    d383ae59f26d1ac22187469490108cc72b5f4c5ed3fc87d4e3202d5ddeaa1ac3  MasterLooter.asi
 
 ## Controls
 
