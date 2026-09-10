@@ -36,20 +36,20 @@ Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The p
 
 ## Antivirus
 
-Four scanners out of seventy-one flag `MasterLooter.asi`: Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`), Cynet (`Malicious (score: 100)`) and Webroot (`Win.Hacktool.Gen`). Two of them say what they are on the label, since `!ml` and `ML.Attribute` are both how a model reports a guess about the shape of a file, and Cynet's score is the same kind of number. Webroot's label is its generic name for anything shaped like a trainer. None of the four matched a known family, and the sixty-seven others read the same file as clean. Webroot is also the only scanner to object to the archives, one of sixty-seven on each, for the same file inside them.
+Three scanners out of seventy flag `MasterLooter.asi`: Microsoft (`Trojan:Win32/Wacatac.B!ml`), Symantec (`ML.Attribute.HighConfidence`) and Webroot (`Win.Hacktool.Gen`). Two of them say what they are on the label, since `!ml` and `ML.Attribute` are both how a model reports a guess about the shape of a file. Webroot's label is its generic name for anything shaped like a trainer. None of the three matched a known family, and the sixty-seven others read the same file as clean. Webroot is also the only scanner to object to the archives, one of sixty-seven on each, for the same file inside them.
 
-The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four. Microsoft and Symantec have flagged every one of them. Everything else comes and goes: Deep Instinct has left, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5 and is back on 1.6.6, and Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup. That is what a model guessing looks like, as against a scanner recognising something.
+The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three. Microsoft and Symantec have flagged every one of them. Everything else comes and goes: Deep Instinct has left, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6 and is gone again on 1.6.7, and Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.6: [the plugin](https://www.virustotal.com/gui/file/ebeeed29459c731273757e359ed29877e24e447badf44c92dea651459f3e1ee3) and [the package](https://www.virustotal.com/gui/file/e3da24d6a85e65fea238041be71d95c0d6d4c73fb958e1949ea5c0a6014c143f).
+Reports for 1.6.7: [the plugin](https://www.virustotal.com/gui/file/95f54c7e753374ea5a4278e77cf4aa068d887de9f3a32f3427470ded1fae1770) and [the package](https://www.virustotal.com/gui/file/66ddf0183d878ec9c63ae01c45b2daebe2113bf03a48d11a16472f21875cb239).
 
 The guess is easy to explain. The plugin is an unsigned DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer. Nothing about the file argues back: it carries no code signing certificate, and a release a day old has no install history behind it. Signing it is likely at some point, and an unsigned binary with no history is the single biggest thing these models react to, so a certificate should quiet most of this down.
 
 What it does not do is reach the network. It imports no networking library, and the entire import list is `d3d12`, `dxgi`, `imm32`, `xinput9_1_0`, `kernel32`, `user32`, `gdi32`, `shell32` and `d3dcompiler_47`. It writes `MasterLooter.ini`, `MasterLooter.log` and its eleven rotated predecessors `MasterLooter.01.log` to `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups` beside itself and nothing else, reads and writes no registry key, and installs nothing that outlives the game process. Every line is in this repository, and `build.bat` will produce the file for you if you would rather not trust mine.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.6:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.7:
 
-    e3da24d6a85e65fea238041be71d95c0d6d4c73fb958e1949ea5c0a6014c143f  MasterLooter-1.6.6-DMM.zip
-    fa20a608dc635be52206de74ab68fc5df043dda99bc393e83a9deeb755db1f57  MasterLooter-1.6.6.zip
+    66ddf0183d878ec9c63ae01c45b2daebe2113bf03a48d11a16472f21875cb239  MasterLooter-1.6.7-DMM.zip
+    60aada804a781c654792c341710ddcaae01d92b61827f7f2498fb14d69aa69f1  MasterLooter-1.6.7.zip
     f9e2d6c5b9bde0cd96401312e846019e97be1f39392b3f5c3318abd1c25049e6  MasterLooter.asi
 
 ## Controls
@@ -98,6 +98,7 @@ MIT, see [LICENSE](LICENSE). Third-party terms are in [mod/THIRD_PARTY_NOTICES.m
 - dofo7777: the Simplified and Traditional Chinese menus, both done from the template within an hour of it being posted.
 - Kyo-70: the Brazilian Portuguese menu.
 - Lyntear and Fyreon87, who reported the thorn vines and named the puzzle they were blocking.
+- Cmz4455 and Proud Wingman, whose logs showed the scan leaving Damiane for a ship, and LuxDragon, who ran three test builds in one evening to get Crimson Route and this mod drawing together.
 
 ## Discord and Patreon
 
