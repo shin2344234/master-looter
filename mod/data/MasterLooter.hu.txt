@@ -276,6 +276,8 @@ tags, any of which can be set to never in the Tags tab:	címkék, bármelyik be�
 Take goods that belong to someone	Valakihez tartozó áruk elvétele
 Take goods that belong to someone, on / off	Valakihez tartozó áruk elvétele, be / ki
 Take items the database cannot name	Olyan tárgyak felvétele, amiket az adatbázis nem tud megnevezni
+Pets and companions follow the filters	A háziállatok és a társak követik a szűrőket
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	A háziállat azt szedi fel, amit akar, és a játékban nincs erre kapcsoló. Bekapcsolva: bármi, amit egy háziállat vagy társ felvesz, és amit a tárgyszabályaid, címkéid, osztályaid vagy az értékküszöb elutasított volna, törlődik a leltárból, amint megérkezik. Küldetéstárgyak és védett tárgyak sosem törlődnek. Amit ugyanabban a két másodpercben kézzel veszel fel, ugyanazok a szabályok bírálják el.
 Take owned goods on / off	Birtokolt áruk elvétele be / ki
 takes effect next launch	a következő indításkor lép életbe
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	A motor körülötted pásztáz, és felveszi, amit a szabályok engednek. Kikapcsolva semmi sem lesz automatikusan felvéve; a gyorsfelvétel gomb továbbra is működik.

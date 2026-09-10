@@ -272,6 +272,8 @@ tags, any of which can be set to never in the Tags tab:	etichete, oricare dintre
 Take goods that belong to someone	Ia bunuri care aparțin cuiva
 Take goods that belong to someone, on / off	Activare/dezactivare luare bunuri ale altcuiva
 Take items the database cannot name	Ia obiecte pe care baza de date nu le poate numi
+Pets and companions follow the filters	Animalele și însoțitorii respectă filtrele
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Un animal adună ce vrea, iar jocul nu are niciun comutator pentru asta. Pornit: tot ce ridică un animal sau un însoțitor și ce regulile tale pentru obiecte, etichetele, clasele sau pragul de valoare ar fi refuzat este șters din inventar în clipa în care ajunge acolo. Obiectele de misiune și cele protejate nu sunt șterse niciodată. Ce ridici cu mâna în aceleași două secunde este judecat după aceleași reguli.
 Take owned goods on / off	Activare/dezactivare luare bunuri deținute
 takes effect next launch	are efect la următoarea pornire
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Motorul scanează în jurul tău și ia ce permit regulile. Dezactivat înseamnă că nimic nu este luat automat; tasta de recoltare rapidă tot funcționează.

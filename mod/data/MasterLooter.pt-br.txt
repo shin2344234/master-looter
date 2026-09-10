@@ -274,6 +274,8 @@ tags, any of which can be set to never in the Tags tab:	etiquetas, cada uma pode
 Take goods that belong to someone	Pegar bens que pertencem a alguém
 Take goods that belong to someone, on / off	Ativar/desativar coleta de bens que pertencem a alguém
 Take items the database cannot name	Pegar itens que o banco de dados não consegue nomear
+Pets and companions follow the filters	Pets e companheiros seguem os filtros
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Um pet pega o que quiser e o jogo não tem nenhuma opção para isso. Ligado: tudo o que um pet ou companheiro pegar e que suas regras de itens, tags, classes ou piso de valor teriam recusado é apagado do inventário assim que chega. Itens de missão e itens protegidos nunca são apagados. O que você mesmo pegar nesses mesmos dois segundos é julgado pelas mesmas regras.
 Take owned goods on / off	Ativar/desativar coleta de bens alheios
 takes effect next launch	entra em vigor na próxima inicialização
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	O mecanismo examina a área ao seu redor e pega o que as regras permitem. Desativado significa que nada é coletado automaticamente; a tecla de saque imediato continua funcionando.

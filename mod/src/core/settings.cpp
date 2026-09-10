@@ -113,9 +113,11 @@ namespace ml::Settings
         else if (k == "LootOwned")        c.lootOwned = Flag(v);
         else if (k == "SkipQuestItems")   c.skipQuestItems = Flag(v);
         else if (k == "SkipNoSell")       c.skipNoSell = Flag(v);
+        else if (k == "PetFilter")        c.petFilter = Flag(v);
         else if (k == "MinValueCopper")   c.minValueCopper = std::max(0, atoi(v.c_str()));
         else if (k == "TakeUnknownItems") c.takeUnknownItems = Flag(v);
         else if (k == "DebugLog")         c.debugLog = Flag(v);
+        else if (k == "DeleteTestName")   c.deleteTestName = v;
         else if (k == "ConfigVersion")    c.configVersion = atoi(v.c_str());
     }
 
@@ -315,8 +317,9 @@ namespace ml::Settings
                  c.scanRange, c.lootRange, c.gatherRange, c.catchRange, c.corpseRange, c.minRange); s += b;
         snprintf(b, sizeof b, "AutoArm=%d\nArmRange=%.1f\nArmContainers=%d\nGatherVeins=%d\n", c.autoArm, c.armRange, c.armContainers, c.gatherVeins); s += b;
         snprintf(b, sizeof b, "BreakOre=%d\nDrawWells=%d\n", c.breakOre, c.drawWells); s += b;
-        snprintf(b, sizeof b, "LootOwned=%d\nSkipQuestItems=%d\nSkipNoSell=%d\nMinValueCopper=%d\nTakeUnknownItems=%d\nDebugLog=%d\nConfigVersion=%d\n",
-                 c.lootOwned, c.skipQuestItems, c.skipNoSell, c.minValueCopper, c.takeUnknownItems, c.debugLog, c.configVersion); s += b;
+        snprintf(b, sizeof b, "LootOwned=%d\nSkipQuestItems=%d\nSkipNoSell=%d\nMinValueCopper=%d\nTakeUnknownItems=%d\nPetFilter=%d\nDebugLog=%d\nConfigVersion=%d\n",
+                 c.lootOwned, c.skipQuestItems, c.skipNoSell, c.minValueCopper, c.takeUnknownItems, c.petFilter, c.debugLog, c.configVersion); s += b;
+        if (!c.deleteTestName.empty()) { snprintf(b, sizeof b, "DeleteTestName=%s\n", c.deleteTestName.c_str()); s += b; }
         s += "\n; class -> 1 loot, 0 skip (classes not listed are looted)\n[Classes]\n";
         for (const auto& kv : c.classRule) { s += kv.first; s += kv.second ? "=1\n" : "=0\n"; }
         s += "\n; tag -> 1 always loot, -1 never loot (wins over the class rule)\n[Tags]\n";

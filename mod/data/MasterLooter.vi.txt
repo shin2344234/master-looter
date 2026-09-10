@@ -272,6 +272,8 @@ tags, any of which can be set to never in the Tags tab:	thẻ, bất kỳ thẻ 
 Take goods that belong to someone	Lấy hàng hóa thuộc về người khác
 Take goods that belong to someone, on / off	Bật/tắt lấy hàng hóa thuộc về người khác
 Take items the database cannot name	Lấy vật phẩm mà cơ sở dữ liệu không đặt tên được
+Pets and companions follow the filters	Thú cưng và đồng hành tuân theo bộ lọc
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Thú cưng nhặt bất cứ thứ gì nó thích và trò chơi không có công tắc cho việc đó. Bật: bất cứ thứ gì thú cưng hoặc đồng hành nhặt mà quy tắc vật phẩm, thẻ, lớp hoặc ngưỡng giá trị của bạn đã từ chối sẽ bị xóa khỏi túi đồ ngay khi nó vào. Vật phẩm nhiệm vụ và vật phẩm được bảo vệ không bao giờ bị xóa. Thứ bạn tự tay nhặt trong cùng hai giây đó được xét theo cùng quy tắc.
 Take owned goods on / off	Bật/tắt lấy tài sản của người khác
 takes effect next launch	có hiệu lực từ lần khởi động sau
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Công cụ quét xung quanh bạn và lấy những gì quy tắc cho phép. Tắt nghĩa là không có gì được lấy tự động; phím bấm nhanh vẫn hoạt động.

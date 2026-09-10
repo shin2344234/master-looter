@@ -273,6 +273,8 @@ tags, any of which can be set to never in the Tags tab:	ετικέτες, καθ
 Take goods that belong to someone	Πάρε αγαθά που ανήκουν σε κάποιον
 Take goods that belong to someone, on / off	Πάρε αγαθά που ανήκουν σε κάποιον, ενεργό / ανενεργό
 Take items the database cannot name	Πάρε αντικείμενα που η βάση δεδομένων δεν μπορεί να ονομάσει
+Pets and companions follow the filters	Τα κατοικίδια και οι σύντροφοι ακολουθούν τα φίλτρα
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Ένα κατοικίδιο μαζεύει ό,τι θέλει και το παιχνίδι δεν έχει διακόπτη γι' αυτό. Ενεργό: οτιδήποτε μαζέψει ένα κατοικίδιο ή ένας σύντροφος και που οι κανόνες αντικειμένων, οι ετικέτες, οι κλάσεις ή το κατώφλι αξίας σας θα είχαν απορρίψει διαγράφεται από το απόθεμα μόλις φτάσει εκεί. Αντικείμενα αποστολών και προστατευμένα αντικείμενα δεν διαγράφονται ποτέ. Ό,τι μαζέψετε με το χέρι μέσα στα ίδια δύο δευτερόλεπτα κρίνεται με τους ίδιους κανόνες.
 Take owned goods on / off	Πάρε ιδιόκτητα αγαθά, ενεργό / ανενεργό
 takes effect next launch	ισχύει από την επόμενη εκκίνηση
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Η μηχανή σαρώνει γύρω σου και παίρνει ό,τι επιτρέπουν οι κανόνες. Ανενεργό σημαίνει ότι δεν παίρνεται τίποτα αυτόματα· το πλήκτρο ριπής εξακολουθεί να δουλεύει.

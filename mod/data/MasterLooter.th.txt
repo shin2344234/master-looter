@@ -270,6 +270,8 @@ tags, any of which can be set to never in the Tags tab:	แท็กใดก็
 Take goods that belong to someone	เก็บของที่มีเจ้าของ
 Take goods that belong to someone, on / off	เก็บของที่มีเจ้าของ เปิด / ปิด
 Take items the database cannot name	เก็บไอเทมที่ฐานข้อมูลระบุชื่อไม่ได้
+Pets and companions follow the filters	สัตว์เลี้ยงและเพื่อนร่วมทางทำตามตัวกรอง
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	สัตว์เลี้ยงเก็บของตามใจชอบและเกมไม่มีสวิตช์สำหรับเรื่องนี้ เปิด: สิ่งใดที่สัตว์เลี้ยงหรือเพื่อนร่วมทางเก็บมา ซึ่งกฎไอเทม แท็ก คลาส หรือขั้นต่ำมูลค่าของคุณจะปฏิเสธ จะถูกลบออกจากช่องเก็บของทันทีที่มาถึง ไอเทมเควสต์และไอเทมที่ได้รับการคุ้มครองจะไม่ถูกลบเด็ดขาด สิ่งที่คุณเก็บเองภายในสองวินาทีเดียวกันจะถูกตัดสินด้วยกฎเดียวกัน
 Take owned goods on / off	เก็บของมีเจ้าของ เปิด / ปิด
 takes effect next launch	มีผลตอนเปิดเกมครั้งถัดไป
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	เอนจินจะสแกนรอบตัวคุณและเก็บของตามที่กฎอนุญาต ปิด หมายความว่าจะไม่มีอะไรถูกเก็บอัตโนมัติเลย ปุ่มเก็บรวดยังใช้งานได้อยู่

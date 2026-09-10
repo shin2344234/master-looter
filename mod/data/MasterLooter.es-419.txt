@@ -274,6 +274,8 @@ tags, any of which can be set to never in the Tags tab:	etiquetas, cualquiera de
 Take goods that belong to someone	Tomar bienes que pertenecen a alguien
 Take goods that belong to someone, on / off	Tomar bienes ajenos, activado/desactivado
 Take items the database cannot name	Tomar objetos que la base de datos no puede nombrar
+Pets and companions follow the filters	Las mascotas y compañeros siguen los filtros
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Una mascota recoge lo que quiere y el juego no tiene un interruptor para eso. Activado: todo lo que recoja una mascota o un compañero y que tus reglas de objetos, etiquetas, clases o piso de valor habrían rechazado se borra del inventario en cuanto llega. Los objetos de misión y los protegidos nunca se borran. Lo que recojas a mano en esos mismos dos segundos se juzga con las mismas reglas.
 Take owned goods on / off	Tomar bienes ajenos, activado/desactivado
 takes effect next launch	entra en vigor en el próximo inicio
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	El motor escanea a tu alrededor y toma lo que las reglas permiten. Desactivado significa que no se toma nada automáticamente; la tecla de saqueo rápido sigue funcionando.

@@ -82,6 +82,11 @@ namespace ml::events
     // well's sequence is made of.
     struct PendDrive { uintptr_t comp, actor; uint32_t player, target; float x, y, z; uint32_t ev; };
     static PendAct g_pendAct[64]; static int g_pendActN = 0;
+    struct PendDelete { uint64_t aval; uint16_t tid, c; uint64_t dval; uint16_t count; uint32_t player, route; bool set; };
+    static PendDelete g_pendDel[16]; static int g_pendDelN = 0;
+    static PetPickup g_pet[32]; static volatile LONG g_petN = 0;
+    static volatile LONG g_lastDeleteAt = 0;
+    unsigned long LastDeleteSentAt() { return static_cast<unsigned long>(InterlockedCompareExchange(&g_lastDeleteAt, 0, 0)); }
     static PendArm g_pendArm[32]; static int g_pendArmN = 0;
     static PendDrive g_pendDrv[32]; static int g_pendDrvN = 0;
     static CRITICAL_SECTION g_cs;
@@ -109,6 +114,49 @@ namespace ml::events
     {
         __try { return reinterpret_cast<FnDescLookup>(fn)(0, id, mask); }
         __except (EXCEPTION_EXECUTE_HANDLER) { return nullptr; }
+    }
+
+    // Issue #32. The inventory's discard request, TrocTrDiscardItemReq, is in
+    // the exe and not among the 67 descriptors the resolver answers for under
+    // the mask the game keeps in DESC_MASK. Either it lives under another
+    // mask or the lookup does not serve it at all. Ask every bit, once, and
+    // name what answers. Debug logging only; nothing is sent.
+    static void ProbeDescriptorMasks(uint32_t knownMask)
+    {
+        if (!Settings::Get().debugLog) return;
+        const game::Fns& f = game::F();
+        uint32_t masks[34]; int nm = 0;
+        for (int bit = 0; bit < 32; ++bit) masks[nm++] = 1u << bit;
+        masks[nm++] = 0xFFFFFFFFu;
+        masks[nm++] = 0;
+        for (int mi = 0; mi < nm; ++mi)
+        {
+            const uint32_t mask = masks[mi];
+            if (mask == knownMask) continue;
+            int answered = 0, shown = 0;
+            for (uint32_t id = 1; id <= 0x1FFF; ++id)
+            {
+                void* d = LookupDesc(f.descLookup, id, mask);
+                if (!d) continue;
+                ++answered;
+                const char* n = mem::RttiName(reinterpret_cast<uintptr_t>(d));
+                if (!n) continue;
+                // Skip what the known mask already names, unless it is one of
+                // the classes this probe exists for.
+                const bool wanted = strstr(n, "DiscardItem") || strstr(n, "DeleteItem") || strstr(n, "PickUpItem") ||
+                                    strstr(n, "AutoPickUp") || strstr(n, "DropItem") || strstr(n, "Inventory");
+                if (!wanted && DescById(static_cast<uint16_t>(id))) continue;
+                if (shown >= 300) continue;
+                uint16_t sz = 0; uintptr_t vt = 0;
+                mem::Read16(reinterpret_cast<uintptr_t>(d) + kOff_Desc_Size, &sz);
+                mem::ReadPtr(reinterpret_cast<uintptr_t>(d), &vt);
+                LOG("[descprobe] mask 0x%08X id 0x%04X size %u vtable +0x%llX %s%s", mask, id, sz,
+                    static_cast<unsigned long long>(mem::Rva(vt)), n, wanted ? "  <== wanted" : "");
+                ++shown;
+            }
+            if (answered) LOG("[descprobe] mask 0x%08X answers for %d descriptors, %d listed above", mask, answered, shown);
+        }
+        LOG("[descprobe] done; the known mask 0x%08X answers for %d", knownMask, static_cast<int>(g_descMap.size()));
     }
 
     static void ResolveDescriptors(uint32_t mask)
@@ -171,6 +219,7 @@ namespace ml::events
             LOG("[test] DESC_MASK 0x%08X, queue %s", mask, q ? "present" : "EMPTY");
             reinterpret_cast<FnTlsInit>(f.tlsInit)();
             ResolveDescriptors(mask);
+            ProbeDescriptorMasks(mask);
             if (!q || g_descFound < 3) { LOG_ERR("[test] sending stays disabled (queue %s, descriptors %d/3)", q ? "ok" : "missing", g_descFound); return; }
             g_sendAllowed = true;
             LOG_OK("[test] event path verified; sending enabled");
@@ -233,6 +282,89 @@ namespace ml::events
         }
         if (descOut) *descOut = desc;
         return e;
+    }
+
+    // The delete-from-inventory event as the handler at 0x2B63CE0 reads it:
+    // u64 at +3, u16 at +0xB looked up in an item table, u16 at +0xD, u64 at
+    // +0xF, u16 count at +0x17. Which 64-bit field is the instance is the
+    // question this send exists to answer, so the caller picks the layout.
+    static bool DeleteNow(const PendDelete& p)
+    {
+        const game::Fns& f = game::F();
+        bool ok = false;
+        __try
+        {
+            reinterpret_cast<FnTlsInit>(f.tlsInit)();
+            uint32_t known = 0; mem::Read32(f.descMask, &known);
+            const uint32_t masks[] = { known, 2u, 8u, 0x10u, 0x20u };
+            void* desc = nullptr; uint32_t usedMask = 0;
+            // The id is taken from the descriptor walk by class name and only
+            // falls back to the 2760 number when the walk did not see it.
+            uint16_t id = 0x0807;
+            for (const DescName& d : g_descMap) if (d.cls.find("TrocTrDeleteItemFromInventoryOnceTimer") != std::string::npos) { id = d.id; break; }
+            for (uint32_t m : masks) { desc = reinterpret_cast<FnDescLookup>(f.descLookup)(0, id, m); if (desc) { usedMask = m; break; } }
+            if (!desc) { LOG_ERR("[delete] descriptor 0x%04X not found under any mask", id); return false; }
+            const char* n = mem::RttiName(reinterpret_cast<uintptr_t>(desc));
+            uint16_t dsz = 0; mem::Read16(reinterpret_cast<uintptr_t>(desc) + kOff_Desc_Size, &dsz);
+            static bool s_said = false;
+            if (!s_said) { s_said = true; LOG("[delete] descriptor 0x%04X under mask 0x%X: %s size %u", id, usedMask, n ? n : "?", dsz); }
+            if (dsz != 25) { LOG_ERR("[delete] size %u is not the 25 the handler reads; not sending", dsz); return false; }
+            unsigned char* e = static_cast<unsigned char*>(reinterpret_cast<FnAllocEvent>(f.allocEvent)(0, 25));
+            if (!e) { LOG_ERR("[delete] event allocation failed"); return false; }
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_One)    = 1;
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_Zero40) = 0;
+            *reinterpret_cast<uint64_t*>(e + kOff_Ev_Zero48) = 0;
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_Player) = p.player;
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_Player + 4) = 0;
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_Route)  = p.route;
+            *reinterpret_cast<void**>(e + kOff_Ev_Desc)      = desc;
+            *reinterpret_cast<uint16_t*>(e + kOff_Ev_Size)   = 25;
+            *reinterpret_cast<uint8_t*>(e + kOff_Ev_Flag78)  = 1;
+            unsigned char* buf = *reinterpret_cast<unsigned char**>(e + kOff_Ev_Buffer);
+            if (!buf) { LOG_ERR("[delete] event has no payload buffer"); return false; }
+            memset(buf, 0, 25);
+            memcpy(buf, &id, 2); buf[2] = 0xFF;
+            memcpy(buf + 3, &p.aval, 8);                // u64 at +3, as the caller built it
+            memcpy(buf + 0xB, &p.tid, 2);
+            memcpy(buf + 0xD, &p.c, 2);
+            memcpy(buf + 0xF, &p.dval, 8);
+            memcpy(buf + 0x17, &p.count, 2);
+            char hex[3 * 25 + 1] = ""; int w = 0;
+            for (int i = 0; i < 25; ++i) w += snprintf(hex + w, sizeof hex - w, i ? " %02X" : "%02X", buf[i]);
+            LOG("[delete] sending 0x%04X as %08X on route %08X: %s", id, p.player, p.route, hex);
+            uintptr_t q = 0;
+            if (!mem::ReadPtr(f.queue, &q)) { LOG_ERR("[delete] queue global unreadable"); return false; }
+            InterlockedExchange(&g_sendTid, static_cast<LONG>(GetCurrentThreadId()));
+            ml::loot::hooks::SelfSendBegin();
+            reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), e, desc, 0);
+            ml::loot::hooks::SelfSendEnd();
+            InterlockedExchange(&g_sendTid, 0);
+            InterlockedExchange(&g_lastDeleteAt, static_cast<LONG>(GetTickCount()));
+            ok = true;
+        }
+        __except (EXCEPTION_EXECUTE_HANDLER)
+        {
+            InterlockedExchange(&g_sendTid, 0);
+            LOG_ERR("[delete] exception 0x%08X; nothing sent", GetExceptionCode());
+        }
+        return ok;
+    }
+
+    bool DeleteItem(uint64_t instance, uint16_t typeKey, uint16_t slot, uint64_t amount, uint16_t count, uint32_t player, uint32_t route)
+    {
+        if (!g_sendAllowed) return false;
+        Lock();
+        const bool ok = g_pendDelN < 16;
+        if (ok) g_pendDel[g_pendDelN++] = { instance, typeKey, slot, amount, count, player, route, true };
+        Unlock();
+        return ok;
+    }
+    int DrainPetPickups(PetPickup* out, int max)
+    {
+        const LONG n = InterlockedExchange(&g_petN, 0);
+        const int k = n < max ? static_cast<int>(n) : max;
+        for (int i = 0; i < k; ++i) out[i] = g_pet[i];
+        return k;
     }
 
     static bool SendNow(Action act, uint32_t target, uint32_t player, uint32_t route, uint8_t mode)
@@ -388,7 +520,9 @@ namespace ml::events
         rn = g_pendArmN; memcpy(arms, g_pendArm, sizeof(PendArm) * rn); g_pendArmN = 0;
         an = g_pendActN; memcpy(acts, g_pendAct, sizeof(PendAct) * an); g_pendActN = 0;
         dn = g_pendDrvN; memcpy(drvs, g_pendDrv, sizeof(PendDrive) * dn); g_pendDrvN = 0;
+        PendDelete dels[16]; const int xn = g_pendDelN; memcpy(dels, g_pendDel, sizeof(PendDelete) * xn); g_pendDelN = 0;
         Unlock();
+        for (int i = 0; i < xn; ++i) DeleteNow(dels[i]);
         for (int i = 0; i < rn; ++i) ArmNow(arms[i].node, arms[i].mode, arms[i].arg3, arms[i].ctx);
         for (int i = 0; i < an; ++i) SendNow(acts[i].act, acts[i].eid, acts[i].player, acts[i].route, acts[i].mode);
         for (int i = 0; i < dn; ++i) DriveNow(drvs[i]);
@@ -480,6 +614,84 @@ namespace ml::events
         // each and forty distinct ids for the session, with the payload on the
         // first sighting only, which is enough to tell what the game did without
         // burying the log in scenery chatter.
+        // Issue #32 capture. Everything the PLAYER raises that is not one of
+        // the three kinds this mod sends: a discard, a drop, a use, a pick up
+        // done by hand in the inventory screen all arrive here tagged player
+        // and were never logged. Three sightings per id, sixty ids, payload
+        // every time; the payload is what a discard request's layout will be
+        // read from.
+        if (Settings::Get().debugLog && (who >> 24) == game::kTagPlayer)
+        {
+            uintptr_t payload = 0; uint16_t payloadSize = 0, eventId = 0;
+            if (mem::ReadPtr(ev + kOff_Ev_Buffer, &payload) &&
+                mem::Read16(ev + kOff_Ev_Size, &payloadSize) && payloadSize >= 3 &&
+                mem::Read16(payload, &eventId))
+            {
+                bool ours = false;
+                for (const auto& row : g_desc) if (row.id == eventId) ours = true;
+                if (!ours)
+                {
+                    struct PSlot { volatile LONG id; volatile LONG seen; };
+                    static PSlot pslots[60] = {};
+                    int at = -1;
+                    for (int i = 0; i < 60; ++i)
+                    {
+                        const LONG cur = InterlockedCompareExchange(&pslots[i].id, 0, 0);
+                        if (cur == eventId) { at = i; break; }
+                        if (cur == 0 && InterlockedCompareExchange(&pslots[i].id, eventId, 0) == 0) { at = i; break; }
+                    }
+                    if (at >= 0 && InterlockedIncrement(&pslots[at].seen) <= 3)
+                    {
+                        const DescName* named = DescById(eventId);
+                        LOG("[player-event] 0x%04X size %u from %08X route %08X sample %ld (%s)", eventId, payloadSize, who, rt,
+                            static_cast<long>(pslots[at].seen), named ? named->cls.c_str() : "not in the known map");
+                        LogPayload("player-raised event", eventId, payloadSize, payload);
+                    }
+                }
+            }
+        }
+        // A pick up raised by anything that is not the player: a pet, a
+        // companion. Handed to the engine, which judges what lands. Issue #32.
+        if ((who >> 24) != game::kTagPlayer)
+        {
+            uintptr_t payload = 0; uint16_t payloadSize = 0, eventId = 0; uint32_t item = 0;
+            if (mem::ReadPtr(ev + kOff_Ev_Buffer, &payload) &&
+                mem::Read16(ev + kOff_Ev_Size, &payloadSize) && payloadSize >= 7 &&
+                mem::Read16(payload, &eventId))
+            {
+                // The pick up carries a mode byte at +3 and the item at +4;
+                // the search is the target alone at +3.
+                const bool pickup = eventId == g_desc[1].id && payloadSize >= 8 && mem::Read32(payload + 4, &item);
+                const bool search = !pickup && eventId == g_desc[0].id && mem::Read32(payload + 3, &item);
+                if (pickup || search)
+                {
+                    const LONG n = InterlockedCompareExchange(&g_petN, 0, 0);
+                    if (n < 32) { g_pet[n] = { who, item, GetTickCount(), search }; InterlockedExchange(&g_petN, n + 1); }
+                }
+            }
+        }
+        // The same, logged: sixty lines, every one with the raiser, so a pet
+        // looting ten things shows ten lines and not three.
+        if (Settings::Get().debugLog && (who >> 24) != game::kTagPlayer)
+        {
+            uintptr_t payload = 0; uint16_t payloadSize = 0, eventId = 0;
+            if (mem::ReadPtr(ev + kOff_Ev_Buffer, &payload) &&
+                mem::Read16(ev + kOff_Ev_Size, &payloadSize) && payloadSize >= 3 &&
+                mem::Read16(payload, &eventId))
+            {
+                const DescName* named = DescById(eventId);
+                const bool pickupish = eventId == g_desc[1].id ||
+                    (named && (named->cls.find("PickUp") != std::string::npos || named->cls.find("AutoPickUp") != std::string::npos));
+                static volatile LONG s_petLines = 0;
+                if (pickupish && InterlockedIncrement(&s_petLines) <= 60)
+                {
+                    uint32_t item = 0; mem::Read32(payload + 4, &item);
+                    LOG("[nonplayer-pickup] 0x%04X from %08X route %08X item %08X (%s)", eventId, who, rt, item,
+                        named ? named->cls.c_str() : "unnamed");
+                    LogPayload("non-player pick up", eventId, payloadSize, payload);
+                }
+            }
+        }
         if (Settings::Get().debugLog && (who >> 24) != game::kTagPlayer)
         {
             uintptr_t payload = 0; uint16_t payloadSize = 0, eventId = 0;

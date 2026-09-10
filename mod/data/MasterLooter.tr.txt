@@ -272,6 +272,8 @@ tags, any of which can be set to never in the Tags tab:	etiketler, herhangi biri
 Take goods that belong to someone	Birine ait eşyaları al
 Take goods that belong to someone, on / off	Birine ait eşyaları al, açık / kapalı
 Take items the database cannot name	Veritabanının adlandıramadığı eşyaları al
+Pets and companions follow the filters	Evcil hayvanlar ve yoldaşlar filtrelere uyar
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Evcil hayvan canı ne isterse onu toplar ve oyunda bunun için bir ayar yoktur. Açık: bir evcil hayvanın ya da yoldaşın topladığı ve eşya kurallarınızın, etiketlerinizin, sınıflarınızın ya da değer alt sınırınızın reddedeceği her şey envantere girer girmez silinir. Görev eşyaları ve korunan eşyalar asla silinmez. Aynı iki saniye içinde kendi elinizle topladığınız şey de aynı kurallarla değerlendirilir.
 Take owned goods on / off	Sahipli eşya alımı açık / kapalı
 takes effect next launch	sonraki başlatmada etkili olur
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Motor etrafını tarar ve kuralların izin verdiğini alır. Kapalıyken hiçbir şey otomatik alınmaz; ani alım tuşu yine de çalışır.

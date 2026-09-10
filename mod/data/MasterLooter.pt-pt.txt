@@ -272,6 +272,8 @@ tags, any of which can be set to never in the Tags tab:	etiquetas, qualquer uma 
 Take goods that belong to someone	Apanhar bens que pertencem a alguém
 Take goods that belong to someone, on / off	Apanhar bens que pertencem a alguém, ativado/desativado
 Take items the database cannot name	Apanhar itens que a base de dados não consegue identificar
+Pets and companions follow the filters	Os animais e os companheiros seguem os filtros
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Um animal apanha o que lhe apetece e o jogo não tem nenhuma opção para isso. Ligado: tudo o que um animal ou um companheiro apanhar e que as suas regras de itens, etiquetas, classes ou limite de valor teriam recusado é apagado do inventário assim que chega. Itens de missão e itens protegidos nunca são apagados. O que apanhar à mão nesses mesmos dois segundos é julgado pelas mesmas regras.
 Take owned goods on / off	Apanhar bens alheios, ativado/desativado
 takes effect next launch	só tem efeito no próximo arranque
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	O motor faz verificações à tua volta e apanha o que as regras permitirem. Desativado significa que nada é apanhado automaticamente; a tecla de rajada continua a funcionar.

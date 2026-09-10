@@ -272,6 +272,8 @@ tags, any of which can be set to never in the Tags tab:	標籤，皆可於「標
 Take goods that belong to someone	拾取歸他人所有的物品
 Take goods that belong to someone, on / off	拾取歸他人所有的物品 開/關
 Take items the database cannot name	拾取資料庫中無名稱的物品
+Pets and companions follow the filters	寵物與同伴遵守過濾規則
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	寵物想撿什麼就撿什麼，遊戲沒有對應的開關。開啟後：寵物或同伴撿起的任何物品，只要你的物品規則、標籤、類別或價值下限會拒絕它，就會在進入背包的瞬間被刪除。任務物品與受保護物品永遠不會被刪除。你在同樣兩秒內親手撿起的東西也以同樣的規則判定。
 Take owned goods on / off	拾取有主物品 開/關
 takes effect next launch	下次啟動時生效
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	拾取引擎會掃描周圍環境，並拾取符合規則的物品。關閉表示不自動拾取；手動快捷拾取按鍵仍可正常生效。

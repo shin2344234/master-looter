@@ -275,6 +275,8 @@ tags, any of which can be set to never in the Tags tab:	теги, любой и�
 Take goods that belong to someone	Забирать вещи, принадлежащие кому-то
 Take goods that belong to someone, on / off	Забирать чужие вещи, вкл./выкл.
 Take items the database cannot name	Забирать предметы, которые база данных не может назвать
+Pets and companions follow the filters	Питомцы и спутники соблюдают фильтры
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Питомец подбирает что хочет, и в игре нет переключателя для этого. Вкл.: всё, что подберёт питомец или спутник и что ваши правила предметов, теги, классы или порог стоимости отклонили бы, удаляется из инвентаря, как только попадает туда. Квестовые и защищённые предметы никогда не удаляются. То, что вы подберёте вручную в те же две секунды, оценивается по тем же правилам.
 Take owned goods on / off	Забирать чужое имущество, вкл./выкл.
 takes effect next launch	вступит в силу при следующем запуске
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Движок сканирует пространство вокруг вас и забирает то, что разрешают правила. Выключено — значит, ничего не забирается автоматически; клавиша разового сбора при этом продолжает работать.

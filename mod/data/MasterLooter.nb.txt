@@ -276,6 +276,8 @@ tags, any of which can be set to never in the Tags tab:	tagger, som hver kan set
 Take goods that belong to someone	Ta varer som tilhører noen
 Take goods that belong to someone, on / off	Ta varer som tilhører noen, på/av
 Take items the database cannot name	Ta gjenstander databasen ikke kan navngi
+Pets and companions follow the filters	Kjæledyr og følgesvenner følger filtrene
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Et kjæledyr plukker opp det det vil, og spillet har ingen bryter for det. På: alt et kjæledyr eller en følgesvenn plukker opp som gjenstandsreglene, taggene, klassene eller verdigrensen din ville ha avvist, slettes fra inventaret i det det lander. Oppdragsgjenstander og beskyttede gjenstander slettes aldri. Noe du selv plukker opp i de samme to sekundene bedømmes etter de samme reglene.
 Take owned goods on / off	Ta eide varer på/av
 takes effect next launch	trer i kraft ved neste oppstart
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Motoren skanner rundt deg og tar det reglene tillater. Av betyr at ingenting tas automatisk; trykk-tasten fungerer fortsatt.

@@ -725,6 +725,8 @@ namespace ml::gui
         Help(TR("Items with an unknown value are never filtered by it."));
         dirty |= ImGui::Checkbox(TR("Take items the database cannot name"), &c.takeUnknownItems);
         Help(TR("Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified."));
+        dirty |= ImGui::Checkbox(TR("Pets and companions follow the filters"), &c.petFilter);
+        Help(TR("A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules."));
         dirty |= ImGui::Checkbox(TR("Verbose log"), &c.debugLog);
         if (dirty) Settings::MarkDirty();
     }

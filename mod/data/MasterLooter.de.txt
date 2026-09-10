@@ -274,6 +274,8 @@ tags, any of which can be set to never in the Tags tab:	Markierungen, von denen 
 Take goods that belong to someone	Gegenstände mitnehmen, die jemandem gehören
 Take goods that belong to someone, on / off	Gegenstände mitnehmen, die jemandem gehören, an/aus
 Take items the database cannot name	Gegenstände mitnehmen, die die Datenbank nicht benennen kann
+Pets and companions follow the filters	Haustiere und Begleiter halten sich an die Filter
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Ein Haustier sammelt ein, was es will, und das Spiel hat keinen Schalter dafür. An: Alles, was ein Haustier oder ein Begleiter aufhebt und was deine Gegenstandsregeln, Tags, Klassen oder die Wertuntergrenze abgelehnt hätten, wird aus dem Inventar gelöscht, sobald es dort ankommt. Quest- und geschützte Gegenstände werden nie gelöscht. Was du in denselben zwei Sekunden selbst aufhebst, wird nach denselben Regeln beurteilt.
 Take owned goods on / off	Fremdes Eigentum mitnehmen an/aus
 takes effect next launch	wirkt sich erst beim nächsten Start aus
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Die Engine scannt deine Umgebung und nimmt, was die Regeln erlauben. Aus bedeutet, dass nichts automatisch mitgenommen wird; die Sofort-Taste funktioniert weiterhin.

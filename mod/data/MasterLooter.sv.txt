@@ -272,6 +272,8 @@ tags, any of which can be set to never in the Tags tab:	taggar, som var och en k
 Take goods that belong to someone	Ta varor som tillhör någon
 Take goods that belong to someone, on / off	Ta varor som tillhör någon, på/av
 Take items the database cannot name	Ta föremål som databasen inte kan namnge
+Pets and companions follow the filters	Husdjur och följeslagare följer filtren
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Ett husdjur plockar upp vad det vill och spelet har ingen inställning för det. På: allt som ett husdjur eller en följeslagare plockar upp och som dina föremålsregler, taggar, klasser eller värdegräns skulle ha avvisat raderas från inventariet i samma stund det landar. Uppdragsföremål och skyddade föremål raderas aldrig. Något du själv plockar upp under samma två sekunder bedöms efter samma regler.
 Take owned goods on / off	Ta ägda varor på/av
 takes effect next launch	träder i kraft vid nästa start
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Motorn skannar runt dig och tar det reglerna tillåter. Av innebär att inget tas automatiskt; snabbtryckningstangenten fungerar fortfarande.

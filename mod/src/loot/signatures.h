@@ -226,6 +226,13 @@ namespace ml::sig
     inline constexpr unsigned kMax_OwnCallSite_Back = 0x40; // how far back the lea r9 sits
 
     // --- Event body layout --------------------------------------------------
+    // Issue #32, build 2760: the inventory delete routine that
+    // TrocTrDeleteItemFromInventoryOnceTimer's handler calls. Reached by
+    // address for one verbose-log hook that says how the game answered a
+    // delete, which is what turned 0x73353994 into eErrNoInvalidInventory.
+    inline constexpr unsigned kRva_InvDelete   = 0x0FD169C0;
+    // Its first 38 bytes, so the hook is only ever placed on this build.
+    inline constexpr const char* kSig_InvDeletePrologue = "49 89 E3 49 89 5B 08 49 89 6B 10 49 89 73 18 49 89 7B 20 41 54 41 56 41 57 48 83 EC 70 4D 89 C7 49 89 D6 48 89 CD";
     inline constexpr unsigned kOff_Ev_One      = 0x30;
     inline constexpr unsigned kOff_Ev_Zero40   = 0x40;
     inline constexpr unsigned kOff_Ev_Zero48   = 0x48;

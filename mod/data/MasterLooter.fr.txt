@@ -273,6 +273,8 @@ tags, any of which can be set to never in the Tags tab:	étiquettes, dont chacun
 Take goods that belong to someone	Prendre les biens qui appartiennent à quelqu'un
 Take goods that belong to someone, on / off	Activer/désactiver la prise des biens qui appartiennent à quelqu'un
 Take items the database cannot name	Prendre les objets que la base de données ne peut pas nommer
+Pets and companions follow the filters	Les animaux et les compagnons respectent les filtres
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Un animal ramasse ce qui lui plaît et le jeu n'a aucun réglage pour cela. Activé : tout ce qu'un animal ou un compagnon ramasse et que vos règles d'objets, tags, classes ou seuil de valeur auraient refusé est supprimé de l'inventaire dès son arrivée. Les objets de quête et les objets protégés ne sont jamais supprimés. Ce que vous ramassez vous-même dans les deux mêmes secondes est jugé selon les mêmes règles.
 Take owned goods on / off	Activer/désactiver la prise des biens appartenant à autrui
 takes effect next launch	prend effet au prochain lancement
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Le moteur balaie autour de vous et prend ce que les règles autorisent. Désactivé signifie que rien n'est pris automatiquement ; la touche de ramassage rapide fonctionne toujours.

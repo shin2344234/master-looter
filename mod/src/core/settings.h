@@ -131,7 +131,16 @@ namespace ml
         bool  skipNoSell     = false;
         int   minValueCopper = 0;      // 0 = no value floor
         bool  takeUnknownItems = true; // items our database cannot name
+        // A pet or a companion loots whatever the game lets it, and nothing in
+        // the game looks at the item. On, whatever one of them picks up that
+        // the item rules would have refused is deleted as it lands. Issue #32.
+        bool  petFilter      = false;
         bool  debugLog       = false;
+        // With the verbose log on, delete two of this item once per session
+        // through the same path the pet filter uses, and log the inventory
+        // layout on the way. This is how the delete was proved on 2760 and
+        // how it is checked again after a game patch. Not in the menu.
+        std::string deleteTestName;
         int   configVersion  = 2;      // bumps when a default changes in a way old files should follow
 
         // [Classes] class -> 1 loot / 0 skip. Absent means loot.

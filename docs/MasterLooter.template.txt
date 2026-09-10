@@ -28,6 +28,7 @@
 1 match%s	
 3 of 3	
 \"%s\" already exists. Saving over it asks first.	
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	
 A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	
 Abyss and Kuku	
 Abyss gear, Kuku pots and their parts.	
@@ -207,6 +208,7 @@ Ownership oracle
 Pace	
 part of a creature or a mechanism	
 paused: %s	
+Pets and companions follow the filters	
 pick up off	
 Plants	
 plants off	

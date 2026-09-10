@@ -271,6 +271,8 @@ tags, any of which can be set to never in the Tags tab:	labels, elk daarvan kan 
 Take goods that belong to someone	Goederen meenemen die van iemand anders zijn
 Take goods that belong to someone, on / off	Goederen van iemand anders meenemen aan/uit
 Take items the database cannot name	Items meenemen die de database niet kan benoemen
+Pets and companions follow the filters	Huisdieren en metgezellen volgen de filters
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Een huisdier raapt op wat het wil en het spel heeft daar geen schakelaar voor. Aan: alles wat een huisdier of metgezel opraapt en wat je itemregels, tags, klassen of waardegrens zouden hebben geweigerd, wordt uit de inventaris verwijderd zodra het binnenkomt. Questvoorwerpen en beschermde voorwerpen worden nooit verwijderd. Wat je in diezelfde twee seconden zelf opraapt, wordt naar dezelfde regels beoordeeld.
 Take owned goods on / off	Eigendom van anderen meenemen aan/uit
 takes effect next launch	wordt actief bij de volgende start
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	De engine scant je omgeving en neemt mee wat de regels toestaan. Uit betekent dat er niets automatisch wordt meegenomen; de sneltoets voor direct looten werkt nog steeds.

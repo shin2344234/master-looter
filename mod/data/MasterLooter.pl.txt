@@ -273,6 +273,8 @@ tags, any of which can be set to never in the Tags tab:	etykiety, z których ka�
 Take goods that belong to someone	Zbieraj rzeczy należące do kogoś
 Take goods that belong to someone, on / off	Zbieranie rzeczy należących do kogoś wł. / wył.
 Take items the database cannot name	Zbieraj przedmioty, których baza danych nie potrafi nazwać
+Pets and companions follow the filters	Zwierzęta i towarzysze przestrzegają filtrów
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Zwierzę zbiera, co chce, a gra nie ma na to żadnego przełącznika. Włączone: wszystko, co podniesie zwierzę lub towarzysz, a co twoje reguły przedmiotów, tagi, klasy lub próg wartości by odrzuciły, jest usuwane z ekwipunku w chwili, gdy tam trafi. Przedmioty zadaniowe i chronione nigdy nie są usuwane. To, co podniesiesz ręcznie w tych samych dwóch sekundach, ocenią te same reguły.
 Take owned goods on / off	Zbieranie cudzego mienia wł. / wył.
 takes effect next launch	zacznie działać po następnym uruchomieniu
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Silnik skanuje otoczenie i zbiera to, na co pozwalają reguły. Wyłączone oznacza, że nic nie jest zbierane automatycznie; klawisz szybkiego zbierania nadal działa.

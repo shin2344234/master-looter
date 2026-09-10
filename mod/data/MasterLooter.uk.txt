@@ -272,6 +272,8 @@ tags, any of which can be set to never in the Tags tab:	теги, кожен з 
 Take goods that belong to someone	Забирати речі, що належать комусь
 Take goods that belong to someone, on / off	Забирати чужі речі, увімкнено/вимкнено
 Take items the database cannot name	Забирати предмети, яких база даних не може назвати
+Pets and companions follow the filters	Улюбленці та супутники дотримуються фільтрів
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Улюбленець підбирає що завгодно, і в грі немає перемикача для цього. Увімкнено: усе, що підбере улюбленець або супутник і що ваші правила предметів, теги, класи чи поріг вартості відхилили б, видаляється з інвентарю, щойно туди потрапляє. Квестові та захищені предмети ніколи не видаляються. Те, що ви підберете вручну в ті самі дві секунди, оцінюється за тими самими правилами.
 Take owned goods on / off	Забирати чуже майно, увімкнено/вимкнено
 takes effect next launch	набуде чинності після наступного запуску
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Рушій сканує простір навколо вас і забирає те, що дозволяють правила. Вимкнено означає, що нічого не забирається автоматично; клавіша миттєвого забору й далі працює.

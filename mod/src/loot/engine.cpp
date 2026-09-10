@@ -592,6 +592,13 @@ namespace ml::loot
     static uint32_t  g_meEid = 0, g_meRoute = 0;
     // When the scan last found nothing at all around the chosen actor.
     static DWORD g_barrenSince = 0;
+    // When the player actor itself last took a walking step (see Walked).
+    // As Kliff the actor is the body and walks with the player. As Damiane
+    // or Oongka it sits wherever the game put it, which is not one fixed
+    // spot: 0,1000,0 in one session, -485,970,100 and 945,686,87 in the
+    // next, sometimes in a crowd, and it jumps between them on a load or a
+    // swap. It never walks.
+    static DWORD g_actorMovedAt = 0;
 
     // --- the body -------------------------------------------------------------
     //
@@ -636,8 +643,30 @@ namespace ml::loot
         bool  played;
         Vec3  pos;
         uint32_t route;
+        // Where it last stood still and when it last left that spot. A body
+        // being played moves; a body left behind by a character swap does not.
+        Vec3  lastPos;
+        DWORD movedAt;
         int Score() const { return gear * 8 + kids; }
     };
+    // Walking is half a metre to fifteen metres between two sightings, which
+    // covers a run and a horse. A jump beyond that is a load, a swap or a
+    // fast travel and says nothing about who is being played: it moves the
+    // anchor and nothing else. movedAt is the last walking step.
+    static bool Walked(Vec3& anchor, bool& anchored, const Vec3& at)
+    {
+        if (!anchored) { anchor = at; anchored = true; return false; }
+        const float dx = at.x - anchor.x, dy = at.y - anchor.y, dz = at.z - anchor.z;
+        const float d2 = dx * dx + dy * dy + dz * dz;
+        if (d2 <= 0.25f) return false;
+        anchor = at;
+        return d2 <= 225.0f;
+    }
+    static void NoteHolderPos(Holder& h, const Vec3& at, DWORD now)
+    {
+        bool anchored = h.movedAt != 0 || h.lastPos.x != 0 || h.lastPos.y != 0 || h.lastPos.z != 0;
+        if (Walked(h.lastPos, anchored, at)) h.movedAt = now;
+    }
     static Holder g_holders[32];
     static int    g_holderN = 0;
     static uint32_t g_bodyEid = 0;       // the holder the scan is centred on; 0 means the player actor itself
@@ -717,6 +746,7 @@ namespace ml::loot
         ++h->tickKids;
         if (h->tickKids > h->kids) h->kids = h->tickKids;
         h->seen = now; h->pos = at; if (route) h->route = route;
+        NoteHolderPos(*h, at, now);
     }
 
     // A child that turned out to be an item. Called from the classify pass, so
@@ -768,6 +798,7 @@ namespace ml::loot
             {
                 g_holders[i].seen = now; g_holders[i].pos = at;
                 if (played) g_holders[i].played = true;
+                NoteHolderPos(g_holders[i], at, now);
                 return;
             }
     }
@@ -831,6 +862,24 @@ namespace ml::loot
             s_challenger = 0; return best;
         }
         s_missingSaid = 0;
+        // Two played bodies on record is a character swap between Damiane and
+        // Oongka: both wear the pair of bytes, so neither rule below can tell
+        // them apart, and the parked one keeps the centre on score for the
+        // rest of the session. The one being played moves. A played body that
+        // left its spot in the last three seconds takes the centre from one
+        // that has stood still for ten, after the usual hold.
+        const Holder* mover = nullptr;
+        if (incumbent->played && incumbent->movedAt && now - incumbent->movedAt > 10000)
+            for (int i = 0; i < g_holderN; ++i)
+            {
+                const Holder& h = g_holders[i];
+                if (&h == incumbent || !h.played || !h.movedAt || now - h.movedAt > 3000) continue;
+                if (now - h.seen > kHolderFreshMs || h.kids < 3) continue;
+                if (playerRoute && h.route && h.route != playerRoute) continue;
+                if (!mover || h.movedAt > mover->movedAt) mover = &h;
+            }
+        if (mover) best = mover;
+        const bool movingOverParked = mover != nullptr;
         if (!best || best->eid == incumbent->eid) { s_challenger = 0; return incumbent; }
 
         // Parts are not gear. Something that has never had a single child
@@ -840,11 +889,11 @@ namespace ml::loot
         // already says the character wins; this is the backstop for when it
         // does not, because a big enough object can out-count seven items on
         // raw children alone.
-        if (best->gear == 0 && incumbent->gear > 0) { s_challenger = 0; return incumbent; }
+        if (best->gear == 0 && incumbent->gear > 0 && !movingOverParked) { s_challenger = 0; return incumbent; }
         // The played body is not displaced by anything that is not one, and a
         // pack cow with eleven items of cargo classified is the case in hand:
         // score 101 against the body's 36, and it took the centre.
-        if (incumbent->played && !best->played) { s_challenger = 0; return incumbent; }
+        if (incumbent->played && !best->played && !movingOverParked) { s_challenger = 0; return incumbent; }
         const bool playedOverNot = best->played && !incumbent->played;
         // And its mirror. Something with gear takes the centre from something
         // without, whatever the counts say, after the same hold. In the same
@@ -854,7 +903,7 @@ namespace ml::loot
 
         // Half again as much, and two more outright, or it is noise.
         const int mine = incumbent->Score(), theirs = best->Score();
-        if (!gearOverParts && !playedOverNot && (theirs < mine + 2 || theirs * 2 < mine * 3)) { s_challenger = 0; return incumbent; }
+        if (!gearOverParts && !playedOverNot && !movingOverParked && (theirs < mine + 2 || theirs * 2 < mine * 3)) { s_challenger = 0; return incumbent; }
 
         if (s_challenger != best->eid) { s_challenger = best->eid; s_challengeSince = now; s_challengeSaid = false; }
         if (now - s_challengeSince < kBodyHoldMs) return incumbent;
@@ -865,7 +914,7 @@ namespace ml::loot
             s_challengeSaid = true;
             LOG("[player] %08X (%d children, %d equipment, score %d) takes the centre from %08X (%d children, %d equipment, score %d)%s",
                 best->eid, best->kids, best->gear, theirs, incumbent->eid, incumbent->kids, incumbent->gear, mine,
-                playedOverNot ? ", as the played body" : gearOverParts ? ", on gear alone" : "");
+                movingOverParked ? ", as the played body that moves while the other stands" : playedOverNot ? ", as the played body" : gearOverParts ? ", on gear alone" : "");
         }
         return best;
     }
@@ -931,6 +980,20 @@ namespace ml::loot
         return it == g_learn.end() ? nullptr : ItemDb::ByRow(it->second);
     }
 
+    // A pet's pick-up of a loose item reaches the queue as the PLAYER's own
+    // pick-up, raised under A0100001 like one done by hand; only its body
+    // searches are stamped with its own id. So a hand pick-up of something
+    // the scan had refused by an item rule is handed to the pet filter as if
+    // the pet had raised it. The rules that count are the ones a person sets:
+    // an item marked never, a tag marked never, a class switched off, the
+    // value floor and the no-sell switch. Filled here, drained by the filter.
+    static std::vector<events::PetPickup> g_petHand;
+    static bool IsFilterRule(const char* why)
+    {
+        return why && (strcmp(why, "item override") == 0 || strcmp(why, "tag never") == 0 || strcmp(why, "class skipped") == 0 ||
+                       strcmp(why, "below value floor") == 0 || strcmp(why, "unsellable") == 0);
+    }
+
     // Diff the bag against the last scan and attribute every rise to a pending send.
     static void LearnFromInventory(DWORD now)
     {
@@ -960,6 +1023,8 @@ namespace ml::loot
             {
                 const char* why = LastVerdict(seen[i].eid);
                 static int s_missLogs = 0;
+                if (why && seen[i].act == Action::Take && Settings::Get().petFilter && IsFilterRule(why) && g_petHand.size() < 64)
+                    g_petHand.push_back({ g_meEid, seen[i].eid, seen[i].at, false });
                 if (why) { if (Settings::Get().debugLog) LOG("[learn] player %s eid %08X (node type %u), we had skipped it: %s", events::ActionName(seen[i].act), seen[i].eid, nodeType, why); }
                 else if (WasSeen(seen[i].eid)) { if (Settings::Get().debugLog) LOG("[learn] player %s eid %08X (node type %u), the scan had it and did not act", events::ActionName(seen[i].act), seen[i].eid, nodeType); }
                 else if (s_missLogs < 40) { ++s_missLogs; LOG("[learn] player %s eid %08X (node type %u), the scan never saw it", events::ActionName(seen[i].act), seen[i].eid, nodeType); }
@@ -2092,6 +2157,13 @@ namespace ml::loot
 
     // Probes the manager for {count, capacity, array} triples and visits every
     // entity pointer in them.
+    static bool EntityLike(uintptr_t e)
+    {
+        uint32_t id = 0;
+        if (!mem::Readable(e, 0x100) || !game::Eid(e, &id) || !id) return false;
+        const uint8_t tag = static_cast<uint8_t>(id >> 24);
+        return tag == game::kTagPlayer || tag == game::kTagWorld;
+    }
     template <typename F>
     static void ForEachEntity(uintptr_t mgr, F&& fn)
     {
@@ -2108,6 +2180,43 @@ namespace ml::loot
                 if (!mem::Readable(e, 0x100)) continue;
                 if (!fn(e)) return;
             }
+        }
+        // The lists above hold one entity or none on most ticks, and for a
+        // long time the mod believed that was all the manager offered: a
+        // few entities a tick, a burst of hundreds now and then, and a
+        // one-second window to remember them. The world is in fact kept in
+        // a dozen pools between +0x128 and +0x2E0, each a pointer to an
+        // array of entity pointers followed by a packed count and capacity
+        // word, found by the roster probe on 2760. The count in that word
+        // is not the live count (it read zero over 246 entities), so this
+        // takes no count from anywhere: from the lowest such pointer it
+        // walks forward while the entries are entities, gives up after
+        // sixteen that are not, and skips every other pointer inside a run
+        // it has already covered. Entities freed and not yet reused leave
+        // holes, which the sixteen absorb.
+        uintptr_t runs[24]; int runN = 0;
+        for (unsigned off = 0x100; off + 8 <= 0x300 && runN < 24; off += 8)
+        {
+            uintptr_t arr = 0;
+            if (!mem::ReadPtr(mgr + off, &arr) || !mem::Readable(arr, 8ull * 4)) continue;
+            bool ok = true;
+            for (uint32_t i = 0; i < 4 && ok; ++i) { uintptr_t e = 0; ok = mem::ReadPtr(arr + 8ull * i, &e) && EntityLike(e); }
+            if (ok) runs[runN++] = arr;
+        }
+        std::sort(runs, runs + runN);
+        uintptr_t coveredTo = 0;
+        for (int r = 0; r < runN; ++r)
+        {
+            if (runs[r] < coveredTo) continue;
+            uintptr_t at = runs[r]; int misses = 0;
+            for (uint32_t i = 0; i < 8000; ++i, at += 8)
+            {
+                uintptr_t e = 0;
+                if (!mem::ReadPtr(at, &e) || !EntityLike(e)) { if (++misses >= 16) break; continue; }
+                misses = 0;
+                if (!fn(e)) return;
+            }
+            coveredTo = at;
         }
     }
 
@@ -2245,6 +2354,188 @@ namespace ml::loot
         {
             g_scanDisabled = true;
         }
+    }
+
+    // The pools ForEachEntity walks, as the log can show them: each one's
+    // length, what it holds and how much of it stands within forty metres,
+    // with the raw words round the pointer. Verbose log, twice a session.
+    // This is what found them, and on a new build it is the first thing to
+    // read when the Nearby list goes back to flipping.
+    static void RosterProbe(uintptr_t mgr, DWORD now, const Vec3& mp)
+    {
+        static DWORD s_last = 0; static int s_runs = 0;
+        if (s_runs >= 2 || (s_last && now - s_last < 60000)) return;
+        if (!s_last) { s_last = now - 40000; return; }   // first run twenty seconds in
+        s_last = now; ++s_runs;
+        int lines = 0;
+        for (unsigned off = 0x100; off + 8 <= 0x300 && lines < 40; off += 8)
+        {
+            uintptr_t arr = 0;
+            if (!mem::ReadPtr(mgr + off, &arr) || !mem::Readable(arr, 32)) continue;
+            bool ok = true;
+            for (uint32_t i = 0; i < 4 && ok; ++i) { uintptr_t e = 0; ok = mem::ReadPtr(arr + 8ull * i, &e) && EntityLike(e); }
+            if (!ok) continue;
+            uint64_t w[6] = {};
+            for (int i = 0; i < 6; ++i) mem::Read64(mgr + off - 16 + 8ull * i, &w[i]);
+            int ents = 0, a0 = 0, b0 = 0, near40 = 0, withPos = 0, misses = 0; uint32_t len = 0;
+            uintptr_t at = arr;
+            for (uint32_t i = 0; i < 8000; ++i, at += 8)
+            {
+                uintptr_t e = 0; uint32_t id = 0; Vec3 q;
+                if (!mem::ReadPtr(at, &e) || !EntityLike(e) || !game::Eid(e, &id)) { if (++misses >= 16) break; continue; }
+                misses = 0; len = i + 1;
+                ++ents; if ((id >> 24) == game::kTagPlayer) ++a0; else ++b0;
+                if (!game::WorldPos(e, &q)) continue;
+                ++withPos;
+                const float dx = q.x - mp.x, dy = q.y - mp.y, dz = q.z - mp.z;
+                if (dx * dx + dy * dy + dz * dz < 1600.0f) ++near40;
+            }
+            LOG("[roster] +%X -> %llX: run of %u, %d entities (%d player-tagged, %d world), %d placed, %d within 40 m | words -16..+24: %llX %llX [%llX] %llX %llX %llX",
+                off, static_cast<unsigned long long>(arr), len, ents, a0, b0, withPos, near40,
+                static_cast<unsigned long long>(w[0]), static_cast<unsigned long long>(w[1]), static_cast<unsigned long long>(w[2]),
+                static_cast<unsigned long long>(w[3]), static_cast<unsigned long long>(w[4]), static_cast<unsigned long long>(w[5]));
+            ++lines;
+        }
+        LOG("[roster] probe %d done, %d pools", s_runs, lines);
+    }
+
+    // --- pets follow the filters (issue #32) ---------------------------------
+    // A pet takes whatever the game lets it, and nothing in its condition row
+    // looks at the item. Its pick-up still crosses the event queue this mod
+    // watches, stamped with the pet's id and the item's, so the mod sees it
+    // happen. What lands is held against the inventory as it stood before,
+    // and any increase the item rules would have refused is deleted through
+    // TrocTrDeleteItemFromInventoryOnceTimer, the event the game raises for
+    // its own removals. The delete names the slot and the slot's instance,
+    // so it cannot take anything but what it was aimed at. Quest, protected
+    // and dev items are never deleted: refusing to pick one up is caution,
+    // destroying one is not.
+    static std::unordered_map<uint32_t, uint16_t> g_tidByEid;   // items the scan has read, by entity
+    static uint16_t g_petKeyByType[64]; static uint8_t g_petKeyKnown[64];
+
+    static uint16_t PetTypeKey(uint16_t type)
+    {
+        if (type >= 64) return 0xFFFF;
+        if (!g_petKeyKnown[type])
+        {
+            uint16_t ks[4]; const int n = game::InvTypeKeysFor(type, ks, 4);
+            if (!n) return 0xFFFF;   // the table may not be up yet; ask again next time
+            g_petKeyByType[type] = ks[0]; g_petKeyKnown[type] = 1;
+            LOG("[delete] inventory type %u is reached through key %u%s", type, ks[0], n > 1 ? " (more than one key resolves to it)" : "");
+        }
+        return g_petKeyByType[type];
+    }
+
+    // Delete `amount` of item row `tid` from the player's inventory, largest
+    // stack first. Returns how many were asked for.
+    static long long DeleteFromInventory(uint16_t tid, long long amount, const char* why)
+    {
+        static game::InvEntry ents[4096]; static game::BucketInfo bks[64];
+        const int n = game::InventoryEntries(g_me, ents, 4096);
+        const int bn = game::InventoryBuckets(g_me, bks, 64);
+        const uint32_t route = events::RouteKnown() ? events::Route() : game::Route(g_me);
+        const Item* it = ItemDb::ByRow(tid);
+        long long left = amount, sent = 0;
+        while (left > 0)
+        {
+            int best = -1;
+            for (int i = 0; i < n; ++i) if (ents[i].tid == tid && ents[i].count > 0 && (best < 0 || ents[i].count > ents[best].count)) best = i;
+            if (best < 0) break;
+            game::InvEntry& e = ents[best];
+            const uint16_t type = e.bucket < bn ? bks[e.bucket].type : 0xFFFF;
+            const uint16_t key = PetTypeKey(type);
+            uint64_t inst = 0; mem::Read64(e.addr, &inst);
+            const long long take = e.count < left ? e.count : left;
+            if (key == 0xFFFF || !inst || inst == ~0ull)
+            {
+                LOG_ERR("[delete] cannot delete %lld of %s (row %u) from bucket %d slot %d: type %u key %u instance %llX", take, it ? it->name.c_str() : "?", tid, e.bucket, e.slot, type, key, static_cast<unsigned long long>(inst));
+                e.count = 0; continue;
+            }
+            if (!events::DeleteItem(inst, key, static_cast<uint16_t>(e.slot), static_cast<uint64_t>(take), static_cast<uint16_t>(take), g_meEid, route))
+            { LOG_ERR("[delete] refused: sending is not allowed or the queue is full"); break; }
+            LOG("[delete] %lld %s (row %u) from bucket %d slot %d, instance %llX: %s", take, it ? it->name.c_str() : "?", tid, e.bucket, e.slot, static_cast<unsigned long long>(inst), why);
+            left -= take; sent += take; e.count = 0;
+        }
+        if (left > 0) LOG_ERR("[delete] %lld of %s (row %u) not found in the inventory", left, it ? it->name.c_str() : "?", tid);
+        return sent;
+    }
+
+    static void PetFilterTick(const Config& cfg, DWORD now)
+    {
+        static std::unordered_map<uint16_t, long long> base, snap;
+        static DWORD snapAt = 0, windowUntil = 0;
+        static uint16_t tids[64]; static int tidN = 0; static bool anyUnknown = false;
+        static game::InvEntry ents[4096];
+        // The snapshot's time is the end of the walk, so a pick-up stamped
+        // later than it landed after every slot was read.
+        auto snapshot = [&](std::unordered_map<uint16_t, long long>& into) {
+            into.clear();
+            const int n = game::InventoryEntries(g_me, ents, 4096);
+            for (int i = 0; i < n; ++i) into[ents[i].tid] += ents[i].count;
+            return GetTickCount();
+        };
+        events::PetPickup pp[64];
+        int n = events::DrainPetPickups(pp, 32);
+        for (const events::PetPickup& h : g_petHand) if (n < 64) pp[n++] = h;
+        g_petHand.clear();
+        if (n > 0)
+        {
+            if (!windowUntil)
+            {
+                if (snapAt && static_cast<long>(pp[0].at - snapAt) >= 0) base = snap;
+                else { snapshot(base); LOG("[pet] no inventory snapshot from before the pick-up; whatever landed already is kept"); }
+                tidN = 0; anyUnknown = false;
+            }
+            for (int i = 0; i < n; ++i)
+            {
+                const auto it = g_tidByEid.find(pp[i].item);
+                const uint16_t tid = it == g_tidByEid.end() ? 0 : it->second;
+                const Item* db = tid ? ItemDb::ByRow(tid) : nullptr;
+                if (tid) { if (tidN < 64) tids[tidN++] = tid; } else anyUnknown = true;
+                LOG("[pet] %08X %s %08X: %s%s", pp[i].pet, pp[i].search ? "searched" : "picked up", pp[i].item,
+                    db ? db->name.c_str() : pp[i].search ? "a body; judged by what lands" : tid ? "row known, unnamed" : "never in scan range; judged by what lands",
+                    pp[i].pet == g_meEid ? " (raised as the player, on an item the scan had refused)" : "");
+            }
+            windowUntil = now + 2500;
+            return;
+        }
+        if (windowUntil)
+        {
+            if (static_cast<long>(now - windowUntil) < 0) return;
+            snapAt = snapshot(snap);
+            int deleted = 0, kept = 0;
+            char notice[240] = ""; int nw = 0;
+            for (const auto& kv : snap)
+            {
+                const auto b = base.find(kv.first);
+                const long long delta = kv.second - (b == base.end() ? 0 : b->second);
+                if (delta <= 0) continue;
+                bool named = false;
+                for (int i = 0; i < tidN; ++i) if (tids[i] == kv.first) named = true;
+                if (!anyUnknown && !named) continue;
+                const Item* it = ItemDb::ByRow(kv.first);
+                if (!it) { LOG("[pet] +%lld of row %u, not in the item database: kept", delta, kv.first); ++kept; continue; }
+                const Rules::Verdict r = Rules::Decide(*it, cfg);
+                const bool spare = strcmp(r.rule, "protected") == 0 || strcmp(r.rule, "quest item") == 0 || strcmp(r.rule, "dev item") == 0;
+                if (r.loot || spare) { LOG("[pet] +%lld %s: kept (%s%s%s)", delta, it->name.c_str(), r.rule, r.detail.empty() ? "" : " ", r.detail.c_str()); ++kept; continue; }
+                char why[120]; snprintf(why, sizeof why, "pet loot, %s%s%s", r.rule, r.detail.empty() ? "" : " ", r.detail.c_str());
+                const long long sent = DeleteFromInventory(kv.first, delta, why); ++deleted;
+                if (sent > 0 && nw < static_cast<int>(sizeof notice) - 40)
+                    nw += snprintf(notice + nw, sizeof notice - nw, "%s%lld %s", nw ? ", " : "", sent, it->name.c_str());
+            }
+            LOG("[pet] judged what landed: %d kinds deleted, %d kept", deleted, kept);
+            // Say so on screen: something left the bag that the player never
+            // saw arrive, and a silent removal reads as a bug or a theft.
+            if (nw && cfg.showHud)
+            {
+                char msg[300];
+                snprintf(msg, sizeof msg, "Master Looter: deleted %s, picked up by a pet against your filters", notice);
+                State::Get().Notify(msg, 6000, true);
+            }
+            windowUntil = 0; base.clear();
+            return;
+        }
+        if (now - snapAt >= 400) snapAt = snapshot(snap);
     }
 
     static void Scan(const Config& cfg, bool act, bool burst)
@@ -2424,7 +2715,9 @@ namespace ml::loot
         {
             const uint32_t playerRoute = events::RouteKnown() ? events::Route() : 0;
             const Holder* body = BestHolder(now, playerRoute);
-            if (body && (g_barrenSince || g_bodyEid == body->eid))
+            const bool actorWalks = g_actorMovedAt && now - g_actorMovedAt < 10000;
+            const bool playedWalks = body && body->played && body->movedAt && now - body->movedAt < 10000 && !actorWalks;
+            if (body && (g_barrenSince || playedWalks || g_bodyEid == body->eid))
             {
                 if (g_bodyEid != body->eid)
                 {
@@ -2452,6 +2745,63 @@ namespace ml::loot
         game::InventoryRefresh(g_me, !g_pend.empty());
         if (g_debugLog) game::DumpInventoryShape(g_me, g_bagFull);
         LearnFromInventory(now);
+        // Issue #32. Pets and companions follow the filters, off by default.
+        {
+            const Config& cfg = Settings::Get();
+            if (cfg.petFilter && g_me) PetFilterTick(cfg, now);
+        }
+        // Issue #32 probe, kept behind DeleteTestName in the ini and the
+        // verbose log: delete two of a named item once through the same path
+        // the pet filter uses, and say what the inventory did. The dumps
+        // around it are what proved the layout on 2760; on a new build they
+        // are the first thing to read.
+        {
+            const Config& cfg = Settings::Get();
+            static int s_phase = 0; static DWORD s_sentAt = 0; static uint16_t s_tid = 0; static long long s_was = 0;
+            if (cfg.debugLog && !cfg.deleteTestName.empty() && g_me && s_phase == 0)
+            {
+                static game::InvEntry ents[4096];
+                const int n = game::InventoryEntries(g_me, ents, 4096);
+                int pick = -1;
+                for (int i = 0; i < n; ++i)
+                {
+                    const Item* it = ItemDb::ByRow(ents[i].tid);
+                    if (it && !it->name.empty() && _stricmp(it->name.c_str(), cfg.deleteTestName.c_str()) == 0)
+                        if (pick < 0 || ents[i].count > ents[pick].count) pick = i;
+                }
+                if (pick < 0) { LOG_ERR("[deletetest] nothing in the inventory is called %s; not sending", cfg.deleteTestName.c_str()); s_phase = 9; }
+                else
+                {
+                    static game::BucketInfo bks[64];
+                    const int bn = game::InventoryBuckets(g_me, bks, 64);
+                    for (int i = 0; i < bn; ++i)
+                        LOG("[deletetest] bucket %d at %llX: type %u, slots %u, used %u, cap %u, excluded %u%s", i, static_cast<unsigned long long>(bks[i].addr), bks[i].type, bks[i].slotN, bks[i].used, bks[i].cap, bks[i].exclN, i == ents[pick].bucket ? "  <- target" : "");
+                    static game::InvTypeRow rows[96]; uint32_t rowCount = 0;
+                    const int rn = game::InvTypeRows(rows, 96, &rowCount);
+                    char rl[1500] = ""; int rw = 0;
+                    for (int i = 0; i < rn; ++i)
+                    {
+                        uint16_t ks[4]; const int kn = game::InvTypeKeysFor(static_cast<uint16_t>(i), ks, 4);
+                        rw += snprintf(rl + rw, sizeof rl - rw, " [%d %s: key %u]", i, rows[i].name, kn ? ks[0] : 0xFFFF);
+                        if (rw > 1200 || i + 1 == rn) { LOG("[deletetest] inventory types (%u rows):%s", rowCount, rl); rw = 0; rl[0] = 0; }
+                    }
+                    s_tid = ents[pick].tid; s_was = 0;
+                    for (int i = 0; i < n; ++i) if (ents[i].tid == s_tid) s_was += ents[i].count;
+                    LOG("[deletetest] %s: %lld in the inventory; deleting two", cfg.deleteTestName.c_str(), s_was);
+                    DeleteFromInventory(s_tid, 2, "delete test");
+                    s_sentAt = now; s_phase = 1;
+                }
+            }
+            else if (s_phase == 1 && events::LastDeleteSentAt() >= s_sentAt && now - static_cast<DWORD>(events::LastDeleteSentAt()) > 3000)
+            {
+                static game::InvEntry ents[4096];
+                const int n = game::InventoryEntries(g_me, ents, 4096);
+                long long have = 0;
+                for (int i = 0; i < n; ++i) if (ents[i].tid == s_tid) have += ents[i].count;
+                LOG("[deletetest] %s: %lld now, was %lld: %s", cfg.deleteTestName.c_str(), have, s_was, have == s_was - 2 ? "both gone, the amount field counts" : have < s_was ? "fewer, but not by two" : "no change");
+                s_phase = 9;
+            }
+        }
         {
             // What the game armed by itself since the last scan, with the node it belongs to.
             static hooks::ArmSeen seen[64]; static int s_lines = 0;
@@ -2479,6 +2829,14 @@ namespace ml::loot
         // not where the player is. The distance to the nearest thing separates
         // those two immediately.
         float nearestD = 1e30f; uint32_t nearestEid = 0; uintptr_t nearestEnt = 0;
+        // Whether the player actor walked this scan. See the swap test below
+        // the loop.
+        Vec3 ap; const bool apOk = g_me && game::WorldPos(g_me, &ap);
+        {
+            static Vec3 s_anchor; static bool s_anchored = false;
+            if (!apOk) s_anchored = false;
+            else if (Walked(s_anchor, s_anchored, ap)) g_actorMovedAt = now;
+        }
         ForEachEntity(mgr, [&](uintptr_t e) {
             uint32_t eid = 0;
             if (!game::Eid(e, &eid)) return true;
@@ -2519,22 +2877,27 @@ namespace ml::loot
             }
             return true;
         });
-        // The game hands out partial lists; keep objects seen in the last second.
+        // Anything seen in the last eight seconds stays a candidate, read
+        // afresh each scan: the entity must still carry the same id and still
+        // have a position, or it is gone. This mattered most before the
+        // pools above were found, when the lists gave a burst every twenty
+        // seconds and a one-second window emptied the Nearby list between
+        // them; it still covers an entity the walk misses for a tick.
         for (auto it = g_seen.begin(); it != g_seen.end();)
         {
-            if (now - it->second.when > 3000) { it = g_seen.erase(it); continue; }
+            if (now - it->second.when > 12000) { it = g_seen.erase(it); continue; }
             bool have = false;
             for (const Cand& c : list) if (c.eid == it->first) { have = true; break; }
-            if (!have && now - it->second.when <= 1000 && list.size() < 256)
+            if (!have && now - it->second.when <= 8000 && list.size() < 256)
             {
-                uint32_t eid2 = 0;
-                if (game::Eid(it->second.ent, &eid2) && eid2 == it->first)
-                {
-                    const float dx = it->second.pos.x - mp.x, dy = it->second.pos.y - mp.y, dz = it->second.pos.z - mp.z;
-                    Cand k; k.ent = it->second.ent; k.eid = eid2; k.pos = it->second.pos;
-                    k.d = std::sqrt(dx * dx + dy * dy + dz * dz);
-                    if (k.d <= cfg.scanRange) { k.route = game::Route(k.ent); k.type = game::TypeTag(k.ent); k.parent = game::ParentEid(k.ent); list.push_back(k); }
-                }
+                uint32_t eid2 = 0; Vec3 q;
+                if (!mem::Readable(it->second.ent, 0x100) || !game::Eid(it->second.ent, &eid2) || eid2 != it->first || !game::WorldPos(it->second.ent, &q))
+                { it = g_seen.erase(it); continue; }
+                it->second.pos = q;
+                const float dx = q.x - mp.x, dy = q.y - mp.y, dz = q.z - mp.z;
+                Cand k; k.ent = it->second.ent; k.eid = eid2; k.pos = q;
+                k.d = std::sqrt(dx * dx + dy * dy + dz * dz);
+                if (k.d <= cfg.scanRange) { k.route = game::Route(k.ent); k.type = game::TypeTag(k.ent); k.parent = game::ParentEid(k.ent); list.push_back(k); }
             }
             ++it;
         }
@@ -2583,6 +2946,7 @@ namespace ml::loot
                 static int s_droppedRun = 0;
                 s_droppedRun += events::DropPending();
                 g_actorEid.clear();
+                g_seen.clear();
                 // A well run is the fourth holder of a raw component pointer and
                 // the queues were only three of them. Winding a well is eleven
                 // seconds of timed transitions spread over many scans, and
@@ -2641,6 +3005,7 @@ namespace ml::loot
                     g_bodyEid ? " (the body)" : "", mp.x, mp.y, mp.z, w ? tags : " none", nearBy);
             }
         }
+        if (g_debugLog) RosterProbe(mgr, now, mp);
         // A world that is not there at all is a different fault from a world
         // that is there and out of reach, and one entity in the whole manager
         // is the first. Dump the lists the walk reads so the log says whether
@@ -2715,8 +3080,29 @@ namespace ml::loot
         // A neighbourhood with nothing in it, while the world plainly has
         // objects, is the signature of measuring from the wrong actor. Start a
         // clock so the pick is reconsidered rather than sat on for ever.
-        if (inRange == 0 && total > 8) { if (!g_barrenSince) g_barrenSince = now; }
+        // "Nothing" allows a stray or two: the fixture this session had one
+        // object within forty metres, and a clock that needs an exact zero
+        // never started, so Damiane's body was never picked. An actor that
+        // walked in the last ten seconds is Kliff and never barren.
+        if (inRange <= 2 && total > 8 && !(g_actorMovedAt && now - g_actorMovedAt < 10000)) { if (!g_barrenSince) g_barrenSince = now; }
         else g_barrenSince = 0;
+        // The other way round. A body is held for as long as it keeps being
+        // enumerated, and a parked body is enumerated for ever: swapping from
+        // Damiane to Kliff left the scan centred on her body for the rest of
+        // the session, with the Nearby list empty while Kliff fought fifty
+        // metres away. One sign settles it: the player actor walked. As
+        // Kliff it is the body and walks with the player; as Damiane or
+        // Oongka it never does. Two other signs were tried and each threw
+        // her body away once: a crowd round the actor, because it stood in
+        // one this session, and any movement at all, because it jumps on a
+        // load. Forgetting the body puts the scan back on the actor, and a
+        // swap back to Damiane or Oongka is caught by her body walking, or
+        // by the barren clock.
+        if (g_bodyEid && g_bodyEid != g_meEid && apOk && g_actorMovedAt && now - g_actorMovedAt < 2000)
+        {
+            LOG("[player] the player actor %08X walked, so it is the body being played, at %.1f %.1f %.1f; the character was swapped", g_meEid, ap.x, ap.y, ap.z);
+            ForgetBody("the player actor walked");
+        }
         const bool settling = now < s_holdUntil;
         (void)total;
 
@@ -2735,6 +3121,7 @@ namespace ml::loot
                 (g_retiredEid.count(k.eid) || g_searched.count(k.eid))) { k.filled = true; k.banned = true; continue; }
             Fill(k);
             ++detailed;
+            if (k.tid && k.db) { if (g_tidByEid.size() > 8192) g_tidByEid.clear(); g_tidByEid[k.eid] = k.tid; }
             // Now that Fill has read the instance id, Key() means what it says.
             // Anything already retired is noted by entity as well, so the next
             // scan takes the shortcut above instead of filling it again. Before

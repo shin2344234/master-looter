@@ -37,6 +37,20 @@ namespace ml::events
 
     // Send (or queue when off the game thread). Returns false when refused.
     bool Send(Action a, uint32_t targetEid, uint32_t playerEid, uint32_t route, uint8_t mode);
+    // Remove `amount` of one inventory slot's stack through the game's own
+    // TrocTrDeleteItemFromInventoryOnceTimer. The payload names the slot's
+    // instance (its u64), the inventory by a table key, and the slot index,
+    // so it cannot touch anything but the stack it was aimed at. Queued for
+    // the game thread. Issue #32.
+    bool DeleteItem(uint64_t instance, uint16_t typeKey, uint16_t slot, uint64_t amount, uint16_t count, uint32_t player, uint32_t route);
+    unsigned long LastDeleteSentAt();   // GetTickCount of the last delete that left, 0 if none
+
+    // A pick up or a body search raised by something that is not the player:
+    // a pet, a companion. A dog looting a corpse raises the search, the same
+    // 0x07E8 this mod sends for a carcass, and never a pick up. The engine
+    // drains these to judge what lands.
+    struct PetPickup { uint32_t pet, item; unsigned long at; bool search; };
+    int  DrainPetPickups(PetPickup* out, int max);
     // Arm a gimmick node so the game fills its interaction data. Queued off-thread.
     bool Arm(uintptr_t gimmickComp, uintptr_t mode, uintptr_t arg3, uintptr_t ctx); // arg3 0 = a zeroed scratch buffer
     // Game thread only: run queued sends and arms.

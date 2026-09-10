@@ -274,6 +274,8 @@ tags, any of which can be set to never in the Tags tab:	tunnisteet, joista mink�
 Take goods that belong to someone	Ota tavaraa, joka kuuluu jollekulle
 Take goods that belong to someone, on / off	Ota jollekulle kuuluvaa tavaraa, päälle / pois
 Take items the database cannot name	Ota esineet, joita tietokanta ei osaa nimetä
+Pets and companions follow the filters	Lemmikit ja kumppanit noudattavat suodattimia
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Lemmikki poimii mitä haluaa, eikä pelissä ole siihen kytkintä. Päällä: kaikki, minkä lemmikki tai kumppani poimii ja minkä esinesääntösi, tagit, luokat tai arvoraja olisivat hylänneet, poistetaan tavaraluettelosta heti kun se saapuu. Tehtäväesineitä ja suojattuja esineitä ei koskaan poisteta. Se, minkä poimit itse samojen kahden sekunnin aikana, arvioidaan samoilla säännöillä.
 Take owned goods on / off	Ota omistettua tavaraa, päälle / pois
 takes effect next launch	astuu voimaan seuraavalla käynnistyksellä
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Moottori hakee ympäriltäsi ja ottaa sen, minkä säännöt sallivat. Pois päältä tarkoittaa, ettei mitään oteta automaattisesti; pikalootin näppäin toimii silti.

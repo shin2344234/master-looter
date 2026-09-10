@@ -271,6 +271,8 @@ tags, any of which can be set to never in the Tags tab:	tag, yang masing-masing 
 Take goods that belong to someone	Ambil barang milik orang lain
 Take goods that belong to someone, on / off	Ambil barang milik orang lain, aktif / nonaktif
 Take items the database cannot name	Ambil item yang tidak bisa diberi nama oleh database
+Pets and companions follow the filters	Hewan peliharaan dan pendamping mengikuti filter
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Hewan peliharaan mengambil apa saja yang disukainya dan gim tidak punya saklar untuk itu. Aktif: apa pun yang diambil hewan peliharaan atau pendamping dan yang akan ditolak oleh aturan item, tag, kelas, atau batas nilai Anda akan dihapus dari inventaris begitu masuk. Item quest dan item terlindungi tidak pernah dihapus. Sesuatu yang Anda ambil sendiri dalam dua detik yang sama dinilai dengan aturan yang sama.
 Take owned goods on / off	Ambil barang bertuan, aktif / nonaktif
 takes effect next launch	berlaku mulai peluncuran berikutnya
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Mesin memindai sekitarmu dan mengambil apa yang diizinkan aturan. Nonaktif berarti tidak ada yang diambil otomatis; tombol burst tetap berfungsi.

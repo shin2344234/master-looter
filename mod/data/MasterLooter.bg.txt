@@ -275,6 +275,8 @@ tags, any of which can be set to never in the Tags tab:	етикети, всек
 Take goods that belong to someone	Взимай стоки, които принадлежат на някого
 Take goods that belong to someone, on / off	Взимане на неща, които принадлежат на някого – вкл./изкл.
 Take items the database cannot name	Взимай предмети, които базата данни не може да назове
+Pets and companions follow the filters	Домашните любимци и спътниците следват филтрите
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Домашният любимец събира каквото си иска и играта няма превключвател за това. Включено: всичко, което любимец или спътник вземе и което вашите правила за предмети, етикети, класове или долна граница на стойността биха отказали, се изтрива от инвентара в момента, в който попадне там. Куестови и защитени предмети никога не се изтриват. Нещо, което вземете на ръка в същите две секунди, се преценява по същите правила.
 Take owned goods on / off	Взимане на чужди стоки – вкл./изкл.
 takes effect next launch	влиза в сила при следващото стартиране
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Двигателят сканира около теб и взима това, което правилата позволяват. Изключено означава, че нищо не се взима автоматично; клавишът за еднократен лут продължава да работи.

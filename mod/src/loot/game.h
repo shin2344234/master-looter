@@ -74,6 +74,19 @@ namespace ml::game
     // --- inventory ----------------------------------------------------------
     void InventoryRefresh(uintptr_t player, bool force);
     bool InventoryHas(uint32_t instanceId);
+    struct InvEntry { uint32_t iid; uint16_t tid; int bucket, slot; long long count; uintptr_t addr; };
+    int  InventoryEntries(uintptr_t player, InvEntry* out, int max);   // a fresh walk, every bucket
+    // Issue #32 probe. Every inventory on the holder with the u16 at +0x10
+    // that the delete matches its key's type against.
+    struct BucketInfo { uintptr_t addr; uint16_t type, slotN, capC, used, cap; uint32_t exclN; };
+    int  InventoryBuckets(uintptr_t player, BucketInfo* out, int max);
+    // The inventory-type table, found among the static tables by its first
+    // two row keys, Money and Character: rows by index, and the delete
+    // handler's own hash lookup replicated with safe reads (0xFFFF on a miss).
+    struct InvTypeRow { uint16_t id, idx; char name[40]; };
+    int      InvTypeRows(InvTypeRow* out, int max, uint32_t* countOut);
+    uint16_t InvTypeLookup(uint16_t key);
+    int      InvTypeKeysFor(uint16_t value, uint16_t* out, int max);   // every key whose row+6 is value
     int  InventoryCount();
     // Slots across every bucket the reader can see, 0 when it cannot tell.
     int  InventoryCapacity();

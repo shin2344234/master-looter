@@ -272,6 +272,8 @@ tags, any of which can be set to never in the Tags tab:	štítky, z nichž kter�
 Take goods that belong to someone	Brát věci, které někomu patří
 Take goods that belong to someone, on / off	Brát věci, které někomu patří, zapnuto / vypnuto
 Take items the database cannot name	Brát předměty, které databáze nedokáže pojmenovat
+Pets and companions follow the filters	Mazlíčci a společníci se řídí filtry
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	Mazlíček sbírá, co se mu zlíbí, a hra na to nemá žádný přepínač. Zapnuto: cokoli, co mazlíček nebo společník sebere a co by vaše pravidla pro předměty, štítky, třídy nebo cenový práh odmítla, se smaže z inventáře ve chvíli, kdy tam dorazí. Questové a chráněné předměty se nikdy nemažou. Co seberete ručně ve stejných dvou sekundách, posuzují stejná pravidla.
 Take owned goods on / off	Brát vlastněné věci zapnuto / vypnuto
 takes effect next launch	projeví se až při dalším spuštění
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	Engine skenuje okolí a bere, co pravidla dovolí. Vypnuto znamená, že se nic nebere automaticky; klávesa pro jednorázové sebrání pořád funguje.

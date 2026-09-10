@@ -87,6 +87,55 @@ namespace ml::loot::hooks
         return r;
     }
 
+    // Issue #32 probe. The game's inventory delete routine, logged in and out
+    // so a delete this mod sends says where it was refused. rcx is the
+    // inventory, rdx the out result, r8 the actor context, r9 a {keys, count}
+    // pair of 0x28-byte item keys; the stack carries a tick, a reason byte, a
+    // count and a flag. Debug only, capped.
+    typedef uint64_t (*FnInvDelete)(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+    static FnInvDelete oInvDelete = nullptr;
+    static void HexAt(uintptr_t at, unsigned n, char* out, size_t cap)
+    {
+        int w = 0; out[0] = 0;
+        for (unsigned i = 0; i < n && w < static_cast<int>(cap) - 4; ++i)
+        {
+            uint8_t b = 0;
+            if (!mem::Read8(at + i, &b)) { w += snprintf(out + w, cap - w, " ??"); continue; }
+            w += snprintf(out + w, cap - w, i ? " %02X" : "%02X", b);
+        }
+    }
+    static uint64_t hkInvDelete(uint64_t a1, uint64_t a2, uint64_t a3, uint64_t a4, uint64_t a5, uint64_t a6, uint64_t a7, uint64_t a8, uint64_t a9, uint64_t a10, uint64_t a11, uint64_t a12)
+    {
+        static volatile LONG s_calls = 0;
+        const LONG n = InterlockedIncrement(&s_calls);
+        char keys[3 * 0x30 + 8] = "", key0[4 * (3 * 0x28 + 6) + 8] = "";
+        uintptr_t keyArr = 0; uint32_t keyN = 0;
+        if (n <= 120)
+        {
+            mem::ReadPtr(a4, &keyArr); mem::Read32(a4 + 8, &keyN);
+            HexAt(a4, 0x10, keys, sizeof keys);
+            size_t kw = 0;
+            for (uint32_t j = 0; keyArr && j < keyN && j < 4; ++j)
+            {
+                char one[3 * 0x28 + 8];
+                HexAt(keyArr + 0x28ull * j, 0x28, one, sizeof one);
+                kw += snprintf(key0 + kw, sizeof key0 - kw, j ? " || %s" : "%s", one);
+            }
+            LOG("[invdelete] call %ld in: inv %llX out %llX ctx %llX keyref %llX -> {%s} n=%u key0 %s | stack %llX %llX %llX %llX %llX %llX %llX %llX",
+                n, static_cast<unsigned long long>(a1), static_cast<unsigned long long>(a2), static_cast<unsigned long long>(a3), static_cast<unsigned long long>(a4),
+                keys, keyN, key0,
+                static_cast<unsigned long long>(a5), static_cast<unsigned long long>(a6), static_cast<unsigned long long>(a7), static_cast<unsigned long long>(a8),
+                static_cast<unsigned long long>(a9), static_cast<unsigned long long>(a10), static_cast<unsigned long long>(a11), static_cast<unsigned long long>(a12));
+        }
+        const uint64_t r = oInvDelete(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
+        if (n <= 120)
+        {
+            uint32_t outv = 0; mem::Read32(a2, &outv);
+            const char* name = outv == 0 ? "ok" : outv == 0x73353994 ? "eErrNoInvalidInventory" : "unnamed; hash it against the exe's strings";
+            LOG("[invdelete] call %ld out: returned %llX, result 0x%08X (%s)", n, static_cast<unsigned long long>(r), outv, name);
+        }
+        return r;
+    }
     static uint64_t hkArea(uint64_t a1, uint64_t a2, uint64_t a3, uint64_t a4, uint64_t a5, uint64_t a6, uint64_t a7, uint64_t a8)
     {
         // Runs thousands of times a second; pump at most once every 8 ms.
@@ -632,6 +681,8 @@ namespace ml::loot::hooks
         Hook("ownership oracle", f.ownCheck, reinterpret_cast<void*>(&hkOwn), reinterpret_cast<void**>(&oOwn));
         Hook("node arming", f.armFn, reinterpret_cast<void*>(&hkArm), reinterpret_cast<void**>(&oArm));
         Hook("gimmick driver", f.stateDriver, reinterpret_cast<void*>(&hkStateDriver), reinterpret_cast<void**>(&oStateDriver));
+        if (Settings::Get().debugLog && mem::MatchAt(mem::Game().base + ml::sig::kRva_InvDelete, ml::sig::kSig_InvDeletePrologue))
+            Hook("inventory delete (probe, build 2760)", mem::Game().base + ml::sig::kRva_InvDelete, reinterpret_cast<void*>(&hkInvDelete), reinterpret_cast<void**>(&oInvDelete));
         return true;
     }
 

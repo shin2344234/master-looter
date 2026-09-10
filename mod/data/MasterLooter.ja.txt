@@ -270,6 +270,8 @@ tags, any of which can be set to never in the Tags tab:	タグ。「タグ」タ
 Take goods that belong to someone	他人の所有物を取得する
 Take goods that belong to someone, on / off	他人の所有物を取得 オン/オフ
 Take items the database cannot name	データベースに名前がないアイテムを取得する
+Pets and companions follow the filters	ペットと仲間はフィルターに従う
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	ペットは好きなものを拾い、ゲームにはそれを止める設定がありません。オン：ペットや仲間が拾ったもののうち、アイテムルール、タグ、クラス、価値の下限で拒否されるはずだったものは、インベントリに入った時点で削除されます。クエストアイテムと保護されたアイテムは削除されません。同じ2秒間に自分の手で拾ったものも同じルールで判定されます。
 Take owned goods on / off	所有物の取得 オン/オフ
 takes effect next launch	次回起動時に反映されます
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	エンジンは周囲をスキャンし、ルールが許可するものを取得します。オフにすると自動取得は行われませんが、一斉取得キーは引き続き使えます。

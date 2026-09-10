@@ -11,6 +11,7 @@
 #include "signatures.h"
 #include "../core/itemdb.h"
 #include "../core/log.h"
+#include "../core/settings.h"
 
 namespace ml::game
 {
@@ -420,6 +421,21 @@ namespace ml::game
             each.emplace_back(static_cast<int>(sn), hereN);
         }
         g_invN = n;
+        // Issue #32: once, the instance ids and type counts, debug only, so a
+        // discard request's payload can be matched against something known.
+        {
+            static bool s_dumped = false;
+            if (!s_dumped && g_invN > 0 && Settings::Get().debugLog)
+            {
+                s_dumped = true;
+                char line[1200]; int w = 0;
+                for (int i = 0; i < g_invN && i < 48 && w < 1100; ++i) w += snprintf(line + w, sizeof line - w, " %08X", g_inv[i]);
+                LOG("[invdump] %d instance ids (first 48):%s", g_invN, line);
+                w = 0;
+                for (size_t i = 0; i < g_qty.size() && i < 60 && w < 1100; ++i) w += snprintf(line + w, sizeof line - w, " %u x%lld", g_qty[i].first, g_qty[i].second);
+                LOG("[invdump] %d item types with counts:%s", static_cast<int>(g_qty.size()), line);
+            }
+        }
         g_invEach = each;
         // The holder is not one bag: 18 buckets and 26,280 slots on 2760, which
         // is every store the player owns rather than what they are carrying.
@@ -450,6 +466,157 @@ namespace ml::game
         for (int i = 0; i < n; ++i) { types[i] = g_qty[i].first; qty[i] = g_qty[i].second; }
         return n;
     }
+    int InventoryEntries(uintptr_t me, InvEntry* out, int max)
+    {
+        int n = 0;
+        const uintptr_t comps  = Comps(me);
+        const uintptr_t holder = comps ? mem::Deref(comps, kOff_Comps_InvHolder) : 0;
+        if (!holder || !out || max <= 0) return 0;
+        uintptr_t barr = 0; uint32_t bn = 0;
+        if (!mem::ReadPtr(holder + kOff_Inv_Buckets, &barr) || !mem::Read32(holder + kOff_Inv_BucketN, &bn) || bn > 64) return 0;
+        const unsigned stride = g_slotStride ? g_slotStride : kInv_SlotStride;
+        for (uint32_t b = 0; b < bn && n < max; ++b)
+        {
+            uintptr_t bk = 0, slots = 0; uint16_t sn = 0;
+            if (!mem::ReadPtr(barr + 8ull * b, &bk)) continue;
+            if (!mem::ReadPtr(bk + kOff_Bucket_Slots, &slots) || !mem::Read16(bk + kOff_Bucket_SlotN, &sn) || sn > 4096) continue;
+            if (!mem::Readable(slots, static_cast<size_t>(sn) * stride)) continue;
+            for (uint16_t i = 0; i < sn && n < max; ++i)
+            {
+                const uintptr_t s = slots + static_cast<uintptr_t>(i) * stride;
+                uint16_t type = 0; uint32_t iid = 0;
+                if (!mem::Read16(s + kOff_Slot_TypeId, &type) || type == 0xFFFF || type == 0) continue;
+                if (!mem::Read32(s, &iid) || !iid || iid == 0xFFFFFFFF) continue;
+                uint64_t q = 0;
+                const long long count = (mem::Read64(s + 0x10, &q) && q > 0 && q < 100000000ull) ? static_cast<long long>(q) : 1;
+                out[n++] = { iid, type, static_cast<int>(b), static_cast<int>(i), count, s };
+            }
+        }
+        return n;
+    }
+
+    int InventoryBuckets(uintptr_t me, BucketInfo* out, int max)
+    {
+        int n = 0;
+        const uintptr_t comps  = Comps(me);
+        const uintptr_t holder = comps ? mem::Deref(comps, kOff_Comps_InvHolder) : 0;
+        if (!holder || !out || max <= 0) return 0;
+        uintptr_t barr = 0; uint32_t bn = 0;
+        if (!mem::ReadPtr(holder + kOff_Inv_Buckets, &barr) || !mem::Read32(holder + kOff_Inv_BucketN, &bn) || bn > 64) return 0;
+        for (uint32_t b = 0; b < bn && n < max; ++b)
+        {
+            BucketInfo bi = {};
+            if (!mem::ReadPtr(barr + 8ull * b, &bi.addr)) { bi.type = 0xFFFF; out[n++] = bi; continue; }
+            mem::Read16(bi.addr + 0x10, &bi.type);
+            mem::Read16(bi.addr + kOff_Bucket_SlotN, &bi.slotN);
+            mem::Read16(bi.addr + 0x0C, &bi.capC);
+            mem::Read16(bi.addr + kOff_Bucket_Used, &bi.used);
+            mem::Read16(bi.addr + kOff_Bucket_Cap, &bi.cap);
+            mem::Read32(bi.addr + 0x28, &bi.exclN);
+            out[n++] = bi;
+        }
+        return n;
+    }
+
+    static uintptr_t InvTypeTableGlobal()
+    {
+        static uintptr_t g = 0; static DWORD lastTry = 0;
+        if (g) return g;
+        const DWORD now = GetTickCount();
+        if (lastTry && now - lastTry < 10000) return 0;
+        lastTry = now;
+        const TableRef* t = nullptr;
+        const int n = EnumTables(&t);
+        char k0[40], k1[40];
+        for (int i = 0; i < n; ++i)
+        {
+            if (t[i].count < 8 || t[i].count > 64) continue;
+            if (!KeyInTable(t[i].global, 0, k0, sizeof k0) || _stricmp(k0, "Money") != 0) continue;
+            if (!KeyInTable(t[i].global, 1, k1, sizeof k1) || _stricmp(k1, "Character") != 0) continue;
+            g = t[i].global;
+            LOG("[table] inventory types: %u rows, global +0x%llX", t[i].count, static_cast<unsigned long long>(mem::Rva(g)));
+            break;
+        }
+        if (!g) LOG_ERR("[table] no inventory-type table among %d; nothing can be deleted from the inventory", n);
+        return g;
+    }
+    static uintptr_t InvTypeTable()
+    {
+        uintptr_t table = 0;
+        const uintptr_t g = InvTypeTableGlobal();
+        if (!g || !mem::ReadPtr(g, &table)) return 0;
+        return table;
+    }
+    int InvTypeRows(InvTypeRow* out, int max, uint32_t* countOut)
+    {
+        const uintptr_t table = InvTypeTable();
+        uint32_t count = 0; uintptr_t defs = 0;
+        if (countOut) *countOut = 0;
+        if (!table || !mem::Read32(table + kOff_Table_Count, &count) || !count || count > 0x4000) return 0;
+        if (countOut) *countOut = count;
+        if (!mem::ReadPtr(table + kOff_Table_DefsA, &defs)) return 0;
+        int n = 0;
+        for (uint32_t r = 0; r < count && n < max; ++r)
+        {
+            InvTypeRow row = { 0xFFFF, 0xFFFF, "" };
+            uintptr_t def = 0;
+            if (mem::ReadPtr(defs + 8ull * r, &def) && def)
+            {
+                mem::Read16(def + 4, &row.id); mem::Read16(def + 6, &row.idx);
+                if (!mem::ReadEngineString(def + kOff_Def_StringKey, row.name, sizeof row.name)) row.name[0] = 0;
+            }
+            else strcpy_s(row.name, "(unloaded)");
+            out[n++] = row;
+        }
+        return n;
+    }
+    // The lookup at 0x8752A40 on 2760: bucket = key % [table+0x68], each
+    // bucket 0x100 bytes holding a count then {key u32, index u32} pairs from
+    // +8; the index goes into the pointer array at [table+0x80], and the row
+    // must carry the key at +4. Result is the u16 at +6.
+    uint16_t InvTypeLookup(uint16_t key)
+    {
+        const uintptr_t table = InvTypeTable();
+        uint32_t flag = 0, bc = 0; uintptr_t buckets = 0, rows = 0;
+        if (!table || !mem::Read32(table + 0x6C, &flag) || !flag || !mem::Read32(table + 0x68, &bc) || !bc) return 0xFFFF;
+        if (!mem::ReadPtr(table + 0x78, &buckets) || !mem::ReadPtr(table + 0x80, &rows)) return 0xFFFF;
+        const uintptr_t b = buckets + static_cast<uintptr_t>(key % bc) * 0x100;
+        uint32_t n = 0;
+        if (!mem::Read32(b, &n)) return 0xFFFF;
+        for (uint32_t i = 0; i < n && i < 31; ++i)
+        {
+            uint32_t k = 0, idx = 0;
+            if (!mem::Read32(b + 8 + 8ull * i, &k) || k != key) continue;
+            if (!mem::Read32(b + 0xC + 8ull * i, &idx)) continue;
+            uintptr_t row = 0; uint16_t rk = 0, rv = 0;
+            if (!mem::ReadPtr(rows + 8ull * idx, &row) || !mem::Read16(row + 4, &rk) || rk != key) continue;
+            if (mem::Read16(row + 6, &rv)) return rv;
+        }
+        return 0xFFFF;
+    }
+    int InvTypeKeysFor(uint16_t value, uint16_t* out, int max)
+    {
+        const uintptr_t table = InvTypeTable();
+        uint32_t flag = 0, bc = 0; uintptr_t buckets = 0, rows = 0; int n = 0;
+        if (!table || !mem::Read32(table + 0x6C, &flag) || !flag || !mem::Read32(table + 0x68, &bc) || !bc || bc > 0x10000) return 0;
+        if (!mem::ReadPtr(table + 0x78, &buckets) || !mem::ReadPtr(table + 0x80, &rows)) return 0;
+        for (uint32_t bi = 0; bi < bc && n < max; ++bi)
+        {
+            const uintptr_t b = buckets + static_cast<uintptr_t>(bi) * 0x100;
+            uint32_t cnt = 0;
+            if (!mem::Read32(b, &cnt)) continue;
+            for (uint32_t i = 0; i < cnt && i < 31 && n < max; ++i)
+            {
+                uint32_t k = 0, idx = 0;
+                if (!mem::Read32(b + 8 + 8ull * i, &k) || !mem::Read32(b + 0xC + 8ull * i, &idx)) continue;
+                uintptr_t row = 0; uint16_t rk = 0, rv = 0;
+                if (!mem::ReadPtr(rows + 8ull * idx, &row) || !mem::Read16(row + 4, &rk) || !mem::Read16(row + 6, &rv)) continue;
+                if (rk == static_cast<uint16_t>(k) && rv == value) out[n++] = rk;
+            }
+        }
+        return n;
+    }
+
     bool InventoryHas(uint32_t iid)
     {
         if (!iid) return false;
