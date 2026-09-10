@@ -120,6 +120,7 @@ Game functions did not resolve; see Status.	Las funciones del juego no se resolv
 Game-thread pump	Bucle del hilo del juego
 gather node	punto de recolección
 Gathering	Recolección
+General	General
 Ground items	Objetos en el suelo
 Groups	Grupos
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Puntos de hierbas, flores y hongos, y lo mismo tirado en el suelo. Los cultivos alimenticios tienen su propio interruptor.
@@ -158,6 +159,7 @@ Loot engine not started.	El motor de saqueo no se ha iniciado.
 Loot everything in range now	Saquear todo lo que esté al alcance ahora
 Loot everything in range once	Saquear todo lo que esté al alcance una vez
 loot: %s	saquear: %s
+Looting	Saqueo
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s para la versión %s del juego
 Materials	Materiales
@@ -170,6 +172,7 @@ missing MasterLooter.items.tsv	falta MasterLooter.items.tsv
 mission object	objeto de misión
 Mounts and vehicles	Monturas y vehículos
 name a new preset	nombra un nuevo preajuste
+Nearby	Cercanos
 never	nunca
 no	no
 no interaction node	sin punto de interacción
@@ -260,11 +263,13 @@ Small animals	Animales pequeños
 small animals off	animales pequeños desactivados
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Algunos objetos del mundo no tienen un nombre de objeto legible. Activado: tómalos de todos modos. Desactivado: deja todo lo no identificado.
 stack at one point (storage contents)	pila en un punto (contenido de almacenamiento)
+Status	Estado
 Stone	Piedra
 stone off	piedra desactivada
 Stone on the ground and nodes that yield stone.	Piedra en el suelo y puntos que producen piedra.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Mesas, sillas, camas, alfombras, lámparas, velas, cuadros, ollas y el resto de un cuarto amueblado, ya sea que lo recojas del suelo o lo tomes de su propio punto de interacción. La mayoría vale una o dos monedas de cobre, pero las alfombras y las camas de lujo llegan a los miles, así que activa esto antes de amueblar una casa. Los cofres y las demás cosas que guardan algo responden a Contenedores en vez de esto. Desactivado de forma predeterminada.
 Tag	Etiqueta
+Tags	Etiquetas
 tags, any of which can be set to never in the Tags tab:	etiquetas, cualquiera de las cuales se puede poner en \"nunca\" en la pestaña Etiquetas:
 Take goods that belong to someone	Tomar bienes que pertenecen a alguien
 Take goods that belong to someone, on / off	Tomar bienes ajenos, activado/desactivado

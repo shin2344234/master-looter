@@ -123,6 +123,7 @@ Game functions did not resolve; see Status.	Le funzioni di gioco non sono state 
 Game-thread pump	Pompaggio sul thread di gioco
 gather node	punto di raccolta
 Gathering	Raccolta
+General	Generale
 Ground items	Oggetti a terra
 Groups	Gruppi
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Punti di erbe, fiori e funghi, e gli stessi a terra. Le colture alimentari hanno un proprio interruttore.
@@ -161,6 +162,7 @@ Loot engine not started.	Il motore di loot non è stato avviato.
 Loot everything in range now	Preleva subito tutto ciò che è nel raggio
 Loot everything in range once	Preleva una volta tutto ciò che è nel raggio
 loot: %s	preleva: %s
+Looting	Bottino
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s per la build di gioco %s
 Materials	Materiali
@@ -173,6 +175,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv mancante
 mission object	oggetto di missione
 Mounts and vehicles	Cavalcature e veicoli
 name a new preset	assegna un nome al nuovo preset
+Nearby	Vicinanze
 never	mai
 no	no
 no interaction node	nessun punto di interazione
@@ -263,11 +266,13 @@ Small animals	Piccoli animali
 small animals off	piccoli animali disattivati
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Alcuni oggetti del mondo non hanno un nome leggibile. Attivato: prendili comunque. Disattivato: lascia stare tutto ciò che non è identificato.
 stack at one point (storage contents)	accatastati in un punto (contenuto di un deposito)
+Status	Stato
 Stone	Pietra
 stone off	pietra disattivata
 Stone on the ground and nodes that yield stone.	Pietra a terra e punti che producono pietra.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Tavoli, sedie, letti, tappeti, lampade, candele, quadri, vasi e il resto di una stanza arredata, che tu lo raccolga da terra o lo prenda dal suo punto di interazione. La maggior parte vale una moneta di rame o due, ma i tappeti e i letti di lusso arrivano a migliaia, quindi attiva questa opzione prima di arredare una casa. I forzieri e le altre cose che contengono qualcosa rispondono invece a Contenitori. Disattivato per impostazione predefinita.
 Tag	Etichetta
+Tags	Etichette
 tags, any of which can be set to never in the Tags tab:	etichette, ognuna delle quali può essere impostata su \"mai\" nella scheda Etichette:
 Take goods that belong to someone	Prendi beni che appartengono a qualcuno
 Take goods that belong to someone, on / off	Prendi beni che appartengono a qualcuno, on/off

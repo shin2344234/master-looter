@@ -121,6 +121,7 @@ Game functions did not resolve; see Status.	Функциите на играта
 Game-thread pump	Помпа на нишката на играта
 gather node	точка за събиране
 Gathering	Събиране
+General	Общи
 Ground items	Предмети на земята
 Groups	Групи
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Точки с билки, цветя и гъби, както и същите лежащи на земята. Хранителните култури имат свой собствен превключвател.
@@ -159,6 +160,7 @@ Loot engine not started.	Двигателят за лут не е стартир
 Loot everything in range now	Събери всичко в обхват сега
 Loot everything in range once	Събери всичко в обхват еднократно
 loot: %s	лут: %s
+Looting	Лут
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s за билд %s на играта
 Materials	Материали
@@ -171,6 +173,7 @@ missing MasterLooter.items.tsv	липсва MasterLooter.items.tsv
 mission object	обект от мисия
 Mounts and vehicles	Яздитни животни и превозни средства
 name a new preset	име за нов пресет
+Nearby	Наблизо
 never	никога
 no	не
 no interaction node	няма точка за взаимодействие
@@ -261,11 +264,13 @@ Small animals	Малки животни
 small animals off	малките животни изключени
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Някои обекти в света нямат четимо име на предмет. Включено: вземай ги въпреки това. Изключено: остави всичко неидентифицирано.
 stack at one point (storage contents)	купчина на едно място (съдържание на склад)
+Status	Състояние
 Stone	Камък
 stone off	камъкът изключен
 Stone on the ground and nodes that yield stone.	Камък на земята и точки, които дават камък.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Маси, столове, легла, килими, лампи, свещи, картини, съдове и всичко останало в обзаведена стая, независимо дали го вдигаш от пода или го вземаш от собствената му точка за взаимодействие. Повечето от тях струват по мед-два, но килимите и луксозните легла стигат до хиляди, затова включи това, преди да обзаведеш къща. Сандъците и другите неща, които съдържат нещо, отговарят на Контейнери вместо това. Изключено по подразбиране.
 Tag	Етикет
+Tags	Етикети
 tags, any of which can be set to never in the Tags tab:	етикети, всеки от които може да се зададе на „никога“ в раздела Етикети:
 Take goods that belong to someone	Взимай стоки, които принадлежат на някого
 Take goods that belong to someone, on / off	Взимане на неща, които принадлежат на някого – вкл./изкл.

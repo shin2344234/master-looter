@@ -118,6 +118,7 @@ Game functions did not resolve; see Status.	Spilfunktioner blev ikke løst; se S
 Game-thread pump	Spiltrådpumpe
 gather node	indsamlingspunkt
 Gathering	Indsamling
+General	Generelt
 Ground items	Genstande på jorden
 Groups	Grupper
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Punkter med urter, blomster og svampe, samt det samme liggende på jorden. Madafgrøder har deres egen kontakt.
@@ -156,6 +157,7 @@ Loot engine not started.	Loot-motoren er ikke startet.
 Loot everything in range now	Loot alt inden for rækkevidde nu
 Loot everything in range once	Loot alt inden for rækkevidde én gang
 loot: %s	loot: %s
+Looting	Loot
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s til spilbuild %s
 Materials	Materialer
@@ -168,6 +170,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv mangler
 mission object	missionsgenstand
 Mounts and vehicles	Ridedyr og køretøjer
 name a new preset	navngiv en ny forudindstilling
+Nearby	I nærheden
 never	aldrig
 no	nej
 no interaction node	intet interaktionspunkt
@@ -258,11 +261,13 @@ Small animals	Smådyr
 small animals off	smådyr fra
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Nogle verdensobjekter har intet læsbart genstandsnavn. Til: tag dem alligevel. Fra: lad alt uidentificeret være.
 stack at one point (storage contents)	stak på ét sted (lagerindhold)
+Status	Status
 Stone	Sten
 stone off	sten fra
 Stone on the ground and nodes that yield stone.	Sten på jorden og punkter, der giver sten.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Borde, stole, senge, tæpper, lamper, lys, malerier, krukker og resten af et møbleret rum, uanset om du samler dem op fra gulvet eller tager dem fra deres eget interaktionspunkt. Det meste er en kobbermønt eller to værd, men tæpperne og luksussengene løber op i tusinder, så slå dette til, før du møblerer et hus. Kister og andre ting, der rummer noget, hører i stedet under Beholdere. Fra som standard.
 Tag	Mærke
+Tags	Mærker
 tags, any of which can be set to never in the Tags tab:	mærker, som hver især kan sættes til aldrig under fanen Mærker:
 Take goods that belong to someone	Tag varer, der tilhører nogen
 Take goods that belong to someone, on / off	Tag varer, der tilhører nogen, til/fra

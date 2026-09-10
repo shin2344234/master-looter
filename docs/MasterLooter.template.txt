@@ -114,6 +114,7 @@ Game functions did not resolve; see Status.
 Game-thread pump	
 gather node	
 Gathering	
+General	
 Ground items	
 Groups	
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	
@@ -152,6 +153,7 @@ Loot engine not started.
 Loot everything in range now	
 Loot everything in range once	
 loot: %s	
+Looting	
 MASTER LOOTER	
 Master Looter v%s for game build %s	
 Materials	
@@ -164,6 +166,7 @@ missing MasterLooter.items.tsv
 mission object	
 Mounts and vehicles	
 name a new preset	
+Nearby	
 never	
 no	
 no interaction node	
@@ -254,11 +257,13 @@ Small animals
 small animals off	
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	
 stack at one point (storage contents)	
+Status	
 Stone	
 stone off	
 Stone on the ground and nodes that yield stone.	
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	
 Tag	
+Tags	
 tags, any of which can be set to never in the Tags tab:	
 Take goods that belong to someone	
 Take goods that belong to someone, on / off	

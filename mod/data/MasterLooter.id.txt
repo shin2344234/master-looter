@@ -117,6 +117,7 @@ Game functions did not resolve; see Status.	Fungsi game tidak ditemukan; lihat S
 Game-thread pump	Pompa thread game
 gather node	node kumpul
 Gathering	Pengumpulan
+General	Umum
 Ground items	Barang di tanah
 Groups	Grup
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Node herba, bunga, dan jamur, serta barang serupa yang tergeletak di tanah. Tanaman pangan punya sakelar sendiri.
@@ -155,6 +156,7 @@ Loot engine not started.	Mesin loot belum dimulai.
 Loot everything in range now	Loot semua yang ada di jangkauan sekarang
 Loot everything in range once	Loot semua yang ada di jangkauan sekali
 loot: %s	loot: %s
+Looting	Loot
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s untuk build game %s
 Materials	Material
@@ -167,6 +169,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv tidak ditemukan
 mission object	objek misi
 Mounts and vehicles	Tunggangan dan kendaraan
 name a new preset	beri nama preset baru
+Nearby	Sekitar
 never	tidak pernah
 no	tidak
 no interaction node	tidak ada node interaksi
@@ -257,11 +260,13 @@ Small animals	Hewan kecil
 small animals off	hewan kecil nonaktif
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Sebagian objek di dunia tidak punya nama item yang bisa dibaca. Aktif: tetap ambil. Nonaktif: biarkan semua yang tidak teridentifikasi.
 stack at one point (storage contents)	tumpukan di satu titik (isi penyimpanan)
+Status	Status
 Stone	Batu
 stone off	batu nonaktif
 Stone on the ground and nodes that yield stone.	Batu di tanah dan node yang menghasilkan batu.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Meja, kursi, ranjang, karpet, lampu, lilin, lukisan, pot, dan sisa perabot ruangan lainnya, entah kamu mengambilnya dari lantai atau dari node interaksinya sendiri. Kebanyakan hanya bernilai satu-dua tembaga, tapi karpet dan ranjang mewah bisa mencapai ribuan, jadi aktifkan ini sebelum memperabot rumah. Peti dan benda lain yang menyimpan sesuatu diatur lewat Wadah, bukan ini. Nonaktif secara default.
 Tag	Tag
+Tags	Tag
 tags, any of which can be set to never in the Tags tab:	tag, yang masing-masing bisa diatur ke tidak pernah di tab Tag:
 Take goods that belong to someone	Ambil barang milik orang lain
 Take goods that belong to someone, on / off	Ambil barang milik orang lain, aktif / nonaktif

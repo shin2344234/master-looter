@@ -120,6 +120,7 @@ Game functions did not resolve; see Status.	Pelin toimintoja ei saatu selvitetty
 Game-thread pump	Pelisäikeen pumppu
 gather node	keräyspiste
 Gathering	Keräys
+General	Yleiset
 Ground items	Maassa olevat esineet
 Groups	Ryhmät
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Yrtti-, kukka- ja sienipisteet, sekä samat maassa lojumassa. Ruokaviljelmillä on oma kytkimensä.
@@ -158,6 +159,7 @@ Loot engine not started.	Lootausmoottoria ei ole käynnistetty.
 Loot everything in range now	Lootaa kaikki kantaman sisällä nyt
 Loot everything in range once	Lootaa kaikki kantaman sisällä kerran
 loot: %s	lootaa: %s
+Looting	Lootti
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s, pelin versio %s
 Materials	Materiaalit
@@ -170,6 +172,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv puuttuu
 mission object	tehtäväkohde
 Mounts and vehicles	Ratsut ja ajoneuvot
 name a new preset	nimeä uusi esiasetus
+Nearby	Lähellä
 never	ei koskaan
 no	ei
 no interaction node	ei vuorovaikutuspistettä
@@ -260,11 +263,13 @@ Small animals	Pienet eläimet
 small animals off	pienet eläimet pois päältä
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Joillakin maailman kohteilla ei ole luettavaa esineen nimeä. Päällä: ota ne silti. Pois päältä: jätä kaikki tunnistamaton rauhaan.
 stack at one point (storage contents)	pino yhdessä pisteessä (varaston sisältö)
+Status	Tila
 Stone	Kivi
 stone off	kivi pois päältä
 Stone on the ground and nodes that yield stone.	Kivi maassa ja pisteet, jotka tuottavat kiveä.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Pöydät, tuolit, sängyt, matot, lamput, kynttilät, taulut, ruukut ja loput sisustetun huoneen tavarasta, poiminetpa sen lattialta tai otat sen omasta vuorovaikutuspisteestään. Suurin osa on arvoltaan kupari tai pari, mutta matot ja luksussängyt nousevat tuhansiin, joten kytke tämä päälle ennen talon sisustamista. Arkut ja muut jotain säilyttävät esineet kuuluvat sen sijaan kohtaan Säiliöt. Oletuksena pois päältä.
 Tag	Tunniste
+Tags	Tunnisteet
 tags, any of which can be set to never in the Tags tab:	tunnisteet, joista minkä tahansa voi asettaa arvoon ei koskaan Tunnisteet-välilehdellä:
 Take goods that belong to someone	Ota tavaraa, joka kuuluu jollekulle
 Take goods that belong to someone, on / off	Ota jollekulle kuuluvaa tavaraa, päälle / pois

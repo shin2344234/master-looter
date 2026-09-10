@@ -118,6 +118,7 @@ Game functions did not resolve; see Status.	Funcțiile jocului nu au fost rezolv
 Game-thread pump	Pompa thread-ului de joc
 gather node	punct de recoltare
 Gathering	Recoltare
+General	General
 Ground items	Obiecte de pe jos
 Groups	Grupuri
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Puncte de plante, flori și ciuperci, plus aceleași aflate pe jos. Culturile alimentare au propriul comutator.
@@ -156,6 +157,7 @@ Loot engine not started.	Motorul de loot nu a pornit.
 Loot everything in range now	Culege tot din raza de acțiune acum
 Loot everything in range once	Culege tot din raza de acțiune o dată
 loot: %s	ia: %s
+Looting	Loot
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s pentru versiunea de joc %s
 Materials	Materiale
@@ -168,6 +170,7 @@ missing MasterLooter.items.tsv	lipsește MasterLooter.items.tsv
 mission object	obiect de misiune
 Mounts and vehicles	Monturi și vehicule
 name a new preset	denumește o presetare nouă
+Nearby	În apropiere
 never	niciodată
 no	nu
 no interaction node	punct fără interacțiune
@@ -258,11 +261,13 @@ Small animals	Animale mici
 small animals off	animale mici dezactivate
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Unele obiecte din lume nu au un nume de obiect lizibil. Activat: ia-le oricum. Dezactivat: lasă tot ce e neidentificat.
 stack at one point (storage contents)	grămadă într-un singur punct (conținut de depozitare)
+Status	Stare
 Stone	Piatră
 stone off	piatră dezactivată
 Stone on the ground and nodes that yield stone.	Piatră pe jos și puncte care oferă piatră.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Mese, scaune, paturi, covoare, lămpi, lumânări, tablouri, oale și restul unei camere mobilate, fie că ridici un obiect de pe jos, fie că-l iei din propriul lui punct de interacțiune. Majoritatea valorează una-două monede de aramă, dar covoarele și paturile de lux ajung la mii, așa că activează asta înainte să mobilezi o casă. Cuferele și celelalte lucruri care conțin ceva răspund la Recipiente în loc de asta. Dezactivat implicit.
 Tag	Etichetă
+Tags	Etichete
 tags, any of which can be set to never in the Tags tab:	etichete, oricare dintre ele poate fi setată la niciodată în fila Etichete:
 Take goods that belong to someone	Ia bunuri care aparțin cuiva
 Take goods that belong to someone, on / off	Activare/dezactivare luare bunuri ale altcuiva

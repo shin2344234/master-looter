@@ -116,6 +116,7 @@ Game functions did not resolve; see Status.	ฟังก์ชันของเ
 Game-thread pump	Game-thread pump
 gather node	จุดเก็บของ
 Gathering	การเก็บเกี่ยว
+General	ทั่วไป
 Ground items	ไอเทมบนพื้น
 Groups	กลุ่ม
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	จุดเก็บสมุนไพร, ดอกไม้ และเห็ด รวมถึงที่วางอยู่บนพื้น พืชผลทางการเกษตรมีสวิตช์แยกของตัวเอง
@@ -154,6 +155,7 @@ Loot engine not started.	เอนจินลูทยังไม่เริ�
 Loot everything in range now	ลูททุกอย่างในระยะทันที
 Loot everything in range once	ลูททุกอย่างในระยะครั้งเดียว
 loot: %s	ลูท: %s
+Looting	ลูท
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s สำหรับเกมบิลด์ %s
 Materials	วัตถุดิบ
@@ -166,6 +168,7 @@ missing MasterLooter.items.tsv	ไม่พบ MasterLooter.items.tsv
 mission object	วัตถุภารกิจ
 Mounts and vehicles	พาหนะและยานพาหนะ
 name a new preset	ตั้งชื่อพรีเซ็ตใหม่
+Nearby	ใกล้เคียง
 never	ไม่เลย
 no	ไม่
 no interaction node	ไม่มีจุดโต้ตอบ
@@ -256,11 +259,13 @@ Small animals	สัตว์ขนาดเล็ก
 small animals off	สัตว์ขนาดเล็ก: ปิด
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	วัตถุในโลกเกมบางชิ้นไม่มีชื่อไอเทมที่อ่านได้ เปิด: เก็บไปเลย ปิด: เว้นสิ่งที่ระบุไม่ได้ทั้งหมดไว้
 stack at one point (storage contents)	กองรวมที่จุดเดียว (เนื้อหาคลังเก็บ)
+Status	สถานะ
 Stone	หิน
 stone off	หิน: ปิด
 Stone on the ground and nodes that yield stone.	หินบนพื้นและจุดเก็บของที่ให้ผลผลิตเป็นหิน
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	โต๊ะ, เก้าอี้, เตียง, พรม, โคมไฟ, เทียน, ภาพวาด, หม้อ และของที่เหลือในห้องที่ตกแต่งไว้ ไม่ว่าจะเก็บจากพื้นหรือเก็บจากจุดโต้ตอบของมันเอง ส่วนใหญ่มีค่าแค่หนึ่งหรือสองทองแดง แต่พรมและเตียงหรูอาจมีมูลค่าถึงหลักพัน จึงควรเปิดสวิตช์นี้ก่อนตกแต่งบ้าน หีบและสิ่งอื่นที่เก็บของไว้ข้างในจะขึ้นกับสวิตช์กล่องแทน ปิดไว้เป็นค่าเริ่มต้น
 Tag	แท็ก
+Tags	แท็ก
 tags, any of which can be set to never in the Tags tab:	แท็กใดก็ได้ ที่สามารถตั้งเป็นไม่เลยได้ในแท็บแท็ก:
 Take goods that belong to someone	เก็บของที่มีเจ้าของ
 Take goods that belong to someone, on / off	เก็บของที่มีเจ้าของ เปิด / ปิด

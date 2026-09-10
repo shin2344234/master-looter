@@ -119,6 +119,7 @@ Game functions did not resolve; see Status.	游戏函数未成功解析；详见
 Game-thread pump	游戏线程轮询
 gather node	采集资源点
 Gathering	采集
+General	常规
 Ground items	地面物品
 Groups	分组
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	草药、花卉和蘑菇资源点，以及散落在地面上的同类物品。食用农作物有独立的开关。
@@ -157,6 +158,7 @@ Loot engine not started.	拾取引擎未启动。
 Loot everything in range now	立即拾取范围内所有物品
 Loot everything in range once	一次性拾取范围内所有物品
 loot: %s	拾取：%s
+Looting	拾取
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s (游戏版本 %s)
 Materials	材料
@@ -169,6 +171,7 @@ missing MasterLooter.items.tsv	缺失 MasterLooter.items.tsv
 mission object	任务目标对象
 Mounts and vehicles	坐骑与载具
 name a new preset	为新预设命名
+Nearby	附近
 never	从不
 no	否
 no interaction node	无交互资源点
@@ -259,11 +262,13 @@ Small animals	小型动物
 small animals off	小型动物已关闭
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	部分世界对象不含可读的物品名称。开启：照样拾取。关闭：保留所有未识别对象。
 stack at one point (storage contents)	堆叠在单点 (容器内容物)
+Status	状态
 Stone	石料
 stone off	石料已关闭
 Stone on the ground and nodes that yield stone.	地面上的石料，以及产出石料的资源点。
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	桌子、椅子、床、地毯、灯具、蜡烛、油画、花盆等布置在房间中的物件，无论是从地面拾取还是通过其自身的交互资源点获取。大多数只值一两枚铜币，但地毯和豪华床铺能卖到数千铜币，所以在布置房屋之前请先开启此项。箱子等能装东西的物件则归“容器”管理。默认关闭。
 Tag	标签
+Tags	标签
 tags, any of which can be set to never in the Tags tab:	标签，均可在“标签”页中设为“从不”：
 Take goods that belong to someone	拾取归他人所有的物品
 Take goods that belong to someone, on / off	拾取归他人所有的物品（开/关）

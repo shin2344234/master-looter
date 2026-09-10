@@ -118,6 +118,7 @@ Game functions did not resolve; see Status.	Oyun fonksiyonları çözülemedi; D
 Game-thread pump	Oyun iş parçacığı pompası
 gather node	toplama noktası
 Gathering	Toplama
+General	Genel
 Ground items	Yerdeki eşyalar
 Groups	Gruplar
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Şifalı bitki, çiçek ve mantar noktaları, ve yerde duran aynıları. Yiyecek ekinlerinin kendi anahtarı var.
@@ -156,6 +157,7 @@ Loot engine not started.	Yağma motoru başlatılmadı.
 Loot everything in range now	Menzildeki her şeyi şimdi yağmala
 Loot everything in range once	Menzildeki her şeyi bir kez yağmala
 loot: %s	yağma: %s
+Looting	Yağma
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s, oyun sürümü %s içindir
 Materials	Malzemeler
@@ -168,6 +170,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv eksik
 mission object	görev nesnesi
 Mounts and vehicles	Binekler ve araçlar
 name a new preset	yeni bir ön ayar adlandır
+Nearby	Yakındakiler
 never	asla
 no	hayır
 no interaction node	etkileşim noktası yok
@@ -258,11 +261,13 @@ Small animals	Küçük hayvanlar
 small animals off	küçük hayvanlar kapalı
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Bazı dünya nesnelerinin okunabilir bir eşya adı yoktur. Açık: yine de al. Kapalı: tanımlanamayan her şeyi bırak.
 stack at one point (storage contents)	tek noktada yığın (depo içeriği)
+Status	Durum
 Stone	Taş
 stone off	taş kapalı
 Stone on the ground and nodes that yield stone.	Yerdeki taşlar ve taş veren noktalar.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Masalar, sandalyeler, yataklar, halılar, lambalar, mumlar, tablolar, çömlekler ve döşeli bir odanın geri kalanı; ister yerden alınsın ister kendi etkileşim noktasından. Çoğu bir iki bakıra değer, ama halılar ve lüks yataklar binlere çıkar, bu yüzden bir ev döşemeden önce bunu aç. Sandıklar ve bir şey barındıran diğer nesneler bunun yerine Konteynerlere yanıt verir. Varsayılan olarak kapalı.
 Tag	Etiket
+Tags	Etiketler
 tags, any of which can be set to never in the Tags tab:	etiketler, herhangi biri Etiketler sekmesinde “asla” olarak ayarlanabilir:
 Take goods that belong to someone	Birine ait eşyaları al
 Take goods that belong to someone, on / off	Birine ait eşyaları al, açık / kapalı

@@ -74,7 +74,12 @@ def from_tables(s):
 
 def from_menu(path):
     s = open(path, encoding="utf-8").read()
-    return from_tr(s) | from_helpers(s) | from_tables(s)
+    return from_tr(s) | from_helpers(s) | from_tables(s) | from_tabs(s)
+
+
+def from_tabs(s):
+    """The tab bar, a table of {name, function}."""
+    return {join_literals(m) for m in re.findall(r"\{\s*(" + LIT + r")\s*,\s*(?:Tab\w+|\[\])", s)}
 
 
 def from_engine(path):

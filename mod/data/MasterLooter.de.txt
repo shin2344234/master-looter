@@ -120,6 +120,7 @@ Game functions did not resolve; see Status.	Spielfunktionen wurden nicht aufgel�
 Game-thread pump	Game-Thread-Pumpe
 gather node	Sammelpunkt
 Gathering	Sammeln
+General	Allgemein
 Ground items	Gegenstände am Boden
 Groups	Gruppen
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Kräuter-, Blumen- und Pilzpunkte sowie dieselben, die am Boden liegen. Feldfrüchte haben ihren eigenen Schalter.
@@ -158,6 +159,7 @@ Loot engine not started.	Loot-Engine nicht gestartet.
 Loot everything in range now	Jetzt alles in Reichweite looten
 Loot everything in range once	Einmal alles in Reichweite looten
 loot: %s	looten: %s
+Looting	Loot
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s für Spielversion %s
 Materials	Materialien
@@ -170,6 +172,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv fehlt
 mission object	Missionsobjekt
 Mounts and vehicles	Reittiere und Fahrzeuge
 name a new preset	neues Preset benennen
+Nearby	Umgebung
 never	nie
 no	nein
 no interaction node	kein Interaktionspunkt
@@ -260,11 +263,13 @@ Small animals	Kleintiere
 small animals off	Kleintiere aus
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Manche Weltobjekte tragen keinen lesbaren Gegenstandsnamen. An: trotzdem mitnehmen. Aus: alles Unidentifizierte in Ruhe lassen.
 stack at one point (storage contents)	an einem Punkt gestapelt (Lagerinhalt)
+Status	Status
 Stone	Stein
 stone off	Stein aus
 Stone on the ground and nodes that yield stone.	Stein am Boden und Punkte, die Stein abwerfen.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Tische, Stühle, Betten, Teppiche, Lampen, Kerzen, Gemälde, Töpfe und der Rest eines eingerichteten Raums, egal ob du sie vom Boden aufhebst oder von ihrem eigenen Interaktionspunkt nimmst. Das meiste ist ein, zwei Kupfer wert, aber Teppiche und Luxusbetten gehen in die Tausende, also schalte das ein, bevor du ein Haus einrichtest. Truhen und andere Dinge, die etwas enthalten, unterstehen stattdessen Behälter. Standardmäßig aus.
 Tag	Markierung
+Tags	Markierungen
 tags, any of which can be set to never in the Tags tab:	Markierungen, von denen jede im Tab Markierungen auf nie gesetzt werden kann:
 Take goods that belong to someone	Gegenstände mitnehmen, die jemandem gehören
 Take goods that belong to someone, on / off	Gegenstände mitnehmen, die jemandem gehören, an/aus

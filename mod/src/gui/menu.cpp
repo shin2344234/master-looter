@@ -311,6 +311,39 @@ namespace ml::gui
     {
         return needleLower.empty() || Lower(hay).find(needleLower) != std::string::npos;
     }
+    // Where the last item ends, in the coordinates SameLine takes.
+    static float ItemRight()
+    {
+        return ImGui::GetItemRectMax().x - ImGui::GetWindowPos().x + ImGui::GetScrollX();
+    }
+
+    // A column as wide as the widest text drawn in it. The layout was drawn
+    // around the English with fixed offsets, and a translation is often a
+    // third longer and ran under the next column. The width is measured as
+    // the rows are drawn and applied from the next frame on, so a group of
+    // rows lines up, and the English offset stays the minimum so nothing
+    // moves for a language that fits.
+    struct FitColumn
+    {
+        float minPx;
+        float widest = 0, pending = 0;
+        int   frame = -1;
+        // Call after drawing this column's text: it is measured, then the
+        // cursor is placed at the start of the next column.
+        void Next()
+        {
+            const int f = ImGui::GetFrameCount();
+            if (f != frame) { widest = pending; pending = 0; frame = f; }
+            const float r = ItemRight();
+            if (r > pending) pending = r;
+            const float a = minPx * g_scale, b = widest + 16 * g_scale;
+            ImGui::SameLine(a > b ? a : b);
+        }
+    };
+    static FitColumn s_rowLabel{ 260 }, s_rowValue{ 400 };   // key and pad rows
+    static FitColumn s_statusLabel{ 220 };                   // the Status tab's rows
+    static FitColumn s_linkLabel{ 110 };
+
     static void Help(const char* text)
     {
         ImGui::SameLine();
@@ -338,7 +371,7 @@ namespace ml::gui
     static void OnOff(const char* label, bool on, const char* onText = "yes", const char* offText = "no")
     {
         ImGui::TextUnformatted(TR(label));
-        ImGui::SameLine(220 * g_scale);
+        s_statusLabel.Next();
         ImGui::TextColored(on ? kGood : kWarn, "%s", on ? TR(onText) : TR(offText));
     }
 
@@ -352,9 +385,9 @@ namespace ml::gui
         bool dirty = false;
         ImGui::PushID(target);
         ImGui::TextUnformatted(TR(label));
-        ImGui::SameLine(260 * g_scale);
+        s_rowLabel.Next();
         ImGui::TextDisabled("%s", hooks::PadChordName(mask));
-        ImGui::SameLine(400 * g_scale);
+        s_rowValue.Next();
         if (st.rebindCapture && g_rebindTarget == target)
         {
             static unsigned s_widest = 0;
@@ -383,9 +416,9 @@ namespace ml::gui
         bool dirty = false;
         ImGui::PushID(target);
         ImGui::TextUnformatted(TR(label));
-        ImGui::SameLine(260 * g_scale);
+        s_rowLabel.Next();
         ImGui::Text("%s", Settings::KeyName(vk));
-        ImGui::SameLine(400 * g_scale);
+        s_rowValue.Next();
         if (st.rebindCapture && g_rebindTarget == target)
         {
             ImGui::TextColored(Accent(), TR("press a key (Escape cancels)"));
@@ -565,7 +598,10 @@ namespace ml::gui
         bool dirty = false;
         if (ImGui::Checkbox(TR("Auto-loot enabled"), &c.enabled)) { dirty = true; State::Get().Notify(c.enabled ? "Master Looter: auto-loot on" : "Master Looter: auto-loot off"); }
         Help(TR("The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works."));
-        ImGui::SameLine(300 * g_scale);
+        {
+            const float a = 300 * g_scale, b = ItemRight() + 16 * g_scale;
+            ImGui::SameLine(a > b ? a : b);
+        }
         if (ImGui::Button(TR("Loot everything in range now"))) loot::RequestBurst();
         dirty |= ImGui::Checkbox(TR("Show a brief notice when auto-loot is toggled"), &c.showHud);
         dirty |= ImGui::Checkbox(TR("Say so on screen when the bag stops taking things"), &c.notifyBagFull);
@@ -1073,7 +1109,7 @@ namespace ml::gui
     static void LinkRow(const char* label, const char* url)
     {
         ImGui::TextDisabled("%s", label);
-        ImGui::SameLine(110 * g_scale);
+        s_linkLabel.Next();
         ImGui::TextColored(kGoldDim, "%s", url);
         ImGui::SameLine();
         ImGui::PushID(url);
@@ -1132,7 +1168,7 @@ namespace ml::gui
         OnOff("World (actor manager)", s.actorManager, "found", "waiting");
         if (s.playerFound)
         {
-            ImGui::TextUnformatted(TR("Player")); ImGui::SameLine(220 * g_scale);
+            ImGui::TextUnformatted(TR("Player")); s_statusLabel.Next();
             if (s.bagSlots > 0) ImGui::TextColored(s.bagFull ? kWarn : kGood, TR("entity %08X, bag %d of %d slots, %d items across every store"), s.playerEid, s.bagUsed, s.bagSlots, s.inventoryItems);
             else ImGui::TextColored(s.bagFull ? kWarn : kGood, TR("entity %08X, %d items across every store"), s.playerEid, s.inventoryItems);
             if (s.bagFull) { ImGui::SameLine(); ImGui::TextColored(kWarn, TR("  bag full")); }
@@ -1246,6 +1282,10 @@ namespace ml::gui
         if (st.menuWatch) ImGui::SetNextWindowBgAlpha(0.72f);
         if (ImGui::Begin("Master Looter", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | watchFlags))
         {
+            // A line of explanation that outgrows the window wraps instead
+            // of running off its edge. The English was written to fit; the
+            // translations were not.
+            ImGui::PushTextWrapPos(0.0f);
             // Title strip: serif name in gold, version and close on the right, bronze rule.
             ImGui::PushFont(g_fontHead);
             ImGui::TextColored(kGold, TR("MASTER LOOTER"));
@@ -1278,13 +1318,18 @@ namespace ml::gui
             {
                 for (const TabDef& t : tabs)
                 {
+                    // The label changes with the language; the id after
+                    // ### does not, so the open tab survives a switch.
+                    char label[96];
+                    snprintf(label, sizeof label, "%s###%s", TR(t.name), t.name);
                     ImGui::PushFont(g_fontHead);
-                    const bool sel = ImGui::BeginTabItem(t.name);
+                    const bool sel = ImGui::BeginTabItem(label);
                     ImGui::PopFont();
                     if (sel) { ImGui::Dummy(ImVec2(0, 4 * g_scale)); t.fn(c); ImGui::EndTabItem(); }
                 }
                 ImGui::EndTabBar();
             }
+            ImGui::PopTextWrapPos();
         }
         ImGui::End();
         if (!open) { st.menuOpen = false; st.menuWatch = false; }

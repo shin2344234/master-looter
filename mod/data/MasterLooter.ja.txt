@@ -116,6 +116,7 @@ Game functions did not resolve; see Status.	ゲーム関数を解決できませ
 Game-thread pump	ゲームスレッドポンプ
 gather node	採集ポイント
 Gathering	採集
+General	一般
 Ground items	地面のアイテム
 Groups	グループ
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	薬草、花、キノコの採集ポイント、および地面に落ちている同種のもの。食用作物には専用のスイッチがあります。
@@ -154,6 +155,7 @@ Loot engine not started.	ルートエンジンは開始していません。
 Loot everything in range now	範囲内を今すぐ全てルート
 Loot everything in range once	範囲内を1回だけ全てルート
 loot: %s	ルート：%s
+Looting	ルート
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s（対応ゲームビルド %s）
 Materials	素材
@@ -166,6 +168,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsvが見つかりません
 mission object	ミッションオブジェクト
 Mounts and vehicles	騎乗動物と乗り物
 name a new preset	新しいプリセットの名前
+Nearby	周辺
 never	決して
 no	いいえ
 no interaction node	対話ノードなし
@@ -256,11 +259,13 @@ Small animals	小動物
 small animals off	小動物オフ
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	一部のワールドオブジェクトには読み取れるアイテム名がありません。オン：それでも取得します。オフ：未識別のものには手を付けません。
 stack at one point (storage contents)	1か所に集積（格納物）
+Status	状態
 Stone	石材
 stone off	石材オフ
 Stone on the ground and nodes that yield stone.	地面の石材と、石材を産出する採集ポイント。
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	テーブル、椅子、ベッド、カーペット、ランプ、キャンドル、絵画、壺など、床から拾う場合も専用の採集ポイントから取得する場合も含む、家具一式。ほとんどは銅貨数枚程度の価値ですが、カーペットや高級ベッドは数千に達するため、家を家具で整える前にオンにしてください。何かを収納する宝箱などは代わりに「入れ物」が対象です。初期値はオフです。
 Tag	タグ
+Tags	タグ
 tags, any of which can be set to never in the Tags tab:	タグ。「タグ」タブでそれぞれを「決して」に設定できます。
 Take goods that belong to someone	他人の所有物を取得する
 Take goods that belong to someone, on / off	他人の所有物を取得 オン/オフ

@@ -119,6 +119,7 @@ Game functions did not resolve; see Status.	Οι λειτουργίες παιχ
 Game-thread pump	Άντληση του game thread
 gather node	κόμβος συλλογής
 Gathering	Συλλογή
+General	Γενικά
 Ground items	Αντικείμενα στο έδαφος
 Groups	Ομάδες
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Κόμβοι βοτάνων, λουλουδιών και μανιταριών, και τα ίδια πεσμένα στο έδαφος. Οι καλλιέργειες τροφίμων έχουν δικό τους διακόπτη.
@@ -157,6 +158,7 @@ Loot engine not started.	Η μηχανή λουτ δεν έχει ξεκινήσ
 Loot everything in range now	Λεηλάτησε τα πάντα εντός εμβέλειας τώρα
 Loot everything in range once	Λεηλάτησε τα πάντα εντός εμβέλειας μία φορά
 loot: %s	λουτ: %s
+Looting	Λουτ
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s για έκδοση παιχνιδιού %s
 Materials	Υλικά
@@ -169,6 +171,7 @@ missing MasterLooter.items.tsv	λείπει το MasterLooter.items.tsv
 mission object	αντικείμενο αποστολής
 Mounts and vehicles	Ζώα ιππασίας και οχήματα
 name a new preset	όνομα νέας προεπιλογής
+Nearby	Κοντά
 never	ποτέ
 no	όχι
 no interaction node	κόμβος χωρίς αλληλεπίδραση
@@ -259,11 +262,13 @@ Small animals	Μικρά ζώα
 small animals off	μικρά ζώα ανενεργά
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Κάποια αντικείμενα του κόσμου δεν έχουν αναγνώσιμο όνομα αντικειμένου. Ενεργό: πάρ' τα ούτως ή άλλως. Ανενεργό: άφησε ό,τι είναι αταύτιστο.
 stack at one point (storage contents)	στοίβα σε ένα σημείο (περιεχόμενα αποθήκευσης)
+Status	Κατάσταση
 Stone	Πέτρα
 stone off	πέτρα ανενεργή
 Stone on the ground and nodes that yield stone.	Πέτρα στο έδαφος και κόμβοι που αποδίδουν πέτρα.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Τραπέζια, καρέκλες, κρεβάτια, χαλιά, λάμπες, κεριά, πίνακες, δοχεία και τα υπόλοιπα ενός επιπλωμένου δωματίου, είτε τα μαζεύεις από το πάτωμα είτε τα παίρνεις από τον δικό τους κόμβο αλληλεπίδρασης. Τα περισσότερα αξίζουν ένα-δύο χαλκά, αλλά τα χαλιά και τα πολυτελή κρεβάτια φτάνουν στις χιλιάδες, οπότε ενεργοποίησέ το πριν επιπλώσεις ένα σπίτι. Τα κιβώτια και τα άλλα πράγματα που κρατούν κάτι υπάγονται στα Δοχεία αντί για εδώ. Ανενεργό εξ ορισμού.
 Tag	Ετικέτα
+Tags	Ετικέτες
 tags, any of which can be set to never in the Tags tab:	ετικέτες, καθεμία από τις οποίες μπορεί να οριστεί σε ποτέ στην καρτέλα Ετικέτες:
 Take goods that belong to someone	Πάρε αγαθά που ανήκουν σε κάποιον
 Take goods that belong to someone, on / off	Πάρε αγαθά που ανήκουν σε κάποιον, ενεργό / ανενεργό

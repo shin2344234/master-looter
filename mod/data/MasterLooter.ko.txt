@@ -117,6 +117,7 @@ Game functions did not resolve; see Status.	게임 함수를 확인하지 못했
 Game-thread pump	게임 스레드 펌프
 gather node	채집 노드
 Gathering	채집
+General	일반
 Ground items	바닥 아이템
 Groups	그룹
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	약초, 꽃, 버섯 노드와 바닥에 놓인 동일한 것들. 식용 농작물은 별도 스위치가 있습니다.
@@ -155,6 +156,7 @@ Loot engine not started.	루팅 엔진이 시작되지 않았습니다.
 Loot everything in range now	지금 범위 내 전부 루팅
 Loot everything in range once	범위 내 전부 한 번 루팅
 loot: %s	루팅: %s
+Looting	루팅
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s (게임 빌드 %s용)
 Materials	재료
@@ -167,6 +169,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv 누락
 mission object	임무 대상물
 Mounts and vehicles	탈것과 차량
 name a new preset	새 프리셋 이름 입력
+Nearby	주변
 never	절대 안 함
 no	아니요
 no interaction node	상호작용 없는 노드
@@ -257,11 +260,13 @@ Small animals	작은 동물
 small animals off	작은 동물 끄기
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	일부 세계 오브젝트는 읽을 수 있는 아이템 이름이 없습니다. 켜면: 그래도 획득. 끄면: 식별되지 않은 것은 그대로 둠.
 stack at one point (storage contents)	한 지점에 쌓임 (보관함 내용물)
+Status	상태
 Stone	돌
 stone off	돌 끄기
 Stone on the ground and nodes that yield stone.	바닥에 있는 돌과 돌을 산출하는 노드.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	탁자, 의자, 침대, 카펫, 램프, 초, 그림, 단지 등 가구가 갖춰진 방을 이루는 나머지 것들로, 바닥에서 줍든 고유의 상호작용 노드에서 획득하든 마찬가지입니다. 대부분 구리 한두 닢 가치이지만 카펫과 고급 침대는 수천에 이르므로, 집을 꾸미기 전에 이 항목을 켜 두세요. 무언가를 담고 있는 상자 등은 대신 "용기"에 해당합니다. 기본값은 끔.
 Tag	태그
+Tags	태그
 tags, any of which can be set to never in the Tags tab:	태그, 각각을 "태그" 탭에서 "절대 안 함"으로 설정할 수 있습니다:
 Take goods that belong to someone	타인 소유물 가져가기
 Take goods that belong to someone, on / off	타인 소유물 가져가기 켜기/끄기

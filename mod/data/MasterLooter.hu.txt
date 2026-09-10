@@ -122,6 +122,7 @@ Game functions did not resolve; see Status.	A játékfüggvények nem oldódtak 
 Game-thread pump	Game-thread pumpa
 gather node	gyűjtőpont
 Gathering	Gyűjtés
+General	Általános
 Ground items	Földön heverő tárgyak
 Groups	Csoportok
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Fű-, virág- és gombapontok, valamint ugyanezek a földön heverve. Az élelmiszertermények saját kapcsolóval rendelkeznek.
@@ -160,6 +161,7 @@ Loot engine not started.	A loot motor nem indult el.
 Loot everything in range now	Minden lootolása hatótávon belül most
 Loot everything in range once	Minden lootolása hatótávon belül egyszer
 loot: %s	zsákmány: %s
+Looting	Lootolás
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s a(z) %s játékverzióhoz
 Materials	Alapanyagok
@@ -172,6 +174,7 @@ missing MasterLooter.items.tsv	hiányzik a MasterLooter.items.tsv
 mission object	küldetéstárgy
 Mounts and vehicles	Hátasok és járművek
 name a new preset	add meg az új profil nevét
+Nearby	Közelben
 never	soha
 no	nem
 no interaction node	nincs interakciós pont
@@ -262,11 +265,13 @@ Small animals	Kisállatok
 small animals off	kisállatok kikapcsolva
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Néhány világbeli objektumnak nincs olvasható tárgyneve. Bekapcsolva: mindenképp vedd fel őket. Kikapcsolva: hagyj békén mindent, ami azonosítatlan.
 stack at one point (storage contents)	egy ponton halmozódik (tárolt tartalom)
+Status	Állapot
 Stone	Kő
 stone off	kő kikapcsolva
 Stone on the ground and nodes that yield stone.	Kő a földön, és pontok, amelyek követ adnak.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Asztalok, székek, ágyak, szőnyegek, lámpák, gyertyák, festmények, edények és egy berendezett szoba minden más darabja, akár a földről veszed fel, akár a saját interakciós pontjáról. A legtöbbjük egy-két rezet ér, de a szőnyegek és a luxuságyak akár ezreket is érhetnek, ezért kapcsold be, mielőtt berendezel egy házat. A ládák és más tárolásra alkalmas dolgok inkább a Tárolókhoz tartoznak. Alapértelmezésben kikapcsolva.
 Tag	Címke
+Tags	Címkék
 tags, any of which can be set to never in the Tags tab:	címkék, bármelyik beállítható sohára a Címkék fülön:
 Take goods that belong to someone	Valakihez tartozó áruk elvétele
 Take goods that belong to someone, on / off	Valakihez tartozó áruk elvétele, be / ki

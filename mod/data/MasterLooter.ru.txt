@@ -121,6 +121,7 @@ Game functions did not resolve; see Status.	Игровые функции не �
 Game-thread pump	Прокачка игрового потока
 gather node	точка сбора
 Gathering	Сбор
+General	Общие
 Ground items	Предметы на земле
 Groups	Группы
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Точки трав, цветов и грибов, а также то же самое, лежащее на земле. У съедобного урожая свой отдельный переключатель.
@@ -159,6 +160,7 @@ Loot engine not started.	Движок лута не запущен.
 Loot everything in range now	Забрать всё в радиусе сейчас
 Loot everything in range once	Забрать всё в радиусе один раз
 loot: %s	лут: %s
+Looting	Лут
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s для сборки игры %s
 Materials	Материалы
@@ -171,6 +173,7 @@ missing MasterLooter.items.tsv	отсутствует MasterLooter.items.tsv
 mission object	объект задания
 Mounts and vehicles	Верховые животные и транспорт
 name a new preset	введите имя новой предустановки
+Nearby	Рядом
 never	никогда
 no	нет
 no interaction node	нет точки взаимодействия
@@ -261,11 +264,13 @@ Small animals	Мелкие животные
 small animals off	мелкие животные выключены
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	У некоторых объектов мира нет читаемого имени предмета. Включено: забирать их в любом случае. Выключено: оставлять всё неопознанное в покое.
 stack at one point (storage contents)	стопка в одной точке (содержимое хранилища)
+Status	Статус
 Stone	Камень
 stone off	камень выключен
 Stone on the ground and nodes that yield stone.	Камень на земле и точки, дающие камень.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Столы, стулья, кровати, ковры, лампы, свечи, картины, горшки и всё остальное убранство обставленной комнаты, будь то подобрано с пола или взято из собственной точки взаимодействия. Большая часть стоит медяк-другой, но ковры и роскошные кровати доходят до тысяч, так что включайте это перед обстановкой дома. Сундуки и прочее, что что-то хранит, подчиняются вместо этого «Контейнерам». Выключено по умолчанию.
 Tag	Тег
+Tags	Теги
 tags, any of which can be set to never in the Tags tab:	теги, любой из которых можно выставить на «никогда» на вкладке «Теги»:
 Take goods that belong to someone	Забирать вещи, принадлежащие кому-то
 Take goods that belong to someone, on / off	Забирать чужие вещи, вкл./выкл.

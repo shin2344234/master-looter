@@ -118,6 +118,7 @@ Game functions did not resolve; see Status.	Hàm trò chơi chưa được phân
 Game-thread pump	Bộ bơm luồng trò chơi
 gather node	điểm thu thập
 Gathering	Thu thập
+General	Chung
 Ground items	Vật phẩm trên mặt đất
 Groups	Nhóm
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Các điểm thảo dược, hoa và nấm, cùng những thứ tương tự nằm trên mặt đất. Cây trồng thực phẩm có công tắc riêng.
@@ -156,6 +157,7 @@ Loot engine not started.	Công cụ loot chưa khởi động.
 Loot everything in range now	Loot mọi thứ trong tầm ngay bây giờ
 Loot everything in range once	Loot mọi thứ trong tầm một lần
 loot: %s	loot: %s
+Looting	Loot
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s cho bản dựng trò chơi %s
 Materials	Nguyên liệu
@@ -168,6 +170,7 @@ missing MasterLooter.items.tsv	thiếu MasterLooter.items.tsv
 mission object	vật thể nhiệm vụ
 Mounts and vehicles	Thú cưỡi và phương tiện
 name a new preset	đặt tên cho cấu hình mới
+Nearby	Xung quanh
 never	không bao giờ
 no	không
 no interaction node	không có điểm tương tác
@@ -258,11 +261,13 @@ Small animals	Động vật nhỏ
 small animals off	động vật nhỏ tắt
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Một số vật thể trong thế giới không mang tên vật phẩm có thể đọc được. Bật: vẫn lấy chúng. Tắt: để yên mọi thứ chưa xác định được.
 stack at one point (storage contents)	chồng tại một điểm (nội dung kho chứa)
+Status	Trạng thái
 Stone	Đá
 stone off	đá tắt
 Stone on the ground and nodes that yield stone.	Đá trên mặt đất và các điểm cho ra đá.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bàn, ghế, giường, thảm, đèn, nến, tranh, chậu cây và những thứ còn lại của một căn phòng có nội thất, dù bạn nhặt từ sàn hay lấy từ chính điểm tương tác của nó. Hầu hết chỉ đáng giá một hoặc hai đồng, nhưng thảm và giường sang trọng có thể lên tới hàng nghìn, nên hãy bật mục này trước khi trang trí một căn nhà. Rương và những thứ khác dùng để đựng đồ được xử lý bởi mục Vật chứa thay vào đó. Mặc định là tắt.
 Tag	Thẻ
+Tags	Thẻ
 tags, any of which can be set to never in the Tags tab:	thẻ, bất kỳ thẻ nào trong số này cũng có thể được đặt thành “không bao giờ” trong tab Thẻ:
 Take goods that belong to someone	Lấy hàng hóa thuộc về người khác
 Take goods that belong to someone, on / off	Bật/tắt lấy hàng hóa thuộc về người khác

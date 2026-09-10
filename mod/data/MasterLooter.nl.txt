@@ -117,6 +117,7 @@ Game functions did not resolve; see Status.	Spelfuncties zijn niet opgelost; zie
 Game-thread pump	Spelthread-verwerking
 gather node	verzamelpunt
 Gathering	Verzamelen
+General	Algemeen
 Ground items	Voorwerpen op de grond
 Groups	Groepen
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Punten met kruiden, bloemen en paddenstoelen, en dezelfde dingen die op de grond liggen. Voedselgewassen hebben hun eigen schakelaar.
@@ -155,6 +156,7 @@ Loot engine not started.	Lootengine niet gestart.
 Loot everything in range now	Nu alles binnen bereik looten
 Loot everything in range once	Eenmalig alles binnen bereik looten
 loot: %s	loot: %s
+Looting	Loot
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s voor spelversie %s
 Materials	Materialen
@@ -167,6 +169,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv ontbreekt
 mission object	missievoorwerp
 Mounts and vehicles	Rijdieren en voertuigen
 name a new preset	geef een nieuwe voorinstelling een naam
+Nearby	Dichtbij
 never	nooit
 no	nee
 no interaction node	geen interactiepunt
@@ -257,11 +260,13 @@ Small animals	Kleine dieren
 small animals off	kleine dieren uit
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Sommige objecten in de wereld hebben geen leesbare itemnaam. Aan: pak ze toch mee. Uit: laat alles wat niet geïdentificeerd is liggen.
 stack at one point (storage contents)	stapel op één punt (opslaginhoud)
+Status	Status
 Stone	Steen
 stone off	steen uit
 Stone on the ground and nodes that yield stone.	Steen op de grond en punten die steen opleveren.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Tafels, stoelen, bedden, tapijten, lampen, kaarsen, schilderijen, potten en de rest van een ingerichte kamer, of je ze nu van de vloer oppakt of uit hun eigen interactiepunt haalt. Het meeste is een koperstuk of twee waard, maar de tapijten en luxe bedden lopen op tot duizenden, dus zet dit aan voordat je een huis inricht. Kisten en andere dingen die iets bevatten, vallen in plaats daarvan onder Containers. Standaard uit.
 Tag	Label
+Tags	Labels
 tags, any of which can be set to never in the Tags tab:	labels, elk daarvan kan op nooit worden gezet in het tabblad Labels:
 Take goods that belong to someone	Goederen meenemen die van iemand anders zijn
 Take goods that belong to someone, on / off	Goederen van iemand anders meenemen aan/uit

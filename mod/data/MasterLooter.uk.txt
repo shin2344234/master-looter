@@ -118,6 +118,7 @@ Game functions did not resolve; see Status.	Функції гри не вдал�
 Game-thread pump	Помпа ігрового потоку
 gather node	точка збору
 Gathering	Збір
+General	Загальні
 Ground items	Предмети на землі
 Groups	Групи
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Точки трав, квітів і грибів, а також ті самі предмети, що лежать на землі. Харчові культури мають власний перемикач.
@@ -156,6 +157,7 @@ Loot engine not started.	Рушій лутання не запущено.
 Loot everything in range now	Забрати все в радіусі зараз
 Loot everything in range once	Забрати все в радіусі один раз
 loot: %s	лут: %s
+Looting	Лут
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s для збірки гри %s
 Materials	Матеріали
@@ -168,6 +170,7 @@ missing MasterLooter.items.tsv	відсутній MasterLooter.items.tsv
 mission object	об'єкт місії
 Mounts and vehicles	Верхові тварини та транспорт
 name a new preset	назвіть новий пресет
+Nearby	Поруч
 never	ніколи
 no	ні
 no interaction node	немає точки взаємодії
@@ -258,11 +261,13 @@ Small animals	Дрібні тварини
 small animals off	дрібні тварини вимкнено
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Деякі об'єкти світу не мають назви предмета, яку можна прочитати. Увімкнено: забирати їх попри це. Вимкнено: залишати все невизначене.
 stack at one point (storage contents)	стос в одній точці (вміст сховища)
+Status	Стан
 Stone	Камінь
 stone off	камінь вимкнено
 Stone on the ground and nodes that yield stone.	Камінь на землі та точки, що видають камінь.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Столи, стільці, ліжка, килими, лампи, свічки, картини, горщики та решта умеблювання кімнати — байдуже, підбираєте ви це з підлоги чи берете з власної точки взаємодії. Більшість цього варта мідяк-два, але килими та розкішні ліжка сягають тисяч, тож увімкніть це перед умеблюванням будинку. Скрині та інші речі, що щось у собі тримають, підпорядковуються натомість «Контейнерам». Вимкнено за замовчуванням.
 Tag	Тег
+Tags	Теги
 tags, any of which can be set to never in the Tags tab:	теги, кожен з яких на вкладці «Теги» можна встановити на «ніколи»:
 Take goods that belong to someone	Забирати речі, що належать комусь
 Take goods that belong to someone, on / off	Забирати чужі речі, увімкнено/вимкнено

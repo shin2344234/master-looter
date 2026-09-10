@@ -118,6 +118,7 @@ Game functions did not resolve; see Status.	Spelfunktionerna slogs inte upp; se 
 Game-thread pump	Speltrådspump
 gather node	skördenod
 Gathering	Skörd
+General	Allmänt
 Ground items	Föremål på marken
 Groups	Grupper
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Noder för örter, blommor och svamp, samt desamma liggande på marken. Matgrödor har en egen inställning.
@@ -156,6 +157,7 @@ Loot engine not started.	Lootmotorn är inte startad.
 Loot everything in range now	Loota allt inom räckhåll nu
 Loot everything in range once	Loota allt inom räckhåll en gång
 loot: %s	loota: %s
+Looting	Loot
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s för spelbygge %s
 Materials	Material
@@ -168,6 +170,7 @@ missing MasterLooter.items.tsv	MasterLooter.items.tsv saknas
 mission object	uppdragsobjekt
 Mounts and vehicles	Riddjur och fordon
 name a new preset	namnge en ny förinställning
+Nearby	I närheten
 never	aldrig
 no	nej
 no interaction node	ingen interaktionsnod
@@ -258,11 +261,13 @@ Small animals	Smådjur
 small animals off	smådjur av
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Vissa objekt i världen saknar ett läsbart föremålsnamn. På: ta dem ändå. Av: lämna allt oidentifierat.
 stack at one point (storage contents)	stapel på en plats (förrådsinnehåll)
+Status	Status
 Stone	Sten
 stone off	sten av
 Stone on the ground and nodes that yield stone.	Sten på marken och noder som ger sten.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bord, stolar, sängar, mattor, lampor, ljus, tavlor, krukor och resten av ett möblerat rum, oavsett om du plockar upp det från golvet eller tar det från sin egen interaktionsnod. Det mesta är värt en koppar eller två, men mattorna och lyxsängarna går upp i tusental, så slå på det här innan du möblerar ett hus. Kistor och andra saker som rymmer något lyder under Behållare i stället. Av som standard.
 Tag	Tagg
+Tags	Taggar
 tags, any of which can be set to never in the Tags tab:	taggar, som var och en kan sättas till aldrig i fliken Taggar:
 Take goods that belong to someone	Ta varor som tillhör någon
 Take goods that belong to someone, on / off	Ta varor som tillhör någon, på/av

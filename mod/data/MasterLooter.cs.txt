@@ -118,6 +118,7 @@ Game functions did not resolve; see Status.	Herní funkce se nepodařilo najít;
 Game-thread pump	Pumpa herního vlákna
 gather node	sběrný uzel
 Gathering	Sbírání
+General	Obecné
 Ground items	Předměty na zemi
 Groups	Skupiny
 Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	Uzly bylin, květin a hub, a totéž ležící na zemi. Plodiny mají vlastní přepínač.
@@ -156,6 +157,7 @@ Loot engine not started.	Loot engine nebyl spuštěn.
 Loot everything in range now	Lootovat vše v dosahu hned
 Loot everything in range once	Lootovat vše v dosahu jednou
 loot: %s	loot: %s
+Looting	Loot
 MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s pro herní build %s
 Materials	Materiály
@@ -168,6 +170,7 @@ missing MasterLooter.items.tsv	chybí MasterLooter.items.tsv
 mission object	misijní objekt
 Mounts and vehicles	Jízdní zvířata a vozidla
 name a new preset	pojmenuj nový preset
+Nearby	Okolí
 never	nikdy
 no	ne
 no interaction node	uzel bez interakce
@@ -258,11 +261,13 @@ Small animals	Malá zvířata
 small animals off	malá zvířata vypnuta
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	Některé objekty ve světě nenesou čitelný název předmětu. Zapnuto: vzít je i tak. Vypnuto: nechat vše neidentifikované být.
 stack at one point (storage contents)	hromada na jednom místě (obsah úložiště)
+Status	Stav
 Stone	Kámen
 stone off	kámen vypnut
 Stone on the ground and nodes that yield stone.	Kámen na zemi a uzly, které kámen vydávají.
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Stoly, židle, postele, koberce, lampy, svíčky, obrazy, hrnce a zbytek zařízené místnosti, ať už to seberes z podlahy nebo to vezmeš z vlastního interakčního uzlu. Většina toho má hodnotu měďák nebo dva, ale koberce a luxusní postele se šplhají do tisíců, takže tohle zapni, než si zařídíš dům. Truhly a další věci, které něco obsahují, spadají místo toho pod Kontejnery. Ve výchozím stavu vypnuto.
 Tag	Štítek
+Tags	Štítky
 tags, any of which can be set to never in the Tags tab:	štítky, z nichž kterýkoli lze v záložce Štítky nastavit na nikdy:
 Take goods that belong to someone	Brát věci, které někomu patří
 Take goods that belong to someone, on / off	Brát věci, které někomu patří, zapnuto / vypnuto
