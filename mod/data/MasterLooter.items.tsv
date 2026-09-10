@@ -9,12 +9,12 @@ row	key	string_key	name	class	tags	tier	value_copper
 7	1001316	Fire_Arrow	Fire Arrow	arrow	arrow goods npc-only stackable tier-0 use-immediately	0	2
 8	1001315	Lightning_Arrow	Blitz Arrow	arrow	arrow goods npc-only stackable tier-0 use-immediately	0	2
 9	1001314	Ice_Arrow	Chill Arrow	arrow	arrow goods npc-only stackable tier-0 use-immediately	0	2
-10	50057	MultiArrow	Bundle of Arrows	ammo-bundle	ammo ammo-bundle stackable tier-0 use-immediately	0	50
-11	1000224	MultiArrow_Package_Small	Bundle of Arrows	ammo-bundle	ammo ammo-bundle stackable tier-0 use-immediately	0	15
-12	1000026	MultiBullet	Bundle of Bullets	ammo-bundle	ammo ammo-bundle stackable tier-0 use-immediately	0	50
-13	1003653	MultiBullet_Package_Small	Bundle of Bullets	ammo-bundle	ammo ammo-bundle stackable tier-0 use-immediately	0	25
-14	1000063	MultiCannonBall	Bundle of Cannonballs	ammo-bundle	ammo ammo-bundle stackable tier-0 use-immediately	0	130
-15	1003654	MultiCannonBall_Package_Small	Bundle of Cannonballs	ammo-bundle	ammo ammo-bundle stackable tier-0 use-immediately	0	65
+10	50057	MultiArrow	Bundle of Arrows	ammo-bundle	ammo ammo-bundle arrow stackable tier-0 use-immediately	0	50
+11	1000224	MultiArrow_Package_Small	Bundle of Arrows	ammo-bundle	ammo ammo-bundle arrow stackable tier-0 use-immediately	0	15
+12	1000026	MultiBullet	Bundle of Bullets	ammo-bundle	ammo ammo-bundle bullet stackable tier-0 use-immediately	0	50
+13	1003653	MultiBullet_Package_Small	Bundle of Bullets	ammo-bundle	ammo ammo-bundle bullet stackable tier-0 use-immediately	0	25
+14	1000063	MultiCannonBall	Bundle of Cannonballs	ammo-bundle	ammo ammo-bundle cannonball stackable tier-0 use-immediately	0	130
+15	1003654	MultiCannonBall_Package_Small	Bundle of Cannonballs	ammo-bundle	ammo ammo-bundle cannonball stackable tier-0 use-immediately	0	65
 16	1000692	CannonBall	Small Cannonball	cannonball	ammo cannonball stackable tier-0 use-immediately	0	15
 17	1003752	Continuous_Supply_CannonBall	Replenishing Cannonballs	cannonball	ammo cannonball no-discard no-sell stackable tier-0 use-immediately	0	1
 18	1001773	Marni_Special_CannonBall	Disruptor Cannonball	cannonball	ammo cannonball stackable tier-0 use-immediately	0	15

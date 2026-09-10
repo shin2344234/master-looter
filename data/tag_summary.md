@@ -247,6 +247,7 @@
 - abyss-gear-box: 13
 - drink: 13
 - halberd: 13
+- arrow: 12
 - mount-summon: 12
 - rare-gather: 12
 - blaster: 11
@@ -254,13 +255,13 @@
 - musket: 11
 - rest-area: 11
 - visione: 11
-- arrow: 10
 - bird: 10
 - greathammer: 10
 - lantern: 10
 - mammal: 10
 - ore: 10
 - abyss-item: 9
+- cannonball: 9
 - grain: 9
 - legendary: 9
 - magic-bullet: 9
@@ -272,7 +273,6 @@
 - token: 8
 - wood: 8
 - amphibian: 7
-- cannonball: 7
 - chest: 7
 - fist: 7
 - key-item: 7
@@ -283,6 +283,7 @@
 - store-food: 7
 - ammo-bundle: 6
 - beetle: 6
+- bullet: 6
 - contribution: 6
 - eyewear: 6
 - greatsword: 6
@@ -296,7 +297,6 @@
 - reptile: 5
 - arachnid: 4
 - bone: 4
-- bullet: 4
 - cooking-basic: 4
 - honey: 4
 - jewel: 4

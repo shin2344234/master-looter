@@ -53,3 +53,9 @@ Item_AbyssArtifact_Chest_2_7,chest,abyss-item reward-box,,
 Item_AbyssArtifact_Chest_3,chest,abyss-item reward-box,,
 Item_AbyssArtifact_Chest_5,chest,abyss-item reward-box,,
 Item_Pinball_Coin_Reward_Bag,chest,reward-box,,box of fortune
+MultiArrow,,arrow,,a bundle of arrows carries the tag of what it holds so an arrow rule covers it (issue on the posts tab 10 Sep 2026)
+MultiArrow_Package_Small,,arrow,,a bundle of arrows carries the tag of what it holds so an arrow rule covers it (issue on the posts tab 10 Sep 2026)
+MultiBullet,,bullet,,a bundle of bullets carries the tag of what it holds so a bullet rule covers it (issue on the posts tab 10 Sep 2026)
+MultiBullet_Package_Small,,bullet,,a bundle of bullets carries the tag of what it holds so a bullet rule covers it (issue on the posts tab 10 Sep 2026)
+MultiCannonBall,,cannonball,,a bundle of cannonballs carries the tag of what it holds so a cannonball rule covers it (issue on the posts tab 10 Sep 2026)
+MultiCannonBall_Package_Small,,cannonball,,a bundle of cannonballs carries the tag of what it holds so a cannonball rule covers it (issue on the posts tab 10 Sep 2026)
