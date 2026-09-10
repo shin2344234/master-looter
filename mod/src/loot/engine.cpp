@@ -1858,7 +1858,13 @@ namespace ml::loot
         // The three bytes a live creature can be picked up under. Kept in step
         // with the catchable test in Decide, which needs the species to judge
         // the lizard byte at all.
-        const bool nameable = k.cat2 == 0x05 || k.cat2 == 0x09 || k.cat2 == 0x08;
+        // 0x07 and 0x0F were added on 10 September 2026: stag beetles, moths,
+        // silkworm moths and spiders wear 0x07 with a non-zero first byte,
+        // grasshoppers wear 0x0F, and none of them ever flips to 0x05 in a
+        // session. Butterflies wear 0x05 and were the only insects being
+        // caught, which is the "intermittent" half of issue #42.
+        const bool nameable = k.cat2 == 0x05 || k.cat2 == 0x09 || k.cat2 == 0x08 || k.cat2 == 0x07 || k.cat2 == 0x0F ||
+                              (k.cat2 == 0x0C && k.dead == 1); // a corpse: beast or person, decided by the creature table
         if (k.ai && !k.inter && (nameable || g_debugLog))
         {
             const uintptr_t aiComp = game::CompByClass(comps, kCls_Ai);
@@ -2006,7 +2012,13 @@ namespace ml::loot
         const bool smallGame    = c.cat2 == 0x09 || c.cat2 == 0x05;
         const bool groundLizard = c.cat2 == 0x08 &&
                                   c.speciesExact && c.species && c.species->itemRow >= 0;
-        const bool catchable = (smallGame || groundLizard) && !c.inter;
+        // Same bar as the lizards: the table has to name the creature outright
+        // as an insect that becomes an item. The byte alone admits nothing,
+        // because 0x07 is also what ambient effect creatures wear.
+        const bool insectByName = (c.cat2 == 0x07 || c.cat2 == 0x0F) &&
+                                  c.speciesExact && c.species && c.species->itemRow >= 0 &&
+                                  c.speciesClass && strcmp(c.speciesClass, "insect") == 0;
+        const bool catchable = (smallGame || groundLizard || insectByName) && !c.inter;
         const bool beastCorpse = c.dead == 1 && (c.cat2 == 0x0C || c.ai);
         if (c.dead == 1 && !beastCorpse) return skip("corpse: loot drops separately");
         if (!catchable && c.dead != 1 && !c.inter && c.ai) return skip("creature");
@@ -2064,7 +2076,14 @@ namespace ml::loot
 
         switch (v.act)
         {
-        case Action::Search: if (!cfg.lootCorpses) return skip("carcasses off"); break;
+        case Action::Search:
+            // Bandits and beasts wear the same category byte, 0x0C, and the
+            // game loots both with one action. The creature table tells them
+            // apart: a beast's character row is in it, a person's is not
+            // (fourteen bandits in one fight on 10 September 2026, none named).
+            if (c.species) { if (!cfg.lootCorpses)  return skip("carcasses off"); }
+            else           { if (!cfg.searchBodies) return skip("bodies off"); }
+            break;
         case Action::Catch:
         {
             if (c.speciesClass)

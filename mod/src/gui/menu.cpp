@@ -275,6 +275,9 @@ namespace ml::gui
             if (!st.menuOpen) { st.menuOpen = true; st.menuWatch = false; }
             else if (st.menuWatch) st.menuWatch = false;
             else { st.menuOpen = false; st.textCapture = false; }
+            // The order of a menu open against a swapchain replacement is what
+            // a "hotkeys do nothing" report turns on, and nothing recorded it.
+            LOG("[menu] key: menu %s", st.menuOpen ? (st.menuWatch ? "watching" : "open") : "closed");
         }
         s_keyWas = key;
 
@@ -738,7 +741,8 @@ namespace ml::gui
         struct Toggle { const char* label; bool* value; const char* help; };
         const Toggle toggles[] = {
             { "Ground items",   &c.pickUpItems,    "Items lying in the world, including drops from enemies." },
-            { "Carcasses",      &c.lootCorpses,    "The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing." },
+            { "Carcasses",      &c.lootCorpses,    "Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing." },
+            { "Bodies",         &c.searchBodies,   "Searching the people you kill, once per body. Animals go under Carcasses. What a search pays out is not checked against your filters, so this switch is all or nothing too." },
             { "Plants",         &c.gatherPlants,   "Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch." },
             { "Crops",          &c.gatherCrops,    "Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants." },
             { "Ore",            &c.gatherOre,      "Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one." },

@@ -58,7 +58,9 @@ Breaking drives the game's own state machine at the vein, the swing landing and 
 Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	蝴蝶、甲虫、蜻蜓、蜜蜂、蜘蛛、蝎子、蜗牛，以及游戏归类为昆虫的其他小型生物。物种信息来自生物数据表；若数据表无法命名某个生物，则只有在它可能归属的每个类别都已开启时才会被捕捉（例如一个会飞的生物可能是鱼、昆虫或鸟类）。
 captured	已捕获
 Carcasses	动物尸体
+Bodies	尸体
 carcasses off	尸体已关闭
+bodies off	尸体关闭
 Catching	捕捉
 Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	已捕获的生物，无论是活的还是散落在地上的；数据表能够命名的生物遵循其自身的类别规则。螃蟹、虾和鱿鱼属于“食物与饮品”下的海鲜。
 Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	箱子、板条箱和掉落集合资源点。它们很少响应拾取事件。默认关闭。
@@ -282,7 +284,8 @@ The game fills a node's data only when it thinks you can reach it. Arming asks i
 The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	游戏在移除已被拾取的对象时存在延迟。该机制可防止对象在淡出消失期间被重复提交拾取。
 The game treats this as stealing and will put a bounty on you.	游戏会将此判定为盗窃，并会对你进行通缉/增加赏金。
 The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	Mod 从不会挥动镐子，而是直接驱动矿脉自身的击碎流程；对此游戏只会走一行掉落逻辑，而真正的挥击会走两行，所以当 Mod 代为采矿时，你的采矿工具加成不会生效。此选项会通过游戏自身的掉落路径把缺少的那部分矿石补回来，因此这是真正洒落在地面上的矿石，而不是直接复制进背包的物品。请将其设置为你手动挖矿时工具加成减一的数值：手动能给 3 个的钻头，这里应填 2。它只作用于被本 Mod 击碎的矿脉，因此手动挖矿不受影响，两者也不会叠加。
-The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	剥皮交互，每具尸体仅一次。人类尸体则会掉落普通拾取物。剥皮所得不会经过你的过滤规则检查：Mod 在物品落地之前完全看不到它，因此这个开关只能全开或全关。
+Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	剥取你击杀的动物的皮，每具尸骸一次。人归在“尸体”下。剥皮所得不会按你的筛选器检查。模组在它到手之前看不到它，所以这个开关要么全有要么全无。
+Searching the people you kill, once per body. Animals go under Carcasses. What a search pays out is not checked against your filters, so this switch is all or nothing too.	搜刮你击杀的人，每具尸体一次。动物归在“尸骸”下。搜刮所得不会按你的筛选器检查，所以这个开关同样要么全有要么全无。
 This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	本次会话：已拾取 %ld 个，已采集 %ld 个，已捕获 %ld 个，已搜刮 %ld 具尸体
 Timber and branches on the ground and nodes that yield them.	地面上的木材与树枝，以及产出它们的资源点。
 To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	要单独放过某个物种，可在“物品”页中将其对应项设为“从不”，例如 Item_Tench、Item_Ricefish、Item_Iguana。Mod 会读取该生物在游戏角色数据表中的自身条目，因此在捕捉之前就已经知道面对的是哪个物种。少数特殊生物仍会退而依据模型名称进行猜测，此时只能按类别捕捉。

@@ -47,6 +47,8 @@ Auto-loot enabled
 Auto-loot on / off	
 Backups	
 blank for English	
+Bodies	
+bodies off	
 Books and papers	
 Boss rewards, artifacts, memory items, coin pouches and reward chests.	
 Break veins open rather than emptying them	
@@ -245,12 +247,14 @@ Scan radius
 Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d	
 Scans per second	
 search item name or key (3+ letters)	
+Searching the people you kill, once per body. Animals go under Carcasses. What a search pays out is not checked against your filters, so this switch is all or nothing too.	
 Sending events	
 Set	
 Settings: %ls	
 Show a brief notice when auto-loot is toggled	
 Showing current overrides. Type to search all %d items.	
 Showing the nearest %d of %d. The rest are further away.	
+Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	
 Skip all	
 Skip items shops refuse to buy	
 Skip quest items	
@@ -277,7 +281,6 @@ The game fills a node's data only when it thinks you can reach it. Arming asks i
 The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	
 The game treats this as stealing and will put a bounty on you.	
 The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	
-The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	
 This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	
 Timber and branches on the ground and nodes that yield them.	
 To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	

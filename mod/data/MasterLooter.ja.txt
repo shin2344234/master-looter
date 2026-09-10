@@ -55,7 +55,9 @@ Breaking drives the game's own state machine at the vein, the swing landing and 
 Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	蝶、甲虫、トンボ、蜂、蜘蛛、サソリ、カタツムリなど、ゲームが昆虫として分類する小さな生き物。種はクリーチャーテーブルから取得されます。テーブルが名前を判別できない生き物は、該当しうる全カテゴリがオンの場合にのみ捕獲されます（飛ぶものは魚、昆虫、鳥のいずれかの可能性があります）。
 captured	取得済み
 Carcasses	死骸
+Bodies	遺体
 carcasses off	死骸オフ
+bodies off	遺体オフ
 Catching	捕獲
 Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	生きたまま、または死んで転がっている捕獲対象の生き物。テーブルが名前を判別できるクリーチャーはそのクラスのルールに従います。カニ、エビ、イカは「食料と飲料」の海産物に分類されます。
 Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	宝箱、木箱、ドロップセット式の採集ポイント。ルートイベントに反応しないことが多いため、初期値はオフです。
@@ -279,7 +281,8 @@ The game fills a node's data only when it thinks you can reach it. Arming asks i
 The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	ゲームは取得済みオブジェクトを遅延させて消去します。これにより、消える途中の同じオブジェクトが二重に送信されるのを防ぎます。
 The game treats this as stealing and will put a bounty on you.	ゲームはこれを窃盗とみなし、賞金をかけます。
 The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	MODはつるはしを振ることはありません。鉱脈自身の破壊シーケンスを実行しますが、そのとき使われるドロップ行は実際の一撃の半分しかなく、MODが採掘するとき採掘道具のボーナスは反映されません。この設定はゲームと同じドロップ経路で不足分の鉱石を追加するため、バッグに複製されたアイテムではなく、地面に実際に散らばる鉱石になります。手動採掘での道具のボーナスから1引いた値に設定してください。手動で3個産出するドリルなら、ここは2です。これはMODが打ち割った鉱脈にのみ適用されるため、手動採掘には影響せず、二つが重複することもありません。
-The skinning interaction, once per carcass. Human corpses drop ordinary loot instead. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	解体の対話操作で、1体につき1回です。人間の死体は代わりに通常のルートをドロップします。解体で得られるものはフィルターと照合されません。MODは地面に落ちるまで中身を確認できないため、このスイッチはオンかオフかのどちらかです。
+Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	倒した動物の皮剥ぎ、死骸ごとに一回。人は「遺体」の扱いです。皮剥ぎで得られるものはフィルターで確認されません。Modは届く前にそれを見ることがないため、このスイッチは全か無かです。
+Searching the people you kill, once per body. Animals go under Carcasses. What a search pays out is not checked against your filters, so this switch is all or nothing too.	倒した人を調べる操作、遺体ごとに一回。動物は「死骸」の扱いです。調べて得られるものはフィルターで確認されないため、このスイッチも全か無かです。
 This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	このセッション：拾得%ld、採集%ld、捕獲%ld、死骸%ld
 Timber and branches on the ground and nodes that yield them.	地面の木材や枝と、それらを産出する採集ポイント。
 To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	特定の種だけ手を付けないようにするには、「アイテム」タブでその変換先を「決して」に設定してください：Item_Tench、Item_Ricefish、Item_Iguana。MODはゲームのキャラクターテーブルにあるクリーチャー自身の行を読み取るため、何かを捕獲する前にその種を把握しています。ただし一部の特殊なクリーチャーはモデル名からの推測に頼るしかなく、カテゴリのみで捕獲されます。

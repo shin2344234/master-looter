@@ -62,7 +62,8 @@ namespace ml
         int   burstPerKey    = 0;      // objects per burst press, 0 = all
         int   retryAfterMs   = 6000;   // before the same object may be tried again
         // what to collect
-        bool  lootCorpses    = true;
+        bool  lootCorpses    = true;   // skinning the animals you kill
+        bool  searchBodies   = true;   // searching the people you kill; the game uses one action for both
         bool  pickUpItems    = true;
         bool  gatherPlants   = true;   // herbs, flowers, mushrooms and seeds
         // Vegetables, fruit and grain, on the plant or lying loose. Their own
