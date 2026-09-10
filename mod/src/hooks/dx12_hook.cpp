@@ -1697,6 +1697,24 @@ namespace ml::hooks
         // What was killing it is that the render target views held references
         // to back buffers of a chain the game was destroying. Those are
         // released in the wrapper's destructor now. See the comment there.
+        // A full-size chain on some other window, once the game's is known, is
+        // another mod's surface. WrapSwapChain already leaves those alone, but
+        // the queue pin below did not: every creation re-pinned the present
+        // queue, authoritative, so a chain created by an overlay mod on its own
+        // window moved this mod's submits onto that mod's queue while the
+        // wrapper stayed on the game's chain. Nothing about that queue is ours
+        // to submit on. Left alone entirely, and said once per window.
+        if (g_wrappedHwnd && hwnd && hwnd != g_wrappedHwnd)
+        {
+            static HWND s_said = nullptr;
+            if (s_said != hwnd)
+            {
+                s_said = hwnd;
+                LOG("[hook] a %ux%u swapchain on window %p, which is not the game's %p: another mod's surface, left alone",
+                    desc ? desc->Width : 0u, desc ? desc->Height : 0u, static_cast<void*>(hwnd), static_cast<void*>(g_wrappedHwnd));
+            }
+            return hr;
+        }
         if (g_wrapperActive)
             LOG("Swapchain replaced; wrapping the new one.");
 
