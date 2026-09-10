@@ -4,9 +4,9 @@
     py -3 announce-discord.py --apply    post it
 
 Reads the version from version.h and the changelog from
-private/nexus/nexus-changelog-<version>.txt, and posts a header with the
-Nexus files page and the GitHub release, followed by the changelog in
-chunks under Discord's message limit. Headings become bold lines.
+private/nexus/nexus-changelog-<version>.txt, and posts one short message:
+the version, the changelog's opening paragraph, the Nexus files page and
+the GitHub release. The full changelog stays on those two pages.
 
 Needs DISCORD_RELEASES_WEBHOOK, a webhook for the mod-releases channel, in
 the environment or in keys.local.env beside this script, the same file the
@@ -92,8 +92,14 @@ def main():
     if os.path.exists(marker):
         print("%s was already announced (%s). Delete the marker to post again." % (ver, marker))
         return 1
-    head = "**Master Looter %s**\nNexus: <%s>\nGitHub: <%s>" % (ver, NEXUS_FILES, GITHUB_RELEASE % ver)
-    messages = [head] + chunks(changelog(ver))
+    # One post, kept short: the version, the changelog's opening paragraph,
+    # which says what changed in two or three sentences, and the two links.
+    # Seth asked for it this way after the first announcement went out as the
+    # whole changelog in three messages. The full text is one click away.
+    paras = changelog(ver)
+    lead = next((p for p in paras if not p.startswith("For Crimson Desert") and not p.startswith("**")), "")
+    body = "**Master Looter %s**\n\n%s\n\nDownload: <%s>\nChangelog and source: <%s>" % (ver, lead, NEXUS_FILES, GITHUB_RELEASE % ver)
+    messages = chunks([body]) if len(body) > LIMIT else [body]
     for i, m in enumerate(messages, 1):
         print("--- message %d of %d (%d chars) ---" % (i, len(messages), len(m)))
         print(m)
