@@ -50,9 +50,30 @@ def write_zip(name, files):
     return out
 
 
+def signed(path):
+    """True when the plugin carries a valid Authenticode signature. Uses the
+    signtool beside the signing dlib under private/tools; when that folder is
+    missing (a machine without the signing setup) the answer is None."""
+    signtool = os.path.join(os.path.dirname(MOD), "private", "tools", "signtool.exe")
+    if not os.path.exists(signtool):
+        return None
+    import subprocess
+    r = subprocess.run([signtool, "verify", "/pa", "/q", path], capture_output=True)
+    return r.returncode == 0
+
+
 def main():
     header = open(os.path.join(MOD, "src", "version.h"), encoding="utf-8").read()
     version = re.search(r'ML_VERSION\s+"([^"]+)"', header).group(1)
+    # Since 1.7.0 every release ships signed. Sign first (mod/scripts/sign.ps1),
+    # then package, so the archives carry the signed file and the checksums
+    # printed here are of what people download.
+    asi = os.path.join(DIST, "MasterLooter.asi")
+    ok = signed(asi)
+    if ok is False and "--unsigned" not in sys.argv:
+        sys.exit("MasterLooter.asi in dist is not signed. Run mod/scripts/sign.ps1 first, or pass --unsigned on purpose.")
+    if ok is None:
+        print("note: no signing tools under private/tools, so the signature was not checked")
     full = write_zip("MasterLooter-%s.zip" % version, FULL)
     dmm = write_zip("MasterLooter-%s-DMM.zip" % version, DMM)
     print("\nSHA-256 for %s:" % version)
