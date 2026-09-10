@@ -85,6 +85,12 @@ TICS = [
     (r"\boff a log\b", 'off a log'),
     (r"\bworth (?:saying|having|knowing) (?:plainly|rather than)\b", 'worth saying plainly'),
     (r"\bhonest(?:ly)? (?:state|answer|position|about)\b", 'announcing my own honesty'),
+    (r"\b(?:and )?it was mine\b", 'performed honesty: and it was mine'),
+    (r"\bwas (?:the )?(?:mod page|this mod)'s fault\b", 'blaming the mod as a flourish'),
+    (r"\bwas the clue\b", 'was the clue'),
+    (r"\b(?:back )?through a different door\b", 'through a different door'),
+    (r"\bnothing in .{0,30} was to blame\b", 'nothing was to blame'),
+    (r"\bwrong on the (?:first|second|last) (?:point|count|half)\b", 'wrong on the second point'),
 ]
 
 # Saying "I got this wrong" once is candour. Five times in one document is a
