@@ -16,6 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Dear ImGui
 Fetched at build time from https://github.com/ocornut/imgui (MIT License, Copyright (c) 2014-2025 Omar Cornut).
 
+One backend file, `src/gui/imgui_impl_dx12.cpp`, is a copy of upstream `backends/imgui_impl_dx12.cpp` from the same version, changed in one respect: its two shaders are precompiled (`src/gui/imgui_dx12_shaders.h`, from `mod/shaders/imgui_vs.hlsl` and `imgui_ps.hlsl`) instead of compiled at runtime, so the plugin does not import d3dcompiler_47.dll. Same MIT licence.
+
 ## MinHook
 Fetched at build time from https://github.com/TsudaKageyu/minhook (BSD 2-Clause License, Copyright (C) 2009-2017 Tsuda Kageyu). Its bundled HDE disassembler is used by `src/loot/farhook.cpp` to measure function prologues.
 

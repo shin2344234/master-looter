@@ -28,7 +28,8 @@ add_library(imgui STATIC
     ${imgui_SOURCE_DIR}/imgui_draw.cpp
     ${imgui_SOURCE_DIR}/imgui_tables.cpp
     ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-    ${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp
+    # The DX12 backend is a vendored copy with precompiled shaders (no d3dcompiler); see src/gui/imgui_impl_dx12.cpp.
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/gui/imgui_impl_dx12.cpp
     ${imgui_SOURCE_DIR}/backends/imgui_impl_win32.cpp
 )
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends)
