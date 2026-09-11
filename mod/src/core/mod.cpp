@@ -232,7 +232,6 @@ namespace ml::Mod
                 LOG("[env] running under Wine %s (%s). If the game dies with no [fault] line below, the reason is in Steam's "
                     "log: launch with PROTON_LOG=1 and read ~/steam-3321460.log.",
                     ver(), build ? build() : "build id unknown");
-                Settings::NoteWine();
             }
         }
         LOG("Mod page %s | source %s", ML_MOD_PAGE, ML_SOURCE_URL);
