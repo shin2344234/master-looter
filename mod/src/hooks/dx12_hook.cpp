@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <d3d12.h>
 #include <dxgi1_5.h>
+#include <atomic>
 #include <vector>
 
 #include <MinHook.h>
@@ -59,6 +60,12 @@ namespace ml::hooks
     // drawing, so the native Present byte-hook must stop drawing (its buffers are
     // Streamline's read-only finished frames). Never cleared for the session.
     static bool g_wrapperActive = false;
+
+    // Frames that reached this mod through any path: the wrapper's Present, the
+    // stacked detours, either flavour. Zero when the game has been running for
+    // a while means this mod has no way onto the screen, which OverlayBlindWatch
+    // acts on rather than leaving the player with a menu key that does nothing.
+    static std::atomic<unsigned> g_presentSeen{0};
 
     // Reentrancy guard for swapchain creation. When the game calls our patched
     // CreateSwapChainForHwnd, the real implementation (Streamline's interposer)
@@ -910,6 +917,11 @@ namespace ml::hooks
     // drawing - those are Streamline's read-only finished frames, left untouched.
     static bool RenderOverlay(IDXGISwapChain3* swapChain, bool isGameFacing)
     {
+        // Counted before anything can refuse: every path that could draw comes
+        // through here, so this is the one number that says whether this mod is
+        // on the screen at all. OverlayBlindWatch reads it.
+        g_presentSeen.fetch_add(1, std::memory_order_relaxed);
+
         if (!isGameFacing)
             return false;
 
@@ -1393,7 +1405,7 @@ namespace ml::hooks
         return nullptr;
     }
 
-    static bool LogHookTarget(const char* what, void* addr, bool stack = false)
+    static bool LogHookTarget(const char* what, void* addr, bool stack = false, bool allowProxy = false)
     {
         char mod[64];
         OwningModule(addr, mod, sizeof mod);
@@ -1444,9 +1456,26 @@ namespace ml::hooks
         // LuxDragon's machine and the queue had no fallback.
         if (!ModuleInSystemDir(addr) && _stricmp(mod, "d3d12core.dll") != 0)
         {
-            LOG("[hook] %s @ %p in %s (%s), a module named like a system DLL but living in the game folder, "
-                "so it is another mod's proxy: left alone", what, addr, mod, bytes);
-            return false;
+            // Unless there is nothing else left. OptiScaler, DLSS Enabler and
+            // ReShade replace dxgi.dll outright, so the game's swapchain is
+            // their object and every present call in its vtable is their code.
+            // Refusing all of them leaves this mod with no way to draw at all,
+            // which is what happened here on 11 September 2026: an OptiScaler
+            // dxgi.dll went in beside the game, Crimson Route was loaded so the
+            // wrapper was off, and the menu went silent on a plugin that
+            // otherwise loaded and looted. Stacking on a proxy's present is the
+            // same move this mod already makes on Steam's overlay: ours runs,
+            // then theirs, then the real library. Issue 34's refusal stands
+            // where it was earned, on anything that is not a present call.
+            if (!allowProxy)
+            {
+                LOG("[hook] %s @ %p in %s (%s), a module named like a system DLL but living in the game folder, "
+                    "so it is another mod's proxy: left alone", what, addr, mod, bytes);
+                return false;
+            }
+            LOG("[hook] %s @ %p in %s (%s) is another mod's proxy in the game folder, and it owns every present "
+                "call there is: stacking on it, because the alternative is a menu that never draws", what, addr, mod, bytes);
+            return true;
         }
         LOG("[hook] %s @ %p in %s (%s)", what, addr, mod, bytes);
         return true;
@@ -1687,11 +1716,92 @@ namespace ml::hooks
     // ExecuteCommandLists is ID3D12CommandQueue[10]. Each still goes through
     // LogHookTarget, so anything already detoured, owned by another module, or
     // sitting in a proxy that borrows a system DLL's name is left alone.
+    // The detour targets, read off the game's own objects. Slot numbers are the
+    // interface layout, which is fixed: Present is IDXGISwapChain[8], Present1
+    // [22], ResizeBuffers [13], SetColorSpace1 is IDXGISwapChain3[38],
+    // ResizeBuffers1 [39], and ExecuteCommandLists is ID3D12CommandQueue[10].
+    //
+    // They are cached because a later pass may fill in what the first one
+    // refused. What is cached is six function addresses inside modules, never a
+    // swapchain pointer: holding a reference to the chain is what kept it from
+    // dying in issue #30, and a raw one would dangle the moment the game
+    // replaced it.
+    struct HookSlot
+    {
+        const char* name;
+        void*       addr;
+        void*       detour;
+        void**      orig;
+        bool        mayStack;   // another mod's jump may be stacked on
+        bool        mayProxy;   // a game-folder proxy may be stacked on as a last resort
+        bool        draws;      // installing this one gives the overlay a way in
+        bool        installed;
+    };
+    static HookSlot g_targets[6] = {};
+    static bool g_targetsRead = false;
+    static bool g_proxyPassDone = false;
+
+    static bool AnyDrawPathHooked()
+    {
+        for (const HookSlot& t : g_targets)
+            if (t.installed && t.draws) return true;
+        return false;
+    }
+
+    // One pass over whatever is still uninstalled. Returns how many it added.
+    static int InstallPass(bool stack, bool allowProxy, bool wrapperWillDraw = true)
+    {
+        int added = 0, skipped = 0;
+        for (HookSlot& t : g_targets)
+        {
+            if (t.installed || !t.addr) { if (!t.installed) ++skipped; continue; }
+            if (!LogHookTarget(t.name, t.addr, stack && t.mayStack, allowProxy && t.mayProxy)) { ++skipped; continue; }
+            if (MH_CreateHook(t.addr, t.detour, t.orig) != MH_OK) { LOG_ERR("MH_CreateHook failed for %s.", t.name); ++skipped; continue; }
+            t.installed = true;
+            ++added;
+        }
+        if (added && MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
+            LOG_ERR("MH_EnableHook failed; the DirectX detours are not active.");
+        if (skipped && !allowProxy && wrapperWillDraw)
+            LOG("%d of 6 DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped);
+        else if (skipped && !allowProxy)
+            LOG("%d of 6 DirectX functions belong to something else and the wrapper is off.", skipped);
+        return added;
+    }
+
+    // Nothing is drawing and nothing is hooked that could: try again with a
+    // game-folder proxy allowed. Says what it is doing either way, because a
+    // silent overlay with no explanation is the report this exists to prevent.
+    static void EscalateToProxy(const char* why)
+    {
+        if (g_proxyPassDone || !g_targetsRead) return;
+        g_proxyPassDone = true;
+        LOG("[overlay] %s. Trying again with a present call in another mod's proxy allowed.", why);
+        if (InstallPass(true, true) == 0)
+            LOG_ERR("[overlay] there is still nothing this mod can hook to draw the menu. The [hook] lines above name who owns each call. "
+                    "Looting is unaffected; the menu needs one of those mods out of the folder, or WrapSwapChain=1 with no swapchain-keying overlay loaded.");
+    }
+
+    // Started once, when the targets are first read. Every path that can draw
+    // counts a frame, so a count still at zero means no path exists, whatever
+    // the reason: the hooks were all refused, or the wrapper was expected and
+    // never happened because the chain failed its interface check or arrived on
+    // another window. A machine can be slow to its first frame (twenty seconds
+    // on a 5060 Ti), so this waits and then acts on the count rather than on
+    // the clock alone.
+    static DWORD WINAPI OverlayBlindWatch(LPVOID)
+    {
+        for (int i = 0; i < 90 && g_presentSeen.load(std::memory_order_relaxed) == 0; ++i)
+            Sleep(200);
+        if (g_presentSeen.load(std::memory_order_relaxed) == 0 && !g_wrapperActive && !AnyDrawPathHooked())
+            EscalateToProxy("eighteen seconds and no frame has reached this mod, with nothing hooked that could bring one");
+        return 0;
+    }
+
     static void InstallDetoursFrom(IDXGISwapChain1* chain, IUnknown* queueUnk, bool stack)
     {
-        static bool s_done = false;
-        if (s_done || !chain) return;
-        s_done = true;
+        if (g_targetsRead || !chain) return;
+        g_targetsRead = true;
 
         void** scVt = *reinterpret_cast<void***>(chain);
         void* presentAddr  = scVt[8];
@@ -1714,30 +1824,29 @@ namespace ml::hooks
             q->Release();
         }
 
-        // ExecuteCommandLists is never stacked: the queue comes from the
-        // creation pin, and Trinity sits on that function.
-        struct Target { const char* name; void* addr; void* detour; void** orig; bool mayStack; };
-        const Target targets[] = {
-            { "Present",             presentAddr,    reinterpret_cast<void*>(&hkPresent),             reinterpret_cast<void**>(&oPresent),             true  },
-            { "Present1",            present1Addr,   reinterpret_cast<void*>(&hkPresent1),            reinterpret_cast<void**>(&oPresent1),            true  },
-            { "ResizeBuffers",       resizeAddr,     reinterpret_cast<void*>(&hkResizeBuffers),       reinterpret_cast<void**>(&oResizeBuffers),       true  },
-            { "ResizeBuffers1",      resize1Addr,    reinterpret_cast<void*>(&hkResizeBuffers1),      reinterpret_cast<void**>(&oResizeBuffers1),      true  },
-            { "ExecuteCommandLists", execAddr,       reinterpret_cast<void*>(&hkExecuteCommandLists), reinterpret_cast<void**>(&oExecuteCommandLists), false },
-            { "SetColorSpace1",      colorSpaceAddr, reinterpret_cast<void*>(&hkSetColorSpace1),      reinterpret_cast<void**>(&oSetColorSpace1),      true  },
+        // ExecuteCommandLists is never stacked and never taken from a proxy:
+        // the queue comes from the creation pin, Trinity sits on that function,
+        // and a proxy's copy of it was the hang in issue #34.
+        const HookSlot targets[6] = {
+            { "Present",             presentAddr,    reinterpret_cast<void*>(&hkPresent),             reinterpret_cast<void**>(&oPresent),             true,  true,  true,  false },
+            { "Present1",            present1Addr,   reinterpret_cast<void*>(&hkPresent1),            reinterpret_cast<void**>(&oPresent1),            true,  true,  true,  false },
+            { "ResizeBuffers",       resizeAddr,     reinterpret_cast<void*>(&hkResizeBuffers),       reinterpret_cast<void**>(&oResizeBuffers),       true,  true,  false, false },
+            { "ResizeBuffers1",      resize1Addr,    reinterpret_cast<void*>(&hkResizeBuffers1),      reinterpret_cast<void**>(&oResizeBuffers1),      true,  true,  false, false },
+            { "ExecuteCommandLists", execAddr,       reinterpret_cast<void*>(&hkExecuteCommandLists), reinterpret_cast<void**>(&oExecuteCommandLists), false, false, false, false },
+            { "SetColorSpace1",      colorSpaceAddr, reinterpret_cast<void*>(&hkSetColorSpace1),      reinterpret_cast<void**>(&oSetColorSpace1),      true,  true,  false, false },
         };
-        int hooked = 0, skipped = 0;
-        for (const Target& t : targets)
-        {
-            if (!t.addr || !LogHookTarget(t.name, t.addr, stack && t.mayStack)) { ++skipped; continue; }
-            if (MH_CreateHook(t.addr, t.detour, t.orig) != MH_OK) { LOG_ERR("MH_CreateHook failed for %s.", t.name); ++skipped; continue; }
-            ++hooked;
-        }
-        if (skipped)
-            LOG("%d of 6 DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped);
-        if (!hooked && skipped == 6)
-            LOG_ERR("Every DirectX function was already hooked by something else. The overlay depends entirely on the swapchain wrapper now.");
-        if (hooked && MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
-            LOG_ERR("MH_EnableHook failed; the DirectX detours are not active.");
+        for (int i = 0; i < 6; ++i) g_targets[i] = targets[i];
+
+        // Whether anything at all can draw is knowable here, without waiting:
+        // the wrapper is off when a keying overlay is loaded or the ini says
+        // so, and the present calls are about to be refused or taken.
+        const bool willWrap = Settings::Get().wrapSwapChain && !stack;
+        InstallPass(stack, false, willWrap);
+
+        if (!willWrap && !AnyDrawPathHooked())
+            EscalateToProxy("every present call belongs to another mod's proxy in the game folder and the swapchain wrapper is off, so nothing can draw the menu");
+
+        CloseHandle(CreateThread(nullptr, 0, &OverlayBlindWatch, nullptr, 0, nullptr));
     }
 
     static HRESULT STDMETHODCALLTYPE hkFactoryCreateSwapChainForHwnd(
