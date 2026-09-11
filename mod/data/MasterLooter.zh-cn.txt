@@ -34,8 +34,8 @@
 3 of 3	3/3
 \"%s\" already exists. Saving over it asks first.	\"%s\" 已存在。覆盖保存时会先进行确认。
 A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	水桶等物品从不会被自动拾取，但对其激活预载能让游戏提供互动提示，方便手动使用。
-Abyss and Kuku	Abyss 与 Kuku
-Abyss gear, Kuku pots and their parts.	阿比斯齿轮、渡渡鸟铁锅及其部件。
+Abyss and Kuku	阿比斯、嘟嘟鸟铁锅
+Abyss gear, Kuku pots and their parts.	阿比斯齿轮、嘟嘟鸟铁锅及其物品
 Accessories	饰品
 allowed	允许
 already in your bag	已在背包中
@@ -268,7 +268,7 @@ Status	状态
 Stone	石料
 stone off	石料已关闭
 Stone on the ground and nodes that yield stone.	地面上的石料，以及产出石料的资源点。
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	桌子、椅子、床、地毯、灯具、蜡烛、油画、花盆等布置在房间中的物件，无论是从地面拾取还是通过其自身的交互资源点获取。大多数只值一两枚铜币，但地毯和豪华床铺能卖到数千铜币，所以在布置房屋之前请先开启此项。箱子等能装东西的物件则归“容器”管理。默认关闭。
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	桌子、椅子、床、地毯、灯具、蜡烛、油画、花盆等布置在房间中的物品，无论是从地面拾取还是通过其自身的交互资源点获取。大多数只值一两枚铜币，但地毯和豪华床铺能卖到数千铜币，所以在布置房屋之前请先开启此项。箱子等能装东西的物品则归“容器”管理。默认关闭。
 Tag	标签
 Tags	标签
 tags, any of which can be set to never in the Tags tab:	标签，均可在“标签”页中设为“从不”：
