@@ -2079,3 +2079,56 @@ budget in thirty seconds on calls with no collect key that returned one, before
 the player reached a vein. This function is asked about far more than mining.
 Filter on a real collect key, a result other than one, or the mod's own break.
 
+
+## Bismuth: a vein that drops nodes, not items (2026-09-11)
+
+Reported on Discord by LuxDragon and confirmed by Proud Wingman, both on
+1.6.10, as bismuth being hit or miss. Seth reproduced it on 1.6.12. It is
+neither intermittent nor about bismuth ore as an item, which sits in the table
+as key 720010, class `ore`, with the same tags as Copper Ore and Iron Ore.
+
+A copper or iron vein breaks and spills loose items, which the scan then picks
+up: in LuxDragon's session four copper breaks each produced a pickup within
+four seconds, and both iron breaks did. A bismuth vein does something else. It
+breaks into ore chunks that are gimmicks of their own,
+`gimmick_mine_ore_bismuth_01`, two per break, and the chunk is what a player
+collects. The mod's node table calls those chunks ore, because they are, so the
+verdict reached the break path and drove the pair at them.
+
+The chunks have no transition for it. Twelve breaks in LuxDragon's session and
+six in Seth's produced not one pickup and not one drop event, and the very next
+verdict on the same entity was `does not respond`, which is what the mod says
+about anything it has already retired. The player gathered one 1.1 seconds after
+the mod had given up on it, which is what "sometimes I get it" means: the
+chunks that reached the bag were the ones walked over by hand.
+
+The distinguishing facts, for anyone reading a log:
+
+- The vein is `cat 00/00` with four trigger ids in its `[trigmap]` line. The
+  chunk is `cat 00/0F` with one. The byte is not a rule on its own: firewood and
+  market baskets are `0F` as well.
+- A vein raises `TrocTrDropItemOnGimmickBreakOnceTimer` within 35 to 130 ms of
+  the drive, naming the broken entity at payload +3. A chunk raises nothing.
+- Neither carries gather data. `node gather` never appears on a chunk, and the
+  vein was broken with `type 0` in one of the two sessions, so the presence of
+  data separates nothing.
+
+Nothing in the tables says which is which, so the mod asks the game. Every
+break the mod drives is recorded with the entity id, and the drop event is
+watched for by id on the game thread. A second and a half later, silence means the node was
+never a vein. It comes back off the retired list and is gathered the way the
+player would. Its prefab is remembered too, so the next chunk of that kind is
+gathered outright. One line in the log says so the first time.
+
+This is not only bismuth. The node table has fifteen ore-kind prefabs of the
+collect-a-chunk shape, fourteen `gimmick_collect_ore_<material>_01` and the
+bismuth one, and `gimmick_collect_ore_stone_01` already shows the same
+signature in LuxDragon's log: two breaks, no pickup. The rule above covers all
+of them without naming any, which is why it was written that way rather than as
+a list.
+
+One margin worth keeping in mind: the answer window is 1500 ms against a
+measured worst case of 130 ms. A vein whose drop somehow took longer than that
+would be gathered as well as broken, which is a double yield, so do not shorten
+the window without a reason and do not lengthen the measurement without
+re-checking it.

@@ -1370,6 +1370,73 @@ namespace ml::loot
         if (g_broke.size() >= 32) g_broke.erase(g_broke.begin());
         g_broke.push_back({ p, now });
     }
+    // Not every node the table calls ore is a vein. Breaking a bismuth vein
+    // spawns ore chunks that are gimmicks in their own right, and the chunk is
+    // what the player picks up. The chunk's chart has no transition for the
+    // break pair, so driving it there does nothing at all: no drop, no state
+    // change, and the mod retired the chunk as done and left the ore lying on
+    // the ground. LuxDragon and Proud Wingman both reported it as bismuth
+    // being hit or miss, which is what it looks like from the saddle: the
+    // chunks that got picked up were the ones the player walked over.
+    //
+    // Nothing in the tables says which is which, so the mod asks the game. A
+    // vein answers the break with its drop event inside a frame or two. A node
+    // that ignores the pair answers with nothing, and after a second and a half
+    // of silence the mod takes the node back off the retired list, gathers it
+    // the way the player would, and remembers the prefab so the next chunk of
+    // that kind is gathered outright. One line says so the first time.
+    static volatile LONG g_dropRing[32] = {};
+    static volatile LONG g_dropRingAt = 0;
+
+    void NoteBreakDrop(uint32_t eid)
+    {
+        const LONG slot = InterlockedIncrement(&g_dropRingAt) & 31;
+        InterlockedExchange(&g_dropRing[slot], static_cast<LONG>(eid));
+    }
+
+    static bool SawDropFor(uint32_t eid)
+    {
+        for (int i = 0; i < 32; ++i)
+            if (static_cast<uint32_t>(InterlockedCompareExchange(&g_dropRing[i], 0, 0)) == eid) return true;
+        return false;
+    }
+
+    struct DrivenBreak { uint32_t eid; uint64_t key; DWORD when; char node[160]; };
+    static std::vector<DrivenBreak> g_drivenBreaks;
+    static std::unordered_set<std::string> g_notVeins;   // prefabs that ignored the pair
+    static constexpr DWORD kBreakAnswerMs = 1500;        // a drop lands in a frame or two
+
+    static bool NotAVein(const char* node)
+    {
+        return node && node[0] && g_notVeins.count(node) != 0;
+    }
+
+    // Called once a pass. Anything driven longer ago than the answer window is
+    // judged: drop seen, it was a vein and there is nothing to do; silence, and
+    // the node goes back to being gatherable.
+    static void ReviewBreaks(DWORD now)
+    {
+        for (size_t i = 0; i < g_drivenBreaks.size();)
+        {
+            const DrivenBreak& b = g_drivenBreaks[i];
+            if (now - b.when < kBreakAnswerMs) { ++i; continue; }
+            if (!SawDropFor(b.eid))
+            {
+                g_searched.erase(b.key);
+                g_searched.erase(b.eid);
+                g_retiredEid.erase(b.eid);
+                g_done.erase(b.key);
+                if (b.node[0] && !g_notVeins.count(b.node))
+                {
+                    g_notVeins.insert(b.node);
+                    LOG("[break] %s did not answer the break, so it is not a vein: gathering these instead. "
+                        "A vein drops within a frame or two of the swing; this one dropped nothing.", b.node);
+                }
+            }
+            g_drivenBreaks.erase(g_drivenBreaks.begin() + static_cast<long>(i));
+        }
+    }
+
     // Debug only. After the mod breaks a vein, keep reading it for a few
     // seconds so the slot probe can say whether the break moved its state.
     // A hand-broken vein goes from +0x350 = 3 to 5 and gains its point data at
@@ -2562,6 +2629,10 @@ namespace ml::loot
         const DWORD now = GetTickCount();
         g_scanNow = now;
         g_debugLog = cfg.debugLog;
+        // Judge any break driven a second and a half ago before deciding
+        // anything this pass: a node that answered with nothing stops being
+        // treated as a vein from here on.
+        ReviewBreaks(now);
         LARGE_INTEGER t0, t1, fq; QueryPerformanceCounter(&t0); QueryPerformanceFrequency(&fq);
 
         const uintptr_t mgr = game::ActorManager();
@@ -3451,7 +3522,8 @@ namespace ml::loot
                     // events this drives carries a tool, and FINDINGS.md records that no
                     // tool query exists anywhere on the drop path. Issue #31.
                     const bool breakIt = cfg.breakOre && v.act == Action::Gather && k.nodeType &&
-                                         k.nodeType->tagged && KindFromName(k.nodeType->kind) == GatherKind::Ore;
+                                         k.nodeType->tagged && KindFromName(k.nodeType->kind) == GatherKind::Ore &&
+                                         !NotAVein(k.node);
                     if (breakIt)
                     {
                         // Drive the game's own state machine at the node: the swing
@@ -3476,6 +3548,12 @@ namespace ml::loot
                         // A vein the game respawns returns as a new entity, so retiring
                         // this one does not bar it for good.
                         g_searched.insert(key);
+                        // Judged a second and a half from now: a vein will have
+                        // dropped by then, and anything that has not is not one.
+                        if (g_drivenBreaks.size() > 32) g_drivenBreaks.erase(g_drivenBreaks.begin());
+                        DrivenBreak rec{ k.eid, key, now, "" };
+                        snprintf(rec.node, sizeof rec.node, "%s", k.node);
+                        g_drivenBreaks.push_back(rec);
                         // What falls out lands here. NearOwnBreak reads this so the
                         // spill is not mistaken for the contents of a container.
                         BrokeMark(k.pos, now);

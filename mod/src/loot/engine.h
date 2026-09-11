@@ -7,6 +7,12 @@
 // game-thread pump. The menu reads its status and snapshots.
 namespace ml::loot
 {
+    // The game raised its drop-on-break event for this entity. Called from the
+    // event spy on the game thread; the scan reads it to tell a vein that
+    // answered the break from a node that ignored it, which is the whole of the
+    // bismuth chunk problem. See the break review in engine.cpp.
+    void NoteBreakDrop(uint32_t eid);
+
     struct Status
     {
         bool  started = false, resolved = false, hooked = false, actorManager = false, playerFound = false;

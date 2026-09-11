@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "engine.h"
 #include "game.h"
 #include "hooks.h"
 #include "mem.h"
@@ -553,6 +554,34 @@ namespace ml::events
         if (static_cast<DWORD>(InterlockedCompareExchange(&g_sendTid, 0, 0)) == GetCurrentThreadId()) return; // ours
         uint32_t who = 0, rt = 0;
         if (!mem::Read32(ev + kOff_Ev_Player, &who) || !mem::Read32(ev + kOff_Ev_Route, &rt)) return;
+
+        // A vein that takes the break pair raises the drop event within a frame
+        // or two, naming the entity that broke. A node that ignores the pair
+        // raises nothing, and that silence is the only thing that separates a
+        // dropped ore chunk from the vein that spawned it. Read on every event
+        // rather than only in a debug session, because the break review in the
+        // engine depends on it. The id is resolved by class name once, since
+        // ids drift between builds; the payload holds the broken entity at +3,
+        // the player at +7.
+        {
+            static uint16_t s_dropId = 0;
+            static bool s_looked = false;
+            if (!s_looked && !g_descMap.empty())
+            {
+                s_looked = true;
+                for (const DescName& d : g_descMap)
+                    if (d.cls.find("TrocTrDropItemOnGimmickBreakOnceTimer") != std::string::npos) { s_dropId = d.id; break; }
+            }
+            uintptr_t payload = 0; uint16_t size = 0, id = 0;
+            if (s_dropId &&
+                mem::ReadPtr(ev + kOff_Ev_Buffer, &payload) &&
+                mem::Read16(ev + kOff_Ev_Size, &size) && size >= 7 &&
+                mem::Read16(payload, &id) && id == s_dropId)
+            {
+                uint32_t broke = 0;
+                if (mem::Read32(payload + 3, &broke) && broke) ml::loot::NoteBreakDrop(broke);
+            }
+        }
         // The three event kinds a vein's break could travel on, named whoever
         // raised them. Not filtered by owner tag: a gimmick retiring itself is
         // tagged world, not player, which is why no such event had ever reached
