@@ -33,16 +33,16 @@
 1 match%s	1 个匹配%s
 3 of 3	3/3
 \"%s\" already exists. Saving over it asks first.	\"%s\" 已存在。覆盖保存时会先进行确认。
-A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	水桶等物件从不会被自动拾取，但对其激活预载能让游戏提供互动提示，方便手动使用。
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	水桶等物品从不会被自动拾取，但对其激活预载能让游戏提供互动提示，方便手动使用。
 Abyss and Kuku	Abyss 与 Kuku
-Abyss gear, Kuku pots and their parts.	Abyss 装备、Kuku 罐及其部件。
+Abyss gear, Kuku pots and their parts.	阿比斯齿轮、渡渡鸟铁锅及其部件。
 Accessories	饰品
 allowed	允许
 already in your bag	已在背包中
 always	总是
 always beats the class rule; never beats always	“总是”优先于类别规则；“从不”优先于“总是”
 Ammunition	弹药
-Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	所有类别中带有“任务”标签的物品。关闭此项可将剧情拾取物与解谜构件留待手动拾取。
+Anything tagged quest, across every class. Off keeps story pickups and puzzle pieces for your own hands.	所有类别中带有“任务”标签的物品。关闭此项可将剧情物品与解谜物品留待手动拾取。
 Arm mechanism containers too	同时激活机关容器
 Arm nodes ourselves	主动激活资源点
 Arming ignores walls. Keep it short or you will gather through the wall of the next room. Ore is the exception and is always reached for at up to 25 m, because a vein takes seconds to answer and asking only once you are on top of it means it opens too late to be any use.	激活会穿透墙壁。请保持较短距离，否则可能会隔墙采集相邻房间的资源。矿石是例外，激活距离始终可达 25 米，因为矿脉需要数秒才能响应，等到站在它跟前才激活就为时已晚，起不到作用。
@@ -52,7 +52,7 @@ Auto-loot on / off	自动拾取（开/关）
 Backups	备份
 blank for English	留空使用英文
 Books and papers	书籍与文件
-Boss rewards, artifacts, memory items, coin pouches and reward chests.	首领奖励、神器、记忆物品、钱袋和奖励宝箱。
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	首领奖励、阿比斯神器、记忆碎片、钱袋和奖励宝箱。
 Break veins open rather than emptying them	击碎矿脉而非直接清空
 Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	击碎会驱动矿脉自身的游戏状态机：先是挥击命中，再是击碎，因此资源点会将内容物洒落在地面上并消失，与被镐子击碎时完全一样。直接清空则会将矿石直接取出，完全跳过掉落过程。两种方式都不会触发你工具的“挖矿产出提升”，因为游戏只会将其判定为算你自己的挥击才给予加成，所以请用下方的“额外”选项来补足这部分差额。每条矿脉只会被击中一次，随后保持不变，直到游戏将其重新生成。
 Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	蝴蝶、甲虫、蜻蜓、蜜蜂、蜘蛛、蝎子、蜗牛，以及游戏归类为昆虫的其他小型生物。物种信息来自生物数据表；若数据表无法命名某个生物，则只有在它可能归属的每个类别都已开启时才会被捕捉（例如一个会飞的生物可能是鱼、昆虫或鸟类）。
@@ -102,7 +102,7 @@ entity %08X, bag %d of %d slots, %d items across every store	实体 %08X，背�
 Event descriptors	事件描述符
 Extra ore per vein	每条矿脉的额外矿石
 failed	失败
-fast-travel artifact	快速旅行神器
+fast-travel artifact	被封印的阿比斯神器
 filter classes	过滤类别
 filter tags	过滤标签
 Filters	过滤规则
@@ -222,12 +222,12 @@ Player equipment.	玩家装备。
 Player not found in the scene yet.	场景中尚未找到玩家。
 Presets	预设
 press a key (Escape cancels)	请按键（按 Escape 取消）
-Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	默认受保护：拾取记忆碎片会触发回忆场景，拿走解谜构件会破坏解谜机关。仅在确实需要自动拾取它们时才开启。
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	默认受保护：拾取记忆碎片会触发回忆场景，拿走解谜物品会破坏解谜机关。仅在确实需要自动拾取它们时才开启。
 protected item name	受保护的物品名称
 Puts every setting and rule back to what it was at that moment.	将所有设置和规则恢复至当时的状态。
 puzzle or protected mechanism	解谜或受保护的机关
 Quest items	任务物品
-quest or memory trigger	任务或记忆触发物
+quest or memory trigger	任务或记忆碎片物品
 Ranges (metres)	范围（米）
 Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	老鼠、松鼠、鸟类、蜥蜴、青蛙和蝾螈：游戏中其余会被整只放入背包的小动物。
 Reaching nodes	资源点预载
