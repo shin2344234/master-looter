@@ -21,8 +21,8 @@
 %d items, %d classes, %d tags	%d 個物品、%d 個類別、%d 個標籤
 %d line(s) were ignored: their %%d or %%s placeholders did not match the English, and using them would print the wrong values.	%d 行已被忽略：其 %%d 或 %%s 佔位符與英文原文不相符，使用它們會導致顯示錯誤的數值。
 %d matches%s	%d 個相符%s
-%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	本次工作階段已學習 %d 種資源點類型。資源點是依據生成時所用的預製物件（Prefab）命名；若該表有所遺漏，則會在首次產出物品時進行識別。資源點的類型編號在每次啟動之間都會改變，因此退出遊戲後不會保留任何記錄。
-%d objects within scan range, %d lootable now.	掃描範圍內共有 %d 個物件，目前可拾取 %d 個。
+%d node kinds learned this session. Nodes are named by the prefab they were placed from; anything that table misses is identified the first time it yields something. A node's type number changes between sessions, so nothing is remembered after you quit.	本次工作階段已學習 %d 種資源點類型。資源點是依據生成時所用的預製物品（Prefab）命名；若該表有所遺漏，則會在首次產出物品時進行識別。資源點的類型編號在每次啟動之間都會改變，因此退出遊戲後不會保留任何記錄。
+%d objects within scan range, %d lootable now.	掃描範圍內共有 %d 個物品，目前可拾取 %d 個。
 %d overrides	%d 個覆寫規則
 %s (key %u, row %d, tier %d)	%s (鍵值 %u, 列 %d, 階級 %d)
 %s (never looted)	%s (從不拾取)
@@ -32,7 +32,7 @@
 1 match%s	1 個相符%s
 3 of 3	3/3
 \"%s\" already exists. Saving over it asks first.	\"%s\" 已存在。覆蓋儲存前會先進行確認。
-A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	水桶等物件從不自動拾取，但對其預載能讓遊戲顯示互動提示，以便手動使用。
+A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	水桶等物品從不自動拾取，但對其預載能讓遊戲顯示互動提示，以便手動使用。
 Abyss and Kuku	Abyss 與 Kuku
 Abyss gear, Kuku pots and their parts.	Abyss 的裝備、Kuku 的鍋具及其零件。
 Accessories	飾品
@@ -51,7 +51,7 @@ Auto-loot on / off	自動拾取 開/關
 Backups	備份
 blank for English	留空使用英文
 Books and papers	書籍與文件
-Boss rewards, artifacts, memory items, coin pouches and reward chests.	王級獎勵、神器、記憶道具、錢袋與獎勵箱。
+Boss rewards, artifacts, memory items, coin pouches and reward chests.	王級獎勵、阿比斯神器、記憶碎片、錢袋與獎勵箱。
 Break veins open rather than emptying them	打破礦脈而非直接取空
 Breaking drives the game's own state machine at the vein, the swing landing and then the break, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying instead lifts the ore straight out and skips the drop entirely. Neither route pays your tool's Mining Yield Up, which the game only grants to a swing it counts as yours, so set the extra below to make up the difference. Each vein is struck once and then left alone until the game respawns it.	打破礦脈會驅動遊戲自身在該礦脈的狀態機，也就是揮擊命中後接著碎裂，讓資源點把內容物灑落在地上並消失，與用鎬子敲開時完全相同。取空則是直接把礦石取出，完全略過掉落過程。兩種方式都不會套用工具的「採礦收穫加成」，因為遊戲只會把它給予算作你自己的一次揮擊，所以請用下方的額外礦石來補足差額。每條礦脈只會被打一次，之後便會保持原狀，直到遊戲讓它重生為止。
 Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird).	蝴蝶、甲蟲、蜻蜓、蜜蜂、蜘蛛、蠍子、蝸牛，以及遊戲歸類為昆蟲的其他小型生物。物種名稱來自生物資料表；若資料表無法為某生物命名，只有在牠可能屬於的每個類別都已開啟時才會被捕捉（例如會飛的生物可能是魚、昆蟲或鳥類）。
@@ -68,7 +68,7 @@ class %s	類別 %s
 Classes	類別
 Clear	清除
 Clear overrides	清除覆寫規則
-Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	清除本次工作階段從背包中分析出的資料。由預製物件表命名的資源點不受影響。
+Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	清除本次工作階段從背包中分析出的資料。由預製物品表命名的資源點不受影響。
 Close	關閉
 container (off)	容器 (已關閉)
 Containers	容器
@@ -101,7 +101,7 @@ entity %08X, bag %d of %d slots, %d items across every store	實體 %08X，背�
 Event descriptors	事件描述符
 Extra ore per vein	每條礦脈額外礦石
 failed	失敗
-fast-travel artifact	快速旅行神器
+fast-travel artifact	封印的阿比斯神器
 filter classes	篩選類別
 filter tags	篩選標籤
 Filters	篩選條件
@@ -164,19 +164,19 @@ MASTER LOOTER	MASTER LOOTER
 Master Looter v%s for game build %s	Master Looter v%s (遊戲版本 %s)
 Materials	材料
 mechanism part	機關零件
-Memory chips and puzzle parts	記憶晶片與解謎構件
+Memory chips and puzzle parts	記憶碎片與解謎物品
 Mine ore veins for you	自動為你挖礦
 Minimum value (copper)	最低價值（銅幣）
 missing	未解析
 missing MasterLooter.items.tsv	缺少 MasterLooter.items.tsv
-mission object	任務目標物件
+mission object	任務目標物品
 Mounts and vehicles	坐騎與載具
 name a new preset	為新預設集命名
 Nearby	附近
 never	從不
 no	否
 no interaction node	無互動資源點
-Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	預製物件表無法命名、且本次工作階段尚未產出任何物品的資源點。關閉（預設）時會略過它們。開啟則會讓模組採集它們以查明內容，這代表即使「植物」開關已關閉，仍可能拾取到植物。
+Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off.	預製物品表無法命名、且本次工作階段尚未產出任何物品的資源點。關閉（預設）時會略過它們。開啟則會讓模組採集它們以查明內容，這代表即使「植物」開關已關閉，仍可能拾取到植物。
 none	無
 not found yet	尚未找到
 not in item database	不在物品資料庫中
@@ -186,12 +186,12 @@ not started	尚未啟動
 not yet	尚未
 Nothing else is drawn while the menu is closed.	選單關閉期間不會繪製任何其他內容。
 nothing taken yet this session	本次工作階段尚未拾取任何物品
-Object	物件
-object	物件
-Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	物件依距離由近至遠列出，並顯示判定該物件的規則。空資源點在遊戲或預載機制填入資料前會顯示為未就緒。自身穿戴與攜帶的物品已被排除。
-Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	距離小於此值的物件將被視為自身的裝備。這是一道安全機制；你的裝備也會透過其他方式被識別。
-Objects per burst press	單次快捷拾取物件數
-Objects per scan	單次掃描物件數
+Object	物品
+object	物品
+Objects are listed nearest first, with the rule that decided each one. Empty nodes read as not ready until the game or arming fills them. What you are wearing and carrying is left out.	物品依距離由近至遠列出，並顯示判定該物品的規則。空資源點在遊戲或預載機制填入資料前會顯示為未就緒。自身穿戴與攜帶的物品已被排除。
+Objects closer than this are treated as your own equipment. A safety net; your gear is also recognised by other means.	距離小於此值的物品將被視為自身的裝備。這是一道安全機制；你的裝備也會透過其他方式被識別。
+Objects per burst press	單次快捷拾取物品數
+Objects per scan	單次掃描物品數
 on the player	在玩家身上
 On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming, since asking the vein to open is the whole trick.	開啟時，礦脈會直接在原地被開採，你完全不需要揮動鎬子。關閉時，礦脈會被略過，只會拾取你自己敲落的礦石碎塊。這項功能需要預載，因為要求礦脈開啟正是其中的關鍵。
 On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	開啟時，覆蓋層會在 DLSS 影格生成（Frame Generation）之下繪製，這需要此模組為遊戲提供包裝後的交換鏈（Swapchain）。\n\n關閉時，覆蓋層改由 Present Hook 繪製。除非啟用了影格生成，否則視覺效果完全相同，且此模組能避開與其他覆蓋層模組衝突的 Hook 路徑。若遊戲在與其他覆蓋層模組共存時無法啟動，可嘗試關閉此項；亦可無須啟動遊戲，直接在 MasterLooter.ini 中設定 WrapSwapChain。
@@ -221,12 +221,12 @@ Player equipment.	玩家裝備。
 Player not found in the scene yet.	場景中尚未找到玩家。
 Presets	預設集
 press a key (Escape cancels)	請按任意鍵（按 Escape 取消）
-Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	預設受保護：拾取記憶晶片會觸發回憶場景，拿走解謎構件會破壞解謎機關。僅在確實需要自動拾取它們時才開啟。
+Protected by default: a memory chip starts a memory scene when taken, and a puzzle part breaks its puzzle. Turn on only if you want them auto-taken.	預設受保護：拾取記憶碎片會觸發回憶場景，拿走解謎構件會破壞解謎機關。僅在確實需要自動拾取它們時才開啟。
 protected item name	受保護的物品名稱
 Puts every setting and rule back to what it was at that moment.	將所有設定與規則還原至當時的狀態。
 puzzle or protected mechanism	解謎或受保護機關
 Quest items	任務物品
-quest or memory trigger	任務或記憶觸發物
+quest or memory trigger	任務或記憶碎片物品
 Ranges (metres)	範圍（公尺）
 Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole.	老鼠、松鼠、鳥類、蜥蜴、青蛙與蠑螈：遊戲會整隻放進背包的其他所有生物。
 Reaching nodes	資源點預載
@@ -238,7 +238,7 @@ Reload now	立即重新載入
 Replaces every setting and every class, tag and item rule with what the preset holds, and writes it to MasterLooter.ini. Nothing of the current settings is kept, so back them up first if you want them.	將所有設定以及每個類別、標籤和物品規則全部取代為該預設集中的內容，並寫入 MasterLooter.ini。目前的設定將不會保留，如有需要請先進行備份。
 Reset all tags	重設所有標籤
 resolved	已解析
-Retry the same object after (ms)	重試同一物件的間隔 (毫秒)
+Retry the same object after (ms)	重試同一物品的間隔 (毫秒)
 Route id	路線 ID
 Rule	規則
 Save now	立即儲存
@@ -254,14 +254,14 @@ Set	設定
 Settings: %ls	設定：%ls
 Show a brief notice when auto-loot is toggled	切換自動拾取開關時顯示簡短提示
 Showing current overrides. Type to search all %d items.	正在顯示目前的覆寫規則。輸入文字可搜尋全部 %d 件物品。
-Showing the nearest %d of %d. The rest are further away.	正在顯示最近的 %d 個（共 %d 個）。其餘物件距離更遠。
+Showing the nearest %d of %d. The rest are further away.	正在顯示最近的 %d 個（共 %d 個）。其餘物品距離更遠。
 Skip all	全部略過
 Skip items shops refuse to buy	略過商店拒收的物品
 Skip quest items	略過任務物品
 skip: %s	略過：%s
 Small animals	小型動物
 small animals off	小型動物已關閉
-Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	部分世界物件不包含可讀的物品名稱。開啟：照常拾取。關閉：保留所有未識別物件。
+Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	部分世界物品不包含可讀的物品名稱。開啟：照常拾取。關閉：保留所有未識別物品。
 stack at one point (storage contents)	堆疊於單點 (儲存空間內容物)
 Status	狀態
 Stone	石材
@@ -280,7 +280,7 @@ Take owned goods on / off	拾取有主物品 開/關
 takes effect next launch	下次啟動時生效
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	拾取引擎會掃描周圍環境，並拾取符合規則的物品。關閉表示不自動拾取；手動快捷拾取按鍵仍可正常生效。
 The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	遊戲只有在判定你能夠觸及資源點時，才會填入其資料。「預載」機制會要求遊戲在遠距離就先做到這件事，這也正是能讓礦脈在原地被開採的原因。礦脈需要數秒才會回應，而灌木叢只需要一瞬間。
-The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	遊戲在移除已被拾取的物件時存在延遲。此機制可避免物件在淡出消失期間被重複提交拾取。
+The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	遊戲在移除已被拾取的物品時存在延遲。此機制可避免物品在淡出消失期間被重複提交拾取。
 The game treats this as stealing and will put a bounty on you.	遊戲會將此視為偷竊行為，並對你發布懸賞金。
 The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	模組本身從不揮動鎬子，而是驅動礦脈自身的碎裂流程；遊戲在這種情況下只會走一列掉落資料，而實際揮擊則會走兩列，所以模組挖礦時，你的採礦工具加成完全發揮不了作用。這項設定會透過遊戲原本的掉落途徑，把少掉的礦石補回去，因此補回的是真正灑落在地上的礦石，而不是直接複製進背包的物品。請把它設為你手動挖礦時獲得的數量減一：例如手動能給三個的鑽頭，這裡就設為 2。它只會套用在模組打破的礦脈上，因此手動挖礦不受影響，兩者也不會疊加。
 Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	剝取你擊殺的動物的皮，每具屍骸一次。人歸在「屍體」下。剝皮所得不會依你的篩選器檢查。模組在它到手之前看不到它，所以這個開關要麼全有要麼全無。
@@ -312,7 +312,7 @@ Watch mode	監視模式
 Watch mode (menu stays up, you keep playing)	監視模式（選單保持開啟，同時可繼續遊玩）
 Watch mode: the game has your controls. %s to interact, %s to close.	監視模式：控制權由遊戲接管。按 %s 進行互動，按 %s 關閉。
 Weapons and armor	武器與防具
-What enters the working list at all. The ranges below are clamped to it.	決定哪些物件可進入工作清單。下方的各項範圍均受限於此。
+What enters the working list at all. The ranges below are clamped to it.	決定哪些物品可進入工作清單。下方的各項範圍均受限於此。
 What to collect	拾取目標
 Winds the handle for you and takes what comes up, by driving the same state transitions the game drives when you hold the interact button. A well raises no loot event at all, so this is a replay of a captured sequence rather than the game being asked for anything. Off by default, because a well it gets wrong is a well left standing without its bucket.	自動為你搖動轆轤把手並拾取打上來的東西，做法是驅動與你按住互動鍵時遊戲自己會走的相同狀態轉換。水井完全不會發出拾取事件，所以這其實是在重播一段已擷取到的流程，而不是向遊戲詢問任何東西。預設為關閉，因為一旦處理錯誤，水井就會少了水桶孤零零地立在原地。
 Wood	木材
