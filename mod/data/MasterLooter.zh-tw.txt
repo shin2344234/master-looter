@@ -33,8 +33,8 @@
 3 of 3	3/3
 \"%s\" already exists. Saving over it asks first.	\"%s\" 已存在。覆蓋儲存前會先進行確認。
 A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	水桶等物品從不自動拾取，但對其預載能讓遊戲顯示互動提示，以便手動使用。
-Abyss and Kuku	Abyss 與 Kuku
-Abyss gear, Kuku pots and their parts.	Abyss 的裝備、Kuku 的鍋具及其零件。
+Abyss and Kuku	阿比斯與嘟嘟鸟
+Abyss gear, Kuku pots and their parts.	阿比斯的齿轮、嘟嘟鸟铁锅及其物品。
 Accessories	飾品
 allowed	允許
 already in your bag	已在背包中
