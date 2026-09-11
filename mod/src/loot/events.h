@@ -51,6 +51,9 @@ namespace ml::events
     // drains these to judge what lands.
     struct PetPickup { uint32_t pet, item; unsigned long at; bool search; };
     int  DrainPetPickups(PetPickup* out, int max);
+    // GetTickCount of the last event raised by anyone but the player:
+    // a pet, a mercenary, a companion. Zero until one acts.
+    uint32_t CompanionActiveAt();
     // Arm a gimmick node so the game fills its interaction data. Queued off-thread.
     bool Arm(uintptr_t gimmickComp, uintptr_t mode, uintptr_t arg3, uintptr_t ctx); // arg3 0 = a zeroed scratch buffer
     // Game thread only: run queued sends and arms.

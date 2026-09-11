@@ -656,6 +656,207 @@ namespace ml::loot::hooks
         return true;
     }
 
+    // Whether a pet may loot at all.
+    //
+    // The game asks a condition object, one class per condition, and the answer
+    // is a single vtable slot. Nothing here is an address or an index: the
+    // class is found by its RTTI name and the slot by the label the game
+    // itself puts beside it, which FindCondition below does for both halves of
+    // the pet-looting rule. Saying no here is the whole feature: the pet never
+    // picks anything up, so nothing has to be judged or deleted afterwards,
+    // which is a cleaner answer than the filter for anyone who wants it. Found
+    // on 11 September 2026, after the 2.02.00 patch moved the address recorded
+    // for this on the previous build.
+    typedef uint64_t (*FnCondition)(void*, void*, void*, void*);
+
+    // What a condition hands back. Zero is yes, which is the opposite of what
+    // it looks like and cost a test round: the first build of this hook
+    // returned zero to mean no and the pet carried on looting. HasLootItem
+    // settles it, ending "test bl, bl; sete al", so it answers 1 when the
+    // thing it was asked about holds nothing. Two is what every one of them
+    // uses when it could not work the answer out at all.
+    static constexpr uint64_t kCondNo = 1, kCondUnknown = 2;
+
+    // A condition that takes an argument keeps it at +0x18, whatever its width:
+    // a byte for checkDead(), a 16-bit interaction row for HasInteraction().
+    static constexpr unsigned kOff_CondArg = 0x18;
+
+    // The interaction context the condition is handed carries two entities,
+    // and +0x828 is the thing being reached for. Settled in play on 11
+    // September 2026: eight decisions in one session, every one of them read
+    // from +0x828, naming real items (Gilded Shield, Carrot, Tumbleweed).
+    // Both are still asked, in that order, because the second costs nothing
+    // when the first answers and it is the only warning available if a patch
+    // moves the pair.
+    static constexpr unsigned kOff_Ctx_Entity[2] = { 0x828, 0x830 };
+
+    // Answer for the pet before it reaches: refuse exactly what the item rules
+    // refuse and let everything else through to the game. Returns true when the
+    // condition should be answered no.
+    static bool PetFilterRefuses(void* ctx)
+    {
+        const uintptr_t c = reinterpret_cast<uintptr_t>(ctx);
+        if (!c) return false;
+        for (int i = 0; i < 2; ++i)
+        {
+            uintptr_t ent = 0;
+            if (!mem::ReadPtr(c + kOff_Ctx_Entity[i], &ent)) continue;
+            char name[64] = "";
+            const int v = ml::loot::JudgeEntityForPet(ent, name, sizeof name);
+            if (v < 0) continue;
+            static volatile LONG s_said = 0;
+            if (InterlockedIncrement(&s_said) <= 8)
+                LOG("[pet] the pet asked about %s, read from the interaction's entity at +%X: %s",
+                    name[0] ? name : "something with no name", kOff_Ctx_Entity[i],
+                    v ? "your rules refuse it, so the pet is told no" : "your rules allow it");
+            return v == 1;
+        }
+        return false;
+    }
+
+    static FnCondition oPetLooting = nullptr, oHasInteraction = nullptr;
+    static bool g_petLootingHooked = false;
+    static uint64_t hkPetLooting(void* a1, void* a2, void* a3, void* a4)
+    {
+        const Config& cfg = Settings::Get();
+        if (cfg.stopPetLooting)
+        {
+            static volatile LONG s_said = 0;
+            if (InterlockedIncrement(&s_said) == 1)
+                LOG("[pet] pet looting answered no; nothing loose on the ground is picked up while that switch is on.");
+            return kCondNo;
+        }
+        // The filter, answered before the fact. Only for a loose item: a body
+        // is asked about through HasInteraction and nothing can say what it
+        // holds until it is open, so bodies stay with the old judge-what-lands
+        // path.
+        if (cfg.petFilter && PetFilterRefuses(a2)) return kCondNo;
+        return oPetLooting ? oPetLooting(a1, a2, a3, a4) : kCondUnknown;
+    }
+
+    // The other half of the same table row: a pet looting a body asks whether
+    // the body offers the pet's own looting interaction. The condition keeps
+    // the interaction it is asking about as a 16-bit row at +0x18, so this
+    // refuses that one row and hands every other question straight through.
+    static uint64_t hkHasInteraction(void* self, void* a2, void* a3, void* a4)
+    {
+        if (Settings::Get().stopPetLooting)
+        {
+            unsigned short key = 0;
+            if (mem::Read16(reinterpret_cast<uintptr_t>(self) + kOff_CondArg, &key) &&
+                key == ml::sig::kInteraction_DeadLootPet)
+            {
+                static volatile LONG s_said = 0;
+                if (InterlockedIncrement(&s_said) == 1)
+                    LOG("[pet] a body was refused the pet's own looting interaction (row %u), so bodies are left alone too.", key);
+                return kCondNo;
+            }
+        }
+        return oHasInteraction ? oHasInteraction(self, a2, a3, a4) : kCondUnknown;
+    }
+
+    // Follow one jump thunk, which is what the slot points at on this build.
+    static uintptr_t ThroughThunk(uintptr_t fn)
+    {
+        uint8_t b[5] = {};
+        if (!fn || !mem::ReadBytes(fn, b, sizeof b) || b[0] != 0xE9) return fn;
+        int32_t rel = 0; memcpy(&rel, b + 1, sizeof rel);
+        return fn + 5 + static_cast<intptr_t>(rel);
+    }
+
+    // Read a condition's own label out of a two-instruction stub.
+    //
+    // Every ConditionData class ends its vtable with a pair that belongs to it
+    // alone: a stub, lea rax then ret, handing back a wide string the game uses
+    // to describe the condition, and then the condition itself. The string ends
+    // in the signature, "IsPetLooting()", after a sentence of Korean, which is
+    // dropped here because only the signature is being matched.
+    static bool LabelAt(uintptr_t fn, char* out, size_t n)
+    {
+        out[0] = 0;
+        uint8_t b[8] = {};
+        if (!mem::ReadBytes(fn, b, sizeof b)) return false;
+        if (b[0] != 0x48 || b[1] != 0x8D || b[2] != 0x05 || b[7] != 0xC3) return false;
+        int32_t disp = 0; memcpy(&disp, b + 3, sizeof disp);
+        const uintptr_t text = fn + 7 + static_cast<intptr_t>(disp);
+        size_t k = 0;
+        for (size_t i = 0; i < 200 && k + 1 < n; ++i)
+        {
+            uint16_t c = 0;
+            if (!mem::Read16(text + i * 2, &c) || !c) break;
+            out[k++] = (c >= 0x20 && c < 0x7F) ? static_cast<char>(c) : '?';
+        }
+        out[k] = 0;
+        return k > 0;
+    }
+
+    // A condition's answer is the last slot of its vtable, found through the
+    // slot before it.
+    //
+    // Twenty of that vtable's twenty-two slots are shared. The pet condition
+    // holds the same function in slot 14 as ten other conditions, CheckBattle
+    // and IsEquipableItem among them, so "the one slot that differs from a
+    // sibling" could never have named it: three slots differ from any sibling
+    // and two of those are per-class boilerplate. What belongs to the class is
+    // the last pair, and the first of the pair says so in the game's own words,
+    // a stub handing back a wide string that ends in the condition's signature.
+    // So find the stub whose label carries the signature and take the slot
+    // after it. No index is written down, and the label goes in the log, so a
+    // layout change after a game patch reports itself instead of quietly
+    // hooking the wrong question.
+    static uintptr_t FindCondition(const char* rtti, const char* label, char* outLabel, size_t n)
+    {
+        uintptr_t vt[8] = {};
+        const int nv = mem::FindVtablesByName(rtti, vt, 8);
+        if (nv <= 0) return 0;
+        for (int v = 0; v < nv; ++v)
+            for (int i = 0; i < 64; ++i)
+            {
+                uintptr_t fn = 0;
+                if (!mem::ReadPtr(vt[v] + i * 8, &fn) || !mem::InImage(fn)) break;
+                if (!LabelAt(fn, outLabel, n) || !strstr(outLabel, label)) continue;
+                uintptr_t target = 0;
+                if (!mem::ReadPtr(vt[v] + (i + 1) * 8, &target) || !mem::InImage(target)) break;
+                return ThroughThunk(target);
+            }
+        return 0;
+    }
+
+    // Both halves of the row that lets a pet loot: the loose item and the body.
+    // See signatures.h for the row itself. Either hook missing leaves the
+    // switch half working, which is worse to explain than not working at all,
+    // so it takes both or it reports that it has none.
+    static void InstallPetLooting()
+    {
+        char petLabel[160] = "", hasLabel[160] = "";
+        const uintptr_t pet = FindCondition(ml::sig::kRtti_CondPetLooting, ml::sig::kLabel_PetLooting,
+                                            petLabel, sizeof petLabel);
+        const uintptr_t has = FindCondition(ml::sig::kRtti_CondHasInteraction, ml::sig::kLabel_HasInteraction,
+                                            hasLabel, sizeof hasLabel);
+        if (!pet || !has)
+        {
+            LOG_ERR("[pet] the conditions behind pet looting were not both found on this build (%s, %s), so nothing is "
+                    "hooked and the switch that stops pets looting does nothing this session.",
+                    pet ? "the loose-item one is there" : "the loose-item one is missing",
+                    has ? "the body one is there" : "the body one is missing");
+            return;
+        }
+        const bool a = Hook("pet looting condition", pet, reinterpret_cast<void*>(&hkPetLooting),
+                            reinterpret_cast<void**>(&oPetLooting));
+        const bool b = Hook("pet body interaction", has, reinterpret_cast<void*>(&hkHasInteraction),
+                            reinterpret_cast<void**>(&oHasInteraction));
+        g_petLootingHooked = a && b;
+        if (g_petLootingHooked)
+            LOG_OK("[pet] pet looting hooked: +%llX labelled \"%s\" for loose items, +%llX labelled \"%s\" for bodies. "
+                   "Stop pets looting is %s.",
+                   static_cast<unsigned long long>(pet - mem::Game().base), petLabel,
+                   static_cast<unsigned long long>(has - mem::Game().base), hasLabel,
+                   Settings::Get().stopPetLooting ? "on" : "off");
+        else
+            LOG_ERR("[pet] only part of pet looting could be hooked (loose items %s, bodies %s), so the switch that "
+                    "stops pets looting is reported as unavailable.", a ? "yes" : "no", b ? "yes" : "no");
+    }
+
     bool Install()
     {
         const game::Fns& f = game::F();
@@ -671,6 +872,7 @@ namespace ml::loot::hooks
             g_pump = "event queue";
         }
         InstallOreBonus();
+        InstallPetLooting();
         Hook("ownership oracle", f.ownCheck, reinterpret_cast<void*>(&hkOwn), reinterpret_cast<void**>(&oOwn));
         Hook("node arming", f.armFn, reinterpret_cast<void*>(&hkArm), reinterpret_cast<void**>(&oArm));
         Hook("gimmick driver", f.stateDriver, reinterpret_cast<void*>(&hkStateDriver), reinterpret_cast<void**>(&oStateDriver));
@@ -683,8 +885,11 @@ namespace ml::loot::hooks
     {
         farhook::RemoveAll();
         oMove = oArea = oArm = nullptr; oEnq = nullptr; oOwn = nullptr; oStateDriver = nullptr;
+        oPetLooting = oHasInteraction = nullptr; g_petLootingHooked = false;
         g_pump = "none";
     }
+
+    bool PetLootingHooked() { return g_petLootingHooked; }
 
     const char* PumpName() { return g_pump; }
     long PumpTicks() { return g_pumpTicks; }

@@ -24,6 +24,7 @@
 #include "../loot/engine.h"
 #include "../loot/events.h"
 #include "../loot/game.h"
+#include "../loot/hooks.h"
 #include "../loot/mem.h"
 #include "../version.h"
 
@@ -755,8 +756,10 @@ namespace ml::gui
         Help(TR("Items with an unknown value are never filtered by it."));
         dirty |= ImGui::Checkbox(TR("Take items the database cannot name"), &c.takeUnknownItems);
         Help(TR("Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified."));
+        dirty |= ImGui::Checkbox(TR("Stop pets looting at all"), &c.stopPetLooting);
+        Help(TR("The game asks two questions before a pet loots, one for a loose item on the ground and one for a body, and this answers both with no. A pet reaches for nothing, so nothing of yours is ever deleted afterwards and your own pick-ups are never in question. The cleaner of the two answers if you simply do not want a pet looting. Companions that are not pets are not covered: the game does not ask these about a mercenary."));
         dirty |= ImGui::Checkbox(TR("Pets and companions follow the filters"), &c.petFilter);
-        Help(TR("A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules."));
+        Help(TR("A pet loots whatever it likes and the game has no switch for it. On: anything a pet, a mercenary or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands, and a notice says what went. Quest and protected items are never deleted, and nothing already in your bag is touched.\n\nWorth knowing before you turn this on: the game raises a companion's pick-up of a loose item as if you had picked it up yourself, and there is no way to tell the two apart. So while one is out and active, something you pick up by hand that your own rules refuse is deleted along with theirs. With nobody out, nothing you pick up is ever touched. If you would rather keep everything and sort it yourself, leave this off."));
         dirty |= ImGui::Checkbox(TR("Verbose log"), &c.debugLog);
         if (dirty) Settings::MarkDirty();
     }
@@ -770,16 +773,15 @@ namespace ml::gui
             { "Ground items",   &c.pickUpItems,    "Items lying in the world, including drops from enemies." },
             { "Carcasses",      &c.lootCorpses,    "Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing." },
             { "Bodies",         &c.searchBodies,   "Searching the people you kill, once per body. Animals go under Carcasses. What a search pays out is not checked against your filters, so this switch is all or nothing too." },
-            { "Plants",         &c.gatherPlants,   "Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch." },
+            { "Plants",         &c.gatherPlants,   "Herb, flower and mushroom nodes, and the same lying on the ground, seeds included. Food crops have their own switch. To keep the herbs and leave the seeds, or the other way round, refuse the class on the Classes tab: herb and seed are separate there." },
             { "Crops",          &c.gatherCrops,    "Vegetables, fruit and grain: sweet potato, barley, cabbage, apples, grapes and the rest of the farmed and foraged food, on the plant or lying loose. These used to answer to Ground items, which is why turning Plants off still emptied a field: of the 72 collection sockets in the game, 44 are crops and only 28 are plants." },
-            { "Ore",            &c.gatherOre,      "Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one." },
-            { "Stone",          &c.gatherStone,    "Stone on the ground and nodes that yield stone." },
+            { "Ore and stone",  &c.gatherOre,      "Every rock: ore and stone chunks on the ground, veins, boulders, rubble piles and quarry stone. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.\n\nStone used to have a switch of its own and the split never held: the game files most quarry stone under mining, so turning Stone off left it arriving anyway. To keep the ore and leave the stone, refuse the class stone on the Classes tab. That covers Stone, Fine Stone, Flawless Stone and Stalactite, and it leaves the node itself still worth breaking for whatever else is in it." },
             { "Wood",           &c.gatherWood,     "Timber and branches on the ground and nodes that yield them." },
             { "Unidentified nodes", &c.gatherUnknown, "Nodes the prefab table does not name and that have not yielded anything yet this session. Off (the default) leaves them alone. On makes the mod gather them to find out, which means a plant can be taken while Plants is off." },
             { "Insects",        &c.catchInsects,   "Butterflies, beetles, dragonflies, bees, spiders, scorpions, snails and the other small things the game files as insects. Species come from the creature table; a creature the table cannot name is only caught when every category it could belong to is on (a flyer could be a fish, an insect or a bird)." },
             { "Fish",           &c.catchFish,      "Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses." },
             { "Small animals",  &c.catchAnimals,   "Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole." },
-            { "Containers",     &c.lootContainers, "Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default." },
+            { "Containers",     &c.lootContainers, "Two things that hold things. The chests, crates and drop-set nodes you open, which rarely answer the loot event. And anything on the ground whose job is to hold something: bottles, jars, clay pots, waterskins, vases and the storage boxes you place. Off by default, and off means a shelf of pottery is left where it stands. Reward boxes are not covered, since those are loot in their own right and belong to Treasure and keepsakes on the Classes tab." },
             { "Furniture", &c.lootFurniture, "Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default." },
         };
         // Where to say this, because the Items tab is the answer and nobody
@@ -853,47 +855,99 @@ namespace ml::gui
         { "Accessories",         "accessory necklace ring earring bag", "" },
         { "Abyss and Kuku",      "abyss-gear abyss-gear-box abyss-item kuku-power-core kuku-core kuku-pot-item kuku-pot kuku-currency stat-boost", "Abyss gear, Kuku pots and their parts." },
         { "Food and drink",      "food field-cooked drink elixir potion store-food honey meat seafood fruit vegetable grain cooking-basic", "" },
-        { "Materials",           "ore jewel stone wood hide fabric bone metal catalyst crafting-material alchemy-material herb ingredient seed trade-good goods bait", "Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input." },
+        { "Materials",           "ore jewel stone wood hide fabric bone crafting-material alchemy-material herb ingredient seed trade-good bait", "Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input." },
         { "Creatures",           "insect fish animal amphibian", "Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink." },
         { "Ammunition",          "arrow ammo ammo-bundle bullet magic-bullet cannonball explosive", "" },
-        { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report skill-book recipe-book recipe-food recipe-potion recipe-furniture recipe-abyss-gear recipe-armor recipe", "" },
+        { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report skill-book recipe-book recipe-food recipe-potion recipe-furniture recipe-abyss-gear recipe-armor", "" },
         { "Furniture and decor", "furniture household dye lamp light ornament painting flower-pot decoration cooking-facility storage container", "Household clutter and collectibles, most of it worthless." },
         { "Mounts and vehicles", "mount-gear mount-feed mount-utility pet-gear vehicle-part", "" },
         { "Treasure and keepsakes", "treasure sealed-artifact artifact keepsake currency chest", "Boss rewards, artifacts, memory items, coin pouches and reward chests." },
-        { "Keys and tools",      "key key-item tool gimmick", "" },
+        { "Keys and tools",      "key key-item tool", "" },
     };
 
-    // 1 all on, 0 all off, 2 mixed.
-    static int GroupState(const Config& c, const ClassGroup& g)
+    // Every name in a group has to be a class the database knows, and five of
+    // them were not: metal is nothing at all, and catalyst, goods, recipe and
+    // gimmick are tags. A rule written under one of those names filters
+    // nothing, and the Loot all button walks the database, so it could never
+    // clear them: one click of a group off left the group reading mixed for the
+    // rest of that install, with the square that Seth reported on 11 September
+    // 2026 on Materials, Books and papers, and Keys and tools. Both walkers go
+    // through here now and skip anything the database does not carry, so a name
+    // that goes stale is ignored instead of jamming a checkbox.
+    // Classes() is a vector of pairs, so this is the lookup it does not have.
+    static bool KnownClass(const std::string& cls)
     {
-        int on = 0, off = 0;
+        for (const auto& kv : ItemDb::Classes()) if (kv.first == cls) return true;
+        return false;
+    }
+
+    static void ForEachClass(const ClassGroup& g, void (*fn)(const std::string&, void*), void* ctx)
+    {
         std::string cls;
         for (const char* p = g.classes;; ++p)
         {
             if (*p && *p != ' ') { cls += *p; continue; }
             if (!cls.empty())
             {
-                auto it = c.classRule.find(cls);
-                ((it == c.classRule.end() || it->second != 0) ? on : off)++;
+                if (KnownClass(cls)) fn(cls, ctx);
                 cls.clear();
             }
             if (!*p) break;
         }
-        return off == 0 ? 1 : on == 0 ? 0 : 2;
+    }
+
+    // 1 all on, 0 all off, 2 mixed.
+    static int GroupState(const Config& c, const ClassGroup& g)
+    {
+        struct Tally { const Config* c; int on, off; } t{ &c, 0, 0 };
+        ForEachClass(g, [](const std::string& cls, void* p) {
+            Tally& t = *static_cast<Tally*>(p);
+            auto it = t.c->classRule.find(cls);
+            ((it == t.c->classRule.end() || it->second != 0) ? t.on : t.off)++;
+        }, &t);
+        if (!t.on && !t.off) return 1;      // a group with nothing left in it
+        return t.off == 0 ? 1 : t.on == 0 ? 0 : 2;
     }
     static void SetGroup(Config& c, const ClassGroup& g, bool loot)
     {
-        std::string cls;
-        for (const char* p = g.classes;; ++p)
+        struct Set { Config* c; bool loot; } s{ &c, loot };
+        ForEachClass(g, [](const std::string& cls, void* p) {
+            Set& s = *static_cast<Set*>(p);
+            s.c->classRule[cls] = s.loot ? 1 : 0;
+        }, &s);
+    }
+
+    // Said once, the first time the tab is drawn with the database loaded. A
+    // stale name costs nothing now, but it means a group quietly covers less
+    // than its tooltip claims, and nothing else would ever say so.
+    static void CheckGroupNames()
+    {
+        static bool done = false;
+        if (done || !ItemDb::Loaded()) return;
+        done = true;
+        std::string bad;
+        for (const ClassGroup& g : kGroups)
         {
-            if (*p && *p != ' ') { cls += *p; continue; }
-            if (!cls.empty()) { c.classRule[cls] = loot ? 1 : 0; cls.clear(); }
-            if (!*p) break;
+            std::string cls;
+            for (const char* p = g.classes;; ++p)
+            {
+                if (*p && *p != ' ') { cls += *p; continue; }
+                if (!cls.empty())
+                {
+                    if (!KnownClass(cls)) { bad += bad.empty() ? "" : ", "; bad += cls; }
+                    cls.clear();
+                }
+                if (!*p) break;
+            }
         }
+        if (!bad.empty())
+            LOG_ERR("[menu] the class groups name %s, which the item database does not carry, so those parts of a group "
+                    "switch nothing.", bad.c_str());
     }
 
     static void TabClasses(Config& c)
     {
+        CheckGroupNames();
         Section(TR("Groups"));
         ImGui::TextDisabled(TR("One click per family. The table below still sets single classes; a group shows a dash when only some of it is on."));
         if (ImGui::BeginTable("groups", 3, ImGuiTableFlags_SizingStretchSame))
@@ -1211,6 +1265,11 @@ namespace ml::gui
         OnOff("Sending events", s.sendAllowed, "allowed", "not yet");
         OnOff("Route id", s.routeKnown, "learned from the game", "using the player's own field");
         OnOff("Ownership oracle", s.ownerOracle, "captured", "waiting for the game to check an item");
+        // The pet-looting switch is the one setting in the mod that cannot
+        // work at all when its hook is missing, and the line saying so goes
+        // in at startup, long out of the log panel by the time anyone looks.
+        OnOff("Stop pets looting", loot::hooks::PetLootingHooked(), "hooked, the switch works",
+              "not available on this build, the switch does nothing");
         const char* tbl = s.itemTable == 1 ? "rows verified against our database" : s.itemTable == 2 ? "names readable, rows differ" : s.itemTable == -1 ? "unavailable" : "not probed yet";
         OnOff("Item table", s.itemTable > 0, tbl, tbl);
         ImGui::Text(TR("Scans %ld, events sent %ld, pump ticks %ld, guarded faults %ld, node kinds learned %d"), s.scans, s.sent, s.pumpTicks, s.faults, s.learned);
@@ -1240,7 +1299,18 @@ namespace ml::gui
         Log::Snapshot(lines, 80);
         if (ImGui::BeginChild("log", ImVec2(0, 0), ImGuiChildFlags_Borders))
         {
-            for (const auto& l : lines) ImGui::TextUnformatted(l.c_str());
+            // Every line is "[HH:MM:SS.mmm] [level] text", so the level sits at
+            // a fixed offset and the panel can colour by it. Only the two lines
+            // anybody scrolls this panel looking for are coloured: something
+            // that failed, and something that came up that had to. The rest
+            // stays plain so the colours mean something.
+            for (const auto& l : lines)
+            {
+                const char* lvl = l.size() > 21 ? l.c_str() + 16 : nullptr;
+                if (lvl && !strncmp(lvl, "error", 5))    ImGui::TextColored(kWarn, "%s", l.c_str());
+                else if (lvl && !strncmp(lvl, "ok", 2))  ImGui::TextColored(kGood, "%s", l.c_str());
+                else                                     ImGui::TextUnformatted(l.c_str());
+            }
             if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY() - 2.0f) ImGui::SetScrollHereY(1.0f);
         }
         ImGui::EndChild();

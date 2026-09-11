@@ -28,7 +28,7 @@
 1 match%s	
 3 of 3	
 \"%s\" already exists. Saving over it asks first.	
-A pet loots whatever it likes and the game has no switch for it. On: anything a pet or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands. Quest and protected items are never deleted. Something you pick up by hand in the same two seconds is judged by the same rules.	
+A pet loots whatever it likes and the game has no switch for it. On: anything a pet, a mercenary or a companion picks up that your item rules, tags, classes or value floor would have refused is deleted from the inventory as it lands, and a notice says what went. Quest and protected items are never deleted, and nothing already in your bag is touched.\n\nWorth knowing before you turn this on: the game raises a companion's pick-up of a loose item as if you had picked it up yourself, and there is no way to tell the two apart. So while one is out and active, something you pick up by hand that your own rules refuse is deleted along with theirs. With nobody out, nothing you pick up is ever touched. If you would rather keep everything and sort it yourself, leave this off.	
 A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.	
 Abyss and Kuku	
 Abyss gear, Kuku pots and their parts.	
@@ -59,7 +59,6 @@ Carcasses
 carcasses off	
 Catching	
 Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink.	
-Chests, crates and drop-set nodes. They rarely respond to the loot event. Off by default.	
 Class	
 class %s	
 Classes	
@@ -69,6 +68,7 @@ Clears what this session worked out from your bag. Nodes named by the prefab tab
 Close	
 container (off)	
 Containers	
+containers off	
 Controller	
 Copper	
 Copy	
@@ -96,6 +96,7 @@ entity %08X
 entity %08X, %d items across every store	
 entity %08X, bag %d of %d slots, %d items across every store	
 Event descriptors	
+Every rock: ore and stone chunks on the ground, veins, boulders, rubble piles and quarry stone. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.\n\nStone used to have a switch of its own and the split never held: the game files most quarry stone under mining, so turning Stone off left it arriving anyway. To keep the ore and leave the stone, refuse the class stone on the Classes tab. That covers Stone, Fine Stone, Flawless Stone and Stalactite, and it leaves the node itself still worth breaking for whatever else is in it.	
 Extra ore per vein	
 failed	
 fast-travel artifact	
@@ -120,7 +121,7 @@ Gathering
 General	
 Ground items	
 Groups	
-Herb, flower and mushroom nodes, and the same lying on the ground. Food crops have their own switch.	
+Herb, flower and mushroom nodes, and the same lying on the ground, seeds included. Food crops have their own switch. To keep the herbs and leave the seeds, or the other way round, refuse the class on the Classes tab: herb and seed are separate there.	
 hold two buttons (Escape cancels)	
 Household clutter and collectibles, most of it worthless.	
 How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	
@@ -197,8 +198,7 @@ One click per family. The table below still sets single classes; a group shows a
 Open and close this menu	
 Open folder	
 Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	
-Ore	
-Ore chunks on the ground and any node that yields ore, veins included. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.	
+Ore and stone	
 ore off	
 Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	
 out of range	
@@ -264,9 +264,8 @@ small animals off
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	
 stack at one point (storage contents)	
 Status	
-Stone	
-stone off	
-Stone on the ground and nodes that yield stone.	
+Stop pets looting	
+Stop pets looting at all	
 Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	
 Tag	
 Tags	
@@ -277,6 +276,7 @@ Take items the database cannot name
 Take owned goods on / off	
 takes effect next launch	
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	
+The game asks two questions before a pet loots, one for a loose item on the ground and one for a body, and this answers both with no. A pet reaches for nothing, so nothing of yours is ever deleted afterwards and your own pick-ups are never in question. The cleaner of the two answers if you simply do not want a pet looting. Companions that are not pets are not covered: the game does not ask these about a mercenary.	
 The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands. Veins take several seconds to answer where a bush takes a fraction of one.	
 The game removes taken objects with a delay. This stops the same object being sent twice while it fades.	
 The game treats this as stealing and will put a bounty on you.	
@@ -286,6 +286,7 @@ Timber and branches on the ground and nodes that yield them.
 To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	
 Treasure and keepsakes	
 Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	
+Two things that hold things. The chests, crates and drop-set nodes you open, which rarely answer the loot event. And anything on the ground whose job is to hold something: bottles, jars, clay pots, waterskins, vases and the storage boxes you place. Off by default, and off means a shelf of pottery is left where it stands. Reward boxes are not covered, since those are loot in their own right and belong to Treasure and keepsakes on the Classes tab.	
 Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.	
 Unidentified nodes	
 unidentified nodes off	

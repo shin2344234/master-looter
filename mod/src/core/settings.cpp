@@ -19,6 +19,9 @@ namespace ml::Settings
     static ULONGLONG    g_dirtyAt   = 0;
     static ULONGLONG    g_lastCheck = 0;
     static ULONGLONG    g_knownTime = 0;
+    // Set while reading a file that still carries the retired GatherStone
+    // key with stone switched off. Read once by the version 4 migration.
+    static bool g_sawGatherStoneOff = false;
     static int          g_generation = 0;
     static std::recursive_mutex g_mutex;
 
@@ -90,7 +93,11 @@ namespace ml::Settings
         else if (k == "GatherPlants")     c.gatherPlants = Flag(v);
         else if (k == "GatherCrops")      c.gatherCrops = Flag(v);
         else if (k == "GatherOre")        c.gatherOre = Flag(v);
-        else if (k == "GatherStone")      c.gatherStone = Flag(v);
+        // Retired. Stone answers to Ore now, and a player who had this off
+        // meant it, so the migration below turns that into the class rule
+        // that says the same thing. Kept as a local so nothing else can
+        // read it by accident.
+        else if (k == "GatherStone")      g_sawGatherStoneOff = !Flag(v);
         else if (k == "GatherWood")       c.gatherWood = Flag(v);
         else if (k == "GatherUnknown")    c.gatherUnknown = Flag(v);
         else if (k == "CatchCreatures")   { c.catchInsects = Flag(v); c.catchAnimals = Flag(v); } // pre-0.3.4 key
@@ -115,6 +122,7 @@ namespace ml::Settings
         else if (k == "SkipQuestItems")   c.skipQuestItems = Flag(v);
         else if (k == "SkipNoSell")       c.skipNoSell = Flag(v);
         else if (k == "PetFilter")        c.petFilter = Flag(v);
+        else if (k == "StopPetLooting")   c.stopPetLooting = Flag(v);
         else if (k == "MinValueCopper")   c.minValueCopper = std::max(0, atoi(v.c_str()));
         else if (k == "TakeUnknownItems") c.takeUnknownItems = Flag(v);
         else if (k == "DebugLog")         c.debugLog = Flag(v);
@@ -253,17 +261,24 @@ namespace ml::Settings
         c.catchRange = std::min(c.catchRange, c.scanRange); c.corpseRange = std::min(c.corpseRange, c.scanRange);
     }
 
-    void Load()
+    // Every correction a saved file needs, in version order.
+    //
+    // This lives in its own function because a preset is read by a second path
+    // that used to skip the lot. A preset written before a migration carries
+    // the settings that migration exists to correct, and loading one put them
+    // straight back into the live config and wrote the old version number to
+    // the ini with them. All three presets on this machine still say version 2,
+    // which predates the recipe split, the stone switch going away and the five
+    // class rules that were never classes. Whatever reads a file runs this.
+    //
+    // `text` is the file as it was read, kept for the version 2 backup.
+    // `fromFile` is false only for a fresh config with nothing to correct.
+    static bool Migrate(Config& c, const std::string& text, bool fromFile)
     {
-        Config c;
-        c.configVersion = 1; // a file that predates the version key
         bool migrated = false;
-        std::string text;
-        const bool present = ReadFile(text);
-        if (present) ParseInto(text, c);
         // Files written before version 2 carried a 20 m gather range the game
         // ignores and gathered unidentified nodes by default; bring both in line.
-        if (present && c.configVersion < 2)
+        if (fromFile && c.configVersion < 2)
         {
             BackupText(StampNow("-v1"), text);
             c.gatherRange = std::min(c.gatherRange, 6.0f);
@@ -277,7 +292,7 @@ namespace ml::Settings
         // written against "recipe" carries over to every kind, and one against
         // "recipe-book" to the skill books it used to cover, so nothing a
         // player switched off comes back on.
-        if (present && c.configVersion < 3)
+        if (fromFile && c.configVersion < 3)
         {
             static const char* kKinds[] = { "recipe-food", "recipe-potion", "recipe-furniture", "recipe-abyss-gear", "recipe-armor", "recipe-book", "skill-book" };
             const auto old = c.classRule.find("recipe");
@@ -293,7 +308,53 @@ namespace ml::Settings
             c.configVersion = 3;
             migrated = true;
         }
-        if (!present) c.configVersion = 3;
+        // Stone lost its own switch: the game files most quarry stone under
+        // mining, so Ore was already collecting it and the split only confused
+        // people. Every rock answers to Ore now and which stones to keep is an
+        // item rule. Someone who had turned Stone off wanted the stone left
+        // behind, and turning Ore off instead would cost them the ore as well,
+        // so the intent is carried across as a refusal of the class.
+        if (fromFile && c.configVersion < 4)
+        {
+            if (g_sawGatherStoneOff && !c.classRule.count("stone"))
+            {
+                c.classRule["stone"] = 0;
+                LOG("Settings migrated to version 4: stone has no switch of its own now, so the class stone is set to "
+                    "skip, which is what turning that switch off used to mean.");
+            }
+            c.configVersion = 4;
+            migrated = true;
+        }
+        // Five names in the class groups were not classes: metal is nothing,
+        // and catalyst, goods, recipe and gimmick are tags. A rule saved under
+        // one of them filtered nothing and the Loot all button could not clear
+        // it, so the group it belonged to drew as a half-checked square for
+        // good. Drop them and the squares go with them.
+        if (fromFile && c.configVersion < 5)
+        {
+            int dropped = 0;
+            for (const char* k : { "metal", "catalyst", "goods", "recipe", "gimmick" })
+                dropped += static_cast<int>(c.classRule.erase(k));
+            if (dropped)
+                LOG("Settings migrated to version 5: dropped %d class rule(s) whose name is a tag or nothing at all; "
+                    "they filtered nothing and left a group checkbox stuck half on.", dropped);
+            c.configVersion = 5;
+            migrated = true;
+        }
+        if (!fromFile) c.configVersion = 5;
+        return migrated;
+    }
+
+    void Load()
+    {
+        Config c;
+        c.configVersion = 1; // a file that predates the version key
+        g_sawGatherStoneOff = false;   // this file speaks for itself, not the last one
+        bool migrated = false;
+        std::string text;
+        const bool present = ReadFile(text);
+        if (present) ParseInto(text, c);
+        migrated = Migrate(c, text, present);
         Clamp(c);
         g_cfg = c;
         g_knownTime = FileTime();
@@ -332,16 +393,16 @@ namespace ml::Settings
                  c.padMenu, c.padToggle, c.padBurst, c.padWatch); s += b;
         snprintf(b, sizeof b, "ScansPerSec=%d\nPerScan=%d\nBurstPerKey=%d\nRetryAfterMs=%d\n",
                  c.scansPerSec, c.perScan, c.burstPerKey, c.retryAfterMs); s += b;
-        snprintf(b, sizeof b, "LootCorpses=%d\nSearchBodies=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherCrops=%d\nGatherOre=%d\nGatherStone=%d\nGatherWood=%d\nGatherUnknown=%d\n",
-                 c.lootCorpses, c.searchBodies, c.pickUpItems, c.gatherPlants, c.gatherCrops, c.gatherOre, c.gatherStone, c.gatherWood, c.gatherUnknown); s += b;
+        snprintf(b, sizeof b, "LootCorpses=%d\nSearchBodies=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherCrops=%d\nGatherOre=%d\nGatherWood=%d\nGatherUnknown=%d\n",
+                 c.lootCorpses, c.searchBodies, c.pickUpItems, c.gatherPlants, c.gatherCrops, c.gatherOre, c.gatherWood, c.gatherUnknown); s += b;
         snprintf(b, sizeof b, "CatchInsects=%d\nCatchFish=%d\nCatchAnimals=%d\nLootContainers=%d\nLootFurniture=%d\n",
                  c.catchInsects, c.catchFish, c.catchAnimals, c.lootContainers, c.lootFurniture); s += b;
         snprintf(b, sizeof b, "ScanRange=%.1f\nLootRange=%.1f\nGatherRange=%.1f\nCatchRange=%.1f\nCorpseRange=%.1f\nMinRange=%.2f\n",
                  c.scanRange, c.lootRange, c.gatherRange, c.catchRange, c.corpseRange, c.minRange); s += b;
         snprintf(b, sizeof b, "AutoArm=%d\nArmRange=%.1f\nArmContainers=%d\nGatherVeins=%d\n", c.autoArm, c.armRange, c.armContainers, c.gatherVeins); s += b;
         snprintf(b, sizeof b, "BreakOre=%d\nDrawWells=%d\n", c.breakOre, c.drawWells); s += b;
-        snprintf(b, sizeof b, "LootOwned=%d\nSkipQuestItems=%d\nSkipNoSell=%d\nMinValueCopper=%d\nTakeUnknownItems=%d\nPetFilter=%d\nDebugLog=%d\nConfigVersion=%d\n",
-                 c.lootOwned, c.skipQuestItems, c.skipNoSell, c.minValueCopper, c.takeUnknownItems, c.petFilter, c.debugLog, c.configVersion); s += b;
+        snprintf(b, sizeof b, "LootOwned=%d\nSkipQuestItems=%d\nSkipNoSell=%d\nMinValueCopper=%d\nTakeUnknownItems=%d\nPetFilter=%d\nStopPetLooting=%d\nDebugLog=%d\nConfigVersion=%d\n",
+                 c.lootOwned, c.skipQuestItems, c.skipNoSell, c.minValueCopper, c.takeUnknownItems, c.petFilter, c.stopPetLooting, c.debugLog, c.configVersion); s += b;
         if (!c.deleteTestName.empty()) { snprintf(b, sizeof b, "DeleteTestName=%s\n", c.deleteTestName.c_str()); s += b; }
         s += "\n; class -> 1 loot, 0 skip (classes not listed are looted)\n[Classes]\n";
         for (const auto& kv : c.classRule) { s += kv.first; s += kv.second ? "=1\n" : "=0\n"; }
@@ -451,7 +512,13 @@ namespace ml::Settings
         if (!ReadWhole(PresetPath(name), text)) { LOG_ERR("Preset \"%s\" could not be read.", name.c_str()); return false; }
         Config c;
         c.configVersion = 1;
+        g_sawGatherStoneOff = false;
         ParseInto(text, c);
+        // A preset and a backup are saved files like any other and get the
+        // same corrections. Without this, loading one written before a
+        // migration put back exactly what that migration had taken out, and
+        // wrote its old version number to the ini along with it.
+        Migrate(c, text, true);
         Clamp(c);
         {
             std::lock_guard<std::recursive_mutex> lk(g_mutex);
@@ -497,7 +564,13 @@ namespace ml::Settings
         if (!ReadWhole(BackupPath(stamp), text)) { LOG_ERR("Backup %s could not be read.", BackupLabel(stamp).c_str()); return false; }
         Config c;
         c.configVersion = 1;
+        g_sawGatherStoneOff = false;
         ParseInto(text, c);
+        // A preset and a backup are saved files like any other and get the
+        // same corrections. Without this, loading one written before a
+        // migration put back exactly what that migration had taken out, and
+        // wrote its old version number to the ini along with it.
+        Migrate(c, text, true);
         Clamp(c);
         {
             std::lock_guard<std::recursive_mutex> lk(g_mutex);

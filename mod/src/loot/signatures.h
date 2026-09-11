@@ -158,6 +158,33 @@ namespace ml::sig
     inline constexpr const char* kCls_Gimmick = "ClientGimmickActorComponent";
     inline constexpr const char* kCls_Ai      = "ClientAiActorComponent";
 
+    // The game asks a condition object whether a pet may loot, and the answer
+    // is the last slot of that object's vtable. The slot before it is a stub
+    // that hands back the condition's own label, which is what the install
+    // searches for, so no slot index is written down here. Found 11 September
+    // 2026 from the RTTI name in the exe, after the 2.02.00 patch moved the
+    // address the old note recorded.
+    //
+    // One condition is not enough. The table row that lets a pet loot,
+    // conditioninfo 30, InteractionTarget_PetLooting, reads:
+    //
+    //   (checkDead() && hasLootItem() && isLootable() && HasInteraction(Dead_Loot_Pet))
+    //   || (IsPetLooting() && HasInteraction(Pet_LootingItem) && !IsCrimeTarget() && ...)
+    //
+    // The second half is a pet picking a loose item off the ground and the
+    // first is a pet looting a body, and only the second passes through
+    // IsPetLooting. The body half is refused through HasInteraction instead,
+    // which keeps its argument as a 16-bit interaction row. Both Dead_Loot_Pet
+    // and Pet_LootingItem appear in that one row of conditioninfo and nowhere
+    // else in the table, so refusing the row cannot touch anything a person does.
+    inline constexpr const char* kRtti_CondPetLooting     = ".?AVConditionData_IsPetLooting@pa@@";
+    inline constexpr const char* kLabel_PetLooting        = "IsPetLooting()";
+    inline constexpr const char* kRtti_CondHasInteraction = ".?AVConditionData_HasInteraction@pa@@";
+    inline constexpr const char* kLabel_HasInteraction    = "HasInteraction()";
+    // Position of Dead_Loot_Pet in interactioninfo.staticinfoheader, which is
+    // the id the game passes around, the same convention as an item row.
+    inline constexpr unsigned short kInteraction_DeadLootPet = 12;
+
     // Event descriptor classes (ids are looked up by class name at runtime).
     inline constexpr const char* kDesc_Search = "TrocTrProcessLootingDeadDropOnceTimer";
     inline constexpr const char* kDesc_PickUp = "TrocTrProcessPickUpItemOnceTimer";

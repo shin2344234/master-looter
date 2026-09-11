@@ -86,6 +86,7 @@ namespace ml::events
     struct PendDelete { uint64_t aval; uint16_t tid, c; uint64_t dval; uint16_t count; uint32_t player, route; bool set; };
     static PendDelete g_pendDel[16]; static int g_pendDelN = 0;
     static PetPickup g_pet[32]; static volatile LONG g_petN = 0;
+    static volatile LONG g_companionAt = 0;   // last tick a companion raised anything
     static volatile LONG g_lastDeleteAt = 0;
     unsigned long LastDeleteSentAt() { return static_cast<unsigned long>(InterlockedCompareExchange(&g_lastDeleteAt, 0, 0)); }
     static PendArm g_pendArm[32]; static int g_pendArmN = 0;
@@ -360,6 +361,8 @@ namespace ml::events
         Unlock();
         return ok;
     }
+    uint32_t CompanionActiveAt() { return static_cast<uint32_t>(InterlockedCompareExchange(&g_companionAt, 0, 0)); }
+
     int DrainPetPickups(PetPickup* out, int max)
     {
         const LONG n = InterlockedExchange(&g_petN, 0);
@@ -679,9 +682,18 @@ namespace ml::events
                 }
             }
         }
-        // A pick up raised by anything that is not the player: a pet, a
-        // companion. Handed to the engine, which judges what lands. Issue #32.
-        if ((who >> 24) != game::kTagPlayer)
+        // A pick up raised by anything that is not you: a pet, a companion.
+        // Handed to the engine, which judges what lands. Issue #32.
+        //
+        // The tag is not the test. A mercenary is player-tagged, 0xA0 like the
+        // player's own identity, and only its id differs: A0100004 beside
+        // A0100001 in Seth's session of 11 September 2026, where it raised
+        // twelve events including three drop-on-break and the filter saw none
+        // of them. Judging by tag alone meant every companion in that class
+        // read as the player and nothing it did could ever be filtered.
+        const uint32_t self = ml::loot::hooks::PlayerEidFromGame();
+        const bool notMe = self ? who != self : (who >> 24) != game::kTagPlayer;
+        if (notMe)
         {
             uintptr_t payload = 0; uint16_t payloadSize = 0, eventId = 0; uint32_t item = 0;
             if (mem::ReadPtr(ev + kOff_Ev_Buffer, &payload) &&
@@ -697,6 +709,11 @@ namespace ml::events
                     const LONG n = InterlockedCompareExchange(&g_petN, 0, 0);
                     if (n < 32) { g_pet[n] = { who, item, GetTickCount(), search }; InterlockedExchange(&g_petN, n + 1); }
                 }
+                // Anything at all from a companion says one is out and doing
+                // something. A mercenary breaking a rock raises a drop event
+                // and no pick-up, so the bag can rise with nothing here to
+                // hang a window on; the engine sweeps for that instead.
+                InterlockedExchange(&g_companionAt, static_cast<LONG>(GetTickCount()));
             }
         }
         // The same, logged: sixty lines, every one with the raiser, so a pet

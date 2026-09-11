@@ -988,6 +988,40 @@ namespace ml::loot
     // an item marked never, a tag marked never, a class switched off, the
     // value floor and the no-sell switch. Filled here, drained by the filter.
     static std::vector<events::PetPickup> g_petHand;
+
+    // Only while a pet is demonstrably out and looting. A pet's body search is
+    // the one event stamped with the pet's own id, so it is proof; its pick-up
+    // of a loose item is not, which is the whole problem. Without that proof a
+    // hand pick-up is just a hand pick-up, and deleting it takes something the
+    // player chose to carry.
+    //
+    // Reported on the Nexus bugs tab against 1.6.12: "Mod deletes every
+    // filtered out item picked up by the main character when Pets and
+    // companions follow the filters is on." Correct, and it was by design.
+    // A player who picks up something their own rules refuse now keeps it
+    // unless a pet has been seen looting in the last half minute.
+    static DWORD g_petSeenAt = 0;
+    static constexpr DWORD kPetOutMs = 30000;
+    // Set when the world changes under the mod: a load, a teleport, a mount, a
+    // cutscene, a character swap. The inventory that comes back is a different
+    // inventory, and against a snapshot taken before it every row reads as an
+    // arrival. Seth loaded a save on 11 September 2026 and the sweep deleted
+    // what was already in his bag. The filter takes a fresh baseline and skips
+    // one pass rather than judging anything across that line.
+    static volatile LONG g_bagBaselineStale = 0;
+    static void InvalidateBagBaseline() { InterlockedExchange(&g_bagBaselineStale, 1); }
+    static bool TakeBagBaselineStale() { return InterlockedExchange(&g_bagBaselineStale, 0) != 0; }
+    static void NotePetActivity(DWORD now) { g_petSeenAt = now ? now : 1; }
+    static bool PetOutRecently(DWORD now)
+    {
+        if (g_petSeenAt && (now - g_petSeenAt) < kPetOutMs) return true;
+        // Anything a companion raised counts, not only the pick-ups and body
+        // searches the filter can hang a window on. A mercenary that breaks a
+        // rock raises a drop event and nothing else, and it is still out.
+        const DWORD c = events::CompanionActiveAt();
+        return c && (now - c) < kPetOutMs;
+    }
+
     static bool IsFilterRule(const char* why)
     {
         return why && (strcmp(why, "item override") == 0 || strcmp(why, "tag never") == 0 || strcmp(why, "class skipped") == 0 ||
@@ -1024,7 +1058,20 @@ namespace ml::loot
                 const char* why = LastVerdict(seen[i].eid);
                 static int s_missLogs = 0;
                 if (why && seen[i].act == Action::Take && Settings::Get().petFilter && IsFilterRule(why) && g_petHand.size() < 64)
-                    g_petHand.push_back({ g_meEid, seen[i].eid, seen[i].at, false });
+                {
+                    if (PetOutRecently(now))
+                        g_petHand.push_back({ g_meEid, seen[i].eid, seen[i].at, false });
+                    else
+                    {
+                        static int s_said = 0;
+                        if (s_said < 8)
+                        {
+                            ++s_said;
+                            LOG("[pet] eid %08X was picked up by hand and the rules refuse it, but no pet has looted "
+                                "in the last %lu seconds, so it stays in the bag.", seen[i].eid, kPetOutMs / 1000);
+                        }
+                    }
+                }
                 if (why) { if (Settings::Get().debugLog) LOG("[learn] player %s eid %08X (node type %u), we had skipped it: %s", events::ActionName(seen[i].act), seen[i].eid, nodeType, why); }
                 else if (WasSeen(seen[i].eid)) { if (Settings::Get().debugLog) LOG("[learn] player %s eid %08X (node type %u), the scan had it and did not act", events::ActionName(seen[i].act), seen[i].eid, nodeType); }
                 else if (s_missLogs < 40) { ++s_missLogs; LOG("[learn] player %s eid %08X (node type %u), the scan never saw it", events::ActionName(seen[i].act), seen[i].eid, nodeType); }
@@ -1206,7 +1253,7 @@ namespace ml::loot
     }
 
     // What kind of thing a gather node is, from what it yields.
-    enum class GatherKind { Unknown, Plant, Crop, Ore, Stone, Wood, Item, Furniture };
+    enum class GatherKind { Unknown, Plant, Crop, Ore, Stone, Wood, Item, Furniture, Container };
     // What an item counts as for the kind toggles. The classes come straight
     // from the item database (scripts/build_item_db.py): ore and jewel are
     // minerals from veins, stone from quarries, wood from trees and branches.
@@ -1261,11 +1308,40 @@ namespace ml::loot
         // goblets and bowls are tagged furniture too, and a chest is not a chair.
         if (y->HasTag("furniture") && k != "container" && k != "storage" && k != "chest")
             return GatherKind::Furniture;
+        // And then the things that hold things actually answer to the Containers
+        // switch, which the line above has always claimed they do. They did not:
+        // there was no kind for them, so a bottle, a jar or a clay pot fell
+        // through to Item and the only switch that could stop it was Ground
+        // items. Seth had Containers off and watched a shelf of clay jars go in
+        // the bag on 11 September 2026, twice, and he was right both times.
+        // Chests stay out of it: the six items in that class are reward boxes,
+        // which Treasure and keepsakes owns and nobody means to refuse by
+        // turning off chests and crates.
+        if (k == "container" || k == "storage") return GatherKind::Container;
         // Ahead of the onGround line, so a fallen apple and one still on the
         // tree answer to the same switch. Before 1.3.1 both were ground items.
         if (k == "vegetable" || k == "fruit" || k == "grain") return GatherKind::Crop;
-        if (onGround) return GatherKind::Item;
-        if (k == "seed" || k == "alchemy-material" || y->HasTag("rare-gather")) return GatherKind::Plant;
+        // A seed comes off a plant and is a seed wherever it is lying, so it
+        // answers to Plants either way. The twenty of them are their own class,
+        // so anyone who wants the herbs and not the pips says so on the Classes
+        // tab.
+        if (k == "seed") return GatherKind::Plant;
+        // Two other things used to be swept in beside it, and only when a node
+        // produced them: the alchemy-material class and anything tagged
+        // rare-gather. That lumped a Razor Clam, a bar of Chocolate and a
+        // Golden Goose Egg in with the herbs, and only sometimes, because the
+        // same item lying on the floor was an ordinary pick-up. Neither is a
+        // plant, so neither gets a plant's switch. They answer to Ground items
+        // when they are loose and to the node's own kind when one yields them,
+        // and the choice is on the Classes tab under alchemy-material and on
+        // the Tags tab under rare-gather, where it can be made per item instead
+        // of by a switch that was never about them.
+        //
+        // `onGround` is deliberately unused now. It existed to give a thing one
+        // kind on the floor and a different one out of a node, which is the
+        // inconsistency this removes; crops lost the same split in 1.3.1 so a
+        // fallen apple and one on the tree answer to the same switch.
+        (void)onGround;
         return GatherKind::Item;
     }
 
@@ -1298,11 +1374,17 @@ namespace ml::loot
         {
         case GatherKind::Plant:     return cfg.gatherPlants   ? nullptr : "plants off";
         case GatherKind::Crop:      return cfg.gatherCrops    ? nullptr : "crops off";
-        case GatherKind::Ore:       return cfg.gatherOre      ? nullptr : "ore off";
-        case GatherKind::Stone:     return cfg.gatherStone    ? nullptr : "stone off";
+        // Stone has no switch of its own. Every rock answers to Ore, and
+        // which stones to keep is an item rule now: the database gives
+        // Stone, Fine Stone, Flawless Stone and Stalactite the class
+        // stone and the tag to match, so a class rule covers all four
+        // without stopping the mod breaking the node it came out of.
+        case GatherKind::Ore:
+        case GatherKind::Stone:     return cfg.gatherOre      ? nullptr : "ore off";
         case GatherKind::Wood:      return cfg.gatherWood     ? nullptr : "wood off";
         case GatherKind::Item:      return cfg.pickUpItems    ? nullptr : "pick up off";
         case GatherKind::Furniture: return cfg.lootFurniture  ? nullptr : "furniture off";
+        case GatherKind::Container: return cfg.lootContainers ? nullptr : "containers off";
         default:                    return cfg.gatherUnknown  ? nullptr : "unidentified nodes off";
         }
     }
@@ -2213,10 +2295,11 @@ namespace ml::loot
             {
             case GatherKind::Plant: if (!cfg.gatherPlants) return skip("plants off"); break;
             case GatherKind::Crop:  if (!cfg.gatherCrops)  return skip("crops off"); break;
-            case GatherKind::Ore:   if (!cfg.gatherOre)   return skip("ore off"); break;
-            case GatherKind::Stone: if (!cfg.gatherStone) return skip("stone off"); break;
+            case GatherKind::Ore:
+            case GatherKind::Stone: if (!cfg.gatherOre)   return skip("ore off"); break;
             case GatherKind::Wood:  if (!cfg.gatherWood)  return skip("wood off"); break;
             case GatherKind::Furniture: if (!cfg.lootFurniture) return skip("furniture off"); break;
+            case GatherKind::Container: if (!cfg.lootContainers) return skip("containers off"); break;
             default: break;
             }
             break;
@@ -2573,6 +2656,48 @@ namespace ml::loot
         return sent;
     }
 
+    // Judge a thing before a pet touches it, rather than after.
+    //
+    // The filter has always worked by deletion: the pet takes whatever it
+    // likes, the mod sees what landed and destroys the part the rules refuse.
+    // That costs the item, puts a notice on screen and, worst of it, cannot
+    // tell a pet's pick-up of a loose item from the player's own, because the
+    // game raises both as the player. The condition hook opened a better door.
+    // The game asks, for each thing a pet is about to reach for, whether the
+    // pet may loot it, and the question carries the thing. So answer no for
+    // exactly what the rules refuse and the pet walks past it: nothing is
+    // taken, nothing is deleted, and the player's own pick-ups are never in
+    // the question at all.
+    //
+    // Identity comes from the Gimmick component the same way Fill reads it,
+    // which is the only place an entity's item identity lives. No gimmick, no
+    // identity, and then the answer is -1 and the game decides as it always
+    // did, with the old delete path still behind it as the backstop.
+    int JudgeEntityForPet(uintptr_t ent, char* name, size_t n)
+    {
+        if (name && n) name[0] = 0;
+        if (!ent) return -1;
+        const uintptr_t comps = game::Comps(ent);
+        const uintptr_t inter = comps ? game::CompByClass(comps, kCls_Gimmick) : 0;
+        const uintptr_t idata = inter ? mem::Deref(inter, kOff_Gimmick_ItemData) : 0;
+        if (!idata) return -1;
+        uint16_t tid = 0;
+        if (!mem::Read16(idata + 8, &tid) || !tid) return -1;
+        const Item* it = ItemDb::ByRow(tid);
+        if (!it) return -1;
+        if (name && n) snprintf(name, n, "%s", it->name.c_str());
+        const Rules::Verdict r = Rules::Decide(*it, Settings::Get());
+        // Refuse only what the filter would have deleted. The three rules the
+        // sweep spares are spared here too: the mod refuses to take a quest,
+        // protected or dev item itself out of caution, and turning that
+        // caution into "the pet may not pick your quest item up either" would
+        // lose the player something the filter has never been willing to
+        // destroy. Not taking one is careful; keeping one out of the bag is not.
+        const bool spare = strcmp(r.rule, "protected") == 0 || strcmp(r.rule, "quest item") == 0 ||
+                           strcmp(r.rule, "dev item") == 0;
+        return (r.loot || spare) ? 0 : 1;
+    }
+
     static void PetFilterTick(const Config& cfg, DWORD now)
     {
         static std::unordered_map<uint16_t, long long> base, snap;
@@ -2601,11 +2726,21 @@ namespace ml::loot
             }
             for (int i = 0; i < n; ++i)
             {
+                // Stamped with the pet's own id, so a pet is out and working.
+                // The hand path above reads this before it queues anything.
+                if (pp[i].pet != g_meEid) NotePetActivity(now);
                 const auto it = g_tidByEid.find(pp[i].item);
                 const uint16_t tid = it == g_tidByEid.end() ? 0 : it->second;
                 const Item* db = tid ? ItemDb::ByRow(tid) : nullptr;
                 if (tid) { if (tidN < 64) tids[tidN++] = tid; } else anyUnknown = true;
-                LOG("[pet] %08X %s %08X: %s%s", pp[i].pet, pp[i].search ? "searched" : "picked up", pp[i].item,
+                // Say which kind of companion it was. A pet is a world actor
+                // and a hired mercenary is player-tagged, and the game has one
+                // looting rule, written for pets, with no mercenary of its own.
+                // So a line here naming a player-tagged raiser is the evidence
+                // that a mercenary loots at all, which no session has shown yet.
+                const char* kind = pp[i].pet == g_meEid ? "you" :
+                                   (pp[i].pet >> 24) == game::kTagPlayer ? "a hired companion" : "a pet";
+                LOG("[pet] %08X (%s) %s %08X: %s%s", pp[i].pet, kind, pp[i].search ? "searched" : "picked up", pp[i].item,
                     db ? db->name.c_str() : pp[i].search ? "a body; judged by what lands" : tid ? "row known, unnamed" : "never in scan range; judged by what lands",
                     pp[i].pet == g_meEid ? " (raised as the player, on an item the scan had refused)" : "");
             }
@@ -2646,6 +2781,97 @@ namespace ml::loot
                 State::Get().Notify(msg, 6000, true);
             }
             windowUntil = 0; base.clear();
+            return;
+        }
+        // Nothing to judge from an event, so judge from the bag itself.
+        //
+        // A companion can put something in the inventory without raising any
+        // descriptor this mod watches. Seth's session of 11 September 2026 has
+        // a mercenary out for six minutes, twelve events from it, not one of
+        // them a pick-up, and stone arriving in the bag the whole time with
+        // every stone switch off. The window machinery above never opened
+        // because it had no event to open on.
+        //
+        // So: while a companion is out, diff the bag against the snapshot taken
+        // 400 ms ago and delete any rise the rules refuse. Only while one is
+        // out, because with nobody else in the world a rise is the player's own
+        // doing and taking it back is the bug this all started from. Anything
+        // the mod itself sent is pending in g_pend and is allowed by
+        // construction, since the mod only ever sends what the rules permit.
+        // The companion has to have acted since this baseline was taken. One
+        // that helped half a minute ago explains nothing about what arrived in
+        // the last two seconds.
+        const DWORD companionAt = events::CompanionActiveAt();
+        const bool companionSince = (companionAt && static_cast<long>(companionAt - snapAt) >= 0) ||
+                                    (g_petSeenAt && static_cast<long>(g_petSeenAt - snapAt) >= 0);
+        if (cfg.petFilter && PetOutRecently(now) && companionSince && snapAt && now - snapAt >= 2000)
+        {
+            std::unordered_map<uint16_t, long long> fresh;
+            const DWORD freshAt = snapshot(fresh);
+
+            // Everything below compares two samples of the same bag. If the
+            // world moved between them it is not the same bag, so take the new
+            // one as the baseline and judge nothing this pass.
+            if (TakeBagBaselineStale())
+            {
+                LOG("[pet] the world changed since the last bag sample, so this one starts fresh and nothing is judged");
+                snap.swap(fresh); snapAt = freshAt; return;
+            }
+
+            // A companion picks things up one or two at a time. A dozen kinds
+            // rising at once, or a single row rising by hundreds, is a bag
+            // being replaced rather than filled: a load the scan did not catch,
+            // a storage transfer, a quest handout. Re-baseline and leave it.
+            int risen = 0, fallen = 0; long long biggest = 0;
+            for (const auto& kv : fresh)
+            {
+                const auto b = snap.find(kv.first);
+                const long long d = kv.second - (b == snap.end() ? 0 : b->second);
+                if (d > 0) { ++risen; if (d > biggest) biggest = d; }
+            }
+            for (const auto& kv : snap)
+            {
+                const auto f = fresh.find(kv.first);
+                if ((f == fresh.end() ? 0 : f->second) < kv.second) ++fallen;
+            }
+            // Falls matter as much as rises. Loading an older save brings back
+            // a smaller bag, so the giveaway is not a flood of arrivals but
+            // things vanishing that no one spent.
+            if (risen > 4 || fallen > 4 || biggest > 200)
+            {
+                LOG("[pet] the bag changed shape at once (%d kinds up, %d down, largest rise %lld): that is a bag being "
+                    "replaced and not a companion looting, so nothing is deleted and the baseline resets", risen, fallen, biggest);
+                snap.swap(fresh); snapAt = freshAt; return;
+            }
+
+            int swept = 0;
+            char notice[240] = ""; int nw = 0;
+            for (const auto& kv : fresh)
+            {
+                const auto b = snap.find(kv.first);
+                const long long delta = kv.second - (b == snap.end() ? 0 : b->second);
+                if (delta <= 0) continue;
+                const Item* it = ItemDb::ByRow(kv.first);
+                if (!it) continue;                      // unknown row: never touched
+                const Rules::Verdict r = Rules::Decide(*it, cfg);
+                const bool spare = strcmp(r.rule, "protected") == 0 || strcmp(r.rule, "quest item") == 0 ||
+                                   strcmp(r.rule, "dev item") == 0;
+                if (r.loot || spare) continue;
+                const long long sent = DeleteFromInventory(kv.first, delta, "companion loot, swept");
+                LOG("[pet] sweep: +%lld %s arrived with a companion out and the rules refuse it (%s%s%s)",
+                    delta, it->name.c_str(), r.rule, r.detail.empty() ? "" : " ", r.detail.c_str());
+                ++swept;
+                if (sent > 0 && nw < static_cast<int>(sizeof notice) - 40)
+                    nw += snprintf(notice + nw, sizeof notice - nw, "%s%lld %s", nw ? ", " : "", sent, it->name.c_str());
+            }
+            if (nw && cfg.showHud)
+            {
+                char msg[300];
+                snprintf(msg, sizeof msg, "Master Looter: deleted %s, picked up by a companion against your filters", notice);
+                State::Get().Notify(msg, 6000, true);
+            }
+            snap.swap(fresh);
+            snapAt = freshAt;
             return;
         }
         if (now - snapAt >= 400) snapAt = snapshot(snap);
@@ -3065,6 +3291,8 @@ namespace ml::loot
                 s_droppedRun += events::DropPending();
                 g_actorEid.clear();
                 g_seen.clear();
+                // The bag that comes back after this is not the bag we sampled.
+                InvalidateBagBaseline();
                 // A well run is the fourth holder of a raw component pointer and
                 // the queues were only three of them. Winding a well is eleven
                 // seconds of timed transitions spread over many scans, and

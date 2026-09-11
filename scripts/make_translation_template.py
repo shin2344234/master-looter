@@ -110,6 +110,14 @@ def main():
     dropped = {s for s in strings if not re.search(r"[A-Za-z]{2}", spec.sub("", s))}
     strings -= dropped
 
+    # Font file names are not menu text. The menu names the faces it tries in
+    # order, segoeui.ttf then tahoma.ttf then arial.ttf and the script
+    # fallbacks, and those reached translators as if they were something to
+    # translate. Nobody translated tahoma.ttf, but it sat in every one of the
+    # 28 files as a line to skip past.
+    fonts = {s for s in strings if re.fullmatch(r"[A-Za-z0-9_-]+\.tt[cf]", s)}
+    strings -= fonts
+
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
         f.write("# Master Looter menu text.\n")
@@ -130,6 +138,8 @@ def main():
     print("wrote %d strings to %s" % (len(strings), os.path.relpath(OUT, HERE)))
     print("  %d carry %% placeholders that must be kept" % with_fmt)
     print("  %d skipped as format specifiers with no words in them" % len(dropped))
+    if fonts:
+        print("  %d skipped as font file names: %s" % (len(fonts), ", ".join(sorted(fonts))))
 
 
 if __name__ == "__main__":

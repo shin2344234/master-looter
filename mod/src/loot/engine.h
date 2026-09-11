@@ -59,6 +59,12 @@ namespace ml::loot
     int  CopyRecent(Recent* out, int max);
     long SessionCount(int action);   // per events::Action, items taken this session
 
+    // Ask the item rules about a bare entity, for the pet-looting condition
+    // to consult before the pet reaches for anything. 1 refuse, 0 allow, -1
+    // no identity to judge. Game thread, cheap: one component walk and one
+    // table lookup, no scan state touched. Fills `name` when it can.
+    int  JudgeEntityForPet(uintptr_t ent, char* name, size_t n);
+
     void RequestBurst();             // loot everything allowed in range once
     void ForgetLearned();            // clear the learned node yields (file too)
     void SetAuto(bool on);           // same as Config.enabled, saved

@@ -73,7 +73,6 @@ namespace ml
         // being harvested, sweet potatoes and barley among them.
         bool  gatherCrops    = true;
         bool  gatherOre      = true;
-        bool  gatherStone    = true;
         bool  gatherWood     = true;
         bool  gatherUnknown  = false;  // nodes whose yield has not been seen yet (learned from what you gather by hand)
         bool  catchInsects   = true;
@@ -137,6 +136,9 @@ namespace ml
         // the game looks at the item. On, whatever one of them picks up that
         // the item rules would have refused is deleted as it lands. Issue #32.
         bool  petFilter      = false;
+        // Answer the game's own pet-looting condition with no, so a pet
+        // never picks anything up and there is nothing to filter after.
+        bool  stopPetLooting = false;
         bool  debugLog       = false;
         // With the verbose log on, delete two of this item once per session
         // through the same path the pet filter uses, and log the inventory

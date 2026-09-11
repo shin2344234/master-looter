@@ -8,7 +8,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 
 ## What it does
 
-- Fifteen switches for what to collect: ground items, carcasses, enemy bodies, plants, crops, ore, stone, wood, unidentified nodes, insects, fish, small animals, containers, furniture nodes and water from wells.
+- Fourteen switches for what to collect: ground items, carcasses, enemy bodies, plants, crops, ore and stone, wood, unidentified nodes, insects, fish, small animals, containers, furniture nodes and water from wells. To keep the ore and leave the stone, refuse the class stone on the Classes tab.
 - Class groups with one click (weapons and armor, damaged gear, food and drink, materials, books and papers, furniture, treasure and keepsakes, and more), a full class table, tag rules and per-item overrides with a live verdict.
 - Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
 - Owned goods are skipped unless you opt in: the mod asks the same routine the game uses to decide between "Take" and "Steal".

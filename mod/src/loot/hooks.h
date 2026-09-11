@@ -67,4 +67,9 @@ namespace ml::loot::hooks
     uint32_t PlayerEidFromGame();
 
     bool EnsureOwnerArmed(uintptr_t playerEnt);
+
+    // Whether the switch that stops pets looting has anything to act on.
+    // False means the condition's vtable slot was not found on this build
+    // and the switch does nothing; the log says which step gave up.
+    bool PetLootingHooked();
 }
