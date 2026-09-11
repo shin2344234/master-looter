@@ -1,5 +1,6 @@
-"""Watch the Nexus posts tab, the Nexus bugs tab and the GitHub issues for
-anything new, and print one line per new thing. Silence means nothing changed.
+"""Watch the Nexus posts tab, the Nexus bugs tab, the GitHub issues and the
+Discord help-n-bug-reports forum for anything new, and print one line per new
+thing. Silence means nothing changed.
 
     py -3 watch-board.py --once      one pass, then exit
     py -3 watch-board.py             poll every ten minutes for ever
@@ -12,8 +13,15 @@ anywhere bumps its thread to page one), every row on the bugs tab with its
 status, and every issue and issue comment on GitHub since the last pass.
 What it cannot see: replies inside a bugs-tab row, which load through a
 script call the page does not expose to a plain fetch.
+
+The Discord side needs the bot's token in DISCORD_BOT_TOKEN, in the
+environment or in keys.local.env beside this script; without it the forum
+is skipped and the seed line says so. It watches the active threads of the
+forum: a new thread prints its title and opening post, and a reply in a
+known thread prints the reply. Seth's own messages and the bot's are not
+news. Archived threads are left alone.
 """
-import io, json, os, re, subprocess, sys, time, html
+import io, json, os, re, subprocess, sys, time, html, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -22,6 +30,11 @@ MOD = "https://www.nexusmods.com/crimsondesert/mods/3402"
 GH = "shin2344234/master-looter"
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/128 Safari/537.36"
 INTERVAL = 600
+KEYFILE = os.path.join(HERE, "keys.local.env")
+DISCORD_GUILD = "1547304303646089296"
+DISCORD_FORUM = "1547305334945615922"      # help-n-bug-reports
+DISCORD_FORUM_NAME = "help-n-bug-reports"
+DISCORD_SELF = {"355497711568551947", "1547307453107150979"}   # Seth, the bot
 
 
 def fetch(url):
@@ -90,6 +103,54 @@ def github(since):
     return lines
 
 
+def discord_token():
+    tok = os.environ.get("DISCORD_BOT_TOKEN", "").strip()
+    if not tok and os.path.exists(KEYFILE):
+        for line in open(KEYFILE, encoding="utf-8"):
+            line = line.strip()
+            if line.startswith("DISCORD_BOT_TOKEN="):
+                tok = line.split("=", 1)[1].strip().strip('"')
+    return tok
+
+
+def dapi(path, token):
+    req = urllib.request.Request("https://discord.com/api/v10" + path,
+                                 headers={"Authorization": "Bot " + token, "User-Agent": "MasterLooterWatch (https://github.com/shin2344234/master-looter, 1)"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return json.loads(r.read().decode("utf-8"))
+
+
+def discord(st, seeded, token):
+    """New threads and new replies in the forum. State is {thread id: last
+    message id seen}; a thread whose last message id has not moved costs no
+    call, so a quiet pass is one request."""
+    lines = []
+    known = st.setdefault("discord", {})
+    act = dapi("/guilds/%s/threads/active" % DISCORD_GUILD, token).get("threads", [])
+    for t in act:
+        if t.get("parent_id") != DISCORD_FORUM:
+            continue
+        tid, last, name = t["id"], known.get(t["id"]), t.get("name", "?")
+        newest = t.get("last_message_id") or tid
+        if not seeded:
+            known[tid] = newest
+            continue
+        if last is not None and last == newest:
+            continue
+        msgs = dapi("/channels/%s/messages?limit=100&after=%s" % (tid, last or "0"), token)
+        for m in sorted(msgs, key=lambda m: int(m["id"])):
+            a = m.get("author") or {}
+            if a.get("id") in DISCORD_SELF:
+                continue
+            what = "new thread" if m["id"] == tid else "reply"
+            body = clean(m.get("content", "")) or ("(%d attachment(s))" % len(m.get("attachments", [])))
+            lines.append("discord: %s in %s by %s: %s: %s" % (what, DISCORD_FORUM_NAME, a.get("username", "?"), name, body[:140]))
+        if last is None and all((m.get("author") or {}).get("id") in DISCORD_SELF for m in msgs):
+            lines.append("discord: new thread in %s: %s" % (DISCORD_FORUM_NAME, name))
+        known[tid] = max([newest] + [m["id"] for m in msgs], key=int)
+    return lines
+
+
 def load():
     try:
         return json.load(io.open(STATE, encoding="utf-8"))
@@ -141,9 +202,25 @@ def once(st):
     if since:
         lines.extend(github(since))
     st["github_since"] = now
+    token = discord_token()
+    if token:
+        try:
+            lines.extend(discord(st, "discord" in st, token))
+        except Exception as e:
+            fails["discord"] = fails.get("discord", 0) + 1
+            if fails["discord"] == 3:
+                lines.append("watch: discord fetch has failed three passes running: %s" % e)
+        else:
+            fails["discord"] = 0
     save(st)
     if not seeded:
-        lines.append("watch: seeded with %d comments and %d bug rows; github from %s" % (len(st.get("posts", [])), len(st.get("bugs", {})), now))
+        lines.append("watch: seeded with %d comments and %d bug rows; github from %s; discord %s" % (
+            len(st.get("posts", [])), len(st.get("bugs", {})), now,
+            "%d threads" % len(st.get("discord", {})) if token else "not watched (no DISCORD_BOT_TOKEN)"))
+    elif token and "discord" in st and st.get("discord_seeded_at") is None:
+        st["discord_seeded_at"] = now
+        save(st)
+        lines.append("watch: discord seeded with %d active threads in %s" % (len(st["discord"]), DISCORD_FORUM_NAME))
     return lines
 
 
