@@ -66,7 +66,7 @@ namespace ml::Settings
         else if (k == "ShowHud")          c.showHud = Flag(v);
         else if (k == "NotifyBagFull")    c.notifyBagFull = Flag(v);
         else if (k == "WrapSwapChain")    c.wrapSwapChain = Flag(v);
-        else if (k == "HookDX12")         { c.hookDX12 = Flag(v); c.hookDX12Set = true; }
+        else if (k == "HookDX12")         c.hookDX12 = Flag(v);
         else if (k == "EnableDred")       c.enableDred = Flag(v);
         else if (k == "HookXInput")       c.hookXInput = Flag(v);
         else if (k == "OreBonus")         c.oreBonus = Clamp(v, 0, 10);
@@ -252,9 +252,6 @@ namespace ml::Settings
         c.catchRange = std::min(c.catchRange, c.scanRange); c.corpseRange = std::min(c.corpseRange, c.scanRange);
     }
 
-    static bool g_wine = false;
-    void NoteWine() { g_wine = true; }
-
     void Load()
     {
         Config c;
@@ -263,17 +260,6 @@ namespace ml::Settings
         std::string text;
         const bool present = ReadFile(text);
         if (present) ParseInto(text, c);
-        // Issue #15. Under Proton the game dies on the first frame with the
-        // DirectX layer installed and runs with it off; jeffreyces proved both
-        // halves on 11 September 2026 with HookDX12=0 and a Proton log. Until
-        // the overlay works under vkd3d-proton, Wine gets looting without a
-        // menu by default. HookDX12=1 written in the ini is the way back in.
-        if (g_wine && !c.hookDX12Set)
-        {
-            c.hookDX12 = false;
-            LOG("Running under Wine, so the DirectX layer stays off: looting works, the menu does not. "
-                "Set HookDX12=1 under [MasterLooter] in MasterLooter.ini to try the menu anyway.");
-        }
         // Files written before version 2 carried a 20 m gather range the game
         // ignores and gathered unidentified nodes by default; bring both in line.
         if (present && c.configVersion < 2)

@@ -38,6 +38,10 @@ OptiScaler, some frame generation builds and some ReShade setups install a `winm
 
 The two can share the folder on different names, because Ultimate ASI Loader answers to `version.dll` and `dinput8.dll` as well as `winmm.dll`, and `version.dll` is known to load on this game. Leave the other mod's `winmm.dll` where it is, rename the loader to `version.dll` in the same `bin64`, launch, and look for `MasterLooter.log` in `bin64`; that file appearing is the whole test. Afterwards, DMM may put its own `winmm.dll` back on the next Mount. That leaves two loaders in the folder, DMM's own Diagnose will say so, and the one to keep is whichever the other mod is not using.
 
+### Linux
+
+The plugin runs under Proton since 1.6.11, looting and menu both, with the same loader and the same files and nothing to set. A report from Linux is easiest to read with the Proton log beside `MasterLooter.log`; `PROTON_LOG=1` in the game's launch options writes it to `~/steam-3321460.log`.
+
 Uninstall by deleting the `MasterLooter.*` files and folders from `bin64`. The plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself, plus the eleven previous logs as `MasterLooter.01.log` through `MasterLooter.11.log`, `MasterLooter.presets` and `MasterLooter.backups`; no game file is modified and nothing is written to a save.
 
 ## Antivirus
@@ -54,11 +58,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.10:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.11:
 
-    edf93f92752dac07ef5a57e516f020064213a676cfd1a25e2fab02ee6351258c  MasterLooter-1.6.10-DMM.zip
-    45932b751c9e7ca52e03bec432377aa786b2b176e5ca82e7a652ac87fb5a3f0d  MasterLooter-1.6.10.zip
-    2a72ca805861b11ff513f1983d63f4059090970d0b8e59030ccb6a49242db6af  MasterLooter.asi
+    f46e8a680e660fbdc32740540dd34fd92058fbf654585e4827a8eb991e01351c  MasterLooter-1.6.11-DMM.zip
+    dadbf3ac37d67c2e30153a87adde451807c5413bfd9da256f3b8995507dfd145  MasterLooter-1.6.11.zip
+    ed97aaa6f07129802861f2dbe6ab76ac9147cc830c48fe01b80862048b64a2dd  MasterLooter.asi
 
 ## Controls
 

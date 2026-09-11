@@ -25,9 +25,6 @@ namespace ml
         // still hung alongside Crimson Route and RenoDX, and loaded with this
         // plugin absent, so the difference had to be in what was left.
         bool  hookDX12       = true;
-        // True when the ini named HookDX12 itself. Under Wine the layer
-        // defaults to off (issue #15) and an explicit key is the override.
-        bool  hookDX12Set    = false;
         // Arm D3D12 DRED (breadcrumbs and page-fault reporting on device
         // removal). Off by default since 1.6.5: it is diagnostic only, it runs
         // before the game has made a device, and nothing in looting needs it.
@@ -158,7 +155,6 @@ namespace ml
     namespace Settings
     {
         Config& Get();
-        void NoteWine();             // call before Load(): the DirectX layer defaults to off under Wine
         void Load();                 // read MasterLooter.ini (defaults when missing)
         void Save();                 // write it; a no-op before Claim()
         void Claim();                // this process owns the file; writes defaults if missing
