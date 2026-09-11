@@ -1,4 +1,4 @@
-# Master Looter item tags, build 2.01.00
+# Master Looter item tags, build 2.02.00
 
 6813 items parsed from iteminfo.staticinfobody; 6741 have an English name.
 

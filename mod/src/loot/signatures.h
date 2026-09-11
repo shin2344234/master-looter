@@ -5,7 +5,8 @@
 // can be (the item table is checked against our own item database before use).
 //
 // Provenance: CDLoot 1.0.4 (event protocol, entity layout, ownership oracle,
-// node arming, verified on exe 1.0.0.2760) and Trinity (table resolver
+// node arming, verified on exe 1.0.0.2760, all still resolving on 1.0.0.2850)
+// and Trinity (table resolver
 // anchoring, movement tick, guarded memory idioms). mod/scripts/sigcheck.py
 // parses this file and reports hit counts against the installed exe, so keep
 // the `kSig_` literals on single lines or as adjacent string literals only.

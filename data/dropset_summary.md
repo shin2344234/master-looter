@@ -1,4 +1,4 @@
-# Drop sets, build 2.01.00
+# Drop sets, build 2.02.00
 
 14744 drop sets, 18044 entries, parsed from dropsetinfo.staticinfobody with every record ending on its byte boundary.
 

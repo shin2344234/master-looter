@@ -87,7 +87,7 @@ footer{padding:0 28px 30px;color:var(--mute);font-size:12px;max-width:80ch}
 </style>
 <header>
   <h1>Master <span>Looter</span> item tags</h1>
-  <div class="meta"><b>__N__</b> items from iteminfo.staticinfobody, Crimson Desert 2.01.00 &middot; <b>__NCLASS__</b> classes &middot; <b>__NTAGS__</b> tags &middot; <b>__NSRC__</b> items with a known drop source</div>
+  <div class="meta"><b>__N__</b> items from iteminfo.staticinfobody, Crimson Desert 2.02.00 &middot; <b>__NCLASS__</b> classes &middot; <b>__NTAGS__</b> tags &middot; <b>__NSRC__</b> items with a known drop source</div>
 </header>
 <main>
   <div class="controls">

@@ -535,15 +535,15 @@ namespace ml::loot::hooks
     // the break, so mining by hand is untouched and a bonus cannot stack on top
     // of one the game already paid.
     //
-    // Found at a fixed address: the exe has relocations stripped and no ASLR,
-    // so an RVA is an address. The prologue is checked before anything is
-    // hooked, because attaching a detour to the wrong function is worse than
-    // paying no bonus at all. Nothing is hooked when the setting is zero.
-    static constexpr uintptr_t kCountRva = 0xE0AD9F0;
-    static const unsigned char kCountHead[] = {
-        0x48,0x89,0x5C,0x24,0x10, 0x48,0x89,0x6C,0x24,0x18,
-        0x48,0x89,0x74,0x24,0x20, 0x57, 0x48,0x83,0xEC,0x20
-    };
+    // Found by its own bytes, like everything else the mod hooks. It used to
+    // be a fixed RVA, on the reasoning that the exe has relocations stripped
+    // and no ASLR, so an RVA is an address. True within one build and useless
+    // across two: the 1.0.0.2850 patch of 11 September 2026 moved the function
+    // from +0xE0AD9F0 to +0xE070B60, and the bonus turned itself off with a
+    // line about the game probably having been updated. kSig_DropCount had
+    // been written for this function and never wired up; it still matches, in
+    // exactly one place, on both builds. The pattern covers the prologue and
+    // the null-instigator early-out, so matching it is the prologue check.
 
     using CountFn = uint32_t(__fastcall*)(uintptr_t, uintptr_t, uint32_t);
     static CountFn oCount = nullptr;
@@ -621,21 +621,13 @@ namespace ml::loot::hooks
     static void InstallOreBonus()
     {
         const int bonus = Settings::Get().oreBonus;
-        const uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleA(nullptr));
-        const uintptr_t at   = base + kCountRva;
-        if (!mem::Readable(at, sizeof kCountHead))
+        size_t hits = 0;
+        const uintptr_t at = mem::FindUnique(ml::sig::kSig_DropCount, &hits);
+        if (!at)
         {
-            LOG_ERR("[ore] %llX is not readable; the tool bonus is off this session.",
-                    static_cast<unsigned long long>(at));
-            return;
-        }
-        unsigned char head[sizeof kCountHead] = {};
-        if (!mem::ReadBytes(at, head, sizeof head) ||
-            memcmp(head, kCountHead, sizeof head) != 0)
-        {
-            LOG_ERR("[ore] the function at +%llX is not the one this was written against, so the "
+            LOG_ERR("[ore] the drop count function was not found (%d candidate patterns matched), so the "
                     "tool bonus is off this session. The game has probably been updated.",
-                    static_cast<unsigned long long>(kCountRva));
+                    static_cast<int>(hits));
             return;
         }
         // Installed whether or not there is a bonus set, because hkCount reads
@@ -646,8 +638,9 @@ namespace ml::loot::hooks
         // and there was nothing in the log to say so either way.
         if (Hook("ore count", at, reinterpret_cast<void*>(&hkCount),
                  reinterpret_cast<void**>(&oCount)))
-            LOG("[ore] tool bonus hooked, set to +%d. A vein this mod breaks pays that much more "
-                "through the game's own drop path; mining by hand is untouched.", bonus);
+            LOG("[ore] tool bonus hooked at +%llX, set to +%d. A vein this mod breaks pays that much "
+                "more through the game's own drop path; mining by hand is untouched.",
+                static_cast<unsigned long long>(at - mem::Game().base), bonus);
     }
 
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original)

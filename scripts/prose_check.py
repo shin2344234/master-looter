@@ -263,7 +263,7 @@ def duplicates(paths):
       - Only documents of the same release are compared. The 1.2.0 and the
         1.6.3 changelogs sharing a line is not copy and paste.
       - A sentence in three or more files is house boilerplate, not laziness.
-        "For Crimson Desert 2.01.00 (exe 1.0.0.2760)." heads every changelog.
+        "For Crimson Desert 2.02.00 (exe 1.0.0.2850)." heads every changelog.
     """
     paths = [p for p in paths if os.path.basename(p) not in SKIP_DUP]
     everywhere = {}

@@ -1,4 +1,4 @@
-"""Cross-reference drop sets to the characters and gimmicks that use them (Crimson Desert 2.01.00).
+"""Cross-reference drop sets to the characters and gimmicks that use them (Crimson Desert 2.02.00).
 
 The CharacterInfo and GimmickInfo record layouts are not fully known, so the drop-related
 blocks are located by validated signature scans inside each record (every referenced key
@@ -302,7 +302,7 @@ def main():
     # ---- summary
     flags = collections.Counter((flag, sets[k]["string_key"].split("_")[1] if "_" in sets[k]["string_key"] else sets[k]["string_key"][:10]) for k, us in set_users_c.items() for c, flag, rep, src in us if src == "reward")
     any_src = sum(1 for r in item_rows if r["n_characters_via_sets"] or r["n_gimmicks_via_sets"] or r["n_equipped_by"])
-    lines = ["# Drop sources, build 2.01.00", "",
+    lines = ["# Drop sources, build 2.02.00", "",
              "- characters: %d; with reward drop sets: %d; with equipment: %d; with a catch/steal set: %d" % (stat["chars"], stat["with_rewards"], stat["with_equipment"], stat["with_catch"]),
              "- gimmicks: %d; with a drop block: %d" % (stat["gimmicks"], stat["gimmicks_with_drops"]),
              "- drop sets used by at least one character or gimmick: %d of %d" % (len(src_rows), len(sets)),

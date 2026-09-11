@@ -156,7 +156,7 @@ def main():
     prefixes = collections.Counter("_".join(d["string_key"].split("_")[:2]) for d in out_sets if d["kind"] == "designed")
     in_designed = sum(1 for r in rows if r["n_designed_sets"])
     in_any = sum(1 for r in rows if r["n_sets"])
-    lines = ["# Drop sets, build 2.01.00", "",
+    lines = ["# Drop sets, build 2.02.00", "",
              "%d drop sets, %d entries, parsed from dropsetinfo.staticinfobody with every record ending on its byte boundary." % (len(out_sets), len(entry_rows)), "",
              "## Kinds of set", ""]
     lines += ["- %s: %d" % kv for kv in kinds.most_common()]

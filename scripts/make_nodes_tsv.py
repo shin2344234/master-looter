@@ -1,4 +1,4 @@
-"""Gather-node table for the plugin (Crimson Desert 2.01.00).
+"""Gather-node table for the plugin (Crimson Desert 2.02.00).
 
 A gather node reports a 16-bit id that is not stable between sessions, so it
 cannot be used to remember what a node yields. What the node does carry is the

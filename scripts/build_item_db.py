@@ -1,6 +1,6 @@
 """Build the Master Looter item database and tag every item.
 
-Reads the extracted 2.01.00 tables via cdtables.py and writes to ../data:
+Reads the extracted 2.02.00 tables via cdtables.py and writes to ../data:
   items_tagged.csv      one row per item, for review
   items_tagged.json     same rows as JSON (plus group ids and raw flags)
   tag_summary.md        tag vocabulary, rule list, counts
@@ -562,7 +562,7 @@ def main():
             f.write("%5d [%d] %s | %s\n" % (n, k, name, eng))
 
     # summary
-    lines = ["# Master Looter item tags, build 2.01.00", "",
+    lines = ["# Master Looter item tags, build 2.02.00", "",
              "%d items parsed from iteminfo.staticinfobody; %d have an English name." % (
                  len(rows), sum(1 for r in rows if r["name"])), "",
              "## Class column (one per item, first match in priority order)", ""]

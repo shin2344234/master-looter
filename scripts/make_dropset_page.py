@@ -78,7 +78,7 @@ footer{padding:0 28px 30px;color:var(--mute);font-size:12px;max-width:80ch}
 </style>
 <header>
   <h1>Master <span>Looter</span> drop sets</h1>
-  <div class="meta"><b>__NSETS__</b> drop sets &middot; <b>__NENTRIES__</b> entries &middot; Crimson Desert 2.01.00</div>
+  <div class="meta"><b>__NSETS__</b> drop sets &middot; <b>__NENTRIES__</b> entries &middot; Crimson Desert 2.02.00</div>
 </header>
 <main>
   <div class="controls">

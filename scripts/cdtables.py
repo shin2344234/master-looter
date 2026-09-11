@@ -1,10 +1,10 @@
-"""Readers for Crimson Desert static-info tables (build 2.01.00, exe 1.0.0.2760).
+"""Readers for Crimson Desert static-info tables (build 2.02.00, exe 1.0.0.2850).
 
 Inputs are the files extracted from archive group 0008 (gamedata/*.staticinfobody +
 *.staticinfoheader) and the English string tables from group 0020 (gamedata/*.paloc).
 
 Layout for ItemInfo follows crimson-rs (potter420) for build 1.0.4.1, adjusted for the
-fields that DMM 2.3.x knows about on 2.01.00. Every record is parsed against the byte
+fields that DMM 2.3.x knows about on 2.02.00. Every record is parsed against the byte
 range the header gives it, so a layout error shows up as an end-offset mismatch.
 """
 import os

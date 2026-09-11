@@ -1,4 +1,4 @@
-# Drop sources, build 2.01.00
+# Drop sources, build 2.02.00
 
 - characters: 7250; with reward drop sets: 6107; with equipment: 4934; with a catch/steal set: 1125
 - gimmicks: 13906; with a drop block: 314

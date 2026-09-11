@@ -1,6 +1,6 @@
 # Data pipeline
 
-Item, item group, drop set and drop source tables for Crimson Desert 2.01.00 (exe 1.0.0.2760), parsed from the game's own static-info files. This is the data layer behind the Master Looter plugin: it produces the item database, the creature table and the gather node table the plugin ships with.
+Item, item group, drop set and drop source tables for Crimson Desert 2.02.00 (exe 1.0.0.2850), parsed from the game's own static-info files. This is the data layer behind the Master Looter plugin: it produces the item database, the creature table and the gather node table the plugin ships with.
 
 ## Scripts
 
@@ -26,4 +26,4 @@ data/class_overrides.csv and the three summaries are committed. The full outputs
 3. Run, in order: `build_item_db.py`, `make_itemdb_tsv.py`, `make_creatures_tsv.py`, `make_nodes_tsv.py`. The drop set scripts (`build_dropsets.py`, `build_sources.py`) are only needed for the review pages.
 4. Rebuild the plugin; the TSVs are compiled into it.
 
-Record layouts for 2.01.00 and the reasoning behind each field are in the module docstrings and in data/*_summary.md.
+Record layouts for 2.02.00 and the reasoning behind each field are in the module docstrings and in data/*_summary.md.

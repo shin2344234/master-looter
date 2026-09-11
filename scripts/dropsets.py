@@ -1,4 +1,4 @@
-"""Parser for dropsetinfo.staticinfobody (Crimson Desert 2.01.00).
+"""Parser for dropsetinfo.staticinfobody (Crimson Desert 2.02.00).
 
 Record layout (verified against every record's byte boundary):
   key u32, string_key cstr, is_blocked u8, drop_roll_type u8, drop_roll_count u32,
