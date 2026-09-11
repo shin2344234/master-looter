@@ -2135,6 +2135,40 @@ ore in the bag. The five wasted breaks are the one-time cost of learning the
 prefab, and they are paid again next launch: the list lives for the session
 only.
 
+## The table says which nodes break, so nothing has to fail first (2026-09-11)
+
+Asked the same day whether a node could be judged before anything was driven at
+it. It can. The node's own row in `gimmickinfo` carries `SelfForceBreakImpulse`
+or a `BreakProjectileKey` when the game breaks it, and the chunks a vein drops
+carry neither. That is read at build time by `make_nodes_tsv.py` into a sixth
+column, `breaks`, and the engine refuses to drive a break at a node the game
+does not mark. Twenty-seven of the 71 ore nodes do not break: every
+`gimmick_collect_ore_<material>_01` chunk, the three stone chunks, the quarry
+stones, the stalactites, and the pickaxe and ice-wall puzzle points. Confirmed
+in play on a fresh install with no learned entries: four breaks on veins, four
+gathers on chunks, no failed attempt and no learning line.
+
+The learning above stays as the net for a node the table cannot name. It should
+now almost never fire, and the margin worth keeping in mind is still there: the
+answer window is 1500 ms against a measured worst case of 130 ms.
+
+The same row carries something else worth knowing. The bismuth vein's embedded
+event handler reads, in part:
+
+    <FrameEvent Event="OnBreak" Type="SummonGimmick" GimmickKey="ore_bismuth_01"
+      SpawnOffsetSocketName="HitPoint" SpawnReason="Drop"/>
+    <FrameEvent Event="OnAttackImpulseComplete" Type="SummonGimmick"
+      CachedTargetCondition="CheckBuffTag(BonusMining_1) || CheckBuffTag(BonusMining_2)"
+      GimmickKey="ore_bismuth_01" .../>
+
+So the tool's yield bonus is not carried by the event and never was. The game
+checks a buff tag on the player when `OnAttackImpulseComplete` fires, and the
+mod already drives that event, which means the bonus may pay on any node built
+this way without the mod doing anything. Issue #31's write-up says no tool query
+exists on the drop path; that is the drop path, and this is a different one. Do
+not rewrite #31 on the strength of this paragraph. Mine a vein with and without
+the buff, count the chunks, and settle it with numbers first.
+
 One margin worth keeping in mind: the answer window is 1500 ms against a
 measured worst case of 130 ms. A vein whose drop somehow took longer than that
 would be gathered as well as broken, which is a double yield, so do not shorten
