@@ -108,6 +108,20 @@ namespace ml::gui
         return std::string(win) + "\\Fonts\\";
     }
 
+    // Every font load goes through here so a file that is not there is never
+    // handed to ImGui. AddFontFromFileTTF reports a missing file as a user
+    // error, and since 1.91.5 that error path tries to draw a tooltip, which
+    // means Begin() before the first frame and a null window read. On Windows
+    // segoeui.ttf always exists so it never showed; under Proton the prefix's
+    // Fonts folder has none of Microsoft's faces and the game died on the
+    // first frame with the menu renderer on (issue #15).
+    static ImFont* LoadFont(const std::string& path, float px, const ImFontConfig* cfg, const ImWchar* ranges)
+    {
+        const DWORD attr = GetFileAttributesA(path.c_str());
+        if (attr == INVALID_FILE_ATTRIBUTES || (attr & FILE_ATTRIBUTE_DIRECTORY)) return nullptr;
+        return ImGui::GetIO().Fonts->AddFontFromFileTTF(path.c_str(), px, cfg, ranges);
+    }
+
     // Merged into the face just added, so Latin keeps the font the menu was
     // drawn around and only what that font cannot supply comes from here.
     // The atlas asks for exactly the characters in use, and a merged face
@@ -154,7 +168,7 @@ namespace ml::gui
                 cfg.MergeMode   = true;
                 cfg.OversampleH = 1;
                 cfg.OversampleV = 1;
-                if (ImGui::GetIO().Fonts->AddFontFromFileTTF((fonts + *f).c_str(), px, &cfg, g_glyphRanges.Data)) { merged[n++] = *f; break; }
+                if (LoadFont(fonts + *f, px, &cfg, g_glyphRanges.Data)) { merged[n++] = *f; break; }
             }
         }
         if (!n) LOG_ERR("No font carrying the non-Latin glyphs found in %s; that text draws as question marks.", fonts.c_str());
@@ -167,9 +181,22 @@ namespace ml::gui
         BuildGlyphRanges();
         const std::string fonts = FontsDir();
 
+        // Segoe UI is the face the menu was drawn around. Tahoma and Arial are
+        // what a Wine prefix has instead (Proton installs Liberation Sans as
+        // arial.ttf), and ImGui's built-in face is the last resort.
         const float bodyPx = 16.0f * g_scale;
-        g_fontBody = io.Fonts->AddFontFromFileTTF((fonts + "segoeui.ttf").c_str(), bodyPx, nullptr, g_glyphRanges.Data);
-        if (!g_fontBody) { ImFontConfig d; d.SizePixels = bodyPx; g_fontBody = io.Fonts->AddFontDefault(&d); }
+        static const char* kBody[] = { "segoeui.ttf", "tahoma.ttf", "arial.ttf" };
+        g_fontBody = nullptr;
+        for (const char* f : kBody)
+        {
+            g_fontBody = LoadFont(fonts + f, bodyPx, nullptr, g_glyphRanges.Data);
+            if (g_fontBody) { if (f != kBody[0]) LOG("Menu font: %s%s (segoeui.ttf is not there).", fonts.c_str(), f); break; }
+        }
+        if (!g_fontBody)
+        {
+            LOG("Menu font: none of Segoe UI, Tahoma or Arial in %s; using the built-in face.", fonts.c_str());
+            ImFontConfig d; d.SizePixels = bodyPx; g_fontBody = io.Fonts->AddFontDefault(&d);
+        }
         MergeFallback(fonts, bodyPx);
 
         const float headPx = 20.0f * g_scale;
@@ -177,7 +204,7 @@ namespace ml::gui
         g_fontHead = nullptr;
         for (const char* f : kSerifs)
         {
-            g_fontHead = io.Fonts->AddFontFromFileTTF((fonts + f).c_str(), headPx, nullptr, g_glyphRanges.Data);
+            g_fontHead = LoadFont(fonts + f, headPx, nullptr, g_glyphRanges.Data);
             if (g_fontHead) break;
         }
         if (g_fontHead) MergeFallback(fonts, headPx);

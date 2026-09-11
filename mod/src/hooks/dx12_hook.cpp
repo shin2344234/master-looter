@@ -670,6 +670,12 @@ namespace ml::hooks
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
         io.IniFilename = nullptr; // don't litter the game folder
+        // ImGui's recoverable-error path draws a tooltip, and a tooltip is a
+        // window, so an error raised outside a frame (a font file that is
+        // not there, in InitStyle below) is a Begin() with no frame and a
+        // null read. Log the error and nothing else.
+        io.ConfigErrorRecoveryEnableTooltip = false;
+        io.ConfigErrorRecoveryEnableAssert  = false;
 
         gui::InitStyle(static_cast<float>(desc.BufferDesc.Height) / 1080.0f);
 
