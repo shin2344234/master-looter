@@ -7,7 +7,6 @@
 - damaged-gear: 1637
 - keepsake: 465
 - weapon: 461
-- recipe: 311
 - document: 272
 - field-cooked: 192
 - abyss-gear: 190
@@ -21,6 +20,7 @@
 - food: 112
 - furniture: 106
 - cloak: 99
+- recipe-abyss-gear: 94
 - boots: 91
 - accessory: 91
 - mount-gear: 89
@@ -29,6 +29,8 @@
 - insect: 78
 - kuku-power-core: 78
 - shield: 77
+- recipe-food: 75
+- recipe-furniture: 69
 - bounty-notice: 62
 - dye: 60
 - trade-good: 59
@@ -39,9 +41,11 @@
 - fish: 46
 - skill-poster: 42
 - ornament: 42
+- skill-book: 36
 - herb: 35
 - currency: 35
 - flower-pot: 34
+- recipe-book: 32
 - note: 31
 - cooking-facility: 30
 - necklace: 29
@@ -56,8 +60,8 @@
 - fruit: 19
 - vegetable: 19
 - bag: 19
+- recipe-potion: 19
 - earring: 19
-- recipe-book: 17
 - household: 17
 - kuku-core: 16
 - vehicle-part: 16
@@ -98,6 +102,7 @@
 - ammo: 3
 - abyss-item: 3
 - artifact: 3
+- recipe-armor: 3
 - kuku-pot: 3
 - alchemy-material: 2
 - kuku-currency: 2
@@ -167,8 +172,8 @@
 - alchemy-material: 118
 - housing-only: 108
 - backpack: 100
+- recipe-abyss-gear: 94
 - mount-gear: 93
-- recipe-abyss-gear: 93
 - use-immediately: 92
 - banner: 84
 - pike: 84
@@ -209,6 +214,7 @@
 - storage: 37
 - currency: 36
 - restores-stamina: 36
+- skill-book: 36
 - herb: 35
 - flower-pot: 34
 - kuku-gear: 33
@@ -234,6 +240,7 @@
 - earring: 19
 - explosive: 19
 - fruit: 19
+- recipe-potion: 19
 - vegetable: 19
 - rapier: 17
 - vehicle-part: 17
@@ -242,7 +249,6 @@
 - mount-feed: 16
 - pet-gear: 16
 - elixir: 15
-- recipe-potion: 15
 - dagger: 14
 - abyss-gear-box: 13
 - drink: 13
@@ -418,6 +424,9 @@ Group rules (item gets the tags of every group in its ancestry):
 - ItemGroup_ETC_Craft_Recipe -> recipe
 - ItemGroup_ETC_Recipe_Food -> recipe-food
 - ItemGroup_ETC_Recipe_Potion -> recipe-potion
+- ItemGroup_ETC_Recipe_ReviveItem -> recipe-potion
+- ItemGroup_ETC_Recipe_Special -> recipe-potion
+- ItemGroup_ETC_Recipe_Artifact_Normal -> recipe-abyss-gear
 - ItemGroup_ETC_Recipe_AbyssGear -> recipe-abyss-gear
 - ItemGroup_ETC_Recipe_ResistanceArmor -> recipe-armor
 - ItemGroup_ETC_TreasureMap -> treasure-map

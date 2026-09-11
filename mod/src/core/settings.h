@@ -145,7 +145,7 @@ namespace ml
         // layout on the way. This is how the delete was proved on 2760 and
         // how it is checked again after a game patch. Not in the menu.
         std::string deleteTestName;
-        int   configVersion  = 2;      // bumps when a default changes in a way old files should follow
+        int   configVersion  = 3;      // bumps when a default changes in a way old files should follow
 
         // [Classes] class -> 1 loot / 0 skip. Absent means loot.
         std::map<std::string, int> classRule;

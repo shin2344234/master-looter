@@ -111,6 +111,9 @@ GROUP_TAGS = {
     "ItemGroup_ETC_Craft_Recipe": ["recipe"],
     "ItemGroup_ETC_Recipe_Food": ["recipe-food"],
     "ItemGroup_ETC_Recipe_Potion": ["recipe-potion"],
+    "ItemGroup_ETC_Recipe_ReviveItem": ["recipe-potion"],
+    "ItemGroup_ETC_Recipe_Special": ["recipe-potion"],
+    "ItemGroup_ETC_Recipe_Artifact_Normal": ["recipe-abyss-gear"],
     "ItemGroup_ETC_Recipe_AbyssGear": ["recipe-abyss-gear"],
     "ItemGroup_ETC_Recipe_ResistanceArmor": ["recipe-armor"],
     "ItemGroup_ETC_TreasureMap": ["treasure-map"],
@@ -314,7 +317,9 @@ CLASS_ORDER = [
     "dev", "currency", "camp-resource", "contribution", "kuku-currency", "token", "refinement-token",
     "keepsake", "memory-fragment", "treasure", "key-item",
     "key", "cube-key",
-    "recipe", "recipe-book", "book", "treasure-map", "bounty-notice", "skill-poster", "poster",
+    # recipe kinds before the generic bucket, so each kind is its own class
+    "skill-book", "recipe-book", "recipe-food", "recipe-potion", "recipe-furniture", "recipe-abyss-gear", "recipe-armor",
+    "recipe", "book", "treasure-map", "bounty-notice", "skill-poster", "poster",
     "legendary-animal-report", "contract", "note", "document",
     "ammo-bundle", "explosive", "arrow", "bullet", "cannonball", "magic-bullet", "ammo",
     "damaged-gear", "shield", "weapon", "helm", "body-armor", "gloves", "boots", "cloak", "armor",
@@ -389,6 +394,11 @@ def tag_item(it, groups, equip_types, name_en):
         tags.add("gimmick")
     if sk.startswith("Recipe_"):
         tags.add("recipe")
+    # The "... of the World, Vol. N" series teaches a crafting skill; the rest
+    # of its group are single blueprints. A player who wants the skill books
+    # rarely wants the blueprints, so the series is a class of its own.
+    if "recipe-book" in tags and name_en and " of the World" in name_en:
+        tags.add("skill-book")
     if sk.startswith("Money_") or it["money_type_define"]:
         tags.add("currency")
     if sk.startswith("Trade_"):

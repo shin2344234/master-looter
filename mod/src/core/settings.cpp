@@ -285,7 +285,28 @@ namespace ml::Settings
             migrated = true;
             LOG("Settings migrated to version 2: gather range %.0f m, unidentified nodes off. The file as it was is kept as a backup.", c.gatherRange);
         }
-        if (!present) c.configVersion = 2;
+        // Version 3 split the recipe class into one class per kind (cooking,
+        // alchemy, furniture, Abyss gear, gear blueprints, skill books). A rule
+        // written against "recipe" carries over to every kind, and one against
+        // "recipe-book" to the skill books it used to cover, so nothing a
+        // player switched off comes back on.
+        if (present && c.configVersion < 3)
+        {
+            static const char* kKinds[] = { "recipe-food", "recipe-potion", "recipe-furniture", "recipe-abyss-gear", "recipe-armor", "recipe-book", "skill-book" };
+            const auto old = c.classRule.find("recipe");
+            if (old != c.classRule.end())
+            {
+                const int v = old->second;
+                for (const char* k : kKinds) if (!c.classRule.count(k)) c.classRule[k] = v;
+                c.classRule.erase("recipe");
+                LOG("Settings migrated to version 3: the recipe rule (%s) now covers each recipe kind.", v ? "loot" : "skip");
+            }
+            const auto book = c.classRule.find("recipe-book");
+            if (book != c.classRule.end() && !c.classRule.count("skill-book")) c.classRule["skill-book"] = book->second;
+            c.configVersion = 3;
+            migrated = true;
+        }
+        if (!present) c.configVersion = 3;
         Clamp(c);
         g_cfg = c;
         g_knownTime = FileTime();

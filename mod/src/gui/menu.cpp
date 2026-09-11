@@ -856,7 +856,7 @@ namespace ml::gui
         { "Materials",           "ore jewel stone wood hide fabric bone metal catalyst crafting-material alchemy-material herb ingredient seed trade-good goods bait", "Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input." },
         { "Creatures",           "insect fish animal amphibian", "Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink." },
         { "Ammunition",          "arrow ammo ammo-bundle bullet magic-bullet cannonball explosive", "" },
-        { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report recipe recipe-book", "" },
+        { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report skill-book recipe-book recipe-food recipe-potion recipe-furniture recipe-abyss-gear recipe-armor recipe", "" },
         { "Furniture and decor", "furniture household dye lamp light ornament painting flower-pot decoration cooking-facility storage container", "Household clutter and collectibles, most of it worthless." },
         { "Mounts and vehicles", "mount-gear mount-feed mount-utility pet-gear vehicle-part", "" },
         { "Treasure and keepsakes", "treasure sealed-artifact artifact keepsake currency chest", "Boss rewards, artifacts, memory items, coin pouches and reward chests." },

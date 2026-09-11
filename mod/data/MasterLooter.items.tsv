@@ -305,57 +305,57 @@ row	key	string_key	name	class	tags	tier	value_copper
 303	1003816	NoticePaper_Skill_Damian_QuickReload	Hernand Anonymous Jottings No. 72	skill-poster	document poster skill-poster tier-0 wild	0	27
 304	1003817	NoticePaper_Skill_Damian_SpinningKick	Call for Challengers: Master of Kicks	skill-poster	document poster skill-poster tier-0 wild	0	27
 305	1003818	NoticePaper_Skill_Wrestle_GrabSpinThrow	Pailune Anonymous Jottings No. 77	skill-poster	document poster skill-poster tier-0 wild	0	27
-306	1002086	Recipe_Book_OneHandWeapon_I	One-Handed Weapons of the World, Vol. I	recipe	document recipe recipe-book tier-0	0	250
-307	1002087	Recipe_Book_OneHandWeapon_II	One-Handed Weapons of the World, Vol. II	recipe	document recipe recipe-book tier-0	0	1400
-308	1002088	Recipe_Book_OneHandWeapon_III	One-Handed Weapons of the World, Vol. III	recipe	document recipe recipe-book tier-0	0	5000
-309	1002089	Recipe_Book_OneHandWeapon_IV	One-Handed Weapons of the World, Vol. IV	recipe	document recipe recipe-book tier-0	0	10000
-310	1000401	Recipe_Book_TwoHandWeapon_I	Two-Handed Weapons of the World, Vol. I	recipe	document recipe recipe-book tier-0	0	250
-311	1000402	Recipe_Book_TwoHandWeapon_II	Two-Handed Weapons of the World, Vol. II	recipe	document recipe recipe-book tier-0	0	1400
-312	1000403	Recipe_Book_TwoHandWeapon_III	Two-Handed Weapons of the World, Vol. III	recipe	document recipe recipe-book tier-0	0	5000
-313	1000404	Recipe_Book_TwoHandWeapon_IV	Two-Handed Weapons of the World, Vol. IV	recipe	document recipe recipe-book tier-0	0	10000
-314	1000405	Recipe_Book_RangeWeapon_Wood_I	Ranged Weapons of the World - Bows, Vol. I	recipe	document recipe recipe-book tier-0	0	250
-315	1000406	Recipe_Book_RangeWeapon_Wood_II	Ranged Weapons of the World - Bows, Vol. II	recipe	document recipe recipe-book tier-0	0	1400
-316	1000407	Recipe_Book_RangeWeapon_Wood_III	Ranged Weapons of the World - Bows, Vol. III	recipe	document recipe recipe-book tier-0	0	5000
-317	1000408	Recipe_Book_RangeWeapon_Wood_IV	Ranged Weapons of the World - Bows, Vol. IV	recipe	document recipe recipe-book tier-0	0	10000
-318	1000409	Recipe_Book_RangeWeapon_Metal_I	Ranged Weapons of the World - Guns, Vol. I	recipe	document recipe recipe-book tier-0	0	250
-319	1000410	Recipe_Book_RangeWeapon_Metal_II	Ranged Weapons of the World - Guns, Vol. II	recipe	document recipe recipe-book tier-0	0	1400
-320	1000411	Recipe_Book_RangeWeapon_Metal_III	Ranged Weapons of the World - Guns, Vol. III	recipe	document recipe recipe-book tier-0	0	5000
-321	1000413	Recipe_Book_RangeWeapon_Metal_IV	Ranged Weapons of the World - Guns, Vol. IV	recipe	document recipe recipe-book tier-0	0	10000
-322	1000414	Recipe_Book_OneHandShield_I	Shields of the World, Vol. I	recipe	document recipe recipe-book tier-0	0	50
-323	1000415	Recipe_Book_OneHandShield_II	Shields of the World, Vol. II	recipe	document recipe recipe-book tier-0	0	200
-324	1000417	Recipe_Book_OneHandShield_III	Shields of the World, Vol. III	recipe	document recipe recipe-book tier-0	0	1200
-325	1000418	Recipe_Book_OneHandShield_IV	Shields of the World, Vol. IV	recipe	document recipe recipe-book tier-0	0	3000
-326	1000419	Recipe_Book_PlateArmor_I	Plate Armors of the World, Vol. I	recipe	document recipe recipe-book tier-0	0	60
-327	1000420	Recipe_Book_PlateArmor_II	Plate Armors of the World, Vol. II	recipe	document recipe recipe-book tier-0	0	260
-328	1000421	Recipe_Book_PlateArmor_III	Plate Armors of the World, Vol. III	recipe	document recipe recipe-book tier-0	0	1320
-329	1000422	Recipe_Book_PlateArmor_IV	Plate Armors of the World, Vol. IV	recipe	document recipe recipe-book tier-0	0	3340
-330	1000428	Recipe_Book_LeatherArmor_I	Leather Armors of the World, Vol. I	recipe	document recipe recipe-book tier-0	0	54
-331	1000430	Recipe_Book_LeatherArmor_II	Leather Armors of the World, Vol. II	recipe	document recipe recipe-book tier-0	0	240
-332	1000432	Recipe_Book_LeatherArmor_III	Leather Armors of the World, Vol. III	recipe	document recipe recipe-book tier-0	0	1260
-333	1000433	Recipe_Book_LeatherArmor_IV	Leather Armors of the World, Vol. IV	recipe	document recipe recipe-book tier-0	0	3200
-334	1000434	Recipe_Book_FabricArmor_I	Cloth Armors of the World, Vol. I	recipe	document recipe recipe-book tier-0	0	50
-335	1000435	Recipe_Book_FabricArmor_II	Cloth Armors of the World, Vol. II	recipe	document recipe recipe-book tier-0	0	230
-336	1000436	Recipe_Book_FabricArmor_III	Cloth Armors of the World, Vol. III	recipe	document recipe recipe-book tier-0	0	1280
-337	1000437	Recipe_Book_FabricArmor_IV	Cloth Armors of the World, Vol. IV	recipe	document recipe recipe-book tier-0	0	3150
-338	1000530	Recipe_Book_Accessory_I	Accessories of the World, Vol. I	recipe	document recipe recipe-book tier-0	0	50
-339	1000533	Recipe_Book_Accessory_II	Accessories of the World, Vol. II	recipe	document recipe recipe-book tier-0	0	200
-340	1000535	Recipe_Book_Accessory_III	Accessories of the World, Vol. III	recipe	document recipe recipe-book tier-0	0	1200
-341	1000536	Recipe_Book_Accessory_IV	Accessories of the World, Vol. IV	recipe	document recipe recipe-book tier-0	0	3000
-342	1000690	Recipe_Book_Beekeeping	Beekeeper Gear Blueprint	recipe	document recipe recipe-book tier-0	0	500
-343	1000714	Recipe_Book_Ent	Shadowleaf Disguise Blueprint	recipe	document recipe recipe-book tier-0	0	500
-344	1000755	Recipe_Book_Varnia	Varnian Equipment Blueprint	recipe	document recipe recipe-book tier-0	0	500
-345	1000841	Recipe_Book_Scarecrow_Camouflage_Cloak	Scarecrow Cloak Blueprint	recipe	document recipe recipe-book tier-0	0	500
-346	1002149	Recipe_Book_Spear_Fire	Flame Spear Blueprint	recipe	document recipe recipe-book tier-0	0	2000
-347	1002161	Recipe_Book_Spear_Wind	Propeller Spear Blueprint	recipe	document recipe recipe-book tier-0	0	2000
-348	1002162	Recipe_Book_Spear_Lightning	Lightning Spear Blueprint	recipe	document recipe recipe-book tier-0	0	2000
-349	1002292	Recipe_Book_FishingRod_II	Fine Fishing Rod Blueprint	recipe	document recipe recipe-book tier-0	0	500
-350	1001746	Recipe_Book_Equip_Felling_Axe_I	Fine Logging Axe Blueprint	recipe	document recipe recipe-book tier-0	0	500
-351	1003662	Recipe_Book_Equip_Pickaxe_I	Fine Pickaxe Blueprint	recipe	document recipe recipe-book tier-0	0	500
-352	1003663	Recipe_Book_Equip_Felling_Axe_II	Olvald's Logging Axe Blueprint	recipe	document recipe recipe-book tier-0	0	500
-353	1003664	Recipe_Book_Equip_Pickaxe_II	Bernor's Pickaxe Blueprint	recipe	document recipe recipe-book tier-0	0	500
-354	1001102	Recipe_Book_Posion_Aroww	Poison Arrow Blueprint	recipe	document recipe recipe-book tier-0	0	500
-355	1000641	Recipe_Book_Wells_HorseArmor	Wells Military Tack Blueprint	recipe	document recipe recipe-book tier-0	0	500
-356	1004110	Recipe_Book_Pumpkin_Helm	Pumpkin Head Crafting Manual	recipe	document recipe recipe-book tier-0	0	500
+306	1002086	Recipe_Book_OneHandWeapon_I	One-Handed Weapons of the World, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	250
+307	1002087	Recipe_Book_OneHandWeapon_II	One-Handed Weapons of the World, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	1400
+308	1002088	Recipe_Book_OneHandWeapon_III	One-Handed Weapons of the World, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	5000
+309	1002089	Recipe_Book_OneHandWeapon_IV	One-Handed Weapons of the World, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	10000
+310	1000401	Recipe_Book_TwoHandWeapon_I	Two-Handed Weapons of the World, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	250
+311	1000402	Recipe_Book_TwoHandWeapon_II	Two-Handed Weapons of the World, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	1400
+312	1000403	Recipe_Book_TwoHandWeapon_III	Two-Handed Weapons of the World, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	5000
+313	1000404	Recipe_Book_TwoHandWeapon_IV	Two-Handed Weapons of the World, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	10000
+314	1000405	Recipe_Book_RangeWeapon_Wood_I	Ranged Weapons of the World - Bows, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	250
+315	1000406	Recipe_Book_RangeWeapon_Wood_II	Ranged Weapons of the World - Bows, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	1400
+316	1000407	Recipe_Book_RangeWeapon_Wood_III	Ranged Weapons of the World - Bows, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	5000
+317	1000408	Recipe_Book_RangeWeapon_Wood_IV	Ranged Weapons of the World - Bows, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	10000
+318	1000409	Recipe_Book_RangeWeapon_Metal_I	Ranged Weapons of the World - Guns, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	250
+319	1000410	Recipe_Book_RangeWeapon_Metal_II	Ranged Weapons of the World - Guns, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	1400
+320	1000411	Recipe_Book_RangeWeapon_Metal_III	Ranged Weapons of the World - Guns, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	5000
+321	1000413	Recipe_Book_RangeWeapon_Metal_IV	Ranged Weapons of the World - Guns, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	10000
+322	1000414	Recipe_Book_OneHandShield_I	Shields of the World, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	50
+323	1000415	Recipe_Book_OneHandShield_II	Shields of the World, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	200
+324	1000417	Recipe_Book_OneHandShield_III	Shields of the World, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	1200
+325	1000418	Recipe_Book_OneHandShield_IV	Shields of the World, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	3000
+326	1000419	Recipe_Book_PlateArmor_I	Plate Armors of the World, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	60
+327	1000420	Recipe_Book_PlateArmor_II	Plate Armors of the World, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	260
+328	1000421	Recipe_Book_PlateArmor_III	Plate Armors of the World, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	1320
+329	1000422	Recipe_Book_PlateArmor_IV	Plate Armors of the World, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	3340
+330	1000428	Recipe_Book_LeatherArmor_I	Leather Armors of the World, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	54
+331	1000430	Recipe_Book_LeatherArmor_II	Leather Armors of the World, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	240
+332	1000432	Recipe_Book_LeatherArmor_III	Leather Armors of the World, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	1260
+333	1000433	Recipe_Book_LeatherArmor_IV	Leather Armors of the World, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	3200
+334	1000434	Recipe_Book_FabricArmor_I	Cloth Armors of the World, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	50
+335	1000435	Recipe_Book_FabricArmor_II	Cloth Armors of the World, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	230
+336	1000436	Recipe_Book_FabricArmor_III	Cloth Armors of the World, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	1280
+337	1000437	Recipe_Book_FabricArmor_IV	Cloth Armors of the World, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	3150
+338	1000530	Recipe_Book_Accessory_I	Accessories of the World, Vol. I	skill-book	document recipe recipe-book skill-book tier-0	0	50
+339	1000533	Recipe_Book_Accessory_II	Accessories of the World, Vol. II	skill-book	document recipe recipe-book skill-book tier-0	0	200
+340	1000535	Recipe_Book_Accessory_III	Accessories of the World, Vol. III	skill-book	document recipe recipe-book skill-book tier-0	0	1200
+341	1000536	Recipe_Book_Accessory_IV	Accessories of the World, Vol. IV	skill-book	document recipe recipe-book skill-book tier-0	0	3000
+342	1000690	Recipe_Book_Beekeeping	Beekeeper Gear Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+343	1000714	Recipe_Book_Ent	Shadowleaf Disguise Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+344	1000755	Recipe_Book_Varnia	Varnian Equipment Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+345	1000841	Recipe_Book_Scarecrow_Camouflage_Cloak	Scarecrow Cloak Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+346	1002149	Recipe_Book_Spear_Fire	Flame Spear Blueprint	recipe-book	document recipe recipe-book tier-0	0	2000
+347	1002161	Recipe_Book_Spear_Wind	Propeller Spear Blueprint	recipe-book	document recipe recipe-book tier-0	0	2000
+348	1002162	Recipe_Book_Spear_Lightning	Lightning Spear Blueprint	recipe-book	document recipe recipe-book tier-0	0	2000
+349	1002292	Recipe_Book_FishingRod_II	Fine Fishing Rod Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+350	1001746	Recipe_Book_Equip_Felling_Axe_I	Fine Logging Axe Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+351	1003662	Recipe_Book_Equip_Pickaxe_I	Fine Pickaxe Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+352	1003663	Recipe_Book_Equip_Felling_Axe_II	Olvald's Logging Axe Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+353	1003664	Recipe_Book_Equip_Pickaxe_II	Bernor's Pickaxe Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+354	1001102	Recipe_Book_Posion_Aroww	Poison Arrow Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+355	1000641	Recipe_Book_Wells_HorseArmor	Wells Military Tack Blueprint	recipe-book	document recipe recipe-book tier-0	0	500
+356	1004110	Recipe_Book_Pumpkin_Helm	Pumpkin Head Crafting Manual	recipe-book	document recipe recipe-book tier-0	0	500
 357	1001420	CraftingRecipe_Kuku_Pot_Book	Kuku Pot Special Blueprint	recipe-book	document recipe-book tier-0	0	500
 358	1002128	CraftingRecipe_Kuku_Pot_Spear_Book	Kuku Spear Special Blueprint	recipe-book	document recipe-book tier-0	0	3000
 359	1002129	CraftingRecipe_Kuku_Pot_Backpack_Book	Kuku Pack Special Blueprint	recipe-book	document recipe-book tier-0	0	800
@@ -2956,266 +2956,266 @@ row	key	string_key	name	class	tags	tier	value_copper
 2954	75100	Quest_GrayBrotherMark	Greymane's Token	keepsake	keepsake no-sell quest stackable tier-0 wild	0	1
 2955	1002258	Quest_DemenisMark	Demeniss Token	keepsake	keepsake no-sell quest stackable tier-0 wild	0	1
 2956	1003225	Criminal_DropItem	Note with a Suspicious Symbol	document	document goods stackable tier-0 wild	0	27
-2957	80003	Recipe_FruitTea	Recipe: Fruit Tea	recipe	document recipe recipe-food stackable tier-0	0	10
-2958	80413	Recipe_Berry_Juice	Recipe: Fruit Juice	recipe	document recipe recipe-food stackable tier-0	0	10
-2959	1001854	Recipe_Vegetable_Juice	Recipe: Vegetable Juice	recipe	document recipe recipe-food stackable tier-0	0	10
-2960	1000976	Recipe_Fruit_Wine	Recipe: Wine	recipe	document recipe recipe-food stackable tier-0	0	95
-2961	1000977	Recipe_High_Wine	Recipe: Delesyian Wine	recipe	document recipe recipe-food stackable tier-0	0	115
-2962	80505	Recipe_Ssari_Mushroom_Tea	Recipe: Coral Mushroom Tea	recipe	document recipe recipe-food stackable tier-0	0	105
-2963	80510	Recipe_Pyogo_Mushroom_Tea	Recipe: Oakwood Mushroom Tea	recipe	document recipe recipe-food stackable tier-0	0	125
-2964	80509	Recipe_Songyi_Mushroom_Tea	Recipe: Pine Mushroom Tea	recipe	document recipe recipe-food stackable tier-0	0	132
-2965	1001885	Recipe_Herbal_Tea	Recipe: Mild Herbal Tea	recipe	document recipe recipe-food stackable tier-0	0	105
-2966	80529	Recipe_Honey_Tea	Recipe: Honey Tea	recipe	document recipe recipe-food stackable tier-0	0	100
-2967	80412	Recipe_DeerAntler_Fruit_Tea	Recipe: Antler Tea	recipe	document recipe recipe-food stackable tier-0	0	68
-2968	1003768	Recipe_Chocolate	Recipe: Chocolate	recipe	document recipe recipe-food stackable tier-0	0	500
-2969	1000257	Recipe_Pan_fried_Grain_Pancake	Recipe: Battered Grains	recipe	document recipe recipe-food stackable tier-0	0	62
-2970	1000076	Recipe_Meat_Porridge	Recipe: Clear Soup	recipe	document recipe recipe-food stackable tier-0	0	70
-2971	1000071	Recipe_Meat_Sanjeok	Recipe: Meat Skewers	recipe	document recipe recipe-food stackable tier-0	0	70
-2972	1000072	Recipe_Braised_Meat	Recipe: Braised Meat	recipe	document recipe recipe-food stackable tier-0	0	70
-2973	1000087	Recipe_Pan_fried_Meat_Pancake	Recipe: Battered Meat	recipe	document recipe recipe-food stackable tier-0	0	72
-2974	1000244	Recipe_Pan_fried_Fruit_Pancake	Recipe: Pickled Fruit	recipe	document recipe recipe-food stackable tier-0	0	75
-2975	1000169	Recipe_Vegetable_Porridge	Recipe: Vegetable Porridge	recipe	document recipe recipe-food stackable tier-0	0	90
-2976	1000235	Recipe_Fruit_Porridge	Recipe: Fruit Punch	recipe	document recipe recipe-food stackable tier-0	0	90
-2977	1000199	Recipe_Pan_fried_Vegetable_Pancake	Recipe: Battered Vegetables	recipe	document recipe recipe-food stackable tier-0	0	102
-2978	1000158	Recipe_Braised_Vegetable	Recipe: Pickled Vegetables	recipe	document recipe recipe-food stackable tier-0	0	105
-2979	80812	Recipe_Roast_Chicken	Recipe: Salt-Roasted Bird Meat	recipe	document recipe recipe-food stackable tier-0	0	125
-2980	1000508	Recipe_Pan_fried_Vegetable_Fruit_Pancake	Recipe: Vegetable Rice Cake	recipe	document recipe recipe-food stackable tier-0	0	165
-2981	1000523	Recipe_Pan_fried_Fruit_Grain_Pancake	Recipe: Chewy Rice Cakes	recipe	document recipe recipe-food stackable tier-0	0	170
-2982	1000507	Recipe_Vegetable_Fruit_Porridge	Recipe: Harvest Roll	recipe	document recipe recipe-food stackable tier-0	0	175
-2983	1000480	Recipe_Meat_Fruit_Porridge	Recipe: Pan-Fried Marinated Meat	recipe	document recipe recipe-food stackable tier-0	0	180
-2984	1000122	Recipe_Fish_Sanjeok	Recipe: Fish Skewers	recipe	document recipe recipe-food stackable tier-0	0	185
-2985	1000141	Recipe_Braised_Fish	Recipe: Braised Fish	recipe	document recipe recipe-food stackable tier-0	0	185
-2986	1000483	Recipe_Pan_fried_Meat_Fruit_Pancake	Recipe: Marinated Meat	recipe	document recipe recipe-food stackable tier-0	0	185
-2987	1000154	Recipe_Pan_fried_Fish_Pancake	Recipe: Battered Fish	recipe	document recipe recipe-food stackable tier-0	0	190
-2988	1000038	Recipe_Grilled_Meat_Fish	Recipe: Grilled Meat and Fish	recipe	document recipe recipe-food stackable tier-0	0	205
-2989	1000986	Recipe_Roast_Fish	Recipe: Salt-Roasted Fish	recipe	document recipe recipe-food stackable tier-0	0	245
-2990	1000775	Recipe_Japchae	Recipe: Pan-Fried Vegetables	recipe	document recipe recipe-food stackable tier-0	0	247
-2991	1000441	Recipe_Braised_Meat_Fish	Recipe: Braised Meat and Fish	recipe	document recipe recipe-food stackable tier-0	0	265
-2992	1000503	Recipe_Pan_fried_Fish_Vegetable_Pancake	Recipe: Battered Seafood	recipe	document recipe recipe-food stackable tier-0	0	360
-2993	1000450	Recipe_Pan_fried_Meat_Fish_Pancake	Recipe: Battered Meat and Fish	recipe	document recipe recipe-food stackable tier-0	0	362
-2994	1000338	Recipe_Meat_Fish_Sanjeok	Recipe: Meat and Fish Skewers	recipe	document recipe recipe-food stackable tier-0	0	365
-2995	1000510	Recipe_Pan_fried_Vegetable_Grain_Pancake	Recipe: Grain Soup	recipe	document recipe recipe-food stackable tier-0	0	167
-2996	1000455	Recipe_Pan_fried_Meat_Vegetable_Pancake	Recipe: Steamed Eggs	recipe	document recipe recipe-food stackable tier-0	0	197
-2997	1000492	Recipe_Pan_fried_Meat_Grain_Pancake	Recipe: Meat Soup	recipe	document recipe recipe-food stackable tier-0	0	200
-2998	1000452	Recipe_Braised_Meat_Vegetable	Recipe: Braised Ribs	recipe	document recipe recipe-food stackable tier-0	0	205
-2999	1000150	Recipe_Fish_Porridge	Recipe: Fish Porridge	recipe	document recipe recipe-food stackable tier-0	0	210
-3000	1000453	Recipe_Meat_Vegetable_Porridge	Recipe: Meat and Vegetable Porridge	recipe	document recipe recipe-food stackable tier-0	0	210
-3001	1000445	Recipe_Meat_Fish_Porridge	Recipe: Meat and Fish Porridge	recipe	document recipe recipe-food stackable tier-0	0	290
-3002	1000506	Recipe_Pan_fried_Fish_Grain_Pancake	Recipe: Fishball Soup	recipe	document recipe recipe-food stackable tier-0	0	365
-3003	1001077	Recipe_Seafood_Soup	Recipe: Seafood Soup	recipe	document recipe recipe-food stackable tier-0	0	365
-3004	1000502	Recipe_Fish_Vegetable_Porridge	Recipe: Vegetable and Seafood Porridge	recipe	document recipe recipe-food stackable tier-0	0	370
-3005	1000954	Recipe_DeerAntler_Soup	Recipe: Longhorn Soup	recipe	document recipe recipe-food stackable tier-0	0	285
-3006	1000620	Recipe_Gungjung_Tteokbokki	Recipe: Pan-Fried Rice Cakes	recipe	document recipe recipe-food stackable tier-0	0	515
-3007	1000636	Recipe_Tteokgalbi	Recipe: Grilled Meat Patties	recipe	document recipe recipe-food stackable tier-0	0	562
-3008	1000673	Recipe_Jeonju_Bibimbap	Recipe: Mixed Harvest Bowl	recipe	document recipe recipe-food stackable tier-0	0	562
-3009	1000501	Recipe_Braised_Fish_Vegetable	Recipe: Braised Fish and Vegetables	recipe	document recipe recipe-food stackable tier-0	0	605
-3010	1000704	Recipe_Fish_Bulgogi	Recipe: Pan-Fried Marinated Fish	recipe	document recipe recipe-food stackable tier-0	0	640
-3011	1000719	Recipe_Full_Course_of_Braised_Fish	Recipe: Assorted Braised Fish	recipe	document recipe recipe-food stackable tier-0	0	702
-3012	1000687	Recipe_Kimbap	Recipe: Battered Harvest Roll	recipe	document recipe recipe-food stackable tier-0	0	760
-3013	1000557	Recipe_Meat_Fish_Grain_Sanjeok	Recipe: Grilled Meat Steak	recipe	document recipe recipe-food stackable tier-0	0	775
-3014	1000616	Recipe_Nureumjeok	Recipe: Mixed Skewers	recipe	document recipe recipe-food stackable tier-0	0	1025
-3015	1000527	Recipe_Meat_Fish_Fruit_Sanjeok	Recipe: Assorted Meat and Fish Skewers	recipe	document recipe recipe-food stackable tier-0	0	1040
-3016	1000622	Recipe_Beef_Bone_Soup	Recipe: Meat Stew	recipe	document recipe recipe-food stackable tier-0	0	530
-3017	80001	Recipe_BoiledPork	Recipe: Boiled Meat	recipe	document recipe recipe-food stackable tier-0	0	565
-3018	1000504	Recipe_Fish_Fruit_Porridge	Recipe: Steamed Fish	recipe	document recipe recipe-food stackable tier-0	0	590
-3019	1000505	Recipe_Pan_fried_Fish_Fruit_Pancake	Recipe: Seafood Stew	recipe	document recipe recipe-food stackable tier-0	0	610
-3020	1001130	Recipe_Haemuljjim	Recipe: Steamed Seafood	recipe	document recipe recipe-food stackable tier-0	0	655
-3021	1000585	Recipe_Meat_Fish_Vegetable_Egg	Recipe: Meatball Soup	recipe	document recipe recipe-food stackable tier-0	0	657
-3022	1000617	Recipe_Sinseollo	Recipe: Harvest Soup	recipe	document recipe recipe-food stackable tier-0	0	660
-3023	1000705	Recipe_Fish_Stew	Recipe: Fish Stew	recipe	document recipe recipe-food stackable tier-0	0	667
-3024	1000701	Recipe_Fish_Soup	Recipe: Mixed Stew	recipe	document recipe recipe-food stackable tier-0	0	785
-3025	80406	Recipe_SamGyeTang	Recipe: Bird Soup	recipe	document recipe recipe-food stackable tier-0	0	1700
-3026	1000956	Recipe_Surasang_03	Recipe: Fine Meal	recipe	document recipe recipe-food stackable tier-0	0	2785
-3027	1000860	Recipe_Surasang_01	Recipe: Extravagant Meal	recipe	document recipe recipe-food stackable tier-0	0	3247
-3028	1000881	Recipe_Surasang_02	Recipe: Lavish Meal	recipe	document recipe recipe-food stackable tier-0	0	2810
-3029	1000819	Recipe_Surasang_00	Recipe: Grand Meal	recipe	document recipe recipe-food stackable tier-0	0	3655
-3030	1000968	Recipe_Surasang_04	Recipe: Special Meal	recipe	document recipe recipe-food stackable tier-0	0	2810
-3031	1001060	Recipe_Surasang_05	Recipe: Meal	recipe	document recipe recipe-food stackable tier-0	0	2805
-3032	1002712	Recipe_Item_Stat_AbyssGear_DDD_LV1	Gear Blueprint: Destruction	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1019
-3033	1002714	Recipe_Item_Stat_AbyssGear_CriticalRate_LV1	Gear Blueprint: Insight	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1100
-3034	1002773	Recipe_Item_Stat_AbyssGear_DPV_LV1	Gear Blueprint: Fortification	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1167
-3035	1002774	Recipe_Item_Stat_AbyssGear_ADR_LV1	Gear Blueprint: Aegis	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1119
-3036	1002775	Recipe_Item_Stat_AbyssGear_GuardPVRate_LV1	Gear Blueprint: Fortitude	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1202
-3037	1002776	Recipe_Item_Stat_AbyssGear_AttackSpeedRate_LV1	Gear Blueprint: Swift	recipe	document recipe recipe-abyss-gear stackable tier-0	0	911
-3038	1002777	Recipe_Item_Stat_AbyssGear_MoveSpeedRate_LV1	Gear Blueprint: Haste	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1045
-3039	1002778	Recipe_Item_Stat_AbyssGear_ClimbSpeedRate_LV1	Gear Blueprint: Ascent	recipe	document recipe recipe-abyss-gear stackable tier-0	0	945
-3040	1000190	Recipe_Item_Stat_AbyssGear_StaminaRegen_LV1	Gear Blueprint: Vigor	recipe	document recipe recipe-abyss-gear stackable tier-0	0	894
-3041	1002780	Recipe_Item_Stat_AbyssGear_HpRegen_LV1	Gear Blueprint: Vitality	recipe	document recipe recipe-abyss-gear stackable tier-0	0	808
-3042	1002746	Recipe_Item_Stat_AbyssGear_MpRegen_LV1	Gear Blueprint: Composure	recipe	document recipe recipe-abyss-gear stackable tier-0	0	966
-3043	1002525	Recipe_Item_Stat_AbyssGear_SwimSpeedRate_LV1	Gear Blueprint: Surge	recipe	document recipe recipe-abyss-gear stackable tier-0	0	961
-3044	1002528	Recipe_Item_Stat_AbyssGear_FireResistance_LV1	Gear Blueprint: Flameward	recipe	document recipe recipe-abyss-gear stackable tier-0	0	675
-3045	1002529	Recipe_Item_Stat_AbyssGear_IceResistance_LV1	Gear Blueprint: Frostward	recipe	document recipe recipe-abyss-gear stackable tier-0	0	800
-3046	1002530	Recipe_Item_Stat_AbyssGear_ElectricityResistance_LV1	Gear Blueprint: Shockward	recipe	document recipe recipe-abyss-gear stackable tier-0	0	596
-3047	1001423	Recipe_Item_Skill_AbyssGear_LandMash_LV1	Gear Blueprint: Groundsurge	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1275
-3048	1002388	Recipe_Item_Skill_AbyssGear_SoulStrike_LV1	Gear Blueprint: Spirit's Judgment	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1231
-3049	1002390	Recipe_Item_Skill_AbyssGear_CrowAttack_LV1	Gear Blueprint: Crow's Pursuit	recipe	document recipe recipe-abyss-gear stackable tier-0	0	850
-3050	1002478	Recipe_Item_Skill_AbyssGear_FlashCombo_LV1	Gear Blueprint: Slashing Reeds	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1161
-3051	1002479	Recipe_Item_Skill_AbyssGear_SwordAura_LV1	Gear Blueprint: Wind Slash	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1046
-3052	1000733	Recipe_Item_Skill_AbyssGear_FrostBreath_LV1	Gear Blueprint: Frost Hail	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1221
-3053	1000734	Recipe_Item_Skill_AbyssGear_FireBreath_LV1	Gear Blueprint: Volcanic Eruption	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1031
-3054	1002558	Recipe_Item_Skill_AbyssGear_LightningBreath_LV1	Gear Blueprint: Orbs of Lightning	recipe	document recipe recipe-abyss-gear stackable tier-0	0	959
-3055	1002481	Recipe_Item_Skill_AbyssGear_EnlightenmentWave_LV1	Gear Blueprint: Karmic Pulse	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1127
-3056	1002596	Recipe_Item_Skill_AbyssGear_DarkenRobe_LV1	Gear Blueprint: Wound of Darkness	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1188
-3057	1002483	Recipe_Item_Skill_AbyssGear_DogClaw_LV1	Gear Blueprint: Hound's Claws	recipe	document recipe recipe-abyss-gear stackable tier-0	0	907
-3058	1002639	Recipe_Item_Skill_AbyssGear_Forgotten_General	Gear Blueprint: Judgment of the Soul	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1268
-3059	1002642	Recipe_Item_Skill_AbyssGear_Ogre	Gear Blueprint: Colossal Might	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1011
-3060	1002762	Recipe_Item_Skill_AbyssGear_Antumbra_Spear	Gear Blueprint: Warden of Darkness	recipe	document recipe recipe-abyss-gear stackable tier-0	0	892
-3061	1002489	Recipe_Item_Skill_AbyssGear_CrowStorm_LV1	Gear Blueprint: Crow Storm	recipe	document recipe recipe-abyss-gear stackable tier-0	0	952
-3062	1002769	Recipe_Item_Skill_AbyssGear_SmashStorm_LV1	Gear Blueprint: Tempest of Destruction	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1309
-3063	1002856	Recipe_Item_Skill_AbyssGear_CresecentAura_1_LV1	Gear Blueprint: Crescent Moon Slash	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1312
-3064	1002859	Recipe_Item_Skill_AbyssGear_CresecentAura_2_LV1	Gear Blueprint: Half Moon Slash	recipe	document recipe recipe-abyss-gear stackable tier-0	0	958
-3065	1002877	Recipe_Item_Skill_AbyssGear_CresecentAura_3_LV1	Gear Blueprint: Fullmoon Slash	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1098
-3066	1002803	Recipe_Item_Skill_AbyssGear_FrostSpike_LV1	Gear Blueprint: Frost Spike	recipe	document recipe recipe-abyss-gear stackable tier-0	0	907
-3067	1002494	Recipe_Item_Skill_AbyssGear_AbsoluteDefense_LV1	Gear Blueprint: Piercing Bloom	recipe	document recipe recipe-abyss-gear stackable tier-0	0	946
-3068	1002531	Recipe_Item_Skill_AbyssGear_ArrowRain_LV1	Gear Blueprint: Arrow Rain	recipe	document recipe recipe-abyss-gear stackable tier-0	0	889
-3069	1002878	Recipe_Item_Skill_AbyssGear_Merrick	Gear Blueprint: Order from Above	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1330
-3070	1002480	Recipe_Item_Skill_AbyssGear_LightningStab_LV1	Gear Blueprint: Storm Fang	recipe	document recipe recipe-abyss-gear stackable tier-0	0	932
-3071	1002890	Recipe_Item_Skill_AbyssGear_Antumbra_TwoHandRod	Gear Blueprint: Dark Crescent	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1034
-3072	1002891	Recipe_Item_Skill_AbyssGear_TarandusWarrior_WarHammer	Gear Blueprint: Earthrending Strike	recipe	document recipe recipe-abyss-gear stackable tier-0	0	831
-3073	1003696	Recipe_Item_Skill_AbyssGear_Bastier	Gear Blueprint: Flames of Judgment	recipe	document recipe recipe-abyss-gear stackable tier-0	0	969
-3074	1002649	Recipe_Item_Skill_AbyssGear_Karanda	Gear Blueprint: Pillar of Wind	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1200
-3075	1002804	Recipe_Item_Skill_AbyssGear_FrostDeath_LV1	Gear Blueprint: Shattering Frost	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1263
-3076	1002650	Recipe_Item_Skill_AbyssGear_Primus	Gear Blueprint: Ancient Reckoning	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1237
-3077	1003719	Recipe_Item_Skill_AbyssGear_DarkChase_LV1	Gear Blueprint: Greysoul Howling	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1161
-3078	1003720	Recipe_Item_Skill_AbyssGear_Leebur	Gear Blueprint: Shadow Claw	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1360
-3079	1003721	Recipe_Item_Skill_AbyssGear_QueenSpider	Gear Blueprint: Queen's Fangs	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1302
-3080	1003722	Recipe_Item_Skill_AbyssGear_Praevus	Gear Blueprint: Ancient Wrath	recipe	document recipe recipe-abyss-gear stackable tier-0	0	897
-3081	1003723	Recipe_Item_Skill_AbyssGear_Priscus	Gear Blueprint: Ancient Retribution	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1205
-3082	1003724	Recipe_Item_Skill_AbyssGear_Skevald	Gear Blueprint: Putrid Touch	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1065
-3083	1002534	Recipe_Item_Skill_AbyssGear_AtorDrone_LV1	Gear Blueprint: Ator's Orb	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1138
-3084	1002490	Recipe_Item_Skill_AbyssGear_PhantomStab_LV1	Gear Blueprint: Abyssal Rays	recipe	document recipe recipe-abyss-gear stackable tier-0	0	950
-3085	1003725	Recipe_Item_Skill_AbyssGear_LanFord	Gear Blueprint: Parting Gift	recipe	document recipe recipe-abyss-gear stackable tier-0	0	968
-3086	1003726	Recipe_Item_Skill_AbyssGear_ImpBoss	Gear Blueprint: Howling of Chaos	recipe	document recipe recipe-abyss-gear stackable tier-0	0	853
-3087	1002648	Recipe_Item_Skill_AbyssGear_Catfish_BodySlam_LV1	Gear Blueprint: Rising Torrent	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1042
-3088	1003727	Recipe_Item_Skill_AbyssGear_Titan	Gear Blueprint: Lightning God's Affliction	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1012
-3089	1002532	Recipe_Item_Skill_AbyssGear_EnergyBurst_LV1	Gear Blueprint: Kinetic Burst	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1136
-3090	1002651	Recipe_Item_Skill_AbyssGear_Muscan	Gear Blueprint: The Showstopper	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1343
-3091	1002568	Recipe_Item_Skill_AbyssGear_Machine_AdditionalDamage_LV1	Gear Blueprint: Steelbane	recipe	document recipe recipe-abyss-gear stackable tier-0	0	957
-3092	1002570	Recipe_Item_Skill_AbyssGear_CommonHexe_AdditionalDamage_LV1	Gear Blueprint: Hexebane	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1442
-3093	1002571	Recipe_Item_Skill_AbyssGear_CommonHumanoid_AdditionalDamage_LV1	Gear Blueprint: Bloodbane	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1643
-3094	1002574	Recipe_Item_Skill_AbyssGear_CommonGolem_AdditionalDamage_LV1	Gear Blueprint: Primalbane	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1619
-3095	1002579	Recipe_Item_Skill_AbyssGear_Boss_AdditionalDamage_LV1	Gear Blueprint: Malicebane	recipe	document recipe recipe-abyss-gear stackable tier-0	0	917
-3096	1003728	Recipe_Item_Skill_AbyssGear_CommonAnimal_AdditionalDamage_LV1	Gear Blueprint: Beastbane	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1082
-3097	1003729	Recipe_Item_Skill_AbyssGear_Creature_AdditionalDamage_LV1	Gear Blueprint: Abyssbane	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1095
-3098	1000426	Recipe_Item_Skill_AbyssGear_AddCriticalRateByMaterialKey_PlateArmor_LV1	Gear Blueprint: Shatter	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2298
-3099	1001436	Recipe_Item_Skill_AbyssGear_AddCriticalRateByMaterialKey_LeatherArmor_LV1	Gear Blueprint: Rend	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2079
-3100	1003758	Recipe_Item_Skill_AbyssGear_AddCriticalRateByMaterialKey_FabricArmor_LV1	Gear Blueprint: Shred	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1686
-3101	1003730	Recipe_Item_Skill_AbyssGear_AddKillSkillLevel_LV1	Gear Blueprint: Energy Drain	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1642
-3102	1003731	Recipe_Item_Skill_AbyssGear_Attack_HPRecover_LV1	Gear Blueprint: Life Transference	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2163
-3103	1003732	Recipe_Item_Skill_AbyssGear_Attack_MPRecover_LV1	Gear Blueprint: Spirit Transference	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2177
-3104	1003733	Recipe_Item_Skill_AbyssGear_Attack_SPRecover_LV1	Gear Blueprint: Stamina Transference	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1974
-3105	1003734	Recipe_Item_Skill_AbyssGear_Combo_LV1	Gear Blueprint: Relentless	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1936
-3106	1002541	Recipe_Item_Skill_AbyssGear_AbyssGrass_Immune	Gear Blueprint: Abyssal Assimilation	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1008
-3107	1002544	Recipe_Item_Skill_AbyssGear_Hyena_PoisonImmune	Gear Blueprint: Heart of the Serpent	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1355
-3108	1002545	Recipe_Item_Skill_AbyssGear_Immune_Bismuth	Gear Blueprint: Heart of Stone	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1294
-3109	1002546	Recipe_Item_Skill_AbyssGear_DAM_UP_RotationBash	Gear Blueprint: Momentum	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1728
-3110	1003228	Recipe_Item_Skill_AbyssGear_EquipDropRate_LV1	Gear Blueprint: Disarm	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2392
-3111	1002594	Recipe_Item_Skill_AbyssGear_AddMoneyDropRate_LV1	Gear Blueprint: Fortune	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2266
-3112	1002643	Recipe_Item_Skill_AbyssGear_BlockAmmoConsume_LV1	Gear Blueprint: Infinite Arrows	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1654
-3113	1002644	Recipe_Item_Skill_AbyssGear_FoodSkillLevelUp_LV1	Gear Blueprint: Gourmet	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1968
-3114	1002645	Recipe_Item_Skill_AbyssGear_ReduceCraftMaterial_LV1	Gear Blueprint: Efficiency	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1973
-3115	1003736	Recipe_Item_Skill_AbyssGear_AdditionalThief_LV1	Gear Blueprint: Ledgermain	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1942
-3116	1003737	Recipe_Item_Skill_AbyssGear_CollectDrop_Ore_LV1	Gear Blueprint: Blessing of the Earth	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2219
-3117	1003738	Recipe_Item_Skill_AbyssGear_CollectDrop_Plant_LV1	Gear Blueprint: Blessing of Nature	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1730
-3118	1003739	Recipe_Item_Skill_AbyssGear_CollectDrop_Animal_LV1	Gear Blueprint: Blessing of the Beast	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2026
-3119	1002653	Recipe_Item_Skill_AbyssGear_CollectDrop_Log_LV1	Gear Blueprint: Blessing of the Forest	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1939
-3120	1003740	Recipe_Item_Skill_AbyssGear_ContributionExp_LV1	Gear Blueprint: Service	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2325
-3121	1003741	Recipe_Item_Skill_AbyssGear_SkillPointExp_LV1	Gear Blueprint: Aptitude	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2157
-3122	1002654	Recipe_Item_Skill_AbyssGear_AddFrendly_LV1	Gear Blueprint: Solidarity	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1979
-3123	1003742	Recipe_Item_Skill_AbyssGear_Equip_AddHorseExp_LV1	Gear Blueprint: Equestrian	recipe	document recipe recipe-abyss-gear stackable tier-0	0	1901
-3124	1003743	Recipe_Item_Skill_AbyssGear_Equip_AddPetFriendly_LV1	Gear Blueprint: Companionship	recipe	document recipe recipe-abyss-gear stackable tier-0	0	2132
-3125	1004893	Recipe_Titan_PlateArmor_Armor	Blueprint: Lightning Bolt Plate Armor	recipe	document recipe recipe-armor stackable tier-0	0	50000
-3126	1004894	Recipe_Paphneil_PlateArmor_Armor	Blueprint: Scorchflame Plate Armor	recipe	document recipe recipe-armor stackable tier-0	0	50000
-3127	1004895	Recipe_king_LostPeople_PlateArmor_Armor	Blueprint: Frostcursed Plate Armor	recipe	document recipe recipe-armor stackable tier-0	0	50000
-3128	1002527	Recipe_RevivalItem	Alchemy Formula: Refined Palmar Pill	recipe	document recipe stackable tier-0	0	3398
-3129	1002551	Recipe_RevivalItemPartialRecovery	Alchemy Formula: Palmar Pill	recipe	document recipe stackable tier-0	0	402
-3130	1001525	Recipe_Deactived_Abyss_Artifact	Blueprint: Faded Abyss Artifact	recipe	document recipe stackable tier-0	0	362
-3131	1003266	Recipe_Potion_DDD_LV1	Alchemy Formula: Freya's Lesser Elixir	recipe	document recipe recipe-potion stackable tier-0	0	500
-3132	1003267	Recipe_Potion_DDD_LV2	Alchemy Formula: Freya's Elixir	recipe	document recipe recipe-potion stackable tier-0	0	1000
-3133	1003268	Recipe_Potion_DDD_LV3	Alchemy Formula: Freya's Greater Elixir	recipe	document recipe recipe-potion stackable tier-0	0	2000
-3134	1003269	Recipe_Potion_DPV_LV1	Alchemy Formula: Apollonia's Lesser Elixir	recipe	document recipe recipe-potion stackable tier-0	0	500
-3135	1003270	Recipe_Potion_DPV_LV2	Alchemy Formula: Apollonia's Elixir	recipe	document recipe recipe-potion stackable tier-0	0	1000
-3136	1003271	Recipe_Potion_DPV_LV3	Alchemy Formula: Apollonia's Greater Elixir	recipe	document recipe recipe-potion stackable tier-0	0	2000
-3137	1003272	Recipe_Potion_HP_LV1	Alchemy Formula: Meliara's Lesser Elixir	recipe	document recipe recipe-potion stackable tier-0	0	500
-3138	1003273	Recipe_Potion_HP_LV2	Alchemy Formula: Meliara's Elixir	recipe	document recipe recipe-potion stackable tier-0	0	1000
-3139	1003274	Recipe_Potion_HP_LV3	Alchemy Formula: Meliara's Greater Elixir	recipe	document recipe recipe-potion stackable tier-0	0	2000
-3140	1003275	Recipe_Potion_MP_LV1	Alchemy Formula: Haiden's Lesser Elixir	recipe	document recipe recipe-potion stackable tier-0	0	500
-3141	1003276	Recipe_Potion_MP_LV2	Alchemy Formula: Haiden's Elixir	recipe	document recipe recipe-potion stackable tier-0	0	1000
-3142	1003277	Recipe_Potion_MP_LV3	Alchemy Formula: Haiden's Greater Elixir	recipe	document recipe recipe-potion stackable tier-0	0	2000
-3143	1003278	Recipe_Potion_SP_LV1	Alchemy Formula: Astrid's Lesser Elixir	recipe	document recipe recipe-potion stackable tier-0	0	500
-3144	1003279	Recipe_Potion_SP_LV2	Alchemy Formula: Astrid's Elixir	recipe	document recipe recipe-potion stackable tier-0	0	1000
-3145	1003280	Recipe_Potion_SP_LV3	Alchemy Formula: Astrid's Greater Elixir	recipe	document recipe recipe-potion stackable tier-0	0	2000
-3146	1003360	Recipe_Platinum	Alchemy Formula: Platinum	recipe	document recipe stackable tier-0	0	2000
-3147	1003361	Recipe_GoldBar	Alchemy Formula: Gold Bar	recipe	document recipe stackable tier-0	0	2000
-3148	1004641	Recipe_Item_gimmick_tool_blacksmithstone	Blueprint: Grindstone	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1199
-3149	1004642	Recipe_Item_gimmick_craft_anvil_01	Blueprint: Anvil	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1134
-3150	1004643	Recipe_Item_gimmick_craft_cook_campfire_04	Blueprint: Field Pot	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	797
-3151	1004644	Recipe_Item_gimmick_craft_cook_campfire_05	Blueprint: Bonfire	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	405
-3152	1004645	Recipe_Item_lamp_firepot_01_on	Blueprint: Tripod Brazier	recipe	document recipe recipe-furniture stackable tier-0	0	433
-3153	1004646	Recipe_Item_lamp_firepot_03_on	Blueprint: Tall Quad-Base Brazier	recipe	document recipe recipe-furniture stackable tier-0	0	507
-3154	1004647	Recipe_Item_lamp_firepot_04_on	Blueprint: Short Quad-Base Brazier	recipe	document recipe recipe-furniture stackable tier-0	0	434
-3155	1004648	Recipe_Item_lamp_firepot_05_on	Blueprint: Wind-Guarded Quad-Base Brazier	recipe	document recipe recipe-furniture stackable tier-0	0	437
-3156	1004649	Recipe_Item_lamp_firepot_06_on	Blueprint: Hexagonal Brazier	recipe	document recipe recipe-furniture stackable tier-0	0	510
-3157	1004650	Recipe_Item_lamp_brazier_02_on	Blueprint: Quad-Base Crown of Thorns Brazier	recipe	document recipe recipe-furniture stackable tier-0	0	435
-3158	1004651	Recipe_Item_lamp_standtorch_01_on	Blueprint: Tripod Guide Torch	recipe	document recipe recipe-furniture stackable tier-0	0	436
-3159	1004652	Recipe_Item_lamp_standtorch_02_on	Blueprint: Tripod Guardian Torch	recipe	document recipe recipe-furniture stackable tier-0	0	435
-3160	1004653	Recipe_Item_gimmick_sotdae_set_0001	Blueprint: Rope Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1026
-3161	1004654	Recipe_Item_gimmick_sotdae_set_0002	Blueprint: Pheasant Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	798
-3162	1004655	Recipe_Item_gimmick_sotdae_set_0003	Blueprint: Four-Way Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	799
-3163	1004656	Recipe_Item_gimmick_sotdae_set_0004	Blueprint: Duck Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	998
-3164	1004657	Recipe_Item_gimmick_sotdae_set_0005	Blueprint: Crow Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	999
-3165	1004658	Recipe_Item_gimmick_sotdae_set_0006	Blueprint: Stone Duck Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1024
-3166	1004659	Recipe_Item_gimmick_sotdae_set_0007	Blueprint: Red-Crowned Crane Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	802
-3167	1004660	Recipe_Item_gimmick_sotdae_set_0008	Blueprint: Stone Nest Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1027
-3168	1004661	Recipe_Item_gimmick_sotdae_set_0009	Blueprint: Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	800
-3169	1004662	Recipe_Item_gimmick_sotdae_set_0010	Blueprint: Twin-Branched Sotdae	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1000
-3170	1004663	Recipe_Item_lamp_streetlamp_03	Blueprint: Wooden Streetlight	recipe	document recipe recipe-furniture stackable tier-0	0	650
-3171	1004664	Recipe_Item_lamp_streetlamp_03_index01	Blueprint: Red Wooden Streetlight	recipe	document recipe recipe-furniture stackable tier-0	0	651
-3172	1004665	Recipe_Item_lamp_streetlamp_03_index02	Blueprint: Bright Wooden Streetlight	recipe	document recipe recipe-furniture stackable tier-0	0	656
-3173	1004666	Recipe_Item_gimmick_lamp_streetlamp_0001	Blueprint: Cold Streetlight	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	651
-3174	1004667	Recipe_Item_gimmick_lamp_streetlamp_0001_index01	Blueprint: Warm Streetlight	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	655
-3175	1004668	Recipe_Item_gimmick_lamp_streetlamp_0001_index02	Blueprint: Soft Streetlight	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	653
-3176	1004669	Recipe_Item_hanger_streetlamp_flowerpot_01	Blueprint: Wooden Gerbera Hanging Planter	recipe	document recipe recipe-furniture stackable tier-0	0	1060
-3177	1004670	Recipe_Item_hanger_streetlamp_flowerpot_02	Blueprint: Wooden Violet Hanging Planter	recipe	document recipe recipe-furniture stackable tier-0	0	1072
-3178	1004671	Recipe_Item_hanger_streetlamp_flowerpot_03	Blueprint: Wooden Purple Gerbera Hanging Planter	recipe	document recipe recipe-furniture stackable tier-0	0	1063
-3179	1004672	Recipe_Item_hanger_streetlamp_flowerpot_04	Blueprint: Redtree Violet Hanging Planter	recipe	document recipe recipe-furniture stackable tier-0	0	1061
-3180	1004673	Recipe_Item_gimmick_tool_FlowerHanger_01	Blueprint: Wooden Pororin Hanging Planter	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1650
-3181	1004674	Recipe_Item_gimmick_tool_FlowerHanger_02	Blueprint: Wooden Florindale Hanging Planter	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1398
-3182	1004675	Recipe_Item_gimmick_well_0001	Blueprint: Wooden Roof Well	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1598
-3183	1004676	Recipe_Item_gimmick_well_0001_index01	Blueprint: Red Wooden Roof Well	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1645
-3184	1004677	Recipe_Item_gimmick_well_0002	Blueprint: Brick Roof Well	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1650
-3185	1004678	Recipe_Item_gimmick_well_0003	Blueprint: Thatched Roof Well	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1400
-3186	1004679	Recipe_Item_gimmick_well_0004	Blueprint: Well	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1264
-3187	1004680	Recipe_Item_gimmick_well_0004_index01	Blueprint: Redsand Well	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1336
-3188	1004681	Recipe_Item_drinkingfountain_01	Blueprint: Brookfield Fountain	recipe	document recipe recipe-furniture stackable tier-0	0	1948
-3189	1004682	Recipe_Item_dpf_fountain_01	Blueprint: Lion Head Fountain	recipe	document recipe recipe-furniture stackable tier-0	0	1945
-3190	1004683	Recipe_Item_dpf_fountain_09	Blueprint: Leaf Fountain	recipe	document recipe recipe-furniture stackable tier-0	0	2988
-3191	1004684	Recipe_Item_dpf_fountain_02	Blueprint: Stone Pagoda Fountain	recipe	document recipe recipe-furniture stackable tier-0	0	2393
-3192	1004685	Recipe_Item_dpf_fountain_02_desert	Blueprint: Redsand Stone Pagoda Fountain	recipe	document recipe recipe-furniture stackable tier-0	0	2456
-3193	1004686	Recipe_Item_dpf_fountain_06	Blueprint: Silent Gazer Fountain	recipe	document recipe recipe-furniture stackable tier-0	0	2061
-3194	1004687	Recipe_Item_fountain_statue_02	Blueprint: Sculpted Fish Fountain	recipe	document recipe recipe-furniture stackable tier-0	0	2632
-3195	1004695	Recipe_Item_catwheel_01	Blueprint: Pororin Cat Wheel	recipe	document recipe recipe-furniture stackable tier-0	0	2404
-3196	1004696	Recipe_Item_catwheel_02	Blueprint: Marni Cat Wheel	recipe	document recipe recipe-furniture stackable tier-0	0	3003
-3197	1004697	Recipe_Item_Collection_Prop_Automata_0001	Blueprint: Clanging Little Knight	recipe	document recipe recipe-furniture stackable tier-0	0	1648
-3198	1004698	Recipe_Item_Collection_Prop_Automata_0002	Blueprint: Clanging Red Jester	recipe	document recipe recipe-furniture stackable tier-0	0	1715
-3199	1004699	Recipe_Item_Collection_Prop_Automata_0003	Blueprint: Clanging King	recipe	document recipe recipe-furniture stackable tier-0	0	1830
-3200	1004700	Recipe_Item_Collection_Prop_Automata_0004	Blueprint: VZ-O and Z-One	recipe	document recipe recipe-furniture stackable tier-0	0	2064
-3201	1004828	Recipe_Item_gimmick_jukebox_0001	Blueprint: Faust's Music Box	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	3102
-3202	1004701	Recipe_Item_gimmick_in_dpf_carpet_0001	Blueprint: Round Twilight Floral Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	743
-3203	1004702	Recipe_Item_gimmick_in_dpf_carpet_0002	Blueprint: Mist-woven Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	478
-3204	1004703	Recipe_Item_gimmick_in_dpf_carpet_0003	Blueprint: Frost-woven Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	473
-3205	1004704	Recipe_Item_gimmick_in_dpf_carpet_0004	Blueprint: Moonlit Garden Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	759
-3206	1004705	Recipe_Item_gimmick_in_dpf_carpet_0005	Blueprint: Rhombic Vermillion Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	736
-3207	1004706	Recipe_Item_gimmick_in_dpf_carpet_0006	Blueprint: Large Twilight Floral Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1032
-3208	1004707	Recipe_Item_gimmick_in_dpf_carpet_0006_index01	Blueprint: Large Moonlit Garden Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1037
-3209	1004708	Recipe_Item_gimmick_in_dpf_carpet_0007	Blueprint: Large Stone Knotted Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1072
-3210	1004709	Recipe_Item_gimmick_in_dpf_carpet_0008	Blueprint: Sunset Plaid Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1070
-3211	1004710	Recipe_Item_gimmick_in_dpf_carpet_0008_index01	Blueprint: Double Mist-woven Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1058
-3212	1004711	Recipe_Item_gimmick_in_dpf_carpet_0009	Blueprint: Large Rosy Dragonscale Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1256
-3213	1004858	Recipe_Item_gimmick_in_dpf_carpet_0013	Blueprint: Wide Dawndrop Garden Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1327
-3214	1004859	Recipe_Item_gimmick_in_dpf_carpet_0014	Blueprint: Round Wide Mist-woven Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1381
-3215	1004860	Recipe_Item_gimmick_in_dpf_carpet_0015	Blueprint: Wide Multicolor Knotted Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1412
-3216	1004861	Recipe_Item_gimmick_in_dpf_carpet_0016	Blueprint: Round Wide Moonlit Garden Carpet	recipe	document gimmick recipe recipe-furniture stackable tier-0	0	1352
+2957	80003	Recipe_FruitTea	Recipe: Fruit Tea	recipe-food	document recipe recipe-food stackable tier-0	0	10
+2958	80413	Recipe_Berry_Juice	Recipe: Fruit Juice	recipe-food	document recipe recipe-food stackable tier-0	0	10
+2959	1001854	Recipe_Vegetable_Juice	Recipe: Vegetable Juice	recipe-food	document recipe recipe-food stackable tier-0	0	10
+2960	1000976	Recipe_Fruit_Wine	Recipe: Wine	recipe-food	document recipe recipe-food stackable tier-0	0	95
+2961	1000977	Recipe_High_Wine	Recipe: Delesyian Wine	recipe-food	document recipe recipe-food stackable tier-0	0	115
+2962	80505	Recipe_Ssari_Mushroom_Tea	Recipe: Coral Mushroom Tea	recipe-food	document recipe recipe-food stackable tier-0	0	105
+2963	80510	Recipe_Pyogo_Mushroom_Tea	Recipe: Oakwood Mushroom Tea	recipe-food	document recipe recipe-food stackable tier-0	0	125
+2964	80509	Recipe_Songyi_Mushroom_Tea	Recipe: Pine Mushroom Tea	recipe-food	document recipe recipe-food stackable tier-0	0	132
+2965	1001885	Recipe_Herbal_Tea	Recipe: Mild Herbal Tea	recipe-food	document recipe recipe-food stackable tier-0	0	105
+2966	80529	Recipe_Honey_Tea	Recipe: Honey Tea	recipe-food	document recipe recipe-food stackable tier-0	0	100
+2967	80412	Recipe_DeerAntler_Fruit_Tea	Recipe: Antler Tea	recipe-food	document recipe recipe-food stackable tier-0	0	68
+2968	1003768	Recipe_Chocolate	Recipe: Chocolate	recipe-food	document recipe recipe-food stackable tier-0	0	500
+2969	1000257	Recipe_Pan_fried_Grain_Pancake	Recipe: Battered Grains	recipe-food	document recipe recipe-food stackable tier-0	0	62
+2970	1000076	Recipe_Meat_Porridge	Recipe: Clear Soup	recipe-food	document recipe recipe-food stackable tier-0	0	70
+2971	1000071	Recipe_Meat_Sanjeok	Recipe: Meat Skewers	recipe-food	document recipe recipe-food stackable tier-0	0	70
+2972	1000072	Recipe_Braised_Meat	Recipe: Braised Meat	recipe-food	document recipe recipe-food stackable tier-0	0	70
+2973	1000087	Recipe_Pan_fried_Meat_Pancake	Recipe: Battered Meat	recipe-food	document recipe recipe-food stackable tier-0	0	72
+2974	1000244	Recipe_Pan_fried_Fruit_Pancake	Recipe: Pickled Fruit	recipe-food	document recipe recipe-food stackable tier-0	0	75
+2975	1000169	Recipe_Vegetable_Porridge	Recipe: Vegetable Porridge	recipe-food	document recipe recipe-food stackable tier-0	0	90
+2976	1000235	Recipe_Fruit_Porridge	Recipe: Fruit Punch	recipe-food	document recipe recipe-food stackable tier-0	0	90
+2977	1000199	Recipe_Pan_fried_Vegetable_Pancake	Recipe: Battered Vegetables	recipe-food	document recipe recipe-food stackable tier-0	0	102
+2978	1000158	Recipe_Braised_Vegetable	Recipe: Pickled Vegetables	recipe-food	document recipe recipe-food stackable tier-0	0	105
+2979	80812	Recipe_Roast_Chicken	Recipe: Salt-Roasted Bird Meat	recipe-food	document recipe recipe-food stackable tier-0	0	125
+2980	1000508	Recipe_Pan_fried_Vegetable_Fruit_Pancake	Recipe: Vegetable Rice Cake	recipe-food	document recipe recipe-food stackable tier-0	0	165
+2981	1000523	Recipe_Pan_fried_Fruit_Grain_Pancake	Recipe: Chewy Rice Cakes	recipe-food	document recipe recipe-food stackable tier-0	0	170
+2982	1000507	Recipe_Vegetable_Fruit_Porridge	Recipe: Harvest Roll	recipe-food	document recipe recipe-food stackable tier-0	0	175
+2983	1000480	Recipe_Meat_Fruit_Porridge	Recipe: Pan-Fried Marinated Meat	recipe-food	document recipe recipe-food stackable tier-0	0	180
+2984	1000122	Recipe_Fish_Sanjeok	Recipe: Fish Skewers	recipe-food	document recipe recipe-food stackable tier-0	0	185
+2985	1000141	Recipe_Braised_Fish	Recipe: Braised Fish	recipe-food	document recipe recipe-food stackable tier-0	0	185
+2986	1000483	Recipe_Pan_fried_Meat_Fruit_Pancake	Recipe: Marinated Meat	recipe-food	document recipe recipe-food stackable tier-0	0	185
+2987	1000154	Recipe_Pan_fried_Fish_Pancake	Recipe: Battered Fish	recipe-food	document recipe recipe-food stackable tier-0	0	190
+2988	1000038	Recipe_Grilled_Meat_Fish	Recipe: Grilled Meat and Fish	recipe-food	document recipe recipe-food stackable tier-0	0	205
+2989	1000986	Recipe_Roast_Fish	Recipe: Salt-Roasted Fish	recipe-food	document recipe recipe-food stackable tier-0	0	245
+2990	1000775	Recipe_Japchae	Recipe: Pan-Fried Vegetables	recipe-food	document recipe recipe-food stackable tier-0	0	247
+2991	1000441	Recipe_Braised_Meat_Fish	Recipe: Braised Meat and Fish	recipe-food	document recipe recipe-food stackable tier-0	0	265
+2992	1000503	Recipe_Pan_fried_Fish_Vegetable_Pancake	Recipe: Battered Seafood	recipe-food	document recipe recipe-food stackable tier-0	0	360
+2993	1000450	Recipe_Pan_fried_Meat_Fish_Pancake	Recipe: Battered Meat and Fish	recipe-food	document recipe recipe-food stackable tier-0	0	362
+2994	1000338	Recipe_Meat_Fish_Sanjeok	Recipe: Meat and Fish Skewers	recipe-food	document recipe recipe-food stackable tier-0	0	365
+2995	1000510	Recipe_Pan_fried_Vegetable_Grain_Pancake	Recipe: Grain Soup	recipe-food	document recipe recipe-food stackable tier-0	0	167
+2996	1000455	Recipe_Pan_fried_Meat_Vegetable_Pancake	Recipe: Steamed Eggs	recipe-food	document recipe recipe-food stackable tier-0	0	197
+2997	1000492	Recipe_Pan_fried_Meat_Grain_Pancake	Recipe: Meat Soup	recipe-food	document recipe recipe-food stackable tier-0	0	200
+2998	1000452	Recipe_Braised_Meat_Vegetable	Recipe: Braised Ribs	recipe-food	document recipe recipe-food stackable tier-0	0	205
+2999	1000150	Recipe_Fish_Porridge	Recipe: Fish Porridge	recipe-food	document recipe recipe-food stackable tier-0	0	210
+3000	1000453	Recipe_Meat_Vegetable_Porridge	Recipe: Meat and Vegetable Porridge	recipe-food	document recipe recipe-food stackable tier-0	0	210
+3001	1000445	Recipe_Meat_Fish_Porridge	Recipe: Meat and Fish Porridge	recipe-food	document recipe recipe-food stackable tier-0	0	290
+3002	1000506	Recipe_Pan_fried_Fish_Grain_Pancake	Recipe: Fishball Soup	recipe-food	document recipe recipe-food stackable tier-0	0	365
+3003	1001077	Recipe_Seafood_Soup	Recipe: Seafood Soup	recipe-food	document recipe recipe-food stackable tier-0	0	365
+3004	1000502	Recipe_Fish_Vegetable_Porridge	Recipe: Vegetable and Seafood Porridge	recipe-food	document recipe recipe-food stackable tier-0	0	370
+3005	1000954	Recipe_DeerAntler_Soup	Recipe: Longhorn Soup	recipe-food	document recipe recipe-food stackable tier-0	0	285
+3006	1000620	Recipe_Gungjung_Tteokbokki	Recipe: Pan-Fried Rice Cakes	recipe-food	document recipe recipe-food stackable tier-0	0	515
+3007	1000636	Recipe_Tteokgalbi	Recipe: Grilled Meat Patties	recipe-food	document recipe recipe-food stackable tier-0	0	562
+3008	1000673	Recipe_Jeonju_Bibimbap	Recipe: Mixed Harvest Bowl	recipe-food	document recipe recipe-food stackable tier-0	0	562
+3009	1000501	Recipe_Braised_Fish_Vegetable	Recipe: Braised Fish and Vegetables	recipe-food	document recipe recipe-food stackable tier-0	0	605
+3010	1000704	Recipe_Fish_Bulgogi	Recipe: Pan-Fried Marinated Fish	recipe-food	document recipe recipe-food stackable tier-0	0	640
+3011	1000719	Recipe_Full_Course_of_Braised_Fish	Recipe: Assorted Braised Fish	recipe-food	document recipe recipe-food stackable tier-0	0	702
+3012	1000687	Recipe_Kimbap	Recipe: Battered Harvest Roll	recipe-food	document recipe recipe-food stackable tier-0	0	760
+3013	1000557	Recipe_Meat_Fish_Grain_Sanjeok	Recipe: Grilled Meat Steak	recipe-food	document recipe recipe-food stackable tier-0	0	775
+3014	1000616	Recipe_Nureumjeok	Recipe: Mixed Skewers	recipe-food	document recipe recipe-food stackable tier-0	0	1025
+3015	1000527	Recipe_Meat_Fish_Fruit_Sanjeok	Recipe: Assorted Meat and Fish Skewers	recipe-food	document recipe recipe-food stackable tier-0	0	1040
+3016	1000622	Recipe_Beef_Bone_Soup	Recipe: Meat Stew	recipe-food	document recipe recipe-food stackable tier-0	0	530
+3017	80001	Recipe_BoiledPork	Recipe: Boiled Meat	recipe-food	document recipe recipe-food stackable tier-0	0	565
+3018	1000504	Recipe_Fish_Fruit_Porridge	Recipe: Steamed Fish	recipe-food	document recipe recipe-food stackable tier-0	0	590
+3019	1000505	Recipe_Pan_fried_Fish_Fruit_Pancake	Recipe: Seafood Stew	recipe-food	document recipe recipe-food stackable tier-0	0	610
+3020	1001130	Recipe_Haemuljjim	Recipe: Steamed Seafood	recipe-food	document recipe recipe-food stackable tier-0	0	655
+3021	1000585	Recipe_Meat_Fish_Vegetable_Egg	Recipe: Meatball Soup	recipe-food	document recipe recipe-food stackable tier-0	0	657
+3022	1000617	Recipe_Sinseollo	Recipe: Harvest Soup	recipe-food	document recipe recipe-food stackable tier-0	0	660
+3023	1000705	Recipe_Fish_Stew	Recipe: Fish Stew	recipe-food	document recipe recipe-food stackable tier-0	0	667
+3024	1000701	Recipe_Fish_Soup	Recipe: Mixed Stew	recipe-food	document recipe recipe-food stackable tier-0	0	785
+3025	80406	Recipe_SamGyeTang	Recipe: Bird Soup	recipe-food	document recipe recipe-food stackable tier-0	0	1700
+3026	1000956	Recipe_Surasang_03	Recipe: Fine Meal	recipe-food	document recipe recipe-food stackable tier-0	0	2785
+3027	1000860	Recipe_Surasang_01	Recipe: Extravagant Meal	recipe-food	document recipe recipe-food stackable tier-0	0	3247
+3028	1000881	Recipe_Surasang_02	Recipe: Lavish Meal	recipe-food	document recipe recipe-food stackable tier-0	0	2810
+3029	1000819	Recipe_Surasang_00	Recipe: Grand Meal	recipe-food	document recipe recipe-food stackable tier-0	0	3655
+3030	1000968	Recipe_Surasang_04	Recipe: Special Meal	recipe-food	document recipe recipe-food stackable tier-0	0	2810
+3031	1001060	Recipe_Surasang_05	Recipe: Meal	recipe-food	document recipe recipe-food stackable tier-0	0	2805
+3032	1002712	Recipe_Item_Stat_AbyssGear_DDD_LV1	Gear Blueprint: Destruction	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1019
+3033	1002714	Recipe_Item_Stat_AbyssGear_CriticalRate_LV1	Gear Blueprint: Insight	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1100
+3034	1002773	Recipe_Item_Stat_AbyssGear_DPV_LV1	Gear Blueprint: Fortification	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1167
+3035	1002774	Recipe_Item_Stat_AbyssGear_ADR_LV1	Gear Blueprint: Aegis	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1119
+3036	1002775	Recipe_Item_Stat_AbyssGear_GuardPVRate_LV1	Gear Blueprint: Fortitude	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1202
+3037	1002776	Recipe_Item_Stat_AbyssGear_AttackSpeedRate_LV1	Gear Blueprint: Swift	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	911
+3038	1002777	Recipe_Item_Stat_AbyssGear_MoveSpeedRate_LV1	Gear Blueprint: Haste	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1045
+3039	1002778	Recipe_Item_Stat_AbyssGear_ClimbSpeedRate_LV1	Gear Blueprint: Ascent	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	945
+3040	1000190	Recipe_Item_Stat_AbyssGear_StaminaRegen_LV1	Gear Blueprint: Vigor	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	894
+3041	1002780	Recipe_Item_Stat_AbyssGear_HpRegen_LV1	Gear Blueprint: Vitality	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	808
+3042	1002746	Recipe_Item_Stat_AbyssGear_MpRegen_LV1	Gear Blueprint: Composure	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	966
+3043	1002525	Recipe_Item_Stat_AbyssGear_SwimSpeedRate_LV1	Gear Blueprint: Surge	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	961
+3044	1002528	Recipe_Item_Stat_AbyssGear_FireResistance_LV1	Gear Blueprint: Flameward	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	675
+3045	1002529	Recipe_Item_Stat_AbyssGear_IceResistance_LV1	Gear Blueprint: Frostward	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	800
+3046	1002530	Recipe_Item_Stat_AbyssGear_ElectricityResistance_LV1	Gear Blueprint: Shockward	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	596
+3047	1001423	Recipe_Item_Skill_AbyssGear_LandMash_LV1	Gear Blueprint: Groundsurge	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1275
+3048	1002388	Recipe_Item_Skill_AbyssGear_SoulStrike_LV1	Gear Blueprint: Spirit's Judgment	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1231
+3049	1002390	Recipe_Item_Skill_AbyssGear_CrowAttack_LV1	Gear Blueprint: Crow's Pursuit	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	850
+3050	1002478	Recipe_Item_Skill_AbyssGear_FlashCombo_LV1	Gear Blueprint: Slashing Reeds	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1161
+3051	1002479	Recipe_Item_Skill_AbyssGear_SwordAura_LV1	Gear Blueprint: Wind Slash	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1046
+3052	1000733	Recipe_Item_Skill_AbyssGear_FrostBreath_LV1	Gear Blueprint: Frost Hail	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1221
+3053	1000734	Recipe_Item_Skill_AbyssGear_FireBreath_LV1	Gear Blueprint: Volcanic Eruption	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1031
+3054	1002558	Recipe_Item_Skill_AbyssGear_LightningBreath_LV1	Gear Blueprint: Orbs of Lightning	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	959
+3055	1002481	Recipe_Item_Skill_AbyssGear_EnlightenmentWave_LV1	Gear Blueprint: Karmic Pulse	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1127
+3056	1002596	Recipe_Item_Skill_AbyssGear_DarkenRobe_LV1	Gear Blueprint: Wound of Darkness	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1188
+3057	1002483	Recipe_Item_Skill_AbyssGear_DogClaw_LV1	Gear Blueprint: Hound's Claws	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	907
+3058	1002639	Recipe_Item_Skill_AbyssGear_Forgotten_General	Gear Blueprint: Judgment of the Soul	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1268
+3059	1002642	Recipe_Item_Skill_AbyssGear_Ogre	Gear Blueprint: Colossal Might	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1011
+3060	1002762	Recipe_Item_Skill_AbyssGear_Antumbra_Spear	Gear Blueprint: Warden of Darkness	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	892
+3061	1002489	Recipe_Item_Skill_AbyssGear_CrowStorm_LV1	Gear Blueprint: Crow Storm	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	952
+3062	1002769	Recipe_Item_Skill_AbyssGear_SmashStorm_LV1	Gear Blueprint: Tempest of Destruction	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1309
+3063	1002856	Recipe_Item_Skill_AbyssGear_CresecentAura_1_LV1	Gear Blueprint: Crescent Moon Slash	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1312
+3064	1002859	Recipe_Item_Skill_AbyssGear_CresecentAura_2_LV1	Gear Blueprint: Half Moon Slash	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	958
+3065	1002877	Recipe_Item_Skill_AbyssGear_CresecentAura_3_LV1	Gear Blueprint: Fullmoon Slash	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1098
+3066	1002803	Recipe_Item_Skill_AbyssGear_FrostSpike_LV1	Gear Blueprint: Frost Spike	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	907
+3067	1002494	Recipe_Item_Skill_AbyssGear_AbsoluteDefense_LV1	Gear Blueprint: Piercing Bloom	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	946
+3068	1002531	Recipe_Item_Skill_AbyssGear_ArrowRain_LV1	Gear Blueprint: Arrow Rain	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	889
+3069	1002878	Recipe_Item_Skill_AbyssGear_Merrick	Gear Blueprint: Order from Above	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1330
+3070	1002480	Recipe_Item_Skill_AbyssGear_LightningStab_LV1	Gear Blueprint: Storm Fang	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	932
+3071	1002890	Recipe_Item_Skill_AbyssGear_Antumbra_TwoHandRod	Gear Blueprint: Dark Crescent	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1034
+3072	1002891	Recipe_Item_Skill_AbyssGear_TarandusWarrior_WarHammer	Gear Blueprint: Earthrending Strike	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	831
+3073	1003696	Recipe_Item_Skill_AbyssGear_Bastier	Gear Blueprint: Flames of Judgment	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	969
+3074	1002649	Recipe_Item_Skill_AbyssGear_Karanda	Gear Blueprint: Pillar of Wind	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1200
+3075	1002804	Recipe_Item_Skill_AbyssGear_FrostDeath_LV1	Gear Blueprint: Shattering Frost	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1263
+3076	1002650	Recipe_Item_Skill_AbyssGear_Primus	Gear Blueprint: Ancient Reckoning	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1237
+3077	1003719	Recipe_Item_Skill_AbyssGear_DarkChase_LV1	Gear Blueprint: Greysoul Howling	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1161
+3078	1003720	Recipe_Item_Skill_AbyssGear_Leebur	Gear Blueprint: Shadow Claw	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1360
+3079	1003721	Recipe_Item_Skill_AbyssGear_QueenSpider	Gear Blueprint: Queen's Fangs	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1302
+3080	1003722	Recipe_Item_Skill_AbyssGear_Praevus	Gear Blueprint: Ancient Wrath	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	897
+3081	1003723	Recipe_Item_Skill_AbyssGear_Priscus	Gear Blueprint: Ancient Retribution	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1205
+3082	1003724	Recipe_Item_Skill_AbyssGear_Skevald	Gear Blueprint: Putrid Touch	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1065
+3083	1002534	Recipe_Item_Skill_AbyssGear_AtorDrone_LV1	Gear Blueprint: Ator's Orb	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1138
+3084	1002490	Recipe_Item_Skill_AbyssGear_PhantomStab_LV1	Gear Blueprint: Abyssal Rays	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	950
+3085	1003725	Recipe_Item_Skill_AbyssGear_LanFord	Gear Blueprint: Parting Gift	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	968
+3086	1003726	Recipe_Item_Skill_AbyssGear_ImpBoss	Gear Blueprint: Howling of Chaos	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	853
+3087	1002648	Recipe_Item_Skill_AbyssGear_Catfish_BodySlam_LV1	Gear Blueprint: Rising Torrent	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1042
+3088	1003727	Recipe_Item_Skill_AbyssGear_Titan	Gear Blueprint: Lightning God's Affliction	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1012
+3089	1002532	Recipe_Item_Skill_AbyssGear_EnergyBurst_LV1	Gear Blueprint: Kinetic Burst	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1136
+3090	1002651	Recipe_Item_Skill_AbyssGear_Muscan	Gear Blueprint: The Showstopper	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1343
+3091	1002568	Recipe_Item_Skill_AbyssGear_Machine_AdditionalDamage_LV1	Gear Blueprint: Steelbane	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	957
+3092	1002570	Recipe_Item_Skill_AbyssGear_CommonHexe_AdditionalDamage_LV1	Gear Blueprint: Hexebane	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1442
+3093	1002571	Recipe_Item_Skill_AbyssGear_CommonHumanoid_AdditionalDamage_LV1	Gear Blueprint: Bloodbane	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1643
+3094	1002574	Recipe_Item_Skill_AbyssGear_CommonGolem_AdditionalDamage_LV1	Gear Blueprint: Primalbane	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1619
+3095	1002579	Recipe_Item_Skill_AbyssGear_Boss_AdditionalDamage_LV1	Gear Blueprint: Malicebane	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	917
+3096	1003728	Recipe_Item_Skill_AbyssGear_CommonAnimal_AdditionalDamage_LV1	Gear Blueprint: Beastbane	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1082
+3097	1003729	Recipe_Item_Skill_AbyssGear_Creature_AdditionalDamage_LV1	Gear Blueprint: Abyssbane	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1095
+3098	1000426	Recipe_Item_Skill_AbyssGear_AddCriticalRateByMaterialKey_PlateArmor_LV1	Gear Blueprint: Shatter	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2298
+3099	1001436	Recipe_Item_Skill_AbyssGear_AddCriticalRateByMaterialKey_LeatherArmor_LV1	Gear Blueprint: Rend	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2079
+3100	1003758	Recipe_Item_Skill_AbyssGear_AddCriticalRateByMaterialKey_FabricArmor_LV1	Gear Blueprint: Shred	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1686
+3101	1003730	Recipe_Item_Skill_AbyssGear_AddKillSkillLevel_LV1	Gear Blueprint: Energy Drain	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1642
+3102	1003731	Recipe_Item_Skill_AbyssGear_Attack_HPRecover_LV1	Gear Blueprint: Life Transference	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2163
+3103	1003732	Recipe_Item_Skill_AbyssGear_Attack_MPRecover_LV1	Gear Blueprint: Spirit Transference	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2177
+3104	1003733	Recipe_Item_Skill_AbyssGear_Attack_SPRecover_LV1	Gear Blueprint: Stamina Transference	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1974
+3105	1003734	Recipe_Item_Skill_AbyssGear_Combo_LV1	Gear Blueprint: Relentless	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1936
+3106	1002541	Recipe_Item_Skill_AbyssGear_AbyssGrass_Immune	Gear Blueprint: Abyssal Assimilation	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1008
+3107	1002544	Recipe_Item_Skill_AbyssGear_Hyena_PoisonImmune	Gear Blueprint: Heart of the Serpent	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1355
+3108	1002545	Recipe_Item_Skill_AbyssGear_Immune_Bismuth	Gear Blueprint: Heart of Stone	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1294
+3109	1002546	Recipe_Item_Skill_AbyssGear_DAM_UP_RotationBash	Gear Blueprint: Momentum	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1728
+3110	1003228	Recipe_Item_Skill_AbyssGear_EquipDropRate_LV1	Gear Blueprint: Disarm	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2392
+3111	1002594	Recipe_Item_Skill_AbyssGear_AddMoneyDropRate_LV1	Gear Blueprint: Fortune	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2266
+3112	1002643	Recipe_Item_Skill_AbyssGear_BlockAmmoConsume_LV1	Gear Blueprint: Infinite Arrows	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1654
+3113	1002644	Recipe_Item_Skill_AbyssGear_FoodSkillLevelUp_LV1	Gear Blueprint: Gourmet	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1968
+3114	1002645	Recipe_Item_Skill_AbyssGear_ReduceCraftMaterial_LV1	Gear Blueprint: Efficiency	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1973
+3115	1003736	Recipe_Item_Skill_AbyssGear_AdditionalThief_LV1	Gear Blueprint: Ledgermain	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1942
+3116	1003737	Recipe_Item_Skill_AbyssGear_CollectDrop_Ore_LV1	Gear Blueprint: Blessing of the Earth	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2219
+3117	1003738	Recipe_Item_Skill_AbyssGear_CollectDrop_Plant_LV1	Gear Blueprint: Blessing of Nature	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1730
+3118	1003739	Recipe_Item_Skill_AbyssGear_CollectDrop_Animal_LV1	Gear Blueprint: Blessing of the Beast	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2026
+3119	1002653	Recipe_Item_Skill_AbyssGear_CollectDrop_Log_LV1	Gear Blueprint: Blessing of the Forest	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1939
+3120	1003740	Recipe_Item_Skill_AbyssGear_ContributionExp_LV1	Gear Blueprint: Service	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2325
+3121	1003741	Recipe_Item_Skill_AbyssGear_SkillPointExp_LV1	Gear Blueprint: Aptitude	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2157
+3122	1002654	Recipe_Item_Skill_AbyssGear_AddFrendly_LV1	Gear Blueprint: Solidarity	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1979
+3123	1003742	Recipe_Item_Skill_AbyssGear_Equip_AddHorseExp_LV1	Gear Blueprint: Equestrian	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	1901
+3124	1003743	Recipe_Item_Skill_AbyssGear_Equip_AddPetFriendly_LV1	Gear Blueprint: Companionship	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	2132
+3125	1004893	Recipe_Titan_PlateArmor_Armor	Blueprint: Lightning Bolt Plate Armor	recipe-armor	document recipe recipe-armor stackable tier-0	0	50000
+3126	1004894	Recipe_Paphneil_PlateArmor_Armor	Blueprint: Scorchflame Plate Armor	recipe-armor	document recipe recipe-armor stackable tier-0	0	50000
+3127	1004895	Recipe_king_LostPeople_PlateArmor_Armor	Blueprint: Frostcursed Plate Armor	recipe-armor	document recipe recipe-armor stackable tier-0	0	50000
+3128	1002527	Recipe_RevivalItem	Alchemy Formula: Refined Palmar Pill	recipe-potion	document recipe recipe-potion stackable tier-0	0	3398
+3129	1002551	Recipe_RevivalItemPartialRecovery	Alchemy Formula: Palmar Pill	recipe-potion	document recipe recipe-potion stackable tier-0	0	402
+3130	1001525	Recipe_Deactived_Abyss_Artifact	Blueprint: Faded Abyss Artifact	recipe-abyss-gear	document recipe recipe-abyss-gear stackable tier-0	0	362
+3131	1003266	Recipe_Potion_DDD_LV1	Alchemy Formula: Freya's Lesser Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	500
+3132	1003267	Recipe_Potion_DDD_LV2	Alchemy Formula: Freya's Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	1000
+3133	1003268	Recipe_Potion_DDD_LV3	Alchemy Formula: Freya's Greater Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	2000
+3134	1003269	Recipe_Potion_DPV_LV1	Alchemy Formula: Apollonia's Lesser Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	500
+3135	1003270	Recipe_Potion_DPV_LV2	Alchemy Formula: Apollonia's Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	1000
+3136	1003271	Recipe_Potion_DPV_LV3	Alchemy Formula: Apollonia's Greater Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	2000
+3137	1003272	Recipe_Potion_HP_LV1	Alchemy Formula: Meliara's Lesser Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	500
+3138	1003273	Recipe_Potion_HP_LV2	Alchemy Formula: Meliara's Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	1000
+3139	1003274	Recipe_Potion_HP_LV3	Alchemy Formula: Meliara's Greater Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	2000
+3140	1003275	Recipe_Potion_MP_LV1	Alchemy Formula: Haiden's Lesser Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	500
+3141	1003276	Recipe_Potion_MP_LV2	Alchemy Formula: Haiden's Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	1000
+3142	1003277	Recipe_Potion_MP_LV3	Alchemy Formula: Haiden's Greater Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	2000
+3143	1003278	Recipe_Potion_SP_LV1	Alchemy Formula: Astrid's Lesser Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	500
+3144	1003279	Recipe_Potion_SP_LV2	Alchemy Formula: Astrid's Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	1000
+3145	1003280	Recipe_Potion_SP_LV3	Alchemy Formula: Astrid's Greater Elixir	recipe-potion	document recipe recipe-potion stackable tier-0	0	2000
+3146	1003360	Recipe_Platinum	Alchemy Formula: Platinum	recipe-potion	document recipe recipe-potion stackable tier-0	0	2000
+3147	1003361	Recipe_GoldBar	Alchemy Formula: Gold Bar	recipe-potion	document recipe recipe-potion stackable tier-0	0	2000
+3148	1004641	Recipe_Item_gimmick_tool_blacksmithstone	Blueprint: Grindstone	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1199
+3149	1004642	Recipe_Item_gimmick_craft_anvil_01	Blueprint: Anvil	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1134
+3150	1004643	Recipe_Item_gimmick_craft_cook_campfire_04	Blueprint: Field Pot	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	797
+3151	1004644	Recipe_Item_gimmick_craft_cook_campfire_05	Blueprint: Bonfire	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	405
+3152	1004645	Recipe_Item_lamp_firepot_01_on	Blueprint: Tripod Brazier	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	433
+3153	1004646	Recipe_Item_lamp_firepot_03_on	Blueprint: Tall Quad-Base Brazier	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	507
+3154	1004647	Recipe_Item_lamp_firepot_04_on	Blueprint: Short Quad-Base Brazier	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	434
+3155	1004648	Recipe_Item_lamp_firepot_05_on	Blueprint: Wind-Guarded Quad-Base Brazier	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	437
+3156	1004649	Recipe_Item_lamp_firepot_06_on	Blueprint: Hexagonal Brazier	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	510
+3157	1004650	Recipe_Item_lamp_brazier_02_on	Blueprint: Quad-Base Crown of Thorns Brazier	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	435
+3158	1004651	Recipe_Item_lamp_standtorch_01_on	Blueprint: Tripod Guide Torch	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	436
+3159	1004652	Recipe_Item_lamp_standtorch_02_on	Blueprint: Tripod Guardian Torch	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	435
+3160	1004653	Recipe_Item_gimmick_sotdae_set_0001	Blueprint: Rope Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1026
+3161	1004654	Recipe_Item_gimmick_sotdae_set_0002	Blueprint: Pheasant Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	798
+3162	1004655	Recipe_Item_gimmick_sotdae_set_0003	Blueprint: Four-Way Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	799
+3163	1004656	Recipe_Item_gimmick_sotdae_set_0004	Blueprint: Duck Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	998
+3164	1004657	Recipe_Item_gimmick_sotdae_set_0005	Blueprint: Crow Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	999
+3165	1004658	Recipe_Item_gimmick_sotdae_set_0006	Blueprint: Stone Duck Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1024
+3166	1004659	Recipe_Item_gimmick_sotdae_set_0007	Blueprint: Red-Crowned Crane Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	802
+3167	1004660	Recipe_Item_gimmick_sotdae_set_0008	Blueprint: Stone Nest Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1027
+3168	1004661	Recipe_Item_gimmick_sotdae_set_0009	Blueprint: Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	800
+3169	1004662	Recipe_Item_gimmick_sotdae_set_0010	Blueprint: Twin-Branched Sotdae	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1000
+3170	1004663	Recipe_Item_lamp_streetlamp_03	Blueprint: Wooden Streetlight	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	650
+3171	1004664	Recipe_Item_lamp_streetlamp_03_index01	Blueprint: Red Wooden Streetlight	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	651
+3172	1004665	Recipe_Item_lamp_streetlamp_03_index02	Blueprint: Bright Wooden Streetlight	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	656
+3173	1004666	Recipe_Item_gimmick_lamp_streetlamp_0001	Blueprint: Cold Streetlight	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	651
+3174	1004667	Recipe_Item_gimmick_lamp_streetlamp_0001_index01	Blueprint: Warm Streetlight	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	655
+3175	1004668	Recipe_Item_gimmick_lamp_streetlamp_0001_index02	Blueprint: Soft Streetlight	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	653
+3176	1004669	Recipe_Item_hanger_streetlamp_flowerpot_01	Blueprint: Wooden Gerbera Hanging Planter	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1060
+3177	1004670	Recipe_Item_hanger_streetlamp_flowerpot_02	Blueprint: Wooden Violet Hanging Planter	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1072
+3178	1004671	Recipe_Item_hanger_streetlamp_flowerpot_03	Blueprint: Wooden Purple Gerbera Hanging Planter	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1063
+3179	1004672	Recipe_Item_hanger_streetlamp_flowerpot_04	Blueprint: Redtree Violet Hanging Planter	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1061
+3180	1004673	Recipe_Item_gimmick_tool_FlowerHanger_01	Blueprint: Wooden Pororin Hanging Planter	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1650
+3181	1004674	Recipe_Item_gimmick_tool_FlowerHanger_02	Blueprint: Wooden Florindale Hanging Planter	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1398
+3182	1004675	Recipe_Item_gimmick_well_0001	Blueprint: Wooden Roof Well	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1598
+3183	1004676	Recipe_Item_gimmick_well_0001_index01	Blueprint: Red Wooden Roof Well	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1645
+3184	1004677	Recipe_Item_gimmick_well_0002	Blueprint: Brick Roof Well	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1650
+3185	1004678	Recipe_Item_gimmick_well_0003	Blueprint: Thatched Roof Well	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1400
+3186	1004679	Recipe_Item_gimmick_well_0004	Blueprint: Well	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1264
+3187	1004680	Recipe_Item_gimmick_well_0004_index01	Blueprint: Redsand Well	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1336
+3188	1004681	Recipe_Item_drinkingfountain_01	Blueprint: Brookfield Fountain	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1948
+3189	1004682	Recipe_Item_dpf_fountain_01	Blueprint: Lion Head Fountain	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1945
+3190	1004683	Recipe_Item_dpf_fountain_09	Blueprint: Leaf Fountain	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2988
+3191	1004684	Recipe_Item_dpf_fountain_02	Blueprint: Stone Pagoda Fountain	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2393
+3192	1004685	Recipe_Item_dpf_fountain_02_desert	Blueprint: Redsand Stone Pagoda Fountain	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2456
+3193	1004686	Recipe_Item_dpf_fountain_06	Blueprint: Silent Gazer Fountain	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2061
+3194	1004687	Recipe_Item_fountain_statue_02	Blueprint: Sculpted Fish Fountain	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2632
+3195	1004695	Recipe_Item_catwheel_01	Blueprint: Pororin Cat Wheel	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2404
+3196	1004696	Recipe_Item_catwheel_02	Blueprint: Marni Cat Wheel	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	3003
+3197	1004697	Recipe_Item_Collection_Prop_Automata_0001	Blueprint: Clanging Little Knight	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1648
+3198	1004698	Recipe_Item_Collection_Prop_Automata_0002	Blueprint: Clanging Red Jester	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1715
+3199	1004699	Recipe_Item_Collection_Prop_Automata_0003	Blueprint: Clanging King	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1830
+3200	1004700	Recipe_Item_Collection_Prop_Automata_0004	Blueprint: VZ-O and Z-One	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2064
+3201	1004828	Recipe_Item_gimmick_jukebox_0001	Blueprint: Faust's Music Box	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	3102
+3202	1004701	Recipe_Item_gimmick_in_dpf_carpet_0001	Blueprint: Round Twilight Floral Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	743
+3203	1004702	Recipe_Item_gimmick_in_dpf_carpet_0002	Blueprint: Mist-woven Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	478
+3204	1004703	Recipe_Item_gimmick_in_dpf_carpet_0003	Blueprint: Frost-woven Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	473
+3205	1004704	Recipe_Item_gimmick_in_dpf_carpet_0004	Blueprint: Moonlit Garden Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	759
+3206	1004705	Recipe_Item_gimmick_in_dpf_carpet_0005	Blueprint: Rhombic Vermillion Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	736
+3207	1004706	Recipe_Item_gimmick_in_dpf_carpet_0006	Blueprint: Large Twilight Floral Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1032
+3208	1004707	Recipe_Item_gimmick_in_dpf_carpet_0006_index01	Blueprint: Large Moonlit Garden Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1037
+3209	1004708	Recipe_Item_gimmick_in_dpf_carpet_0007	Blueprint: Large Stone Knotted Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1072
+3210	1004709	Recipe_Item_gimmick_in_dpf_carpet_0008	Blueprint: Sunset Plaid Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1070
+3211	1004710	Recipe_Item_gimmick_in_dpf_carpet_0008_index01	Blueprint: Double Mist-woven Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1058
+3212	1004711	Recipe_Item_gimmick_in_dpf_carpet_0009	Blueprint: Large Rosy Dragonscale Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1256
+3213	1004858	Recipe_Item_gimmick_in_dpf_carpet_0013	Blueprint: Wide Dawndrop Garden Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1327
+3214	1004859	Recipe_Item_gimmick_in_dpf_carpet_0014	Blueprint: Round Wide Mist-woven Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1381
+3215	1004860	Recipe_Item_gimmick_in_dpf_carpet_0015	Blueprint: Wide Multicolor Knotted Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1412
+3216	1004861	Recipe_Item_gimmick_in_dpf_carpet_0016	Blueprint: Round Wide Moonlit Garden Carpet	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1352
 3217	1002785	Item_Stat_AbyssGear_DDD_LV1	Destruction I	abyss-gear	abyss-gear no-discard stackable tier-0	0	633
 3218	1002791	Item_Stat_AbyssGear_CriticalRate_LV1	Insight I	abyss-gear	abyss-gear no-discard stackable tier-0	0	560
 3219	1002810	Item_Stat_AbyssGear_AttackSpeedRate_LV1	Swift I	abyss-gear	abyss-gear no-discard stackable tier-0	0	700
