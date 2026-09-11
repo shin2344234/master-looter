@@ -2127,6 +2127,14 @@ signature in LuxDragon's log: two breaks, no pickup. The rule above covers all
 of them without naming any, which is why it was written that way rather than as
 a list.
 
+Confirmed on Seth's machine the same day. The vein broke, five chunks were
+driven at and answered with nothing, the review named the prefab 1.5 seconds
+later, and the sixth chunk was gathered outright while the five already retired
+came back and were gathered seven seconds after that. Six chunks, nine bismuth
+ore in the bag. The five wasted breaks are the one-time cost of learning the
+prefab, and they are paid again next launch: the list lives for the session
+only.
+
 One margin worth keeping in mind: the answer window is 1500 ms against a
 measured worst case of 130 ms. A vein whose drop somehow took longer than that
 would be gathered as well as broken, which is a double yield, so do not shorten
