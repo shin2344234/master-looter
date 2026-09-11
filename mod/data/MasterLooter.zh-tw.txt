@@ -101,7 +101,7 @@ entity %08X, bag %d of %d slots, %d items across every store	實體 %08X，背�
 Event descriptors	事件描述符
 Extra ore per vein	每條礦脈額外礦石
 failed	失敗
-fast-travel artifact	封印的阿比斯神器
+fast-travel artifact	快速旅行阿比斯神器
 filter classes	篩選類別
 filter tags	篩選標籤
 Filters	篩選條件
