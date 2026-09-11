@@ -18,6 +18,14 @@ namespace ml
         // switch the node answers to; only the game's word buys the long
         // arming reach, since a guess once claimed shop counters and pipework.
         bool tagged = false;
+        // Whether the game will break this node when the mod drives the swing
+        // and the break at it. The row says so itself: a vein carries
+        // SelfForceBreakImpulse or a BreakProjectileKey, and the ore chunks a
+        // vein drops carry neither, because they are picked up. Driving a
+        // break at one of those does nothing at all, which is what made
+        // bismuth look intermittent. A table without the column leaves this
+        // true, so the old behaviour and the learning fallback still apply.
+        bool breaks = true;
     };
 
     namespace NodeDb

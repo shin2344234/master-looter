@@ -8,7 +8,16 @@ and tags what kind of gathering it is, which is exactly what the Plants, Ore,
 Stone and Wood switches need.
 
 Writes mod/data/MasterLooter.nodes.tsv: prefab basename, kind, item string key
-when the name gives one, and the row's own name. The plugin compiles it in.
+when the name gives one, the row's own name, whether the kind came from the
+game's own tag, and whether the node breaks. The plugin compiles it in.
+
+Breakability is read off the row the same way everything else here is. A vein
+carries SelfForceBreakImpulse or BreakProjectileKey; the ore chunks a vein
+drops carry neither, because a player picks those up. The mod drives the swing
+and the break at a vein, and doing that to a chunk does nothing at all, which
+is what made bismuth look intermittent: the vein broke into chunks, the mod
+drove a break at each chunk, and the ore stayed on the ground. Eleven of the
+nodes this table calls ore turn out not to break.
 
 Run after build_item_db.py, which produces the items_tagged.csv this reads.
 """
@@ -222,6 +231,10 @@ def main():
             continue
         stats["with_path"] += 1
         tags = {s for s in ss if s.startswith(("collect", "catch"))}
+        # Does the game break this node, or is it picked up? A vein carries a
+        # self-break impulse or a break projectile; the chunks a vein drops
+        # carry neither. Read from the row own strings, like the tags.
+        breaks = any(s in ("SelfForceBreakImpulse", "BreakProjectileKey") for s in ss)
         base = prefab_key(path)
         kind, vouched = kind_for(tags, name, base)
         if not kind:
@@ -235,26 +248,27 @@ def main():
             stats["with_item"] += 1
         out.append((base, kind, it["string_key"] if it else "",
                     it["name"] if it else pretty(name, kind),
-                    "tag" if vouched else "name"))
+                    "tag" if vouched else "name",
+                    "1" if breaks else "0"))
     out.sort()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
         # src says whether the game's own gimmick tag gave the kind or the
         # generator guessed it from the prefab name. The engine spends the
         # long ore reach only on the ones the game vouches for.
-        f.write("prefab\tkind\titem_key\tname\tsrc\n")
+        f.write("prefab\tkind\titem_key\tname\tsrc\tbreaks\n")
         for r in out:
             f.write("\t".join(r) + "\n")
     kinds = {}
-    for _, k, _, _, _ in out:
+    for _, k, _, _, _, _ in out:
         kinds[k] = kinds.get(k, 0) + 1
     print("gimmick rows %(rows)d, with a prefab path %(with_path)d, "
           "classified by tag %(tagged)d, by name %(by_name)d, item resolved %(with_item)d" % stats)
     print("wrote %d rows to %s" % (len(out), os.path.relpath(OUT, HERE)))
     print("by kind: " + ", ".join("%s %d" % kv for kv in sorted(kinds.items())))
     ore = [r for r in out if r[1] == "ore"]
-    print("ore: %d rows, %d of them vouched for by the game's own tag"
-          % (len(ore), sum(1 for r in ore if r[4] == "tag")))
+    print("ore: %d rows, %d vouched for by the game's own tag, %d that do not break"
+          % (len(ore), sum(1 for r in ore if r[4] == "tag"), sum(1 for r in ore if r[5] == "0")))
 
 
 if __name__ == "__main__":

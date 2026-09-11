@@ -3549,9 +3549,14 @@ namespace ml::loot
                     // tool's bonus, whatever the older comment here said: nothing in the two
                     // events this drives carries a tool, and FINDINGS.md records that no
                     // tool query exists anywhere on the drop path. Issue #31.
+                    // The table answers this for every node the game names: a
+                    // vein carries a break impulse or a break projectile, the
+                    // chunks it drops carry neither. NotAVein is the net under
+                    // that, for a node the table does not know and for anything
+                    // a later game patch changes.
                     const bool breakIt = cfg.breakOre && v.act == Action::Gather && k.nodeType &&
                                          k.nodeType->tagged && KindFromName(k.nodeType->kind) == GatherKind::Ore &&
-                                         !NotAVein(k.node);
+                                         k.nodeType->breaks && !NotAVein(k.node);
                     if (breakIt)
                     {
                         // Drive the game's own state machine at the node: the swing
