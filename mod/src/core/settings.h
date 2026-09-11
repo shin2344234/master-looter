@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <map>
+#include <set>
 #include <mutex>
 #include <string>
 
@@ -153,6 +154,12 @@ namespace ml
         std::map<std::string, int> tagRule;
         // [Items] item key -> 1 always / -1 never.
         std::map<uint32_t, int> itemRule;
+        // Prefabs the game refused to break: an ore node whose chart has no
+        // transition for the break pair, which is what a dropped chunk is.
+        // Learned from the game's own silence, once per prefab, and kept here
+        // so the next launch does not pay the same wasted breaks to find out
+        // again. The engine adds to it; nothing in the menu edits it.
+        std::set<std::string> notVeins;
     };
 
     namespace Settings

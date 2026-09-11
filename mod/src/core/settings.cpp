@@ -239,6 +239,7 @@ namespace ml::Settings
             if (k.empty()) continue;
             if (section == "MasterLooter") ApplyGeneral(c, k, v);
             else if (section == "Classes") c.classRule[k] = atoi(v.c_str()) != 0 ? 1 : 0;
+            else if (section == "NotVeins") { if (atoi(v.c_str()) != 0) c.notVeins.insert(k); }
             else if (section == "Tags") { const int r = atoi(v.c_str()); if (r == 1 || r == -1) c.tagRule[k] = r; }
             else if (section == "Items") { const int r = atoi(v.c_str()); const unsigned long key = strtoul(k.c_str(), nullptr, 10); if (key && (r == 1 || r == -1)) c.itemRule[static_cast<uint32_t>(key)] = r; }
         }
@@ -362,6 +363,13 @@ namespace ml::Settings
         for (const auto& kv : c.tagRule) { s += kv.first; s += kv.second > 0 ? "=1\n" : "=-1\n"; }
         s += "\n; item key -> 1 always loot, -1 never loot (wins over everything)\n[Items]\n";
         for (const auto& kv : c.itemRule) { snprintf(b, sizeof b, "%u=%d\n", kv.first, kv.second); s += b; }
+        if (!c.notVeins.empty())
+        {
+            s += "\n; ore nodes that answered a break with nothing, so the mod gathers them\n"
+                 "; instead. Worked out in play and written here so it is not worked out\n"
+                 "; again every launch. Delete a line to let the mod try breaking it once more.\n[NotVeins]\n";
+            for (const std::string& n : c.notVeins) { s += n; s += "=1\n"; }
+        }
         return s;
     }
 
@@ -461,6 +469,12 @@ namespace ml::Settings
         Clamp(c);
         {
             std::lock_guard<std::recursive_mutex> lk(g_mutex);
+            // What the mod worked out about the world survives a preset swap.
+            // A preset is a set of preferences; which ore nodes refuse to break
+            // is a fact about the game, and a preset saved before any of it was
+            // learned would otherwise throw it away and make the player pay the
+            // wasted breaks again.
+            for (const std::string& n : g_cfg.notVeins) c.notVeins.insert(n);
             g_cfg = c;
             ++g_generation;
         }

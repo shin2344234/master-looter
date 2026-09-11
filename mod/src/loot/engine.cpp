@@ -1403,12 +1403,33 @@ namespace ml::loot
 
     struct DrivenBreak { uint32_t eid; uint64_t key; DWORD when; char node[160]; };
     static std::vector<DrivenBreak> g_drivenBreaks;
-    static std::unordered_set<std::string> g_notVeins;   // prefabs that ignored the pair
     static constexpr DWORD kBreakAnswerMs = 1500;        // a drop lands in a frame or two
+
+    // The answer is kept in the player's own MasterLooter.ini, under
+    // [NotVeins], because it costs a wasted break on every chunk in the first
+    // pile to work out and the answer does not change between launches. It is
+    // learned in play on each player's machine, so no list of prefab names
+    // ships with the mod and a node the next game patch adds is picked up by
+    // whoever mines it first. Prefab names are stable; the type numbers beside
+    // them in the log are not, which is why this is keyed by name.
+    //
+    // Two containers on purpose. This one belongs to the scan thread and is
+    // read on the hot path with no lock. The settings copy is the durable one
+    // and is only touched when something new is learned, under the settings
+    // mutex, because the game thread saves and reloads that file underneath us.
+    static std::unordered_set<std::string> g_notVeins;
 
     static bool NotAVein(const char* node)
     {
         return node && node[0] && g_notVeins.count(node) != 0;
+    }
+
+    // Anything the file already knew, plus anything learned in an earlier pass.
+    // Cheap: a handful of entries, and nothing to do once they are in.
+    static void SeedNotVeins(const Config& cfg)
+    {
+        if (g_notVeins.size() == cfg.notVeins.size()) return;
+        for (const std::string& n : cfg.notVeins) g_notVeins.insert(n);
     }
 
     // Called once a pass. Anything driven longer ago than the answer window is
@@ -1426,11 +1447,17 @@ namespace ml::loot
                 g_searched.erase(b.eid);
                 g_retiredEid.erase(b.eid);
                 g_done.erase(b.key);
-                if (b.node[0] && !g_notVeins.count(b.node))
+                if (b.node[0] && !NotAVein(b.node))
                 {
                     g_notVeins.insert(b.node);
+                    {
+                        std::lock_guard<std::recursive_mutex> lk(Settings::Mutex());
+                        Settings::Get().notVeins.insert(b.node);
+                    }
+                    Settings::MarkDirty();
                     LOG("[break] %s did not answer the break, so it is not a vein: gathering these instead. "
-                        "A vein drops within a frame or two of the swing; this one dropped nothing.", b.node);
+                        "A vein drops within a frame or two of the swing; this one dropped nothing. "
+                        "Written to [NotVeins] in MasterLooter.ini, so it is worked out once and not again.", b.node);
                 }
             }
             g_drivenBreaks.erase(g_drivenBreaks.begin() + static_cast<long>(i));
@@ -2632,6 +2659,7 @@ namespace ml::loot
         // Judge any break driven a second and a half ago before deciding
         // anything this pass: a node that answered with nothing stops being
         // treated as a vein from here on.
+        SeedNotVeins(cfg);
         ReviewBreaks(now);
         LARGE_INTEGER t0, t1, fq; QueryPerformanceCounter(&t0); QueryPerformanceFrequency(&fq);
 
