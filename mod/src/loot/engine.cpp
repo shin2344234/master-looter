@@ -2088,8 +2088,10 @@ namespace ml::loot
         // touching it, and this stands even when Unidentified nodes is on.
         // "equip_openclose" is the helm and cloak the game wants the player to
         // put on themselves; see the verdict's own line for the report behind it.
+        // "gimmick_equip_" is the whole family those two belong to, and the
+        // verdict's line says what taking one of them costs.
         static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle", "woodthorn",
-                                        "equip_openclose" };
+                                        "equip_openclose", "gimmick_equip_" };
         for (const char* w : kWords) if (IStr(node, w)) return true;
         return false;
     }
@@ -2363,6 +2365,23 @@ namespace ml::loot
             // cloak, and both hold an open and shut state the game drives
             // through the interaction. Taking one as loose loot skips that.
             if (IStr(c.node, "equip_openclose")) return skip("take this one by hand, looting it can lock the quest");
+            // Gear that is being worn, which the game keeps in the world as an
+            // object of its own under /00_common/equip/. Taking one hands over a
+            // copy and leaves the original equipped, so the player ends up with
+            // the same sword several times over and a save that says so.
+            // mrbryan23 reported it on the bugs tab on 12 September 2026 with a
+            // picture of the duplicates and the log beside them: two pick-ups of
+            // a Tauria Curved Sword four minutes apart, both from
+            // gimmick_equip_onehandsword. The family is 131 prefabs and the
+            // reporter's three cases are all in it, gimmick_equip_onehandsword,
+            // gimmick_equip_shield and gimmick_equip_hexe_marie_earring.
+            //
+            // Nothing legitimate is lost. Gear that has actually been dropped
+            // reaches the ground as /00_common/item/gimmick_item_basic_equip and
+            // its cousins, which this does not touch; the same log shows a
+            // Hartmann Plate Helm picked up that way in the same minute. The
+            // prefix appears nowhere outside that folder, so it is the folder.
+            if (IStr(c.node, "gimmick_equip_")) return skip("someone is wearing this; taking it would copy it");
             if (IStr(c.node, "mission")) return skip("mission object");
             if (AttachedPart(c.node, c.nodeType)) return skip("part of a creature or a mechanism");
             // Whatever arming refuses, the verdict refuses too. This was a

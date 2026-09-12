@@ -263,6 +263,7 @@ skip: %s
 Small animals	
 small animals off	
 Some world objects carry no readable item name. On: take them anyway. Off: leave anything unidentified.	
+someone is wearing this; taking it would copy it	
 stack at one point (storage contents)	
 Status	
 Stop pets looting	
