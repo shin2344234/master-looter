@@ -22,9 +22,11 @@ nodes this table calls ore turn out not to break.
 Run after build_item_db.py, which produces the items_tagged.csv this reads.
 """
 
+import collections
 import csv
 import os
 import re
+import struct
 import sys
 
 import cdtables
@@ -207,11 +209,75 @@ def kind_for(tags, name, prefab):
     return "", False
 
 
+# --------------------------------------------------------------------- yields
+# What a node can hand over, read out of the gimmick row itself rather than
+# guessed from its name. An item key inside the record wearing one of two
+# four-byte markers immediately in front of it is a drop entry; the markers were
+# found by taking the 131 rows whose yield the name match already answers and
+# asking what sits beside the answer.
+#
+# Two filters, both earned. Keys below 1000 are the currencies, and a u32 holding
+# 1 or 2 turns up all over these records, so Money_Copper was coming back as the
+# yield of half the world. And a handful of real items appear against more than a
+# thousand prefabs each, which is a shared block in the record and not anything
+# those nodes pay: an item that is the yield of everything is the yield of
+# nothing. Anything over BOILERPLATE_AT rows is dropped.
+#
+# Checked against those 131 known rows: 69 sets contain the known item outright,
+# 4 name a different item of the same class (Fine_Stone where the name match said
+# Stone_Quarry, Wild_Insam where it said Possesion_Insam), and 58 come back empty,
+# which is no opinion and costs nothing. 225 prefabs that had no yield at all gain
+# one. The engine only ever uses a set to refuse a node when every item in it is
+# refused, so a spurious entry makes it more willing to touch the node and never
+# less; a missing entry is the risk, which is what the learned [NodeYields] net
+# is still there for.
+MARKERS = (0x01000000, 0xFFFF0000)
+MIN_ITEM_KEY = 1000
+BOILERPLATE_AT = 80
+
+
+def yield_candidates(rec, item_keys):
+    """Item keys in this record that wear a drop marker, in record order."""
+    out = []
+    for off in range(4, len(rec) - 3):
+        v = struct.unpack_from("<I", rec, off)[0]
+        if v not in item_keys:
+            continue
+        if struct.unpack_from("<I", rec, off - 4)[0] not in MARKERS:
+            continue
+        if v not in out:
+            out.append(v)
+    return out
+
+
 def main():
     rows = cdtables.load_table("gimmickinfo")
     by_key, by_name = load_items()
     out, seen = [], set()
-    stats = {"rows": 0, "with_path": 0, "tagged": 0, "by_name": 0, "with_item": 0}
+    stats = {"rows": 0, "with_path": 0, "tagged": 0, "by_name": 0, "with_item": 0, "with_yields": 0}
+
+    # Every row's candidates first, so the boilerplate can be counted before any
+    # of it is written down.
+    # by_key is indexed by string key; the record holds the numeric one.
+    by_num = {}
+    for r in by_key.values():
+        try:
+            by_num[int(r["key"])] = r
+        except (KeyError, ValueError):
+            pass
+    item_keys = set(by_num)
+    cand_by_path, freq = {}, collections.Counter()
+    for _key, rec in rows:
+        c = yield_candidates(rec, item_keys)
+        if not c:
+            continue
+        for v in c:
+            freq[v] += 1
+        for s in (x.decode("ascii", "ignore") for x in re.findall(rb"[ -~]{4,}", rec)):
+            i = s.find(".prefab")
+            if i >= 0:
+                cand_by_path[prefab_key(s[:i + len(".prefab")])] = c
+                break
     for key, rec in rows:
         stats["rows"] += 1
         ss = strings(rec)
@@ -246,24 +312,30 @@ def main():
         it = match_item(name, kind, by_key, by_name)
         if it:
             stats["with_item"] += 1
+        yields = [by_num[v]["string_key"] for v in cand_by_path.get(base, [])
+                  if freq[v] <= BOILERPLATE_AT]
+        if yields:
+            stats["with_yields"] += 1
         out.append((base, kind, it["string_key"] if it else "",
                     it["name"] if it else pretty(name, kind),
                     "tag" if vouched else "name",
-                    "1" if breaks else "0"))
+                    "1" if breaks else "0",
+                    " ".join(yields)))
     out.sort()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
         # src says whether the game's own gimmick tag gave the kind or the
         # generator guessed it from the prefab name. The engine spends the
         # long ore reach only on the ones the game vouches for.
-        f.write("prefab\tkind\titem_key\tname\tsrc\tbreaks\n")
+        f.write("prefab\tkind\titem_key\tname\tsrc\tbreaks\tyields\n")
         for r in out:
             f.write("\t".join(r) + "\n")
     kinds = {}
-    for _, k, _, _, _, _ in out:
+    for _, k, _, _, _, _, _ in out:
         kinds[k] = kinds.get(k, 0) + 1
     print("gimmick rows %(rows)d, with a prefab path %(with_path)d, "
-          "classified by tag %(tagged)d, by name %(by_name)d, item resolved %(with_item)d" % stats)
+          "classified by tag %(tagged)d, by name %(by_name)d, item resolved %(with_item)d, "
+          "drop candidates read %(with_yields)d" % stats)
     print("wrote %d rows to %s" % (len(out), os.path.relpath(OUT, HERE)))
     print("by kind: " + ", ".join("%s %d" % kv for kv in sorted(kinds.items())))
     ore = [r for r in out if r[1] == "ore"]

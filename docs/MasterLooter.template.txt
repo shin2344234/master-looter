@@ -97,7 +97,7 @@ entity %08X
 entity %08X, %d items across every store	
 entity %08X, bag %d of %d slots, %d items across every store	
 Event descriptors	
-Every rock: ore and stone chunks on the ground, veins, boulders, rubble piles and quarry stone. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.\n\nStone used to have a switch of its own and the split never held: the game files most quarry stone under mining, so turning Stone off left it arriving anyway. To keep the ore and leave the stone, refuse the class stone on the Classes tab. That covers Stone, Fine Stone, Flawless Stone and Stalactite, and a quarry rock is then left where it stands. A mining vein is not: the game files as many of them paying a jewel or stone as paying ore, so one is passed over only when ore, jewels and stone are all refused.	
+Every rock: ore and stone chunks on the ground, veins, boulders, rubble piles and quarry stone. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.\n\nStone used to have a switch of its own and the split never held: the game files most quarry stone under mining, so turning Stone off left it arriving anyway. To keep the ore and leave the stone, refuse the class stone on the Classes tab. That covers Stone, Fine Stone, Flawless Stone and Stalactite, and every rock the game says holds nothing else is then left standing, the mine rocks and the stalactites included. A vein that also holds ore or a jewel is still broken, since refusing the stone is not refusing what sits beside it. Where the game describes a node not at all, it takes ore, jewels and stone all being refused before that one is passed over.	
 Extra ore per vein	
 failed	
 fast-travel artifact	
@@ -122,7 +122,7 @@ Gathering
 General	
 Ground items	
 Groups	
-Herb, flower and mushroom nodes, and the same lying on the ground, seeds included. Food crops have their own switch. To keep the herbs and leave the seeds, or the other way round, refuse the class on the Classes tab: herb and seed are separate there. That sorts what is lying on the ground item by item and does not reach the node itself. Only 17 of the 141 plant nodes say what they hold, and those have paid grain and crafting materials as well as herbs, so no class rule can speak for the rest. A plant node answers to this switch alone.	
+Herb, flower and mushroom nodes, and the same lying on the ground, seeds included. Food crops have their own switch. To keep the herbs and leave the seeds, or the other way round, refuse the class on the Classes tab: herb and seed are separate there. That sorts what is lying on the ground item by item, and it reaches the node as well wherever the game says what the node holds: refuse herb and a herb patch is left alone. Plant nodes are a mixed lot, paying grain and crafting materials too, and for the ones the game does not describe this switch is the only control.	
 hold two buttons (Escape cancels)	
 Household clutter and collectibles, most of it worthless.	
 How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.	
@@ -284,7 +284,7 @@ The game removes taken objects with a delay. This stops the same object being se
 The game treats this as stealing and will put a bounty on you.	
 The mod never swings a pickaxe. It drives the vein's own break sequence, and the game walks one drop row for that where a real swing walks two, so your mining tool's bonus pays nothing when the mod does the mining. This adds the missing ore back through the same drop path the game uses, so it is real ore spilled on the ground, not an item copied into your bag. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. It only applies to a vein this mod broke, so mining by hand is untouched and the two cannot stack.	
 This session: %ld picked up, %ld gathered, %ld caught, %ld carcasses	
-Timber and branches on the ground, and the nodes that yield them. Not one of the 378 wood nodes says what it holds, so a class rule reaches the timber lying about and never the node. A wood node answers to this switch alone.	
+Timber and branches on the ground, and the nodes that yield them. What most of these hold is read out of the game data itself, so refusing the class wood on the Classes tab leaves the trees standing as well as the timber under them. Where the game says nothing about a node, this switch is the only control it has.	
 To leave one species alone, set what it becomes to never on the Items tab: Item_Tench, Item_Ricefish, Item_Iguana. The mod reads the creature's own row in the game's character table, so it knows which species it is looking at before it catches anything. A few unusual creatures still fall back to guessing from their model name and are caught by category only.	
 Treasure and keepsakes	
 Two buttons at once, never one: every single button already does something in this game. The mod only reads the pad, so the game still sees both buttons. Pick a pair that does nothing together, like the two shoulder buttons, or Back and a face button.	
@@ -329,4 +329,5 @@ Writes the settings as they are now, named %s.
 yes	
 your rules refuse all ore, jewels and stone	
 your rules refuse all stone	
+your rules refuse everything this node holds	
 yours, just out of your hand	

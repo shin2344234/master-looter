@@ -94,7 +94,8 @@ def from_engine(path):
     for pat in (r"\bskip\(\s*\"((?:[^\"\\]|\\.)*)\"",
                 r"v\.why\s*=\s*\"((?:[^\"\\]|\\.)*)\"",
                 r"\?\s*nullptr\s*:\s*\"((?:[^\"\\]|\\.)*)\"",
-                r"GatherKind::\w+\s*,\s*\"((?:[^\"\\]|\\.)*)\""):
+                r"GatherKind::\w+\s*,\s*\"((?:[^\"\\]|\\.)*)\"",
+                r"kReason_\w+\s*=\s*\"((?:[^\"\\]|\\.)*)\""):
         out |= set(re.findall(pat, s))
     # what Label() falls back to when an object has no name of its own
     for word in ("corpse", "creature", "object", "entity", "gather node"):

@@ -159,6 +159,14 @@ namespace ml
         // so the next launch does not pay the same wasted breaks to find out
         // again. The engine adds to it; nothing in the menu edits it.
         std::set<std::string> notVeins;
+        // What a gather node turned out to hold: prefab path -> item string key,
+        // learned from the spill of a break the mod drove. The node table names
+        // a yield for only 131 of its 966 prefabs, and without one no item rule
+        // can reach the node, so a player who had refused the class stone still
+        // watched the mod break a rock for it. This fills the gap in as the
+        // nodes are met, once per prefab ever. The engine adds to it; nothing in
+        // the menu edits it.
+        std::map<std::string, std::string> nodeYields;
     };
 
     namespace Settings

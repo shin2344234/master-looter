@@ -248,6 +248,7 @@ namespace ml::Settings
             if (section == "MasterLooter") ApplyGeneral(c, k, v);
             else if (section == "Classes") c.classRule[k] = atoi(v.c_str()) != 0 ? 1 : 0;
             else if (section == "NotVeins") { if (atoi(v.c_str()) != 0) c.notVeins.insert(k); }
+            else if (section == "NodeYields") { if (!v.empty()) c.nodeYields[k] = v; }
             else if (section == "Tags") { const int r = atoi(v.c_str()); if (r == 1 || r == -1) c.tagRule[k] = r; }
             else if (section == "Items") { const int r = atoi(v.c_str()); const unsigned long key = strtoul(k.c_str(), nullptr, 10); if (key && (r == 1 || r == -1)) c.itemRule[static_cast<uint32_t>(key)] = r; }
         }
@@ -417,6 +418,14 @@ namespace ml::Settings
                  "; again every launch. Delete a line to let the mod try breaking it once more.\n[NotVeins]\n";
             for (const std::string& n : c.notVeins) { s += n; s += "=1\n"; }
         }
+        if (!c.nodeYields.empty())
+        {
+            s += "\n; what a gather node turned out to hold, learned from what fell out of it.\n"
+                 "; The node table names a yield for 131 of its prefabs and the item rules can\n"
+                 "; only reach a node that has one, so the rest are filled in here as they are\n"
+                 "; met. Delete a line to have the mod work that one out again.\n[NodeYields]\n";
+            for (const auto& kv : c.nodeYields) { s += kv.first; s += "="; s += kv.second; s += "\n"; }
+        }
         return s;
     }
 
@@ -528,6 +537,7 @@ namespace ml::Settings
             // learned would otherwise throw it away and make the player pay the
             // wasted breaks again.
             for (const std::string& n : g_cfg.notVeins) c.notVeins.insert(n);
+            for (const auto& kv : g_cfg.nodeYields) c.nodeYields.insert(kv);
             g_cfg = c;
             ++g_generation;
         }

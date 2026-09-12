@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 namespace ml
 {
@@ -26,6 +27,16 @@ namespace ml
         // bismuth look intermittent. A table without the column leaves this
         // true, so the old behaviour and the learning fallback still apply.
         bool breaks = true;
+        // Everything the gimmick row says this node can hand over, as item
+        // string keys. The itemKey above is one item the generator could name
+        // from the prefab, and 835 of the 966 rows have none; this is read out
+        // of the row's own drop entries instead and covers 302 of them.
+        //
+        // It is a set of possibilities, not a promise of one item, so the only
+        // safe use is refusing a node when the rules refuse every entry. A
+        // spurious entry then makes the mod more willing to touch the node, and
+        // a missing one is what the learned [NodeYields] net covers.
+        std::vector<std::string> yields;
     };
 
     namespace NodeDb

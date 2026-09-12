@@ -50,12 +50,12 @@ namespace ml::NodeDb
             const std::string line = text.substr(pos, nl - pos);
             pos = nl + 1;
             if (header) { header = false; continue; }
-            // Six columns now. A five-column table still loads and every node
-            // in it is assumed breakable, which is what the mod did before the
-            // column existed; a four-column one also loads, with every row
-            // counting as a guess.
-            std::string cols[6]; int c = 0;
-            for (const char* p = line.c_str(); *p && c < 6; ++p)
+            // Seven columns now. A six-column table still loads and no node in
+            // it says what it can hand over, a five-column one has every node
+            // breakable, which is what the mod did before that column existed,
+            // and a four-column one counts every row as a guess.
+            std::string cols[7]; int c = 0;
+            for (const char* p = line.c_str(); *p && c < 7; ++p)
             {
                 if (*p == '\t') { ++c; continue; }
                 if (*p == '\r' || *p == '\n') break;
@@ -66,6 +66,16 @@ namespace ml::NodeDb
             n.prefab = cols[0]; n.kind = cols[1]; n.itemKey = cols[2]; n.name = cols[3];
             n.tagged = cols[4] == "tag";
             n.breaks = c < 5 || cols[5] != "0";
+            if (c >= 6 && !cols[6].empty())
+            {
+                std::string one;
+                for (char ch : cols[6])
+                {
+                    if (ch == ' ') { if (!one.empty()) { n.yields.push_back(one); one.clear(); } continue; }
+                    one += ch;
+                }
+                if (!one.empty()) n.yields.push_back(one);
+            }
             g_byPrefab[n.prefab] = g_rows.size();
             g_rows.push_back(std::move(n));
         }

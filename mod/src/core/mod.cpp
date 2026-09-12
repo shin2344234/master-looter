@@ -213,7 +213,31 @@ namespace ml::Mod
         // game itself: this plugin gets loaded by other processes too, and one
         // of those must not truncate a real session's log.
         if (HostIsGame()) Log::Claim();
-        LOG("Master Looter v%s for Crimson Desert %s starting (built %s %s).", ML_VERSION, ML_GAME_BUILD, __DATE__, __TIME__);
+        // The plugin's own file time, not __DATE__ and __TIME__ alone. Those are
+        // baked into this file's object and only move when this file recompiles,
+        // so a build that changed only the loot engine reported the previous
+        // build's time and read in the log as the wrong plugin entirely. The file
+        // time is the thing to hold up against mod\dist, and the question "is the
+        // game running what I just staged" is asked in this project constantly.
+        char stamp[64] = "";
+        {
+            wchar_t self[MAX_PATH] = L"";
+            FILETIME ft{}; SYSTEMTIME st{};
+            if (GetModuleFileNameW(module, self, MAX_PATH))
+            {
+                const HANDLE h = CreateFileW(self, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                                             nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+                if (h != INVALID_HANDLE_VALUE)
+                {
+                    if (GetFileTime(h, nullptr, nullptr, &ft) && FileTimeToLocalFileTime(&ft, &ft) &&
+                        FileTimeToSystemTime(&ft, &st))
+                        snprintf(stamp, sizeof stamp, ", file written %04d-%02d-%02d %02d:%02d:%02d",
+                                 st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+                    CloseHandle(h);
+                }
+            }
+        }
+        LOG("Master Looter v%s for Crimson Desert %s starting (built %s %s%s).", ML_VERSION, ML_GAME_BUILD, __DATE__, __TIME__, stamp);
         g_self = module;
         g_prevFilter = SetUnhandledExceptionFilter(&LastChance);
         AddVectoredExceptionHandler(1 /* first */, &FirstChance);

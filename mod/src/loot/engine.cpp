@@ -1270,14 +1270,34 @@ namespace ml::loot
         return GatherKind::Unknown;
     }
 
+    // What a node turned out to hold, learned from the spill of a break the mod
+    // drove and kept in the player's own ini. The table names a yield for 131 of
+    // its 966 prefabs and an item rule can only reach a node that has one, so
+    // this is how the other 835 come to have one. Keyed by prefab path, the way
+    // [NotVeins] is, because a node that has not filled has no type id to key on
+    // and the path is known from the first sighting.
+    static std::unordered_map<std::string, std::string> g_nodeYield;
+    static void SeedNodeYields(const Config& cfg)
+    {
+        if (g_nodeYield.size() == cfg.nodeYields.size()) return;
+        for (const auto& kv : cfg.nodeYields) g_nodeYield.emplace(kv.first, kv.second);
+    }
+    static const Item* LearnedNodeYield(const char* node)
+    {
+        if (!node || !node[0]) return nullptr;
+        const auto it = g_nodeYield.find(node);
+        return it == g_nodeYield.end() ? nullptr : ItemDb::ByStringKey(it->second.c_str());
+    }
+
     // What a gather node hands over, when anything says so. The prefab table
-    // names the item for the nodes whose socket and item share a name; the
-    // rest are known only by kind, and a bag diff may have caught one earlier
-    // in this session.
+    // names the item for the nodes whose socket and item share a name; then what
+    // a node of this prefab was watched paying out, in this session or an earlier
+    // one; then a bag diff against the node's type id.
     static const Item* NodeYield(const Cand& c)
     {
         if (c.nodeType && !c.nodeType->itemKey.empty())
             if (const Item* it = ItemDb::ByStringKey(c.nodeType->itemKey.c_str())) return it;
+        if (const Item* it = LearnedNodeYield(c.node)) return it;
         return LearnedYield(c.gtid);
     }
 
@@ -1485,6 +1505,37 @@ namespace ml::loot
     {
         const int i = static_cast<int>(kind);
         return (i >= 0 && i < kGatherKinds) ? g_kindRefusal[i] : nullptr;
+    }
+
+    // Everything this node can hand over, refused. The node table reads the drop
+    // entries out of the game's own gimmick row, so for 302 of its 966 prefabs
+    // there is a real list to ask about rather than a guess from the kind's name.
+    //
+    // A list is a set of possibilities and not a promise, so this only ever
+    // refuses when the rules refuse the whole set. An entry that does not belong
+    // there makes the mod more willing to touch the node; a missing one is what
+    // the learned [NodeYields] net covers. And one entry the item database cannot
+    // name means the set cannot be judged at all, so nothing is refused.
+    //
+    // This is the answer to a rock that broke and paid nothing anyone wanted.
+    // gimmick_collect_her_rock_b_0005 names no single yield and its kind is ore,
+    // so with the class stone refused and ore allowed the mod broke it, and the
+    // stone it spilled was refused where it lay. The row says it holds Stone,
+    // Fine Stone and Flawless Stone and nothing else, which settles it before the
+    // first swing rather than after it.
+    // Named, so the translation template's collector can find a reason that
+    // reaches skip() through a variable rather than as a literal argument.
+    static const char* const kReason_NodeAllRefused = "your rules refuse everything this node holds";
+    static const char* TableYieldRefused(const Cand& c, const Config& cfg)
+    {
+        if (!c.nodeType || c.nodeType->yields.empty()) return nullptr;
+        for (const std::string& key : c.nodeType->yields)
+        {
+            const Item* it = ItemDb::ByStringKey(key.c_str());
+            if (!it) return nullptr;
+            if (Rules::Decide(*it, cfg).loot) return nullptr;
+        }
+        return kReason_NodeAllRefused;
     }
 
     // An object gets up to four attempts, each waiting longer than the last
@@ -1789,6 +1840,85 @@ namespace ml::loot
         auto it = g_firstSeen.find(eid);
         if (it == g_firstSeen.end()) { g_firstSeen[eid] = now; return 0; }
         return now - it->second;
+    }
+
+    // Watching what a break pays out, so the node can be judged by its own
+    // contents next time instead of by the switch its kind happens to answer to.
+    //
+    // symplexity's report is the case that earned this.
+    // gimmick_collect_her_rock_b_0005 is filed as ore with no named yield, so
+    // refusing the class stone left the Ore and stone switch deciding on its own:
+    // the mod broke the rock, the stone it spilled was refused where it lay, and
+    // the rock was gone for nothing. Write down what fell out and the verdict
+    // refuses the node itself from the next one onwards.
+    //
+    // Three guards, because a wrong entry here is permanent. The game's own drop
+    // event has to have fired for that node, so we know it really paid out. The
+    // item has to be within the spill radius and first seen after the swing, so
+    // something that was already lying there says nothing. And two different
+    // items in one spill abandon the attempt rather than pick one.
+    struct SpillWatch { char node[160]; Vec3 p; DWORD when; uint32_t eid; char yield[80]; bool mixed; };
+    static std::vector<SpillWatch> g_spillWatch;
+    static constexpr DWORD kSpillWatchMs = 6000;
+
+    static void WatchSpill(const char* node, const Vec3& p, uint32_t eid, DWORD now)
+    {
+        if (!node || !node[0] || g_nodeYield.count(node)) return;
+        if (g_spillWatch.size() >= 16) g_spillWatch.erase(g_spillWatch.begin());
+        SpillWatch w{};
+        snprintf(w.node, sizeof w.node, "%s", node);
+        w.p = p; w.when = now; w.eid = eid;
+        g_spillWatch.push_back(w);
+    }
+
+    // A break already being watched answers for its whole prefab, so the next
+    // rock of the same kind waits rather than being broken for the same lesson.
+    // Seth's run broke three in the six seconds before the first answer landed.
+    static bool WatchingSpillFor(const char* node, DWORD now)
+    {
+        if (!node || !node[0]) return false;
+        for (const SpillWatch& w : g_spillWatch)
+            if (now - w.when <= kSpillWatchMs && strcmp(w.node, node) == 0) return true;
+        return false;
+    }
+
+    static void NoteSpill(const Cand& c, DWORD now)
+    {
+        if (!c.item || !c.db || c.db->stringKey.empty() || g_spillWatch.empty()) return;
+        const DWORD age = AgeMs(c.eid, now);
+        for (SpillWatch& w : g_spillWatch)
+        {
+            if (now - w.when > kSpillWatchMs) continue;
+            if (age > now - w.when) continue;             // it was there before the swing
+            const float dx = w.p.x - c.pos.x, dy = w.p.y - c.pos.y, dz = w.p.z - c.pos.z;
+            if (dx * dx + dy * dy + dz * dz >= kBrokeRadius2) continue;
+            if (!w.yield[0]) snprintf(w.yield, sizeof w.yield, "%s", c.db->stringKey.c_str());
+            else if (c.db->stringKey != w.yield) w.mixed = true;
+        }
+    }
+
+    static void ReviewSpills(DWORD now)
+    {
+        for (size_t i = 0; i < g_spillWatch.size();)
+        {
+            SpillWatch& w = g_spillWatch[i];
+            if (now - w.when < kSpillWatchMs) { ++i; continue; }
+            if (w.yield[0] && !w.mixed && SawDropFor(w.eid) && !g_nodeYield.count(w.node))
+            {
+                g_nodeYield[w.node] = w.yield;
+                {
+                    std::lock_guard<std::recursive_mutex> lk(Settings::Mutex());
+                    Settings::Get().nodeYields[w.node] = w.yield;
+                }
+                Settings::MarkDirty();
+                const Item* it = ItemDb::ByStringKey(w.yield);
+                LOG("[learn] %s holds %s (%s), from what fell out of it. Your class, tag and item "
+                    "rules reach this kind of node from now on, and it is in [NodeYields] in "
+                    "MasterLooter.ini so it is worked out once and not again.",
+                    w.node, it ? it->Label() : w.yield, it ? it->klass.c_str() : "?");
+            }
+            g_spillWatch.erase(g_spillWatch.begin() + static_cast<long>(i));
+        }
     }
 
     static bool IStr(const char* hay, const char* needle)
@@ -2412,10 +2542,14 @@ namespace ml::loot
                 if (!r.loot) { snprintf(v.detail, sizeof v.detail, "%s", r.detail.c_str()); v.loot = false; v.why = r.rule; return v; }
             }
             // And a node that names nothing it holds has no item rule to be
-            // asked about it at all, so ask its kind, or a class the player
-            // refused reaches the bag through the node it came out of.
+            // asked about it at all. Ask what the gimmick row says it can hand
+            // over, then fall back on its kind, or a class the player refused
+            // reaches the bag through the node it came out of.
             if (!yield)
+            {
+                if (const char* none = TableYieldRefused(c, cfg)) return skip(none);
                 if (const char* none = KindRefused(kind)) return skip(none);
+            }
             break;
         }
         default:
@@ -3020,7 +3154,9 @@ namespace ml::loot
         // anything this pass: a node that answered with nothing stops being
         // treated as a vein from here on.
         SeedNotVeins(cfg);
+        SeedNodeYields(cfg);
         ReviewBreaks(now);
+        ReviewSpills(now);
         LARGE_INTEGER t0, t1, fq; QueryPerformanceCounter(&t0); QueryPerformanceFrequency(&fq);
 
         const uintptr_t mgr = game::ActorManager();
@@ -3425,6 +3561,11 @@ namespace ml::loot
                 s_droppedRun += events::DropPending();
                 g_actorEid.clear();
                 g_seen.clear();
+                // A spill watch is a place and a moment in the world that has
+                // just gone. Whatever lies at those coordinates in the new one
+                // is not what that rock paid, and a wrong entry here is written
+                // to the ini for good.
+                g_spillWatch.clear();
                 // The bag that comes back after this is not the bag we sampled.
                 InvalidateBagBaseline();
                 // A well run is the fourth holder of a raw component pointer and
@@ -3646,6 +3787,10 @@ namespace ml::loot
             if (around >= 3 && !(list[i].item && NearOwnBreak(list[i].pos, now))) list[i].heap = true;
         }
 
+        // Anything the mod broke a moment ago is being watched for what it paid,
+        // and this is where a loose item on the ground is seen at all.
+        if (!g_spillWatch.empty()) for (const Cand& k : list) if (k.filled) NoteSpill(k, now);
+
         // Decide, publish, and act.
         std::vector<Nearby> nearby;
         int lootable = 0, listed = 0;
@@ -3749,7 +3894,7 @@ namespace ml::loot
                     {
                         if (!Rules::Decide(*armYield, cfg).loot) continue;
                     }
-                    else if (KindRefused(armKind)) continue;
+                    else if (TableYieldRefused(k, cfg) || KindRefused(armKind)) continue;
                     // Ore answers slowly and is therefore reached for sooner. Known from
                     // the prefab table, before anything is asked of the game.
                     const bool oreNode = k.nodeType && KindFromName(k.nodeType->kind) == GatherKind::Ore;
@@ -3931,6 +4076,9 @@ namespace ml::loot
                     const bool breakIt = cfg.breakOre && v.act == Action::Gather && k.nodeType &&
                                          k.nodeType->tagged && KindFromName(k.nodeType->kind) == GatherKind::Ore &&
                                          k.nodeType->breaks && !NotAVein(k.node);
+                    // One of a kind at a time while its answer is still coming.
+                    if (breakIt && !NodeYield(k) && WatchingSpillFor(k.node, now) &&
+                        held("waiting to see what the last one of these paid")) continue;
                     if (breakIt)
                     {
                         // Drive the game's own state machine at the node: the swing
@@ -3962,8 +4110,11 @@ namespace ml::loot
                         snprintf(rec.node, sizeof rec.node, "%s", k.node);
                         g_drivenBreaks.push_back(rec);
                         // What falls out lands here. NearOwnBreak reads this so the
-                        // spill is not mistaken for the contents of a container.
+                        // spill is not mistaken for the contents of a container,
+                        // and WatchSpill reads it to find out what this prefab
+                        // actually holds when the table does not say.
                         BrokeMark(k.pos, now);
+                        if (!NodeYield(k)) WatchSpill(k.node, k.pos, k.eid, now);
                         if (g_debugLog)
                         {
                             if (g_brokeWatch.size() > 64) g_brokeWatch.clear();
