@@ -27,6 +27,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 STATE = os.path.join(REPO, "private", "watch-state.json")
 MOD = "https://www.nexusmods.com/crimsondesert/mods/3402"
+GLINT = "https://www.nexusmods.com/crimsondesert/mods/3472"
+# (state suffix, line prefix, page). Master Looter keeps the bare "posts" and
+# "bugs" state keys it has always had, so a state file written before Glint
+# Spotter was added still reads and nothing is replayed. Anything from the
+# second board is prefixed, because it belongs to a different piece of work and
+# is meant to be handed straight over rather than acted on here.
+BOARDS = [("", "", MOD), ("_glint", "glint ", GLINT)]
 GH = "shin2344234/master-looter"
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/128 Safari/537.36"
 INTERVAL = 600
@@ -54,9 +61,9 @@ def clean(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
-def posts():
+def posts(page=MOD):
     """{comment id: (author, date, text)} for page one of the posts tab."""
-    h = fetch(MOD + "?tab=posts")
+    h = fetch(page + "?tab=posts")
     out = {}
     for m in re.finditer(r'id="comment-(\d+)"(.*?)<ul class="comment-inline', h, re.S):
         cid, body = m.group(1), m.group(2)
@@ -67,9 +74,9 @@ def posts():
     return out
 
 
-def bugs():
+def bugs(page=MOD):
     """{issue id: (title, status)} for the bugs tab."""
-    h = fetch(MOD + "?tab=bugs")
+    h = fetch(page + "?tab=bugs")
     out = {}
     for m in re.finditer(r'id="issue_(\d+)"(.*?)</tr>', h, re.S):
         iid, body = m.group(1), m.group(2)
@@ -167,37 +174,45 @@ def once(st):
     now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     seeded = bool(st)
     fails = st.setdefault("fails", {})
-    try:
-        p = posts()
-        seen = set(st.get("posts", []))
-        for cid, (a, d, t) in p.items():
-            # Seth's own replies are not news; the watch exists for everyone else.
-            if seeded and cid not in seen and a != "shin234":
-                lines.append("nexus post: %s, %s: %s" % (a, d, t))
-        st["posts"] = sorted(seen | set(p))[-400:]
-    except Exception as e:  # a failed fetch is not news until it keeps failing
-        fails["posts"] = fails.get("posts", 0) + 1
-        if fails["posts"] == 3:
-            lines.append("watch: posts fetch has failed three passes running: %s" % e)
-    else:
-        fails["posts"] = 0
-    try:
-        b = bugs()
-        old = st.get("bugs", {})
-        for iid, (t, s) in b.items():
-            if not seeded:
-                continue
-            if iid not in old:
-                lines.append("nexus bug: new row %s [%s]: %s" % (iid, s, t))
-            elif old[iid][1] != s:
-                lines.append("nexus bug: %s now %s (was %s): %s" % (iid, s, old[iid][1], t))
-        st["bugs"] = {k: list(v) for k, v in b.items()}
-    except Exception as e:
-        fails["bugs"] = fails.get("bugs", 0) + 1
-        if fails["bugs"] == 3:
-            lines.append("watch: bugs fetch has failed three passes running: %s" % e)
-    else:
-        fails["bugs"] = 0
+    for suffix, tag, page in BOARDS:
+        pk, bk = "posts" + suffix, "bugs" + suffix
+        # A board added after the state file was written seeds itself quietly on
+        # its first pass, whatever the file says about the others.
+        fresh = pk not in st
+        try:
+            p = posts(page)
+            seen = set(st.get(pk, []))
+            for cid, (a, d, t) in p.items():
+                # Seth's own replies are not news; the watch exists for everyone else.
+                if seeded and not fresh and cid not in seen and a != "shin234":
+                    lines.append("%snexus post: %s, %s: %s" % (tag, a, d, t))
+            st[pk] = sorted(seen | set(p))[-400:]
+        except Exception as e:  # a failed fetch is not news until it keeps failing
+            fails[pk] = fails.get(pk, 0) + 1
+            if fails[pk] == 3:
+                lines.append("%swatch: posts fetch has failed three passes running: %s" % (tag, e))
+        else:
+            fails[pk] = 0
+        try:
+            b = bugs(page)
+            old = st.get(bk, {})
+            for iid, (t, s) in b.items():
+                if not seeded or fresh:
+                    continue
+                if iid not in old:
+                    lines.append("%snexus bug: new row %s [%s]: %s" % (tag, iid, s, t))
+                elif old[iid][1] != s:
+                    lines.append("%snexus bug: %s now %s (was %s): %s" % (tag, iid, s, old[iid][1], t))
+            st[bk] = {k: list(v) for k, v in b.items()}
+        except Exception as e:
+            fails[bk] = fails.get(bk, 0) + 1
+            if fails[bk] == 3:
+                lines.append("%swatch: bugs fetch has failed three passes running: %s" % (tag, e))
+        else:
+            fails[bk] = 0
+        if fresh and seeded:
+            lines.append("%swatch: seeded with %d comments and %d bug rows" % (
+                tag, len(st.get(pk, [])), len(st.get(bk, {}))))
     since = st.get("github_since")
     if since:
         lines.extend(github(since))

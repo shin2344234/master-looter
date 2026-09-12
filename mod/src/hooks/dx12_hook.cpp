@@ -1444,8 +1444,28 @@ namespace ml::hooks
         }
         if (!IsSystemOwner(mod))
         {
-            LOG("[hook] %s @ %p in %s (%s), which is not a system DLL: another mod owns it, so this one is left alone", what, addr, mod, bytes);
-            return false;
+            // A proxy does not have to be named after the library it replaces.
+            // The stacking allowance below was written for OptiScaler, DLSS
+            // Enabler and ReShade installed as dxgi.dll, and it sits behind this
+            // test, which knows three names. susemi325's 1.6.14 log on 12
+            // September 2026 has OptiScaler loaded as VERSION.dll with Present
+            // and Present1 both inside it, so the call was refused here, a check
+            // earlier than the one the retry relaxes. The retry ran, said it was
+            // trying with a proxy allowed, and changed nothing: three mods deep
+            // and the menu still dark, with the reason sitting in the log in
+            // plain words that named the wrong rule.
+            //
+            // allowProxy is set for the present calls and nothing else, so
+            // ExecuteCommandLists is still refused by name here, which is where
+            // issue 34 was earned.
+            if (!allowProxy)
+            {
+                LOG("[hook] %s @ %p in %s (%s), which is not a system DLL: another mod owns it, so this one is left alone", what, addr, mod, bytes);
+                return false;
+            }
+            LOG("[hook] %s @ %p in %s (%s) belongs to another mod outright, and it owns every present call there is: "
+                "stacking on it, because the alternative is a menu that never draws", what, addr, mod, bytes);
+            return true;
         }
         // Right name, wrong place. A dxgi.dll that lives beside the game is a
         // proxy some other mod installed, and detouring it is detouring them.
