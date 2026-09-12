@@ -1858,7 +1858,10 @@ namespace ml::loot
         // volume that hurts the player stays, which left the Duskwood pillar
         // puzzle unfinishable. It holds nothing, so nothing is lost by never
         // touching it, and this stands even when Unidentified nodes is on.
-        static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle", "woodthorn" };
+        // "equip_openclose" is the helm and cloak the game wants the player to
+        // put on themselves; see the verdict's own line for the report behind it.
+        static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle", "woodthorn",
+                                        "equip_openclose" };
         for (const char* w : kWords) if (IStr(node, w)) return true;
         return false;
     }
@@ -2120,6 +2123,18 @@ namespace ml::loot
         {
             if (IStr(c.node, "visione") || IStr(c.node, "quest") || IStr(c.node, "artifact")) return skip("quest or memory trigger");
             if (IStr(c.node, "abyssruins")) return skip("fast-travel artifact");
+            // A piece of gear the game wants worn, not pocketed. LuxDragon on
+            // Discord, 11 September 2026: Beloth, the Darksworn's helmet has to
+            // be taken by hand or the fight can soft lock and the only way out
+            // is an older save. His log names it: Ferman Plate Helm, no parent,
+            // from gimmick_equip_openclose_helm. The item itself is an ordinary
+            // tier-2 helm carrying no flag at all, so nothing on the Classes or
+            // Tags tabs could ever have caught it; the prefab is the only thing
+            // that says this one is different. Two prefabs in the whole of
+            // gimmickinfo's 13,906 rows are built this way, the helm and the
+            // cloak, and both hold an open and shut state the game drives
+            // through the interaction. Taking one as loose loot skips that.
+            if (IStr(c.node, "equip_openclose")) return skip("take this one by hand, looting it can lock the quest");
             if (IStr(c.node, "mission")) return skip("mission object");
             if (AttachedPart(c.node, c.nodeType)) return skip("part of a creature or a mechanism");
             // Whatever arming refuses, the verdict refuses too. This was a
