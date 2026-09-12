@@ -79,6 +79,14 @@ Write-Host ("Version $Version, from version.h") -ForegroundColor Cyan
 # The changelog endpoint appends rather than replaces, so a second run for one
 # version posts the text twice. Check what is already up there and refuse
 # rather than leave a duplicated page to clean up by hand.
+# The two ids from nexus-ids.py, in one place. They were written out twice,
+# once in the duplicate check and once in the arguments, which is one edit away
+# from a release attaching itself to the wrong file entry.
+$ids = @{
+    FileId = '7932777'          # the active "MasterLooter ... DMM" entry
+    ModId  = '38521561681226'   # the v3 mod id, not the 3402 in the page URL
+}
+
 if ($Apply) {
     $key = $env:NEXUS_API_KEY
     if ([string]::IsNullOrWhiteSpace($key)) {
@@ -94,7 +102,7 @@ if ($Apply) {
     }
     if (-not [string]::IsNullOrWhiteSpace($key)) {
         try {
-            $existing = Invoke-RestMethod -Uri 'https://api.nexusmods.com/v3/mod-files/7932777/versions' `
+            $existing = Invoke-RestMethod -Uri "https://api.nexusmods.com/v3/mod-files/$($ids.FileId)/versions" `
                                           -Headers @{ 'apikey' = $key } -Method Get
             $already = $existing.data.versions | Where-Object { $_.version -eq $Version }
             if ($already) {
@@ -104,16 +112,16 @@ if ($Apply) {
                 Write-Host "Nothing was sent. Bump version.h and rebuild, or pass -Version for a different one." -ForegroundColor Red
                 exit 1
             }
-        } catch [System.Net.WebException] {
-            Write-Warning "Could not check what is already published; continuing."
+        } catch {
+            Write-Warning ("Could not check what is already published ({0}); continuing." -f $_.Exception.Message)
         }
     }
 }
 
 $args = @{
     FilePath                  = $archive
-    FileId                    = '7932777'
-    ModId                     = '38521561681226'
+    FileId                    = $ids.FileId
+    ModId                     = $ids.ModId
     Version                   = $Version
     DisplayName               = ("MasterLooter {0} DMM" -f $Version)
     ChangelogPath             = $changelog

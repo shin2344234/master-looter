@@ -8,10 +8,13 @@ as it is: two or three plain lines saying what changed, then the Nexus files
 page and the GitHub release. Write that file first and run prose_check.py on
 it; the script refuses without it, and refuses if either link is missing.
 
-Needs DISCORD_RELEASES_WEBHOOK, a webhook for the mod-releases channel, in
-the environment or in keys.local.env beside this script, the same file the
-Nexus and VirusTotal scripts read. Server settings, Integrations, Webhooks.
-The webhook posts as itself, so name it there.
+Posts as the bot, using DISCORD_BOT_TOKEN from the environment or from
+keys.local.env beside this script, the same file the Nexus and VirusTotal
+scripts read. It was written against a webhook that this project has never
+had, which is why every announcement so far has gone out by hand.
+
+The channel is mod-releases, and its id is below rather than in the key file
+because a channel id is not a secret. DISCORD_RELEASES_CHANNEL overrides it.
 
 Refuses to post a version twice: a marker is written under private/discord
 after a successful post and checked before the next one.
@@ -29,17 +32,18 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 KEYFILE = os.path.join(HERE, "keys.local.env")
 NEXUS_FILES = "https://www.nexusmods.com/crimsondesert/mods/3402?tab=files"
 GITHUB_RELEASE = "https://github.com/shin2344234/master-looter/releases/tag/v%s"
+RELEASES_CHANNEL = "1547305058922668072"   # mod-releases
 LIMIT = 1900
 
 
-def webhook():
-    url = os.environ.get("DISCORD_RELEASES_WEBHOOK", "").strip()
-    if not url and os.path.exists(KEYFILE):
+def from_keys(name):
+    v = os.environ.get(name, "").strip()
+    if not v and os.path.exists(KEYFILE):
         for line in open(KEYFILE, encoding="utf-8"):
             line = line.strip()
-            if line.startswith("DISCORD_RELEASES_WEBHOOK="):
-                url = line.split("=", 1)[1].strip().strip('"')
-    return url
+            if line.startswith(name + "="):
+                v = line.split("=", 1)[1].strip().strip('"').strip("'")
+    return v
 
 
 def version():
@@ -62,9 +66,12 @@ def chunks(paras):
     return out
 
 
-def post(url, content):
+def post(token, channel, content):
+    url = "https://discord.com/api/v10/channels/%s/messages" % channel
     req = urllib.request.Request(url, data=json.dumps({"content": content}).encode("utf-8"),
-                                 headers={"Content-Type": "application/json", "User-Agent": "MasterLooter-announce"})
+                                 headers={"Content-Type": "application/json",
+                                          "Authorization": "Bot " + token,
+                                          "User-Agent": "MasterLooter-announce"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return r.status
 
@@ -100,12 +107,13 @@ def main():
     if not args.apply:
         print("\nREPORT ONLY - nothing was sent. Re-run with --apply to post.")
         return 0
-    url = webhook()
-    if not url:
-        print("No DISCORD_RELEASES_WEBHOOK in the environment or keys.local.env.")
+    token = from_keys("DISCORD_BOT_TOKEN")
+    if not token:
+        print("No DISCORD_BOT_TOKEN in the environment or keys.local.env.")
         return 2
+    channel = from_keys("DISCORD_RELEASES_CHANNEL") or RELEASES_CHANNEL
     for m in messages:
-        post(url, m)
+        post(token, channel, m)
     os.makedirs(os.path.dirname(marker), exist_ok=True)
     open(marker, "w").write("posted\n")
     print("\nPosted %d messages for %s." % (len(messages), ver))
