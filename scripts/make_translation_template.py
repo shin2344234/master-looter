@@ -88,9 +88,13 @@ def from_engine(path):
     out = set()
     # skip("..."), v.why = "...", and the switch names GatherSwitchOff hands
     # back as `on ? nullptr : "..."`, which reach skip() through a variable.
+    # The fourth reaches skip() through a variable as well: the reason a kind
+    # of node is refused because the rules want nothing it can hold, written
+    # in a table beside the kind it belongs to.
     for pat in (r"\bskip\(\s*\"((?:[^\"\\]|\\.)*)\"",
                 r"v\.why\s*=\s*\"((?:[^\"\\]|\\.)*)\"",
-                r"\?\s*nullptr\s*:\s*\"((?:[^\"\\]|\\.)*)\""):
+                r"\?\s*nullptr\s*:\s*\"((?:[^\"\\]|\\.)*)\"",
+                r"GatherKind::\w+\s*,\s*\"((?:[^\"\\]|\\.)*)\""):
         out |= set(re.findall(pat, s))
     # what Label() falls back to when an object has no name of its own
     for word in ("corpse", "creature", "object", "entity", "gather node"):

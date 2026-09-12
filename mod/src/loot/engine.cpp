@@ -1389,6 +1389,104 @@ namespace ml::loot
         }
     }
 
+    // The item classes a node of this kind can hand over, where the node table
+    // is evidence enough to say. Read it off the 131 rows of
+    // MasterLooter.nodes.tsv that name a yield, never off the kind's own name:
+    // the first version of this guessed from the name and got two of four
+    // wrong, which a review caught before it shipped.
+    //
+    //   stone   57 named, every one of them class stone
+    //   ore     19 named: 8 jewel, 7 stone, 4 ore
+    //   plant   17 named: 11 herb, 3 grain, 3 crafting-material
+    //   wood     0 named, out of 378 prefabs
+    //
+    // So an ore node pays a jewel more often than it pays ore, and it pays
+    // stone nearly as often, which is why all three have to be refused before
+    // one can be passed over. Plant and wood are left out and get no opinion at
+    // all. Plant's named rows already spill into three classes and an unnamed
+    // one, gimmick_rare_collect_kudzu_0001, pays Skyroot, which is a vegetable;
+    // wood has no evidence whatsoever, so a set for it would be invention.
+    // Refusing the class wood therefore still does nothing to a wood node, and
+    // the honest place to say so is the help text, not a guess here.
+    //
+    // Anything added here needs the same kind of evidence. A wrong entry does
+    // not fail loudly: it quietly stops the mod touching a node the player was
+    // happy to have.
+    static const char* const* KindClasses(GatherKind kind, int& n)
+    {
+        static const char* kStone[] = { "stone" };
+        static const char* kOre[]   = { "ore", "jewel", "stone" };
+        switch (kind)
+        {
+        case GatherKind::Stone: n = 1; return kStone;
+        case GatherKind::Ore:   n = 3; return kOre;
+        default:                n = 0; return nullptr;
+        }
+    }
+
+    static constexpr int kGatherKinds = 9;   // the enumerators of GatherKind
+
+    // Positions in ItemDb::All() of everything each kind can yield, indexed
+    // once. Small lists: 4 stone, and 18 for ore, jewel and stone together.
+    static const std::vector<int>& KindItems(GatherKind kind)
+    {
+        static std::vector<int> lists[kGatherKinds];
+        static bool built = false;
+        if (!built && ItemDb::Loaded())
+        {
+            built = true;
+            const std::vector<Item>& all = ItemDb::All();
+            for (int r = 0; r < static_cast<int>(all.size()); ++r)
+                for (int k = 0; k < kGatherKinds; ++k)
+                {
+                    int n = 0;
+                    const char* const* cl = KindClasses(static_cast<GatherKind>(k), n);
+                    for (int i = 0; i < n; ++i)
+                        if (all[r].klass == cl[i]) { lists[k].push_back(r); break; }
+                }
+        }
+        return lists[static_cast<int>(kind)];
+    }
+
+    // Whether the rules refuse everything a node of each kind can yield. Worked
+    // out once a pass and read by the verdict and by the arm loop, which have
+    // to give the same answer.
+    //
+    // A node is not an item, so nothing about it reaches the Classes, Tags or
+    // Items tabs unless the mod already knows what it holds, and mostly it does
+    // not: 275 of the 332 stone prefabs name no yield. The Stone switch covered
+    // them until 1.6.13 removed it, saying the class rule was the finer
+    // control. For a stone lying on the ground it is, because there is an item
+    // there to judge. For the rock it came out of there was nothing to ask, so
+    // Ore and stone alone decided and a player who had refused the class
+    // watched stone arrive anyway. symplexity reported that on the bugs tab the
+    // morning after the release, with the class off and the items set to never.
+    //
+    // Refusing the node takes every class of its kind refused, never one of
+    // them: a vein holds a jewel as readily as ore, and a guess in that
+    // direction costs the player something they asked for.
+    static const char* g_kindRefusal[kGatherKinds] = { nullptr };
+    static void RefreshKindRules(const Config& cfg)
+    {
+        static const struct { GatherKind kind; const char* reason; } kAsk[] = {
+            { GatherKind::Stone, "your rules refuse all stone" },
+            { GatherKind::Ore,   "your rules refuse all ore, jewels and stone" },
+        };
+        const std::vector<Item>& all = ItemDb::All();
+        for (const auto& a : kAsk)
+        {
+            const std::vector<int>& rows = KindItems(a.kind);
+            bool wanted = false;
+            for (int r : rows) if (Rules::Decide(all[r], cfg).loot) { wanted = true; break; }
+            g_kindRefusal[static_cast<int>(a.kind)] = (!rows.empty() && !wanted) ? a.reason : nullptr;
+        }
+    }
+    static const char* KindRefused(GatherKind kind)
+    {
+        const int i = static_cast<int>(kind);
+        return (i >= 0 && i < kGatherKinds) ? g_kindRefusal[i] : nullptr;
+    }
+
     // An object gets up to four attempts, each waiting longer than the last
     // (the game may refuse an event sent from too far away, and the object is
     // still there when we come closer). Only after that is it given up for
@@ -2296,7 +2394,28 @@ namespace ml::loot
         }
         case Action::Gather:
         {
-            if (const char* off = GatherSwitchOff(NodeKind(c), cfg)) return skip(off);
+            const GatherKind kind = NodeKind(c);
+            if (const char* off = GatherSwitchOff(kind, cfg)) return skip(off);
+            const Item* yield = c.db ? c.db : NodeYield(c);
+            // The item-rule block above is gated on c.tid, and a vein the table
+            // vouches for is routed to Gather before it has answered, when tid
+            // is still zero and the gather data has not arrived. Every one of
+            // the nineteen ore prefabs whose yield the table names is that
+            // kind, and nine of them pay stone or a stalactite, so a player who
+            // refused the stone class walked up to gimmick_quarry_stone_0001
+            // and got stone: the yield was named all along and nothing ever
+            // asked a rule about it. Ask here, where the answer is the same one
+            // the block above would have given.
+            if (yield && !c.tid)
+            {
+                const Rules::Verdict r = Rules::Decide(*yield, cfg);
+                if (!r.loot) { snprintf(v.detail, sizeof v.detail, "%s", r.detail.c_str()); v.loot = false; v.why = r.rule; return v; }
+            }
+            // And a node that names nothing it holds has no item rule to be
+            // asked about it at all, so ask its kind, or a class the player
+            // refused reaches the bag through the node it came out of.
+            if (!yield)
+                if (const char* none = KindRefused(kind)) return skip(none);
             break;
         }
         default:
@@ -3618,7 +3737,19 @@ namespace ml::loot
                     // because arming comes first. With every switch that could
                     // apply set to off, the mod still armed a damaging thorn
                     // 28 times in one session.
-                    if (GatherSwitchOff(NodeKind(k), cfg)) continue;
+                    const GatherKind armKind = NodeKind(k);
+                    if (GatherSwitchOff(armKind, cfg)) continue;
+                    // And both of the questions the verdict asks, for the same
+                    // reason arming consults the switches at all: nothing here
+                    // has filled yet, so the verdict's own item-rule block is
+                    // gated out and this is the only place the named yield of
+                    // a tagged vein gets looked at before the mod reaches for
+                    // it.
+                    if (const Item* armYield = NodeYield(k))
+                    {
+                        if (!Rules::Decide(*armYield, cfg).loot) continue;
+                    }
+                    else if (KindRefused(armKind)) continue;
                     // Ore answers slowly and is therefore reached for sooner. Known from
                     // the prefab table, before anything is asked of the game.
                     const bool oreNode = k.nodeType && KindFromName(k.nodeType->kind) == GatherKind::Ore;
@@ -3914,6 +4045,7 @@ namespace ml::loot
         {
             // A copy: the render thread edits the live Config while the menu is up.
             Config cfg = Settings::Snapshot();
+            RefreshKindRules(cfg);
             const State& st = State::Get();
             if (!st.Captures() && State::ForegroundIsOurs())
             {
