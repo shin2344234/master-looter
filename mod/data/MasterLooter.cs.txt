@@ -462,3 +462,6 @@ you dropped this	zahozeno tebou
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	Tvora, kterému hra nedává žádný vlastní předmět, například kolonii světlušek, posuzuje tento přepínač a karta Třídy, kde se kolonie světlušek počítá jako insect. Žádné pravidlo štítku ani předmětu na něj nedosáhne, protože není předmět, podle kterého by se dalo posoudit.
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	Od Private Storage Master 1.1.4 je na něm ve výchozím stavu i Arrow, takže šípy, které znovu sebereš, zůstanou v toulci.
 a placed Field Pot or Bonfire	postavený polní kotlík nebo táborák
+Keep the menu on screen while you play. %s brings it back.	Nech menu na obrazovce, zatímco hraješ. %s ho vrátí zpět.
+Watch mode: the game has your controls. %s to interact.	Režim sledování: hra má tvé ovládání. %s pro interakci.
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Jedna samostatná klávesa. Kombinace s Ctrl a Alt se nikdy nenačtou, protože tyto klávesy mlčí, dokud je Ctrl nebo Alt stisknutý.

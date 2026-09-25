@@ -463,3 +463,6 @@ you dropped this	ви це викинули
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	Істоту, якій гра не дає власного предмета, наприклад колонію світлячків, оцінюють цей перемикач і вкладка «Класи», де колонія світлячків вважається класом insect. Жодне правило мітки чи предмета її не досягне, бо немає предмета, з яким його можна звірити.
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	Починаючи з Private Storage Master 1.1.4, у списку за замовчуванням є й Arrow, тож стріли, які ти підбираєш назад, лишаються в сагайдаку.
 a placed Field Pot or Bonfire	встановлений похідний казан або багаття
+Keep the menu on screen while you play. %s brings it back.	Тримати меню на екрані під час гри. %s повертає його.
+Watch mode: the game has your controls. %s to interact.	Режим спостереження: керування належить грі. %s — взаємодіяти.
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Одна клавіша окремо. Поєднання з Ctrl і Alt ніколи не зчитуються, бо ці клавіші мовчать, поки затиснуто Ctrl або Alt.

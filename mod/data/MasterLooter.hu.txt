@@ -466,3 +466,6 @@ you dropped this	te dobtad el
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	Az a lény, amelynek a játék nem ad saját tárgyat, például egy szentjánosbogár-kolónia, ettől a kapcsolótól és a Kategóriák laptól függ, ahol a szentjánosbogár-kolónia insect kategóriának számít. Semmilyen címke- vagy tárgyszabály nem éri el, mert nincs tárgy, amihez mérni lehetne.
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	A Private Storage Master 1.1.4 óta alapból az Arrow is rajta van, így a visszaszedett nyilak a tegezben maradnak.
 a placed Field Pot or Bonfire	lerakott tábori üst vagy tábortűz
+Keep the menu on screen while you play. %s brings it back.	Tartsd a menüt a képernyőn, miközben játszol. A(z) %s visszahozza.
+Watch mode: the game has your controls. %s to interact.	Figyelő mód: a játék irányítja a vezérlést. %s az interakcióhoz.
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Egyetlen billentyű önmagában. A Ctrl és Alt kombinációkat soha nem olvassa be, mert ezek a billentyűk hallgatnak, amíg a Ctrl vagy az Alt le van nyomva.

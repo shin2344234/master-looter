@@ -462,3 +462,6 @@ you dropped this	自分で捨てたもの
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	ホタルの群れのように、ゲームが専用のアイテムを与えていない生き物は、このスイッチとクラスタブで判定されます。ホタルの群れはそこでinsectとして扱われます。照らし合わせるアイテムがないため、タグやアイテムのルールは届きません。
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	Private Storage Master 1.1.4 からは Arrow も初期状態でリストに入っているため、拾い直した矢は矢筒に残ります。
 a placed Field Pot or Bonfire	設置された野外鍋か焚き火
+Keep the menu on screen while you play. %s brings it back.	プレイ中もメニューを画面に表示したままにします。%sで呼び戻します。
+Watch mode: the game has your controls. %s to interact.	監視モード：操作はゲーム側にあります。%sで対話します。
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	キーは単独で1つ。CtrlやAltを押している間はこれらのキーが反応しないため、CtrlやAltとの組み合わせは読み取られません。

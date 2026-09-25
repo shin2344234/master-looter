@@ -182,6 +182,7 @@ Items tagged quest are left alone, so puzzles and story pickups are not auto-tak
 Items with an unknown value are never filtered by it.	
 Its settings live in PrivateStorageMaster.ini beside the plugin. Changes here are saved there at once.	
 Keep the menu on screen while you play. %s brings it back, %s closes it.	
+Keep the menu on screen while you play. %s brings it back.	
 Keys	
 Keys and tools	
 Language	
@@ -259,6 +260,7 @@ On, a vein is harvested where it stands and you never swing a pickaxe. Off, vein
 On, only the amount that just arrived is moved, so food and potions you already carried stay in the bag. Off, the whole stack goes.	
 On, the overlay draws under DLSS frame generation, which needs this mod to hand the game a wrapped swapchain.\n\nOff, the overlay draws through the present hook instead. Everything looks the same unless frame generation is on, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod; it can be set as WrapSwapChain in MasterLooter.ini without launching the game.	
 One click per family. The table below still sets single classes; a group shows a dash when only some of it is on.	
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	
 Only move what was picked up	
 Open and close this menu	
 Open folder	
@@ -430,6 +432,7 @@ Watch
 Watch mode	
 Watch mode (menu stays up, you keep playing)	
 Watch mode: the game has your controls. %s to interact, %s to close.	
+Watch mode: the game has your controls. %s to interact.	
 Weapons and armor	
 What enters the working list at all. The ranges below are clamped to it.	
 What to collect	

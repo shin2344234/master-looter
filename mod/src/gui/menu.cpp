@@ -340,8 +340,11 @@ namespace ml::gui
                 const std::string use = Settings::KeyName(c.menuKey);
                 const std::string shut = Settings::KeyName(c.keyWatch);
                 char msg[200];
-                snprintf(msg, sizeof msg, "Master Looter: menu in watch mode, so the game keeps your mouse. %s to use it, %s to close it.",
-                         use.c_str(), shut.c_str());
+                if (c.keyWatch)
+                    snprintf(msg, sizeof msg, "Master Looter: menu in watch mode, so the game keeps your mouse. %s to use it, %s to close it.",
+                             use.c_str(), shut.c_str());
+                else
+                    snprintf(msg, sizeof msg, "Master Looter: menu in watch mode, so the game keeps your mouse. %s to use it.", use.c_str());
                 st.Notify(msg, 5000, true);
             }
         }
@@ -474,6 +477,64 @@ namespace ml::gui
         return dirty;
     }
 
+    // Rebind's state while it listens, reset each time Rebind is clicked so a
+    // capture the menu closed on cannot hand a stale modifier to the next.
+    struct Capture
+    {
+        int  mod = 0;        // a modifier held down on its own, bound when let go
+        bool wait = false;   // a combination was refused: bind nothing until every key is up
+        bool combo = false;  // a combination was tried: say why it was refused
+    };
+    static Capture s_cap;
+
+    // One frame of listening. Returns the key to bind, 0 for Escape, or -1 to
+    // keep listening. Every key here is bound bare, and State::HotkeysFree
+    // keeps a key quiet while Ctrl or Alt is held, so a combination can never
+    // fire. A modifier on its own can be bound (trowieuk1 put the menu on
+    // Ctrl), which made the old loop bind Left Ctrl the instant anyone started
+    // a Ctrl+key combination: Ctrl goes down a frame before the key. Ahplla
+    // tried combinations on 25 September 2026 and none of them read. So a
+    // modifier is bound only when it is let go with nothing pressed alongside
+    // it, and a key pressed with Ctrl or Alt held, or a second modifier, is
+    // refused. The refusal holds until every key is up, because the keys of a
+    // combination come up in any order and letting Ctrl go first would
+    // otherwise bind the key that was just refused.
+    static int CaptureStep(Capture& c, bool (*down)(int))
+    {
+        if (down(VK_ESCAPE)) return 0;
+        const bool ctrlAlt = down(VK_LCONTROL) || down(VK_RCONTROL) || down(VK_LMENU) || down(VK_RMENU);
+        int key = 0, mods = 0, otherMod = 0;
+        for (int k = 0x08; k < 0xFF; ++k)
+        {
+            if (k == VK_LBUTTON || k == VK_RBUTTON || k == VK_SHIFT || k == VK_CONTROL || k == VK_MENU) continue;
+            if (!down(k)) continue;
+            const bool mod = k == VK_LSHIFT || k == VK_RSHIFT || k == VK_LCONTROL || k == VK_RCONTROL || k == VK_LMENU || k == VK_RMENU;
+            if (!mod) { if (!key) key = k; continue; }
+            ++mods;
+            if (k != c.mod) otherMod = k;
+        }
+        if (c.wait)
+        {
+            if (!key && !mods) c.wait = false;
+            return -1;
+        }
+        if (key)
+        {
+            if (!ctrlAlt) return key;
+            c.combo = true; c.wait = true; c.mod = 0;
+            return -1;
+        }
+        if (mods)
+        {
+            if (!c.mod && mods == 1) c.mod = otherMod;
+            else if (otherMod) { c.combo = true; c.wait = true; c.mod = 0; }
+            return -1;
+        }
+        const int m = c.mod;
+        c.mod = 0;
+        return m ? m : -1;
+    }
+
     static bool KeyRow(const char* label, int& vk, int target)
     {
         State& st = State::Get();
@@ -486,16 +547,25 @@ namespace ml::gui
         if (st.rebindCapture && g_rebindTarget == target)
         {
             ImGui::TextColored(Accent(), TR("press a key (Escape cancels)"));
-            for (int k = 0x08; k < 0xFF; ++k)
-            {
-                if (k == VK_LBUTTON || k == VK_RBUTTON || k == VK_SHIFT || k == VK_CONTROL || k == VK_MENU) continue;
-                if (!KeyDown(k)) continue;
-                if (k != VK_ESCAPE) { vk = k; dirty = true; }
-                st.rebindCapture = false; g_rebindTarget = -1;
-                break;
-            }
+            if (s_cap.combo) ImGui::TextColored(kWarn, "%s", TR("One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held."));
+            const int got = CaptureStep(s_cap, KeyDown);
+            if (got > 0) { vk = got; dirty = true; }
+            if (got >= 0) { st.rebindCapture = false; g_rebindTarget = -1; s_cap = Capture{}; }
         }
-        else if (!st.rebindCapture && ImGui::SmallButton(TR("Rebind"))) { st.rebindCapture = true; g_rebindTarget = target; }
+        else if (!st.rebindCapture)
+        {
+            if (ImGui::SmallButton(TR("Rebind")))
+            {
+                st.rebindCapture = true; g_rebindTarget = target;
+                s_cap = Capture{};
+            }
+            // Every key but the menu's own can be left unbound, which is what
+            // the pad rows below have always allowed. Ahplla asked for it on 25
+            // September 2026: a controller player with every spare key taken by
+            // other mods, and a 0 in the ini came back as the default. The
+            // menu key stays, because the menu is where a key gets bound again.
+            if (target != 0 && vk) { ImGui::SameLine(); if (ImGui::SmallButton(TR("Clear"))) { vk = 0; dirty = true; } }
+        }
         ImGui::PopID();
         return dirty;
     }
@@ -679,6 +749,7 @@ namespace ml::gui
 
         Section(TR("Keys"));
         dirty |= KeyRow("Open and close this menu", c.menuKey, 0);
+        Help(TR("One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held."));
         dirty |= KeyRow("Auto-loot on / off", c.keyToggle, 1);
         dirty |= KeyRow("Loot everything in range once", c.keyBurst, 2);
         dirty |= KeyRow("Watch mode (menu stays up, you keep playing)", c.keyWatch, 3);
@@ -2195,11 +2266,19 @@ namespace ml::gui
             // KeyName returns one shared buffer for most keys, so two calls in
             // one argument list print the same name twice. Copy the first.
             const std::string menuKeyName = Settings::KeyName(c.menuKey);
-            if (ImGui::BeginItemTooltip()) { ImGui::Text(TR("Keep the menu on screen while you play. %s brings it back, %s closes it."), menuKeyName.c_str(), Settings::KeyName(c.keyWatch)); ImGui::EndTooltip(); }
+            if (ImGui::BeginItemTooltip())
+            {
+                if (c.keyWatch) ImGui::Text(TR("Keep the menu on screen while you play. %s brings it back, %s closes it."), menuKeyName.c_str(), Settings::KeyName(c.keyWatch));
+                else            ImGui::Text(TR("Keep the menu on screen while you play. %s brings it back."), menuKeyName.c_str());
+                ImGui::EndTooltip();
+            }
             ImGui::SameLine();
             if (ImGui::SmallButton(TR("Close"))) open = false;
             if (st.menuWatch)
-                ImGui::TextColored(kGold, TR("Watch mode: the game has your controls. %s to interact, %s to close."), menuKeyName.c_str(), Settings::KeyName(c.keyWatch));
+            {
+                if (c.keyWatch) ImGui::TextColored(kGold, TR("Watch mode: the game has your controls. %s to interact, %s to close."), menuKeyName.c_str(), Settings::KeyName(c.keyWatch));
+                else            ImGui::TextColored(kGold, TR("Watch mode: the game has your controls. %s to interact."), menuKeyName.c_str());
+            }
             {
                 const ImVec2 a = ImGui::GetCursorScreenPos();
                 const float w = ImGui::GetContentRegionAvail().x;

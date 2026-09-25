@@ -463,3 +463,6 @@ you dropped this	sen yere bıraktın
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	Oyunun kendine ait bir eşya vermediği bir canlı, örneğin bir ateşböceği kolonisi, bu anahtar ve Sınıflar sekmesi tarafından değerlendirilir; orada ateşböceği kolonisi insect sayılır. Hiçbir etiket veya eşya kuralı ona ulaşamaz, çünkü kuralın karşılaştırılacağı bir eşya yoktur.
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	Private Storage Master 1.1.4'ten beri Arrow da varsayılan olarak listede, böylece geri topladığın oklar sadakta kalır.
 a placed Field Pot or Bonfire	yerleştirilmiş bir sahra kazanı ya da kamp ateşi
+Keep the menu on screen while you play. %s brings it back.	Oynarken menüyü ekranda tut. %s onu geri getirir.
+Watch mode: the game has your controls. %s to interact.	İzleme modu: kontroller oyunda. Etkileşim için %s.
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Tek başına bir tuş. Ctrl ve Alt kombinasyonları asla okunmaz, çünkü Ctrl ya da Alt basılıyken bu tuşlar tepki vermez.

@@ -465,3 +465,6 @@ you dropped this	pudotit tämän itse
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	Olennon, jolle peli ei anna omaa esinettä, kuten tulikärpäsyhdyskunnan, ratkaisevat tämä kytkin ja Luokat-välilehti, jolla tulikärpäsyhdyskunta lasketaan luokkaan insect. Mikään tunniste- tai esinesääntö ei ulotu siihen, koska ei ole esinettä, johon sääntöä voisi verrata.
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	Private Storage Master 1.1.4:stä lähtien listalla on oletuksena myös Arrow, joten takaisin poimimasi nuolet jäävät viiniin.
 a placed Field Pot or Bonfire	paikalleen asetettu kenttäpata tai nuotio
+Keep the menu on screen while you play. %s brings it back.	Pidä valikko näytöllä pelin aikana. %s tuo sen takaisin.
+Watch mode: the game has your controls. %s to interact.	Seurantatila: peli hallitsee ohjaimiasi. %s ollaksesi vuorovaikutuksessa.
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Yksi näppäin yksinään. Ctrl- ja Alt-yhdistelmiä ei koskaan lueta, koska nämä näppäimet ovat hiljaa, kun Ctrl tai Alt on painettuna.

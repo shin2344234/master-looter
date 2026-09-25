@@ -467,3 +467,6 @@ you dropped this	du slapp den
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	Et vesen som spillet ikke gir en egen gjenstand, som en ildflue-koloni, bedømmes av denne bryteren og av fanen Klasser, der en ildflue-koloni regnes som insect. Ingen merkelapp- eller gjenstandsregel kan nå det, fordi det ikke finnes noen gjenstand å sjekke regelen mot.
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	Fra og med Private Storage Master 1.1.4 står Arrow også på den som standard, så piler du plukker opp igjen blir i koggeret.
 a placed Field Pot or Bonfire	en utplassert feltgryte eller et bål
+Keep the menu on screen while you play. %s brings it back.	Hold menyen på skjermen mens du spiller. %s henter den tilbake.
+Watch mode: the game has your controls. %s to interact.	Visningsmodus: spillet har kontrollen din. %s for å interagere.
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Én tast alene. Kombinasjoner med Ctrl og Alt blir aldri lest, fordi disse tastene er stille mens Ctrl eller Alt holdes nede.

@@ -58,7 +58,22 @@ namespace ml::Settings
         return true;
     }
 
-    static int  Key(const std::string& v, int def) { const int i = atoi(v.c_str()); return (i > 0 && i < 256) ? i : def; }
+    // A key code, or the default when the value is not one. With unbindable
+    // set, a written 0 means the key is switched off instead: Ahplla on
+    // Discord, 25 September 2026, plays on a controller, needed F10, F11 and
+    // Home for other things, and every 0 typed into the ini came back as the
+    // default. Only a written zero unbinds, so a typo still falls back. The
+    // menu key never takes 0, since the menu is how you rebind.
+    static int  Key(const std::string& v, int def, bool unbindable = false)
+    {
+        const int i = atoi(v.c_str());
+        if (i > 0 && i < 256) return i;
+        // Only zeros, with spaces allowed around them. atoi reads "0x7A" as 0
+        // too, and a hex value should fall back to the default, not unbind.
+        const size_t d = v.find_first_not_of(" \t"), e = v.find_last_not_of(" \t");
+        if (unbindable && d != std::string::npos && v.find_first_not_of('0', d) > e) return 0;
+        return def;
+    }
     static float Range(const std::string& v, float lo, float hi, float def) { const float f = static_cast<float>(atof(v.c_str())); return (f >= lo && f <= hi) ? f : def; }
     static int  Clamp(const std::string& v, int lo, int hi) { return std::clamp(atoi(v.c_str()), lo, hi); }
     static bool Flag(const std::string& v) { return atoi(v.c_str()) != 0; }
@@ -81,10 +96,10 @@ namespace ml::Settings
         else if (k == "PadToggle")        c.padToggle = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
         else if (k == "PadBurst")         c.padBurst  = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
         else if (k == "PadWatch")         c.padWatch  = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
-        else if (k == "KeyToggle")        c.keyToggle = Key(v, 0x79);
-        else if (k == "KeyBurst")         c.keyBurst = Key(v, 0x7A);
-        else if (k == "KeyWatch")         c.keyWatch = Key(v, 0x24);
-        else if (k == "KeyOwned")         c.keyOwned = Key(v, 0);
+        else if (k == "KeyToggle")        c.keyToggle = Key(v, 0x79, true);
+        else if (k == "KeyBurst")         c.keyBurst = Key(v, 0x7A, true);
+        else if (k == "KeyWatch")         c.keyWatch = Key(v, 0x24, true);
+        else if (k == "KeyOwned")         c.keyOwned = Key(v, 0, true);
         else if (k == "PadOwned")         c.padOwned  = static_cast<unsigned>(strtoul(v.c_str(), nullptr, 0));
         else if (k == "ScansPerSec")      c.scansPerSec = Clamp(v, 1, 30);
         else if (k == "PerScan")          c.perScan = Clamp(v, 0, 64);
@@ -519,7 +534,7 @@ namespace ml::Settings
         snprintf(kw, sizeof kw, "%s", KeyName(c.keyWatch));
         snprintf(kt, sizeof kt, "%s", KeyName(c.keyToggle));
         snprintf(kb, sizeof kb, "%s", KeyName(c.keyBurst));
-        snprintf(ko, sizeof ko, "%s", c.keyOwned ? KeyName(c.keyOwned) : "unbound");
+        snprintf(ko, sizeof ko, "%s", KeyName(c.keyOwned));
         LOG("Settings keys: menu %s, watch %s, on and off %s, loot once %s, take owned %s.%s",
             km, kw, kt, kb, ko, c.padMenu ? " A pad chord opens the menu as well." : "");
     }
@@ -804,6 +819,7 @@ namespace ml::Settings
         static char name[64];
         switch (vk)
         {
+        case 0:         return "not set";   // the same words the pad rows use
         case VK_INSERT: return "Insert";
         case VK_DELETE: return "Delete";
         case VK_HOME:   return "Home";

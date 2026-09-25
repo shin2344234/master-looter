@@ -463,3 +463,6 @@ you dropped this	bạn đã vứt bỏ
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	Một sinh vật mà trò chơi không cho vật phẩm riêng, như một đàn đom đóm, được xét bởi công tắc này và thẻ Loại, nơi đàn đom đóm được tính là insect. Không quy tắc thẻ hay vật phẩm nào chạm tới được nó, vì không có vật phẩm nào để đối chiếu.
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	Từ Private Storage Master 1.1.4, Arrow cũng có sẵn trong danh sách, nên mũi tên bạn nhặt lại sẽ ở nguyên trong ống tên.
 a placed Field Pot or Bonfire	nồi dã chiến hoặc lửa trại đã đặt
+Keep the menu on screen while you play. %s brings it back.	Giữ menu trên màn hình trong khi chơi. %s đưa nó trở lại.
+Watch mode: the game has your controls. %s to interact.	Chế độ theo dõi: trò chơi đang nắm quyền điều khiển của bạn. %s để tương tác.
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Một phím riêng lẻ. Tổ hợp với Ctrl và Alt không bao giờ được đọc, vì các phím này im lặng khi đang giữ Ctrl hoặc Alt.

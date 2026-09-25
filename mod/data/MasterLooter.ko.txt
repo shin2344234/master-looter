@@ -463,3 +463,6 @@ you dropped this	직접 버린 물건
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	반딧불이 무리처럼 게임이 고유한 아이템을 주지 않는 생물은 이 스위치와 분류 탭으로 판단하며, 반딧불이 무리는 그곳에서 insect로 취급됩니다. 대조할 아이템이 없기 때문에 태그나 아이템 규칙은 닿지 않습니다.
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	Private Storage Master 1.1.4부터는 Arrow도 기본으로 목록에 들어 있어, 다시 주운 화살은 화살통에 남습니다.
 a placed Field Pot or Bonfire	설치된 야전 솥이나 모닥불
+Keep the menu on screen while you play. %s brings it back.	플레이 중에도 메뉴를 화면에 유지합니다. %s로 다시 불러옵니다.
+Watch mode: the game has your controls. %s to interact.	워치 모드: 게임이 조작을 가져갑니다. %s로 상호작용.
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	키 하나만 단독으로. Ctrl이나 Alt를 누르고 있는 동안 이 키들은 반응하지 않으므로 Ctrl, Alt 조합은 인식되지 않습니다.

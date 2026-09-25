@@ -462,3 +462,6 @@ you dropped this	คุณทิ้งไว้เอง
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	สิ่งมีชีวิตที่เกมไม่ได้ให้ไอเทมของมันเอง เช่น ฝูงหิ่งห้อย จะถูกตัดสินด้วยสวิตช์นี้และแท็บประเภท ซึ่งฝูงหิ่งห้อยนับเป็น insect กฎแท็กหรือไอเทมใดก็เอื้อมไม่ถึง เพราะไม่มีไอเทมให้เทียบ
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	ตั้งแต่ Private Storage Master 1.1.4 เป็นต้นไป Arrow ก็อยู่ในรายการตั้งแต่แรกด้วย ลูกธนูที่คุณเก็บกลับมาจึงอยู่ในซองธนูต่อ
 a placed Field Pot or Bonfire	หม้อสนามหรือกองไฟที่วางไว้
+Keep the menu on screen while you play. %s brings it back.	เปิดเมนูค้างไว้ขณะเล่น กด %s เพื่อเรียกกลับมา
+Watch mode: the game has your controls. %s to interact.	โหมดเฝ้าดู: เกมควบคุมอยู่ กด %s เพื่อโต้ตอบ
+One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	ใช้ปุ่มเดียวเดี่ยว ๆ ระบบไม่อ่านปุ่มผสมกับ Ctrl หรือ Alt เพราะปุ่มเหล่านี้จะไม่ทำงานขณะกด Ctrl หรือ Alt ค้างไว้

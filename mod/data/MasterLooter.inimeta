@@ -185,6 +185,7 @@
           "type": "key",
           "group": "Keys",
           "default": "121",
+          "help": "0 leaves it unbound.",
           "format": "vk",
           "order": 6
         },
@@ -193,6 +194,7 @@
           "type": "key",
           "group": "Keys",
           "default": "122",
+          "help": "0 leaves it unbound.",
           "format": "vk",
           "order": 7
         },
@@ -201,7 +203,7 @@
           "type": "key",
           "group": "Keys",
           "default": "36",
-          "help": "The menu stays up while you keep playing.",
+          "help": "The menu stays up while you keep playing. 0 leaves it unbound; the menu key still opens and closes the menu.",
           "format": "vk",
           "order": 8
         },
