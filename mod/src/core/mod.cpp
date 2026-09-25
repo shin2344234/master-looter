@@ -3,6 +3,7 @@
 #include <MinHook.h>
 #include <TlHelp32.h>
 #include <cstring>
+#include <string>
 
 #include "creaturedb.h"
 #include "text.h"
@@ -582,6 +583,73 @@ namespace ml::Mod
         }
     }
 
+    // Who else is in the process, written once at the late start. joe24719's
+    // log of 25 September 2026 had the same missing menu as oasisezy's and
+    // could not say whether Character Creator was loaded, because nothing
+    // named a module unless it had already caused a line of its own. Three
+    // kinds are listed. Every .asi, wherever it lives. Any DLL in the game's
+    // own folder that shares a name with one in System32, which is a proxy
+    // (dxgi.dll, version.dll) or the ASI loader. And the overlays that are
+    // injected from outside the game folder and hook the same calls. The
+    // game ships dozens of its own DLLs in bin64, so the folder alone is no
+    // test. Taken here and not at load, since the loader goes alphabetically
+    // and later plugins are not in the process yet when this one starts.
+    static void LogLoadedModules()
+    {
+        static const wchar_t* const kOverlays[] = {
+            L"gameoverlayrenderer64.dll", L"rtsshooks64.dll", L"discordhook64.dll",
+            L"nvspcap64.dll", L"overlay64.dll", L"reshade64.dll", L"gfxhook64.dll",
+        };
+        wchar_t gameDir[MAX_PATH] = L"", sysDir[MAX_PATH] = L"";
+        GetModuleFileNameW(nullptr, gameDir, MAX_PATH);
+        if (wchar_t* slash = wcsrchr(gameDir, L'\\')) slash[1] = 0;
+        GetSystemDirectoryW(sysDir, MAX_PATH);
+        HANDLE snap = INVALID_HANDLE_VALUE;
+        for (int i = 0; i < 5 && snap == INVALID_HANDLE_VALUE; ++i)
+        {
+            snap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+            if (snap == INVALID_HANDLE_VALUE && GetLastError() != ERROR_BAD_LENGTH) break;
+        }
+        if (snap == INVALID_HANDLE_VALUE) { LOG("[modules] could not list the modules in this process."); return; }
+        std::string asi, proxy, overlay;
+        auto add = [](std::string& list, const wchar_t* name) {
+            // A module name is up to 259 characters, which can take three
+            // times that in UTF-8, so the buffer is sized by asking first.
+            const int len = WideCharToMultiByte(CP_UTF8, 0, name, -1, nullptr, 0, nullptr, nullptr);
+            if (len <= 1) return;
+            std::string n(static_cast<size_t>(len), '\0');
+            if (!WideCharToMultiByte(CP_UTF8, 0, name, -1, n.data(), len, nullptr, nullptr)) return;
+            n.resize(static_cast<size_t>(len - 1));
+            if (!list.empty()) list += ", ";
+            list += n;
+        };
+        MODULEENTRY32W me; me.dwSize = sizeof me;
+        for (BOOL ok = Module32FirstW(snap, &me); ok; ok = Module32NextW(snap, &me))
+        {
+            if (me.hModule == g_self) continue;
+            wchar_t low[MAX_PATH];
+            wcsncpy_s(low, me.szModule, _TRUNCATE);
+            _wcslwr_s(low);
+            const size_t len = wcslen(low);
+            if (len > 4 && wcscmp(low + len - 4, L".asi") == 0) { add(asi, me.szModule); continue; }
+            bool known = false;
+            for (const wchar_t* o : kOverlays) if (wcscmp(low, o) == 0) { known = true; break; }
+            if (known) { add(overlay, me.szModule); continue; }
+            if (gameDir[0] && _wcsnicmp(me.szExePath, gameDir, wcslen(gameDir)) == 0 && !wcschr(me.szExePath + wcslen(gameDir), L'\\'))
+            {
+                // Built as a string: swprintf_s into a fixed buffer ends the
+                // process when a long name does not fit.
+                const std::wstring sys = std::wstring(sysDir) + L"\\" + me.szModule;
+                if (GetFileAttributesW(sys.c_str()) != INVALID_FILE_ATTRIBUTES) add(proxy, me.szModule);
+            }
+        }
+        CloseHandle(snap);
+        LOG("[modules] other plugins: %s", asi.empty() ? "none" : asi.c_str());
+        LOG("[modules] system DLL names loaded from the game folder instead (proxies and the ASI loader): %s",
+            proxy.empty() ? "none" : proxy.c_str());
+        LOG("[modules] known overlays: %s", overlay.empty() ? "none" : overlay.c_str());
+    }
+
     void OnRenderProcess()
     {
         static bool s_done = false;
@@ -601,6 +669,7 @@ namespace ml::Mod
         if (CreatureDb::Load()) LOG_OK("Creature table loaded (%s): %d creatures.", CreatureDb::Source(), CreatureDb::Count());
         else LOG_ERR("Creature table unavailable: neither compiled into the plugin nor next to it as MasterLooter.creatures.tsv; creatures cannot be told apart by species.");
         State::Get().overlayReady = true;
+        if (HostIsGame()) LogLoadedModules();
 
         // The loot engine touches game memory and game functions: only in the game itself.
         if (HostIsGame()) loot::Start();
