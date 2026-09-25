@@ -2070,12 +2070,28 @@ namespace ml::gui
             if (i == 0 && sz.known) floor += status.learnedExpansions;
             if (floor < 1) floor = 1;
             if (floor > PSM_MAX_SLOTS) floor = PSM_MAX_SLOTS;
+            // Private Storage's right end is not always 1460. When the
+            // expansions are read from the save, PSM holds room for the
+            // game's own cap on them (stock max less stock default, 760 on
+            // 2.02 to 2.03.02) and gives at most 1460 less that room plus the
+            // save's own. A save with 100 extras tops out at 800, and past that
+            // the slider promised slots nobody got.
+            int top = PSM_MAX_SLOTS;
+            if (i == 0 && sz.known && s_psm.privateStorageExpansions < 0)
+            {
+                const int stockRoom = sz.gameMax - sz.gameDefault;
+                const int room = stockRoom > status.learnedExpansions ? stockRoom : status.learnedExpansions;
+                top = PSM_MAX_SLOTS - room + status.learnedExpansions;
+                if (top < floor) top = floor;
+                if (top > PSM_MAX_SLOTS) top = PSM_MAX_SLOTS;
+            }
             int value = s_psm.slots[i] > floor ? s_psm.slots[i] : floor;
+            if (value > top) value = top;
             char fmt[64];
             if (value <= floor) snprintf(fmt, sizeof fmt, "%s", TR("game size (%d)"));
             else snprintf(fmt, sizeof fmt, "%s", "%d");
             ImGui::SetNextItemWidth(260 * g_scale);
-            if (ImGui::SliderInt("##slots", &value, floor, PSM_MAX_SLOTS, fmt, ImGuiSliderFlags_AlwaysClamp))
+            if (ImGui::SliderInt("##slots", &value, floor, top, fmt, ImGuiSliderFlags_AlwaysClamp))
                 s_psm.slots[i] = value <= floor ? 0 : value;
             if (ImGui::IsItemDeactivatedAfterEdit()) PsmApply(api);
             ImGui::SameLine();
