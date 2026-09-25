@@ -105,6 +105,18 @@ namespace ml::Mod
     static char g_otherLoot[MAX_PATH] = "";
     static volatile LONG g_otherLootLooked = 0;
 
+    // Character Creator 9 draws an editor panel of its own, and on the plain
+    // dxgi path this mod's factory hook then never sees the game's swapchain,
+    // so the menu gets no frame and Insert does nothing. Four reports on 25
+    // September 2026; oasisezy's log showed no frame at all, and switching
+    // that panel off brought Insert back at once. Sov runs it through another
+    // mod's dxgi.dll and the menu draws, so it is named as the likely cause,
+    // not a certain one. private/notes/character-creator-9-conflict.md.
+    const char* OverlayConflict()
+    {
+        return GetModuleHandleW(L"CharacterCreator.asi") ? "CharacterCreator.asi" : nullptr;
+    }
+
     const char* OtherLootMod()
     {
         return InterlockedCompareExchange(&g_otherLootLooked, 0, 0) && g_otherLoot[0] ? g_otherLoot : nullptr;
@@ -557,6 +569,12 @@ namespace ml::Mod
                     LOG_ERR("No frame has been rendered in twenty seconds. Starting the loot engine "
                             "without waiting for one. If the overlay never reports ready, nothing is "
                             "drawing it; the [hook] lines above say who owns Present.");
+                    if (const char* who = OverlayConflict())
+                        LOG_ERR("%s is loaded. Character Creator 9 draws its own editor panel, and with "
+                                "it this mod's menu can go without a frame for the whole session, so Insert "
+                                "does nothing while looting carries on. A text file called disable.txt "
+                                "containing the word overlay in bin64\\CharacterCreator switches that panel off.",
+                                who);
                     OnRenderProcess();
                 }
                 return 0;

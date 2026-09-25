@@ -2232,6 +2232,8 @@ namespace ml::hooks
         return ok;
     }
 
+    bool MenuHasFrame() { return g_imguiReady; }
+
     bool InstallDX12Hooks()
     {
         // No throwaway device, ever. This used to create a D3D12 device, a

@@ -19,6 +19,7 @@
 #include "../core/creaturedb.h"
 #include "../core/nodedb.h"
 #include "../hooks/xinput_hook.h"
+#include "../hooks/dx12_hook.h"
 #include "../core/itemdb.h"
 #include "../core/mod.h"
 #include "../core/log.h"
@@ -6628,6 +6629,7 @@ namespace ml::loot
         LOG_OK("[loot] engine ready; pump: %s", hooks::PumpName());
 
         bool toggleWas = false, burstWas = false, ownedWas = false;
+        bool menuWas = false, saidNoFrame = false;
         while (InterlockedCompareExchange(&g_running, 0, 0))
         {
             ml::Mod::ReportSecondCopy();
@@ -6655,6 +6657,30 @@ namespace ml::loot
                 const bool o = (cfg.keyOwned && KeyDown(cfg.keyOwned)) || op;
                 if (o && !ownedWas && (op || State::HotkeysFree(cfg.keyOwned))) { SetLootOwned(!cfg.lootOwned); cfg.lootOwned = !cfg.lootOwned; }
                 ownedWas = o;
+                // The menu key is read on the render path, which runs only
+                // once a frame has reached this mod. With no frame it is read
+                // nowhere, and a press used to leave no trace at all: four
+                // players reported a dead Insert on 25 September 2026 and the
+                // one log sent had not a single [menu] line in three hours.
+                // Watched here only until the menu has a frame, and said once.
+                if (!saidNoFrame && !ml::hooks::MenuHasFrame())
+                {
+                    const bool mp = ml::hooks::PadChordHeld(cfg.padMenu);
+                    const bool m = KeyDown(cfg.menuKey) || mp;
+                    if (m && !menuWas && (mp || State::HotkeysFree(cfg.menuKey)))
+                    {
+                        saidNoFrame = true;
+                        const char* who = ml::Mod::OverlayConflict();
+                        LOG_ERR("[menu] %s was pressed, but the menu has not had a single frame to draw on "
+                                "since the game started, so it cannot open. Looting is unaffected. %s%s",
+                                mp ? "The menu chord" : Settings::KeyName(cfg.menuKey),
+                                who ? who : "The [hook] lines near the top of this log say which mod holds the game's drawing calls.",
+                                who ? " is loaded, and Character Creator 9's editor panel is known to do this: a text "
+                                      "file called disable.txt containing the word overlay in bin64\\CharacterCreator "
+                                      "switches that panel off." : "");
+                    }
+                    menuWas = m;
+                }
             }
             if (InterlockedExchange(&g_forget, 0))
             {

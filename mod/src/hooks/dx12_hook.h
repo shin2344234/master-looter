@@ -9,4 +9,8 @@ namespace ml::hooks
     // detours them with MinHook. Must be called after MH_Initialize().
     bool InstallDX12Hooks();
     void RemoveDX12Hooks();
+
+    // True once a frame has reached this mod and the menu renderer is up.
+    // Until then the menu cannot open, and the menu key is read nowhere else.
+    bool MenuHasFrame();
 }

@@ -22,4 +22,8 @@ namespace ml::Mod
     // one. OtherLootMod returns its file name afterwards, or nullptr.
     void ReportOtherLootMod();
     const char* OtherLootMod();
+
+    // A loaded plugin known to keep this mod's menu from ever getting a frame,
+    // by file name, or nullptr. Named in the log where the menu fails to draw.
+    const char* OverlayConflict();
 }
