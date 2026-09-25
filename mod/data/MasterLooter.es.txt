@@ -471,3 +471,4 @@ a placed Field Pot or Bonfire	una olla de campaña o una hoguera colocada
 Keep the menu on screen while you play. %s brings it back.	Mantén el menú en pantalla mientras juegas. %s lo trae de vuelta.
 Watch mode: the game has your controls. %s to interact.	Modo de observación: el juego tiene tus controles. %s para interactuar.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Una sola tecla. Las combinaciones con Ctrl y Alt nunca se leen, porque estas teclas no responden mientras Ctrl o Alt está pulsada.
+a crafting station	una estación de fabricación

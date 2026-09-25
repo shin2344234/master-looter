@@ -466,3 +466,4 @@ a placed Field Pot or Bonfire	o oală de câmp sau un foc de tabără amplasat
 Keep the menu on screen while you play. %s brings it back.	Ține meniul pe ecran cât timp joci. %s îl aduce înapoi.
 Watch mode: the game has your controls. %s to interact.	Mod observare: jocul are controalele tale. %s pentru a interacționa.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	O singură tastă. Combinațiile cu Ctrl și Alt nu sunt citite niciodată, pentru că aceste taste tac cât timp Ctrl sau Alt e apăsat.
+a crafting station	o stație de meșteșugărit

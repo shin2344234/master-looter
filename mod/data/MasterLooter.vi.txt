@@ -466,3 +466,4 @@ a placed Field Pot or Bonfire	nồi dã chiến hoặc lửa trại đã đặt
 Keep the menu on screen while you play. %s brings it back.	Giữ menu trên màn hình trong khi chơi. %s đưa nó trở lại.
 Watch mode: the game has your controls. %s to interact.	Chế độ theo dõi: trò chơi đang nắm quyền điều khiển của bạn. %s để tương tác.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Một phím riêng lẻ. Tổ hợp với Ctrl và Alt không bao giờ được đọc, vì các phím này im lặng khi đang giữ Ctrl hoặc Alt.
+a crafting station	một trạm chế tạo

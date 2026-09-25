@@ -468,3 +468,4 @@ a placed Field Pot or Bonfire	ein aufgestellter Feldtopf oder ein Lagerfeuer
 Keep the menu on screen while you play. %s brings it back.	Behält das Menü beim Spielen auf dem Bildschirm. %s holt es zurück.
 Watch mode: the game has your controls. %s to interact.	Beobachtungsmodus: Das Spiel hat deine Steuerung. %s zum Interagieren.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Eine einzelne Taste. Kombinationen mit Strg und Alt werden nie erkannt, weil diese Tasten stumm bleiben, solange Strg oder Alt gedrückt ist.
+a crafting station	eine Handwerksstation

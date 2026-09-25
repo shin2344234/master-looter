@@ -469,3 +469,4 @@ a placed Field Pot or Bonfire	поставен полеви котел или о
 Keep the menu on screen while you play. %s brings it back.	Задръж менюто на екрана, докато играеш. %s го връща обратно.
 Watch mode: the game has your controls. %s to interact.	Режим на наблюдение: играта държи контролите ти. %s за взаимодействие.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Един клавиш самостоятелно. Комбинации с Ctrl и Alt никога не се разпознават, защото тези клавиши мълчат, докато Ctrl или Alt е натиснат.
+a crafting station	работна станция

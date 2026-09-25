@@ -466,3 +466,4 @@ a placed Field Pot or Bonfire	en opstillet feltgryde eller et bål
 Keep the menu on screen while you play. %s brings it back.	Hold menuen på skærmen, mens du spiller. %s bringer den tilbage.
 Watch mode: the game has your controls. %s to interact.	Overvågningstilstand: spillet har dine kontroller. %s for at interagere.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Én tast alene. Kombinationer med Ctrl og Alt bliver aldrig læst, fordi disse taster er tavse, mens Ctrl eller Alt holdes nede.
+a crafting station	en håndværksstation

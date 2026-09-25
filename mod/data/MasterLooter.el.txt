@@ -468,3 +468,4 @@ a placed Field Pot or Bonfire	τοποθετημένη χύτρα εκστρατ
 Keep the menu on screen while you play. %s brings it back.	Κράτα το μενού στην οθόνη ενώ παίζεις. Το %s το επαναφέρει.
 Watch mode: the game has your controls. %s to interact.	Λειτουργία παρακολούθησης: το παιχνίδι έχει τα χειριστήριά σου. %s για αλληλεπίδραση.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Ένα πλήκτρο μόνο του. Οι συνδυασμοί με Ctrl και Alt δεν διαβάζονται ποτέ, γιατί αυτά τα πλήκτρα μένουν ανενεργά όσο είναι πατημένο το Ctrl ή το Alt.
+a crafting station	ένας σταθμός κατασκευής

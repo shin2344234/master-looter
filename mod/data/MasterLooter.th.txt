@@ -465,3 +465,4 @@ a placed Field Pot or Bonfire	หม้อสนามหรือกองไ�
 Keep the menu on screen while you play. %s brings it back.	เปิดเมนูค้างไว้ขณะเล่น กด %s เพื่อเรียกกลับมา
 Watch mode: the game has your controls. %s to interact.	โหมดเฝ้าดู: เกมควบคุมอยู่ กด %s เพื่อโต้ตอบ
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	ใช้ปุ่มเดียวเดี่ยว ๆ ระบบไม่อ่านปุ่มผสมกับ Ctrl หรือ Alt เพราะปุ่มเหล่านี้จะไม่ทำงานขณะกด Ctrl หรือ Alt ค้างไว้
+a crafting station	สถานีประดิษฐ์

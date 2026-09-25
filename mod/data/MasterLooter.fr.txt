@@ -467,3 +467,4 @@ a placed Field Pot or Bonfire	une marmite de campagne ou un feu de camp posé
 Keep the menu on screen while you play. %s brings it back.	Garder le menu à l'écran pendant que vous jouez. %s le fait réapparaître.
 Watch mode: the game has your controls. %s to interact.	Mode observation : le jeu a vos contrôles. %s pour interagir.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Une seule touche. Les combinaisons avec Ctrl et Alt ne sont jamais lues, car ces touches restent muettes tant que Ctrl ou Alt est enfoncée.
+a crafting station	un poste d'artisanat

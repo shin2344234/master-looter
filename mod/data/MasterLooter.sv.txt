@@ -466,3 +466,4 @@ a placed Field Pot or Bonfire	en utplacerad fältgryta eller en lägereld
 Keep the menu on screen while you play. %s brings it back.	Håll menyn kvar på skärmen medan du spelar. %s tar tillbaka den.
 Watch mode: the game has your controls. %s to interact.	Bevakningsläge: spelet har dina kontroller. %s för att interagera.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	En tangent för sig. Kombinationer med Ctrl och Alt läses aldrig, eftersom de här tangenterna är tysta medan Ctrl eller Alt hålls nere.
+a crafting station	en hantverksstation

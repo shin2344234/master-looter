@@ -466,3 +466,4 @@ a placed Field Pot or Bonfire	설치된 야전 솥이나 모닥불
 Keep the menu on screen while you play. %s brings it back.	플레이 중에도 메뉴를 화면에 유지합니다. %s로 다시 불러옵니다.
 Watch mode: the game has your controls. %s to interact.	워치 모드: 게임이 조작을 가져갑니다. %s로 상호작용.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	키 하나만 단독으로. Ctrl이나 Alt를 누르고 있는 동안 이 키들은 반응하지 않으므로 Ctrl, Alt 조합은 인식되지 않습니다.
+a crafting station	제작 시설

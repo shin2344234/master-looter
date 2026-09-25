@@ -757,9 +757,6 @@ gimmick_common_logouter_box_01m	wood		Common logouter box 01m	name	0	Money_Camp_
 gimmick_common_logouter_box_03m	wood		Common logouter box 03m	name	0	Money_Camp_Food	0	0	0
 gimmick_common_logouter_box_05m	wood		Common logouter box 05m	name	0	Money_Camp_Food	0	0	0
 gimmick_confusion_bomb_01	pickup		Battle confusion bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
-gimmick_craft_millestone_01_base	stone		Craft millestone 01 base	name	0		0	0	0
-gimmick_craft_millestone_01_stick	stone		Farm millestone 01 stick	name	0		0	0	0
-gimmick_craft_millestone_01_stone	stone	Stone_Quarry	Stone	name	0		0	0	0
 gimmick_crow_bomb_01	pickup		Battle crow bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_cup_oath_0001	pickup		Cup oath	tag	0		0	0	0
 gimmick_detectchange_stonebridge_top_01	stone		Dc stonebridge top	name	0		0	0	0

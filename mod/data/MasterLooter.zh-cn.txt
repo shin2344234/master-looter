@@ -481,3 +481,4 @@ a placed Field Pot or Bonfire	放置的野外锅或篝火
 Keep the menu on screen while you play. %s brings it back.	游玩时保持菜单显示。按 %s 重新呼出。
 Watch mode: the game has your controls. %s to interact.	监视模式：控制权归游戏所有。按 %s 进行交互。
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	只能是单个按键。按住 Ctrl 或 Alt 时这些按键不会响应，所以 Ctrl 和 Alt 组合键永远不会被读取。
+a crafting station	制作台

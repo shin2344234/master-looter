@@ -465,3 +465,4 @@ a placed Field Pot or Bonfire	設置された野外鍋か焚き火
 Keep the menu on screen while you play. %s brings it back.	プレイ中もメニューを画面に表示したままにします。%sで呼び戻します。
 Watch mode: the game has your controls. %s to interact.	監視モード：操作はゲーム側にあります。%sで対話します。
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	キーは単独で1つ。CtrlやAltを押している間はこれらのキーが反応しないため、CtrlやAltとの組み合わせは読み取られません。
+a crafting station	製作設備

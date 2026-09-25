@@ -466,3 +466,4 @@ a placed Field Pot or Bonfire	встановлений похідний каза
 Keep the menu on screen while you play. %s brings it back.	Тримати меню на екрані під час гри. %s повертає його.
 Watch mode: the game has your controls. %s to interact.	Режим спостереження: керування належить грі. %s — взаємодіяти.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Одна клавіша окремо. Поєднання з Ctrl і Alt ніколи не зчитуються, бо ці клавіші мовчать, поки затиснуто Ctrl або Alt.
+a crafting station	ремісницька станція

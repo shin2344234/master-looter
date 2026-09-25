@@ -2863,11 +2863,25 @@ namespace ml::loot
         return node && node[0] && IStr(node, "gimmick_craft_cook_campfire_");
     }
 
+    // Every other crafting station: anvils, smithing and sewing benches, the
+    // Cooking Pot, the Griddle, the Cauldron, the mortar, the millstone. The
+    // prefix names 25 prefabs in gimmickinfo and every one is a station; four
+    // of them are the placed forms of camp items with blueprints, like the
+    // fires. Across the logs on hand only the Field Pot ever carried a gather
+    // component, so this refuses nothing seen yet. It is here because the
+    // Cooking Pot and the Cauldron are cooking facilities placed the same way,
+    // and the millstone's three parts were in the node table as stone, a name
+    // guess on "millestone", under a switch that is on by default.
+    static bool CraftStation(const char* node)
+    {
+        return node && node[0] && IStr(node, "gimmick_craft_");
+    }
+
     static bool OffLimits(const char* node, bool unwornEquip = false)
     {
         if (!node || !node[0]) return false;
         if (PlantedSeed(node)) return true;
-        if (PlacedCookFire(node)) return true;
+        if (CraftStation(node)) return true;
         // "puzzle" earns its place: the game tags gimmick_puzzle_ice_wall_break,
         // _ice_block_break, _stone_wall_break and _pickaxe_break_point as
         // collect_mine, so they read as ordinary ore and the mod would open
@@ -3226,6 +3240,7 @@ namespace ml::loot
             if (IStr(c.node, "equip_openclose")) return skip("take this one by hand, looting it can lock the quest");
             if (PlantedSeed(c.node)) return skip("a seed planted in your camp farm");
             if (PlacedCookFire(c.node)) return skip("a placed Field Pot or Bonfire");
+            if (CraftStation(c.node)) return skip("a crafting station");
             // Gear that is being worn, which the game keeps in the world as an
             // object of its own under /00_common/equip/. Taking one hands over a
             // copy and leaves the original equipped, so the player ends up with

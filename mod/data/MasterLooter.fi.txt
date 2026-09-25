@@ -468,3 +468,4 @@ a placed Field Pot or Bonfire	paikalleen asetettu kenttäpata tai nuotio
 Keep the menu on screen while you play. %s brings it back.	Pidä valikko näytöllä pelin aikana. %s tuo sen takaisin.
 Watch mode: the game has your controls. %s to interact.	Seurantatila: peli hallitsee ohjaimiasi. %s ollaksesi vuorovaikutuksessa.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Yksi näppäin yksinään. Ctrl- ja Alt-yhdistelmiä ei koskaan lueta, koska nämä näppäimet ovat hiljaa, kun Ctrl tai Alt on painettuna.
+a crafting station	valmistuspiste

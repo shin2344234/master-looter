@@ -465,3 +465,4 @@ a placed Field Pot or Bonfire	postavený polní kotlík nebo táborák
 Keep the menu on screen while you play. %s brings it back.	Nech menu na obrazovce, zatímco hraješ. %s ho vrátí zpět.
 Watch mode: the game has your controls. %s to interact.	Režim sledování: hra má tvé ovládání. %s pro interakci.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Jedna samostatná klávesa. Kombinace s Ctrl a Alt se nikdy nenačtou, protože tyto klávesy mlčí, dokud je Ctrl nebo Alt stisknutý.
+a crafting station	výrobní stanoviště
