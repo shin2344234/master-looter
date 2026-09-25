@@ -570,6 +570,7 @@ namespace ml::Mod
                     LOG_ERR("No frame has been rendered in twenty seconds. Starting the loot engine "
                             "without waiting for one. If the overlay never reports ready, nothing is "
                             "drawing it; the [hook] lines above say who owns Present.");
+                    hooks::LogSwapChainCreationPath();
                     if (const char* who = OverlayConflict())
                         LOG_ERR("%s is loaded. Character Creator 9 draws its own editor panel, and with "
                                 "it this mod's menu can go without a frame for the whole session, so Insert "

@@ -55,6 +55,13 @@ namespace ml::hooks
     using CSFH_t = HRESULT (STDMETHODCALLTYPE*)(IDXGIFactory2*, IUnknown*, HWND, const DXGI_SWAP_CHAIN_DESC1*, const DXGI_SWAP_CHAIN_FULLSCREEN_DESC*, IDXGIOutput*, IDXGISwapChain1**);
 
     static CSFH_t oFactoryCreateSwapChainForHwnd = nullptr;
+    // What the creation report compares against: the factory vtable the
+    // detour was installed from, the function in slot 15 at the time, and how
+    // many times the detour has run.
+    static void** g_factoryVt = nullptr;
+    static void*  g_factoryFn = nullptr;
+    static bool   g_factoryInPlace = false;
+    static std::atomic<long> g_factoryCalls{0};
 
     // Set once a swapchain has been wrapped: the wrapper now does all overlay
     // drawing, so the native Present byte-hook must stop drawing (its buffers are
@@ -1913,6 +1920,7 @@ namespace ml::hooks
         // through the same patched slot during an FG toggle - let it complete
         // untouched, otherwise we recurse into the interposer mid-rebuild.
         CreateGuard guard;
+        g_factoryCalls.fetch_add(1, std::memory_order_relaxed);
 
         // Without a wrapper, nothing lets go of the back buffers when the game
         // replaces its swapchain. The wrapper's destructor does that on the
@@ -2104,11 +2112,14 @@ namespace ml::hooks
         // Present, ours first and theirs next.
         void** vt = *reinterpret_cast<void***>(factory);
         void* fn = vt[15];
+        g_factoryVt = vt;
+        g_factoryFn = fn;
         if (LogHookTarget("Factory CreateSwapChainForHwnd", fn, true) &&
             MH_CreateHook(fn, reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd),
                           reinterpret_cast<void**>(&oFactoryCreateSwapChainForHwnd)) == MH_OK &&
             MH_EnableHook(fn) == MH_OK)
         {
+            g_factoryInPlace = true;
             LOG("FG: CreateSwapChainForHwnd detoured in place - the factory slot still points into dxgi.dll, so Steam's overlay keeps its hooks.");
         }
         else
@@ -2123,6 +2134,72 @@ namespace ml::hooks
         }
 
         factory->Release();
+    }
+
+    // Written when twenty seconds pass with no frame. oasisezy's log of 25
+    // September 2026 installed the detour above, stacked on Steam's jump, and
+    // then the game made its swapchain with Character Creator 9 loaded and
+    // the detour never ran. Nothing said which way the chain was made
+    // instead. These lines say whether the detour is still at the entry,
+    // whether the slot still points at it, who owns the entries of the other
+    // three ways a factory makes a chain, and how often the detour has run.
+    // The vtable lives in dxgi.dll's image, so it outlives the factory it was
+    // read from; nothing is created to read it.
+    static void LogEntry(const char* what, void* fn)
+    {
+        char mod[64] = "?", bytes[40] = "", into[96] = "";
+        if (!fn || IsBadReadPtr(fn, 16)) { LOG("[creation] %s @ %p: unreadable", what, fn); return; }
+        OwningModule(fn, mod, sizeof mod);
+        uint8_t b[16];
+        memcpy(b, fn, sizeof b);
+        int w = 0;
+        for (int i = 0; i < 8; ++i) w += snprintf(bytes + w, sizeof bytes - w, "%02X ", b[i]);
+        const char* detour = ExistingDetour(b);
+        if (detour) DescribeDetour(b, fn, into, sizeof into);
+        if (w > 0) bytes[w - 1] = 0;
+        LOG("[creation] %s @ %p in %s (%s) %s%s%s", what, fn, mod, bytes,
+            detour ? "starts with " : "not detoured", detour ? detour : "", into);
+    }
+
+    static void ReportCreationPath()
+    {
+        void** vt = g_factoryVt;
+        if (vt && !IsBadReadPtr(vt, 25 * sizeof(void*)))
+        {
+            LOG("[creation] this mod's CreateSwapChainForHwnd detour has run %ld time(s); the slot %s the function it was read from",
+                g_factoryCalls.load(std::memory_order_relaxed), vt[15] == g_factoryFn ? "still points at" : "no longer points at");
+            char owner[64] = "";
+            if (!g_factoryInPlace)
+                LOG("[creation] the in-place detour never went in, so this mod relies on the slot patch");
+            else if (DetourOwner(g_factoryFn, owner, sizeof owner))
+                LOG("[creation] the entry it was installed on jumps into %s%s", owner[0] == '?' ? "an allocated stub" : owner,
+                    _stricmp(owner, "MasterLooter.asi") == 0 ? ", so the detour is still first in line"
+                                                              : ", so something detoured it after this mod did");
+            else
+                LOG("[creation] the entry it was installed on is not detoured any more: something put the original bytes back");
+            LogEntry("slot 15 CreateSwapChainForHwnd", vt[15]);
+            LogEntry("slot 10 CreateSwapChain", vt[10]);
+            LogEntry("slot 16 CreateSwapChainForCoreWindow", vt[16]);
+            LogEntry("slot 24 CreateSwapChainForComposition", vt[24]);
+        }
+        else
+            LOG("[creation] the factory's CreateSwapChainForHwnd was never looked at, so there is no detour to compare");
+        if (HMODULE dxgi = GetModuleHandleW(L"dxgi.dll"))
+        {
+            LogEntry("CreateDXGIFactory1", reinterpret_cast<void*>(GetProcAddress(dxgi, "CreateDXGIFactory1")));
+            LogEntry("CreateDXGIFactory2", reinterpret_cast<void*>(GetProcAddress(dxgi, "CreateDXGIFactory2")));
+        }
+        if (HMODULE d3d = GetModuleHandleW(L"d3d12.dll"))
+            LogEntry("D3D12CreateDevice", reinterpret_cast<void*>(GetProcAddress(d3d, "D3D12CreateDevice")));
+    }
+
+    // Another mod can free a relay page between the readability test and the
+    // read, so the whole report runs under a handler. It is a log line, and
+    // losing the rest of it is better than taking the game down.
+    void LogSwapChainCreationPath()
+    {
+        __try { ReportCreationPath(); }
+        __except (EXCEPTION_EXECUTE_HANDLER) { LOG("[creation] a read faulted part way through, so the lines above are all there is"); }
     }
 
     // Arm DRED so a later device removal is diagnosable. MUST run before the game
