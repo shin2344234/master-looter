@@ -22,6 +22,7 @@
 #include "../core/settings.h"
 #include "../core/state.h"
 #include "../gui/menu.h"
+#include "../loot/farhook.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -55,6 +56,11 @@ namespace ml::hooks
     using CSFH_t = HRESULT (STDMETHODCALLTYPE*)(IDXGIFactory2*, IUnknown*, HWND, const DXGI_SWAP_CHAIN_DESC1*, const DXGI_SWAP_CHAIN_FULLSCREEN_DESC*, IDXGIOutput*, IDXGISwapChain1**);
 
     static CSFH_t oFactoryCreateSwapChainForHwnd = nullptr;
+    // MinHook's own trampoline for the in-place detour, kept when the
+    // original above is moved onto another mod's detour. A nested entry
+    // always takes this one: if that mod's trampoline leads back here, going
+    // through it again would loop until the stack ran out.
+    static CSFH_t g_factoryOwnTramp = nullptr;
     // What the creation report compares against: the factory vtable the
     // detour was installed from, the function in slot 15 at the time, and how
     // many times the detour has run.
@@ -1944,7 +1950,8 @@ namespace ml::hooks
             g_swapChain = nullptr;
         }
 
-        const HRESULT hr = oFactoryCreateSwapChainForHwnd(self, device, hwnd, desc, fsDesc, restrictOut, ppSwapChain);
+        const CSFH_t next = guard.wasNested && g_factoryOwnTramp ? g_factoryOwnTramp : oFactoryCreateSwapChainForHwnd;
+        const HRESULT hr = next(self, device, hwnd, desc, fsDesc, restrictOut, ppSwapChain);
         if (!guard.wasNested && FAILED(hr))
             LOG_ERR("[hook] CreateSwapChainForHwnd failed (0x%08X) for a %ux%u chain on window %p; if the game dies next, this is why",
                     static_cast<unsigned>(hr), desc ? desc->Width : 0u, desc ? desc->Height : 0u, static_cast<void*>(hwnd));
@@ -2084,6 +2091,144 @@ namespace ml::hooks
     // export detour, no reentrant MinHook -> cannot deadlock startup or fight
     // Streamline's interposer. The patched vtable lives in the DLL and persists
     // after the dummy factory is released.
+    // Whether following the jumps from dxgi's entry reaches this mod's
+    // detour. MinHook puts an E9 on the entry and a jmp [rip+0] in a relay
+    // page beside it, so two hops is normal and eight is plenty.
+    static bool EntryReachesOurs(void* fn)
+    {
+        void* at = fn;
+        for (int hop = 0; hop < 8; ++hop)
+        {
+            if (!at || IsBadReadPtr(at, 16)) return false;
+            uint8_t b[16];
+            memcpy(b, at, sizeof b);
+            void* next = nullptr;
+            if (!DetourTarget(b, at, &next) || !next) return false;
+            if (next == reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd)) return true;
+            at = next;
+        }
+        return false;
+    }
+
+    // Character Creator 9 MinHooks this same entry, and CreateSwapChain beside
+    // it, from a thread of its own that starts in the same millisecond as
+    // this mod's. It builds both trampolines first and enables them one after
+    // the other, and every enable stops every thread in the process. Its log
+    // on oasisezy's machine, 25 September 2026, spans 16:42:02.432 to .963
+    // for that setup; this mod read the entry at .475 and put its detour in
+    // at .752. A trampoline built from the entry before .752 goes straight to
+    // Steam's hook, and an enable after .752 writes over this mod's jump, so
+    // the game's creation reached Character Creator and never this mod. Read
+    // from CharacterCreator.asi 9.0.9: both of its detours call their
+    // original and nothing else, so a correct chain would have reached us.
+    //
+    // So the entry is watched until the game makes its chain. If it stops
+    // leading here and now starts with a jump into another mod's
+    // jmp [rip+0] relay, only the eight address bytes of that relay change,
+    // to this mod's detour, and the original becomes the address they held.
+    // This mod then runs first and calls theirs, which carries on to Steam's
+    // hook and dxgi. When the chain was correct after all, this mod is
+    // entered twice, and the inner entry goes on through its own MinHook
+    // trampoline rather than back into theirs, so the loop closes there.
+    // Whether following jumps from `from` ever lands on `at`.
+    static bool ChainPasses(void* from, void* at)
+    {
+        void* p = from;
+        for (int hop = 0; hop < 8 && p; ++hop)
+        {
+            if (p == at) return true;
+            if (IsBadReadPtr(p, 16)) return false;
+            uint8_t b[16];
+            memcpy(b, p, sizeof b);
+            void* next = nullptr;
+            if (!DetourTarget(b, p, &next) || !next) return false;
+            p = next;
+        }
+        return p == at;
+    }
+
+    static void WatchCreationDetour()
+    {
+        HANDLE t = CreateThread(nullptr, 0, [](LPVOID) -> DWORD {
+            // Once only. A second reclaim would move the original off the
+            // first mod's detour, and that mod would drop out of the chain.
+            int displaced = 0;
+            bool saidUnstackable = false;
+            for (int i = 0; i < 600; ++i)
+            {
+                Sleep(50);
+                if (g_factoryCalls.load(std::memory_order_relaxed) > 0) break;
+                void* fn = g_factoryFn;
+                if (!fn || EntryReachesOurs(fn)) { displaced = 0; continue; }
+                // Half a second displaced before acting. The other mod's
+                // installer stops every thread for each hook it enables, and
+                // so does the write below; two of those running at once can
+                // each stop the other and hang the game. Its enables come
+                // back to back, so once the entry has held still this long
+                // it has finished with this function. That narrows the
+                // window; nothing can close it, since the other mod's
+                // installer takes no lock this mod can see.
+                if (++displaced < 10) continue;
+                uint8_t b[16] = {};
+                __try { memcpy(b, fn, sizeof b); }
+                __except (EXCEPTION_EXECUTE_HANDLER) { break; }
+                void* relay = nullptr;
+                char owner[64] = "?";
+                if (b[0] != 0xE9 || !DetourTarget(b, fn, &relay) || !relay || !farhook::AbsJumpTarget(reinterpret_cast<uintptr_t>(relay)))
+                {
+                    // Logged once and watched on: the other mod may enable
+                    // again a moment later in a form that can be stacked on.
+                    if (!saidUnstackable)
+                    {
+                        if (!DetourOwner(fn, owner, sizeof owner)) snprintf(owner, sizeof owner, "nothing, the original bytes are back");
+                        LOG_ERR("[hook] CreateSwapChainForHwnd no longer leads to this mod's detour and the entry now goes to %s, in a form this mod cannot stack on; "
+                                "the menu may never get a frame", owner);
+                        saidUnstackable = true;
+                    }
+                    displaced = 0;
+                    continue;
+                }
+                OwningModule(reinterpret_cast<void*>(farhook::AbsJumpTarget(reinterpret_cast<uintptr_t>(relay))), owner, sizeof owner);
+                // If that mod hooked first, MinHook built this mod's own
+                // trampoline as a jump into the relay about to be patched, and
+                // a nested entry going that way would come straight back here.
+                // It goes to their detour instead, which ends at the original.
+                const bool ownLeadsThere = ChainPasses(reinterpret_cast<void*>(g_factoryOwnTramp), relay);
+                // The new original is their detour itself, published before
+                // the relay write. Until the write lands this mod is either
+                // out of the chain or reached through their trampoline, and
+                // either way a call ends at the original; published after, a
+                // call in between could go round through the relay forever.
+                // On a failure nothing was written and the old pointers go
+                // back. farhook's own original is not used: it writes null on
+                // a failure, and this pointer is live.
+                char why[96] = "";
+                void* unused = nullptr;
+                const CSFH_t oldOrig = oFactoryCreateSwapChainForHwnd, oldOwn = g_factoryOwnTramp;
+                const CSFH_t theirs = reinterpret_cast<CSFH_t>(farhook::AbsJumpTarget(reinterpret_cast<uintptr_t>(relay)));
+                oFactoryCreateSwapChainForHwnd = theirs;
+                if (ownLeadsThere) g_factoryOwnTramp = theirs;
+                if (theirs && farhook::InstallOverAbsJump("CreateSwapChainForHwnd", reinterpret_cast<uintptr_t>(relay),
+                                                          reinterpret_cast<void*>(&hkFactoryCreateSwapChainForHwnd), &unused, why, sizeof why))
+                {
+                    LOG("[hook] %s wrote its own jump over this mod's CreateSwapChainForHwnd detour after it went in; "
+                        "stacked on its relay, so this mod runs first and then %s", owner, owner);
+                    break;
+                }
+                else
+                {
+                    oFactoryCreateSwapChainForHwnd = oldOrig;
+                    g_factoryOwnTramp = oldOwn;
+                    LOG_ERR("[hook] %s wrote over this mod's CreateSwapChainForHwnd detour and stacking on it failed (%s); "
+                            "the menu may never get a frame", owner, why);
+                    break;
+                }
+            }
+            return 0;
+        }, nullptr, 0, nullptr);
+        if (t) CloseHandle(t);
+    }
+
     static void InstallSwapChainCreationPatch()
     {
         IDXGIFactory2* factory = nullptr;
@@ -2120,7 +2265,9 @@ namespace ml::hooks
             MH_EnableHook(fn) == MH_OK)
         {
             g_factoryInPlace = true;
+            g_factoryOwnTramp = oFactoryCreateSwapChainForHwnd;
             LOG("FG: CreateSwapChainForHwnd detoured in place - the factory slot still points into dxgi.dll, so Steam's overlay keeps its hooks.");
+            WatchCreationDetour();
         }
         else
         {

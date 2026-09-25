@@ -17,6 +17,18 @@ namespace ml::farhook
     static unsigned char* g_page = nullptr;
     static unsigned g_used = 0;
 
+    // The loot hooks go in from the engine thread and the swapchain creation
+    // watch in dx12_hook.cpp can reclaim its detour from a thread of its own,
+    // and with no frame both run inside the same few seconds. Everything
+    // below shares one page, one table and one count, so the public calls
+    // take this first.
+    static SRWLOCK g_lock = SRWLOCK_INIT;
+    struct Held
+    {
+        Held() { AcquireSRWLockExclusive(&g_lock); }
+        ~Held() { ReleaseSRWLockExclusive(&g_lock); }
+    };
+
     static unsigned char* Alloc(unsigned n)
     {
         if (!g_page || g_used + n > 4096)
@@ -112,6 +124,7 @@ namespace ml::farhook
 
     bool Install(const char* name, uintptr_t target, void* detour, void** original, char* why, unsigned whyLen)
     {
+        Held held;
         (void)name;
         why[0] = 0;
         if (!target) { snprintf(why, whyLen, "no target"); return false; }
@@ -198,6 +211,7 @@ namespace ml::farhook
 
     bool InstallOverJump(const char* name, uintptr_t target, void* detour, void** original, char* why, unsigned whyLen)
     {
+        Held held;
         (void)name;
         why[0] = 0;
         if (!target) { snprintf(why, whyLen, "no target"); return false; }
@@ -263,6 +277,7 @@ namespace ml::farhook
 
     bool InstallOverAbsJump(const char* name, uintptr_t target, void* detour, void** original, char* why, unsigned whyLen)
     {
+        Held held;
         (void)name;
         why[0] = 0;
         if (!target) { snprintf(why, whyLen, "no target"); return false; }
@@ -293,6 +308,7 @@ namespace ml::farhook
 
     void RemoveAll()
     {
+        Held held;
         char why[64];
         for (int i = g_n - 1; i >= 0; --i) WriteCode(g_entries[i].target, g_entries[i].orig, g_entries[i].stolen, why, sizeof why);
         g_n = 0;
