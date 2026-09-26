@@ -141,7 +141,7 @@ Item database	Gjenstandsdatabase
 Item table	Gjenstandstabell
 Items	Gjenstander
 Items lying in the world, including drops from enemies.	Gjenstander som ligger i verden, inkludert drops fra fiender.
-Items no shop will buy, across every class.	Gjenstander ingen butikk vil kjøpe, i alle klasser.
+Items no shop will buy, in every class but currency.	Gjenstander ingen butikk vil kjøpe, i alle klasser unntatt valuta.
 Items on the ground	Gjenstander på bakken
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Gjenstander merket quest lates i fred, slik at gåte- og historiegjenstander ikke tas automatisk. Den leser gjenstandens egne merkelapper, så den dekker alt du plukker opp og hvert punkt hvis innhold modden kan navngi. To ting faller utenfor. Et punkt den ikke kan navngi avgjøres av bryteren for sitt slag, for der finnes ingen gjenstand å lese en merkelapp av. Og å flå et kadaver betaler ut uten at modden noen gang ser hva som kom inn.
 Items with an unknown value are never filtered by it.	Gjenstander med ukjent verdi blir aldri filtrert av den.

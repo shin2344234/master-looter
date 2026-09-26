@@ -137,7 +137,7 @@ Item database	Baza de date de obiecte
 Item table	Tabelul de obiecte
 Items	Obiecte
 Items lying in the world, including drops from enemies.	Obiecte aflate în lume, inclusiv cele lăsate de inamici.
-Items no shop will buy, across every class.	Obiecte pe care niciun magazin nu le cumpără, din orice clasă.
+Items no shop will buy, in every class but currency.	Obiecte pe care niciun magazin nu le cumpără, din orice clasă în afară de monedă.
 Items on the ground	Obiecte de pe jos
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Obiectele etichetate ca misiune sunt lăsate în pace, astfel încât obiectele de puzzle și cele de poveste să nu fie luate automat. Citește etichetele proprii ale obiectului, deci acoperă tot ce ridici și fiecare punct al cărui conținut modul îl poate numi. Două lucruri rămân pe dinafară. Un punct pe care nu îl poate numi este decis de comutatorul tipului său, fiindcă acolo nu există niciun obiect de pe care să citești o etichetă. Iar jupuirea unei carcase plătește fără ca modul să vadă vreodată ce a sosit.
 Items with an unknown value are never filtered by it.	Obiectele cu valoare necunoscută nu sunt niciodată filtrate după ea.

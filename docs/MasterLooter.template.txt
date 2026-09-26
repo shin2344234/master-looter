@@ -176,7 +176,7 @@ Item table
 Items	
 Items auto-store always leaves in the bag. The default is every currency: silver, coin pouches, gold bars, camp funds and supplies, tokens and bonds. Reset to defaults below puts that list back.	
 Items lying in the world, including drops from enemies.	
-Items no shop will buy, across every class.	
+Items no shop will buy, in every class but currency.	
 Items on the ground	
 Items raised	
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	

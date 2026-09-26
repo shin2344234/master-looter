@@ -142,7 +142,7 @@ Item database	物品数据库
 Item table	物品表
 Items	物品
 Items lying in the world, including drops from enemies.	散落在世界各处的物品，包括敌人掉落的物品。
-Items no shop will buy, across every class.	所有类别中没有任何商店愿意收购的物品。
+Items no shop will buy, in every class but currency.	除货币外，所有类别中没有任何商店愿意收购的物品。
 Items on the ground	地面上的物品
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	带有任务标签的物品会被原样留下，这样解谜和剧情物品就不会被自动取走。它读取物品自身的标签，因此涵盖你捡起的一切，以及模组能叫出内容物名字的每一个资源点。有两样不在其列。它叫不出名字的资源点由其种类的开关决定，因为那里没有可供读取标签的物品。另外，剥取动物尸体的产出会直接入账，模组根本看不到来的是什么。
 Items with an unknown value are never filtered by it.	价值未知的物品绝不会按价值进行过滤。

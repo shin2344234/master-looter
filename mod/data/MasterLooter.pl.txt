@@ -139,7 +139,7 @@ Item database	Baza danych przedmiotów
 Item table	Tabela przedmiotów
 Items	Przedmioty
 Items lying in the world, including drops from enemies.	Przedmioty leżące w świecie gry, w tym te upuszczane przez wrogów.
-Items no shop will buy, across every class.	Przedmioty, których nie kupi żaden sklep, niezależnie od klasy.
+Items no shop will buy, in every class but currency.	Przedmioty, których nie kupi żaden sklep, w każdej klasie oprócz waluty.
 Items on the ground	Przedmioty na ziemi
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Przedmioty oznaczone jako zadaniowe są zostawiane w spokoju, żeby przedmioty z zagadek i z fabuły nie były zabierane automatycznie. Czyta własne znaczniki przedmiotu, więc obejmuje wszystko, co podnosisz, i każdy punkt, którego zawartość mod potrafi nazwać. Dwie rzeczy zostają poza tym. O punkcie, którego nie potrafi nazwać, decyduje przełącznik jego rodzaju, bo nie ma tam przedmiotu, z którego dałoby się odczytać znacznik. A oprawianie padliny wypłaca, zanim mod w ogóle zobaczy, co przyszło.
 Items with an unknown value are never filtered by it.	Przedmioty o nieznanej wartości nigdy nie są przez to filtrowane.

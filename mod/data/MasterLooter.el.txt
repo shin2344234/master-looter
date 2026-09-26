@@ -139,7 +139,7 @@ Item database	Βάση δεδομένων αντικειμένων
 Item table	Πίνακας αντικειμένων
 Items	Αντικείμενα
 Items lying in the world, including drops from enemies.	Αντικείμενα πεσμένα στον κόσμο, μαζί με αυτά που ρίχνουν οι εχθροί.
-Items no shop will buy, across every class.	Αντικείμενα που κανένα μαγαζί δεν αγοράζει, σε κάθε κατηγορία.
+Items no shop will buy, in every class but currency.	Αντικείμενα που κανένα μαγαζί δεν αγοράζει, σε κάθε κατηγορία εκτός από το νόμισμα.
 Items on the ground	Αντικείμενα στο έδαφος
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Τα αντικείμενα με ετικέτα αποστολής αφήνονται ήσυχα, ώστε τα αντικείμενα γρίφων και ιστορίας να μην παίρνονται αυτόματα. Διαβάζει τις δικές του ετικέτες του αντικειμένου, οπότε καλύπτει ό,τι μαζεύεις και κάθε κόμβο του οποίου το περιεχόμενο μπορεί να ονομάσει το mod. Δύο πράγματα μένουν έξω. Έναν κόμβο που δεν μπορεί να ονομάσει τον αποφασίζει ο διακόπτης του είδους του, γιατί εκεί δεν υπάρχει αντικείμενο από το οποίο να διαβαστεί ετικέτα. Και το γδάρσιμο ενός κουφαριού πληρώνει χωρίς το mod να δει ποτέ τι έφτασε.
 Items with an unknown value are never filtered by it.	Αντικείμενα με άγνωστη αξία δεν φιλτράρονται ποτέ από αυτό.

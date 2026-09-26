@@ -137,7 +137,7 @@ Item database	Cơ sở dữ liệu vật phẩm
 Item table	Bảng vật phẩm
 Items	Vật phẩm
 Items lying in the world, including drops from enemies.	Vật phẩm nằm trong thế giới, kể cả đồ rơi ra từ kẻ địch.
-Items no shop will buy, across every class.	Vật phẩm không cửa hàng nào mua, ở mọi loại.
+Items no shop will buy, in every class but currency.	Vật phẩm không cửa hàng nào mua, ở mọi loại trừ tiền tệ.
 Items on the ground	Vật phẩm trên mặt đất
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Vật phẩm có thẻ nhiệm vụ được để yên, để vật phẩm câu đố và vật phẩm cốt truyện không bị tự động lấy. Nó đọc chính các thẻ của vật phẩm, nên bao gồm mọi thứ bạn nhặt và mọi điểm mà mod gọi tên được phần bên trong. Hai thứ nằm ngoài phạm vi đó. Một điểm mà nó không gọi tên được sẽ do công tắc của loại điểm đó quyết định, vì ở đấy không có vật phẩm nào để đọc thẻ. Và việc lột da một xác thú trả về chiến lợi phẩm mà mod không hề thấy thứ gì đã tới.
 Items with an unknown value are never filtered by it.	Vật phẩm có giá trị không xác định không bao giờ bị lọc theo tiêu chí này.

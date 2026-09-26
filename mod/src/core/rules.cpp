@@ -61,7 +61,14 @@ namespace ml::Rules
         // of its words.
         if (cfg.skipQuestGear && item.HasTag("important") && item.HasTag("no-sell"))
         { v.loot = false; v.rule = "quest equipment"; return v; }
-        if (cfg.skipNoSell && item.HasTag("no-sell")) { v.loot = false; v.rule = "unsellable"; return v; }
+        // Money is no-sell because it is money already. Sov1737's log of 26
+        // September 2026 has this switch refusing Copper and its pouches
+        // twelve times in one session. All 28 currency items that carry the
+        // tag are coins, pouches, camp resources, contributions, tokens or
+        // Pearl, so the class is left out whole. The Classes tab still
+        // decides about currency like any other class.
+        if (cfg.skipNoSell && item.HasTag("no-sell") && item.klass != "currency")
+        { v.loot = false; v.rule = "unsellable"; return v; }
         if (cfg.minValueCopper > 0 && item.value >= 0 && item.value < cfg.minValueCopper)
         {
             v.loot = false; v.rule = "below value floor"; v.detail = std::to_string(item.value) + " copper"; return v;

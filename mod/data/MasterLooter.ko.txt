@@ -137,7 +137,7 @@ Item database	아이템 데이터베이스
 Item table	아이템 표
 Items	아이템
 Items lying in the world, including drops from enemies.	적의 드롭을 포함해 세상에 놓여 있는 아이템.
-Items no shop will buy, across every class.	모든 분류에서 어떤 상점도 사들이지 않는 아이템.
+Items no shop will buy, in every class but currency.	화폐를 제외한 모든 분류에서 어떤 상점도 사들이지 않는 아이템.
 Items on the ground	바닥에 있는 아이템
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	퀘스트 태그가 붙은 아이템은 그대로 두므로 수수께끼와 이야기용 아이템이 자동으로 수거되지 않습니다. 아이템 자체의 태그를 읽기 때문에 당신이 줍는 모든 것과, 내용물을 모드가 이름 지을 수 있는 모든 노드를 포함합니다. 두 가지는 여기서 벗어납니다. 이름을 알 수 없는 노드는 그 종류의 설정이 결정합니다. 거기에는 태그를 읽어 낼 아이템이 없기 때문입니다. 그리고 사체 가죽 벗기기는 모드가 무엇이 들어왔는지 한 번도 보지 못한 채 보상을 지급합니다.
 Items with an unknown value are never filtered by it.	가치를 알 수 없는 아이템은 이 기준으로 걸러지지 않습니다.

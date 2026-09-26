@@ -140,7 +140,7 @@ Item database	База данных предметов
 Item table	Таблица предметов
 Items	Предметы
 Items lying in the world, including drops from enemies.	Предметы, лежащие в мире, включая добычу с врагов.
-Items no shop will buy, across every class.	Предметы, которые не купит ни один магазин, в любом классе.
+Items no shop will buy, in every class but currency.	Предметы, которые не купит ни один магазин, в любом классе, кроме валюты.
 Items on the ground	Предметы на земле
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Предметы с меткой квеста остаются нетронутыми, чтобы предметы головоломок и сюжета не забирались автоматически. Читаются собственные метки предмета, поэтому охватывается всё, что ты подбираешь, и каждая точка, содержимое которой мод способен назвать. Две вещи остаются за рамками. Точку, которую он назвать не может, решает переключатель её вида, потому что там нет предмета, с которого можно прочесть метку. А свежевание туши выплачивает добычу так, что мод вообще не видит, что пришло.
 Items with an unknown value are never filtered by it.	Предметы с неизвестной ценностью никогда не фильтруются по ней.

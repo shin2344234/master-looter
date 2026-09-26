@@ -138,7 +138,7 @@ Item database	Base de dados de itens
 Item table	Tabela de itens
 Items	Itens
 Items lying in the world, including drops from enemies.	Itens espalhados pelo mundo, incluindo os largados pelos inimigos.
-Items no shop will buy, across every class.	Itens que nenhuma loja compra, em todas as classes.
+Items no shop will buy, in every class but currency.	Itens que nenhuma loja compra, em todas as classes exceto moeda.
 Items on the ground	Itens no chão
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Os itens etiquetados como missão são deixados em paz, para que os itens de puzzle e de história não sejam levados automaticamente. Lê as etiquetas do próprio item, por isso cobre tudo o que apanhas e todos os pontos cujo conteúdo o mod consegue nomear. Duas coisas ficam de fora. Um ponto que ele não consegue nomear é decidido pelo interruptor do seu tipo, porque ali não há item nenhum de onde ler uma etiqueta. E esfolar uma carcaça paga sem que o mod chegue a ver o que chegou.
 Items with an unknown value are never filtered by it.	Os itens com valor desconhecido nunca são filtrados por ele.

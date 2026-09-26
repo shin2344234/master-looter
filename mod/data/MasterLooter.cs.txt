@@ -136,7 +136,7 @@ Item database	Databáze předmětů
 Item table	Tabulka předmětů
 Items	Předměty
 Items lying in the world, including drops from enemies.	Předměty ležící ve světě, včetně dropů od nepřátel.
-Items no shop will buy, across every class.	Předměty, které nekoupí žádný obchod, napříč všemi třídami.
+Items no shop will buy, in every class but currency.	Předměty, které nekoupí žádný obchod, ve všech třídách kromě měny.
 Items on the ground	Předměty ležící na zemi
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Předměty označené jako questovní se nechávají být, aby se předměty z hádanek a z příběhu nebraly automaticky. Čte vlastní štítky předmětu, takže pokrývá vše, co sebereš, a každý uzel, jehož obsah umí mod pojmenovat. Dvě věci zůstávají mimo. O uzlu, který pojmenovat neumí, rozhoduje přepínač jeho druhu, protože tam není žádný předmět, ze kterého by se štítek dal přečíst. A stažení zdechliny vyplatí, aniž by mod kdy viděl, co přišlo.
 Items with an unknown value are never filtered by it.	Předměty s neznámou hodnotou tímto nikdy nejsou filtrovány.

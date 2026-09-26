@@ -136,7 +136,7 @@ Item database	ฐานข้อมูลไอเทม
 Item table	ตารางไอเทม
 Items	ไอเทม
 Items lying in the world, including drops from enemies.	ไอเทมที่วางอยู่ในโลกเกม รวมถึงของที่ดรอปจากศัตรู
-Items no shop will buy, across every class.	ไอเทมที่ไม่มีร้านค้าใดรับซื้อ ทุกประเภท
+Items no shop will buy, in every class but currency.	ไอเทมที่ไม่มีร้านค้าใดรับซื้อ ทุกประเภทยกเว้นเงินตรา
 Items on the ground	ไอเทมบนพื้น
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	ไอเทมที่ติดแท็กเควสต์จะถูกปล่อยไว้ เพื่อไม่ให้ไอเทมปริศนาและไอเทมเนื้อเรื่องถูกเก็บอัตโนมัติ มันอ่านแท็กของตัวไอเทมเอง จึงครอบคลุมทุกอย่างที่คุณเก็บ และทุกจุดเก็บของที่ม็อดเรียกชื่อของข้างในได้ มีสองอย่างที่อยู่นอกเหนือจากนี้ จุดเก็บของที่มันเรียกชื่อไม่ได้จะถูกตัดสินโดยสวิตช์ของชนิดนั้น เพราะตรงนั้นไม่มีไอเทมให้อ่านแท็ก และการชำแหละซากสัตว์จะจ่ายผลผลิตโดยที่ม็อดไม่เคยเห็นเลยว่าอะไรเข้ามา
 Items with an unknown value are never filtered by it.	ไอเทมที่ไม่ทราบมูลค่าจะไม่ถูกกรองด้วยเงื่อนไขนี้เลย

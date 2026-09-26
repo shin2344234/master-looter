@@ -139,7 +139,7 @@ Item database	Gegenstandsdatenbank
 Item table	Gegenstandstabelle
 Items	Gegenstände
 Items lying in the world, including drops from enemies.	Gegenstände, die in der Welt liegen, einschließlich Beute von Gegnern.
-Items no shop will buy, across every class.	Gegenstände, die kein Laden kauft, über alle Klassen hinweg.
+Items no shop will buy, in every class but currency.	Gegenstände, die kein Laden kauft, in allen Klassen außer Währung.
 Items on the ground	Gegenstände am Boden
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Als Quest markierte Gegenstände werden in Ruhe gelassen, damit Rätsel- und Story-Gegenstände nicht automatisch mitgenommen werden. Es liest die eigenen Markierungen des Gegenstands aus und erfasst damit alles, was du aufhebst, und jeden Punkt, dessen Inhalt der Mod benennen kann. Zwei Dinge fallen nicht darunter. Über einen Punkt, den er nicht benennen kann, entscheidet der Schalter für seine Art, denn dort gibt es keinen Gegenstand, an dem sich eine Markierung ablesen ließe. Und das Häuten eines Kadavers zahlt aus, ohne dass der Mod je sieht, was angekommen ist.
 Items with an unknown value are never filtered by it.	Gegenstände mit unbekanntem Wert werden dadurch nie gefiltert.

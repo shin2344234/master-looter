@@ -142,7 +142,7 @@ Item database	Base de datos de objetos
 Item table	Tabla de objetos
 Items	Objetos
 Items lying in the world, including drops from enemies.	Objetos tirados por el mundo, incluidos los que sueltan los enemigos.
-Items no shop will buy, across every class.	Objetos que ninguna tienda compra, en todas las clases.
+Items no shop will buy, in every class but currency.	Objetos que ninguna tienda compra, en todas las clases salvo la moneda.
 Items on the ground	Objetos en el suelo
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Los objetos etiquetados como misión se dejan en paz, para que los objetos de rompecabezas y de historia no se tomen automáticamente. Lee las etiquetas propias del objeto, así que cubre todo lo que recojas y todo punto cuyo contenido el mod pueda nombrar. Dos cosas quedan fuera. Un punto que no puede nombrar lo decide el interruptor de su tipo, porque allí no hay ningún objeto del que leer una etiqueta. Y despellejar un cadáver paga sin que el mod llegue a ver qué ha llegado.
 Items with an unknown value are never filtered by it.	Los objetos con valor desconocido nunca se filtran por este criterio.

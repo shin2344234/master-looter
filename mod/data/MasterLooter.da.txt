@@ -137,7 +137,7 @@ Item database	Genstandsdatabase
 Item table	Genstandstabel
 Items	Genstande
 Items lying in the world, including drops from enemies.	Genstande, der ligger i verdenen, inklusive drops fra fjender.
-Items no shop will buy, across every class.	Genstande, ingen butik vil købe, på tværs af alle klasser.
+Items no shop will buy, in every class but currency.	Genstande, ingen butik vil købe, i alle klasser undtagen valuta.
 Items on the ground	Genstande på jorden
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Genstande mærket quest lades i fred, så gåde- og historiegenstande ikke tages automatisk. Den læser genstandens egne mærkater, så den dækker alt, hvad du samler op, og hvert punkt, hvis indhold modet kan navngive. To ting falder udenfor. Et punkt, den ikke kan navngive, afgøres af kontakten for dets slags, for der er ingen genstand at læse et mærkat af. Og at flå et kadaver betaler ud, uden at modet nogensinde ser, hvad der kom ind.
 Items with an unknown value are never filtered by it.	Genstande med ukendt værdi filtreres aldrig efter den.

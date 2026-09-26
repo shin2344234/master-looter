@@ -138,7 +138,7 @@ Item database	Base de données des objets
 Item table	Table des objets
 Items	Objets
 Items lying in the world, including drops from enemies.	Objets qui traînent dans le monde, y compris ceux lâchés par les ennemis.
-Items no shop will buy, across every class.	Objets qu'aucune boutique n'achète, dans toutes les classes.
+Items no shop will buy, in every class but currency.	Objets qu'aucune boutique n'achète, dans toutes les classes sauf la monnaie.
 Items on the ground	Objets au sol
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Les objets étiquetés quête sont laissés tranquilles, afin que les objets d'énigme et d'histoire ne soient pas pris automatiquement. Cela lit les étiquettes propres à l'objet, donc cela couvre tout ce que tu ramasses et tout point dont le mod peut nommer le contenu. Deux choses échappent à cela. Un point qu'il ne peut pas nommer est décidé par le réglage de son type, car il n'y a là aucun objet dont lire une étiquette. Et dépecer une carcasse rapporte sans que le mod voie jamais ce qui est arrivé.
 Items with an unknown value are never filtered by it.	Les objets de valeur inconnue ne sont jamais filtrés par ce critère.

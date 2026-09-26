@@ -140,7 +140,7 @@ Item database	Tárgyadatbázis
 Item table	Tárgytábla
 Items	Tárgyak
 Items lying in the world, including drops from enemies.	A világban heverő tárgyak, beleértve az ellenségek által ejtett tárgyakat is.
-Items no shop will buy, across every class.	Tárgyak, amelyeket egyetlen bolt sem vesz meg, bármely kategóriában.
+Items no shop will buy, in every class but currency.	Tárgyak, amelyeket egyetlen bolt sem vesz meg, minden kategóriában a pénz kivételével.
 Items on the ground	Földön heverő tárgyak
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	A küldetés címkével ellátott tárgyakat békén hagyja, hogy a fejtörők és a történet tárgyait ne vegye fel magától. A tárgy saját címkéit olvassa, így mindenre kiterjed, amit felveszel, és minden pontra, amelynek tartalmát a mod meg tudja nevezni. Két dolog kívül esik ezen. Azt a pontot, amelyet nem tud megnevezni, a fajtájához tartozó kapcsoló dönti el, mert ott nincs tárgy, amelyről címkét lehetne leolvasni. A tetem megnyúzása pedig úgy fizet, hogy a mod soha nem látja, mi érkezett.
 Items with an unknown value are never filtered by it.	Az ismeretlen értékű tárgyakat ez sosem szűri ki.

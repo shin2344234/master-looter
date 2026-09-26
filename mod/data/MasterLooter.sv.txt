@@ -137,7 +137,7 @@ Item database	Föremålsdatabas
 Item table	Föremålstabell
 Items	Föremål
 Items lying in the world, including drops from enemies.	Föremål som ligger i världen, inklusive det som fiender tappar.
-Items no shop will buy, across every class.	Föremål som ingen butik köper, oavsett klass.
+Items no shop will buy, in every class but currency.	Föremål som ingen butik köper, i alla klasser utom valuta.
 Items on the ground	Föremål på marken
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Föremål märkta uppdrag lämnas i fred, så att pussel- och berättelseföremål inte tas automatiskt. Den läser föremålets egna etiketter, så den täcker allt du plockar upp och varje nod vars innehåll modden kan namnge. Två saker faller utanför. En nod den inte kan namnge avgörs av inställningen för dess sort, för där finns inget föremål att läsa en etikett från. Och att flå ett kadaver betalar ut utan att modden någonsin ser vad som kom in.
 Items with an unknown value are never filtered by it.	Föremål med okänt värde filtreras aldrig av det.

@@ -137,7 +137,7 @@ Item database	Eşya veritabanı
 Item table	Eşya tablosu
 Items	Eşyalar
 Items lying in the world, including drops from enemies.	Dünyada duran eşyalar, düşmanların bıraktıkları dahil.
-Items no shop will buy, across every class.	Hiçbir dükkanın satın almadığı eşyalar, her sınıfta.
+Items no shop will buy, in every class but currency.	Hiçbir dükkanın satın almadığı eşyalar, para birimi dışındaki her sınıfta.
 Items on the ground	Yerde duran eşyalar
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Görev etiketli eşyalar rahat bırakılır, böylece bulmaca ve hikâye eşyaları kendiliğinden alınmaz. Eşyanın kendi etiketlerini okur, dolayısıyla aldığın her şeyi ve içeriğini modun adlandırabildiği her noktayı kapsar. İki şey bunun dışında kalır. Adlandıramadığı bir noktaya türünün anahtarı karar verir, çünkü orada etiket okunacak bir eşya yoktur. Bir leşi yüzmek ise, mod gelenin ne olduğunu hiç görmeden ödeme yapar.
 Items with an unknown value are never filtered by it.	Değeri bilinmeyen eşyalar bu filtreyle asla elenmez.

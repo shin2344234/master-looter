@@ -139,7 +139,7 @@ Item database	Esinetietokanta
 Item table	Esinetaulukko
 Items	Esineet
 Items lying in the world, including drops from enemies.	Maailmassa lojuvat esineet, mukaan lukien vihollisten pudottamat.
-Items no shop will buy, across every class.	Esineet, joita mikään kauppa ei osta, kaikissa luokissa.
+Items no shop will buy, in every class but currency.	Esineet, joita mikään kauppa ei osta, kaikissa luokissa paitsi valuutassa.
 Items on the ground	Maassa olevat esineet
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Tehtäväksi merkityt esineet jätetään rauhaan, jotta pulma- ja tarinaesineitä ei oteta automaattisesti. Se lukee esineen omat tunnisteet, joten se kattaa kaiken minkä poimit ja jokaisen pisteen, jonka sisällön modi osaa nimetä. Kaksi asiaa jää ulkopuolelle. Pisteestä, jota se ei osaa nimetä, päättää sen lajin kytkin, sillä siellä ei ole esinettä, josta tunniste luettaisiin. Ja raadon nylkeminen maksaa ilman että modi näkee koskaan, mitä saapui.
 Items with an unknown value are never filtered by it.	Esineitä, joiden arvo on tuntematon, ei koskaan suodateta tällä.

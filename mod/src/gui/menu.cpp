@@ -1121,7 +1121,7 @@ namespace ml::gui
             ImGui::TableNextColumn();
             bool nosell = !c.skipNoSell;
             if (ImGui::Checkbox(TR("Unsellable items"), &nosell)) { c.skipNoSell = !nosell; Settings::MarkDirty(); }
-            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Items no shop will buy, across every class.")); ImGui::EndTooltip(); }
+            if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Items no shop will buy, in every class but currency.")); ImGui::EndTooltip(); }
             ImGui::TableNextColumn();
             auto mf = c.tagRule.find("memory-fragment"); auto gm = c.tagRule.find("gimmick");
             const bool mfOn = mf != c.tagRule.end() && mf->second > 0, gmOn = gm != c.tagRule.end() && gm->second > 0;

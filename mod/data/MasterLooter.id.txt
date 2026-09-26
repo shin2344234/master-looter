@@ -136,7 +136,7 @@ Item database	Database item
 Item table	Tabel item
 Items	Item
 Items lying in the world, including drops from enemies.	Barang yang tergeletak di dunia, termasuk jatuhan dari musuh.
-Items no shop will buy, across every class.	Item yang tidak dibeli toko mana pun, di semua kelas.
+Items no shop will buy, in every class but currency.	Item yang tidak dibeli toko mana pun, di semua kelas kecuali mata uang.
 Items on the ground	Barang di tanah
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Item bertag quest dibiarkan, sehingga item teka-teki dan item cerita tidak diambil otomatis. Ia membaca tag milik item itu sendiri, jadi mencakup semua yang kamu pungut dan setiap node yang isinya bisa disebutkan oleh mod. Dua hal berada di luarnya. Node yang tidak bisa disebutkan namanya diputuskan oleh sakelar untuk jenisnya, karena di sana tidak ada item untuk dibaca tagnya. Dan menguliti bangkai membayar tanpa mod pernah melihat apa yang datang.
 Items with an unknown value are never filtered by it.	Item dengan nilai tidak diketahui tidak pernah difilter olehnya.
