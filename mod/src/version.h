@@ -5,8 +5,8 @@
 // to 1.6.1 shipped a PE version resource still reading 1.3.0.
 #define ML_VERSION_MAJOR 1
 #define ML_VERSION_MINOR 6
-#define ML_VERSION_PATCH 41
-#define ML_VERSION "1.6.41"
+#define ML_VERSION_PATCH 42
+#define ML_VERSION "1.6.42"
 // What a test build calls itself. Every log opens with this, so a log from a
 // build handed to one reporter cannot be read as a log from the release.
 // Empty on anything that ships, and set from the build line rather than by
