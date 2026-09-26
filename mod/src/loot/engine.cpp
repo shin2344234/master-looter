@@ -6475,8 +6475,15 @@ namespace ml::loot
                             g_pend.push_back({ now, Action::Gather, k.gtid, -1, false, std::string(), true, y ? y->row : -1 });
                             if (y && g_mineYields.size() < 256) g_mineYields.push_back({ now, static_cast<uint16_t>(y->row) });
                         }
-                        if (cfg.debugLog)
+                        // Written without the verbose switch, up to 40 a
+                        // session: a pick writes no [loot] line, so this is
+                        // the only sign in an ordinary log that one happened.
+                        static int s_pickLines = 0;
+                        if (cfg.debugLog || s_pickLines < 40)
+                        {
+                            ++s_pickLines;
                             LOG("[pick] drove the game's own pick at eid %08X %.1f m: %s", k.eid, k.d, k.node);
+                        }
                         continue;
                     }
                     const bool breakIt = cfg.breakOre && v.act == Action::Gather && k.nodeType &&

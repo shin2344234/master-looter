@@ -64,6 +64,9 @@ namespace ml
         bool Loaded();
         const char* Source();
         int  Count();
+        // Rows marked statepick; 2 on game 2.03.00. Zero means the column was
+        // not read.
+        int  StatePickCount();
         // `path` is the full prefab path as the game holds it. The folder is
         // dropped and a _scenecollector wrapper normalised away before lookup.
         const NodeType* ByPrefab(const char* path);

@@ -11,6 +11,7 @@
 namespace ml::NodeDb
 {
     static std::vector<NodeType>                    g_rows;
+    static int                                      g_statePick = 0;
     static std::unordered_map<std::string, size_t>  g_byPrefab;
     static bool                                     g_loaded = false;
     static const char*                              g_source = "";
@@ -54,8 +55,16 @@ namespace ml::NodeDb
             // it says what it can hand over, a five-column one has every node
             // breakable, which is what the mod did before that column existed,
             // and a four-column one counts every row as a guess.
-            std::string cols[9]; int c = 0;
-            for (const char* p = line.c_str(); *p && c < 9; ++p)
+            // Ten columns, statepick the last. The array and the loop stopped
+            // at nine from 17 September to 26 September 2026, so the loop never
+            // read that column and cols[9] read one past the end of the array:
+            // no plant was ever picked through its state, from 1.6.26 on.
+            // LuxDragon's Palmar Leaves armed 457 times in one 1.6.42 session
+            // and never filled. kCols is the one number to change for a new
+            // column.
+            constexpr int kCols = 10;
+            std::string cols[kCols]; int c = 0;
+            for (const char* p = line.c_str(); *p && c < kCols; ++p)
             {
                 if (*p == '\t') { ++c; continue; }
                 if (*p == '\r' || *p == '\n') break;
@@ -82,6 +91,7 @@ namespace ml::NodeDb
             n.breaks = c < 5 || cols[5] != "0";
             n.driven = c >= 7 && cols[7] == "1";
             n.statePick = c >= 9 && cols[9] == "1";
+            if (n.statePick) ++g_statePick;
             if (c >= 6 && !cols[6].empty())
             {
                 std::string one;
@@ -102,6 +112,7 @@ namespace ml::NodeDb
     bool Loaded() { return g_loaded; }
     const char* Source() { return g_source; }
     int Count() { return static_cast<int>(g_rows.size()); }
+    int StatePickCount() { return g_statePick; }
 
     const NodeType* ByPrefab(const char* path)
     {
