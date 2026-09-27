@@ -1935,7 +1935,7 @@ namespace ml::loot
     }
 
     // What kind of thing a gather node is, from what it yields.
-    enum class GatherKind { Unknown, Plant, Crop, CampFarm, Ore, Stone, Wood, Item, Furniture, Container };
+    enum class GatherKind { Unknown, Plant, Crop, CampFarm, Ore, Stone, Wood, Item, Furniture, Container, Dye };
     // What an item counts as for the kind toggles. The classes come straight
     // from the item database (scripts/build_item_db.py): ore and jewel are
     // minerals from veins, stone from quarries, wood from trees and branches.
@@ -2001,6 +2001,13 @@ namespace ml::loot
         if (k == "stone" || y->HasTag("stone")) return GatherKind::Stone;
         if (k == "ore" || k == "jewel" || y->HasTag("ore") || y->HasTag("mineral")) return GatherKind::Ore;
         if (k == "herb") return GatherKind::Plant;
+        // Dyes before furnishings. The game tags all 60 dye pots furniture as
+        // well as dye, so until 1.6.44 a dye arrived only with the Furniture
+        // switch on and the chairs and carpets with it. oasisezy asked on 27
+        // September 2026 for the dyes on their own, and the class and the tag
+        // could not give them that, because the kind switch is asked first.
+        // The class dye holds those 60 items and nothing else.
+        if (k == "dye") return GatherKind::Dye;
         // Furnishings, whatever else they also are. Decided before the onGround
         // line below, or a chair lying in a room is just another ground item.
         //
@@ -2175,6 +2182,7 @@ namespace ml::loot
         case GatherKind::Item:      return cfg.pickUpItems    ? nullptr : "pick up off";
         case GatherKind::Furniture: return cfg.lootFurniture  ? nullptr : "furniture off";
         case GatherKind::Container: return cfg.lootContainers ? nullptr : "containers off";
+        case GatherKind::Dye:       return cfg.lootDyes       ? nullptr : "dyes off";
         default:                    return cfg.gatherUnknown  ? nullptr : "unidentified nodes off";
         }
     }
@@ -2214,7 +2222,9 @@ namespace ml::loot
         }
     }
 
-    static constexpr int kGatherKinds = 9;   // the enumerators of GatherKind
+    // The enumerators of GatherKind. This said 9 while Container made it ten,
+    // harmless only because nothing indexed by Container; it follows the enum now.
+    static constexpr int kGatherKinds = static_cast<int>(GatherKind::Dye) + 1;
 
     // Positions in ItemDb::All() of everything each kind can yield, indexed
     // once. Small lists: 4 stone, and 18 for ore, jewel and stone together.
@@ -3698,6 +3708,7 @@ namespace ml::loot
             case GatherKind::Wood:  if (!cfg.gatherWood)  return skip("wood off"); break;
             case GatherKind::Furniture: if (!cfg.lootFurniture) return skip("furniture off"); break;
             case GatherKind::Container: if (!cfg.lootContainers) return skip("containers off"); break;
+            case GatherKind::Dye:       if (!cfg.lootDyes)       return skip("dyes off"); break;
             default: break;
             }
             break;

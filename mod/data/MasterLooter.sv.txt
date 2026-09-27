@@ -467,3 +467,7 @@ Keep the menu on screen while you play. %s brings it back.	Håll menyn kvar på 
 Watch mode: the game has your controls. %s to interact.	Bevakningsläge: spelet har dina kontroller. %s för att interagera.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	En tangent för sig. Kombinationer med Ctrl och Alt läses aldrig, eftersom de här tangenterna är tysta medan Ctrl eller Alt hålls nere.
 a crafting station	en hantverksstation
+Dyes	Färgämnen
+dyes off	färgämnen av
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Alla 60 färgämnen, både de du redan känner till och de du inte känner till. Spelet märker varje färgämne som möbel också, men det är den här brytaren som bestämmer över dem. Färgämnen på en butikshylla tillhör handlaren och lämnas kvar, om inte Ta varor som tillhör någon är på. Av som standard.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Fåglar landar bara medan fågelbordet är minst en procent fullt, så det behåller spelets storlek.

@@ -23,6 +23,9 @@ namespace ml::Settings
     // Set while reading a file that still carries the retired GatherStone
     // key with stone switched off. Read once by the version 4 migration.
     static bool g_sawGatherStoneOff = false;
+    // Set while reading a file that already names LootDyes, so the version 8
+    // migration leaves a value somebody wrote before first launch alone.
+    static bool g_sawLootDyes = false;
     static int          g_generation = 0;
     static std::recursive_mutex g_mutex;
 
@@ -125,6 +128,7 @@ namespace ml::Settings
         else if (k == "CatchAnimals")     c.catchAnimals = Flag(v);
         else if (k == "LootContainers")   c.lootContainers = Flag(v);
         else if (k == "LootFurniture")    c.lootFurniture = Flag(v);
+        else if (k == "LootDyes")         { c.lootDyes = Flag(v); g_sawLootDyes = true; }
         else if (k == "ScanRange")        c.scanRange = Range(v, 5, 200, 40);
         else if (k == "LootRange")        c.lootRange = Range(v, 0, 200, 15);
         else if (k == "GatherRange")      c.gatherRange = Range(v, 0, 200, 6);
@@ -417,7 +421,23 @@ namespace ml::Settings
             c.configVersion = 7;
             migrated = true;
         }
-        if (!fromFile) c.configVersion = 7;
+        // Dyes left Furniture for a switch of their own. Until now a dye came
+        // in exactly when Furniture was on, so the new switch starts where
+        // Furniture stands and nobody's looting changes on the update. A file
+        // that already names LootDyes keeps it: INI Master reads the key list
+        // out of the new plugin, so it can be set before the first launch.
+        if (fromFile && c.configVersion < 8)
+        {
+            if (!g_sawLootDyes)
+            {
+                c.lootDyes = c.lootFurniture;
+                LOG("Settings migrated to version 8: dyes have their own switch now and it starts %s, as Furniture is.",
+                    c.lootDyes ? "on" : "off");
+            }
+            c.configVersion = 8;
+            migrated = true;
+        }
+        if (!fromFile) c.configVersion = 8;
         return migrated;
     }
 
@@ -488,6 +508,7 @@ namespace ml::Settings
         Config c;
         c.configVersion = 1; // a file that predates the version key
         g_sawGatherStoneOff = false;   // this file speaks for itself, not the last one
+        g_sawLootDyes = false;
         bool migrated = false;
         std::string text;
         const bool present = ReadFile(text);
@@ -515,11 +536,11 @@ namespace ml::Settings
         // mod did and never what it had been told to do.
         LOG("Settings ranges: scan %.1f loot %.1f gather %.1f catch %.1f corpse %.1f arm %.1f min %.2f.",
             c.scanRange, c.lootRange, c.gatherRange, c.catchRange, c.corpseRange, c.armRange, c.minRange);
-        LOG("Settings switches: auto %d ground %d plants %d crops %d ore %d wood %d furniture %d containers %d unknown %d "
+        LOG("Settings switches: auto %d ground %d plants %d crops %d ore %d wood %d furniture %d dyes %d containers %d unknown %d "
             "corpses %d bodies %d veins %d arm %d owned %d quest %d nosell %d questgear %d pet %d stoppet %d stoppetbodies %d "
             "petstore %d minvalue %d.",
             c.enabled, c.pickUpItems, c.gatherPlants, c.gatherCrops, c.gatherOre, c.gatherWood, c.lootFurniture,
-            c.lootContainers, c.gatherUnknown, c.lootCorpses, c.searchBodies, c.gatherVeins, c.autoArm,
+            c.lootDyes, c.lootContainers, c.gatherUnknown, c.lootCorpses, c.searchBodies, c.gatherVeins, c.autoArm,
             c.lootOwned, c.skipQuestItems, c.skipNoSell, c.skipQuestGear, c.petFilter, c.stopPetLooting, c.stopPetBodies,
             c.petLootToStorage, c.minValueCopper);
         // RevOGUwU, issue #82, 20 September 2026: two logs of a menu that
@@ -565,8 +586,8 @@ namespace ml::Settings
         snprintf(b, sizeof b, "LootCorpses=%d\nSearchBodies=%d\nPickUpItems=%d\nGatherPlants=%d\nGatherCrops=%d\nGatherOre=%d\nGatherWood=%d\nGatherUnknown=%d\n",
                  c.lootCorpses, c.searchBodies, c.pickUpItems, c.gatherPlants, c.gatherCrops, c.gatherOre, c.gatherWood, c.gatherUnknown); s += b;
         snprintf(b, sizeof b, "GatherCampFarm=%d\n", c.gatherCampFarm); s += b;
-        snprintf(b, sizeof b, "CatchInsects=%d\nCatchFish=%d\nCatchAnimals=%d\nLootContainers=%d\nLootFurniture=%d\n",
-                 c.catchInsects, c.catchFish, c.catchAnimals, c.lootContainers, c.lootFurniture); s += b;
+        snprintf(b, sizeof b, "CatchInsects=%d\nCatchFish=%d\nCatchAnimals=%d\nLootContainers=%d\nLootFurniture=%d\nLootDyes=%d\n",
+                 c.catchInsects, c.catchFish, c.catchAnimals, c.lootContainers, c.lootFurniture, c.lootDyes); s += b;
         snprintf(b, sizeof b, "ScanRange=%.1f\nLootRange=%.1f\nGatherRange=%.1f\nCatchRange=%.1f\nCorpseRange=%.1f\nMinRange=%.2f\n",
                  c.scanRange, c.lootRange, c.gatherRange, c.catchRange, c.corpseRange, c.minRange); s += b;
         snprintf(b, sizeof b, "AutoArm=%d\nArmRange=%.1f\nArmContainers=%d\nGatherVeins=%d\n", c.autoArm, c.armRange, c.armContainers, c.gatherVeins); s += b;
@@ -697,6 +718,7 @@ namespace ml::Settings
         Config c;
         c.configVersion = 1;
         g_sawGatherStoneOff = false;
+        g_sawLootDyes = false;
         ParseInto(text, c);
         // A preset and a backup are saved files like any other and get the
         // same corrections. Without this, loading one written before a
@@ -750,6 +772,7 @@ namespace ml::Settings
         Config c;
         c.configVersion = 1;
         g_sawGatherStoneOff = false;
+        g_sawLootDyes = false;
         ParseInto(text, c);
         // A preset and a backup are saved files like any other and get the
         // same corrections. Without this, loading one written before a

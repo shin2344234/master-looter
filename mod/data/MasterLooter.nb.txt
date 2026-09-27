@@ -471,3 +471,7 @@ Keep the menu on screen while you play. %s brings it back.	Hold menyen på skjer
 Watch mode: the game has your controls. %s to interact.	Visningsmodus: spillet har kontrollen din. %s for å interagere.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Én tast alene. Kombinasjoner med Ctrl og Alt blir aldri lest, fordi disse tastene er stille mens Ctrl eller Alt holdes nede.
 a crafting station	en håndverksstasjon
+Dyes	Fargestoffer
+dyes off	fargestoffer av
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Alle de 60 fargestoffene, både de du allerede kjenner og de du ikke kjenner. Spillet merker hvert fargestoff som møbel også, men det er denne bryteren som bestemmer over dem. Fargestoffer på en butikkhylle tilhører kjøpmannen og blir stående, med mindre Ta varer som tilhører noen er på. Av som standard.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Fugler lander bare mens foringsbrettet er minst én prosent fullt, så det beholder spillets størrelse.

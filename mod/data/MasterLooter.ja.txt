@@ -466,3 +466,7 @@ Keep the menu on screen while you play. %s brings it back.	プレイ中もメニ
 Watch mode: the game has your controls. %s to interact.	監視モード：操作はゲーム側にあります。%sで対話します。
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	キーは単独で1つ。CtrlやAltを押している間はこれらのキーが反応しないため、CtrlやAltとの組み合わせは読み取られません。
 a crafting station	製作設備
+Dyes	染料
+dyes off	染料オフ
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	全60種の染料。すでに知っているものも、まだ知らないものも含みます。ゲームはすべての染料に家具のタグも付けていますが、染料についてはこのスイッチが決めます。店の棚にある染料は店主の所有物なので、「他人の所有物を取得する」がオンでない限り取りません。初期設定はオフです。
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	鳥は餌台が少なくとも1パーセント埋まっている間しか降りてこないため、ゲーム本来の大きさのままです。

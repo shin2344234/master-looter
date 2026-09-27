@@ -470,3 +470,7 @@ Keep the menu on screen while you play. %s brings it back.	Задръж меню
 Watch mode: the game has your controls. %s to interact.	Режим на наблюдение: играта държи контролите ти. %s за взаимодействие.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Един клавиш самостоятелно. Комбинации с Ctrl и Alt никога не се разпознават, защото тези клавиши мълчат, докато Ctrl или Alt е натиснат.
 a crafting station	работна станция
+Dyes	Бои
+dyes off	боите изключени
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Всичките 60 бои, и тези, които вече познаваш, и тези, които не познаваш. Играта отбелязва всяка боя и като мебел, но за тях решава този превключвател. Боите на рафт в магазин принадлежат на търговеца и се оставят, освен ако Взимай стоки, които принадлежат на някого е включено. Изключено по подразбиране.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Птиците кацат само докато хранилката е пълна поне на един процент, затова тя остава с размера от играта.

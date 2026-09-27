@@ -469,3 +469,7 @@ Keep the menu on screen while you play. %s brings it back.	Pidä valikko näytö
 Watch mode: the game has your controls. %s to interact.	Seurantatila: peli hallitsee ohjaimiasi. %s ollaksesi vuorovaikutuksessa.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Yksi näppäin yksinään. Ctrl- ja Alt-yhdistelmiä ei koskaan lueta, koska nämä näppäimet ovat hiljaa, kun Ctrl tai Alt on painettuna.
 a crafting station	valmistuspiste
+Dyes	Väriaineet
+dyes off	väriaineet pois päältä
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Kaikki 60 väriainetta, sekä ne jotka jo tunnet että ne joita et tunne. Peli merkitsee jokaisen väriaineen myös huonekaluksi, mutta niistä päättää tämä kytkin. Kaupan hyllyllä olevat väriaineet kuuluvat kauppiaalle, ja ne jätetään paikalleen, ellei Ota tavaraa, joka kuuluu jollekulle ole päällä. Oletuksena pois päältä.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Linnut laskeutuvat vain, kun ruokintapaikka on vähintään yhden prosentin täynnä, joten se pysyy pelin koossa.

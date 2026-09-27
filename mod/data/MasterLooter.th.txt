@@ -466,3 +466,7 @@ Keep the menu on screen while you play. %s brings it back.	เปิดเมน
 Watch mode: the game has your controls. %s to interact.	โหมดเฝ้าดู: เกมควบคุมอยู่ กด %s เพื่อโต้ตอบ
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	ใช้ปุ่มเดียวเดี่ยว ๆ ระบบไม่อ่านปุ่มผสมกับ Ctrl หรือ Alt เพราะปุ่มเหล่านี้จะไม่ทำงานขณะกด Ctrl หรือ Alt ค้างไว้
 a crafting station	สถานีประดิษฐ์
+Dyes	สีย้อม
+dyes off	สีย้อม: ปิด
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	สีย้อมทั้ง 60 ชนิด ทั้งที่คุณรู้จักแล้วและที่ยังไม่รู้จัก เกมติดแท็กสีย้อมทุกชนิดว่าเป็นเฟอร์นิเจอร์ด้วย แต่สวิตช์นี้เป็นตัวตัดสินสำหรับสีย้อม สีย้อมบนชั้นวางในร้านเป็นของเจ้าของร้าน และจะไม่ถูกเก็บ เว้นแต่จะเปิด เก็บของที่มีเจ้าของ ไว้ ค่าเริ่มต้นคือปิด
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	นกจะลงเกาะก็ต่อเมื่อที่ให้อาหารมีอาหารอย่างน้อยหนึ่งเปอร์เซ็นต์ จึงคงขนาดตามเกมไว้

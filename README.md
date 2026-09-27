@@ -11,7 +11,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 
 ## What it does
 
-- Fourteen switches for what to collect: ground items, carcasses, enemy bodies, plants, crops, ore and stone, wood, unidentified nodes, insects, fish, small animals, containers, furniture nodes and water from wells. To keep the ore and leave the stone, refuse the class stone on the Classes tab.
+- Fifteen switches for what to collect: ground items, carcasses, enemy bodies, plants, crops, ore and stone, wood, unidentified nodes, insects, fish, small animals, containers, dyes, furniture nodes and water from wells. To keep the ore and leave the stone, refuse the class stone on the Classes tab.
 - Class groups with one click (weapons and armor, damaged gear, food and drink, materials, books and papers, furniture, treasure and keepsakes, and more), a full class table, tag rules and per-item overrides with a live verdict.
 - Quest items, memory chips, puzzle and mechanism parts, artifacts, recipes and your own equipment are protected by default. The Classes and Items tabs can lift that on purpose.
 - With [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) 1.1.0 or later installed, what the mod picks up can be moved into your storage as it lands. See [below](#storing-loot).

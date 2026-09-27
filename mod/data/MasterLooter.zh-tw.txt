@@ -478,3 +478,7 @@ Keep the menu on screen while you play. %s brings it back.	遊玩時保持選單
 Watch mode: the game has your controls. %s to interact.	監視模式：控制權由遊戲接管。按 %s 進行互動。
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	只能是單一按鍵。按住 Ctrl 或 Alt 時這些按鍵不會回應，所以 Ctrl 與 Alt 組合鍵永遠不會被讀取。
 a crafting station	製作台
+Dyes	染料
+dyes off	染料已關閉
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	全部60種染料，包括你已經認識的和尚未認識的。遊戲也給每種染料加上了家具標籤，但染料由這個開關決定。商店貨架上的染料屬於店主，除非開啟「拾取歸他人所有的物品」，否則不會拿走。預設關閉。
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	只有餵食器至少有百分之一裝滿時，鳥才會降落，所以它保持遊戲原本的大小。

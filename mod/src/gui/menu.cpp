@@ -898,6 +898,7 @@ namespace ml::gui
             { "Fish",           &c.catchFish,      "Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses." },
             { "Small animals",  &c.catchAnimals,   "Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole." },
             { "Containers",     &c.lootContainers, "Two things that hold things. The chests, crates and drop-set nodes you open, which rarely answer the loot event. And anything on the ground whose job is to hold something: bottles, jars, clay pots, waterskins, vases and the storage boxes you place. Off by default, and off means a shelf of pottery is left where it stands. Reward boxes are not covered, since those are loot in their own right and belong to Treasure and keepsakes on the Classes tab.\n\nWhat comes out of a chest is not checked against your filters. The game hands the contents over in one go and the mod never sees them as objects, so for those this switch is all or nothing." },
+            { "Dyes",           &c.lootDyes,       "The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default." },
             { "Furniture", &c.lootFurniture, "Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default." },
         };
         // Where to say this, because the Items tab is the answer and nobody
@@ -997,7 +998,7 @@ namespace ml::gui
         { "Creatures",           "insect fish animal amphibian", "Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink." },
         { "Ammunition",          "arrow ammo ammo-bundle bullet magic-bullet cannonball explosive", "" },
         { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report skill-book recipe-book recipe-food recipe-potion recipe-furniture recipe-abyss-gear recipe-armor", "" },
-        { "Furniture and decor", "furniture household dye lamp light ornament painting flower-pot decoration cooking-facility storage container", "Household clutter and collectibles, most of it worthless." },
+        { "Furniture and decor", "furniture household lamp light ornament painting flower-pot decoration cooking-facility storage container", "Household clutter and collectibles, most of it worthless." },
         { "Mounts and vehicles", "mount-gear mount-feed mount-utility pet-gear vehicle-part", "" },
         { "Treasure and keepsakes", "treasure sealed-artifact artifact keepsake currency chest", "Boss rewards, artifacts, memory items, coin pouches and reward chests." },
         { "Keys and tools",      "key key-item tool", "" },
@@ -2062,7 +2063,7 @@ namespace ml::gui
                 // Bird Feed is fixed since PSM 1.1.6: birds land at the feeder
                 // only while it is at least 1% full, which at 1000 slots took
                 // ten slots of feed.
-                if (i == 6) Help("Birds only land while the feeder is at least 1% full, so it stays at the game's size.");
+                if (i == 6) Help("Birds only land while the feeder is at least one percent full, so it stays at the game's size.");
                 else        Help("This chest holds one of each collectible, so its slots cannot be changed.");
                 ImGui::SameLine();
                 if (sz.liveCapacity >= 0) ImGui::TextDisabled(TR("now %d of %d used"), sz.liveUsed, sz.liveCapacity);

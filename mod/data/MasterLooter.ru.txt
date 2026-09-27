@@ -470,3 +470,7 @@ Keep the menu on screen while you play. %s brings it back.	Держит меню
 Watch mode: the game has your controls. %s to interact.	Режим наблюдения: управление у игры. %s — взаимодействовать.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Одна клавиша отдельно. Сочетания с Ctrl и Alt никогда не считываются, потому что эти клавиши молчат, пока зажат Ctrl или Alt.
 a crafting station	ремесленная станция
+Dyes	Красители
+dyes off	красители выключены
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Все 60 красителей, и те, что вы уже знаете, и те, что ещё нет. Игра помечает каждый краситель ещё и как мебель, но решает за них этот переключатель. Красители на полке магазина принадлежат торговцу и остаются на месте, если не включено Забирать вещи, принадлежащие кому-то. По умолчанию выключено.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Птицы садятся, только пока кормушка заполнена хотя бы на один процент, поэтому она сохраняет размер из игры.

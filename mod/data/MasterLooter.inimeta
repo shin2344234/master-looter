@@ -512,6 +512,16 @@
           "help": "Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house.",
           "order": 39
         },
+        "LootDyes": {
+          "label": "Dyes",
+          "type": "bool",
+          "group": "What to collect",
+          "default": "0",
+          "true": "1",
+          "false": "0",
+          "help": "The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.",
+          "order": 40
+        },
         "ScanRange": {
           "label": "Scan radius",
           "type": "float",
@@ -522,7 +532,7 @@
           "max": 200,
           "step": 1,
           "unit": "m",
-          "order": 40
+          "order": 41
         },
         "LootRange": {
           "label": "Items on the ground",
@@ -534,7 +544,7 @@
           "max": 200,
           "step": 1,
           "unit": "m",
-          "order": 41
+          "order": 42
         },
         "GatherRange": {
           "label": "Gathering",
@@ -546,7 +556,7 @@
           "max": 200,
           "step": 1,
           "unit": "m",
-          "order": 42
+          "order": 43
         },
         "CatchRange": {
           "label": "Catching",
@@ -558,7 +568,7 @@
           "max": 200,
           "step": 1,
           "unit": "m",
-          "order": 43
+          "order": 44
         },
         "CorpseRange": {
           "label": "Carcasses and bodies",
@@ -570,7 +580,7 @@
           "max": 200,
           "step": 1,
           "unit": "m",
-          "order": 44
+          "order": 45
         },
         "MinRange": {
           "label": "Dead zone around you",
@@ -582,7 +592,7 @@
           "max": 5,
           "step": 0.05,
           "unit": "m",
-          "order": 45
+          "order": 46
         },
         "AutoArm": {
           "label": "Arm nodes ourselves",
@@ -592,7 +602,7 @@
           "true": "1",
           "false": "0",
           "help": "The game fills a node's data only when it thinks you can reach it. Arming asks it to do that from a distance, which is also what lets an ore vein be harvested where it stands.",
-          "order": 46
+          "order": 47
         },
         "ArmRange": {
           "label": "Arming range",
@@ -604,7 +614,7 @@
           "max": 60,
           "step": 1,
           "unit": "m",
-          "order": 47
+          "order": 48
         },
         "GatherVeins": {
           "label": "Mine ore veins for you",
@@ -614,7 +624,7 @@
           "true": "1",
           "false": "0",
           "help": "On, a vein is harvested where it stands and you never swing a pickaxe. Off, veins are left alone and only the chunks you knock loose are picked up. Needs arming.",
-          "order": 48
+          "order": 49
         },
         "BreakOre": {
           "label": "Break veins open rather than emptying them",
@@ -624,7 +634,7 @@
           "true": "1",
           "false": "0",
           "help": "Breaking drives the game's own state machine at the vein, so the node spills its contents on the ground and disappears exactly as it does under a pickaxe. Emptying lifts the ore straight out and skips the drop. Neither route pays your tool's Mining Yield Up, so set the extra ore below to make up the difference.",
-          "order": 49
+          "order": 50
         },
         "OreBonus": {
           "label": "Extra ore per vein",
@@ -634,7 +644,7 @@
           "help": "Adds the ore your mining tool would have paid, through the same drop path the game uses. Set it to what your tool pays by hand minus one: a drill that gives three by hand wants 2 here. Only applies to a vein this mod broke.",
           "min": 0,
           "max": 10,
-          "order": 50
+          "order": 51
         },
         "DrawWells": {
           "label": "Draw water from wells",
@@ -644,7 +654,7 @@
           "true": "1",
           "false": "0",
           "help": "Winds the handle for you and takes what comes up. Off by default, because a well it gets wrong is a well left standing without its bucket.",
-          "order": 51
+          "order": 52
         },
         "ArmContainers": {
           "label": "Arm mechanism containers too",
@@ -654,7 +664,7 @@
           "true": "1",
           "false": "0",
           "help": "A well bucket and the like are never looted, but arming one makes the game offer its interaction so you can use it by hand.",
-          "order": 52
+          "order": 53
         },
         "PetFilter": {
           "label": "Pets and companions follow the filters",
@@ -664,7 +674,7 @@
           "true": "1",
           "false": "0",
           "help": "On: a pet is told no before it reaches for a loose item your rules refuse, and whatever it takes from a body that your item rules, tags or classes refuse is deleted from the inventory as it lands, with a notice saying what went. Quest and protected items are never deleted, and nothing already in your bag is touched. Nothing you pick up yourself is ever deleted, whether or not a pet or a mercenary is out.",
-          "order": 53
+          "order": 54
         },
         "StopPetLooting": {
           "label": "Stop pets picking up loose items",
@@ -674,7 +684,7 @@
           "true": "1",
           "false": "0",
           "help": "The game asks before a pet takes an item lying on the ground, and this answers no.",
-          "order": 54
+          "order": 55
         },
         "StopPetBodies": {
           "label": "Stop pets looting bodies",
@@ -684,7 +694,7 @@
           "true": "1",
           "false": "0",
           "help": "The game asks separately before a pet loots a body, and this answers no.",
-          "order": 55
+          "order": 56
         },
         "NotifyAutoStore": {
           "label": "Show a notice when loot is stored",
@@ -694,7 +704,7 @@
           "true": "1",
           "false": "0",
           "help": "Needs Private Storage Master with loot storing on.",
-          "order": 56
+          "order": 57
         },
         "PetLootToStorage": {
           "label": "Store what your pet loots from bodies",
@@ -704,7 +714,7 @@
           "true": "1",
           "false": "0",
           "help": "On, what a pet or a companion loots from a body goes to storage the same way as Master Looter's own pickups, as long as your item rules allow it.",
-          "order": 57
+          "order": 58
         },
         "WrapSwapChain": {
           "label": "Wrap the swapchain",
@@ -716,7 +726,7 @@
           "help": "On, the overlay draws under DLSS frame generation. Off, it draws through the present hook instead, and the mod stays off a path other overlay mods patch as well. Try this if the game will not start alongside another overlay mod.",
           "live": false,
           "advanced": true,
-          "order": 58
+          "order": 59
         },
         "HookDX12": {
           "label": "Install the DirectX hooks",
@@ -728,7 +738,7 @@
           "help": "Off means no menu and no overlay, with looting untouched. For telling a render-layer conflict with another mod apart from everything else.",
           "live": false,
           "advanced": true,
-          "order": 59
+          "order": 60
         },
         "HookXInput": {
           "label": "Hook the controller",
@@ -740,7 +750,7 @@
           "help": "Lets the menu take the pad while it is open and spots the two-button shortcuts. Off leaves the controller entirely alone.",
           "live": false,
           "advanced": true,
-          "order": 60
+          "order": 61
         },
         "EnableDred": {
           "label": "D3D12 crash breadcrumbs (DRED)",
@@ -752,7 +762,7 @@
           "help": "Diagnostic only: page-fault reporting when the GPU device is lost.",
           "live": false,
           "advanced": true,
-          "order": 61
+          "order": 62
         },
         "DebugLog": {
           "label": "Verbose log",
@@ -762,7 +772,7 @@
           "true": "1",
           "false": "0",
           "help": "Writes much more to MasterLooter.log. Turn it on for a bug report.",
-          "order": 62
+          "order": 63
         },
         "EquipStrict": {
           "label": "Strict worn-gear check",
@@ -773,7 +783,7 @@
           "false": "0",
           "help": "Refuses every piece in the game's worn-gear folder, as 1.6.12 to 1.6.20 did, instead of only what the game marks as worn. Turn it on if looting a weapon or shield ever leaves you with two of it; duplicates can corrupt a save.",
           "advanced": true,
-          "order": 63
+          "order": 64
         },
         "DupeProbe": {
           "label": "Duplication probe",
@@ -784,7 +794,7 @@
           "false": "0",
           "help": "Watches the bag either side of every loot and logs whether the world object survived it.",
           "advanced": true,
-          "order": 64
+          "order": 65
         },
         "DescriptorDump": {
           "label": "Dump event descriptors",
@@ -795,7 +805,7 @@
           "false": "0",
           "help": "Logs every event descriptor at startup.",
           "advanced": true,
-          "order": 65
+          "order": 66
         },
         "DeleteTestName": {
           "label": "Delete test item",
@@ -804,17 +814,17 @@
           "default": "",
           "help": "Research: deletes the named item through the pet filter's path. Leave empty.",
           "hidden": true,
-          "order": 66
+          "order": 67
         },
         "ConfigVersion": {
           "label": "Config version",
           "type": "int",
           "group": "Overlay and diagnostics",
-          "default": "7",
+          "default": "8",
           "help": "Written by the mod so old files can be migrated. Do not change it.",
           "hidden": true,
           "readonly": true,
-          "order": 67
+          "order": 68
         }
       }
     },

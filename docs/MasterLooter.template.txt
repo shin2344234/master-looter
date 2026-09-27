@@ -67,6 +67,7 @@ At most one line a second, naming each storage and how many went into it. Off, n
 Auto-loot enabled	
 Auto-loot on / off	
 Backups	
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	
 blank for English	
 Bodies	
 bodies off	
@@ -113,6 +114,8 @@ DirectX 12 hooks
 does not respond	
 Draw water from wells	
 Drop refused loot from bodies	
+Dyes	
+dyes off	
 Each item goes to the first storage in this list that takes it.	
 Empty your big stacks before turning this down or off.	
 Empty: auto-store may move anything a storage takes.	
@@ -387,6 +390,7 @@ Take owned goods on / off
 take this one by hand, looting it can lock the quest	
 takes effect next launch	
 That mod did not hand over its stack settings.	
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	
 The engine scans around you and takes what the rules allow. Off means nothing is taken automatically; the burst key still works.	
 The game asks before a pet takes an item lying on the ground, and this answers no. The pet walks past it and nothing needs deleting afterwards. Whether a mercenary asks the same question has not been tested.	
 The game asks separately before a pet loots a body, and this answers no. Turn on one of the two and not the other if you want a pet stripping corpses but not collecting loose items, or the other way round.	

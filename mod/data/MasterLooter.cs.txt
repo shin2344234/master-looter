@@ -466,3 +466,7 @@ Keep the menu on screen while you play. %s brings it back.	Nech menu na obrazovc
 Watch mode: the game has your controls. %s to interact.	Režim sledování: hra má tvé ovládání. %s pro interakci.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Jedna samostatná klávesa. Kombinace s Ctrl a Alt se nikdy nenačtou, protože tyto klávesy mlčí, dokud je Ctrl nebo Alt stisknutý.
 a crafting station	výrobní stanoviště
+Dyes	Barviva
+dyes off	barviva vypnuta
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Všech 60 barviv, ta, která už znáš, i ta, která ještě ne. Hra každé barvivo označuje také jako nábytek, ale rozhoduje o nich tento přepínač. Barviva v regálu obchodu patří obchodníkovi a zůstanou na místě, pokud není zapnuto Brát věci, které někomu patří. Ve výchozím stavu vypnuto.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Ptáci přistávají jen tehdy, když je krmítko plné aspoň z jednoho procenta, proto si ponechává velikost ze hry.

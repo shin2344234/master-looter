@@ -467,3 +467,7 @@ Keep the menu on screen while you play. %s brings it back.	Ține meniul pe ecran
 Watch mode: the game has your controls. %s to interact.	Mod observare: jocul are controalele tale. %s pentru a interacționa.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	O singură tastă. Combinațiile cu Ctrl și Alt nu sunt citite niciodată, pentru că aceste taste tac cât timp Ctrl sau Alt e apăsat.
 a crafting station	o stație de meșteșugărit
+Dyes	Vopsele
+dyes off	vopsele dezactivate
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Toate cele 60 de vopsele, și cele pe care le cunoști deja, și cele pe care nu le cunoști. Jocul marchează fiecare vopsea și ca mobilier, dar despre ele decide acest comutator. Vopselele de pe raftul unui magazin aparțin negustorului și rămân pe loc, cu excepția cazului în care Ia bunuri care aparțin cuiva este activat. Dezactivat implicit.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Păsările aterizează doar cât timp hrănitoarea este plină în proporție de cel puțin un procent, așa că își păstrează dimensiunea din joc.

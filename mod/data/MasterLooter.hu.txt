@@ -470,3 +470,7 @@ Keep the menu on screen while you play. %s brings it back.	Tartsd a menüt a ké
 Watch mode: the game has your controls. %s to interact.	Figyelő mód: a játék irányítja a vezérlést. %s az interakcióhoz.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Egyetlen billentyű önmagában. A Ctrl és Alt kombinációkat soha nem olvassa be, mert ezek a billentyűk hallgatnak, amíg a Ctrl vagy az Alt le van nyomva.
 a crafting station	egy készítőállomás
+Dyes	Festékek
+dyes off	festékek kikapcsolva
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Mind a 60 festék, azok is, amelyeket már ismersz, és azok is, amelyeket nem. A játék minden festéket bútorként is megjelöl, de róluk ez a kapcsoló dönt. A bolt polcán lévő festékek a boltosé, és ott maradnak, hacsak nincs bekapcsolva a Valakihez tartozó áruk elvétele. Alapból kikapcsolva.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	A madarak csak akkor szállnak le, ha az etető legalább egy százalékig tele van, ezért megtartja a játék szerinti méretét.

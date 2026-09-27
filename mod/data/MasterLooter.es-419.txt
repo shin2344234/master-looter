@@ -469,3 +469,7 @@ Keep the menu on screen while you play. %s brings it back.	Mantén el menú en p
 Watch mode: the game has your controls. %s to interact.	Modo de observación: el juego tiene tus controles. %s para interactuar.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Una sola tecla. Las combinaciones con Ctrl y Alt nunca se leen, porque estas teclas no responden mientras Ctrl o Alt está presionada.
 a crafting station	una estación de fabricación
+Dyes	Tintes
+dyes off	tintes desactivados
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Los 60 tintes, los que ya conoces y los que no. El juego marca cada tinte también como mueble, pero es este interruptor el que decide sobre ellos. Los tintes en el estante de una tienda pertenecen al comerciante y se quedan donde están, salvo que Tomar bienes que pertenecen a alguien esté activado. Desactivado por defecto.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Las aves solo se posan mientras el comedero esté lleno al menos en un uno por ciento, así que conserva el tamaño del juego.

@@ -469,3 +469,7 @@ Keep the menu on screen while you play. %s brings it back.	Utrzymuje menu na ekr
 Watch mode: the game has your controls. %s to interact.	Tryb obserwacji: gra ma kontrolę nad sterowaniem. %s, aby wejść w interakcję.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Jeden klawisz osobno. Kombinacje z Ctrl i Alt nigdy nie są odczytywane, bo te klawisze milczą, gdy wciśnięty jest Ctrl lub Alt.
 a crafting station	stanowisko rzemieślnicze
+Dyes	Barwniki
+dyes off	barwniki wyłączone
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Wszystkie 60 barwników, zarówno te, które już znasz, jak i te, których nie znasz. Gra oznacza każdy barwnik również jako mebel, ale o nich decyduje ten przełącznik. Barwniki na półce w sklepie należą do sklepikarza i zostają na miejscu, chyba że włączone jest Zbieraj rzeczy należące do kogoś. Domyślnie wyłączone.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Ptaki lądują tylko wtedy, gdy karmnik jest zapełniony co najmniej w jednym procencie, dlatego zachowuje rozmiar z gry.

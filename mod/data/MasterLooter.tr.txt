@@ -467,3 +467,7 @@ Keep the menu on screen while you play. %s brings it back.	Oynarken menüyü ekr
 Watch mode: the game has your controls. %s to interact.	İzleme modu: kontroller oyunda. Etkileşim için %s.
 One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held.	Tek başına bir tuş. Ctrl ve Alt kombinasyonları asla okunmaz, çünkü Ctrl ya da Alt basılıyken bu tuşlar tepki vermez.
 a crafting station	bir üretim istasyonu
+Dyes	Boyalar
+dyes off	boyalar kapalı
+The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	60 boyanın tamamı, zaten bildiklerin de henüz bilmediklerin de. Oyun her boyayı mobilya olarak da etiketler, ama onlara bu anahtar karar verir. Bir dükkân rafındaki boyalar dükkân sahibine aittir ve Birine ait eşyaları al açık değilse yerinde bırakılır. Varsayılan olarak kapalı.
+Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Kuşlar yalnızca yemlik en az yüzde bir dolu olduğu sürece konar, bu yüzden oyunun boyutunda kalır.
