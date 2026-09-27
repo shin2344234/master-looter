@@ -314,7 +314,7 @@ gimmick_breakable_ex_dpf_sweetpotatosack_01	container		Breakable ex dpf sweetpot
 gimmick_breakable_hernand_abby_str_abbey_01_03	stone	Stone_Quarry	Stone	name	0		0	0	0
 gimmick_breakable_pillar_temple_three_brothers_01a_boss	stone	Stone_Quarry	Stone	name	0		0	0	0
 gimmick_breakable_pillar_temple_three_brothers_01a_boss_body	stone	Stone_Quarry	Stone	name	0		0	0	0
-gimmick_breakable_pot_01	pickup		Breakable pot	tag	1		0	0	0
+gimmick_breakable_pot_01	container		Breakable pot	tag	1		0	1	0
 gimmick_breakable_pot_basicpot_04	container		Background breakable	tag	0	Water	0	0	0
 gimmick_breakable_protective_stone_01	stone	Stone_Quarry	Stone	name	0		0	0	0
 gimmick_breakable_sack_01	container		Breakable sack	tag	0		0	0	0
@@ -585,9 +585,9 @@ gimmick_collection_prop_ceramic_0017	container	Collection_Prop_Ceramic_0017	Cyli
 gimmick_collection_prop_ceramic_0018	container	Collection_Prop_Ceramic_0018	Ornate Tree Pattern Vase	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0019	container	Collection_Prop_Ceramic_0019	Water Pot	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0020	container	Collection_Prop_Ceramic_0020	Grain Jar	tag	0		0	0	0
-gimmick_collection_prop_ceramic_0021	pickup		Collection prop ceramic	tag	1		0	0	0
+gimmick_collection_prop_ceramic_0021	container		Collection prop ceramic	tag	1		0	1	0
 gimmick_collection_prop_ceramic_0021_cover	pickup		Object	tag	0		0	0	0
-gimmick_collection_prop_ceramic_0023	pickup		Collection prop ceramic	tag	1		0	0	0
+gimmick_collection_prop_ceramic_0023	container		Collection prop ceramic	tag	1		0	1	0
 gimmick_collection_prop_ceramic_0024	container	Collection_Prop_Ceramic_0024	Gilded Slim Bottle	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0025	container	Collection_Prop_Ceramic_0025	Water Jug	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0026	container	Collection_Prop_Ceramic_0026	Wide White Jar	tag	0		0	0	0
@@ -597,18 +597,18 @@ gimmick_collection_prop_ceramic_0029	container	Collection_Prop_Ceramic_0029	Silv
 gimmick_collection_prop_ceramic_0030	container	Collection_Prop_Ceramic_0030	Golden Carafe	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0031	container	Collection_Prop_Ceramic_0031	Storage Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0032	container	Collection_Prop_Ceramic_0032	Gilded Vase	tag	0		0	0	0
-gimmick_collection_prop_ceramic_0033	pickup		Collection prop ceramic	tag	1		0	0	0
-gimmick_collection_prop_ceramic_0034	pickup		Collection prop ceramic	tag	1		0	0	0
-gimmick_collection_prop_ceramic_0036	pickup		Collection prop ceramic	tag	1		0	0	0
-gimmick_collection_prop_ceramic_0040	pickup		Collection prop ceramic	tag	1		0	0	0
-gimmick_collection_prop_ceramic_0042	pickup		Collection prop ceramic	tag	1		0	0	0
-gimmick_collection_prop_ceramic_0043	pickup		Collection prop ceramic	tag	1		0	0	0
-gimmick_collection_prop_ceramic_0044	pickup		Collection prop ceramic	tag	1		0	0	0
+gimmick_collection_prop_ceramic_0033	container		Collection prop ceramic	tag	1		0	1	0
+gimmick_collection_prop_ceramic_0034	container		Collection prop ceramic	tag	1		0	1	0
+gimmick_collection_prop_ceramic_0036	container		Collection prop ceramic	tag	1		0	1	0
+gimmick_collection_prop_ceramic_0040	container		Collection prop ceramic	tag	1		0	1	0
+gimmick_collection_prop_ceramic_0042	container		Collection prop ceramic	tag	1		0	1	0
+gimmick_collection_prop_ceramic_0043	container		Collection prop ceramic	tag	1		0	1	0
+gimmick_collection_prop_ceramic_0044	container		Collection prop ceramic	tag	1		0	1	0
 gimmick_collection_prop_ceramic_0045	container	Collection_Prop_Ceramic_0045	Silver Water Pot	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0046	container	Collection_Prop_Ceramic_0046	Long-Necked Silver Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0047	container	Collection_Prop_Ceramic_0047	Ornate Silver Conical Jar	tag	0		0	0	0
-gimmick_collection_prop_ceramic_0048	pickup		Collection prop ceramic	tag	1		0	0	0
-gimmick_collection_prop_ceramic_0049	pickup		Collection prop ceramic	tag	1		0	0	0
+gimmick_collection_prop_ceramic_0048	container		Collection prop ceramic	tag	1		0	1	0
+gimmick_collection_prop_ceramic_0049	container		Collection prop ceramic	tag	1		0	1	0
 gimmick_collection_prop_ceramic_0050	container	Collection_Prop_Ceramic_0050	Cylindrical Red Clay Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0051	container	Collection_Prop_Ceramic_0051	Cylindrical Clay Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0052	container	Collection_Prop_Ceramic_0052	Old Round Jar	tag	0		0	0	0
@@ -1532,16 +1532,16 @@ gimmick_pororin_sacred_01	pickup	Pororin_Sacred	Pororin Relic	folder	0	Pororin_S
 gimmick_pot_0001	container		Pot	tag	1		0	0	0
 gimmick_pot_0002	container		Pot	tag	1		0	0	0
 gimmick_pot_0003	container		Pot	tag	1		0	0	0
-gimmick_pot_0004	pickup		Pot	tag	1		0	0	0
+gimmick_pot_0004	container		Pot	tag	1		0	1	0
 gimmick_pot_0005	container		Pot	tag	1		0	0	0
 gimmick_pot_0006	container		Pot	tag	1		0	0	0
-gimmick_pot_0007	pickup		Pot	tag	1		0	0	0
-gimmick_pot_0008	pickup		Pot	tag	1		0	0	0
+gimmick_pot_0007	container		Pot	tag	1		0	1	0
+gimmick_pot_0008	container		Pot	tag	1		0	1	0
 gimmick_pot_0009	container		Pot	tag	1		0	0	0
-gimmick_pot_0010	pickup		Pot	tag	1		0	0	0
-gimmick_pot_0011	pickup		Pot	tag	1		0	0	0
+gimmick_pot_0010	container		Pot	tag	1		0	1	0
+gimmick_pot_0011	container		Pot	tag	1		0	1	0
 gimmick_pot_basicpot_13	container		Pot basicpot	tag	0		0	0	0
-gimmick_pot_catch_02	pickup		Pot catch	tag	1		0	0	0
+gimmick_pot_catch_02	container		Pot catch	tag	1		0	1	0
 gimmick_pot_catch_04	pickup		Water pot catch	tag	1		0	0	0
 gimmick_pot_fire_01	pickup		Pot fire	tag	1		0	0	0
 gimmick_pot_kuku_01	container		Pot kuku	tag	0		0	0	0

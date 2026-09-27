@@ -88,6 +88,32 @@ CATCH_KIND = {
 # Same three words as engine.cpp's two container tests.
 CONTAINER_WORDS = ("_chest", "_box", "dropset")
 
+# Jars the game tags catch_pot, so they read as something picked up in one
+# hand, and whose record rolls DropSet_Pot_01: twenty possible things from
+# acorns and oranges to cooking oil and trade-good packs. Lifting one hands over
+# a roll of that set, which the item rules never see, so they are containers
+# and answer to that switch. Sov1737 on 27 September 2026 had Containers off,
+# Ground items on and food, fruit and trade goods refused, and still collected
+# oranges, cooking oil and oil packs from five such jars in one room. Counted
+# before writing it: 19 pickup rows roll a drop set, 18 of them this one, and
+# the nineteenth is an elite power core that pays one core. The set's name is
+# read from build_sources.py's gimmick_drops.csv, which runs first.
+CONTAINER_SETS = ("DropSet_Pot_",)
+
+
+def container_bases():
+    """Prefab basenames whose record rolls one of CONTAINER_SETS."""
+    path = os.path.join(DATA, "gimmick_drops.csv")
+    out = set()
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        for r in csv.DictReader(f):
+            sets = [s.strip() for s in (r.get("drop_sets") or "").split(";")]
+            if any(s.startswith(CONTAINER_SETS) for s in sets):
+                key = (r.get("string_key") or "").lower()
+                out.add(key)
+                out.add("gimmick_" + key)
+    return out
+
 # Held back from CATCH_KIND until somebody has watched what happens. Matched
 # against the prefab name, and only against the catch path: a camp farm's growth
 # phases carry collect tags and keep the kinds they already had.
@@ -512,7 +538,8 @@ def main():
     by_key, by_name = load_items()
     out, seen = [], set()
     stats = {"rows": 0, "with_path": 0, "tagged": 0, "by_name": 0, "with_item": 0, "with_yields": 0,
-             "yields_dropped_crowded": 0, "yields_dropped_guarded": 0}
+             "yields_dropped_crowded": 0, "yields_dropped_guarded": 0, "pot_containers": 0}
+    pot_bases = container_bases()
 
     # Every row's candidates first, so the boilerplate can be counted before any
     # of it is written down.
@@ -612,6 +639,13 @@ def main():
         kind, vouched = kind_for(tags_by_base.get(base, tags), name, base, path)
         if not kind:
             continue
+        # Reached the way it was before, with the pick-up verb: a jar is still
+        # lifted, and arming one fills nothing. Only its switch changes.
+        lifted = False
+        if kind == "pickup" and base.lower() in pot_bases:
+            kind = "container"
+            lifted = True
+            stats["pot_containers"] += 1
         stats["tagged" if vouched else "by_name"] += 1
         if base in seen:
             continue
@@ -665,7 +699,7 @@ def main():
                     # 450 rows the game files under the loose-item folder, 229
                     # have a kind of their own: 141 wood, 81 container, 6 plant
                     # and 1 stone. No ore and no tree among them.
-                    "1" if loose_by_base[base] else "0",
+                    "1" if (loose_by_base[base] or lifted) else "0",
                     "1" if statepick else "0"))
     out.sort()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
