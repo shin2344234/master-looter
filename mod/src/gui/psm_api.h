@@ -97,8 +97,9 @@ PSM_API int         PsmGetSize(int storage, PsmSize* out);
 PSM_API void        PsmWriteDump(void);
 /* Ignore storage keys and combos for this long; call it every frame a menu has input. */
 PSM_API void        PsmPauseInput(uint32_t ms);
-/* A size that is not a setting (the Collectibles Chest), or 0. Added after
- * interface 1 shipped to Master Looter, so look it up as optional. */
+/* A size that is not a setting, or 0: the Collectibles Chest at 958, and Bird
+ * Feed at 50 from PSM 1.1.6. Added after interface 1 shipped to Master Looter,
+ * so look it up as optional. */
 PSM_API int         PsmFixedSlots(int storage);
 /* 1 while keys are held back from the game: HideKeysWithModifier is on and a
  * modifier some binding uses is down. Any thread, no lock, no logging, and it

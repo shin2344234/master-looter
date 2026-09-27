@@ -2059,7 +2059,11 @@ namespace ml::gui
             if (const int fixed = api->fixedSlots ? api->fixedSlots(i) : 0)
             {
                 ImGui::Text("%d", fixed);
-                Help("This chest holds one of each collectible, so its slots cannot be changed.");
+                // Bird Feed is fixed since PSM 1.1.6: birds land at the feeder
+                // only while it is at least 1% full, which at 1000 slots took
+                // ten slots of feed.
+                if (i == 6) Help("Birds only land while the feeder is at least 1% full, so it stays at the game's size.");
+                else        Help("This chest holds one of each collectible, so its slots cannot be changed.");
                 ImGui::SameLine();
                 if (sz.liveCapacity >= 0) ImGui::TextDisabled(TR("now %d of %d used"), sz.liveUsed, sz.liveCapacity);
                 ImGui::PopID();
