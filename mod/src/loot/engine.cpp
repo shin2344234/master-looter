@@ -2914,8 +2914,13 @@ namespace ml::loot
         // seconds after the last. Nothing ties the crash to them, but driving an
         // interaction on something that is not loot is how the woodthorn vines
         // broke, so they are never touched.
+        // "transparency_autospawn" is a developer prefab in /99_develop/ that
+        // Sov1737's log of 28 September 2026 armed nine times with
+        // Unidentified nodes off. It is this one prefab and not the folder:
+        // the same folder holds Manure and the Standstone challenge rocks,
+        // which the logs show players collecting, 1 and 21 times.
         static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle", "woodthorn",
-                                        "equip_openclose", "gimmick_equip_", "effect_gimmick" };
+                                        "equip_openclose", "gimmick_equip_", "effect_gimmick", "transparency_autospawn" };
         for (const char* w : kWords)
         {
             // The verdict has already decided this piece is not being worn,
@@ -3346,10 +3351,26 @@ namespace ml::loot
                 // that tag here would have undone issue #73 the day after it
                 // shipped.
                 //
+                // And 0x01 was too wide, because it is not a property of the
+                // gear. Sov1737's log of 28 September 2026 has a whole bandit
+                // camp at 0x01, bodies, a live creature and a Warspike Spear on
+                // the ground that was taken like any other, and a Sydmon Kite
+                // Shield, a Shield of a Blossoming Spring Day, a Sydmon Sword and
+                // two Iris Maces refused beside them as worn. Across every log
+                // on hand the folder's 0x01 sightings split cleanly by tag: the
+                // three Moon spears, Frostfang and the Knightlord's Sword all
+                // carry "important", the Shield of Ringing carries "special",
+                // and none of the Sydmon, Iris, Timberham or Lambert pieces
+                // carries either. The Spada Sword this byte was added for
+                // carries "important" in the item table as well. So
+                // 0x01 refuses the named pieces and anything the mod cannot
+                // identify, and lets ordinary gear through.
+                //
                 // EquipStrict in the ini brings the whole folder back for anyone
                 // whose game disagrees, so a report does not have to wait for a
                 // build.
-                if (cfg.equipStrict || c.cat2 == 0x11 || c.cat2 == 0x01)
+                const bool namedPiece = !c.db || c.db->HasTag("important") || c.db->HasTag("special");
+                if (cfg.equipStrict || c.cat2 == 0x11 || (c.cat2 == 0x01 && namedPiece))
                     return skip("someone is wearing this; taking it would copy it");
                 unwornEquip = true;
             }
@@ -3860,6 +3881,16 @@ namespace ml::loot
             if (!b.filled || !b.node[0] || !IStr(b.node, "/well/")) continue;
             if (!IStr(b.node, "parts01")) continue;
             if (b.d > (cfg.gatherRange > 0 ? cfg.gatherRange : 12.0f)) continue;
+            // The same limits a vein break keeps: close by, at a walking or
+            // riding pace, and not in the first seconds after the world
+            // changed. A well run drives its parts for a quarter of a second
+            // on pointers taken when it starts, and riquea's two crashes on 30
+            // September 2026 were both a run started at 11 to 22 m while
+            // riding away, with a gather range of 22 m, where the parts were
+            // freed mid-run: the winch read state FFFFFFFF at the end of the
+            // second, and the bucket's component had become a
+            // MovementExpansion by the time the last step ran.
+            if (BreakUnsafe(b.d, now)) continue;
             const auto done = g_wellDone.find(b.eid);
             if (done != g_wellDone.end() && now - done->second < kWellCooldownMs) continue;
 

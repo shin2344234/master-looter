@@ -469,6 +469,26 @@ namespace ml::loot::hooks
             }
         }
 
+        // And the picture decides whether the call happens at all. Every good
+        // drive in every log on hand, 25 of them, names
+        // ClientGimmickActorComponent; riquea's two faults on 30 September 2026
+        // named nothing and MovementExpansion. Catching the fault inside the
+        // game's driver does not save the process, because the driver dies
+        // holding its own state and the thread faults again executing address
+        // 0, so a component that is not a gimmick is refused here, before
+        // anything is called, and driving stays on for everything else.
+        {
+            const char* rtti = mem::RttiShort(comp);
+            if (!rtti || !strstr(rtti, "GimmickActorComponent"))
+            {
+                static volatile LONG s_refused = 0;
+                if (InterlockedIncrement(&s_refused) <= 10)
+                    LOG("[drive] refused event %08X at target %08X: the object is no longer a gimmick "
+                        "component (%s), so it was freed after the drive was queued", eventId, targetEid, shape);
+                return false;
+            }
+        }
+
         bool changed = false;
         // Straight to the trampoline: going back through the detour would only
         // watch the mod talk to itself.
