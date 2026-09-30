@@ -1791,7 +1791,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 1789	1003915	Item_gimmick_birdfeeder_0001	Sotdae of Bond	furniture	furniture gimmick important no-sell tier-0	0	1
 1790	1002096	Condola	Contola	abyss-item	abyss-item no-sell tier-0 wild	0	1
 1791	1002519	Item_Abyss_Artifact_Maker	Abyss Artifact Fabricator	abyss-item	abyss-item no-sell tier-0	0	1
-1792	1000309	Item_troll_academy_Core	Dimensional Fusion Experimental Power Core	abyss-item	abyss-item no-sell tier-0	0	1
+1792	1000309	Item_troll_academy_Core	Dimensional Fusion Experimental Power Core	abyss-item	abyss-item no-sell quest tier-0	0	1
 1793	1003650	Item_gimmick_abyssruins_useartifact_01_attach_part	Abyss Transporter	kuku-pot-item	gimmick important kuku-pot-item no-sell tier-0 wild	0	1
 1794	1003553	Item_puzzle_troll_lake_pillar_01_part_01	Kharonso Ruins Pillar: No. 1	kuku-pot-item	gimmick important kuku-pot-item no-sell tier-0 wild	0	1
 1795	1003554	Item_puzzle_troll_lake_pillar_02_part_01	Kharonso Ruins Pillar: No. 2	kuku-pot-item	gimmick important kuku-pot-item no-sell tier-0 wild	0	1

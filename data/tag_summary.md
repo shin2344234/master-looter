@@ -129,7 +129,7 @@
 - tier-2: 872
 - tier-3: 783
 - important: 654
-- quest: 646
+- quest: 647
 - furniture: 629
 - weapon: 542
 - plate: 529
