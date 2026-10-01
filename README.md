@@ -20,7 +20,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
 - Ore veins are broken rather than emptied, the way a pickaxe does it, so the contents drop on the ground and your tool's Mining Yield Up is applied by the game. Each vein is struck once.
 - Water is lifted out of a well bucket while you turn the handle yourself. The mod drives the one state change the game makes for that and nothing else, so the bucket stays on the well and the handle stays in your hands. Off by default.
-- Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up when the game starts, whenever they changed since the last backup, and the last twelve are kept, so a version with different defaults is one button to undo. Anything that overwrites or discards asks first.
+- Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up when the game starts, whenever they changed since the last backup, and the last twelve are kept, so a version with different defaults is one button to undo. Backups, presets and a copy of the ini live in `%LOCALAPPDATA%\MasterLooter`, where a mod manager reinstalling the plugin cannot reach them, and a missing ini is put back from that copy at the next launch. Anything that overwrites or discards asks first.
 - A notice appears when the bag is full, read from the bag's own slot count, so it shows the moment it fills whether or not you are looting. Turn it off under General.
 - The menu comes in 28 languages besides English, every language Steam offers, all built into the plugin and picked from one list under General. Brazilian Portuguese is from Kyo-70 and both Chinese menus from dofo7777. The other 25 are machine translations that no native speaker has read yet, and the menu says so whenever one is on. A corrected file beside the plugin overrides the built-in copy, no rebuild needed. The [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
 - A Nearby tab lists the objects around you, nearest first, with the rule that decided each one and a note when there are more than it can show; a Status tab shows every hook and signature.
@@ -93,7 +93,7 @@ Two scanners out of seventy-one flag `MasterLooter.asi` on 1.6.45. Webroot calls
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, and 1.6.45 two. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26 and came back on 1.6.45; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8 and was gone again on 1.6.9. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.45: [the plugin](https://www.virustotal.com/gui/file/0b38789af84f4aa63aa97eba390d3285ace325db4cf4328efc704605bc57cde3) and [the package](https://www.virustotal.com/gui/file/62bb4f0c4b02b0f1e6efa3628e7901c682b5ee1e4765893888a5bfd039ee5f45).
+Reports for 1.6.45: [the plugin](https://www.virustotal.com/gui/file/558c2387359236e5b83c80bb27bd1ad3c9c2dce88bd5a411cba4a3e97c1f6ecc) and [the package](https://www.virustotal.com/gui/file/6223fe22ed5bae7f32710f6431b0c8cdfdde92ce1342a303562e175256b3c20e).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -101,11 +101,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.45:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.46:
 
-    62bb4f0c4b02b0f1e6efa3628e7901c682b5ee1e4765893888a5bfd039ee5f45  MasterLooter-1.6.45-DMM.zip
-    08275cedcb25d1aa77cd6f0f384b385e910b63dcd0c7164cd2a0bfb94569b4a6  MasterLooter-1.6.45.zip
-    0b38789af84f4aa63aa97eba390d3285ace325db4cf4328efc704605bc57cde3  MasterLooter.asi
+    6223fe22ed5bae7f32710f6431b0c8cdfdde92ce1342a303562e175256b3c20e  MasterLooter-1.6.46-DMM.zip
+    59cc1f544296a75d399fb45cadf205be931ce6e5354b564d828f06609bbe3190  MasterLooter-1.6.46.zip
+    558c2387359236e5b83c80bb27bd1ad3c9c2dce88bd5a411cba4a3e97c1f6ecc  MasterLooter.asi
 
 ## Controls
 
@@ -132,7 +132,7 @@ Bodies and carcasses have a switch of their own, "Drop refused loot from bodies"
 
 Anything you drop out of your bag yourself stays where it lands. The mod reads the request the game raises when you drop something, which says what left the bag and where the game will put it, then recognises that item by the id it carried in your bag, or by where it lands, and leaves it alone for the rest of the session. The Nearby tab lists those as "you dropped this". You can still pick one up by hand, and the loot-everything key leaves it on the ground too.
 
-Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters (currency never counts as unsellable), copper value floor, class rule, then loot. Built-in protections apply before any of that: quest and shop objects, cooking fires and crafting stations, locked nodes, your own equipment and bag contents, anything you dropped yourself, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's Take-or-Steal check calls theft. The [plugin manual](mod/README.md) has the details, the safety notes and the known limits.
+Rule order for an identified item: item override, tag never, protected tags (memory fragments, mechanism parts), tag always, dev/quest/unsellable filters (currency never counts as unsellable), copper value floor (a class's own floor in place of the general one where it has one), class rule, then loot. Built-in protections apply before any of that: quest and shop objects, cooking fires and crafting stations, locked nodes, your own equipment and bag contents, anything you dropped yourself, gear worn by others, mechanism parts, container stacks, memory triggers, and anything the game's Take-or-Steal check calls theft. The [plugin manual](mod/README.md) has the details, the safety notes and the known limits.
 
 ## Building
 
