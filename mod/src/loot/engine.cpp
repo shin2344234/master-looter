@@ -2888,6 +2888,22 @@ namespace ml::loot
         return node && node[0] && IStr(node, "gimmick_craft_");
     }
 
+    // Machinery and fixtures from /00_common/tool/: conveyor belts, the cacao
+    // grinder and powder station, notice boards, drying ropes, decorative
+    // stones. The game tags none of them, so with Unidentified nodes on they
+    // read as nodes nobody has learned yet. Sov1737's log of 1 October 2026
+    // gathered the chocolate factory's belts and cacao stations 75 times
+    // during its quest. Across 42 logs the mod sent about 1,500 gathers into
+    // this folder at things with no item data, 800 of them at one fish rack in
+    // one session, and not one emptied or paid out. The folder also holds real
+    // pick-ups, the "of the World" skill books, a Fishing Rod and the bombs,
+    // and those carry item data or a row in the node table, so only a thing
+    // with neither is refused.
+    static bool Machinery(const char* node, const NodeType* type, bool identified)
+    {
+        return node && node[0] && !type && !identified && IStr(node, "/00_common/tool/");
+    }
+
     static bool OffLimits(const char* node, bool unwornEquip = false)
     {
         if (!node || !node[0]) return false;
@@ -3257,6 +3273,7 @@ namespace ml::loot
             if (PlantedSeed(c.node)) return skip("a seed planted in your camp farm");
             if (PlacedCookFire(c.node)) return skip("a placed Field Pot or Bonfire");
             if (CraftStation(c.node)) return skip("a crafting station");
+            if (Machinery(c.node, c.nodeType, c.db != nullptr)) return skip("machinery or a fixture, not loot");
             // Gear that is being worn, which the game keeps in the world as an
             // object of its own under /00_common/equip/. Taking one hands over a
             // copy and leaves the original equipped, so the player ends up with
@@ -6270,6 +6287,7 @@ namespace ml::loot
                     // Never ask the game to open a memory trigger, a puzzle mechanism or a
                     // fast-travel artifact. Refusing to loot one afterwards is too late.
                     if (OffLimits(k.node)) continue;
+                    if (Machinery(k.node, k.nodeType, false)) continue;
                     if (AttachedPart(k.node, k.nodeType)) continue;
                     // A well is seven entities and six of them never answer, so
                     // standing beside one meant seven arm calls every five seconds for

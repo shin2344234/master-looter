@@ -753,9 +753,6 @@ gimmick_collection_prop_viewingstone_0002	container	Collection_Prop_viewingstone
 gimmick_collection_prop_viewingstone_0003	container	Collection_Prop_viewingstone_0003	Red Fire Decorative Stone	tag	0		0	0	0
 gimmick_common_bomb_01	pickup		Battle common bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_common_bomb_02	pickup		Battle small bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
-gimmick_common_logouter_box_01m	wood		Common logouter box 01m	name	0	Money_Camp_Food	0	0	0
-gimmick_common_logouter_box_03m	wood		Common logouter box 03m	name	0	Money_Camp_Food	0	0	0
-gimmick_common_logouter_box_05m	wood		Common logouter box 05m	name	0	Money_Camp_Food	0	0	0
 gimmick_confusion_bomb_01	pickup		Battle confusion bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_crow_bomb_01	pickup		Battle crow bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_cup_oath_0001	pickup		Cup oath	tag	0		0	0	0
@@ -778,8 +775,6 @@ gimmick_dpw_picture_01b	container	Collection_Prop_Picture_0066	Study - Emptiness
 gimmick_drug_bottle_04	container		Drug bottle	tag	0		0	0	0
 gimmick_drug_bottle_05	container		Drug bottle	tag	0		0	0	0
 gimmick_drug_bottle_06	container		Drug bottle	tag	0		0	0	0
-gimmick_drug_leaves_01	plant		Drug leaves	name	0		0	0	0
-gimmick_drug_leaves_02	plant		Drug leaves	name	0		0	0	0
 gimmick_dungeon_stone_bridge_01	stone		Dungeon stone bridge	name	0		0	0	0
 gimmick_dungeon_stone_bridge_02	stone		Dungeon stone bridge	name	0		0	0	0
 gimmick_dungeon_stone_bridge_03	stone		Dungeon stone bridge	name	0		0	0	0
@@ -812,7 +807,6 @@ gimmick_ex_dpf_hangingflowerpot_0004	plant		Cd ex dpf hangingflowerpot	name	0		0
 gimmick_ex_dpf_straw_01	container		Background straw	tag	0		0	0	0
 gimmick_ex_dpf_straw_06	container		Background straw	tag	0		0	0	0
 gimmick_ex_dpf_straw_12	container		Background straw	tag	0		0	0	0
-gimmick_factory_chocolate_logouter_02	wood		Factory chocolate logouter	name	0		0	0	0
 gimmick_falling_rock_0004	stone		Falling rock	name	1		0	0	0
 gimmick_falltree_01	wood		Falltree	name	0		0	0	0
 gimmick_falltree_01_fire	wood		Falltree 01 fire	name	0		0	0	0
@@ -1467,7 +1461,6 @@ gimmick_laser_safe_02_button	pickup		Laser safe 02 button	tag	0		1	0	0
 gimmick_laser_safe_03_button	pickup		Laser safe 03 button	tag	0		1	0	0
 gimmick_lifespring_0001	wood		Tariv guardiantree pear	name	0		0	0	0
 gimmick_liftable_pillar_02_stump	wood		Liftable pillar 02 stump	name	0		0	0	0
-gimmick_marni_chocolate_loginoutmachine_0003	wood		Marni chocolate loginoutmachine	name	0		0	0	0
 gimmick_marni_chocolate_product_02_index01	container		Container	tag	0		0	0	0
 gimmick_marni_chocolate_product_02_index02	container		Container	tag	0		0	0	0
 gimmick_marni_chocolate_product_02_index03	container		Container	tag	0		0	0	0
@@ -1818,65 +1811,6 @@ gimmick_tombstone_0031	stone		Tombstone	name	0		0	0	0
 gimmick_tombstone_0032	stone		Tombstone	name	0		0	0	0
 gimmick_tombstone_0033	stone		Tombstone	name	0		0	0	0
 gimmick_tombstone_0034	stone		Tombstone	name	0		0	0	0
-gimmick_tool_automata_flower_0001	plant		Tool automata flower	name	0		0	0	0
-gimmick_tool_automata_flower_0001_parts01	plant		Plant	name	0		0	0	0
-gimmick_tool_automata_flower_0001_parts02	plant		Plant	name	0		0	0	0
-gimmick_tool_automata_flower_0002	plant		Tool automata flower	name	0		0	0	0
-gimmick_tool_automata_flower_0002_parts01	plant		Plant	name	0		0	0	0
-gimmick_tool_automata_flower_0002_parts02	plant		Plant	name	0		0	0	0
-gimmick_tool_blacksmithstone_01	stone		Tool blacksmithstone	name	0	Regglin_Fabric_Armor	0	0	0
-gimmick_tool_blacksmithstone_housing_0001	stone		Tool blacksmithstone housing	name	0	Regglin_Fabric_Armor	0	0	0
-gimmick_tool_decostone_0001	stone		Tool decostone	name	0		0	0	0
-gimmick_tool_decostone_0001_cogwheel	stone		Tool decostone 0001 cogwheel	name	0		0	0	0
-gimmick_tool_decostone_0001_cogwheel_index01	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0001_index01	stone		Tool decostone 0001 index01	name	0		0	0	0
-gimmick_tool_decostone_0001_index02	stone		Tool decostone 0001 index02	name	0		0	0	0
-gimmick_tool_decostone_0001_index03	stone		Tool decostone 0001 index03	name	0		0	0	0
-gimmick_tool_decostone_0001_index04	stone		Tool decostone 0001 index04	name	0		0	0	0
-gimmick_tool_decostone_0001_parts01	stone		Tool decostone 0001 parts01	name	0		0	0	0
-gimmick_tool_decostone_0001_parts01_cogwheel	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0001_parts01_cogwheel_index01	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0001_parts01_index01	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0001_parts01_index02	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0001_parts01_index03	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0001_parts01_index04	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0002	stone		Tool decostone	name	0		0	0	0
-gimmick_tool_decostone_0002_parts01	stone		Tool decostone 0002 parts01	name	0		0	0	0
-gimmick_tool_decostone_0003	stone		Tool decostone	name	0		0	0	0
-gimmick_tool_decostone_0003_parts01	stone		Tool decostone 0003 parts01	name	0		0	0	0
-gimmick_tool_decostone_0004	stone		Tool decostone	name	0		0	0	0
-gimmick_tool_decostone_0004_cogwheel	stone		Tool decostone 0004 cogwheel	name	0		0	0	0
-gimmick_tool_decostone_0004_cogwheel_index01	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0004_index01	stone		Tool decostone 0004 index01	name	0		0	0	0
-gimmick_tool_decostone_0004_index02	stone		Tool decostone 0004 index02	name	0		0	0	0
-gimmick_tool_decostone_0004_index03	stone		Tool decostone 0004 index03	name	0		0	0	0
-gimmick_tool_decostone_0004_index04	stone		Tool decostone 0004 index04	name	0		0	0	0
-gimmick_tool_decostone_0004_parts01	stone		Tool decostone 0004 parts01	name	0		0	0	0
-gimmick_tool_decostone_0004_parts01_cogwheel	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0004_parts01_cogwheel_index01	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0004_parts01_index01	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0004_parts01_index02	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0004_parts01_index03	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0004_parts01_index04	stone		Stone	name	0		0	0	0
-gimmick_tool_decostone_0005	stone		Tool decostone	name	0		0	0	0
-gimmick_tool_decostone_0005_index01	stone		Tool decostone 0005 index01	name	0		0	0	0
-gimmick_tool_decostone_0006	stone		Tool decostone	name	0		0	0	0
-gimmick_tool_decostone_0006_index01	stone		Tool decostone 0006 index01	name	0		0	0	0
-gimmick_tool_decostone_0007_parts01	stone		Tool decostone 0007 parts01	name	0		0	0	0
-gimmick_tool_decostone_0007_parts02	stone		Tool decostone 0007 parts02	name	0		0	0	0
-gimmick_tool_decostone_0007_parts03	stone		Tool decostone 0007 parts03	name	0		0	0	0
-gimmick_tool_decostone_0007_parts04	stone		Tool decostone 0007 parts04	name	0		0	0	0
-gimmick_tool_decostone_0010	stone		Tool decostone	name	0		0	0	0
-gimmick_tool_decostone_0010_parts01	stone		Tool decostone 0010 parts01	name	0		0	0	0
-gimmick_tool_dryingrope_herb_0001	plant		Tool dryingrope herb	name	0		0	0	0
-gimmick_tool_dryingrope_herb_0002	plant		Tool dryingrope herb	name	0		0	0	0
-gimmick_tool_dryingrope_herb_0003	plant		Tool dryingrope herb	name	0		0	0	0
-gimmick_tool_dryingrope_herb_0004	plant		Tool dryingrope herb	name	0		0	0	0
-gimmick_tool_dryingrope_herb_0005	plant		Tool dryingrope herb	name	0		0	0	0
-gimmick_tool_dryingrope_mushroom_0001	plant		Tool dryingrope mushroom	name	0		0	0	0
-gimmick_tool_dryingrope_mushroom_0002	plant		Tool dryingrope mushroom	name	0		0	0	0
-gimmick_tool_dryingrope_mushroom_0003	plant		Tool dryingrope mushroom	name	0		0	0	0
-gimmick_tool_dryingrope_mushroom_0004	plant		Tool dryingrope mushroom	name	0		0	0	0
 gimmick_tool_fishing_basket_01	container		Tool fishing basket	tag	1		0	0	0
 gimmick_tool_fishing_basket_03	container		Tool fishing basket	tag	1		0	0	0
 gimmick_tool_grinder_01	container		Tool grinder	tag	0		0	0	0

@@ -425,6 +425,14 @@ def kind_for(tags, name, prefab, folder=""):
     # These were the only two rows either folder gave the table.
     if "/00_common/faction/" in folder or "/00_common/spot/" in folder:
         return "", False
+    # /00_common/tool/ is machinery and fixtures: conveyor belts, drying racks,
+    # notice-board nails, the chocolate factory's stations. The name guess put
+    # gimmick_marni_chocolate_loginoutmachine_0003 and
+    # gimmick_factory_chocolate_logouter_02 under wood for the "log" in them,
+    # and Wood is on by default. Rows the game tags itself, such as the
+    # factory's product crates and the bombs, are decided above and kept.
+    if "/00_common/tool/" in folder:
+        return "", False
     # A crafting station is never a node. gimmick_craft_millestone_01's three
     # parts sit in /00_common/farm/ and came out as stone because the name has
     # "stone" in it. All 25 gimmick_craft_ prefabs are stations, and those
