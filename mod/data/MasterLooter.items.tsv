@@ -5824,7 +5824,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 5822	1000443	Bleed_Bomb_BackPack	Bleed Bandits' Alchemy Explosive Pack	armor	accessory armor backpack docking equipment special tier-3	3	2700
 5823	1000716	WaterPower_BackPack	Hydro Generator Bag	armor	accessory armor backpack docking equipment special tier-2	2	85
 5824	1000970	EMP_BackPack	Disruptor	armor	accessory armor backpack docking equipment special tier-1	1	2700
-5825	1000708	Chocolate_Factory_BackPack	Gearmelt Confectionery Pack	armor	accessory armor backpack docking equipment important special tier-3	3	85
+5825	1000708	Chocolate_Factory_BackPack	Gearmelt Confectionery Pack	armor	accessory armor backpack docking equipment important quest special tier-3	3	85
 5826	1003750	Fertilizer_Sprayer_BackPack	Fertilizer Sprayer	armor	accessory armor backpack docking equipment important no-sell special sprayer tier-0	0	1
 5827	1003751	Oil_Sprayer_BackPack	Lubricant Sprayer	armor	accessory armor backpack docking equipment important no-discard no-sell special sprayer tier-0	0	1
 5828	1000102	Anamorphic_PlateArmor_Helm	Constellation Helm	key-item	armor docking equipment extractable helm key-item no-sell plate quest tier-3	3	1
