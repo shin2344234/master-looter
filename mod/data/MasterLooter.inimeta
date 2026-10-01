@@ -26,13 +26,13 @@
           "order": 1
         },
         "ShowHud": {
-          "label": "Show a brief notice when auto-loot is toggled",
+          "label": "Show on-screen notices",
           "type": "bool",
           "group": "General",
           "default": "1",
           "true": "1",
           "false": "0",
-          "help": "Nothing else is drawn while the menu is closed.",
+          "help": "Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.",
           "order": 2
         },
         "NotifyBagFull": {

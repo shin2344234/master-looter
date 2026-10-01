@@ -249,7 +249,6 @@ search item name or key (3+ letters)	ค้นหาชื่อหรือค�
 Sending events	การส่งเหตุการณ์
 Set	ตั้งค่า
 Settings: %ls	การตั้งค่า: %ls
-Show a brief notice when auto-loot is toggled	แสดงข้อความสั้น ๆ เมื่อสลับลูทอัตโนมัติ
 Showing current overrides. Type to search all %d items.	กำลังแสดงการแทนที่ปัจจุบัน พิมพ์เพื่อค้นหาไอเทมทั้งหมด %d รายการ
 Showing the nearest %d of %d. The rest are further away.	กำลังแสดง %d รายการที่ใกล้ที่สุดจากทั้งหมด %d รายการ ที่เหลืออยู่ไกลกว่านี้
 Skip all	ข้ามทั้งหมด
@@ -475,3 +474,5 @@ Clear floors	ล้างเกณฑ์
 Floor	เกณฑ์
 general	ทั่วไป
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	ไอเท็มในประเภทนี้ที่มีมูลค่าต่ำกว่าจำนวนทองแดงนี้จะถูกข้าม โดยใช้แทนมูลค่าต่ำสุดในแท็บทั่วไป ลากหรือกด Ctrl+คลิกเพื่อพิมพ์ตัวเลข ที่ 0 ประเภทนี้จะทำตามแท็บทั่วไป
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	ปิดจะซ่อนข้อความที่ม็อดแสดงบนหน้าจอ แต่ยังมีสี่อย่างที่แสดงเพราะต้องการความสนใจจากคุณ: กระเป๋าเต็ม ซึ่งมีสวิตช์ของตัวเองด้านล่าง; มีม็อดลูทตัวอื่นติดตั้งอยู่; เมนูอยู่ในโหมดเฝ้าดู; และการตั้งค่าที่นำกลับมาหลังจาก MasterLooter.ini หายไป
+Show on-screen notices	แสดงข้อความบนหน้าจอ

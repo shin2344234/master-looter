@@ -256,7 +256,6 @@ search item name or key (3+ letters)	搜索物品名称或键值 (至少 3 个�
 Sending events	事件发送
 Set	设置
 Settings: %ls	设置：%ls
-Show a brief notice when auto-loot is toggled	切换自动拾取开关时显示简短提示
 Showing current overrides. Type to search all %d items.	正在显示当前覆盖规则。输入可搜索全部 %d 件物品。
 Showing the nearest %d of %d. The rest are further away.	正在显示最近的 %d 个（共 %d 个）。其余对象距离更远。
 Skip all	全部跳过
@@ -491,3 +490,5 @@ Clear floors	清除下限
 Floor	下限
 general	常规
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	此类别中价值低于这么多铜币的物品会被跳过，替代常规页的最低价值。拖动，或按住 Ctrl 点击输入数字。为 0 时该类别沿用常规页。
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	关闭后会隐藏模组在屏幕上显示的提示。有四种仍会显示，因为需要你注意：背包已满（下方有单独的开关）；安装了另一个拾取模组；菜单处于监视模式；以及 MasterLooter.ini 丢失后放回的设置。
+Show on-screen notices	显示屏幕提示

@@ -252,7 +252,6 @@ search item name or key (3+ letters)	Gegenstandsname oder Schlüssel suchen (3+ 
 Sending events	Ereignisse werden gesendet
 Set	Setzen
 Settings: %ls	Einstellungen: %ls
-Show a brief notice when auto-loot is toggled	Kurzen Hinweis anzeigen, wenn Auto-Loot umgeschaltet wird
 Showing current overrides. Type to search all %d items.	Zeigt aktuelle Überschreibungen. Tippen, um alle %d Gegenstände zu durchsuchen.
 Showing the nearest %d of %d. The rest are further away.	Zeigt die nächsten %d von %d. Der Rest ist weiter entfernt.
 Skip all	Alles überspringen
@@ -478,3 +477,5 @@ Clear floors	Schwellen löschen
 Floor	Schwelle
 general	allgemein
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Gegenstände dieser Klasse, die weniger als so viele Kupfer wert sind, werden übersprungen, anstelle des Mindestwerts auf dem Reiter Allgemein. Ziehen oder Strg+Klick, um eine Zahl einzugeben. Bei 0 folgt die Klasse dem Reiter Allgemein.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Aus blendet die Hinweise aus, die der Mod auf dem Bildschirm zeigt. Vier erscheinen trotzdem, weil sie dich brauchen: Tasche voll, mit eigenem Schalter weiter unten; ein weiterer Loot-Mod ist installiert; das Menü ist im Beobachten-Modus; und Einstellungen, die nach dem Verschwinden der MasterLooter.ini zurückgeholt wurden.
+Show on-screen notices	Hinweise auf dem Bildschirm anzeigen

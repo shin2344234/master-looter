@@ -252,7 +252,6 @@ search item name or key (3+ letters)	szukaj nazwy lub klucza przedmiotu (3+ lite
 Sending events	Wysyłanie zdarzeń
 Set	Ustaw
 Settings: %ls	Ustawienia: %ls
-Show a brief notice when auto-loot is toggled	Pokaż krótkie powiadomienie po przełączeniu automatycznego zbierania
 Showing current overrides. Type to search all %d items.	Wyświetlono bieżące nadpisania. Wpisz tekst, aby przeszukać wszystkie %d przedmiotów.
 Showing the nearest %d of %d. The rest are further away.	Wyświetlono %d najbliższych z %d. Reszta jest dalej.
 Skip all	Pomiń wszystko
@@ -478,3 +477,5 @@ Clear floors	Wyczyść progi
 Floor	Próg
 general	ogólny
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Przedmioty tej klasy warte mniej niż tyle miedziaków są pomijane, zamiast według Minimalnej wartości z karty Ogólne. Przeciągnij albo Ctrl+kliknij, aby wpisać liczbę. Przy 0 klasa stosuje się do karty Ogólne.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Wyłączone ukrywa powiadomienia, które mod pokazuje na ekranie. Cztery i tak się pojawiają, bo wymagają uwagi: pełna torba, która ma własny przełącznik poniżej; zainstalowany inny mod do zbierania; menu w trybie Obserwuj; oraz ustawienia przywrócone po zniknięciu MasterLooter.ini.
+Show on-screen notices	Pokazuj powiadomienia na ekranie

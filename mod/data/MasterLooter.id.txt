@@ -249,7 +249,6 @@ search item name or key (3+ letters)	cari nama atau kunci item (3+ huruf)
 Sending events	Mengirim event
 Set	Atur
 Settings: %ls	Pengaturan: %ls
-Show a brief notice when auto-loot is toggled	Tampilkan notifikasi singkat saat loot otomatis diubah
 Showing current overrides. Type to search all %d items.	Menampilkan override saat ini. Ketik untuk mencari semua %d item.
 Showing the nearest %d of %d. The rest are further away.	Menampilkan %d terdekat dari %d. Sisanya lebih jauh.
 Skip all	Lewati semua
@@ -475,3 +474,5 @@ Clear floors	Hapus batas
 Floor	Batas
 general	umum
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Item dari kelas ini yang bernilai kurang dari sekian tembaga dilewati, menggantikan Nilai minimum di tab Umum. Seret, atau Ctrl+klik untuk mengetik angka. Pada 0 kelas ini mengikuti tab Umum.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Nonaktif menyembunyikan notifikasi yang ditampilkan mod di layar. Empat tetap muncul karena butuh perhatianmu: tas penuh, yang punya sakelar sendiri di bawah; mod loot lain terpasang; menu dalam mode Pantau; dan pengaturan yang dipulihkan setelah MasterLooter.ini hilang.
+Show on-screen notices	Tampilkan notifikasi di layar

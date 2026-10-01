@@ -742,7 +742,11 @@ namespace ml::gui
             ImGui::SameLine(a > b ? a : b);
         }
         if (ImGui::Button(TR("Loot everything in range now"))) loot::RequestBurst();
-        dirty |= ImGui::Checkbox(TR("Show a brief notice when auto-loot is toggled"), &c.showHud);
+        // The label used to promise only the auto-loot toggle, and tebren set
+        // ShowHud=0 on 1 October 2026 expecting it to hide everything. It hides
+        // every notice that is not marked important, which is nearly all of them.
+        dirty |= ImGui::Checkbox(TR("Show on-screen notices"), &c.showHud);
+        Help(TR("Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing."));
         dirty |= ImGui::Checkbox(TR("Say so on screen when the bag stops taking things"), &c.notifyBagFull);
         Help(TR("How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it."));
         Help(TR("Nothing else is drawn while the menu is closed."));

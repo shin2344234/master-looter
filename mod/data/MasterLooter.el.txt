@@ -252,7 +252,6 @@ search item name or key (3+ letters)	αναζήτησε όνομα ή κλειδ
 Sending events	Αποστολή συμβάντων
 Set	Ορισμός
 Settings: %ls	Ρυθμίσεις: %ls
-Show a brief notice when auto-loot is toggled	Δείξε σύντομη ειδοποίηση όταν αλλάζει το αυτόματο λουτ
 Showing current overrides. Type to search all %d items.	Εμφανίζονται οι τρέχουσες παρακάμψεις. Πληκτρολόγησε για αναζήτηση σε όλα τα %d αντικείμενα.
 Showing the nearest %d of %d. The rest are further away.	Εμφανίζονται τα %d πιο κοντινά από %d. Τα υπόλοιπα είναι πιο μακριά.
 Skip all	Παράλειψη όλων
@@ -478,3 +477,5 @@ Clear floors	Καθαρισμός ορίων
 Floor	Όριο
 general	γενικό
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Τα αντικείμενα αυτής της κατηγορίας που αξίζουν λιγότερο από τόσα χάλκινα παραλείπονται, στη θέση της Ελάχιστης αξίας της καρτέλας Γενικά. Σύρε, ή Ctrl+κλικ για να πληκτρολογήσεις αριθμό. Στο 0 η κατηγορία ακολουθεί την καρτέλα Γενικά.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Ανενεργό κρύβει τις ειδοποιήσεις που δείχνει το mod στην οθόνη. Τέσσερις εμφανίζονται ακόμα, γιατί χρειάζονται την προσοχή σου: γεμάτη τσάντα, που έχει δικό της διακόπτη παρακάτω· άλλο mod λουτ εγκατεστημένο· το μενού σε λειτουργία Παρακολούθησης· και ρυθμίσεις που επανήλθαν αφού χάθηκε το MasterLooter.ini.
+Show on-screen notices	Εμφάνιση ειδοποιήσεων στην οθόνη

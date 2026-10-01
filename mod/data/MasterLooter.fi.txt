@@ -252,7 +252,6 @@ search item name or key (3+ letters)	hae esineen nimeä tai avainta (3+ kirjaint
 Sending events	Tapahtumien lähetys
 Set	Aseta
 Settings: %ls	Asetukset: %ls
-Show a brief notice when auto-loot is toggled	Näytä lyhyt ilmoitus, kun automaattilootti kytketään
 Showing current overrides. Type to search all %d items.	Näytetään nykyiset poikkeukset. Kirjoita hakeaksesi kaikista %d esineestä.
 Showing the nearest %d of %d. The rest are further away.	Näytetään lähimmät %d/%d. Loput ovat kauempana.
 Skip all	Ohita kaikki
@@ -478,3 +477,5 @@ Clear floors	Tyhjennä rajat
 Floor	Raja
 general	yleinen
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Tämän luokan esineet, joiden arvo on alle näin monta kuparia, ohitetaan Yleiset-välilehden Vähimmäisarvon sijaan. Vedä, tai Ctrl+napsauta kirjoittaaksesi luvun. Arvolla 0 luokka noudattaa Yleiset-välilehteä.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Pois päältä piilottaa ilmoitukset, joita modi näyttää ruudulla. Neljä näkyy silti, koska ne vaativat huomiotasi: täysi laukku, jolla on oma kytkin alempana; toinen loottimodi asennettuna; valikko Seuraa-tilassa; ja asetukset, jotka palautettiin MasterLooter.ini-tiedoston kadottua.
+Show on-screen notices	Näytä ilmoitukset ruudulla

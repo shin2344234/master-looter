@@ -252,7 +252,6 @@ search item name or key (3+ letters)	buscar nombre o clave de objeto (3+ letras)
 Sending events	Enviando eventos
 Set	Establecer
 Settings: %ls	Configuración: %ls
-Show a brief notice when auto-loot is toggled	Mostrar un aviso breve cuando se active o desactive el saqueo automático
 Showing current overrides. Type to search all %d items.	Mostrando las excepciones actuales. Escribe para buscar entre los %d objetos.
 Showing the nearest %d of %d. The rest are further away.	Mostrando los %d más cercanos de %d. El resto está más lejos.
 Skip all	Omitir todo
@@ -478,3 +477,5 @@ Clear floors	Borrar mínimos
 Floor	Mínimo
 general	general
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Los objetos de esta clase que valen menos de esta cantidad de cobre se omiten, en lugar de usar el Valor mínimo de la pestaña General. Arrastra, o Ctrl+clic para escribir un número. En 0 la clase sigue la pestaña General.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Desactivado oculta los avisos que el mod muestra en pantalla. Cuatro se siguen mostrando porque te necesitan: bolsa llena, que tiene su propio interruptor abajo; otro mod de saqueo instalado; el menú en modo Observar; y ajustes restaurados después de que MasterLooter.ini desapareció.
+Show on-screen notices	Mostrar avisos en pantalla

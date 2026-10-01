@@ -249,7 +249,6 @@ search item name or key (3+ letters)	アイテム名またはキーで検索（3
 Sending events	イベント送信中
 Set	設定
 Settings: %ls	設定：%ls
-Show a brief notice when auto-loot is toggled	自動ルートを切り替えた際に短い通知を表示する
 Showing current overrides. Type to search all %d items.	現在の上書き設定を表示中です。入力すると全%d件のアイテムから検索できます。
 Showing the nearest %d of %d. The rest are further away.	最も近い%d件（全%d件中）を表示中です。残りはさらに遠くにあります。
 Skip all	全てスキップ
@@ -475,3 +474,5 @@ Clear floors	下限をクリア
 Floor	下限
 general	一般
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	このクラスのアイテムのうち、この銅貨数より価値が低いものは、一般タブの最低価値の代わりにこの値で判定されて拾われません。ドラッグするか、Ctrl+クリックで数値を入力します。0 のときは一般タブに従います。
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	オフにすると、MODが画面に出す通知を隠します。次の4つは確認が必要なため表示されます：バッグ満杯（下に専用のスイッチあり）、別のルートMODのインストール、監視モードのメニュー、MasterLooter.ini が消えた後に戻された設定。
+Show on-screen notices	画面に通知を表示する

@@ -250,7 +250,6 @@ search item name or key (3+ letters)	아이템 이름 또는 키 검색 (3자 �
 Sending events	이벤트 전송
 Set	설정
 Settings: %ls	설정: %ls
-Show a brief notice when auto-loot is toggled	자동 루팅 전환 시 짧은 알림 표시
 Showing current overrides. Type to search all %d items.	현재 재정의를 표시 중입니다. 입력하여 전체 %d개 아이템을 검색하세요.
 Showing the nearest %d of %d. The rest are further away.	가장 가까운 %d개(전체 %d개 중)를 표시 중입니다. 나머지는 더 멀리 있습니다.
 Skip all	전부 건너뛰기
@@ -476,3 +475,5 @@ Clear floors	하한 지우기
 Floor	하한
 general	일반
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	이 분류의 아이템 중 이 구리 수보다 가치가 낮은 것은 일반 탭의 최소 가치 대신 이 값으로 판단해 건너뜁니다. 드래그하거나 Ctrl+클릭해 숫자를 입력하세요. 0이면 일반 탭을 따릅니다.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	끄면 모드가 화면에 띄우는 알림을 숨깁니다. 다음 네 가지는 확인이 필요해 계속 표시됩니다: 가방 가득 참(아래에 별도 스위치 있음), 다른 루팅 모드 설치됨, 워치 모드인 메뉴, MasterLooter.ini가 사라진 뒤 되돌린 설정.
+Show on-screen notices	화면 알림 표시

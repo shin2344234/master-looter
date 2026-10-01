@@ -249,7 +249,6 @@ search item name or key (3+ letters)	hledej název předmětu nebo klíč (3+ p�
 Sending events	Odesílání událostí
 Set	Nastavit
 Settings: %ls	Nastavení: %ls
-Show a brief notice when auto-loot is toggled	Zobrazit krátké upozornění při přepnutí auto-lootu
 Showing current overrides. Type to search all %d items.	Zobrazují se aktuální výjimky. Piš pro hledání ve všech %d předmětech.
 Showing the nearest %d of %d. The rest are further away.	Zobrazeno %d nejbližších z %d. Zbytek je dál.
 Skip all	Přeskočit vše
@@ -475,3 +474,5 @@ Clear floors	Vymazat prahy
 Floor	Práh
 general	obecný
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Předměty této třídy v hodnotě nižší než tolik měďáků se přeskočí, místo podle Minimální hodnoty na kartě Obecné. Táhni, nebo Ctrl+klikni a zadej číslo. Při 0 se třída řídí kartou Obecné.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Vypnuto skryje upozornění, která mod zobrazuje na obrazovce. Čtyři se zobrazí i tak, protože vyžadují pozornost: plný batoh, který má vlastní přepínač níže; nainstalovaný jiný lootovací mod; menu v režimu Sledování; a nastavení obnovené poté, co zmizel MasterLooter.ini.
+Show on-screen notices	Zobrazovat upozornění na obrazovce

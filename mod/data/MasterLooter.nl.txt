@@ -249,7 +249,6 @@ search item name or key (3+ letters)	zoek itemnaam of sleutel (3+ letters)
 Sending events	Gebeurtenissen verzenden
 Set	Instellen
 Settings: %ls	Instellingen: %ls
-Show a brief notice when auto-loot is toggled	Toon een korte melding wanneer automatisch looten wordt aan- of uitgezet
 Showing current overrides. Type to search all %d items.	Huidige uitzonderingen worden getoond. Typ om alle %d items te doorzoeken.
 Showing the nearest %d of %d. The rest are further away.	De dichtstbijzijnde %d van %d worden getoond. De rest is verder weg.
 Skip all	Alles overslaan
@@ -475,3 +474,5 @@ Clear floors	Drempels wissen
 Floor	Drempel
 general	algemeen
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Voorwerpen van deze klasse die minder dan zoveel koper waard zijn, worden overgeslagen, in plaats van volgens Minimumwaarde op het tabblad Algemeen. Sleep, of Ctrl+klik om een getal in te typen. Bij 0 volgt de klasse het tabblad Algemeen.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Uit verbergt de meldingen die de mod op het scherm toont. Vier verschijnen toch omdat ze je aandacht nodig hebben: tas vol, met een eigen schakelaar hieronder; een andere loot-mod geïnstalleerd; het menu in Kijken-modus; en instellingen teruggezet nadat MasterLooter.ini verdwenen was.
+Show on-screen notices	Meldingen op het scherm tonen

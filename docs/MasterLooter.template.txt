@@ -261,6 +261,7 @@ Objects per burst press
 Objects per scan	
 Off	
 off	
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	
 off, see the error below	
 off, the mod is disabled	
 on the player	
@@ -351,8 +352,8 @@ set
 set this launch	
 Settings file	
 Settings: %ls	
-Show a brief notice when auto-loot is toggled	
 Show a notice when loot is stored	
+Show on-screen notices	
 Showing current overrides. Type to search all %d items.	
 Showing the nearest %d of %d. The rest are further away.	
 Since Private Storage Master 1.1.4 the Arrow is on it by default as well, so arrows you pick back up stay in the quiver.	

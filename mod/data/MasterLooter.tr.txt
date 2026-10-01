@@ -250,7 +250,6 @@ search item name or key (3+ letters)	eşya adı veya anahtarı ara (3+ harf)
 Sending events	Olaylar gönderiliyor
 Set	Ayarla
 Settings: %ls	Ayarlar: %ls
-Show a brief notice when auto-loot is toggled	Otomatik yağma değiştirildiğinde kısa bir bildirim göster
 Showing current overrides. Type to search all %d items.	Geçerli geçersiz kılmalar gösteriliyor. Tüm %d eşya arasında aramak için yaz.
 Showing the nearest %d of %d. The rest are further away.	En yakın %d gösteriliyor, toplam %d içinden. Geri kalanlar daha uzakta.
 Skip all	Tümünü atla
@@ -476,3 +475,5 @@ Clear floors	Eşikleri temizle
 Floor	Eşik
 general	genel
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Bu sınıftaki, bu kadar bakırdan az değerli eşyalar Genel sekmesindeki Minimum değer yerine bununla atlanır. Sürükle ya da sayı yazmak için Ctrl+tıkla. 0'da sınıf Genel sekmesini izler.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Kapalı, modun ekranda gösterdiği bildirimleri gizler. Dördü yine de görünür çünkü ilgini gerektirir: aşağıda kendi anahtarı olan çanta dolu bildirimi; başka bir yağma modunun kurulu olması; menünün İzle modunda olması; ve MasterLooter.ini kaybolduktan sonra geri konan ayarlar.
+Show on-screen notices	Ekranda bildirim göster

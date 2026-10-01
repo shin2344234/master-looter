@@ -250,7 +250,6 @@ search item name or key (3+ letters)	søg genstandsnavn eller nøgle (3+ bogstav
 Sending events	Sender hændelser
 Set	Sæt
 Settings: %ls	Indstillinger: %ls
-Show a brief notice when auto-loot is toggled	Vis en kort besked, når automatisk loot slås til eller fra
 Showing current overrides. Type to search all %d items.	Viser nuværende tilsidesættelser. Skriv for at søge blandt alle %d genstande.
 Showing the nearest %d of %d. The rest are further away.	Viser de nærmeste %d af %d. Resten er længere væk.
 Skip all	Spring alt over
@@ -476,3 +475,5 @@ Clear floors	Ryd grænser
 Floor	Grænse
 general	generel
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Genstande i denne klasse, der er mindre værd end så mange kobber, springes over i stedet for Minimumsværdi på fanen Generelt. Træk, eller Ctrl+klik for at skrive et tal. Ved 0 følger klassen fanen Generelt.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Fra skjuler de beskeder, modden viser på skærmen. Fire vises stadig, fordi de kræver din opmærksomhed: fuld taske, som har sin egen kontakt nedenfor; en anden loot-mod er installeret; menuen er i Overvåg-tilstand; og indstillinger lagt tilbage, efter at MasterLooter.ini forsvandt.
+Show on-screen notices	Vis beskeder på skærmen

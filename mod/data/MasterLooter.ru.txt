@@ -253,7 +253,6 @@ search item name or key (3+ letters)	поиск по имени или ключ�
 Sending events	Отправка событий
 Set	Задать
 Settings: %ls	Настройки: %ls
-Show a brief notice when auto-loot is toggled	Показывать краткое уведомление при переключении автолута
 Showing current overrides. Type to search all %d items.	Показаны текущие переопределения. Начните вводить, чтобы искать среди всех %d предметов.
 Showing the nearest %d of %d. The rest are further away.	Показаны ближайшие %d из %d. Остальные находятся дальше.
 Skip all	Пропустить всё
@@ -479,3 +478,5 @@ Clear floors	Сбросить пороги
 Floor	Порог
 general	общий
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Предметы этого класса дешевле указанного числа меди пропускаются, вместо Минимальной ценности с вкладки Общие. Перетащите или нажмите Ctrl+щелчок, чтобы ввести число. При 0 класс следует вкладке Общие.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Выключено скрывает уведомления, которые мод показывает на экране. Четыре всё равно появляются, потому что требуют внимания: сумка полна, у неё свой переключатель ниже; установлен другой мод лута; меню в режиме Наблюдение; и настройки, восстановленные после пропажи MasterLooter.ini.
+Show on-screen notices	Показывать уведомления на экране

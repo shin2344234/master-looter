@@ -253,7 +253,6 @@ search item name or key (3+ letters)	keress tárgynévre vagy kulcsra (3+ betű)
 Sending events	Események küldése
 Set	Beállítás
 Settings: %ls	Beállítások: %ls
-Show a brief notice when auto-loot is toggled	Rövid értesítés megjelenítése az automatikus lootolás átkapcsolásakor
 Showing current overrides. Type to search all %d items.	A jelenlegi felülbírálások láthatók. Gépelj a kereséshez mind a(z) %d tárgy között.
 Showing the nearest %d of %d. The rest are further away.	A legközelebbi %d/%d jelenik meg. A többi messzebb van.
 Skip all	Összes kihagyása
@@ -479,3 +478,5 @@ Clear floors	Küszöbök törlése
 Floor	Küszöb
 general	általános
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Az ebbe a kategóriába tartozó, ennyi réznél kevesebbet érő tárgyak kimaradnak, az Általános fül Minimum értéke helyett. Húzd, vagy Ctrl+kattintással írj be számot. 0-nál a kategória az Általános fület követi.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Kikapcsolva elrejti a mod képernyőn megjelenő értesítéseit. Négy így is megjelenik, mert figyelmet kér: tele táska, aminek lent saját kapcsolója van; másik lootoló mod telepítve; a menü Figyelés módban; és a MasterLooter.ini eltűnése után visszaállított beállítások.
+Show on-screen notices	Értesítések megjelenítése a képernyőn

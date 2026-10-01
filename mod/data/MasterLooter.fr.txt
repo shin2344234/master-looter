@@ -251,7 +251,6 @@ search item name or key (3+ letters)	chercher un nom ou une clé d'objet (3 lett
 Sending events	Envoi des événements
 Set	Définir
 Settings: %ls	Réglages : %ls
-Show a brief notice when auto-loot is toggled	Afficher un bref avis quand le ramassage automatique est activé ou désactivé
 Showing current overrides. Type to search all %d items.	Affichage des substitutions actuelles. Tapez pour chercher parmi les %d objets.
 Showing the nearest %d of %d. The rest are further away.	Affichage des %d plus proches sur %d. Les autres sont plus loin.
 Skip all	Tout ignorer
@@ -477,3 +476,5 @@ Clear floors	Effacer les seuils
 Floor	Seuil
 general	général
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Les objets de cette classe valant moins que ce nombre de cuivres sont ignorés, à la place de la Valeur minimale de l'onglet Général. Faites glisser, ou Ctrl+clic pour saisir un nombre. À 0, la classe suit l'onglet Général.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Désactivé masque les avis que le mod affiche à l'écran. Quatre restent affichés parce qu'ils demandent votre attention : sac plein, qui a son propre interrupteur plus bas ; un autre mod de ramassage installé ; le menu en mode Observation ; et des réglages remis après la disparition de MasterLooter.ini.
+Show on-screen notices	Afficher les avis à l'écran

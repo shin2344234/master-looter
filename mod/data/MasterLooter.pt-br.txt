@@ -265,7 +265,6 @@ Searching the people you kill, once per body. Animals go under Carcasses. What a
 Sending events	Enviando eventos
 Set	Definir
 Settings: %ls	Configurações: %ls
-Show a brief notice when auto-loot is toggled	Mostrar um aviso breve ao alternar o saque automático
 Showing current overrides. Type to search all %d items.	Exibindo as substituições atuais. Digite para pesquisar todos os %d itens.
 Showing the nearest %d of %d. The rest are further away.	Exibindo os %d mais próximos de %d. Os demais estão mais distantes.
 Skinning the animals you kill, once per carcass. People go under Bodies. What skinning pays out is not checked against your filters. The mod never sees it before it lands, so this switch is all or nothing.	Esfola cada animal abatido uma única vez. Pessoas ficam na categoria Corpos. Os itens obtidos pelo esfolamento não são verificados pelos filtros. O mod não consegue vê-los antes que sejam recebidos, portanto esta opção é tudo ou nada.
@@ -497,3 +496,5 @@ Clear floors	Limpar mínimos
 Floor	Mínimo
 general	geral
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Itens desta classe que valem menos que essa quantidade de cobre são ignorados, no lugar do Valor mínimo da aba Geral. Arraste, ou Ctrl+clique para digitar um número. Em 0 a classe segue a aba Geral.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Desativado oculta os avisos que o mod mostra na tela. Quatro continuam aparecendo porque precisam de você: bolsa cheia, que tem seu próprio interruptor abaixo; outro mod de saque instalado; o menu no modo Observar; e configurações restauradas depois que o MasterLooter.ini sumiu.
+Show on-screen notices	Mostrar avisos na tela

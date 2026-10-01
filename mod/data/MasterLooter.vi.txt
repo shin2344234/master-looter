@@ -250,7 +250,6 @@ search item name or key (3+ letters)	tìm theo tên hoặc mã vật phẩm (t�
 Sending events	Đang gửi sự kiện
 Set	Đặt
 Settings: %ls	Thiết lập: %ls
-Show a brief notice when auto-loot is toggled	Hiện thông báo ngắn khi bật/tắt tự động loot
 Showing current overrides. Type to search all %d items.	Đang hiện các ghi đè hiện tại. Gõ để tìm trong tất cả %d vật phẩm.
 Showing the nearest %d of %d. The rest are further away.	Đang hiện %d gần nhất trong tổng số %d. Số còn lại ở xa hơn.
 Skip all	Bỏ qua tất cả
@@ -476,3 +475,5 @@ Clear floors	Xóa ngưỡng
 Floor	Ngưỡng
 general	chung
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Vật phẩm thuộc loại này có giá trị dưới số đồng này sẽ bị bỏ qua, thay cho Giá trị tối thiểu ở thẻ Chung. Kéo, hoặc Ctrl+nhấp để gõ số. Ở 0, loại này theo thẻ Chung.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Tắt sẽ ẩn các thông báo mod hiện trên màn hình. Bốn thông báo vẫn hiện vì cần bạn chú ý: túi đầy, có công tắc riêng bên dưới; có mod loot khác được cài; menu đang ở chế độ Theo dõi; và thiết lập được đặt lại sau khi MasterLooter.ini biến mất.
+Show on-screen notices	Hiện thông báo trên màn hình

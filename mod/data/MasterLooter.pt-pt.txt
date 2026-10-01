@@ -251,7 +251,6 @@ search item name or key (3+ letters)	pesquisar nome ou chave do item (3+ letras)
 Sending events	A enviar eventos
 Set	Definir
 Settings: %ls	Definições: %ls
-Show a brief notice when auto-loot is toggled	Mostrar um aviso breve quando o saque automático for alternado
 Showing current overrides. Type to search all %d items.	A mostrar as substituições atuais. Escreve para pesquisar todos os %d itens.
 Showing the nearest %d of %d. The rest are further away.	A mostrar os %d mais próximos de %d. Os restantes estão mais longe.
 Skip all	Ignorar tudo
@@ -477,3 +476,5 @@ Clear floors	Limpar mínimos
 Floor	Mínimo
 general	geral
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Os itens desta classe que valem menos do que esta quantidade de cobre são ignorados, em vez do Valor mínimo do separador Geral. Arraste, ou Ctrl+clique para escrever um número. Em 0 a classe segue o separador Geral.
+Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Desativado oculta os avisos que o mod mostra no ecrã. Quatro continuam a aparecer porque precisam de si: saco cheio, que tem o seu próprio interruptor abaixo; outro mod de saque instalado; o menu no modo Observar; e definições repostas depois de o MasterLooter.ini desaparecer.
+Show on-screen notices	Mostrar avisos no ecrã
