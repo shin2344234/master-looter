@@ -65,16 +65,20 @@ namespace ml::Settings
     // set, a written 0 means the key is switched off instead: Ahplla on
     // Discord, 25 September 2026, plays on a controller, needed F10, F11 and
     // Home for other things, and every 0 typed into the ini came back as the
-    // default. Only a written zero unbinds, so a typo still falls back. The
-    // menu key never takes 0, since the menu is how you rebind.
+    // default. A written zero unbinds, and so does a key left empty: Tebren
+    // on Discord, 1 October 2026, emptied every key to get Home back for
+    // ReShade and the watch key came back as Home. A key missing from the
+    // file never reaches here and keeps its default. A typo still falls
+    // back. The menu key never unbinds, since the menu is how you rebind.
     static int  Key(const std::string& v, int def, bool unbindable = false)
     {
         const int i = atoi(v.c_str());
         if (i > 0 && i < 256) return i;
-        // Only zeros, with spaces allowed around them. atoi reads "0x7A" as 0
-        // too, and a hex value should fall back to the default, not unbind.
+        // Only zeros, with spaces allowed around them, or nothing at all.
+        // atoi reads "0x7A" as 0 too, and a hex value should fall back to the
+        // default, not unbind.
         const size_t d = v.find_first_not_of(" \t"), e = v.find_last_not_of(" \t");
-        if (unbindable && d != std::string::npos && v.find_first_not_of('0', d) > e) return 0;
+        if (unbindable && (d == std::string::npos || v.find_first_not_of('0', d) > e)) return 0;
         return def;
     }
     static float Range(const std::string& v, float lo, float hi, float def) { const float f = static_cast<float>(atof(v.c_str())); return (f >= lo && f <= hi) ? f : def; }

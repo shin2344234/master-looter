@@ -185,7 +185,7 @@
           "type": "key",
           "group": "Keys",
           "default": "121",
-          "help": "0 leaves it unbound.",
+          "help": "0 or an empty value leaves it unbound.",
           "format": "vk",
           "order": 6
         },
@@ -194,7 +194,7 @@
           "type": "key",
           "group": "Keys",
           "default": "122",
-          "help": "0 leaves it unbound.",
+          "help": "0 or an empty value leaves it unbound.",
           "format": "vk",
           "order": 7
         },
@@ -203,7 +203,7 @@
           "type": "key",
           "group": "Keys",
           "default": "36",
-          "help": "The menu stays up while you keep playing. 0 leaves it unbound; the menu key still opens and closes the menu.",
+          "help": "The menu stays up while you keep playing. 0 or an empty value leaves it unbound; the menu key still opens and closes the menu.",
           "format": "vk",
           "order": 8
         },
@@ -212,7 +212,7 @@
           "type": "key",
           "group": "Keys",
           "default": "0",
-          "help": "Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.",
+          "help": "Unbound until you set it, and 0 or an empty value unbinds it again. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu.",
           "format": "vk",
           "order": 9
         },
