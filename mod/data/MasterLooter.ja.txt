@@ -470,3 +470,8 @@ Dyes	染料
 dyes off	染料オフ
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	全60種の染料。すでに知っているものも、まだ知らないものも含みます。ゲームはすべての染料に家具のタグも付けていますが、染料についてはこのスイッチが決めます。店の棚にある染料は店主の所有物なので、「他人の所有物を取得する」がオンでない限り取りません。初期設定はオフです。
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	鳥は餌台が少なくとも1パーセント埋まっている間しか降りてこないため、ゲーム本来の大きさのままです。
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	クラスタブでクラスに設定した下限は、そのクラスについてこの値の代わりに使われます。スライダーをCtrl+クリックすると数値を入力できます。
+Clear floors	下限をクリア
+Floor	下限
+general	一般
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	このクラスのアイテムのうち、この銅貨数より価値が低いものは、一般タブの最低価値の代わりにこの値で判定されて拾われません。ドラッグするか、Ctrl+クリックで数値を入力します。0 のときは一般タブに従います。

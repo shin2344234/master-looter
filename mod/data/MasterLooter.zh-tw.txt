@@ -482,3 +482,8 @@ Dyes	染料
 dyes off	染料已關閉
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	全部60種染料，包括你已經認識的和尚未認識的。遊戲也給每種染料加上了家具標籤，但染料由這個開關決定。商店貨架上的染料屬於店主，除非開啟「拾取歸他人所有的物品」，否則不會拿走。預設關閉。
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	只有餵食器至少有百分之一裝滿時，鳥才會降落，所以它保持遊戲原本的大小。
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	在類別頁為某個類別設定的下限，會取代這裡的值用於該類別。按住 Ctrl 點擊滑桿可輸入數字。
+Clear floors	清除下限
+Floor	下限
+general	一般
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	此類別中價值低於這麼多銅幣的物品會被略過，取代一般頁的最低價值。拖曳，或按住 Ctrl 點擊輸入數字。為 0 時該類別沿用一般頁。

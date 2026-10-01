@@ -38,6 +38,7 @@ A backup is written when the game starts with settings changed since the last on
 A bigger multiplier takes hold as soon as you pick it. A smaller one waits for the next launch.	
 a crafting station	
 A creature the game gives no item of its own, such as a Firefly Colony, is judged by this switch and by the Classes tab, where a Firefly Colony counts as insect. No tag or item rule can reach it, because there is no item to check one against.	
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	
 A key or controller combo opens that storage from anywhere, and again closes it. Another storage's key switches straight to it.	
 a Master Looter key	
 a Master Looter shortcut	
@@ -86,6 +87,7 @@ Class
 class %s	
 Classes	
 Clear	
+Clear floors	
 Clear overrides	
 Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	
 Click again to reset	
@@ -139,6 +141,7 @@ Filters
 Fish	
 fish off	
 Fish, and whatever else you catch in the water: crabs, shrimp, squid, starfish and seahorses.	
+Floor	
 Food and drink	
 For JSON capacity mods: the storage sizes below are ignored and the game, or that mod, decides.	
 Forget	
@@ -156,6 +159,7 @@ gather node
 Gathering	
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	
 General	
+general	
 Ground items	
 Groups	
 Herb, flower and mushroom nodes, and the same lying on the ground, seeds included. Food crops have their own switch. To keep the herbs and leave the seeds, or the other way round, refuse the class on the Classes tab: herb and seed are separate there. That sorts what is lying on the ground item by item, and it reaches the node as well wherever the game says what the node holds: refuse herb and a herb patch is left alone. Plant nodes are a mixed lot, paying grain and crafting materials too, and for the ones the game does not describe this switch is the only control.	
@@ -180,6 +184,7 @@ Items
 Items auto-store always leaves in the bag. The default is every currency: silver, coin pouches, gold bars, camp funds and supplies, tokens and bonds. Reset to defaults below puts that list back.	
 Items lying in the world, including drops from enemies.	
 Items no shop will buy, in every class but currency.	
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	
 Items on the ground	
 Items raised	
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	

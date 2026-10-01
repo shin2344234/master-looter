@@ -337,7 +337,7 @@
           "type": "int",
           "group": "Filters",
           "default": "0",
-          "help": "0 turns the floor off. Items with an unknown value are never filtered by it.",
+          "help": "0 turns the floor off. Items with an unknown value are never filtered by it. A class listed under ClassFloors uses its own floor instead.",
           "min": 0,
           "unit": "copper",
           "order": 22
@@ -833,25 +833,30 @@
       "order": 2,
       "description": "One line per item class: 1 loots it, 0 skips it. Classes not listed are looted."
     },
+    "ClassFloors": {
+      "label": "Class floors",
+      "order": 3,
+      "description": "One line per item class: an item of that class worth fewer copper than the number is skipped. It takes the place of Minimum value for that class; classes not listed follow Minimum value."
+    },
     "Tags": {
       "label": "Tags",
-      "order": 3,
+      "order": 4,
       "description": "1 always loots an item carrying the tag, -1 never does. A tag rule wins over the class rule."
     },
     "Items": {
       "label": "Items",
-      "order": 4,
+      "order": 5,
       "description": "Item keys: 1 always loot, -1 never loot. An item rule wins over everything."
     },
     "NodeYields": {
       "label": "Node yields",
-      "order": 5,
+      "order": 6,
       "advanced": true,
       "description": "What each gather node turned out to hold, learned from what fell out of it. The mod fills this in; delete a line to have it work that one out again."
     },
     "NotVeins": {
       "label": "Not veins",
-      "order": 6,
+      "order": 7,
       "advanced": true,
       "description": "Nodes the mod has learned are not ore veins. The mod fills this in."
     }

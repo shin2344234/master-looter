@@ -471,3 +471,8 @@ Dyes	Farvestoffer
 dyes off	farvestoffer fra
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Alle 60 farvestoffer, både dem du allerede kender og dem du ikke kender. Spillet mærker hvert farvestof som møbel også, men det er denne kontakt, der bestemmer over dem. Farvestoffer på en butikshylde tilhører købmanden og bliver stående, medmindre Tag varer, der tilhører nogen er slået til. Fra som standard.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Fugle lander kun, mens foderbrættet er mindst én procent fyldt, så det beholder spillets størrelse.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	En grænse sat for en klasse på fanen Klasser træder i stedet for denne for den klasse. Ctrl+klik på skyderen for at skrive et tal.
+Clear floors	Ryd grænser
+Floor	Grænse
+general	generel
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Genstande i denne klasse, der er mindre værd end så mange kobber, springes over i stedet for Minimumsværdi på fanen Generelt. Træk, eller Ctrl+klik for at skrive et tal. Ved 0 følger klassen fanen Generelt.

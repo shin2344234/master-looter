@@ -473,3 +473,8 @@ Dyes	Väriaineet
 dyes off	väriaineet pois päältä
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Kaikki 60 väriainetta, sekä ne jotka jo tunnet että ne joita et tunne. Peli merkitsee jokaisen väriaineen myös huonekaluksi, mutta niistä päättää tämä kytkin. Kaupan hyllyllä olevat väriaineet kuuluvat kauppiaalle, ja ne jätetään paikalleen, ellei Ota tavaraa, joka kuuluu jollekulle ole päällä. Oletuksena pois päältä.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Linnut laskeutuvat vain, kun ruokintapaikka on vähintään yhden prosentin täynnä, joten se pysyy pelin koossa.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Luokalle Luokat-välilehdellä asetettu raja korvaa tämän kyseisen luokan osalta. Ctrl+napsauta liukusäädintä kirjoittaaksesi luvun.
+Clear floors	Tyhjennä rajat
+Floor	Raja
+general	yleinen
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Tämän luokan esineet, joiden arvo on alle näin monta kuparia, ohitetaan Yleiset-välilehden Vähimmäisarvon sijaan. Vedä, tai Ctrl+napsauta kirjoittaaksesi luvun. Arvolla 0 luokka noudattaa Yleiset-välilehteä.

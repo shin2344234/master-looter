@@ -470,3 +470,8 @@ Dyes	Pewarna
 dyes off	pewarna nonaktif
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Semua 60 pewarna, yang sudah kamu kenal maupun yang belum. Game juga menandai setiap pewarna sebagai furnitur, tetapi sakelar inilah yang menentukannya. Pewarna di rak toko milik pemilik toko dan dibiarkan, kecuali Ambil barang milik orang lain aktif. Nonaktif secara bawaan.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Burung hanya mendarat selama tempat pakan terisi setidaknya satu persen, jadi ukurannya tetap sesuai game.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Batas yang diatur untuk sebuah kelas di tab Kelas menggantikan batas ini untuk kelas tersebut. Ctrl+klik penggeser untuk mengetik angka.
+Clear floors	Hapus batas
+Floor	Batas
+general	umum
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Item dari kelas ini yang bernilai kurang dari sekian tembaga dilewati, menggantikan Nilai minimum di tab Umum. Seret, atau Ctrl+klik untuk mengetik angka. Pada 0 kelas ini mengikuti tab Umum.

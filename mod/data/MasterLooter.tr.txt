@@ -471,3 +471,8 @@ Dyes	Boyalar
 dyes off	boyalar kapalı
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	60 boyanın tamamı, zaten bildiklerin de henüz bilmediklerin de. Oyun her boyayı mobilya olarak da etiketler, ama onlara bu anahtar karar verir. Bir dükkân rafındaki boyalar dükkân sahibine aittir ve Birine ait eşyaları al açık değilse yerinde bırakılır. Varsayılan olarak kapalı.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Kuşlar yalnızca yemlik en az yüzde bir dolu olduğu sürece konar, bu yüzden oyunun boyutunda kalır.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Sınıflar sekmesinde bir sınıf için ayarlanan eşik, o sınıf için bunun yerine geçer. Sayı yazmak için kaydırıcıya Ctrl+tıkla.
+Clear floors	Eşikleri temizle
+Floor	Eşik
+general	genel
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Bu sınıftaki, bu kadar bakırdan az değerli eşyalar Genel sekmesindeki Minimum değer yerine bununla atlanır. Sürükle ya da sayı yazmak için Ctrl+tıkla. 0'da sınıf Genel sekmesini izler.

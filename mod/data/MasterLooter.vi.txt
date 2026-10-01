@@ -471,3 +471,8 @@ Dyes	Thuốc nhuộm
 dyes off	thuốc nhuộm tắt
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Cả 60 loại thuốc nhuộm, cả loại bạn đã biết lẫn loại chưa biết. Trò chơi cũng gắn thẻ nội thất cho mọi thuốc nhuộm, nhưng công tắc này mới là thứ quyết định chúng. Thuốc nhuộm trên kệ cửa hàng thuộc về chủ tiệm và được để nguyên, trừ khi Lấy hàng hóa thuộc về người khác đang bật. Mặc định tắt.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Chim chỉ đáp xuống khi máng ăn đầy ít nhất một phần trăm, nên nó giữ nguyên kích thước của trò chơi.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Ngưỡng đặt cho một loại ở thẻ Loại sẽ thay cho ngưỡng này với loại đó. Ctrl+nhấp vào thanh trượt để gõ số.
+Clear floors	Xóa ngưỡng
+Floor	Ngưỡng
+general	chung
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Vật phẩm thuộc loại này có giá trị dưới số đồng này sẽ bị bỏ qua, thay cho Giá trị tối thiểu ở thẻ Chung. Kéo, hoặc Ctrl+nhấp để gõ số. Ở 0, loại này theo thẻ Chung.

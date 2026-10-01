@@ -473,3 +473,8 @@ Dyes	Barwniki
 dyes off	barwniki wyłączone
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Wszystkie 60 barwników, zarówno te, które już znasz, jak i te, których nie znasz. Gra oznacza każdy barwnik również jako mebel, ale o nich decyduje ten przełącznik. Barwniki na półce w sklepie należą do sklepikarza i zostają na miejscu, chyba że włączone jest Zbieraj rzeczy należące do kogoś. Domyślnie wyłączone.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Ptaki lądują tylko wtedy, gdy karmnik jest zapełniony co najmniej w jednym procencie, dlatego zachowuje rozmiar z gry.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Próg ustawiony dla klasy na karcie Klasy zastępuje ten dla tej klasy. Ctrl+klik na suwaku pozwala wpisać liczbę.
+Clear floors	Wyczyść progi
+Floor	Próg
+general	ogólny
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Przedmioty tej klasy warte mniej niż tyle miedziaków są pomijane, zamiast według Minimalnej wartości z karty Ogólne. Przeciągnij albo Ctrl+kliknij, aby wpisać liczbę. Przy 0 klasa stosuje się do karty Ogólne.

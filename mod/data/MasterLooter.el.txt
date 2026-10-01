@@ -473,3 +473,8 @@ Dyes	Βαφές
 dyes off	βαφές ανενεργές
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Και οι 60 βαφές, όσες ήδη γνωρίζεις και όσες όχι. Το παιχνίδι σημαίνει κάθε βαφή και ως έπιπλο, αλλά για αυτές αποφασίζει αυτός ο διακόπτης. Οι βαφές στο ράφι ενός καταστήματος ανήκουν στον έμπορο και μένουν στη θέση τους, εκτός αν είναι ενεργό το Πάρε αγαθά που ανήκουν σε κάποιον. Ανενεργό από προεπιλογή.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Τα πουλιά προσγειώνονται μόνο όσο η ταΐστρα είναι γεμάτη τουλάχιστον κατά ένα τοις εκατό, γι' αυτό κρατά το μέγεθος του παιχνιδιού.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Ένα κατώτατο όριο που ορίζεται για μια κατηγορία στην καρτέλα Κατηγορίες αντικαθιστά αυτό εδώ για εκείνη την κατηγορία. Ctrl+κλικ στο ρυθμιστικό για να πληκτρολογήσεις αριθμό.
+Clear floors	Καθαρισμός ορίων
+Floor	Όριο
+general	γενικό
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Τα αντικείμενα αυτής της κατηγορίας που αξίζουν λιγότερο από τόσα χάλκινα παραλείπονται, στη θέση της Ελάχιστης αξίας της καρτέλας Γενικά. Σύρε, ή Ctrl+κλικ για να πληκτρολογήσεις αριθμό. Στο 0 η κατηγορία ακολουθεί την καρτέλα Γενικά.

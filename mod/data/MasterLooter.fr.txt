@@ -472,3 +472,8 @@ Dyes	Teintures
 dyes off	teintures désactivées
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Les 60 teintures, celles que vous connaissez déjà comme les autres. Le jeu marque aussi chaque teinture comme mobilier, mais c'est cet interrupteur qui décide pour elles. Les teintures sur l'étagère d'une boutique appartiennent au marchand et restent en place, sauf si Prendre les biens qui appartiennent à quelqu'un est activé. Désactivé par défaut.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Les oiseaux ne se posent que tant que la mangeoire est remplie à au moins un pour cent, elle garde donc la taille du jeu.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Un seuil fixé pour une classe dans l'onglet Classes remplace celui-ci pour cette classe. Ctrl+clic sur le curseur pour saisir un nombre.
+Clear floors	Effacer les seuils
+Floor	Seuil
+general	général
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Les objets de cette classe valant moins que ce nombre de cuivres sont ignorés, à la place de la Valeur minimale de l'onglet Général. Faites glisser, ou Ctrl+clic pour saisir un nombre. À 0, la classe suit l'onglet Général.

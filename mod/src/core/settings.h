@@ -216,6 +216,14 @@ namespace ml
 
         // [Classes] class -> 1 loot / 0 skip. Absent means loot.
         std::map<std::string, int> classRule;
+        // [ClassFloors] class -> copper. An item of that class worth less is
+        // refused, and the number takes the place of minValueCopper for that
+        // class. Absent means the class follows minValueCopper. lsimo asked on
+        // 18 September 2026 and noyxo on the 28th: one floor for everything
+        // either lets cheap weapons flood in or turns food away, because half
+        // the weapons in the game are worth more than 512 copper and meat is
+        // worth 15 to 25.
+        std::map<std::string, int> classFloor;
         // [Tags] tag -> 1 always loot / -1 never loot. Absent means no opinion.
         std::map<std::string, int> tagRule;
         // [Items] item key -> 1 always / -1 never.

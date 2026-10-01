@@ -471,3 +471,8 @@ Dyes	Färgämnen
 dyes off	färgämnen av
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Alla 60 färgämnen, både de du redan känner till och de du inte känner till. Spelet märker varje färgämne som möbel också, men det är den här brytaren som bestämmer över dem. Färgämnen på en butikshylla tillhör handlaren och lämnas kvar, om inte Ta varor som tillhör någon är på. Av som standard.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Fåglar landar bara medan fågelbordet är minst en procent fullt, så det behåller spelets storlek.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	En gräns som satts för en klass på fliken Klasser ersätter den här för den klassen. Ctrl+klicka på reglaget för att skriva in ett tal.
+Clear floors	Rensa gränser
+Floor	Gräns
+general	allmän
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Föremål i den här klassen som är värda mindre än så många koppar hoppas över, i stället för Minsta värde på fliken Allmänt. Dra, eller Ctrl+klicka för att skriva in ett tal. Vid 0 följer klassen fliken Allmänt.

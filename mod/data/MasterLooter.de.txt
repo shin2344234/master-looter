@@ -473,3 +473,8 @@ Dyes	Farbstoffe
 dyes off	Farbstoffe aus
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Alle 60 Farbstoffe, die du schon kennst und die du noch nicht kennst. Das Spiel markiert jeden Farbstoff auch als Möbel, aber über sie entscheidet dieser Schalter. Farbstoffe im Regal eines Ladens gehören dem Händler und bleiben stehen, außer Gegenstände mitnehmen, die jemandem gehören ist an. Standardmäßig aus.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Vögel landen nur, solange das Futterhaus zu mindestens einem Prozent gefüllt ist, deshalb behält es die Größe aus dem Spiel.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Eine Schwelle, die auf dem Reiter Klassen für eine Klasse gesetzt ist, ersetzt diese hier für diese Klasse. Strg+Klick auf den Regler, um eine Zahl einzugeben.
+Clear floors	Schwellen löschen
+Floor	Schwelle
+general	allgemein
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Gegenstände dieser Klasse, die weniger als so viele Kupfer wert sind, werden übersprungen, anstelle des Mindestwerts auf dem Reiter Allgemein. Ziehen oder Strg+Klick, um eine Zahl einzugeben. Bei 0 folgt die Klasse dem Reiter Allgemein.

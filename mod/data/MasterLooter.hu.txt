@@ -474,3 +474,8 @@ Dyes	Festékek
 dyes off	festékek kikapcsolva
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Mind a 60 festék, azok is, amelyeket már ismersz, és azok is, amelyeket nem. A játék minden festéket bútorként is megjelöl, de róluk ez a kapcsoló dönt. A bolt polcán lévő festékek a boltosé, és ott maradnak, hacsak nincs bekapcsolva a Valakihez tartozó áruk elvétele. Alapból kikapcsolva.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	A madarak csak akkor szállnak le, ha az etető legalább egy százalékig tele van, ezért megtartja a játék szerinti méretét.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	A Kategóriák fülön egy kategóriához beállított küszöb ezt helyettesíti annál a kategóriánál. Ctrl+kattintás a csúszkán számot írhatsz be.
+Clear floors	Küszöbök törlése
+Floor	Küszöb
+general	általános
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Az ebbe a kategóriába tartozó, ennyi réznél kevesebbet érő tárgyak kimaradnak, az Általános fül Minimum értéke helyett. Húzd, vagy Ctrl+kattintással írj be számot. 0-nál a kategória az Általános fület követi.

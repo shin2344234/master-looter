@@ -474,3 +474,8 @@ Dyes	Красители
 dyes off	красители выключены
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Все 60 красителей, и те, что вы уже знаете, и те, что ещё нет. Игра помечает каждый краситель ещё и как мебель, но решает за них этот переключатель. Красители на полке магазина принадлежат торговцу и остаются на месте, если не включено Забирать вещи, принадлежащие кому-то. По умолчанию выключено.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Птицы садятся, только пока кормушка заполнена хотя бы на один процент, поэтому она сохраняет размер из игры.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Порог, заданный для класса на вкладке Классы, заменяет этот для данного класса. Ctrl+щелчок по ползунку позволяет ввести число.
+Clear floors	Сбросить пороги
+Floor	Порог
+general	общий
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Предметы этого класса дешевле указанного числа меди пропускаются, вместо Минимальной ценности с вкладки Общие. Перетащите или нажмите Ctrl+щелчок, чтобы ввести число. При 0 класс следует вкладке Общие.

@@ -863,8 +863,8 @@ namespace ml::gui
         dirty |= ImGui::Checkbox(TR("Skip quest equipment"), &c.skipQuestGear);
         Help(TR("Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 180 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in."));
         dirty |= ImGui::Checkbox(TR("Skip items shops refuse to buy"), &c.skipNoSell);
-        dirty |= ImGui::SliderInt(TR("Minimum value (copper)"), &c.minValueCopper, 0, 500, c.minValueCopper ? "%d" : "off");
-        Help(TR("Items with an unknown value are never filtered by it."));
+        dirty |= ImGui::SliderInt(TR("Minimum value (copper)"), &c.minValueCopper, 0, 10000, c.minValueCopper ? "%d" : "off", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_AlwaysClamp);
+        Help((std::string(TR("Items with an unknown value are never filtered by it.")) + " " + TR("A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.")).c_str());
         dirty |= ImGui::Checkbox(TR("Take items the database cannot name"), &c.takeUnknownItems);
         Help(TR("Some world objects carry no readable item name. On: take them anyway. Off: leave them alone.\n\nThis covers loose items only. A pick-up the node table vouches for, such as a coin pile or a stack of gold bars, is taken whichever way this is set: the table naming the prefab is what identifies it, and the item inside it having no name is a separate question. Its own category switch still applies."));
         dirty |= ImGui::Checkbox(TR("Drop refused loot from bodies"), &c.dropRefused);
@@ -1147,16 +1147,22 @@ namespace ml::gui
         if (ImGui::Button(TR("Loot all"))) { for (const auto& kv : ItemDb::Classes()) c.classRule[kv.first] = 1; Settings::MarkDirty(); }
         ImGui::SameLine();
         if (ImGui::Button(TR("Skip all"))) { for (const auto& kv : ItemDb::Classes()) c.classRule[kv.first] = 0; Settings::MarkDirty(); }
+        if (!c.classFloor.empty())
+        {
+            ImGui::SameLine();
+            if (ImGui::Button(TR("Clear floors"))) { c.classFloor.clear(); Settings::MarkDirty(); }
+        }
         ImGui::SameLine();
         ImGui::TextDisabled(TR("%d classes"), static_cast<int>(ItemDb::Classes().size()));
 
         const std::string f = Lower(filter);
-        if (ImGui::BeginTable("classes", 3, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
+        if (ImGui::BeginTable("classes", 4, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
             ImGui::TableSetupScrollFreeze(0, 1);
             ImGui::TableSetupColumn(TR("Loot"), ImGuiTableColumnFlags_WidthFixed, 60 * g_scale);
             ImGui::TableSetupColumn(TR("Class"), ImGuiTableColumnFlags_WidthStretch);
             ImGui::TableSetupColumn(TR("Items"), ImGuiTableColumnFlags_WidthFixed, 70 * g_scale);
+            ImGui::TableSetupColumn(TR("Floor"), ImGuiTableColumnFlags_WidthFixed, 90 * g_scale);
             ImGui::TableHeadersRow();
             for (const auto& kv : ItemDb::Classes())
             {
@@ -1173,6 +1179,18 @@ namespace ml::gui
                 else ImGui::TextUnformatted(kv.first.c_str());
                 ImGui::TableSetColumnIndex(2);
                 ImGui::Text("%d", kv.second);
+                ImGui::TableSetColumnIndex(3);
+                auto fl = c.classFloor.find(kv.first);
+                int floor = fl == c.classFloor.end() ? 0 : fl->second;
+                ImGui::PushID(kv.first.c_str());
+                ImGui::SetNextItemWidth(-FLT_MIN);
+                if (ImGui::DragInt("##floor", &floor, 5.0f, 0, 100000, floor ? "%d" : (c.minValueCopper ? TR("general") : TR("off")), ImGuiSliderFlags_AlwaysClamp))
+                {
+                    if (floor > 0) c.classFloor[kv.first] = floor; else c.classFloor.erase(kv.first);
+                    Settings::MarkDirty();
+                }
+                if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted(TR("Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.")); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
+                ImGui::PopID();
             }
             ImGui::EndTable();
         }

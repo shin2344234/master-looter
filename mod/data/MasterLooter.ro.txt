@@ -471,3 +471,8 @@ Dyes	Vopsele
 dyes off	vopsele dezactivate
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Toate cele 60 de vopsele, și cele pe care le cunoști deja, și cele pe care nu le cunoști. Jocul marchează fiecare vopsea și ca mobilier, dar despre ele decide acest comutator. Vopselele de pe raftul unui magazin aparțin negustorului și rămân pe loc, cu excepția cazului în care Ia bunuri care aparțin cuiva este activat. Dezactivat implicit.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Păsările aterizează doar cât timp hrănitoarea este plină în proporție de cel puțin un procent, așa că își păstrează dimensiunea din joc.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Un prag stabilit pentru o clasă în fila Clase îl înlocuiește pe acesta pentru acea clasă. Ctrl+clic pe glisor pentru a scrie un număr.
+Clear floors	Șterge pragurile
+Floor	Prag
+general	general
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Obiectele din această clasă care valorează mai puțin de atâția bani de aramă sunt sărite, în locul Valorii minime din fila General. Trage, sau Ctrl+clic pentru a scrie un număr. La 0 clasa urmează fila General.

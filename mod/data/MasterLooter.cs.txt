@@ -470,3 +470,8 @@ Dyes	Barviva
 dyes off	barviva vypnuta
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Všech 60 barviv, ta, která už znáš, i ta, která ještě ne. Hra každé barvivo označuje také jako nábytek, ale rozhoduje o nich tento přepínač. Barviva v regálu obchodu patří obchodníkovi a zůstanou na místě, pokud není zapnuto Brát věci, které někomu patří. Ve výchozím stavu vypnuto.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Ptáci přistávají jen tehdy, když je krmítko plné aspoň z jednoho procenta, proto si ponechává velikost ze hry.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Práh nastavený pro třídu na kartě Třídy nahrazuje pro tuto třídu tento. Ctrl+klik na posuvník umožní zadat číslo.
+Clear floors	Vymazat prahy
+Floor	Práh
+general	obecný
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Předměty této třídy v hodnotě nižší než tolik měďáků se přeskočí, místo podle Minimální hodnoty na kartě Obecné. Táhni, nebo Ctrl+klikni a zadej číslo. Při 0 se třída řídí kartou Obecné.

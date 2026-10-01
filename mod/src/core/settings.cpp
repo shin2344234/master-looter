@@ -267,6 +267,10 @@ namespace ml::Settings
 
     // Reads an ini's text into `c`. Used for the live file, for a preset and
     // for a backup, so all three understand exactly the same format.
+    // The highest value an item in the table has is 100,000 copper, so a floor
+    // above that refuses the whole class and a larger number means nothing more.
+    static constexpr int kMaxFloor = 100000;
+
     static void ParseInto(const std::string& text, Config& c)
     {
         std::string section;
@@ -286,6 +290,7 @@ namespace ml::Settings
             if (k.empty()) continue;
             if (section == "MasterLooter") ApplyGeneral(c, k, v);
             else if (section == "Classes") c.classRule[k] = atoi(v.c_str()) != 0 ? 1 : 0;
+            else if (section == "ClassFloors") { const int f = atoi(v.c_str()); if (f > 0) c.classFloor[k] = std::min(f, kMaxFloor); }
             else if (section == "NotVeins") { if (atoi(v.c_str()) != 0) c.notVeins.insert(k); }
             else if (section == "NodeYields") { if (!v.empty()) c.nodeYields[k] = v; }
             else if (section == "Tags") { const int r = atoi(v.c_str()); if (r == 1 || r == -1) c.tagRule[k] = r; }
@@ -470,7 +475,7 @@ namespace ml::Settings
             if (section == "NotVeins" || section == "NodeYields") continue;
             const size_t eq = line.find('=');
             if (eq == std::string::npos) continue;
-            const char* label = section == "Classes" ? "class " : section == "Tags" ? "tag " : section == "Items" ? "item " : "";
+            const char* label = section == "Classes" ? "class " : section == "ClassFloors" ? "floor " : section == "Tags" ? "tag " : section == "Items" ? "item " : "";
             out.emplace_back(label + line.substr(0, eq), line.substr(eq + 1));
         }
         std::sort(out.begin(), out.end());
@@ -528,8 +533,8 @@ namespace ml::Settings
         ++g_generation;
         // The first load sets the baseline; a later one is an edit on disk.
         ReportChanges(Serialize(c), " (the ini was edited on disk)");
-        LOG("Settings %s: %d class rules, %d tag rules, %d item rules.", present ? "loaded" : "defaulted (no ini yet)",
-            static_cast<int>(c.classRule.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
+        LOG("Settings %s: %d class rules, %d class floors, %d tag rules, %d item rules.", present ? "loaded" : "defaulted (no ini yet)",
+            static_cast<int>(c.classRule.size()), static_cast<int>(c.classFloor.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
         // Every range and switch that decides whether a thing is reached, written
         // down once. A report that something was taken "from further than I set"
         // could not be checked against a log before this: the log knew what the
@@ -601,6 +606,9 @@ namespace ml::Settings
         if (c.descriptorDump) { snprintf(b, sizeof b, "DescriptorDump=1\n"); s += b; }
         s += "\n; class -> 1 loot, 0 skip (classes not listed are looted)\n[Classes]\n";
         for (const auto& kv : c.classRule) { s += kv.first; s += kv.second ? "=1\n" : "=0\n"; }
+        s += "\n; class -> copper: items of that class worth less are skipped. Takes the place\n"
+             "; of MinValueCopper for that class; a class not listed follows MinValueCopper.\n[ClassFloors]\n";
+        for (const auto& kv : c.classFloor) if (kv.second > 0) { s += kv.first; s += '='; s += std::to_string(kv.second); s += '\n'; }
         s += "\n; tag -> 1 always loot, -1 never loot (wins over the class rule)\n[Tags]\n";
         for (const auto& kv : c.tagRule) { s += kv.first; s += kv.second > 0 ? "=1\n" : "=-1\n"; }
         s += "\n; item key -> 1 always loot, -1 never loot (wins over everything)\n[Items]\n";
@@ -739,8 +747,8 @@ namespace ml::Settings
             ++g_generation;
         }
         MarkDirty();
-        LOG("Preset \"%s\" loaded: %d class rules, %d tag rules, %d item rules.", name.c_str(),
-            static_cast<int>(c.classRule.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
+        LOG("Preset \"%s\" loaded: %d class rules, %d class floors, %d tag rules, %d item rules.", name.c_str(),
+            static_cast<int>(c.classRule.size()), static_cast<int>(c.classFloor.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
         return true;
     }
 

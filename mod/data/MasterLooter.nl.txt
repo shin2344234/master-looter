@@ -470,3 +470,8 @@ Dyes	Verfstoffen
 dyes off	verfstoffen uit
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Alle 60 verfstoffen, zowel die je al kent als die je nog niet kent. Het spel markeert elke verfstof ook als meubel, maar deze schakelaar beslist erover. Verfstoffen op een winkelplank zijn van de winkelier en blijven staan, tenzij Goederen meenemen die van iemand anders zijn aan staat. Standaard uit.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Vogels landen alleen zolang de voederplaats voor minstens één procent gevuld is, dus die houdt de grootte uit het spel.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Een drempel die op het tabblad Klassen voor een klasse is ingesteld, vervangt deze voor die klasse. Ctrl+klik op de schuifregelaar om een getal in te typen.
+Clear floors	Drempels wissen
+Floor	Drempel
+general	algemeen
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Voorwerpen van deze klasse die minder dan zoveel koper waard zijn, worden overgeslagen, in plaats van volgens Minimumwaarde op het tabblad Algemeen. Sleep, of Ctrl+klik om een getal in te typen. Bij 0 volgt de klasse het tabblad Algemeen.

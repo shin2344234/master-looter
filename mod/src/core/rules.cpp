@@ -69,9 +69,20 @@ namespace ml::Rules
         // decides about currency like any other class.
         if (cfg.skipNoSell && item.HasTag("no-sell") && item.klass != "currency")
         { v.loot = false; v.rule = "unsellable"; return v; }
-        if (cfg.minValueCopper > 0 && item.value >= 0 && item.value < cfg.minValueCopper)
+        // A class with a floor of its own uses that one in place of the global
+        // floor, so food can sit at one copper while weapons want three hundred.
+        // The rule name stays the global floor's on purpose: the delete paths
+        // spare anything refused under it, since a floor says what is not worth
+        // carrying and not what is worth losing, and that holds for this too.
+        int floor = cfg.minValueCopper;
+        const auto cf = cfg.classFloor.find(item.klass);
+        const bool ownFloor = cf != cfg.classFloor.end() && cf->second > 0;
+        if (ownFloor) floor = cf->second;
+        if (floor > 0 && item.value >= 0 && item.value < floor)
         {
-            v.loot = false; v.rule = "below value floor"; v.detail = std::to_string(item.value) + " copper"; return v;
+            v.loot = false; v.rule = "below value floor"; v.detail = std::to_string(item.value) + " copper";
+            if (ownFloor) v.detail += ", " + item.klass + " floor " + std::to_string(floor);
+            return v;
         }
 
         return DecideClass(item.klass, cfg);

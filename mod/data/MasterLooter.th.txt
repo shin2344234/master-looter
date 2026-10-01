@@ -470,3 +470,8 @@ Dyes	สีย้อม
 dyes off	สีย้อม: ปิด
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	สีย้อมทั้ง 60 ชนิด ทั้งที่คุณรู้จักแล้วและที่ยังไม่รู้จัก เกมติดแท็กสีย้อมทุกชนิดว่าเป็นเฟอร์นิเจอร์ด้วย แต่สวิตช์นี้เป็นตัวตัดสินสำหรับสีย้อม สีย้อมบนชั้นวางในร้านเป็นของเจ้าของร้าน และจะไม่ถูกเก็บ เว้นแต่จะเปิด เก็บของที่มีเจ้าของ ไว้ ค่าเริ่มต้นคือปิด
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	นกจะลงเกาะก็ต่อเมื่อที่ให้อาหารมีอาหารอย่างน้อยหนึ่งเปอร์เซ็นต์ จึงคงขนาดตามเกมไว้
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	เกณฑ์ที่ตั้งให้ประเภทในแท็บประเภทจะใช้แทนค่านี้สำหรับประเภทนั้น กด Ctrl+คลิกที่แถบเลื่อนเพื่อพิมพ์ตัวเลข
+Clear floors	ล้างเกณฑ์
+Floor	เกณฑ์
+general	ทั่วไป
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	ไอเท็มในประเภทนี้ที่มีมูลค่าต่ำกว่าจำนวนทองแดงนี้จะถูกข้าม โดยใช้แทนมูลค่าต่ำสุดในแท็บทั่วไป ลากหรือกด Ctrl+คลิกเพื่อพิมพ์ตัวเลข ที่ 0 ประเภทนี้จะทำตามแท็บทั่วไป

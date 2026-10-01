@@ -474,3 +474,8 @@ Dyes	Бои
 dyes off	боите изключени
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	Всичките 60 бои, и тези, които вече познаваш, и тези, които не познаваш. Играта отбелязва всяка боя и като мебел, но за тях решава този превключвател. Боите на рафт в магазин принадлежат на търговеца и се оставят, освен ако Взимай стоки, които принадлежат на някого е включено. Изключено по подразбиране.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Птиците кацат само докато хранилката е пълна поне на един процент, затова тя остава с размера от играта.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Праг, зададен за клас в раздела Класове, замества този за съответния клас. Ctrl+щракване върху плъзгача позволява да въведеш число.
+Clear floors	Изчисти праговете
+Floor	Праг
+general	общ
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Предметите от този клас, които струват по-малко от толкова медни монети, се пропускат вместо по Минимална стойност от раздела Общи. Плъзни или Ctrl+щракни, за да въведеш число. При 0 класът следва раздела Общи.

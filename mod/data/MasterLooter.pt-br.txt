@@ -492,3 +492,8 @@ Dyes	Tinturas
 dyes off	tinturas desativadas
 The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default.	As 60 tinturas, tanto as que você já conhece quanto as que não conhece. O jogo marca cada tintura também como mobília, mas é este interruptor que decide sobre elas. Tinturas na prateleira de uma loja pertencem ao comerciante e ficam onde estão, a menos que Pegar bens que pertencem a alguém esteja ativado. Desativado por padrão.
 Birds only land while the feeder is at least one percent full, so it stays at the game's size.	Os pássaros só pousam enquanto o comedouro estiver pelo menos um por cento cheio, então ele mantém o tamanho do jogo.
+A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.	Um mínimo definido para uma classe na aba Classes substitui este para essa classe. Ctrl+clique no controle deslizante para digitar um número.
+Clear floors	Limpar mínimos
+Floor	Mínimo
+general	geral
+Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Itens desta classe que valem menos que essa quantidade de cobre são ignorados, no lugar do Valor mínimo da aba Geral. Arraste, ou Ctrl+clique para digitar um número. Em 0 a classe segue a aba Geral.
