@@ -496,5 +496,8 @@ Clear floors	Limpar mínimos
 Floor	Mínimo
 general	geral
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Itens desta classe que valem menos que essa quantidade de cobre são ignorados, no lugar do Valor mínimo da aba Geral. Arraste, ou Ctrl+clique para digitar um número. Em 0 a classe segue a aba Geral.
+%s, %d rules	%s, %d regras
+%s, no rules	%s, sem regras
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Um backup é gravado quando o jogo inicia com configurações alteradas desde o último, e os doze mais recentes são mantidos. Backups, predefinições e uma cópia do MasterLooter.ini ficam em %s, fora do alcance de um gerenciador de mods que reinstale o plugin, e um MasterLooter.ini ausente é restaurado dessa cópia na próxima inicialização.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Desativado oculta os avisos que o mod mostra na tela. Quatro continuam aparecendo porque precisam de você: bolsa cheia, que tem seu próprio interruptor abaixo; outro mod de saque instalado; o menu no modo Observar; e configurações restauradas depois que o MasterLooter.ini sumiu.
 Show on-screen notices	Mostrar avisos na tela

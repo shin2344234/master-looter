@@ -475,5 +475,8 @@ Clear floors	하한 지우기
 Floor	하한
 general	일반
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	이 분류의 아이템 중 이 구리 수보다 가치가 낮은 것은 일반 탭의 최소 가치 대신 이 값으로 판단해 건너뜁니다. 드래그하거나 Ctrl+클릭해 숫자를 입력하세요. 0이면 일반 탭을 따릅니다.
+%s, %d rules	%s, 규칙 %d개
+%s, no rules	%s, 규칙 없음
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	마지막 백업 이후 설정이 바뀐 상태로 게임이 시작되면 백업을 쓰고, 최근 12개를 보관합니다. 백업, 프리셋, MasterLooter.ini 사본은 %s에 보관되어 플러그인을 다시 설치하는 모드 관리자가 건드릴 수 없으며, MasterLooter.ini가 없어지면 다음 실행 때 이 사본으로 되돌립니다.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	끄면 모드가 화면에 띄우는 알림을 숨깁니다. 다음 네 가지는 확인이 필요해 계속 표시됩니다: 가방 가득 참(아래에 별도 스위치 있음), 다른 루팅 모드 설치됨, 워치 모드인 메뉴, MasterLooter.ini가 사라진 뒤 되돌린 설정.
 Show on-screen notices	화면 알림 표시

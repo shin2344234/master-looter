@@ -490,5 +490,8 @@ Clear floors	清除下限
 Floor	下限
 general	常规
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	此类别中价值低于这么多铜币的物品会被跳过，替代常规页的最低价值。拖动，或按住 Ctrl 点击输入数字。为 0 时该类别沿用常规页。
+%s, %d rules	%s，%d 条规则
+%s, no rules	%s，无规则
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	游戏启动时如果设置与上一个备份不同，就会写入一个备份，并保留最近十二个。备份、预设和 MasterLooter.ini 的副本保存在 %s，重新安装插件的模组管理器碰不到那里；如果 MasterLooter.ini 不见了，下次启动时会从该副本放回。
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	关闭后会隐藏模组在屏幕上显示的提示。有四种仍会显示，因为需要你注意：背包已满（下方有单独的开关）；安装了另一个拾取模组；菜单处于监视模式；以及 MasterLooter.ini 丢失后放回的设置。
 Show on-screen notices	显示屏幕提示

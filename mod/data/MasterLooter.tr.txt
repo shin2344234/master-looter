@@ -475,5 +475,8 @@ Clear floors	Eşikleri temizle
 Floor	Eşik
 general	genel
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Bu sınıftaki, bu kadar bakırdan az değerli eşyalar Genel sekmesindeki Minimum değer yerine bununla atlanır. Sürükle ya da sayı yazmak için Ctrl+tıkla. 0'da sınıf Genel sekmesini izler.
+%s, %d rules	%s, %d kural
+%s, no rules	%s, kural yok
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Oyun, sonuncusundan beri değişmiş ayarlarla başladığında bir yedek yazılır ve son on iki yedek tutulur. Yedekler, ön ayarlar ve MasterLooter.ini'nin bir kopyası %s konumunda tutulur; eklentiyi yeniden kuran bir mod yöneticisi oraya ulaşamaz ve eksik bir MasterLooter.ini bir sonraki açılışta bu kopyadan geri konur.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Kapalı, modun ekranda gösterdiği bildirimleri gizler. Dördü yine de görünür çünkü ilgini gerektirir: aşağıda kendi anahtarı olan çanta dolu bildirimi; başka bir yağma modunun kurulu olması; menünün İzle modunda olması; ve MasterLooter.ini kaybolduktan sonra geri konan ayarlar.
 Show on-screen notices	Ekranda bildirim göster

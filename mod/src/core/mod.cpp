@@ -660,6 +660,8 @@ namespace ml::Mod
 
         Log::Claim();
         Settings::Claim();
+        if (Settings::RestoredFromCopy())
+            State::Get().Notify("Master Looter: MasterLooter.ini was missing, so your settings were put back from the copy kept in AppData.", 8000, true);
         if (ItemDb::Load())
             LOG_OK("Item database loaded (%s): %d items, %d classes, %d tags.", ItemDb::Source(), ItemDb::Count(),
                    static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size()));

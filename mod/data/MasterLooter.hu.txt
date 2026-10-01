@@ -478,5 +478,8 @@ Clear floors	Küszöbök törlése
 Floor	Küszöb
 general	általános
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Az ebbe a kategóriába tartozó, ennyi réznél kevesebbet érő tárgyak kimaradnak, az Általános fül Minimum értéke helyett. Húzd, vagy Ctrl+kattintással írj be számot. 0-nál a kategória az Általános fület követi.
+%s, %d rules	%s, %d szabály
+%s, no rules	%s, nincs szabály
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Biztonsági mentés készül, ha a játék a legutóbbi óta megváltozott beállításokkal indul, és az utolsó tizenkettő megmarad. A mentések, a profilok és a MasterLooter.ini egy másolata itt van: %s, ahová a bővítményt újratelepítő modkezelő nem ér el, és a hiányzó MasterLooter.ini a következő indításkor ebből a másolatból áll vissza.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Kikapcsolva elrejti a mod képernyőn megjelenő értesítéseit. Négy így is megjelenik, mert figyelmet kér: tele táska, aminek lent saját kapcsolója van; másik lootoló mod telepítve; a menü Figyelés módban; és a MasterLooter.ini eltűnése után visszaállított beállítások.
 Show on-screen notices	Értesítések megjelenítése a képernyőn

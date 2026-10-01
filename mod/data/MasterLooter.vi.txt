@@ -475,5 +475,8 @@ Clear floors	Xóa ngưỡng
 Floor	Ngưỡng
 general	chung
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Vật phẩm thuộc loại này có giá trị dưới số đồng này sẽ bị bỏ qua, thay cho Giá trị tối thiểu ở thẻ Chung. Kéo, hoặc Ctrl+nhấp để gõ số. Ở 0, loại này theo thẻ Chung.
+%s, %d rules	%s, %d quy tắc
+%s, no rules	%s, không có quy tắc
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Bản sao lưu được ghi khi game khởi động với thiết lập đã đổi kể từ bản trước, và giữ lại mười hai bản gần nhất. Bản sao lưu, preset và một bản sao của MasterLooter.ini được giữ ở %s, nơi trình quản lý mod cài lại plugin không với tới, và MasterLooter.ini bị mất sẽ được đặt lại từ bản sao đó ở lần khởi động sau.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Tắt sẽ ẩn các thông báo mod hiện trên màn hình. Bốn thông báo vẫn hiện vì cần bạn chú ý: túi đầy, có công tắc riêng bên dưới; có mod loot khác được cài; menu đang ở chế độ Theo dõi; và thiết lập được đặt lại sau khi MasterLooter.ini biến mất.
 Show on-screen notices	Hiện thông báo trên màn hình

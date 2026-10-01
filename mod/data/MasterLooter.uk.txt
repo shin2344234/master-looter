@@ -475,5 +475,8 @@ Clear floors	Скинути пороги
 Floor	Поріг
 general	загальний
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Предмети цього класу, дешевші за вказану кількість міді, пропускаються замість Мінімальної вартості з вкладки Загальні. Перетягніть або натисніть Ctrl+клацання, щоб ввести число. При 0 клас дотримується вкладки Загальні.
+%s, %d rules	%s, правил: %d
+%s, no rules	%s, без правил
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Резервна копія записується, коли гра запускається з налаштуваннями, зміненими після останньої, і зберігаються дванадцять останніх. Резервні копії, пресети та копія MasterLooter.ini зберігаються в %s, куди не дістанеться менеджер модів, що перевстановлює плагін, а зниклий MasterLooter.ini відновлюється з цієї копії під час наступного запуску.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Вимкнено приховує сповіщення, які мод показує на екрані. Чотири все одно з'являються, бо потребують уваги: сумка повна, що має власний перемикач нижче; встановлено інший мод луту; меню в режимі Спостереження; і налаштування, відновлені після зникнення MasterLooter.ini.
 Show on-screen notices	Показувати сповіщення на екрані

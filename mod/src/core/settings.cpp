@@ -163,12 +163,42 @@ namespace ml::Settings
     static std::string Serialize(const Config& c);
     static bool ReadWhole(const std::wstring& path, std::string& out);
 
-    // Backups live as one dated file each in MasterLooter.backups. One is
+    // Backups live as one dated file each in a backups folder. One is
     // written when the game starts with an ini that differs from the newest
     // backup, before this process can change anything, and the oldest are
     // dropped so the folder cannot grow forever.
+    //
+    // The folder, the presets and a copy of the ini moved out of bin64 into
+    // %LOCALAPPDATA%\MasterLooter on 1 October 2026. Ahplla lost his ini, every
+    // backup and every older log at once when DMM put 1.6.44 back over 1.6.45.
+    // DMM's own changelog says it treats files sharing a plugin's name,
+    // MasterLooter.ini for MasterLooter.asi, as part of that plugin, so all of
+    // MasterLooter.* went with the swap and the next launch wrote defaults. The
+    // backups were meant to be the way back from exactly that, and they sat in
+    // the same blast radius. Where Windows names no such folder, they stay in
+    // bin64 as before.
     static constexpr int kKeepBackups = 12;
-    static std::wstring BackupDir() { return Paths::File(L"MasterLooter.backups"); }
+    static std::wstring InData(const wchar_t* name, const wchar_t* fallback)
+    {
+        const std::wstring& d = Paths::DataDir();
+        return d.empty() ? Paths::File(fallback) : d + name;
+    }
+    static std::wstring BackupDir() { return InData(L"backups", L"MasterLooter.backups"); }
+    static std::wstring CopyPath() { const std::wstring& d = Paths::DataDir(); return d.empty() ? std::wstring() : d + L"MasterLooter.ini"; }
+    static bool g_fromCopy = false;
+    bool RestoredFromCopy() { return g_fromCopy; }
+    // Bring the AppData copy in line with the ini in bin64, when there is one
+    // and the two differ. Only the copy of the plugin that owns the settings
+    // writes anything.
+    static void RefreshCopy()
+    {
+        const std::wstring copy = CopyPath();
+        if (!g_claimed || copy.empty()) return;
+        std::string now, was;
+        if (!ReadFile(now) || now.empty()) return;
+        if (ReadWhole(copy, was) && was == now) return;
+        WriteText(copy, now);
+    }
 
     // "20260906-0850" on disk, "2026-09-06 08:50" on screen.
     static std::string StampNow(const char* suffix)
@@ -255,6 +285,16 @@ namespace ml::Settings
         PruneBackups();
         LOG("Settings backed up as %s.", BackupLabel(StampNow("").c_str()).c_str());
         return true;
+    }
+
+    static void ParseInto(const std::string& text, Config& c);
+    int BackupRuleCount(const char* stamp)
+    {
+        std::string text;
+        if (!stamp || !*stamp || !ReadWhole(BackupPath(stamp), text)) return -1;
+        Config c;
+        ParseInto(text, c);
+        return static_cast<int>(c.classRule.size() + c.classFloor.size() + c.tagRule.size() + c.itemRule.size());
     }
 
     bool DeleteBackup(const char* stamp)
@@ -516,7 +556,19 @@ namespace ml::Settings
         g_sawLootDyes = false;
         bool migrated = false;
         std::string text;
-        const bool present = ReadFile(text);
+        bool present = ReadFile(text);
+        // No ini in bin64: read the copy every save leaves in AppData, so a mod
+        // manager that cleared the plugin's files costs nobody their settings.
+        // Nothing is written here. Claim puts the file back, and only the copy
+        // of the plugin that owns the settings ever calls Claim.
+        g_fromCopy = false;
+        if (!present)
+        {
+            const std::wstring copy = CopyPath();
+            text.clear();
+            if (!copy.empty() && ReadWhole(copy, text) && !text.empty()) { present = true; g_fromCopy = true; }
+            else text.clear();
+        }
         if (present) ParseInto(text, c);
         migrated = Migrate(c, text, present);
         Clamp(c);
@@ -533,7 +585,11 @@ namespace ml::Settings
         ++g_generation;
         // The first load sets the baseline; a later one is an edit on disk.
         ReportChanges(Serialize(c), " (the ini was edited on disk)");
-        LOG("Settings %s: %d class rules, %d class floors, %d tag rules, %d item rules.", present ? "loaded" : "defaulted (no ini yet)",
+        // An edit picked up while the game runs reaches the copy too. At the
+        // launch's own load nothing is claimed yet, and Claim does it instead.
+        if (!g_fromCopy) RefreshCopy();
+        LOG("Settings %s: %d class rules, %d class floors, %d tag rules, %d item rules.",
+            g_fromCopy ? "restored from the copy in AppData, because MasterLooter.ini was missing" : present ? "loaded" : "defaulted (no ini yet)",
             static_cast<int>(c.classRule.size()), static_cast<int>(c.classFloor.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
         // Every range and switch that decides whether a thing is reached, written
         // down once. A report that something was taken "from further than I set"
@@ -647,6 +703,8 @@ namespace ml::Settings
         ReportChanges(text, "");
         if (!g_claimed) return;
         if (WriteText(Path(), text)) g_knownTime = FileTime();
+        const std::wstring copy = CopyPath();
+        if (!copy.empty()) WriteText(copy, text);
     }
 
     // --------------------------------------------------------- presets ----
@@ -654,7 +712,7 @@ namespace ml::Settings
     // so swapping between "everything" and "ore run" is two clicks, and so a
     // set of rules survives anything that happens to the live file.
 
-    static std::wstring PresetDir() { return Paths::File(L"MasterLooter.presets"); }
+    static std::wstring PresetDir() { return InData(L"presets", L"MasterLooter.presets"); }
 
     // Preset names become file names, so only what is safe in one is kept.
     std::string CleanPresetName(const char* raw)
@@ -798,10 +856,50 @@ namespace ml::Settings
         return true;
     }
 
+    // Every .ini in the old bin64 folder, copied across the first time the new
+    // folder is needed and never again. The old folder is left where it is: it
+    // holds the player's own files, and deleting them is not this plugin's call.
+    // Once only, because a preset deleted in the menu or a backup pruned past
+    // the twelfth would otherwise be copied back from it at every launch.
+    static void CopyOldFolder(const wchar_t* oldName, const std::wstring& to, const char* what)
+    {
+        const std::wstring from = Paths::File(oldName);
+        if (to == from) return;
+        if (GetFileAttributesW(to.c_str()) != INVALID_FILE_ATTRIBUTES) return;
+        WIN32_FIND_DATAW fd;
+        HANDLE h = FindFirstFileW((from + L"\\*.ini").c_str(), &fd);
+        if (h == INVALID_HANDLE_VALUE) return;
+        CreateDirectoryW(to.c_str(), nullptr);
+        int n = 0;
+        do
+        {
+            if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+            if (CopyFileW((from + L"\\" + fd.cFileName).c_str(), (to + L"\\" + fd.cFileName).c_str(), TRUE)) ++n;
+        } while (FindNextFileW(h, &fd));
+        FindClose(h);
+        if (n) LOG("Copied %d %s from %ls to %ls. The old folder is no longer used and can be deleted.", n, what, from.c_str(), to.c_str());
+    }
+
     void Claim()
     {
         g_claimed = true;
-        if (FileTime() == 0) { Save(); LOG("Wrote default settings to %ls", Path().c_str()); return; }
+        CopyOldFolder(L"MasterLooter.backups", BackupDir(), "backups");
+        CopyOldFolder(L"MasterLooter.presets", PresetDir(), "presets");
+        if (FileTime() == 0)
+        {
+            Save();
+            if (g_fromCopy)
+                LOG("MasterLooter.ini was missing from bin64, so it was written back from %ls. A mod manager that removes or "
+                    "reinstalls the plugin can take every file named after it. To start from defaults instead, delete that "
+                    "copy as well as MasterLooter.ini.", CopyPath().c_str());
+            else
+                LOG("Wrote default settings to %ls", Path().c_str());
+            return;
+        }
+        // The copy follows the ini as it is now, not only as the game last saved
+        // it: an edit made with the game closed, by hand or in INI Master, is
+        // what a restore should bring back.
+        RefreshCopy();
         // Before this session can write anything, keep the file as it was. A
         // version that changes a default, or an afternoon of fiddling, is then
         // one button away from being undone.

@@ -474,5 +474,8 @@ Clear floors	下限をクリア
 Floor	下限
 general	一般
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	このクラスのアイテムのうち、この銅貨数より価値が低いものは、一般タブの最低価値の代わりにこの値で判定されて拾われません。ドラッグするか、Ctrl+クリックで数値を入力します。0 のときは一般タブに従います。
+%s, %d rules	%s、ルール %d 件
+%s, no rules	%s、ルールなし
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	前回から設定が変わった状態でゲームが起動するとバックアップが書き込まれ、最新の12件が保持されます。バックアップ、プリセット、MasterLooter.ini のコピーは %s に保存され、プラグインを再インストールするMODマネージャーからは届きません。MasterLooter.ini がなくなっていた場合は、次回起動時にこのコピーから戻されます。
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	オフにすると、MODが画面に出す通知を隠します。次の4つは確認が必要なため表示されます：バッグ満杯（下に専用のスイッチあり）、別のルートMODのインストール、監視モードのメニュー、MasterLooter.ini が消えた後に戻された設定。
 Show on-screen notices	画面に通知を表示する

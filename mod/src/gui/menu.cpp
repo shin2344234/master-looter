@@ -614,6 +614,7 @@ namespace ml::gui
         static int   s_sel = -1;
         static char  s_name[48] = "";
         static std::string s_baks[64];
+        static int   s_bakRules[64] = {};
         static int   s_bakCount = -1;
         static int   s_bakSel = 0;
         static char  s_said[128] = "";
@@ -622,6 +623,7 @@ namespace ml::gui
             s_count = Settings::ListPresets(s_names, 64);
             if (s_sel >= s_count) s_sel = s_count - 1;
             s_bakCount = Settings::ListBackups(s_baks, 64);
+            for (int i = 0; i < s_bakCount; ++i) s_bakRules[i] = Settings::BackupRuleCount(s_baks[i].c_str());
             if (s_bakSel >= s_bakCount) s_bakSel = s_bakCount - 1;
             if (s_bakSel < 0 && s_bakCount > 0) s_bakSel = 0;
         };
@@ -684,14 +686,27 @@ namespace ml::gui
         Section(TR("Backups"));
         if (s_bakCount < 0) refresh();
         ImGui::SetNextItemWidth(240 * g_scale);
+        // The date and how many rules it holds. A backup written after a reset
+        // holds none, and the date alone gave no way to tell it from a real
+        // one: Ahplla restored the newest few after DMM cleared his ini, got
+        // defaults every time, and concluded restoring was broken.
+        auto bakText = [&](int i) {
+            const std::string when = Settings::BackupLabel(s_baks[i].c_str());
+            char b[128];
+            if (s_bakRules[i] < 0) return when;
+            if (s_bakRules[i] == 0) snprintf(b, sizeof b, TR("%s, no rules"), when.c_str());
+            else snprintf(b, sizeof b, TR("%s, %d rules"), when.c_str(), s_bakRules[i]);
+            return std::string(b);
+        };
+        ImGui::SetNextItemWidth(300 * g_scale);
         const std::string bakLabel = (s_bakSel >= 0 && s_bakSel < s_bakCount)
-                                   ? Settings::BackupLabel(s_baks[s_bakSel].c_str())
+                                   ? bakText(s_bakSel)
                                    : std::string(s_bakCount ? "pick one" : "none yet");
         if (ImGui::BeginCombo("##backup", bakLabel.c_str()))
         {
             for (int i = 0; i < s_bakCount; ++i)
             {
-                const std::string one = Settings::BackupLabel(s_baks[i].c_str());
+                const std::string one = bakText(i);
                 if (ImGui::Selectable(one.c_str(), i == s_bakSel)) { s_bakSel = i; s_armed.clear(); }
             }
             ImGui::EndCombo();
@@ -724,7 +739,16 @@ namespace ml::gui
         }
 
         if (s_said[0] && static_cast<LONG>(s_saidUntil - GetTickCount()) > 0) ImGui::TextColored(kGold, "%s", s_said);
-        else ImGui::TextDisabled(TR("A backup is written when the game starts with settings changed since the last one, and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall."));
+        else if (Paths::DataDir().empty())
+            ImGui::TextDisabled(TR("A backup is written when the game starts with settings changed since the last one, and the last twelve are kept, in MasterLooter.backups next to the plugin. Presets sit in MasterLooter.presets. Copy either folder to keep it across a reinstall."));
+        else
+        {
+            ImGui::TextDisabled(TR("A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch."),
+                                Paths::DataDirUtf8().c_str());
+            ImGui::PushID("datadir");
+            if (ImGui::SmallButton(TR("Open folder"))) ShellExecuteW(nullptr, L"open", Paths::DataDir().c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+            ImGui::PopID();
+        }
     }
 
     static void TabGeneral(Config& c)

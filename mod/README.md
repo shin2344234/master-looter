@@ -14,7 +14,7 @@ By hand:
 2. Copy `MasterLooter.asi` into `bin64` next to `winmm.dll`, with the game closed. The item database and the creature table are compiled into the plugin.
 3. Start the game. Press Insert for the menu; the Status tab shows whether every hook and signature resolved. `MasterLooter.log` next to the plugin says the same in more detail.
 
-Uninstall by deleting the `MasterLooter.*` files and folders from `bin64` (the plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself, plus `MasterLooter.presets` and `MasterLooter.backups`). No game file is modified and nothing is written to a save.
+Uninstall by deleting the `MasterLooter.*` files from `bin64` and the `%LOCALAPPDATA%\MasterLooter` folder. The plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself, and keeps backups, presets and a copy of the ini in `%LOCALAPPDATA%\MasterLooter`. No game file is modified and nothing is written to a save.
 
 ## What is in the box
 
@@ -63,7 +63,7 @@ The menu ships in 28 languages besides English, the set Steam itself offers, all
 
 A language not in that set, or a correction to one that is, is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
-1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 464 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
+1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 467 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
 2. Or make your own from the running game: play with the menu open, visit every tab, then General, Language, press `Write translation template`. That writes the file beside the plugin, but only the lines that have actually been drawn.
 3. Each record is the English, a tab, then your translation. `
 ` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.
@@ -109,7 +109,7 @@ Output lands in `dist\`, with the README, licence and notices alongside; `packag
 ## Files
 
 - `src/core`: paths, log, settings (INI load, debounced save, hot reload, presets and the session backup), item database, gather node table, creature table, rules.
-- Next to the plugin at runtime: `MasterLooter.ini`, `MasterLooter.log`, `MasterLooter.presets\` holding one ini per preset, and `MasterLooter.backups\` holding one dated ini per backup. A backup is written when the game starts with settings that differ from the newest backup, a migration leaves one of its own, and the last twelve are kept.
+- Next to the plugin at runtime: `MasterLooter.ini` and `MasterLooter.log`. In `%LOCALAPPDATA%\MasterLooter`: `presets\` holding one ini per preset, `backups\` holding one dated ini per backup, and a copy of `MasterLooter.ini` that every save refreshes. A launch that finds no ini in `bin64` reads that copy and writes it back, because a mod manager that reinstalls the plugin can delete every file named after it. A backup is written when the game starts with settings that differ from the newest backup, a migration leaves one of its own, and the last twelve are kept.
 - `src/hooks`: DX12 present hook and swapchain wrapper, window procedure subclass, XInput neutraliser.
 - `src/gui`: style, menu key polling, the menu and HUD, and `storage_link`, which finds Private Storage Master's exports by name for the Storage tab and for storing loot. `psm_api.h` is that plugin's interface header, copied unchanged.
 - `src/loot`: signatures, guarded memory and pattern scanning, game structures, the event protocol, MinHook detours, and the engine itself.

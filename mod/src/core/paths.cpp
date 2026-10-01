@@ -33,6 +33,37 @@ namespace ml::Paths
 
     HMODULE Module() { return g_module; }
 
+    // The environment variable rather than SHGetKnownFolderPath, which would
+    // add ole32 to an import list the README spells out in full. Wine and
+    // Proton set it in every prefix. First called from Settings::Load on the
+    // loader thread, so later calls from other threads only read it.
+    const std::wstring& DataDir()
+    {
+        static std::wstring s_dir;
+        static bool s_tried = false;
+        if (s_tried) return s_dir;
+        s_tried = true;
+        wchar_t buf[MAX_PATH] = {};
+        const DWORD n = GetEnvironmentVariableW(L"LOCALAPPDATA", buf, MAX_PATH);
+        if (!n || n >= MAX_PATH) return s_dir;
+        std::wstring d(buf);
+        if (d.back() != L'\\') d += L'\\';
+        d += L"MasterLooter\\";
+        if (!CreateDirectoryW(d.c_str(), nullptr) && GetLastError() != ERROR_ALREADY_EXISTS) return s_dir;
+        s_dir = d;
+        return s_dir;
+    }
+
+    std::string DataDirUtf8()
+    {
+        const std::wstring& w = DataDir();
+        if (w.empty()) return std::string();
+        const int n = WideCharToMultiByte(CP_UTF8, 0, w.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        std::string s(n > 0 ? n - 1 : 0, '\0');
+        if (n > 1) WideCharToMultiByte(CP_UTF8, 0, w.c_str(), -1, s.data(), n, nullptr, nullptr);
+        return s;
+    }
+
     bool ReadDataText(const wchar_t* fileName, const wchar_t* resourceName, std::string& out, bool* fromFile)
     {
         out.clear();

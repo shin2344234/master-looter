@@ -474,5 +474,8 @@ Clear floors	Hapus batas
 Floor	Batas
 general	umum
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Item dari kelas ini yang bernilai kurang dari sekian tembaga dilewati, menggantikan Nilai minimum di tab Umum. Seret, atau Ctrl+klik untuk mengetik angka. Pada 0 kelas ini mengikuti tab Umum.
+%s, %d rules	%s, %d aturan
+%s, no rules	%s, tanpa aturan
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Cadangan ditulis saat game dimulai dengan pengaturan yang berubah sejak cadangan terakhir, dan dua belas yang terbaru disimpan. Cadangan, preset, dan salinan MasterLooter.ini disimpan di %s, tempat yang tidak terjangkau oleh pengelola mod yang memasang ulang plugin, dan MasterLooter.ini yang hilang dipulihkan dari salinan itu saat peluncuran berikutnya.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Nonaktif menyembunyikan notifikasi yang ditampilkan mod di layar. Empat tetap muncul karena butuh perhatianmu: tas penuh, yang punya sakelar sendiri di bawah; mod loot lain terpasang; menu dalam mode Pantau; dan pengaturan yang dipulihkan setelah MasterLooter.ini hilang.
 Show on-screen notices	Tampilkan notifikasi di layar

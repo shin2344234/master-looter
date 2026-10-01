@@ -477,5 +477,8 @@ Clear floors	Wyczyść progi
 Floor	Próg
 general	ogólny
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Przedmioty tej klasy warte mniej niż tyle miedziaków są pomijane, zamiast według Minimalnej wartości z karty Ogólne. Przeciągnij albo Ctrl+kliknij, aby wpisać liczbę. Przy 0 klasa stosuje się do karty Ogólne.
+%s, %d rules	%s, reguł: %d
+%s, no rules	%s, brak reguł
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Kopia zapasowa jest zapisywana, gdy gra startuje z ustawieniami zmienionymi od ostatniej, a przechowywanych jest dwanaście najnowszych. Kopie, presety i kopia MasterLooter.ini są trzymane w %s, poza zasięgiem menedżera modów, który instaluje wtyczkę od nowa, a brakujący MasterLooter.ini jest przywracany z tej kopii przy następnym uruchomieniu.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Wyłączone ukrywa powiadomienia, które mod pokazuje na ekranie. Cztery i tak się pojawiają, bo wymagają uwagi: pełna torba, która ma własny przełącznik poniżej; zainstalowany inny mod do zbierania; menu w trybie Obserwuj; oraz ustawienia przywrócone po zniknięciu MasterLooter.ini.
 Show on-screen notices	Pokazuj powiadomienia na ekranie

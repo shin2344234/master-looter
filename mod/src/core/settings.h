@@ -250,11 +250,14 @@ namespace ml
         void Load();                 // read MasterLooter.ini (defaults when missing)
         void Save();                 // write it; a no-op before Claim()
         void Claim();                // this process owns the file; writes defaults if missing
+        // The launch found no MasterLooter.ini in bin64 and read the copy kept
+        // in %LOCALAPPDATA%\MasterLooter instead; Claim writes it back.
+        bool RestoredFromCopy();
         void MarkDirty();            // save soon (debounced)
         void Poll();                 // once per frame: debounced save, reload after an external edit
 
         // Presets: the whole config, rules included, kept as a named file in
-        // MasterLooter.presets next to the plugin. Loading one replaces
+        // %LOCALAPPDATA%\MasterLooter\presets. Loading one replaces
         // everything and rewrites the live file, so a swap survives a restart.
         int  ListPresets(std::string* out, int max);   // names, sorted; returns how many
         bool SavePreset(const char* name);
@@ -264,8 +267,7 @@ namespace ml
 
         bool PresetExists(const char* name);
 
-        // Backups: one dated file each in MasterLooter.backups next to the
-        // plugin. One is written every time the game starts, before anything
+        // Backups: one dated file each in %LOCALAPPDATA%\MasterLooter\backups. One is written every time the game starts, before anything
         // can change the settings, and a migration leaves one of its own. The
         // oldest are dropped once there are more than a dozen.
         int  ListBackups(std::string* out, int max);   // stamps, newest first
@@ -275,6 +277,9 @@ namespace ml
         bool BackupNow();
         bool RestoreBackup(const char* stamp);
         bool DeleteBackup(const char* stamp);
+        // How many class, floor, tag and item rules a backup holds, so a list of
+        // them can tell a reset file from a real one; -1 when it cannot be read.
+        int  BackupRuleCount(const char* stamp);
         const std::wstring& Path();
         int  Generation();           // bumps on every load
         const char* KeyName(int vk); // human name for a virtual-key code

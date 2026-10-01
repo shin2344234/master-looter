@@ -475,5 +475,8 @@ Clear floors	Ryd grænser
 Floor	Grænse
 general	generel
 Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Genstande i denne klasse, der er mindre værd end så mange kobber, springes over i stedet for Minimumsværdi på fanen Generelt. Træk, eller Ctrl+klik for at skrive et tal. Ved 0 følger klassen fanen Generelt.
+%s, %d rules	%s, %d regler
+%s, no rules	%s, ingen regler
+A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	En sikkerhedskopi skrives, når spillet starter med indstillinger, der er ændret siden den sidste, og de seneste tolv gemmes. Sikkerhedskopier, forudindstillinger og en kopi af MasterLooter.ini gemmes i %s, hvor en modmanager, der geninstallerer pluginet, ikke kan nå dem, og en manglende MasterLooter.ini lægges tilbage fra kopien ved næste start.
 Off hides the notices the mod puts on screen. Four still show because they need you: bag full, which has its own switch below; another loot mod being installed; the menu being in watch mode; and settings put back after MasterLooter.ini went missing.	Fra skjuler de beskeder, modden viser på skærmen. Fire vises stadig, fordi de kræver din opmærksomhed: fuld taske, som har sin egen kontakt nedenfor; en anden loot-mod er installeret; menuen er i Overvåg-tilstand; og indstillinger lagt tilbage, efter at MasterLooter.ini forsvandt.
 Show on-screen notices	Vis beskeder på skærmen
