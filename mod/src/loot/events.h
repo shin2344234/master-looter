@@ -29,11 +29,16 @@ namespace ml::events
     // of these; a well needs a longer sequence and the ids for it are numbers
     // rather than names, since eight of them appear nowhere in the game's
     // strings. A gimmick whose chart has no transition for an id ignores it.
+    //
+    // targetEnt is the entity the component was read from. Just before the
+    // drive runs on the game thread, that entity has to still carry targetEid
+    // and still own gimmickComp, or the drive is refused: a queued drive can
+    // outlive the area it was aimed at.
     bool DriveEvent(uintptr_t gimmickComp, uint32_t eventId, uint32_t playerEid,
-                    uintptr_t playerActor, uint32_t targetEid);
+                    uintptr_t playerActor, uint32_t targetEid, uintptr_t targetEnt);
 
     bool DriveBreak(uintptr_t gimmickComp, uint32_t playerEid, uintptr_t playerActor,
-                    uint32_t targetEid, float x, float y, float z);
+                    uint32_t targetEid, uintptr_t targetEnt, float x, float y, float z);
 
     // Send (or queue when off the game thread). Returns false when refused.
     // A search given a skin interaction and a character key is followed on the

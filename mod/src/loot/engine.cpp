@@ -2559,6 +2559,7 @@ namespace ml::loot
     struct WellRun
     {
         uint32_t eid[3] = {};
+        uintptr_t ent[3] = {};
         uintptr_t comp[3] = {};
         DWORD startedAt = 0;
         int step = 0;
@@ -3859,7 +3860,7 @@ namespace ml::loot
             {
                 const WellStep& st = kWellTake[g_wellRun.step];
                 if (const uintptr_t comp = g_wellRun.comp[st.part])
-                    events::DriveEvent(comp, st.ev, g_meEid, g_me, g_wellRun.eid[st.part]);
+                    events::DriveEvent(comp, st.ev, g_meEid, g_me, g_wellRun.eid[st.part], g_wellRun.ent[st.part]);
                 ++g_wellRun.step;
             }
             if (g_wellRun.step >= kWellSteps)
@@ -3911,6 +3912,7 @@ namespace ml::loot
             {
                 if (!part[i]) continue;
                 r.eid[i] = part[i]->eid;
+                r.ent[i] = part[i]->ent;
                 const uintptr_t comps = game::Comps(part[i]->ent);
                 r.comp[i] = comps ? game::CompByClass(comps, kCls_Gimmick) : 0;
             }
@@ -6494,7 +6496,7 @@ namespace ml::loot
                             held("its gimmick component no longer reads as one");
                             continue;
                         }
-                        if (!events::DriveEvent(gc, kPickEvent, g_meEid, g_me, k.eid))
+                        if (!events::DriveEvent(gc, kPickEvent, g_meEid, g_me, k.eid, k.ent))
                         {
                             static int s_pickErr = 0;
                             if (s_pickErr < 8) { ++s_pickErr; LOG_ERR("[pick] eid %08X could not be queued", k.eid); }
@@ -6551,7 +6553,7 @@ namespace ml::loot
                             held("its gimmick component no longer reads as one; the area is unloading");
                             continue;
                         }
-                        if (!events::DriveBreak(gc, g_meEid, g_me, k.eid, k.pos.x, k.pos.y, k.pos.z))
+                        if (!events::DriveBreak(gc, g_meEid, g_me, k.eid, k.ent, k.pos.x, k.pos.y, k.pos.z))
                         {
                             // Its own budget: the shared hold log is spent on
                             // "still filling" long before a break failure would show.

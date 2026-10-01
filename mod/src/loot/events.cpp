@@ -82,7 +82,7 @@ namespace ml::events
     // ev 0 means the vein's pair of transitions, which is what DriveBreak
     // wants. Any other value is one transition driven by id, which is what a
     // well's sequence is made of.
-    struct PendDrive { uintptr_t comp, actor; uint32_t player, target; float x, y, z; uint32_t ev; };
+    struct PendDrive { uintptr_t comp, actor; uint32_t player, target; float x, y, z; uint32_t ev; uintptr_t ent; };
     static PendAct g_pendAct[64]; static int g_pendActN = 0;
     struct PendDelete { uint64_t aval; uint16_t tid, c; uint64_t dval; uint16_t count; uint32_t player, route; bool set; };
     static PendDelete g_pendDel[16]; static int g_pendDelN = 0;
@@ -532,8 +532,34 @@ namespace ml::events
     // ids are hashes of these strings and the game computes them the same way.
     // A node whose chart has no transition for an event ignores it, so aiming
     // the pair at something that is not a vein is a no-op, not a mistake.
+    // Whether the object a drive was queued for is still the object it was.
+    // The RTTI test inside DriveGimmickEvent catches a component whose memory
+    // went to something of another class, which is what riquea's well crashes
+    // of 30 September 2026 showed. It cannot catch one that went to another
+    // gimmick, which reads exactly like a live one. The entity the component
+    // was read from settles that: it has to still carry the id the scan saw
+    // and still hold this component in its gimmick slot. Everything here is a
+    // guarded read, so a freed entity fails the test instead of faulting.
+    static const char* DriveTargetGone(const PendDrive& d)
+    {
+        if (!d.ent) return nullptr;
+        uint32_t id = 0;
+        if (!game::Eid(d.ent, &id)) return "its entity can no longer be read";
+        if (id != d.target) return "its entity now belongs to another object";
+        if (game::CompByClass(game::Comps(d.ent), kCls_Gimmick) != d.comp) return "its entity no longer holds that component";
+        return nullptr;
+    }
+
     static bool DriveNow(const PendDrive& d)
     {
+        if (const char* gone = DriveTargetGone(d))
+        {
+            static volatile LONG s_said = 0;
+            if (InterlockedIncrement(&s_said) <= 10)
+                LOG("[drive] refused %s at %08X: %s, so the area unloaded after the drive was queued",
+                    d.ev ? "an event" : "a break", d.target, gone);
+            return false;
+        }
         const float pos[3] = { d.x, d.y, d.z };
         // A named single transition is not a vein break. This is how a well is
         // wound, and the marker below opens a two second window in which the
@@ -556,10 +582,10 @@ namespace ml::events
     }
 
     bool DriveBreak(uintptr_t comp, uint32_t player, uintptr_t actor,
-                    uint32_t target, float x, float y, float z)
+                    uint32_t target, uintptr_t ent, float x, float y, float z)
     {
         if (!comp) return false;
-        const PendDrive d{ comp, actor, player, target, x, y, z, 0 };
+        const PendDrive d{ comp, actor, player, target, x, y, z, 0, ent };
         if (OnGameThread()) return DriveNow(d);
         Lock();
         const bool room = g_pendDrvN < 32;
@@ -569,10 +595,10 @@ namespace ml::events
     }
 
     bool DriveEvent(uintptr_t comp, uint32_t eventId, uint32_t player,
-                    uintptr_t actor, uint32_t target)
+                    uintptr_t actor, uint32_t target, uintptr_t ent)
     {
         if (!comp || !eventId) return false;
-        const PendDrive d{ comp, actor, player, target, 0, 0, 0, eventId };
+        const PendDrive d{ comp, actor, player, target, 0, 0, 0, eventId, ent };
         if (OnGameThread()) return DriveNow(d);
         Lock();
         const bool room = g_pendDrvN < 32;
