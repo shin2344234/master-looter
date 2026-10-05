@@ -76,6 +76,17 @@ def main():
                      (v.get("uploaded_at") or "")[:19],
                      "   primary" if v.get("is_primary") else ""))
     print()
+    # The DMM entry's newest version must be the page's primary download, or a
+    # mod manager can fetch the manual archive in its place. The manual one's
+    # Mod manager download button must also be off, which the API does not
+    # report, so check that on the Files tab.
+    dmm = str(CFG.nexus.get("dmmFileId", ""))
+    if dmm:
+        vs = get(key, "/mod-files/%s/versions" % dmm)["data"]["versions"]
+        live = [v for v in vs if v.get("category") not in ("archived", "removed", "old_version")]
+        if live and not any(v.get("is_primary") for v in live):
+            print("WARNING: the DMM entry %s is not the primary download. Tick 'Set as primary file"
+                  " for download' on its newest version in the Edit dialog, or publish again." % dmm)
     print("release.json has: modId %s, dmmFileId %s, manualFileId %s"
           % (CFG.nexus.get("modId"), CFG.nexus.get("dmmFileId"), CFG.nexus.get("manualFileId")))
     print("publish-nexus.ps1 uses those. If they differ from the ids above, fix release.json.")

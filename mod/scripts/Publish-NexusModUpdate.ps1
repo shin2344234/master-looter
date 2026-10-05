@@ -114,6 +114,13 @@ param(
     # Make this the default download for mod managers (Vortex, MO2).
     [switch] $PrimaryModManagerDownload,
 
+    # Turn off the Mod manager download button on this file, leaving only
+    # Manual download. Nexus turns that button on by default, and a manual
+    # archive that offers it gets fetched by mod managers such as DMM in place
+    # of the DMM archive. Ahplla reported that on Flight Freedom 1.1.9 on
+    # 5 October 2026.
+    [switch] $NoModManagerDownload,
+
     # Nothing is written to Nexus unless this is present.
     [switch] $Apply
 )
@@ -308,6 +315,7 @@ Write-Host ("  Category         : {0}" -f $Category)
 Write-Host ("  Update mod ver.  : {0}" -f $UpdateModVersion.IsPresent)
 Write-Host ("  Archive previous : {0}" -f $ArchiveExistingFile.IsPresent)
 Write-Host ("  Primary MM dl    : {0}" -f $PrimaryModManagerDownload.IsPresent)
+Write-Host ("  Allow MM dl      : {0}" -f (-not $NoModManagerDownload.IsPresent))
 if ($wantsChangelog) {
     Write-Host ("  Changelog        : {0} chars appended to version {1} on mod {2}" -f $ChangelogText.Length, $Version, $ModId)
     # The changelog endpoint is APPEND ONLY. Re-running with the same version
@@ -404,6 +412,7 @@ $versionBody = @{
     update_mod_version           = [bool] $UpdateModVersion
     archive_existing_file        = [bool] $ArchiveExistingFile
     primary_mod_manager_download = [bool] $PrimaryModManagerDownload
+    allow_mod_manager_download   = -not [bool] $NoModManagerDownload
 }
 # Only send description when there is one; the field is nullable but there is no
 # reason to transmit an empty string and have it render as a blank line.

@@ -10,12 +10,20 @@
     version, so a release does not depend on remembering an id. Check the ids
     against the live page with nexus-ids.py.
 
-    One run updates both entries:
-      1. the DMM entry (dmmFileId) with <fileBase>-<version>-DMM.zip, as the
+    One run updates both entries, manual first:
+      1. the manual entry (manualFileId) with <fileBase>-<version>.zip, with
+         its Mod manager download button turned off and no changelog
+      2. the DMM entry (dmmFileId) with <fileBase>-<version>-DMM.zip, as the
          primary mod-manager download, carrying the changelog and setting the
          page version
-      2. the manual entry (manualFileId) with <fileBase>-<version>.zip, with no
-         changelog, since the first upload already posted it
+
+    The order matters. The Files tab lists main files newest first, so the one
+    uploaded last sits on top, and the manual archive must not offer a mod
+    manager download at all. On 5 October 2026 Ahplla found Flight Freedom
+    1.1.9's manual file above the DMM one with both offering it, so mod
+    managers such as DMM fetched the manual archive. The v3 API cannot change
+    either flag on a version already up, so a page in that state is fixed in
+    the file's Edit dialog on Nexus.
 
     A page with no manual entry yet (manualFileId empty) gets one: the manual
     archive goes up as a new file entry through POST /mod-files, and the new id
@@ -79,13 +87,13 @@ Write-Host ("{0} {1}, page {2}" -f $cfg.Name, $Version, $nx.page) -ForegroundCol
 
 $entries = @(
     [pscustomobject] @{
-        Label = 'DMM'; FileId = [string] $nx.dmmFileId; Archive = $cfg.ZipDmm
-        DisplayName = ('{0} {1} DMM' -f $cfg.FileBase, $Version); Changelog = $true
+        Label = 'manual'; FileId = [string] $nx.manualFileId; Archive = $cfg.ZipManual
+        DisplayName = ('{0} {1} manual' -f $cfg.FileBase, $Version); Changelog = $false
         State = 'send'; Note = ''
     },
     [pscustomobject] @{
-        Label = 'manual'; FileId = [string] $nx.manualFileId; Archive = $cfg.ZipManual
-        DisplayName = ('{0} {1} manual' -f $cfg.FileBase, $Version); Changelog = $false
+        Label = 'DMM'; FileId = [string] $nx.dmmFileId; Archive = $cfg.ZipDmm
+        DisplayName = ('{0} {1} DMM' -f $cfg.FileBase, $Version); Changelog = $true
         State = 'send'; Note = ''
     }
 )
@@ -130,18 +138,19 @@ if (-not [string]::IsNullOrWhiteSpace($key)) {
         } else {
             $theirs = ($hits | ForEach-Object { '{0:N0}' -f $sizes[[string] $_.game_scoped_id] }) -join ', '
             $e.State = 'wrong'
+            $flags = if ($e.Label -eq 'manual') { '-NoModManagerDownload' } else { '-PrimaryModManagerDownload' }
             $problems += (("{0} entry {1} lists {2} with an archive of {3} bytes, but {4} is {5:N0} bytes. " +
                            "It holds a different archive. Repair it with a new version that archives the wrong one:`n" +
                            "    Publish-NexusModUpdate.ps1 -FilePath `"{6}`" -FileId {1} -Version {2} " +
-                           "-DisplayName `"{7}`" -ArchiveExistingFile -Apply`n" +
+                           "-DisplayName `"{7}`" {8} -ArchiveExistingFile -Apply`n" +
                            "then run this again.") -f $e.Label, $e.FileId, $Version, $theirs,
-                          (Split-Path $e.Archive -Leaf), $local, $e.Archive, $e.DisplayName)
+                          (Split-Path $e.Archive -Leaf), $local, $e.Archive, $e.DisplayName, $flags)
         }
     }
 }
 
 # The changelog rides on the DMM upload. If the DMM entry already has this
-# version, its changelog is already posted, so the manual one must not post it.
+# version, its changelog is already posted, so it is not posted again.
 foreach ($e in $entries) {
     Write-Host ""
     switch ($e.State) {
@@ -171,6 +180,7 @@ foreach ($e in $entries) {
         Category    = 'main'
     }
     if ($e.State -eq 'create') { $call['NewFile'] = $true } else { $call['FileId'] = $e.FileId }
+    if ($e.Label -eq 'manual') { $call['NoModManagerDownload'] = $true }
     if ($e.Changelog) {
         $call['ChangelogPath']             = $cfg.Changelog
         $call['UpdateModVersion']          = $true
