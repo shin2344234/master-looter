@@ -104,7 +104,7 @@ Needs Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come
     build.bat
     powershell -ExecutionPolicy Bypass -File scripts\package.ps1 -Unsigned
 
-Output lands in `dist\`, with the README, licence and notices alongside; `package.ps1` zips it as `MasterLooter-<version>.zip` (plugin and documents) and `MasterLooter-<version>-DMM.zip` (plugin only). Copy `MasterLooter.asi` into the game's `bin64\` next to the ASI loader (`winmm.dll`) while the game is closed, or import the DMM zip. The first two data scripts need the game tables extracted into `extracted\` (see the repository README); the committed `mod\data` TSVs are current for 2.01.00, so a plain `build.bat` is enough to build the plugin.
+Output lands in `dist\`, with the README, licence and notices alongside; `package.ps1` zips it as `MasterLooter-<version>.zip` (plugin and documents) and `MasterLooter-<version>-DMM.zip` (plugin, licence and notices, named `MasterLooter-LICENSE` and `MasterLooter-THIRD_PARTY_NOTICES.md` so they share no name with another mod's files in DMM's library). Copy `MasterLooter.asi` into the game's `bin64\` next to the ASI loader (`winmm.dll`) while the game is closed, or import the DMM zip. The first two data scripts need the game tables extracted into `extracted\` (see the repository README); the committed `mod\data` TSVs are current for 2.01.00, so a plain `build.bat` is enough to build the plugin.
 
 ## Files
 

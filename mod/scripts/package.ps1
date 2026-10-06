@@ -9,8 +9,14 @@
 
         <fileBase>-<version>.zip      manual install: the plugin, then every
                                       file listed under manualZip, flat
-        <fileBase>-<version>-DMM.zip  the plugin alone, which is all Definitive
-                                      Mod Manager registers
+        <fileBase>-<version>-DMM.zip  the plugin, which is all Definitive Mod
+                                      Manager deploys, then every file listed
+                                      under dmmZip, such as a licence notice the
+                                      plugin's code must ship with, named
+                                      <fileBase>-<name>, because DMM unpacks
+                                      an ASI mod flat into its library, where
+                                      every mod's LICENSE would land on the
+                                      same file
 
     Neither archive carries an ini. The plugin writes its own on first run, so
     an upgrade never overwrites settings someone has already changed.
@@ -19,7 +25,7 @@
       - the plugin is older than any file under the sources in release.json
       - a gate in release.json exits non-zero
       - the plugin is not signed (pass -Unsigned to package anyway)
-      - manualZip lists an ini
+      - manualZip or dmmZip lists an ini
 
     Writes private\checksums\<version>.json, which release-docs.py reads to
     fill the checksums into the release documents.
@@ -70,13 +76,23 @@ if (-not $Unsigned) {
 }
 
 $extra = @($data.manualZip | ForEach-Object { Join-Path $cfg.Root $_ })
-foreach ($f in $extra) {
-    if ($f -like '*.ini') { throw "manualZip lists $f. No archive ships an ini; the plugin writes its own." }
-    if (-not (Test-Path -LiteralPath $f)) { throw "manualZip lists $f and it does not exist." }
+# dmmZip is optional, and a missing list piped on would still run once, on null.
+$dmmExtra = @(if ($data.dmmZip) { $data.dmmZip | ForEach-Object { Join-Path $cfg.Root $_ } })
+function Get-DmmName($file) {
+    $leaf = Split-Path $file -Leaf
+    if ($leaf.StartsWith($cfg.FileBase, [StringComparison]::OrdinalIgnoreCase)) { return $leaf }
+    return '{0}-{1}' -f $cfg.FileBase, $leaf
 }
-$leaves = @((Split-Path $cfg.Asi -Leaf)) + @($extra | ForEach-Object { Split-Path $_ -Leaf })
-$dupes = $leaves | Group-Object | Where-Object Count -gt 1
-if ($dupes) { throw "Two files in the manual archive would share the name $($dupes[0].Name)." }
+foreach ($list in @(@{ Key = 'manualZip'; Files = $extra; Archive = 'manual'; Name = { Split-Path $args[0] -Leaf } },
+                    @{ Key = 'dmmZip'; Files = $dmmExtra; Archive = 'DMM'; Name = { Get-DmmName $args[0] } })) {
+    foreach ($f in $list.Files) {
+        if ($f -like '*.ini') { throw "$($list.Key) lists $f. No archive ships an ini; the plugin writes its own." }
+        if (-not (Test-Path -LiteralPath $f)) { throw "$($list.Key) lists $f and it does not exist." }
+    }
+    $leaves = @((Split-Path $cfg.Asi -Leaf)) + @($list.Files | ForEach-Object { & $list.Name $_ })
+    $dupes = $leaves | Group-Object | Where-Object Count -gt 1
+    if ($dupes) { throw "Two files in the $($list.Archive) archive would share the name $($dupes[0].Name)." }
+}
 
 $staging = Join-Path $env:TEMP ("release-kit-{0}-{1}" -f $cfg.FileBase, $cfg.Version)
 Remove-Item -LiteralPath $staging -Recurse -Force -ErrorAction SilentlyContinue
@@ -86,7 +102,11 @@ foreach ($f in $extra) { Copy-Item -LiteralPath $f -Destination $staging }
 
 Remove-Item -LiteralPath $cfg.ZipManual, $cfg.ZipDmm -Force -ErrorAction SilentlyContinue
 Compress-Archive -Path (Join-Path $staging '*') -DestinationPath $cfg.ZipManual
-Compress-Archive -LiteralPath $cfg.Asi -DestinationPath $cfg.ZipDmm
+Remove-Item -LiteralPath $staging -Recurse -Force
+New-Item -ItemType Directory -Path $staging | Out-Null
+Copy-Item -LiteralPath $cfg.Asi -Destination $staging
+foreach ($f in $dmmExtra) { Copy-Item -LiteralPath $f -Destination (Join-Path $staging (Get-DmmName $f)) }
+Compress-Archive -Path (Join-Path $staging '*') -DestinationPath $cfg.ZipDmm
 Remove-Item -LiteralPath $staging -Recurse -Force
 
 Write-Host ("`n{0} {1}" -f $cfg.Name, $cfg.Version)

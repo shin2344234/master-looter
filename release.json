@@ -17,6 +17,10 @@
     "mod/THIRD_PARTY_NOTICES.md",
     "LICENSE"
   ],
+  "dmmZip": [
+    "mod/THIRD_PARTY_NOTICES.md",
+    "LICENSE"
+  ],
   "gates": [
     {
       "name": "the inimeta matches settings.cpp",

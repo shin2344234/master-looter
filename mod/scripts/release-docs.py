@@ -234,14 +234,15 @@ def cmd_stamp():
         print("VirusTotal links on %s files move to their %s counterparts" % (prev_version, CFG.version))
     else:
         print("no checksum record older than %s, so VirusTotal links stay as they are" % CFG.version)
-    shipped = set(os.path.normcase(CFG.path(p)) for p in CFG.data.get("manualZip", []))
+    shipped = set(os.path.normcase(CFG.path(p))
+                  for p in CFG.data.get("manualZip", []) + CFG.data.get("dmmZip", []))
     targets = [p for _, p in CFG.release_docs()] + evergreen()
     for path in targets:
         if not os.path.exists(path):
             print("missing  %s" % rel(path))
             continue
         if os.path.normcase(path) in shipped:
-            print("skipped  %s ships in the manual archive, so it carries no checksums" % rel(path))
+            print("skipped  %s ships in an archive, so it carries no checksums" % rel(path))
             continue
         before = read(path)
         after, touched, leftover, unknown = stamp_text(before, files, pats, previous)
@@ -309,7 +310,7 @@ def cmd_check():
         # means the archive on record is not what the repo now describes.
         if os.path.exists(CFG.zip_manual):
             built = os.path.getmtime(CFG.zip_manual)
-            for p in CFG.data.get("manualZip", []):
+            for p in CFG.data.get("manualZip", []) + CFG.data.get("dmmZip", []):
                 full = CFG.path(p)
                 if os.path.exists(full) and os.path.getmtime(full) > built:
                     problems.append("%s changed after the archives were built; package and stamp again" % p)
