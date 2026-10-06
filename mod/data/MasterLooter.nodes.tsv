@@ -26,22 +26,16 @@ cd_ex_dpf_flowerpot_12	container	Collection_Prop_FlowerPot_0009	Violet Flower Po
 cd_ex_dpf_flowerpot_13	container	Collection_Prop_FlowerPot_0010	Purple Gerbera Flower Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_14	container	Collection_Prop_FlowerPot_0011	Dark Brown Gerbera Flower Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_15	container	Collection_Prop_FlowerPot_0012	Light Brown Gerbera Flower Pot	tag	0		0	0	0
-cd_ex_dpf_flowerpot_16_housing	plant		Cd ex dpf flowerpot 16 housing	name	0		0	0	0
-cd_ex_dpf_flowerpot_21_housing	plant		Cd ex dpf flowerpot 21 housing	name	0		0	0	0
-cd_ex_dpf_flowerpot_23_housing	plant		Cd ex dpf flowerpot 23 housing	name	0		0	0	0
 cd_ex_dpf_flowerpot_23_index02	container	Collection_Prop_FlowerPot_0032	Red Flower Pot	tag	0		0	0	0
-cd_ex_dpf_flowerpot_24_housing	plant		Cd ex dpf flowerpot 24 housing	name	0		0	0	0
 cd_ex_dpf_flowerpot_26	container	Collection_Prop_FlowerPot_0013	Flower-Shaped Marigold Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_27	container	Collection_Prop_FlowerPot_0014	Chalice Flower Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_29	container	Collection_Prop_FlowerPot_0015	White Flower-Shaped Marigold Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_35	container	Collection_Prop_FlowerPot_0020	Leafy Pot	tag	0		0	0	0
-cd_ex_dpf_flowerpot_37_housing	plant		Cd ex dpf flowerpot 37 housing	name	0		0	0	0
 cd_ex_dpf_flowerpot_38	container	Collection_Prop_FlowerPot_0023	Purple Cactus Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_40	container	Collection_Prop_FlowerPot_0025	Purple Flower-Shaped Cactus Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_42	container	Collection_Prop_FlowerPot_0027	Chalice Bush Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_44	container	Collection_Prop_FlowerPot_0029	Flower-Decorated Cactus Pot	tag	0		0	0	0
 cd_ex_dpf_flowerpot_57	container	Collection_Prop_FlowerPot_0031	Small Plant Pot	tag	0		0	0	0
-cd_ex_dpf_flowerpot_61_housing	plant		Cd ex dpf flowerpot 61 housing	name	0		0	0	0
 cd_gimmick_ct_mushroom_hericium_wood_brokentree_01_parts01	plant		Plant	tag	0	Ssari_Mushroom	0	0	0
 cd_gimmick_ct_mushroom_phellinus_wood_brokentree_01_parts01	plant		Plant	tag	0	Songyi_Mushroom	0	0	0
 cd_gimmick_ct_mushroom_shiitake_wood_brokentree_01_parts01	plant		Plant	tag	0	Pyogo_Mushroom	0	0	0
@@ -865,10 +859,6 @@ gimmick_hanger_streetlamp_flowerpot_01	pickup		Hanger streetlamp flowerpot	tag	0
 gimmick_hanger_streetlamp_flowerpot_02	pickup		Hanger streetlamp flowerpot	tag	0		0	0	0
 gimmick_hanger_streetlamp_flowerpot_03	pickup		Hanger streetlamp flowerpot	tag	0		0	0	0
 gimmick_hanger_streetlamp_flowerpot_04	pickup		Hanger streetlamp flowerpot	tag	0		0	0	0
-gimmick_hanger_streetlamp_housing_flowerpot_01	pickup		Object	tag	0		0	0	0
-gimmick_hanger_streetlamp_housing_flowerpot_02	pickup		Object	tag	0		0	0	0
-gimmick_hanger_streetlamp_housing_flowerpot_03	pickup		Object	tag	0		0	0	0
-gimmick_hanger_streetlamp_housing_flowerpot_04	pickup		Object	tag	0		0	0	0
 gimmick_hexe_purple_bomb_01	pickup		Battle hexe purple bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_ice_bomb_01	pickup		Battle ice bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_icestone_01	stone		Icestone	name	0		0	0	0

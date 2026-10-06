@@ -23,7 +23,7 @@ data/class_overrides.csv and the three summaries are committed. The full outputs
 
 1. Extract group 0008 (`*.staticinfo*`) and group 0020 (all `.paloc`) from the game archives into extracted/0008 and extracted/0020 with `paz_unpack.py` from NattKh/CrimsonDesertModdingTools (needs `pip install lz4 cryptography`).
 2. Run `cdtables.py summary` and fix any layout drift until it reports `bad 0`.
-3. Run, in order: `build_item_db.py`, `make_itemdb_tsv.py`, `build_sources.py`, `make_creatures_tsv.py`, `make_nodes_tsv.py`. The creature table reads its names and item rows from the `character_drops.csv` that `build_sources.py` writes, so skipping it rebuilds creatures from the previous patch's data and nothing says so. The node table reads its `gimmick_drops.csv` to find the jars that roll a drop set, so the same goes for nodes. `build_dropsets.py` is only needed for the review pages.
+3. Run, in order: `build_item_db.py`, `make_itemdb_tsv.py`, `build_dropsets.py`, `build_sources.py`, `make_creatures_tsv.py`, `make_nodes_tsv.py`. The creature table reads its names and item rows from the `character_drops.csv` that `build_sources.py` writes, so skipping it rebuilds creatures from the previous patch's data and nothing says so. The node table reads its `gimmick_drops.csv` to find the jars that roll a drop set, so the same goes for nodes. `build_sources.py` reads the `dropsets.json` that `build_dropsets.py` writes, so that script has to run first. On a fresh checkout `build_sources.py` stops on the missing file, and on an old one it reads the previous patch's sets.
 4. Rebuild the plugin; the TSVs are compiled into it.
 
 Record layouts for 2.03.00 and the reasoning behind each field are in the module docstrings and in data/*_summary.md.
