@@ -128,6 +128,34 @@ CATCH_HOLD = ("catch_bouquet",)
 # once held, and one rule with evidence behind it beats a list of two.
 SEEN_PICKUPS = {}
 
+# The housing system's own prefabs, refused before the tags are read. The item
+# table ties each piece of furniture a player can place to a gimmick through
+# gimmick_info, and eleven of those gimmicks had rows here: six potted plants
+# that the item table marks housing-only, the Grindstone, and four hanging
+# planters built from blueprints. The name guess filed the pots under plant,
+# since "flowerpot" holds "flower", and the Grindstone under stone with a cloth
+# armour for its yield. The planters carry catch_onehand. The verdict sends a
+# pickup row its pick-up at once, before it shows any item. Plants, Ore and
+# stone, and Ground items are all on by default, so the mod would arm the pots
+# and the Grindstone and send the planters a pick-up once they were in range.
+# No log on hand shows any of the eleven, so what the game would do with
+# either is unknown.
+#
+# It sits above the tag mapping because of the planters. Their tag says what
+# shape the thing is and nothing about whose it is, which was the camp farm's
+# reason too. The word was counted before the rule was written. It appears in
+# 116 prefab basenames, always as a whole segment, and these eleven were the
+# only rows any of them gave the table. The world Grindstone and the world
+# planters are separate prefabs without the word, and they keep their rows.
+#
+# Thirteen more housing-only items are out of reach here: eleven jars, a book
+# and a book stand. Their items point at ordinary prefabs with no housing twin,
+# and LuxDragon's log of 23 September 2026 shows eight Ocher Jars in four
+# separate areas of the map, so no prefab rule can tell a placed one from a
+# found one. When one of them shows its item the rules refuse it anyway,
+# because all thirteen carry the gimmick tag and it is protected.
+HOUSING_WORD = "housing"
+
 # Fallback for gather nodes the table does not tag, read off the prefab name.
 # Ordered: the first hit wins. Never consulted for a gimmick_attach_ prefab;
 # see kind_for().
@@ -324,6 +352,8 @@ def kind_for(tags, name, prefab, folder=""):
     """The kind, and whether the game said so or the name merely suggested it."""
     if prefab in SEEN_PICKUPS:
         return SEEN_PICKUPS[prefab], "seen"
+    if HOUSING_WORD in re.split(r"[^a-z0-9]+", prefab):
+        return "", False
     # Anything growing in a camp farm, whatever else the game says about it.
     #
     # This was the last rule in the order until 15 September 2026, a fallback
