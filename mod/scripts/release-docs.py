@@ -235,7 +235,7 @@ def cmd_stamp():
     else:
         print("no checksum record older than %s, so VirusTotal links stay as they are" % CFG.version)
     shipped = set(os.path.normcase(CFG.path(p))
-                  for p in CFG.data.get("manualZip", []) + CFG.data.get("dmmZip", []))
+                  for p in CFG.archive_files("manualZip") + CFG.archive_files("dmmZip"))
     targets = [p for _, p in CFG.release_docs()] + evergreen()
     for path in targets:
         if not os.path.exists(path):
@@ -310,7 +310,7 @@ def cmd_check():
         # means the archive on record is not what the repo now describes.
         if os.path.exists(CFG.zip_manual):
             built = os.path.getmtime(CFG.zip_manual)
-            for p in CFG.data.get("manualZip", []) + CFG.data.get("dmmZip", []):
+            for p in CFG.archive_files("manualZip") + CFG.archive_files("dmmZip"):
                 full = CFG.path(p)
                 if os.path.exists(full) and os.path.getmtime(full) > built:
                     problems.append("%s changed after the archives were built; package and stamp again" % p)

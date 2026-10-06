@@ -31,10 +31,19 @@ function Get-ReleaseConfig {
 
     if ([string]::IsNullOrWhiteSpace($Version)) {
         $header = Join-Path $root $data.version.header
-        $pattern = '#define\s+' + [regex]::Escape($data.version.macro) + '\s+"([^"]+)"'
-        $m = Select-String -LiteralPath $header -Pattern $pattern
-        if (-not $m) { throw "No $($data.version.macro) in $header" }
-        $Version = $m.Matches[0].Groups[1].Value
+        # A C header names the macro; any other file gives a pattern whose
+        # first group is the version, such as a Blender manifest's version line.
+        if ($data.version.pattern) {
+            $m = Select-String -LiteralPath $header -Pattern $data.version.pattern
+            if (-not $m) { throw "No line in $header matches $($data.version.pattern)" }
+            $Version = $m.Matches[0].Groups[1].Value
+        }
+        else {
+            $pattern = '#define\s+' + [regex]::Escape($data.version.macro) + '\s+"([^"]+)"'
+            $m = Select-String -LiteralPath $header -Pattern $pattern
+            if (-not $m) { throw "No $($data.version.macro) in $header" }
+            $Version = $m.Matches[0].Groups[1].Value
+        }
     }
 
     $dist = Join-Path $root $data.dist

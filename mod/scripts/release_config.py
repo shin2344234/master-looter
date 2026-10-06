@@ -7,7 +7,8 @@ root, and this module is the one place that reads it.
 
     import release_config as rc
     cfg = rc.load()
-    cfg.version          "1.0.2", read from the version header
+    cfg.version          "1.0.2", read from the version header, or from any
+                         file by version.pattern, whose first group it is
     cfg.path("private", "github", "release-%s.md" % cfg.version)
     cfg.zip_manual       mod/dist/StaminaMaster-1.0.2.zip
     rc.read_key("NEXUS_API_KEY")
@@ -54,11 +55,21 @@ class Config(object):
             v = self.data["version"]
             header = self.path(v["header"])
             text = io.open(header, encoding="utf-8").read()
+            if v.get("pattern"):
+                m = re.search(v["pattern"], text, re.M)
+                if not m:
+                    raise SystemExit("No line in %s matches %s" % (header, v["pattern"]))
+                self._version = m.group(1)
+                return self._version
             m = re.search(r'#define\s+%s\s+"([^"]+)"' % re.escape(v["macro"]), text)
             if not m:
                 raise SystemExit("No %s in %s" % (v["macro"], header))
             self._version = m.group(1)
         return self._version
+
+    def archive_files(self, key):
+        """The paths under manualZip or dmmZip, {version} filled in."""
+        return [p.replace("{version}", self.version) for p in self.data.get(key, [])]
 
     def set_version(self, version):
         self._version = version

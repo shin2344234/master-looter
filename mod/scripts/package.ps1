@@ -75,9 +75,10 @@ if (-not $Unsigned) {
     Write-Host ("Signed by {0}" -f $sig.SignerCertificate.Subject)
 }
 
-$extra = @($data.manualZip | ForEach-Object { Join-Path $cfg.Root $_ })
+# {version} in a path is this release's version, for a file whose name carries it.
+$extra = @($data.manualZip | ForEach-Object { Join-Path $cfg.Root ($_ -replace '\{version\}', $cfg.Version) })
 # dmmZip is optional, and a missing list piped on would still run once, on null.
-$dmmExtra = @(if ($data.dmmZip) { $data.dmmZip | ForEach-Object { Join-Path $cfg.Root $_ } })
+$dmmExtra = @(if ($data.dmmZip) { $data.dmmZip | ForEach-Object { Join-Path $cfg.Root ($_ -replace '\{version\}', $cfg.Version) } })
 function Get-DmmName($file) {
     $leaf = Split-Path $file -Leaf
     if ($leaf.StartsWith($cfg.FileBase, [StringComparison]::OrdinalIgnoreCase)) { return $leaf }
