@@ -282,8 +282,15 @@ namespace ml::input
         {
             if (msg == WM_INPUT)
             {
-                OnRawInput(reinterpret_cast<HRAWINPUT>(lParam));
-                SetCursor(nullptr); // the menu draws its own cursor; the OS one stays hidden
+                // The game registers the mouse with RIDEV_INPUTSINK, so WM_INPUT
+                // keeps arriving while another window is in front. Those moves
+                // belong to that window: the menu cursor stays put and the OS
+                // cursor is left alone. The keyboard is gated the same way.
+                if (GET_RAWINPUT_CODE_WPARAM(wParam) == RIM_INPUT && State::ForegroundIsOurs())
+                {
+                    OnRawInput(reinterpret_cast<HRAWINPUT>(lParam));
+                    SetCursor(nullptr); // the menu draws its own cursor; the OS one stays hidden
+                }
                 return DefWindowProcW(hwnd, msg, wParam, lParam); // the game never sees mouse look; DefWindowProc frees the buffer
             }
             if (msg == WM_SETCURSOR) { SetCursor(nullptr); return TRUE; }
