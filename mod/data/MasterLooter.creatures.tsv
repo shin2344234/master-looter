@@ -414,32 +414,32 @@ character_key	string_key	name	item_row	item_class	skin
 32877	Animal_Donkey_Domestic_Bagpack_32877	Pack Donkey	-1	animal	1000098
 32878	Animal_Donkey_Domestic_Bagpack_32878	Pack Donkey	-1	animal	1000098
 1003978	Animal_Donkey_Domestic_Bagpack_32879	Pack Donkey	-1	animal	1000098
-30055	Animal_Rat_Wild_30055	Rat	1078	animal	0
+30055	Animal_Rat_Wild_30055	Rat	1170	animal	0
 1003940	Animal_Rat_Wild_30056	Gray Rat	-1	animal	0
 1003941	Animal_Rat_Wild_30057	Red Rat	-1	animal	0
 1003942	Animal_Rat_Wild_30058	Brown Rat	-1	animal	0
-30140	Animal_Muskrat_Wild_30140	Muskrat	1079	animal	0
-30138	Animal_Possum_Wild_30138	Opossum	1080	animal	0
-32410	Animal_Mole_Wild_32410	Mole	1085	animal	0
-1000812	Animal_Baby_Hedgehog_Wild_1	Baby Hedgehog	1087	animal	0
-30143	Animal_Frog_Wild_30143	Poison Frog	1184	amphibian	0
-30193	Animal_TreeFrog_Wild_30193	Tree Frog	1185	amphibian	0
-30145	Animal_Frog_Wild_30145	Toad	1186	amphibian	0
-1003943	Animal_Frog_Wild_30146	Toad	1186	amphibian	0
-1003944	Animal_Frog_Wild_30147	Toad	1186	amphibian	0
-32431	Animal_BurrowingToad_Wild_32431	Burrowing Toad	1187	amphibian	0
-1003945	Animal_BurrowingToad_Wild_32432	Burrowing Toad	1187	amphibian	0
-1003946	Animal_BurrowingToad_Wild_32433	Burrowing Toad	1187	amphibian	0
-32428	Animal_Giant_Salamander_Wild_32428	Burrowing Salamander	1088	amphibian	0
-32429	Animal_Salamander_Wild_32429	Salamander	1089	amphibian	0
-32430	Animal_Axolotl_Wild_32430	Axolotl	1090	amphibian	0
-1003947	Animal_Axolotl_Wild_32431	Axolotl	1090	amphibian	0
-1003948	Animal_Axolotl_Wild_32432	Axolotl	1090	amphibian	0
-31404	Animal_Goanna_Wild_31404	Goanna	1091	animal	0
-30069	Animal_Iguana_Wild_30069	Iguana	1092	animal	0
-1003594	Animal_Chameleon_Wild_30070	Chameleon	1093	animal	0
-30122	Animal_Hila_Lizard_Wild_30122	Heloderma Lizard	1094	animal	0
-1000980	Animal_Frilled_Lizard_Wild_1	Frilled-Neck Lizard	1095	animal	0
+30140	Animal_Muskrat_Wild_30140	Muskrat	1171	animal	0
+30138	Animal_Possum_Wild_30138	Opossum	1172	animal	0
+32410	Animal_Mole_Wild_32410	Mole	1177	animal	0
+1000812	Animal_Baby_Hedgehog_Wild_1	Baby Hedgehog	1179	animal	0
+30143	Animal_Frog_Wild_30143	Poison Frog	1279	amphibian	0
+30193	Animal_TreeFrog_Wild_30193	Tree Frog	1280	amphibian	0
+30145	Animal_Frog_Wild_30145	Toad	1281	amphibian	0
+1003943	Animal_Frog_Wild_30146	Toad	1281	amphibian	0
+1003944	Animal_Frog_Wild_30147	Toad	1281	amphibian	0
+32431	Animal_BurrowingToad_Wild_32431	Burrowing Toad	1282	amphibian	0
+1003945	Animal_BurrowingToad_Wild_32432	Burrowing Toad	1282	amphibian	0
+1003946	Animal_BurrowingToad_Wild_32433	Burrowing Toad	1282	amphibian	0
+32428	Animal_Giant_Salamander_Wild_32428	Burrowing Salamander	1180	amphibian	0
+32429	Animal_Salamander_Wild_32429	Salamander	1181	amphibian	0
+32430	Animal_Axolotl_Wild_32430	Axolotl	1182	amphibian	0
+1003947	Animal_Axolotl_Wild_32431	Axolotl	1182	amphibian	0
+1003948	Animal_Axolotl_Wild_32432	Axolotl	1182	amphibian	0
+31404	Animal_Goanna_Wild_31404	Goanna	1183	animal	0
+30069	Animal_Iguana_Wild_30069	Iguana	1184	animal	0
+1003594	Animal_Chameleon_Wild_30070	Chameleon	1185	animal	0
+30122	Animal_Hila_Lizard_Wild_30122	Heloderma Lizard	1186	animal	0
+1000980	Animal_Frilled_Lizard_Wild_1	Frilled-Neck Lizard	1187	animal	0
 32281	Animal_KomodoDragon_Wild_32281	Monitor Lizard	-1	animal	1000098
 31515	Animal_Cobra_Wild_31515	Cobra	-1	animal	1000058
 31405	Animal_Desert_Snake_Wild_31405	Desert Snake	-1	animal	1000058
@@ -453,79 +453,79 @@ character_key	string_key	name	item_row	item_class	skin
 32406	Animal_South_CopperHead_Wild_32406	Meadow Copperhead Viper	-1	animal	1000058
 32404	Animal_North_CopperHead_Wild_32404	Northern Copperhead Viper	-1	animal	1000058
 32405	Animal_Lancehead_Wild_32405	Fer-de-Lance	-1	animal	1000058
-1001381	Animal_Insect_Rhinoceros_Beetle	Rhinoceros Beetle	1179	insect	0
-1002177	Animal_Insect_Beetle	Beetle	1176	insect	0
-1002178	Animal_Insect_Stag_Beetle	Stag Beetle	1177	insect	0
-1002181	Animal_Insect_Longhorn_Beetle	Longhorn Beetle	1178	insect	0
-1002182	Animal_Insect_Jewel_Beetle	Jewel Beetle	1173	insect	0
-1001167	Animal_Insect_GrassHopper	Grasshopper	1131	insect	0
-1000852	Animal_Insect_Centipede	Centipede	1182	insect	0
-1000853	Animal_Insect_Black_Centipede	Black Centipede	1183	insect	0
-1000885	Animal_Insect_Cockroach	Cockroach	1170	insect	0
-1000856	Animal_Insect_Camel_Cricket	Camel Cricket	1171	insect	0
-1000857	Animal_Insect_House_Centipede	House Centipede	1139	insect	0
-1002179	Animal_Insect_Silkworm_Moth	Silkworm Moth	1108	insect	0
-1002180	Animal_Insect_Luna_Moth	Wild Silkworm Moth	1109	insect	0
-1000781	Animal_Insect_Dragonfly	Dragonfly	1106	insect	0
-30051	Animal_Scorpion_Wild_30051	Scorpion	1180	insect	0
-1000887	Animal_Spider_Wild_1	Spider	1181	insect	0
-1000907	Animal_Insect_Banana_Spider	Yellow Garden Spider	1175	insect	0
-1000909	Animal_Insect_Diadem_Spider	Golden Silk Spider	1107	insect	0
-1000925	Animal_Insect_Snail	Snail	1174	insect	0
-1000787	Animal_Insect_Gnat	Fruit Fly	1145	insect	0
-1000998	Animal_Insect_GnatWide	Medium Fly	1146	insect	0
-1000969	Animal_Insect_firefly	Firefly	1130	insect	0
-1001051	Animal_Insect_Moth	Mountain Moth	1150	insect	0
-1000886	Animal_Insect_Butterfly	Meadow Butterfly	1143	insect	0
-1001151	Animal_Insect_Eastern_Tiger_Swallowtail	Swallowtail	1110	insect	0
-1001153	Animal_Insect_Ornythion_Swallowtail	Ornythion Swallowtail Butterfly	1111	insect	0
-1001163	Animal_Insect_Spicebush_Swallowtail	Spicebush Swallowtail Butterfly	1128	insect	0
-1001164	Animal_Insect_Pipevine_Swallowtail	Pipevine Swallowtail Butterfly	1129	insect	0
-1001166	Animal_Insect_Polydamas_Swallowtail	Polydamas Swallowtail Butterfly	1112	insect	0
-1001174	Animal_Insect_Zebra_Swallowtail	Zebra Swallowtail	1113	insect	0
-1001177	Animal_Insect_Orange_Barred_Sulphur	Orange-Barred Sulphur Butterfly	1154	insect	0
-1001179	Animal_Insect_Sleepy_Orange	Sleepy Scarlet Butterfly	1164	insect	0
-1001220	Animal_Insect_White_M_Hairstreak	White Streaked butterfly	1140	insect	0
-1001222	Animal_Insect_Great_Purple_Hairstreak	Great Purple Hairstreak Butterfly	1127	insect	0
-1001237	Animal_Insect_Common_Buckeye	Buckeye Butterfly	1161	insect	0
-1001251	Animal_Insect_Eastern_Tailed_Blue	Blue Tailed Butterfly	1122	insect	0
-1001256	Animal_Insect_Little_Metalmark	Little Metalmark Butterfly	1124	insect	0
-1001257	Animal_Insect_Zebra_Heliconian	Zebra Longwing Butterfly	1114	insect	0
-1001258	Animal_Insect_Tiger_Mimic_Queen	Tiger Mimic Queen Butterfly	1167	insect	0
-1001262	Animal_Insect_Diana_Fritillary	Diana Fritillary Butterfly	1160	insect	0
-1001263	Animal_Insect_Crimson_Patch	Crimson Patch Butterfly	1157	insect	0
-1001264	Animal_Insect_White_Peacock	White Peacock Butterfly	1151	insect	0
-1001265	Animal_Insect_Banded_Peacock	Banded Peacock Butterfly	1135	insect	0
-1001267	Animal_Insect_Malachite	Malachite Butterfly	1119	insect	0
-1001268	Animal_Insect_Rusty_Tipped_Page	Rusty Tipped Page Butterfly	1163	insect	0
-1001364	Animal_Insect_Myscelia_Ethusa	Bluewing Butterfly	1120	insect	0
-1001283	Animal_Insect_Monarch	Monarch Butterfly	1169	insect	0
-1001284	Animal_Insect_Red_Spotted_Purple	Red-Spotted Purple Butterfly	1158	insect	0
-1001293	Animal_Insect_Ruddy_Daggerwing	Ruddy Daggerwing Butterfly	1165	insect	0
-1001337	Animal_Insect_Guava_Skipper	Guava Skipper Butterfly	1125	insect	0
-1001365	Animal_Insect_Kallima_Inachus	Orange Oakleaf Butterfly	1115	insect	0
-1001340	Animal_Insect_Blue_Pansy_Butterfly	Southern Blue Peacock Butterfly	1126	insect	0
-1001345	Animal_Insect_Common_Nawab	Nawab Butterfly	1116	insect	0
-1001346	Animal_Insect_Common_Green_Birdwing	Green Birdwing Butterfly	1136	insect	0
-1001347	Animal_Insect_88_Butterfly	Eighty-eight Butterfly	1153	insect	0
-1001359	Animal_Insect_Colias_Nastes	Green Sulphur Butterfly	1118	insect	0
-1001363	Animal_Insect_Lycaena_Phlaeas	Spotted Lycaenid Butterfly	1156	insect	0
-1001250	Animal_Insect_Grizzled_Skipper	Grizzled Skipper Butterfly	1147	insect	0
-1001335	Animal_Insect_Little_Wood_Satyr	Little Wood Satyr Butterfly	1148	insect	0
-1001243	Animal_Insect_Milbert_Tortoiseshell	Flame-Bordered Butterfly	1166	insect	0
-1001246	Animal_Insect_Eastern_Comma	Yellow Comma Butterfly	1162	insect	0
-1001247	Animal_Insect_Lustrous_Copper	Red Lycaenid Butterfly	1142	insect	0
-1001248	Animal_Insect_Blue_Copper	Blue Lycaenid Butterfly	1121	insect	0
-1001261	Animal_Insect_Regal_Fritillary	Regal Fritillary Butterfly	1159	insect	0
-1001279	Animal_Insect_Painted_Lady	Painted Lady Butterfly	1152	insect	0
-1001282	Animal_Insect_Viceroy	Commander Butterfly	1168	insect	0
-1001339	Animal_Insect_Purple_Emperor	Purple Emperor Butterfly	1117	insect	0
-1001356	Animal_Insect_Neophasia_Terlooii	White Butterfly	1149	insect	0
-1001176	Animal_Insect_Checkered_White	Checkered White Butterfly	1144	insect	0
-1001204	Animal_Insect_Desert_Orange_tip	Scarlet Leafwing Butterfly	1155	insect	0
-1001360	Animal_Insect_Hypaurotis_Crysalus	Violet Hairstreak Butterfly	1141	insect	0
-1001254	Animal_Insect_Theona_Checkerspot	Theona Checkerspot Butterfly	1123	insect	0
-1000811	Animal_Insect_JijeongLeaf_Insect	Palmar Beetle	1137	insect	0
+1001381	Animal_Insect_Rhinoceros_Beetle	Rhinoceros Beetle	1274	insect	0
+1002177	Animal_Insect_Beetle	Beetle	1271	insect	0
+1002178	Animal_Insect_Stag_Beetle	Stag Beetle	1272	insect	0
+1002181	Animal_Insect_Longhorn_Beetle	Longhorn Beetle	1273	insect	0
+1002182	Animal_Insect_Jewel_Beetle	Jewel Beetle	1268	insect	0
+1001167	Animal_Insect_GrassHopper	Grasshopper	1226	insect	0
+1000852	Animal_Insect_Centipede	Centipede	1277	insect	0
+1000853	Animal_Insect_Black_Centipede	Black Centipede	1278	insect	0
+1000885	Animal_Insect_Cockroach	Cockroach	1265	insect	0
+1000856	Animal_Insect_Camel_Cricket	Camel Cricket	1266	insect	0
+1000857	Animal_Insect_House_Centipede	House Centipede	1234	insect	0
+1002179	Animal_Insect_Silkworm_Moth	Silkworm Moth	1203	insect	0
+1002180	Animal_Insect_Luna_Moth	Wild Silkworm Moth	1204	insect	0
+1000781	Animal_Insect_Dragonfly	Dragonfly	1201	insect	0
+30051	Animal_Scorpion_Wild_30051	Scorpion	1275	insect	0
+1000887	Animal_Spider_Wild_1	Spider	1276	insect	0
+1000907	Animal_Insect_Banana_Spider	Yellow Garden Spider	1270	insect	0
+1000909	Animal_Insect_Diadem_Spider	Golden Silk Spider	1202	insect	0
+1000925	Animal_Insect_Snail	Snail	1269	insect	0
+1000787	Animal_Insect_Gnat	Fruit Fly	1240	insect	0
+1000998	Animal_Insect_GnatWide	Medium Fly	1241	insect	0
+1000969	Animal_Insect_firefly	Firefly	1225	insect	0
+1001051	Animal_Insect_Moth	Mountain Moth	1245	insect	0
+1000886	Animal_Insect_Butterfly	Meadow Butterfly	1238	insect	0
+1001151	Animal_Insect_Eastern_Tiger_Swallowtail	Swallowtail	1205	insect	0
+1001153	Animal_Insect_Ornythion_Swallowtail	Ornythion Swallowtail Butterfly	1206	insect	0
+1001163	Animal_Insect_Spicebush_Swallowtail	Spicebush Swallowtail Butterfly	1223	insect	0
+1001164	Animal_Insect_Pipevine_Swallowtail	Pipevine Swallowtail Butterfly	1224	insect	0
+1001166	Animal_Insect_Polydamas_Swallowtail	Polydamas Swallowtail Butterfly	1207	insect	0
+1001174	Animal_Insect_Zebra_Swallowtail	Zebra Swallowtail	1208	insect	0
+1001177	Animal_Insect_Orange_Barred_Sulphur	Orange-Barred Sulphur Butterfly	1249	insect	0
+1001179	Animal_Insect_Sleepy_Orange	Sleepy Scarlet Butterfly	1259	insect	0
+1001220	Animal_Insect_White_M_Hairstreak	White Streaked butterfly	1235	insect	0
+1001222	Animal_Insect_Great_Purple_Hairstreak	Great Purple Hairstreak Butterfly	1222	insect	0
+1001237	Animal_Insect_Common_Buckeye	Buckeye Butterfly	1256	insect	0
+1001251	Animal_Insect_Eastern_Tailed_Blue	Blue Tailed Butterfly	1217	insect	0
+1001256	Animal_Insect_Little_Metalmark	Little Metalmark Butterfly	1219	insect	0
+1001257	Animal_Insect_Zebra_Heliconian	Zebra Longwing Butterfly	1209	insect	0
+1001258	Animal_Insect_Tiger_Mimic_Queen	Tiger Mimic Queen Butterfly	1262	insect	0
+1001262	Animal_Insect_Diana_Fritillary	Diana Fritillary Butterfly	1255	insect	0
+1001263	Animal_Insect_Crimson_Patch	Crimson Patch Butterfly	1252	insect	0
+1001264	Animal_Insect_White_Peacock	White Peacock Butterfly	1246	insect	0
+1001265	Animal_Insect_Banded_Peacock	Banded Peacock Butterfly	1230	insect	0
+1001267	Animal_Insect_Malachite	Malachite Butterfly	1214	insect	0
+1001268	Animal_Insect_Rusty_Tipped_Page	Rusty Tipped Page Butterfly	1258	insect	0
+1001364	Animal_Insect_Myscelia_Ethusa	Bluewing Butterfly	1215	insect	0
+1001283	Animal_Insect_Monarch	Monarch Butterfly	1264	insect	0
+1001284	Animal_Insect_Red_Spotted_Purple	Red-Spotted Purple Butterfly	1253	insect	0
+1001293	Animal_Insect_Ruddy_Daggerwing	Ruddy Daggerwing Butterfly	1260	insect	0
+1001337	Animal_Insect_Guava_Skipper	Guava Skipper Butterfly	1220	insect	0
+1001365	Animal_Insect_Kallima_Inachus	Orange Oakleaf Butterfly	1210	insect	0
+1001340	Animal_Insect_Blue_Pansy_Butterfly	Southern Blue Peacock Butterfly	1221	insect	0
+1001345	Animal_Insect_Common_Nawab	Nawab Butterfly	1211	insect	0
+1001346	Animal_Insect_Common_Green_Birdwing	Green Birdwing Butterfly	1231	insect	0
+1001347	Animal_Insect_88_Butterfly	Eighty-eight Butterfly	1248	insect	0
+1001359	Animal_Insect_Colias_Nastes	Green Sulphur Butterfly	1213	insect	0
+1001363	Animal_Insect_Lycaena_Phlaeas	Spotted Lycaenid Butterfly	1251	insect	0
+1001250	Animal_Insect_Grizzled_Skipper	Grizzled Skipper Butterfly	1242	insect	0
+1001335	Animal_Insect_Little_Wood_Satyr	Little Wood Satyr Butterfly	1243	insect	0
+1001243	Animal_Insect_Milbert_Tortoiseshell	Flame-Bordered Butterfly	1261	insect	0
+1001246	Animal_Insect_Eastern_Comma	Yellow Comma Butterfly	1257	insect	0
+1001247	Animal_Insect_Lustrous_Copper	Red Lycaenid Butterfly	1237	insect	0
+1001248	Animal_Insect_Blue_Copper	Blue Lycaenid Butterfly	1216	insect	0
+1001261	Animal_Insect_Regal_Fritillary	Regal Fritillary Butterfly	1254	insect	0
+1001279	Animal_Insect_Painted_Lady	Painted Lady Butterfly	1247	insect	0
+1001282	Animal_Insect_Viceroy	Commander Butterfly	1263	insect	0
+1001339	Animal_Insect_Purple_Emperor	Purple Emperor Butterfly	1212	insect	0
+1001356	Animal_Insect_Neophasia_Terlooii	White Butterfly	1244	insect	0
+1001176	Animal_Insect_Checkered_White	Checkered White Butterfly	1239	insect	0
+1001204	Animal_Insect_Desert_Orange_tip	Scarlet Leafwing Butterfly	1250	insect	0
+1001360	Animal_Insect_Hypaurotis_Crysalus	Violet Hairstreak Butterfly	1236	insect	0
+1001254	Animal_Insect_Theona_Checkerspot	Theona Checkerspot Butterfly	1218	insect	0
+1000811	Animal_Insect_JijeongLeaf_Insect	Palmar Beetle	1232	insect	0
 1000942	Animal_RatsSwarm	Swarm of Rats	-1	animal	0
 1000953	Animal_SpiderSwarm	Spider Colony	-1	insect	0
 1000964	Animal_GrassHopperSwarm	Grasshopper Colony	-1	insect	0
@@ -535,16 +535,16 @@ character_key	string_key	name	item_row	item_class	skin
 1001147	Animal_Insect_Hornet	Swarm of Hornets	-1	insect	0
 1001148	Animal_Insect_Bumblebee	Swarm of Bumblebees	-1	insect	0
 1002062	Animal_Insect_firefly_cluster	Firefly Colony	-1	insect	0
-1000782	Animal_Insect_Sea_Slater	Wharf Roach	1172	insect	0
-1001240	Animal_Insect_Lobster	Crayfish	1389	seafood	0
-1000786	Animal_RiceFish	Ricefish	1339	fish	0
-1000905	Animal_WaterStrider	Water Strider	1138	insect	0
-1001713	Animal_Insect_Crab	Blue Crab	1387	seafood	0
-1000372	Animal_Insect_StarFish	Starfish	1391	seafood	0
-1001239	Animal_Insect_Shrimp	Shrimp	1393	seafood	0
-1001241	Animal_Insect_Seahorse	Seahorse	1392	seafood	0
-1001242	Animal_Insect_Squid	Squid	1390	seafood	0
-1000779	Animal_Insect_river_Crab	Freshwater Crab	1388	seafood	0
+1000782	Animal_Insect_Sea_Slater	Wharf Roach	1267	insect	0
+1001240	Animal_Insect_Lobster	Crayfish	1484	seafood	0
+1000786	Animal_RiceFish	Ricefish	1434	fish	0
+1000905	Animal_WaterStrider	Water Strider	1233	insect	0
+1001713	Animal_Insect_Crab	Blue Crab	1482	seafood	0
+1000372	Animal_Insect_StarFish	Starfish	1486	seafood	0
+1001239	Animal_Insect_Shrimp	Shrimp	1488	seafood	0
+1001241	Animal_Insect_Seahorse	Seahorse	1487	seafood	0
+1001242	Animal_Insect_Squid	Squid	1485	seafood	0
+1000779	Animal_Insect_river_Crab	Freshwater Crab	1483	seafood	0
 30015	Animal_Rooster_Domestic_30015	Rooster	-1	animal	1000058
 30023	Animal_Hen_Domestic_30023	Hen	-1	animal	1000058
 30004	Animal_Hairless_Rooster_Domestic_30004	Featherless Rooster	-1	animal	1000058
@@ -597,45 +597,51 @@ character_key	string_key	name	item_row	item_class	skin
 1003661	Animal_Pigeon_Domestic_30085	Homing Pigeon	-1	animal	0
 1003821	Animal_Pigeon_Domestic_30086	Homing Pigeon	-1	animal	0
 33125	Animal_Crow_Wild_33125	Eastern Witches' Crow	-1	animal	0
-1000389	Animal_Small_BlackbrowBleak_Fish_Wild_1	Small Blackbrow Bleak	1340	fish	0
-1000391	Animal_Small_BaliOgluChub_Fish_Wild_1	Small Minnow	1341	fish	0
-1000393	Animal_Small_Schneider_Fish_Wild_1	Small Spirlin	1342	fish	0
-1001183	Animal_Small_Sammy_Fish_Wild_1	Small Gudgeon	1343	fish	0
-1001185	Animal_Small_Beyaz_Fish_Wild_1	Small Rasbora	1344	fish	0
-1001193	Animal_Small_Mudfish_Fish_Wild_1	Pond Loach	1345	fish	0
-1001244	Animal_Normal_Dover_Sole_Wild_1	Red Tonguesole	1346	fish	0
-1001939	Animal_Normal_Mackerel_Wild_1	Mackerel	1347	fish	0
-1001669	Animal_Normal_Benjari_Wild_1	Threeline Grunt	1348	fish	0
-1001192	Animal_Normal_Tench_Wild_1	Tench	1349	fish	0
-1001216	Animal_Normal_Perch_Wild_1	Perch	1350	fish	0
-1001217	Animal_Normal_Bass_Wild_1	Bass	1351	fish	0
-1001218	Animal_Normal_Yellow_Bass_Wild_1	Yellow Bass	1352	fish	0
-1001227	Animal_Normal_Golden_mandarinFish_Wild_1	Leopard Perch	1353	fish	0
-1001228	Animal_Normal_Crucian_Carp_Wild_1	Crucian Carp	1354	fish	0
-1001788	Animal_Middle_Red_Seabream_Wild_1	Red Seabream	1365	fish	0
-1001797	Animal_Middle_BlackSeaBream_Wild_1	Blackhead Seabream	1366	fish	0
-1001800	Animal_Middle_Red_Snapper_Wild_1	Opaleye	1364	fish	0
-1001936	Animal_Middle_Rock_Bream_Wild_1	Barred Knifejaw	1367	fish	0
-1001949	Animal_Middle_Cuvier_Wild_1	Saw-Edged Perch	1368	fish	0
-1001965	Animal_Middle_Salmon_Wild_1	Salmon	1360	fish	0
-1001968	Animal_Middle_Sockeye_Salmon_Wild_1	Sockeye Salmon	1361	fish	0
-1001191	Animal_Middle_Pikefish_Wild_1	Northern Pike	1355	fish	0
-1001971	Animal_Middle_Trout_Wild_1	Trout	1362	fish	0
-1002470	Animal_Middle_Carp_Wild_1	Carp	1357	fish	0
-1001200	Animal_Middle_Catfish_Wild_1	Catfish	1356	fish	0
-1001208	Animal_Middle_Lenok_Wild_1	Lenok	1358	fish	0
-1001210	Animal_Middle_Burbot_Wild_1	Burbot	1359	fish	0
-39105	Animal_Giant_MudFish_Wild_39105	Giant Pond Loach	1370	fish	0
-39104	Animal_RedOpaleye_Wild_39104	Crimson Opaleye	1371	fish	0
-39111	Animal_FootballFish_Wild_39111	Anglerfish	1372	fish	0
-1001974	Animal_Big_Eel_Wild_1	Freshwater Eel	1363	fish	0
-39103	Animal_PagrusMajor_Wild_39103	Giant Red Seabream	1373	fish	0
-1001977	Animal_Big_Sturgeon_Wild_1	Sturgeon	1369	fish	0
-35234	Animal_Electric_Eel_Wild_35234	Electric Eel	1375	fish	0
-1001945	Animal_VeryBig_Marlin_Wild_1	Striped Marlin	1374	fish	0
-39106	Animal_SailFish_Wild_39106	Sailfish	1378	fish	0
-39101	Animal_PaddleFish_Wild_39101	Paddlefish	1376	fish	0
-39102	Animal_SevenGill_Wild_39102	Broadnose Sevengill Shark	1377	fish	0
+1000389	Animal_Small_BlackbrowBleak_Fish_Wild_1	Small Blackbrow Bleak	1435	fish	0
+1000391	Animal_Small_BaliOgluChub_Fish_Wild_1	Small Minnow	1436	fish	0
+1000393	Animal_Small_Schneider_Fish_Wild_1	Small Spirlin	1437	fish	0
+1001183	Animal_Small_Sammy_Fish_Wild_1	Small Gudgeon	1438	fish	0
+1001185	Animal_Small_Beyaz_Fish_Wild_1	Small Rasbora	1439	fish	0
+1001193	Animal_Small_Mudfish_Fish_Wild_1	Pond Loach	1440	fish	0
+1001244	Animal_Normal_Dover_Sole_Wild_1	Red Tonguesole	1441	fish	0
+1001939	Animal_Normal_Mackerel_Wild_1	Mackerel	1442	fish	0
+1001669	Animal_Normal_Benjari_Wild_1	Threeline Grunt	1443	fish	0
+1001192	Animal_Normal_Tench_Wild_1	Tench	1444	fish	0
+1001216	Animal_Normal_Perch_Wild_1	Perch	1445	fish	0
+1001217	Animal_Normal_Bass_Wild_1	Bass	1446	fish	0
+1001218	Animal_Normal_Yellow_Bass_Wild_1	Yellow Bass	1447	fish	0
+1001227	Animal_Normal_Golden_mandarinFish_Wild_1	Leopard Perch	1448	fish	0
+1001228	Animal_Normal_Crucian_Carp_Wild_1	Crucian Carp	1449	fish	0
+1001788	Animal_Middle_Red_Seabream_Wild_1	Red Seabream	1460	fish	0
+1001797	Animal_Middle_BlackSeaBream_Wild_1	Blackhead Seabream	1461	fish	0
+1001800	Animal_Middle_Red_Snapper_Wild_1	Opaleye	1459	fish	0
+1001936	Animal_Middle_Rock_Bream_Wild_1	Barred Knifejaw	1462	fish	0
+1001949	Animal_Middle_Cuvier_Wild_1	Saw-Edged Perch	1463	fish	0
+1001965	Animal_Middle_Salmon_Wild_1	Salmon	1455	fish	0
+1001968	Animal_Middle_Sockeye_Salmon_Wild_1	Sockeye Salmon	1456	fish	0
+1001191	Animal_Middle_Pikefish_Wild_1	Northern Pike	1450	fish	0
+1001971	Animal_Middle_Trout_Wild_1	Trout	1457	fish	0
+1002470	Animal_Middle_Carp_Wild_1	Carp	1452	fish	0
+1001200	Animal_Middle_Catfish_Wild_1	Catfish	1451	fish	0
+1001208	Animal_Middle_Lenok_Wild_1	Lenok	1453	fish	0
+1001210	Animal_Middle_Burbot_Wild_1	Burbot	1454	fish	0
+39105	Animal_Giant_MudFish_Wild_39105	Giant Pond Loach	1465	fish	0
+39104	Animal_RedOpaleye_Wild_39104	Crimson Opaleye	1466	fish	0
+39111	Animal_FootballFish_Wild_39111	Anglerfish	1467	fish	0
+1001974	Animal_Big_Eel_Wild_1	Freshwater Eel	1458	fish	0
+39103	Animal_PagrusMajor_Wild_39103	Giant Red Seabream	1468	fish	0
+1001977	Animal_Big_Sturgeon_Wild_1	Sturgeon	1464	fish	0
+35234	Animal_Electric_Eel_Wild_35234	Electric Eel	1470	fish	0
+1001945	Animal_VeryBig_Marlin_Wild_1	Striped Marlin	1469	fish	0
+39106	Animal_SailFish_Wild_39106	Sailfish	1473	fish	0
+39101	Animal_PaddleFish_Wild_39101	Paddlefish	1471	fish	0
+39102	Animal_SevenGill_Wild_39102	Broadnose Sevengill Shark	1472	fish	0
+30066	Animal_Turtle_Wild_30066	Turtle	-1	animal	1000058
+1003799	Animal_Turtle_Domestic_30066	Turtle	-1	animal	1000058
+35011	Animal_SnappingTurtle_Wild_35011	Snapping Turtle	-1	animal	1000058
+1000404	Animal_RedFooted_Turtle_Wild_1	Red-Footed Tortoise	-1	animal	1000058
+1000405	Animal_Leopard_Turtle_Wild_1	Leopard Tortoise	-1	animal	1000058
+1000406	Animal_Sulcata_Turtle_Wild_1	Sulcata Tortoise	-1	animal	1000058
 32300	Animal_Caretta_Wild_32300	Loggerhead Sea Turtle	-1	animal	1000058
 1004224	Animal_GreenSea_Wild_32301	Green Sea Turtle	-1	animal	1000058
 1004225	Animal_OliveRidley_Wild_32302	Olive Ridley Sea Turtle	-1	animal	1000058
@@ -667,11 +673,11 @@ character_key	string_key	name	item_row	item_class	skin
 33121	Animal_Condor_Wild_33121	Condor Carcass	-1	animal	0
 33122	Animal_Crow_Wild_33122	Crow Carcass	-1	animal	0
 33124	Animal_Crocodile_Wild_33124	Crocodile Carcass	-1	animal	0
-1001343	Animal_Dune_Coelacanth	Coelacanth	1382	fish	0
-1001353	Animal_Dune_Golden_Coelacanth	Golden Coelacanth	1381	fish	0
-39107	Animal_GoldenTench_Wild_39107	Golden Tench	1379	fish	0
-39109	Animal_GoldenCarp_Wild_39109	Golden Carp	1380	fish	0
-35223	Animal_Marni_MachineFish_Wild_35223	Clockwork Fish	1383	fish	0
+1001343	Animal_Dune_Coelacanth	Coelacanth	1477	fish	0
+1001353	Animal_Dune_Golden_Coelacanth	Golden Coelacanth	1476	fish	0
+39107	Animal_GoldenTench_Wild_39107	Golden Tench	1474	fish	0
+39109	Animal_GoldenCarp_Wild_39109	Golden Carp	1475	fish	0
+35223	Animal_Marni_MachineFish_Wild_35223	Clockwork Fish	1478	fish	0
 1000190	Animal_BlueWhale_Wild_35018	Blue Whale	-1	animal	0
 30161	Animal_White_Bear_Wild_30161	White Bear	-1	animal	1000098
 31377	Animal_White_Horse_Wild_31377	Royler	-1	animal	1000098
@@ -712,6 +718,9 @@ character_key	string_key	name	item_row	item_class	skin
 1001063	Animal_Unique_Domestic_Sheep_30026_1	Sheep Scared by Lightning	-1	animal	1000098
 1001064	Animal_Unique_Domestic_Sheep_30044	Sheep Scared by Lightning	-1	animal	1000098
 1002240	Animal_Unique_Shepherd_Domestic_1	Shepherd	-1	animal	0
+1004353	Animal_Unique_Insect_Golden_Rhinoceros_Beetle	Golden Rhinoceros Beetle	-1	insect	0
+1004354	Animal_Unique_Insect_Golden_Jewel_Beetle	Golden Jewel Beetle	-1	insect	0
+1004355	Animal_Unique_Insect_Golden_Butterfly	Golden Butterfly	-1	insect	0
 30014	Animal_Small_LandSpider_Wild_30014	Small Stoneback Crab	-1	animal	0
 1001931	Animal_Small_Desert_LandSpider_Wild_1	Small Desert Stoneback Crab	-1	animal	0
 1002255	Animal_Small_Snow_LandSpider_Wild_1	Small Everfrost Stoneback Crab	-1	animal	0
@@ -899,16 +908,16 @@ character_key	string_key	name	item_row	item_class	skin
 32411	Animal_Collared_Dove_Wild_32411	Collared Dove	-1	animal	1000058
 30081	Animal_Pigeon_Wild_30081	Pigeon	-1	animal	1000058
 1003933	Animal_Pigeon_Wild_30082	Pigeon	-1	animal	1000058
-30009	Animal_WhiteWing_Flycatcher_Wild_30009	White-Winged Redstart	1104	animal	0
-30079	Animal_BlueJay_Wild_30079	Blue Jay	1096	animal	0
-30071	Animal_Sparrow_Wild_30071	Sparrow	1097	animal	0
-30087	Animal_Oriole_Wild_30087	Black-Naped Oriole	1098	animal	0
-32040	Animal_Wood_Pecker_Wild_32040	Three-Toed Woodpecker	1103	animal	0
-32247	Animal_Oxpecker_Wild_32247	Yellow-Billed Oxpecker	1102	animal	0
-32352	Animal_Snowy_Plover_Wild_32352	Kentish Plover	1099	animal	0
-32366	Animal_BlackTail_Flycatcher_Wild_32366	Desert Wheatear	1101	animal	0
-32367	Animal_Bunting_Bird_Wild_32367	Meadow Bunting	1100	animal	0
-1003779	Animal_Longtailedtit_Wild_32368	Long-Tailed Tit	1105	animal	0
+30009	Animal_WhiteWing_Flycatcher_Wild_30009	White-Winged Redstart	1196	animal	0
+30079	Animal_BlueJay_Wild_30079	Blue Jay	1188	animal	0
+30071	Animal_Sparrow_Wild_30071	Sparrow	1189	animal	0
+30087	Animal_Oriole_Wild_30087	Black-Naped Oriole	1190	animal	0
+32040	Animal_Wood_Pecker_Wild_32040	Three-Toed Woodpecker	1195	animal	0
+32247	Animal_Oxpecker_Wild_32247	Yellow-Billed Oxpecker	1194	animal	0
+32352	Animal_Snowy_Plover_Wild_32352	Kentish Plover	1191	animal	0
+32366	Animal_BlackTail_Flycatcher_Wild_32366	Desert Wheatear	1193	animal	0
+32367	Animal_Bunting_Bird_Wild_32367	Meadow Bunting	1192	animal	0
+1003779	Animal_Longtailedtit_Wild_32368	Long-Tailed Tit	1197	animal	0
 32038	Animal_Cuckoo_Wild_32038	Cuckoo	-1	animal	1000058
 30029	Animal_Crow_Wild_30029	Crow	-1	animal	1000058
 30082	Animal_Parrot_Wild_30082	Parrot	-1	animal	1000058
@@ -930,7 +939,7 @@ character_key	string_key	name	item_row	item_class	skin
 1004045	Animal_Baby_Wyvern_1	Baby Wyvern	-1	animal	0
 1004087	Animal_KukuBirdbaby_Wild_1	Kuku Bird Chick	-1	animal	0
 30039	Animal_Weasel_Wild_30039	Weasel	-1	animal	1000058
-1000979	Animal_Meerkat_Wild_1	Meerkat	1086	animal	1000058
+1000979	Animal_Meerkat_Wild_1	Meerkat	1178	animal	1000058
 32034	Animal_Snow_Weasel_Wild_32034	Snowfield Weasel	-1	animal	1000058
 30042	Animal_Raccoon_Wild_30042	Raccoon	-1	animal	1000058
 1004022	Animal_RedPanda_Wild_30052	Red Panda	-1	animal	1000058
@@ -956,10 +965,10 @@ character_key	string_key	name	item_row	item_class	skin
 32355	Animal_Skunky_Wild_32355	Skunky	-1	animal	0
 32359	Animal_Wood_Weasel_Wild_32359	Feathered Weasel	-1	animal	0
 32357	Animal_Choppy_Wild_32357	Choppy	-1	animal	0
-30065	Animal_Squirrel_Wild_30065	Chipmunk	1081	animal	1000058
-32035	Animal_Snow_Chipmunk_Wild_32035	Snowfield Chipmunk	1082	animal	1000058
-32370	Animal_Red_Squirrel_Wild_32370	Red Squirrel	1083	animal	1000058
-1000804	Animal_Flying_Squirrel_Wild_1	Flying Squirrel	1084	animal	1000058
+30065	Animal_Squirrel_Wild_30065	Chipmunk	1173	animal	1000058
+32035	Animal_Snow_Chipmunk_Wild_32035	Snowfield Chipmunk	1174	animal	1000058
+32370	Animal_Red_Squirrel_Wild_32370	Red Squirrel	1175	animal	1000058
+1000804	Animal_Flying_Squirrel_Wild_1	Flying Squirrel	1176	animal	1000058
 30001	Animal_Rabbit_Wild_30001	Forest Rabbit	-1	animal	1000058
 1004055	Animal_Rabbit_Wild_30003	Brown Forest Rabbit	-1	animal	1000058
 1004056	Animal_Rabbit_Wild_30004	Gray Forest Rabbit	-1	animal	1000058
@@ -984,12 +993,6 @@ character_key	string_key	name	item_row	item_class	skin
 1000807	Animal_kakapo_Wild_1	Kakapo	-1	animal	1000058
 1000788	Animal_Kiwi_Bird_Wild_1	Kiwi Bird	-1	animal	1000058
 1001375	Animal_Little_Grebe_Wild_1	Grebe	-1	animal	1000058
-30066	Animal_Turtle_Wild_30066	Turtle	-1	animal	1000058
-1003799	Animal_Turtle_Domestic_30066	Turtle	-1	animal	1000058
-35011	Animal_SnappingTurtle_Wild_35011	Snapping Turtle	-1	animal	1000058
-1000404	Animal_RedFooted_Turtle_Wild_1	Red-Footed Tortoise	-1	animal	1000058
-1000405	Animal_Leopard_Turtle_Wild_1	Leopard Tortoise	-1	animal	1000058
-1000406	Animal_Sulcata_Turtle_Wild_1	Sulcata Tortoise	-1	animal	1000058
 2508	Animal_Marni_GolemHorse_2508	Marni's Mechahorse	-1	animal	1000098
 500485	Animal_Unique_Black_Cat_500485	Black Cat	-1	animal	0
 1001395	Animal_WhiteCrow_Wild	White Crow	-1	animal	1000058
@@ -1003,3 +1006,85 @@ character_key	string_key	name	item_row	item_class	skin
 30269	Animal_Battle_Boar_30269	Black-Maned Boar	-1	animal	1000098
 1003796	Animal_Raccoon_Domestic_30042	Raccoon	-1	animal	1000058
 1002441	Animal_Stefano_Domestic_Saddle_Scout	Calphadean Scout's Horse	-1	animal	1000098
+1004838	Animal_Whitegallowaycow_Wild_32215	White Plains Cow	-1	animal	1000098
+1004840	Animal_GoldenSheep_Wild_1	Golden Sheep	-1	animal	1000098
+1004839	Animal_Mangalica_Domestic_1	Mangalica	-1	animal	1000098
+1004435	Animal_PearlCrocodile_Wild_1	Pearl Moss Crocodile	-1	animal	1000098
+1004434	Animal_Giant_Salamander_Wild_1	Hydrothermal Salamander	-1	amphibian	1000098
+1004632	Animal_Giant_Hydrothermal_Salamander_Wild_1	Giant Hydrothermal Salamander	-1	amphibian	1000098
+1004471	Animal_SeaKrait_Wild_1	Sea Serpent	-1	animal	0
+1004613	Animal_Insect_Hercules_Beetle	Great Horned Rhinoceros Beetle	-1	insect	0
+1004614	Animal_Insect_Eupatorus_Beetle	Five-Horned Rhinoceros Beetle	-1	insect	0
+1004615	Animal_Insect_Mecoptera	Scorpionfly	-1	insect	0
+1004558	Animal_Insect_Hydrothermal_Snail	Scaly-Foot Snail	-1	insect	0
+1004430	Animal_Insect_BlueLobster	Blue Lobster	-1	seafood	0
+1004431	Animal_Insect_KingCrab	King Crab	-1	seafood	0
+1004432	Animal_Insect_SnowCrab	Snow Crab	-1	seafood	0
+1004281	Animal_YellowTang_Wild_2	Yellow Tang	-1	fish	0
+1004282	Animal_AtlanticBlueTang_Wild_2	Dawnwave Blue Tang	-1	fish	0
+1004283	Animal_BlueTang_Wild_2	Blue Tang	-1	fish	0
+1004664	Animal_RedTang_Wild_2	Red Tang	-1	fish	0
+1004665	Animal_AtlanticGreenTang_Wild_2	Dewleaf Green Tang	-1	fish	0
+1004666	Animal_purpleTang_Wild_2	Purple Tang	-1	fish	0
+1004284	Animal_Discus_Wild_2	Discus	-1	fish	0
+1004517	Animal_ClownFish_Wild_2	Clownfish	-1	fish	0
+1004618	Animal_Longfin_Batfish_Wild_2	Longfin Batfish	-1	fish	0
+1004559	Animal_Insect_Vulcanoctopus	Pearl Octopus	-1	seafood	0
+1004468	Animal_Pigeon_Domestic_30087	Homing Pigeon	-1	animal	0
+1004495	Animal_Pigeon_Domestic_30088	Homing Pigeon	-1	animal	0
+1004496	Animal_Pigeon_Domestic_30089	Homing Pigeon	-1	animal	0
+1004497	Animal_Pigeon_Domestic_30090	Homing Pigeon	-1	animal	0
+1004844	Animal_Pigeon_Domestic_30091	Homing Pigeon	-1	animal	0
+1004089	Animal_Spotted_Seal_Wild_1	Spotted Seal	-1	animal	1000058
+1004442	Animal_FootballFish_Wild_1	Oceanic Anglerfish	-1	fish	0
+1004465	Animal_Big_Rock_Bream_Wild_1	Oceanic Barred Knifejaw	-1	fish	0
+1004560	Animal_Blobfish_Wild_1	Blobfish	-1	fish	0
+1004467	Animal_Red_SailFish_Wild_1	Red Sailfish	-1	fish	0
+1004561	Animal_Hydrothermal_Turtle_Wild_1	Hydrothermal Turtle	-1	animal	1000058
+1004277	Animal_MantaRay_Wild_1	Manta Ray	-1	fish	0
+1004626	Animal_Giant_MantaRay_Wild_1	Giant Manta Ray	-1	fish	0
+1004562	Animal_Angelshark_Wild_1	Angel Shark	-1	fish	0
+1004574	Animal_EagleRay_Wild_1	Eagle Ray	-1	fish	0
+1004563	Animal_LightningRay_Wild_1	Electric Ray	-1	fish	0
+1004278	Animal_Shark_Wild_1	Shark	-1	fish	0
+1004575	Animal_hammerhead_shark_Wild_1	Hammerhead Shark	-1	fish	0
+1004576	Animal_Giant_Shark_Wild_1	Megalodon	-1	fish	0
+1004609	Animal_Sperm_Whale_Wild_1	Sperm Whale	-1	animal	0
+1004610	Animal_Blue_Whale_Wild_1	Blue Whale	-1	animal	0
+1004279	Animal_OceanSunfish_Wild_1	Sunfish	-1	fish	0
+1004280	Animal_Orca_Wild_1	Orca	-1	fish	0
+1004535	Animal_Dolphin_Wild_1	Dolphin	-1	fish	0
+1004406	Animal_YellowTang_Wild_1	Yellow Tang	-1	fish	0
+1004407	Animal_AtlanticBlueTang_Wild_1	Dawnwave Blue Tang	-1	fish	0
+1004408	Animal_BlueTang_Wild_1	Blue Tang	-1	fish	0
+1004667	Animal_RedTang_Wild_1	Red Tang	-1	fish	0
+1004668	Animal_AtlanticGreenTang_Wild_1	Dewleaf Green Tang	-1	fish	0
+1004669	Animal_purpleTang_Wild_1	Purple Tang	-1	fish	0
+1004409	Animal_Discus_Wild_1	Discus	-1	fish	0
+1004514	Animal_ClownFish_Wild_1	Clownfish	-1	fish	0
+1004619	Animal_Longfin_Batfish_Wild_1	Longfin Batfish	-1	fish	0
+1004577	Animal_lionfish_Wild_1	Lionfish	-1	fish	0
+1004578	Animal_Parrotfish_Wild_1	Parrotfish	-1	fish	0
+1004579	Animal_Honeycomb_Grouper_Wild_1	Honeycomb Grouper	-1	fish	0
+1004446	Animal_JellyFish_Wild_1	Jellyfish	-1	fish	0
+1004447	Animal_JellyFish_Wild_2	Jellyfish	-1	fish	0
+1004448	Animal_JellyFish_Wild_3	Jellyfish	-1	fish	0
+1004570	Animal_Giant_JellyFish_Wild_1	Giant Jellyfish	-1	fish	0
+1004571	Animal_Giant_JellyFish_Wild_2	Giant Jellyfish	-1	fish	0
+1004572	Animal_Giant_JellyFish_Wild_3	Giant Jellyfish	-1	fish	0
+1004449	Animal_Lightning_JellyFish_1	Electric Jellyfish	-1	fish	0
+1004564	Animal_Giant_Lightning_JellyFish_1	Giant Electric Jellyfish	-1	fish	0
+1004450	Animal_Poision_JellyFish_1	Venomous Jellyfish	-1	fish	0
+1004565	Animal_Giant_Poision_JellyFish_1	Giant Venomous Jellyfish	-1	fish	0
+1004530	Animal_pink_MantaRay_Wild_1	Pink Manta Ray	-1	fish	0
+1004531	Animal_gold_Shark_Wild_1	Golden Shark	-1	fish	0
+1004466	Animal_VeryBig_gold_Marlin_Wild_1	Golden Striped Marlin	-1	fish	0
+1004536	Animal_Pink_Dolphin_Wild_1	Pink Dolphin	-1	fish	0
+1004529	Animal_SwarmpOcotopus_1	Kraken	-1	animal	0
+1004526	Animal_Unique_Baby_Bison_Domestic_1	Bison Calf	-1	animal	1000098
+1004451	Animal_Big_Coral_LandSpider_1	Coralback Crab	-1	animal	0
+1004452	Animal_Big_Coral_LandSpider_2	Coralback Crab	-1	animal	0
+1004453	Animal_Big_Coral_LandSpider_3	Coralback Crab	-1	animal	0
+1004307	Animal_Dalmatian_Domestic_01	Dalmatian	-1	animal	1000098
+1004308	Animal_Baby_Dalmatian_Domestic_01	Baby Dalmatian	-1	animal	1000098
+1004670	Animal_oddeye_Norwegianforest_Domestic	Long-Haired Cat	-1	animal	0

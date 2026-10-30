@@ -799,7 +799,7 @@ namespace ml::game
             uintptr_t def = 0;
             if (mem::ReadPtr(defs + 8ull * r, &def) && def)
             {
-                mem::Read16(def + 4, &row.id); mem::Read16(def + 6, &row.idx);
+                mem::Read16(def + kOff_Def_Key16, &row.id); row.idx = static_cast<uint16_t>(r);
                 if (!mem::ReadEngineString(def + kOff_Def_StringKey, row.name, sizeof row.name)) row.name[0] = 0;
             }
             else strcpy_s(row.name, "(unloaded)");
@@ -809,11 +809,12 @@ namespace ml::game
     }
     // The lookup at 0x8752A40 on 2760: bucket = key % [table+0x68], each
     // bucket 0x100 bytes holding a count then {key u32, index u32} pairs from
-    // +8; the index goes into the pointer array at [table+0x80], and the row
-    // must carry the key at +4. Result is the u16 at +6.
-    uint16_t InvTypeLookup(uint16_t key)
+    // +8; the index goes into the node array at [table+0x80], and the node
+    // must carry the key at +4. Result is the u16 at +6. The nodes are not the
+    // defs. On 1.0.0.3392 every 16-bit-keyed lookup the ItemInfo loader calls
+    // (categoryinfo's at RVA +0x172EE20) still reads exactly this shape.
+    static uint16_t InvTypeHashLookup(uintptr_t table, uint16_t key)
     {
-        const uintptr_t table = InvTypeTable();
         uint32_t flag = 0, bc = 0; uintptr_t buckets = 0, rows = 0;
         if (!table || !mem::Read32(table + 0x6C, &flag) || !flag || !mem::Read32(table + 0x68, &bc) || !bc) return 0xFFFF;
         if (!mem::ReadPtr(table + 0x78, &buckets) || !mem::ReadPtr(table + 0x80, &rows)) return 0xFFFF;
@@ -831,27 +832,64 @@ namespace ml::game
         }
         return 0xFFFF;
     }
+    // Behind it, the defs themselves: since 1.0.0.3392 an InventoryInfo def
+    // holds its _key as the u16 at +8, and the type a bucket names is the
+    // def's row (Money is key 1 at row 0, the bag key 2 at row 1). Used only
+    // when the map gives no answer, and the log says when that happens.
+    static uint16_t InvTypeDefLookup(uintptr_t table, uint16_t key)
+    {
+        uint32_t count = 0; uintptr_t defs = 0;
+        if (!table || !mem::Read32(table + kOff_Table_Count, &count) || !count || count > 0x4000) return 0xFFFF;
+        if (!mem::ReadPtr(table + kOff_Table_DefsA, &defs)) return 0xFFFF;
+        for (uint32_t r = 0; r < count; ++r)
+        {
+            uintptr_t def = 0; uint16_t k = 0;
+            if (mem::ReadPtr(defs + 8ull * r, &def) && def && mem::Read16(def + kOff_Def_Key16, &k) && k == key)
+                return static_cast<uint16_t>(r);
+        }
+        return 0xFFFF;
+    }
+    uint16_t InvTypeLookup(uint16_t key)
+    {
+        const uintptr_t table = InvTypeTable();
+        const uint16_t v = InvTypeHashLookup(table, key);
+        if (v != 0xFFFF) return v;
+        const uint16_t d = InvTypeDefLookup(table, key);
+        static int s_said = 0;
+        if (d != 0xFFFF && s_said < 4)
+        {
+            ++s_said;
+            LOG("[table] inventory key %u: the game's lookup gave nothing, its def says type %u", key, d);
+        }
+        return d;
+    }
     int InvTypeKeysFor(uint16_t value, uint16_t* out, int max)
     {
         const uintptr_t table = InvTypeTable();
         uint32_t flag = 0, bc = 0; uintptr_t buckets = 0, rows = 0; int n = 0;
-        if (!table || !mem::Read32(table + 0x6C, &flag) || !flag || !mem::Read32(table + 0x68, &bc) || !bc || bc > 0x10000) return 0;
-        if (!mem::ReadPtr(table + 0x78, &buckets) || !mem::ReadPtr(table + 0x80, &rows)) return 0;
-        for (uint32_t bi = 0; bi < bc && n < max; ++bi)
-        {
-            const uintptr_t b = buckets + static_cast<uintptr_t>(bi) * 0x100;
-            uint32_t cnt = 0;
-            if (!mem::Read32(b, &cnt)) continue;
-            for (uint32_t i = 0; i < cnt && i < 31 && n < max; ++i)
+        if (table && mem::Read32(table + 0x6C, &flag) && flag && mem::Read32(table + 0x68, &bc) && bc && bc <= 0x10000 &&
+            mem::ReadPtr(table + 0x78, &buckets) && mem::ReadPtr(table + 0x80, &rows))
+            for (uint32_t bi = 0; bi < bc && n < max; ++bi)
             {
-                uint32_t k = 0, idx = 0;
-                if (!mem::Read32(b + 8 + 8ull * i, &k) || !mem::Read32(b + 0xC + 8ull * i, &idx)) continue;
-                uintptr_t row = 0; uint16_t rk = 0, rv = 0;
-                if (!mem::ReadPtr(rows + 8ull * idx, &row) || !mem::Read16(row + 4, &rk) || !mem::Read16(row + 6, &rv)) continue;
-                if (rk == static_cast<uint16_t>(k) && rv == value) out[n++] = rk;
+                const uintptr_t b = buckets + static_cast<uintptr_t>(bi) * 0x100;
+                uint32_t cnt = 0;
+                if (!mem::Read32(b, &cnt)) continue;
+                for (uint32_t i = 0; i < cnt && i < 31 && n < max; ++i)
+                {
+                    uint32_t k = 0, idx = 0;
+                    if (!mem::Read32(b + 8 + 8ull * i, &k) || !mem::Read32(b + 0xC + 8ull * i, &idx)) continue;
+                    uintptr_t row = 0; uint16_t rk = 0, rv = 0;
+                    if (!mem::ReadPtr(rows + 8ull * idx, &row) || !mem::Read16(row + 4, &rk) || !mem::Read16(row + 6, &rv)) continue;
+                    if (rk == static_cast<uint16_t>(k) && rv == value) out[n++] = rk;
+                }
             }
-        }
-        return n;
+        if (n) return n;
+        uint32_t count = 0; uintptr_t defs = 0, def = 0; uint16_t k = 0;
+        if (!max || !table || !mem::Read32(table + kOff_Table_Count, &count) || value >= count) return 0;
+        if (!mem::ReadPtr(table + kOff_Table_DefsA, &defs) || !mem::ReadPtr(defs + 8ull * value, &def) || !def) return 0;
+        if (!mem::Read16(def + kOff_Def_Key16, &k)) return 0;
+        out[0] = k;
+        return 1;
     }
 
     bool InventoryHas(uint32_t iid)
@@ -973,10 +1011,11 @@ namespace ml::game
         if (!mem::ReadPtr(defs + 8ull * row, &def)) return 0;
         return def;
     }
-    static bool KeyAt(uintptr_t global, uint32_t row, unsigned defsOff, char* out, size_t n)
+    static bool KeyAt(uintptr_t global, uint32_t row, unsigned defsOff, char* out, size_t n,
+                      unsigned keyOff = kOff_Def_StringKey)
     {
         const uintptr_t def = DefFor(global, row, defsOff);
-        return def && mem::ReadEngineString(def + kOff_Def_StringKey, out, n) && strlen(out) >= 2;
+        return def && mem::ReadEngineString(def + keyOff, out, n) && strlen(out) >= 2;
     }
 
     uint32_t ItemTableCount()
@@ -993,7 +1032,7 @@ namespace ml::game
         if (!g_f.itemTableGlobal || !ItemDb::Loaded()) { g_tableState = -1; return g_tableState; }
         const uint32_t count = ItemTableCount();
         if (!count) return 0; // table not built yet; try again later
-        const int dbN = ItemDb::Count();
+        const int dbN = ItemDb::RowCount();
         const int sample[] = { 0, 1, 2, 10, 100, 500, 1000, 2500, 4000, dbN - 1 };
         const unsigned offs[] = { kOff_Table_DefsA, kOff_Table_DefsB };
         int bestOff = -1, bestMatch = -1, bestReadable = -1;
@@ -1027,7 +1066,7 @@ namespace ml::game
     bool GimmickKeyForType(uint16_t typeId, char* out, size_t n)
     {
         if (!typeId || !g_f.gimmickTableGlobal || g_tableState <= 0) return false;
-        return KeyAt(g_f.gimmickTableGlobal, typeId, g_defsOff, out, n);
+        return KeyAt(g_f.gimmickTableGlobal, typeId, g_defsOff, out, n, kOff_GimmickDef_StringKey);
     }
     bool NodeName(uintptr_t gimmick, char* out, size_t n)
     {
@@ -1128,5 +1167,19 @@ namespace ml::game
         for (unsigned off : { kOff_Table_DefsA, kOff_Table_DefsB })
             if (KeyAt(global, row, off, out, n)) return true;
         return false;
+    }
+
+    int RowByKey(const char* table, const char* key)
+    {
+        const TableRef* t = nullptr;
+        const int n = EnumTables(&t);
+        for (int i = 0; i < n; ++i)
+        {
+            if (_stricmp(t[i].name, table) != 0) continue;
+            char buf[96];
+            for (uint32_t r = 0; r < t[i].count && r < 0x10000; ++r)
+                if (KeyInTable(t[i].global, r, buf, sizeof buf) && strcmp(buf, key) == 0) return static_cast<int>(r);
+        }
+        return -1;
     }
 }

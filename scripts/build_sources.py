@@ -1,4 +1,4 @@
-"""Cross-reference drop sets to the characters and gimmicks that use them (Crimson Desert 2.02.00).
+"""Cross-reference drop sets to the characters and gimmicks that use them (exe 1.0.0.3392).
 
 The CharacterInfo and GimmickInfo record layouts are not fully known, so the drop-related
 blocks are located by validated signature scans inside each record (every referenced key
@@ -7,8 +7,9 @@ must exist in its table, counts must be small, percent fields must be <= 200%):
   character reward list   u32 n, then n x {drop_set u32, reward_tag_type_flag u32, repeat_count u32}
   character equipment     u32 x, u32 n, then n x {item u32, drop_set u32 (always 0), 7 x u64 percents}
                           percents: dead_drop, throw_drop, min/max endurance, enhanced, min/max enhanced endurance
-  character catch/steal   inline drop set u32 followed by 01 00 00 00 00 (what catching or searching the actor gives)
-  gimmick drop block      u32 roll_count, f32, u32 n, n x u64 drop_set, cstr socket, u32 buyable item, u32 m, m entries
+  character catch/steal   inline drop set u32 followed by 01 00 00 00 00 (2976 and earlier; not found on 3392)
+  gimmick drop block      u8 present, u32 n, n x {u32 drop_set, u32}, u8 present, u32 m, m x {flagged entry, u32},
+                          flagged buyable entry (see gimmick_drop_block)
 
 Writes to ../data: character_drops.csv, gimmick_drops.csv, dropset_sources.csv, item_sources.csv,
 sources.json (per-set users for the review page), sources_summary.md.
@@ -27,9 +28,11 @@ DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
 
 
 def keyed(name):
+    # Offset 0 is the 1.0.0.3392 layout, string key first; the rest are the
+    # widths of a key that came before it on earlier builds.
     rows = load_table(name)
     best, best_n = None, -1
-    for width in (4, 2, 8, 1):
+    for width in (0, 4, 2, 8, 1):
         m, n = {}, 0
         for k, rec in rows:
             try:
@@ -100,7 +103,16 @@ def equip_list(rec, u, itemkeys, dskeys):
     return []
 
 
+CATCH_NOT_DERIVED = ("not derived on this build; catch_sets finds no anchor in the 1.0.0.3392 CharacterInfo "
+                     "layout, so the catch_sets column of character_drops.csv is empty")
+
+
 def catch_sets(rec, u, inlinekeys):
+    # Written for 2976 and earlier. On 1.0.0.3392 CatchSpawnData is {u32 preset
+    # hash, u32 gimmick, u32 drop set} (RVA +0x16F2AB0) with nothing after it to
+    # anchor on, and a bare match on an inline set key hits 7099 of 7315
+    # characters, so this finds nothing there. When it finds nothing in the
+    # whole table, main() reports the column as not derived, not as zero.
     out = []
     for p in range(0, len(rec) - 13):
         if u[p] in inlinekeys and rec[p + 4:p + 9] == b"\x01\x00\x00\x00\x00":
@@ -120,48 +132,70 @@ def cstr_len(rec, p, maxlen=64):
     return l
 
 
+def flagged_entry(r):
+    """One drop entry behind its presence byte, as RVA +0x24A69A0 reads it on 3392.
+    None when the byte is 0. The byte is what parse_entry calls the tag."""
+    if r.d[r.p] == 0:
+        r.p += 1
+        return None
+    e = parse_entry(r)
+    if e["tag"] != 1 or e["percent"] > 10 ** 8 or e["min"] > e["max"]:
+        raise ValueError
+    return e
+
+
 def gimmick_drop_block(rec, dskeys, itemkeys):
+    """The drop lists of a 1.0.0.3392 GimmickInfo record (loader RVA +0x1705740).
+
+    Three fields in a row: _dropSetInfoList (u8 present, u32 n, n x {u32 drop set,
+    u32}), _dropInfoDataList (u8 present, u32 m, m x {flagged entry, u32}) and
+    _buyableDropItem (one flagged entry). _dropRollCount and _dropOffsetSocketName
+    sit far from them in this build, with nothing to anchor on, so the block no
+    longer carries them; roll_count and socket come back empty."""
     L = len(rec); best = None
-    for p in range(0, L - 24):
-        rollc, = struct.unpack_from("<I", rec, p)
-        if rollc > 50:
+    for p in range(0, L - 3):
+        if rec[p] > 1:
             continue
-        n, = struct.unpack_from("<I", rec, p + 8)
-        if n > 32 or p + 12 + 8 * n > L:
-            continue
-        keys = []
-        for i in range(n):
-            v, = struct.unpack_from("<Q", rec, p + 12 + 8 * i)
-            if v not in dskeys:
-                keys = None; break
-            keys.append(v)
-        if keys is None:
-            continue
-        q = p + 12 + 8 * n
-        l = cstr_len(rec, q)
-        if l is None:
-            continue
-        socket = rec[q + 4:q + 4 + l].decode("ascii")
-        q += 4 + l
-        if q + 8 > L:
-            continue
-        buy, m = struct.unpack_from("<II", rec, q)
-        if (buy and buy not in itemkeys) or m > 64:
-            continue
-        q += 8
-        ents = []
         try:
-            r = Reader(rec); r.p = q
-            for i in range(m):
-                e = parse_entry(r)
-                if e["tag"] != 1 or e["percent"] > 10 ** 8 or e["min"] > e["max"]:
-                    raise ValueError
-                ents.append(e)
-        except Exception:
+            r = Reader(rec); r.p = p
+            keys = []
+            if r.u8():
+                n = r.u32()
+                if n == 0 or n > 32 or r.p + 8 * n > L:
+                    continue
+                for _ in range(n):
+                    k, extra = r.u32(), r.u32()
+                    if k not in dskeys or extra > 0xFFFF:
+                        raise ValueError
+                    keys.append(k)
+            ents = []
+            if r.u8():
+                m = r.u32()
+                if m == 0 or m > 64:
+                    continue
+                for _ in range(m):
+                    e = flagged_entry(r)
+                    if e is None:
+                        raise ValueError
+                    r.u32()
+                    ents.append(e)
+            buy_e = flagged_entry(r)
+        except (ValueError, IndexError, struct.error):
             continue
-        if n == 0 and m == 0:
+        # Every one of the 314 blocks found on 2976 named at least one drop set.
+        # With the set list's presence byte at 0 the anchor is a lone zero:
+        # 14,395 records then match with no entries at all, 616 match a list of
+        # 0% item entries that never pays, and 55 gate rows match entries whose
+        # item key is 0. So a block with no set is taken only when it pays a
+        # real item at a real chance, which is gimmick_ocean_chest_0001 and
+        # dff_chest_06_index0002, each a broken sea coin at 100%.
+        if not keys and not any(e["result_type"] == 0 and e["percent"] > 0 and e.get("tail_key") in itemkeys
+                                for e in ents):
             continue
-        cand = dict(roll_count=rollc, sets=keys, socket=socket, buyable=buy, entries=ents)
+        buy = buy_e.get("tail_key", 0) if buy_e and buy_e["result_type"] == 0 else 0
+        if buy and buy not in itemkeys:
+            continue
+        cand = dict(roll_count="", sets=keys, socket="", buyable=buy, entries=ents)
         if best is None or len(keys) + len(ents) > len(best["sets"]) + len(best["entries"]):
             best = cand
     return best
@@ -302,13 +336,14 @@ def main():
     # ---- summary
     flags = collections.Counter((flag, sets[k]["string_key"].split("_")[1] if "_" in sets[k]["string_key"] else sets[k]["string_key"][:10]) for k, us in set_users_c.items() for c, flag, rep, src in us if src == "reward")
     any_src = sum(1 for r in item_rows if r["n_characters_via_sets"] or r["n_gimmicks_via_sets"] or r["n_equipped_by"])
-    lines = ["# Drop sources, build 2.02.00", "",
-             "- characters: %d; with reward drop sets: %d; with equipment: %d; with a catch/steal set: %d" % (stat["chars"], stat["with_rewards"], stat["with_equipment"], stat["with_catch"]),
+    catch_txt = str(stat["with_catch"]) if stat["with_catch"] else CATCH_NOT_DERIVED
+    lines = ["# Drop sources, exe 1.0.0.3392", "",
+             "- characters: %d; with reward drop sets: %d; with equipment: %d; with a catch/steal set: %s" % (stat["chars"], stat["with_rewards"], stat["with_equipment"], catch_txt),
              "- gimmicks: %d; with a drop block: %d" % (stat["gimmicks"], stat["gimmicks_with_drops"]),
              "- drop sets used by at least one character or gimmick: %d of %d" % (len(src_rows), len(sets)),
-             "- items with at least one known source (set via character or gimmick, worn equipment, or catch): %d of %d" % (any_src, len(item_rows)), "",
+             "- items with at least one known source (set via character or gimmick, worn equipment%s): %d of %d" % (", or catch" if stat["with_catch"] else "", any_src, len(item_rows)), "",
              "## How each source was found", "",
-             "Character records hold a reward list (count, then triples of drop set, reward flag, repeat count), an equipment list (count, then 64-byte entries of item, unused set key and seven percent fields) and, for catchable animals and searchable people, an inline drop set followed by 01 00 00 00 00. Gimmick records hold roll count, a list of 64-bit drop set keys, a socket name, a buyable item and inline entries. Each block was located by requiring every referenced key to exist in its table.", "",
+             "Character records hold a reward list (count, then triples of drop set, reward flag, repeat count) and an equipment list (count, then 64-byte entries of item, unused set key and seven percent fields). Gimmick records hold a flagged list of drop set keys, a flagged list of inline entries and a flagged buyable entry; the roll count and drop socket sit elsewhere in the record on this build and are not read. Each block was located by requiring every referenced key to exist in its table.", "",
              "## Equipment drops", "",
              "NPC gear never points at a drop set: the worn item itself drops. The first percent field is the death-drop chance (3% to 5% for most gear, 0 for players), the second the throw-drop chance, then min/max endurance of the dropped piece (15% to 20%, which is why it arrives damaged), the enhanced chance (5%) and min/max enhanced endurance.", "",
              "## Reward flag values by set family (top 20)", ""]
@@ -317,6 +352,8 @@ def main():
     with open(os.path.join(DATA, "sources_summary.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
     print(dict(stat)); print("sets with users", len(src_rows), "items with source", any_src)
+    if not stat["with_catch"]:
+        print("catch/steal sets:", CATCH_NOT_DERIVED)
     print("top used sets:", [(r["set_name"], r["n_characters"], r["n_gimmicks"]) for r in src_rows[:8]])
 
 

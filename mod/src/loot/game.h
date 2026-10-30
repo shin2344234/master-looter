@@ -110,12 +110,12 @@ namespace ml::game
     int  InventoryBuckets(uintptr_t player, BucketInfo* out, int max);
     int  HolderBuckets(uintptr_t holder, BucketInfo* out, int max);
     // The inventory-type table, found among the static tables by its first
-    // two row keys, Money and Character: rows by index, and the delete
-    // handler's own hash lookup replicated with safe reads (0xFFFF on a miss).
+    // two row keys, Money and Character: rows by index, and the key a payload
+    // carries turned into the row the buckets name (0xFFFF on a miss).
     struct InvTypeRow { uint16_t id, idx; char name[40]; };
     int      InvTypeRows(InvTypeRow* out, int max, uint32_t* countOut);
     uint16_t InvTypeLookup(uint16_t key);
-    int      InvTypeKeysFor(uint16_t value, uint16_t* out, int max);   // every key whose row+6 is value
+    int      InvTypeKeysFor(uint16_t value, uint16_t* out, int max);   // the key of the type at row `value`
     int  InventoryCount();
     // Slots across every bucket the reader can see, 0 when it cannot tell.
     int  InventoryCapacity();
@@ -155,6 +155,9 @@ namespace ml::game
     int  EnumTables(const TableRef** out);
     // Reads the string key of one row, trying both def-array offsets.
     bool KeyInTable(uintptr_t global, uint32_t row, char* out, size_t n);
+    // The row of the named table whose string key is `key`, or -1 when the
+    // table is not among EnumTables or no row carries that key.
+    int  RowByKey(const char* table, const char* key);
     // The characterinfo table, resolved once. Several static tables carry that
     // name and only one is the real one, so this takes the largest: the real
     // one has 7250 rows and the impostor that cost a probe round has four.

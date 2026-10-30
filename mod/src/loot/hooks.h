@@ -72,6 +72,10 @@ namespace ml::loot::hooks
     // False means the condition's vtable slot was not found on this build
     // and the switch does nothing; the log says which step gave up.
     bool PetLootingHooked();
+    // Looks Dead_Loot_Pet up in interactioninfo by name and keeps its row for
+    // the body half of the pet switch. Call from the scan thread once the
+    // tables are loaded; it does the walk once and is free after that.
+    void ResolveInteractionRows();
 
     // Leaving refused body loot on the ground. DROP.md.
     //

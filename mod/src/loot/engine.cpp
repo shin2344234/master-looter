@@ -2557,7 +2557,8 @@ namespace ml::loot
 
     // Debug only. After the mod breaks a vein, keep reading it for a few
     // seconds so the slot probe can say whether the break moved its state.
-    // A hand-broken vein goes from +0x350 = 3 to 5 and gains its point data at
+    // A hand-broken vein goes from +0x358 = 3 to 5 (+0x350 before 1.0.0.3392)
+    // and gains its point data at
     // +0x140; the question that matters is whether the mod's break does the
     // same, and the retirement shortcut in the fill loop hides the answer by
     // skipping the node from the next scan on. This is also the success test
@@ -5885,6 +5886,7 @@ namespace ml::loot
             }
         }
         if (game::ItemTableState() == 0) game::ProbeItemTable();
+        if (game::ItemTableState() > 0) hooks::ResolveInteractionRows();
 
         // Collect world objects in scan range.
         std::vector<Cand> list;

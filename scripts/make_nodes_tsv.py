@@ -670,7 +670,11 @@ def main():
         ss = strings(rec)
         if not ss:
             continue
-        name = ss[0]
+        # The string key opens the record on 1.0.0.3392 and the u32 key follows
+        # it, so the first printable run can carry the key's bytes on its end
+        # ("Cd box mushroom 04lu"). Read it by its length instead.
+        n = struct.unpack_from("<I", rec, 0)[0]
+        name = rec[4:4 + n].decode("ascii", "replace") if 0 < n <= len(rec) - 4 else ss[0]
         # Cut at the extension rather than requiring it at the end: the byte
         # after the path is often printable, so strings() hands back
         # "..._scenecollector.prefabxC" and endswith() dropped 47% of the table.

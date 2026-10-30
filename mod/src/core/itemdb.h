@@ -26,6 +26,10 @@ namespace ml
         bool Loaded();
         const char* Source(); // "built into the plugin" or "file next to the plugin"
         int  Count();
+        // One past the highest runtime row in the table. Smaller than Count()
+        // since 1.0.0.3392: the DLC's own items carry no row and are found by
+        // string key only.
+        int  RowCount();
         const Item* Find(uint32_t key);
         const Item* ByRow(int row);                       // runtime type id -> item
         const Item* ByStringKey(const char* stringKey);   // engine key ("Money_Copper") -> item

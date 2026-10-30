@@ -24,11 +24,12 @@ TYPE_LABEL = {0: "item", 1: "character (mount)", 3: "character (spawn)", 4: "kno
 
 
 def keyed(name, w=None):
-    """{key: string_key} for a table; the string sits right after the key, whose width is detected
+    """{key: string_key} for a table. Since exe 1.0.0.3392 a record opens with its string key, so
+    offset 0 is tried first; before that the string sat right after the key, whose width is detected
     as the one that decodes the most plausible names (a handful of records may carry odd strings)."""
     rows = load_table(name)
-    widths = [w] if w else []
-    widths += [x for x in (4, 2, 8, 1) if x not in widths]
+    widths = [w] if w is not None else []
+    widths += [x for x in (0, 4, 2, 8, 1) if x not in widths]
     best, best_n = None, -1
     for width in widths:
         m, n = {}, 0

@@ -56,7 +56,9 @@ def guess(string_key, name):
 def main():
     sys.path.insert(0, os.path.join(ROOT, "scripts"))
     import cdtables
-    order = {key: i for i, (key, _) in enumerate(cdtables.load_table("iteminfo"))}
+    # Runtime rows are header positions in the base table; a DLC-only item has
+    # none the mod knows, so a creature that becomes one gets -1 here.
+    order = {key: i for i, (key, _) in enumerate(cdtables.load_table("iteminfo", dlc=False))}
     items = list(csv.DictReader(open(os.path.join(ROOT, "data", "items_tagged.csv"), encoding="utf-8-sig")))
     by_name = {}
     for it in items:
@@ -71,10 +73,12 @@ def main():
                 return by_name[cand]
         return None
 
+    # A record opens with its string key since exe 1.0.0.3392; before that the
+    # u32 key came first and the name length sat at +4.
     inter = {}
     for key, rec in cdtables.load_table("interactioninfo"):
-        n = struct.unpack_from("<I", rec, 4)[0]
-        inter[rec[8:8 + n].decode("ascii", "replace")] = key
+        n = struct.unpack_from("<I", rec, 0)[0]
+        inter[rec[4:4 + n].decode("ascii", "replace")] = key
     skins = [inter["SmallAnimal_Skin"], inter["Animal_Skin"]]
     records = dict(cdtables.load_table("characterinfo"))
 

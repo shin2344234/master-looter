@@ -152,8 +152,18 @@ gimmick_abyssgrass_legendarywolf	plant		Abyssgrass legendarywolf	name	0		0	0	0
 gimmick_abyssone_catch_box_01	container		Abyssone catch box	tag	0		0	0	0
 gimmick_aka_quarry_bigstone_01	ore		Aka quarry bigstone	tag	0		0	0	0
 gimmick_aka_quarry_bigstone_02	ore		Aka quarry bigstone	tag	0		0	0	0
+gimmick_ancient_movable_stone_0001	stone	Stone_Quarry	Stone	name	0	Money_Camp_Food	0	0	0
+gimmick_ancient_movable_stone_0002	stone	Stone_Quarry	Stone	name	0	Money_Camp_Food	0	0	0
+gimmick_ancient_movable_stone_0003	stone	Stone_Quarry	Stone	name	0	Money_Camp_Food	0	0	0
+gimmick_ancient_movable_stone_0004	stone	Stone_Quarry	Stone	name	0	Money_Camp_Food	0	0	0
+gimmick_ancient_movable_stone_0005	stone	Stone_Quarry	Stone	name	0	Money_Camp_Food	0	0	0
 gimmick_ancient_stone_soldier_01_b_gmk_05	stone		Ancient stone soldier 01 b gmk	name	0		0	0	0
+gimmick_ancient_stone_soldier_02_b_gmk_05	stone		Ancient stone soldier 02 b gmk	name	0		0	0	0
 gimmick_ancient_stone_warrior_01_b_gmk_05	stone		Ancient stone warrior 01 b gmk	name	0		0	0	0
+gimmick_ancient_stone_warrior_02_b_gmk_05	stone		Ancient stone warrior 02 b gmk	name	0		0	0	0
+gimmick_antumbra_milestone_0001	stone		Antumbra milestone	name	0		0	0	0
+gimmick_antumbra_milestone_0002	stone		Antumbra milestone	name	0		0	0	0
+gimmick_antumbra_milestone_inspect_0001	stone		Antumbra milestone inspect	name	0		0	0	0
 gimmick_attach_mine_bismuth_place_01	ore		Mine bismuth attach	tag	1		0	0	0
 gimmick_attach_mine_diamond_place_01	ore		Mine diamond attach	tag	1	Diamond	0	0	0
 gimmick_attach_mine_ironstone_place_01	ore		Mine iron attach	tag	1	IronStone	0	0	0
@@ -268,6 +278,7 @@ gimmick_box_donation_reward_wood_03	container		Box donation reward wood	tag	1	Pr
 gimmick_box_electric_01	container		Box electric	tag	1		0	0	0
 gimmick_box_fire_01	container		Box fire	tag	1		0	0	0
 gimmick_box_leather_01_i1	container		Leather 01 i1	tag	1		0	0	0
+gimmick_box_management_0001	container		Box management	tag	1		0	0	0
 gimmick_box_oil_barrel_01	container		Box oil barrel	tag	1		0	0	0
 gimmick_box_oil_barrel_02	container		Box oil barrel	tag	0		0	0	0
 gimmick_box_open_01	container		Box open	tag	1		0	0	0
@@ -580,7 +591,7 @@ gimmick_collection_prop_ceramic_0018	container	Collection_Prop_Ceramic_0018	Orna
 gimmick_collection_prop_ceramic_0019	container	Collection_Prop_Ceramic_0019	Water Pot	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0020	container	Collection_Prop_Ceramic_0020	Grain Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0021	container		Collection prop ceramic	tag	1		0	1	0
-gimmick_collection_prop_ceramic_0021_cover	pickup		Object	tag	0		0	0	0
+gimmick_collection_prop_ceramic_0021_cover	pickup		Object	tag	0	Pot_Lid_OneHandShield	0	0	0
 gimmick_collection_prop_ceramic_0023	container		Collection prop ceramic	tag	1		0	1	0
 gimmick_collection_prop_ceramic_0024	container	Collection_Prop_Ceramic_0024	Gilded Slim Bottle	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0025	container	Collection_Prop_Ceramic_0025	Water Jug	tag	0		0	0	0
@@ -729,8 +740,8 @@ gimmick_collection_prop_plate_0015	pickup	Collection_Prop_Plate_0015	Fruit Bowl	
 gimmick_collection_prop_plate_0016	pickup	Collection_Prop_Plate_0016	Deep Iron Plate	tag	0		0	0	0
 gimmick_collection_prop_plate_0017	pickup	Collection_Prop_Plate_0017	Wide Iron Plate	tag	0		0	0	0
 gimmick_collection_prop_plate_0018	pickup	Collection_Prop_Plate_0018	Round Iron Plate	tag	0		0	0	0
-gimmick_collection_prop_pot_rack_03_cover	pickup		Object	tag	0		0	0	0
-gimmick_collection_prop_pot_rack_03_cover_index01	pickup		Object	tag	0		0	0	0
+gimmick_collection_prop_pot_rack_03_cover	pickup		Object	tag	0	Pot_Lid_OneHandShield	0	0	0
+gimmick_collection_prop_pot_rack_03_cover_index01	pickup		Object	tag	0	Pot_Lid_OneHandShield	0	0	0
 gimmick_collection_prop_statue_0001	pickup	Collection_Prop_Statue_0001	Woman Holding a Water Bottle	tag	0		0	0	0
 gimmick_collection_prop_statue_0003	pickup	Collection_Prop_Statue_0003	Priest in a Mask	tag	0		0	0	0
 gimmick_collection_prop_tool_0001	pickup	Collection_Prop_Tool_0001	Cast Iron Pan	tag	0		0	0	0
@@ -748,11 +759,16 @@ gimmick_collection_prop_viewingstone_0003	container	Collection_Prop_viewingstone
 gimmick_common_bomb_01	pickup		Battle common bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_common_bomb_02	pickup		Battle small bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_confusion_bomb_01	pickup		Battle confusion bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
+gimmick_craft_blastfurnace_plate_01	container		Craft blastfurnace plate	tag	0		0	0	0
+gimmick_craft_blastfurnace_plate_02	container		Craft blastfurnace plate	tag	0		0	0	0
 gimmick_crow_bomb_01	pickup		Battle crow bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_cup_oath_0001	pickup		Cup oath	tag	0		0	0	0
+gimmick_desert_shinystone_01	stone	Desert_ShinyStone_01	Glowing Seed	name	0		0	0	0
+gimmick_desert_shinystone_savetrigger_01	stone		Desert shinystone savetrigger	name	0		0	0	0
 gimmick_detectchange_stonebridge_top_01	stone		Dc stonebridge top	name	0		0	0	0
 gimmick_detectchange_stonebridge_top_02	stone		Dc stonebridge top	name	0		0	0	0
 gimmick_detectchange_stonebridge_top_03	stone		Dc stonebridge top	name	0		0	0	0
+gimmick_dig_land_0003	ore		Dig land	tag	1		0	0	0
 gimmick_dpw_picture_01b	container	Collection_Prop_Picture_0066	Study - Emptiness	tag	0		0	0	0
 gimmick_drug_bottle_04	container		Drug bottle	tag	0		0	0	0
 gimmick_drug_bottle_05	container		Drug bottle	tag	0		0	0	0
@@ -768,6 +784,8 @@ gimmick_dungeon_stone_hook_bridge_5m	stone		Stone hook bridge 5m	name	0		0	0	0
 gimmick_egg_kuku_0001	container		Egg kuku	tag	0		0	0	0
 gimmick_egg_wyvern_0001	container		Egg wyvern	tag	0		0	0	0
 gimmick_electric_bomb_01	pickup		Battle electric bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
+gimmick_enhanced_gunpowdersack_0001	container		Enhanced gunpowdersack	tag	0	Enhanced_HandCannon_Gun_Powder	0	0	0
+gimmick_enhanced_ironstonebox_0001	container		Enhanced ironstonebox	tag	0	Enhanced_HandCannon_IronStone	0	0	0
 gimmick_equip_gimmick_pyogo_mushroom_backpack	plant		Plant	name	0	Pyogo_Mushroom	0	0	0
 gimmick_equip_gimmick_songyi_mushroom_backpack	plant		Plant	name	0	Songyi_Mushroom	0	0	0
 gimmick_equip_gimmick_ssari_mushroom_backpack	plant		Plant	name	0	Ssari_Mushroom	0	0	0
@@ -797,6 +815,7 @@ gimmick_falltree_03_fire	wood		Falltree 03 fire	name	0		0	0	0
 gimmick_falltree_04_titan	wood		Falltree 04 titan	name	0		0	0	0
 gimmick_falltree_05	wood		Falltree	name	0		0	0	0
 gimmick_fireplace_firewood_0001	wood		Fireplace firewood	name	0		0	0	0
+gimmick_fishingspot_trigger_rock_bream	stone		Fishingspottrigger rock bream	name	0		0	0	0
 gimmick_fit_height_pillar_01_part_standstone_guideaction	stone		Stone	name	0		0	0	0
 gimmick_floating_rock_02	stone		Floating rock	name	0		0	0	0
 gimmick_floating_rock_03	stone		Floating rock	name	0		0	0	0
@@ -866,6 +885,7 @@ gimmick_in_dpfo_clothesbasket_04	container		In dpfo clothesbasket	tag	1		0	0	0
 gimmick_in_dpfo_clothesbasket_05	container		In dpfo clothesbasket	tag	1		0	0	0
 gimmick_in_dpfo_clothesbasket_06	container		In dpfo clothesbasket	tag	1		0	0	0
 gimmick_in_dpfo_clothesbasket_07	container		In dpfo clothesbasket	tag	1		0	0	0
+gimmick_in_dpfo_shipdeco_0001	pickup		In dpfo shipdeco	tag	0		0	0	0
 gimmick_in_dpfo_wickerbasket_01	container		Dpfo wickerbasket	tag	1		0	0	0
 gimmick_in_dpfo_wickerbasket_02	container		In dpfo wickerbasket	tag	1		0	0	0
 gimmick_in_dpfo_wickerbasket_05	container		In dpfo wickerbasket	tag	1		0	0	0
@@ -1266,14 +1286,17 @@ gimmick_item_razorclam_0002	pickup		Item rare collect razorclam	folder	0	Item_Ra
 gimmick_item_razorclam_0003	pickup		Item rare collect razorclam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
 gimmick_item_razorclam_0004	pickup		Item rare collect razorclam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
 gimmick_item_reeddevil_doll	plant		Item reeddevil doll	name	0		0	1	0
+gimmick_item_seacoin_0001	pickup		Item seacoin	folder	0	Item_Sea_Coin	0	1	0
 gimmick_item_sealed_artifact	pickup		Item sealed artifact	folder	0		0	1	0
 gimmick_item_shay_cat_clue_01	pickup		Item shay cat clue	folder	0		0	1	0
 gimmick_item_shay_cat_clue_02	pickup		Item shay cat clue	folder	0		0	1	0
 gimmick_item_smoke_bomb_01	pickup		Item smoke bomb	tag	0		0	1	0
+gimmick_item_snakerelic_0001	container	snakerelic_0001	Serpent Relic	tag	0	snakerelic_0001	0	1	0
 gimmick_item_tool_book_0001	pickup		Item tool book	folder	0		0	1	0
 gimmick_item_tool_bookstand_0001	pickup		Item tool bookstand	folder	0		0	1	0
 gimmick_item_tool_helm_0001	pickup		Item tool helm	folder	0	Hartman_PlateArmor_Helm	0	1	0
 gimmick_item_tool_shield_0001	pickup		Item tool shield	folder	0	ReiGhis_Wood_OneHandShield	0	1	0
+gimmick_item_trade_abalone_0001	pickup		Item trade abalone	tag	0		0	1	0
 gimmick_item_trade_armor_01	container		Item trade armor	tag	0	Trade_Armor_03	0	1	0
 gimmick_item_trade_armor_03	container		Item trade armor	tag	0		0	1	0
 gimmick_item_trade_armor_wild_chain_01	container		Item trade armor wild chain	tag	0		0	1	0
@@ -1315,6 +1338,7 @@ gimmick_item_trade_glass_01	container		Item trade glass	tag	0	Trade_Glass_02	0	1
 gimmick_item_trade_glass_02	pickup		Item trade glass	tag	0		0	1	0
 gimmick_item_trade_glowingmushroom_0001	pickup		Item trade glowingmushroom	tag	0		0	1	0
 gimmick_item_trade_golden_sword_01	pickup		Item trade golden sword	tag	0	Trade_Golden_Sword_Unpack	0	1	0
+gimmick_item_trade_gracilaria_0001	pickup		Item trade gracilaria	tag	0		0	1	0
 gimmick_item_trade_gun_01	container		Item trade gun	tag	0	Trade_Gun_02	0	1	0
 gimmick_item_trade_gun_02	pickup		Item trade gun	tag	0		0	1	0
 gimmick_item_trade_gunpowder_0001	pickup		Item trade gunpowder	tag	0		0	1	0
@@ -1331,9 +1355,11 @@ gimmick_item_trade_jade_01	container		Item trade jade	tag	0	Trade_Jade_03	0	1	0
 gimmick_item_trade_jade_02	container		Item trade jade	tag	0	Trade_Jade_03	0	1	0
 gimmick_item_trade_jade_03	pickup		Item trade jade	tag	0		0	1	0
 gimmick_item_trade_jerky_0001	pickup		Item trade jerky	tag	0		0	1	0
+gimmick_item_trade_kelp_0001	pickup		Item trade kelp	tag	0		0	1	0
 gimmick_item_trade_lightingstruckwood_0001	pickup		Item trade lightingstruckwood	tag	0		0	1	0
 gimmick_item_trade_lubricant_0001	pickup		Item trade lubricant	tag	0		0	1	0
 gimmick_item_trade_modelboat_0001	pickup		Item trade modelboat	tag	0		0	1	0
+gimmick_item_trade_mussel_0001	pickup		Item trade mussel	tag	0		0	1	0
 gimmick_item_trade_oasisbottle_0001	pickup		Item trade oasisbottle	tag	0		0	1	0
 gimmick_item_trade_pearl_0001	pickup		Item trade pearl	tag	0		0	1	0
 gimmick_item_trade_pepper_01	pickup		Item trade pepper	tag	0	Trade_Pepper_02	0	1	0
@@ -1352,8 +1378,10 @@ gimmick_item_trade_salt_01	pickup		Item trade salt	tag	0		0	1	0
 gimmick_item_trade_salt_02	pickup		Item trade salt	tag	0	Trade_Salt_01	0	1	0
 gimmick_item_trade_salt_03	pickup		Item trade salt	tag	0	Trade_Salt_01	0	1	0
 gimmick_item_trade_saltrock_0001	pickup		Item trade saltrock	tag	0		0	1	0
+gimmick_item_trade_scallops_0001	pickup		Item trade scallops	tag	0		0	1	0
 gimmick_item_trade_scorpion_jewel_0001	pickup		Item trade scorpion jewel	tag	0		0	1	0
 gimmick_item_trade_scripture_0001	pickup		Item trade scripture	tag	0		0	1	0
+gimmick_item_trade_seapineapple_0001	pickup		Item trade seapineapple	tag	0		0	1	0
 gimmick_item_trade_silks_01	container		Item trade silks	tag	0		0	1	0
 gimmick_item_trade_silks_02	pickup		Item trade silks	tag	0	Trade_Silk_02	0	1	0
 gimmick_item_trade_snowginseng_0001	pickup		Item trade snowginseng	tag	0		0	1	0
@@ -1391,6 +1419,13 @@ gimmick_laser_safe_02_button	pickup		Laser safe 02 button	tag	0		1	0	0
 gimmick_laser_safe_03_button	pickup		Laser safe 03 button	tag	0		1	0	0
 gimmick_lifespring_0001	wood		Tariv guardiantree pear	name	0		0	0	0
 gimmick_liftable_pillar_02_stump	wood		Liftable pillar 02 stump	name	0		0	0	0
+gimmick_management_cloth_01	container		Management cloth	tag	0		0	0	0
+gimmick_management_cloth_02	container		Management cloth	tag	0		0	0	0
+gimmick_management_cloth_03	container		Management cloth	tag	0		0	0	0
+gimmick_management_cloth_04	container		Management cloth	tag	0		0	0	0
+gimmick_management_needs_box_01	container		Management needs box	tag	0		0	0	0
+gimmick_management_spool_01	pickup		Management spool	tag	0		0	0	0
+gimmick_management_wood_0001	container		Management wood	tag	0		0	0	0
 gimmick_marni_chocolate_product_02_index01	container		Container	tag	0		0	0	0
 gimmick_marni_chocolate_product_02_index02	container		Container	tag	0		0	0	0
 gimmick_marni_chocolate_product_02_index03	container		Container	tag	0		0	0	0
@@ -1398,6 +1433,7 @@ gimmick_marni_emp_capsule_0001_parts01	pickup		Marni emp capsule 0001 parts01	ta
 gimmick_marni_emp_capsule_0001_parts02	pickup		Marni emp capsule 0001 parts02	tag	0		1	0	0
 gimmick_milepost_crimsondesert	plant		Milepost reeddevil	name	0		0	0	0
 gimmick_milepost_her_reeds	plant		Milepost her reeds	name	0		0	0	0
+gimmick_mine_ambergris_place_0001	ore	ambergris	Ambergris	tag	1	ambergris	0	0	0
 gimmick_mine_bismuth_place_01	ore		Mine bismuth	tag	1		0	0	0
 gimmick_mine_bismuth_place_01_cave	ore		Mine bismuth cave	tag	1		0	0	0
 gimmick_mine_bluestone_place_01	ore	BlueStone	Azurite	tag	1	BlueStone	0	0	0
@@ -1413,9 +1449,25 @@ gimmick_mine_goldstone_spot_0003	stone		Mine goldstone spot	name	0		0	0	0
 gimmick_mine_goldstone_spot_0004	stone		Mine goldstone spot	name	0		0	0	0
 gimmick_mine_greenstone_place_01	ore	GreenStone	Epidote	tag	1	GreenStone	0	0	0
 gimmick_mine_greenstone_place_01_cave	ore		Mine greenstone cave	tag	1	GreenStone	0	0	0
+gimmick_mine_hydrothermalmineral_place_0001	ore	hydrothermalmineral	Hydrothermal Mineral Deposit	tag	1	hydrothermalmineral	0	0	0
 gimmick_mine_ironstone_place_01	ore		Mine iron	tag	1	IronStone	0	0	0
 gimmick_mine_ironstone_place_01_cave	ore		Mine iron cave	tag	1	IronStone	0	0	0
+gimmick_mine_malachite_place_0001	ore	Malachite	Malachite	tag	1	Malachite	0	0	0
+gimmick_mine_malachite_place_0001_cave	ore		Mine malachite small cave	tag	1	Malachite	0	0	0
+gimmick_mine_malachite_place_0002	ore	Malachite	Malachite	tag	1	Malachite	0	0	0
+gimmick_mine_malachite_place_0002_cave	ore		Mine malachite big cave	tag	1	Malachite	0	0	0
+gimmick_mine_manganese_place_0001	ore	Manganese	Manganese	tag	1	Item_DropSet_Collect_Manganese	0	0	0
+gimmick_mine_manganese_place_0002	ore	Manganese	Manganese	tag	1	Item_DropSet_Collect_Manganese	0	0	0
+gimmick_mine_manganese_place_0003	ore	Manganese	Manganese	tag	1	Item_DropSet_Collect_Manganese	0	0	0
+gimmick_mine_obsidian_place_0001	ore		Mine obsidian place	tag	1	Obsidian	0	0	0
+gimmick_mine_obsidian_place_0002	ore		Mine obsidian place	tag	1	Obsidian	0	0	0
 gimmick_mine_ore_bismuth_01	ore		Ore bismuth	tag	0	BismuthOre	0	0	0
+gimmick_mine_quartz_place_0001	ore		Mine quartz small	tag	1	QuartzOre	0	0	0
+gimmick_mine_quartz_place_0001_cave	ore		Mine quartz small cave	tag	1	QuartzOre	0	0	0
+gimmick_mine_quartz_place_0002	ore		Mine quartz middle	tag	1	QuartzOre	0	0	0
+gimmick_mine_quartz_place_0002_cave	ore		Mine quartz middle cave	tag	1	QuartzOre	0	0	0
+gimmick_mine_quartz_place_0003	ore		Mine quartz big	tag	1	QuartzOre	0	0	0
+gimmick_mine_quartz_place_0003_cave	ore		Mine quartz big cave	tag	1	QuartzOre	0	0	0
 gimmick_mine_redstone_place_01	ore	RedStone	Bloodstone	tag	1	RedStone	0	0	0
 gimmick_mine_redstone_place_01_cave	ore		Mine redstone cave	tag	1	RedStone	0	0	0
 gimmick_mine_ruby_place_01	ore	Ruby	Garnet	tag	1	Ruby	0	0	0
@@ -1434,6 +1486,7 @@ gimmick_mon_deco_giant_spider_web_06	item	Spider_Web	Spider Web	seen	0		0	0	1
 gimmick_mon_deco_spider_web_bottom_02	item	Spider_Web	Spider Web	seen	0		0	0	1
 gimmick_mon_deco_spider_web_bottom_03	item	Spider_Web	Spider Web	seen	0		0	0	1
 gimmick_mon_mechanic_core_big	pickup		Docking core big	tag	0	AbyssRuinsCreatureCore	0	0	0
+gimmick_mon_mechanic_core_enhanced	pickup		Docking core small enhanced	tag	0	Enhanced_HandCannon_AbyssRuinsCreatureCore	0	0	0
 gimmick_mon_mechanic_core_small	pickup		Docking core small	tag	0	AbyssRuinsCreatureCore	0	0	0
 gimmick_mon_mechanic_elite_core_big	pickup		Mon mechanic elite core big	tag	0		1	0	0
 gimmick_move_rock_01	stone		Move rock	name	0		0	0	0
@@ -1455,6 +1508,7 @@ gimmick_nature_tree_stump_0001	wood		Nature tree stump	name	0		0	0	0
 gimmick_nature_wood_broken_tree_12_swamp_body	wood		Wood	name	0		0	0	0
 gimmick_nature_wood_broken_tree_12_swamp_parts01	wood		Wood	name	0		0	0	0
 gimmick_nature_wood_redwoodsierra_stump_02_swamp	wood		Wood	name	0		0	0	0
+gimmick_pearl_0001	pickup		Pearl	tag	0	Item_Natural_Pearl	0	0	0
 gimmick_pictureframe_01	container	Collection_Prop_Picture_0065	Replica - Poverty Amidst Plenty	tag	0		0	0	0
 gimmick_play_artificial_barrel_01	container		Barrel catch	tag	1		0	0	0
 gimmick_play_artificial_barrel_02	container		Barrel catch	tag	1		0	0	0
@@ -1488,11 +1542,11 @@ gimmick_product_prop_beekeeping_04	container		Product prop beekeeping	tag	0		0	0
 gimmick_product_prop_beekeeping_05	container		Product prop beekeeping	tag	0		0	0	0
 gimmick_product_prop_brewery_barrel_05	container		Product prop brewery barrel	tag	1		0	0	0
 gimmick_product_prop_brewery_barrel_05_index01	container		Container	tag	1		0	0	0
-gimmick_prop_pot_0001_cover	pickup		Prop pot 0001 cover	tag	0		0	0	0
+gimmick_prop_pot_0001_cover	pickup		Prop pot 0001 cover	tag	0	Pot_Lid_OneHandShield	0	0	0
 gimmick_protective_stone_01	stone	Stone_Quarry	Stone	name	0		0	0	0
 gimmick_protective_stone_01_attach	stone		Protective stone 01 attach	name	0		0	0	0
 gimmick_purple_bomb_01	pickup		Battle purple bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
-gimmick_puzzle_basket_01	container		Basket	tag	1		0	0	0
+gimmick_puzzle_basket_01	container		Basket	tag	0		0	0	0
 gimmick_puzzle_egg_01_kuku	container		Puzzle egg 01 kuku	tag	0		0	0	0
 gimmick_puzzle_egg_01_standstone	container		Puzzle egg 01 standstone	tag	0		0	0	0
 gimmick_puzzle_ice_block_break_01	ore		Puzzle ice block break	tag	0		0	0	0
@@ -1511,6 +1565,10 @@ gimmick_puzzle_standstone_smallstone_03	pickup		Puzzle standstone smallstone	tag
 gimmick_puzzle_statue_01_standstone_combi	stone		Stone	name	0		0	0	0
 gimmick_puzzle_statue_01_standstone_dial	stone		Puzzle statue 01 standstone dial	name	0		0	0	0
 gimmick_puzzle_statue_01_standstone_part	stone		Puzzle statue 01 standstone part	name	0		0	0	0
+gimmick_puzzle_stone_arrow_0001_part01	stone		Puzzle stone arrow 0001 part01	name	0		0	0	0
+gimmick_puzzle_stone_arrow_0001_part02	stone		Puzzle stone arrow 0001 part02	name	0		0	0	0
+gimmick_puzzle_stone_arrow_0001_part03	stone		Puzzle stone arrow 0001 part03	name	0		0	0	0
+gimmick_puzzle_stone_arrow_0001_part04	stone		Puzzle stone arrow 0001 part04	name	0		0	0	0
 gimmick_puzzle_stone_wall_break_01_index01	ore		Ore	tag	0		0	0	0
 gimmick_puzzle_tariv_guardiantree_attach_parts_01	wood		Wood	name	0	Flame_staff_spear_TwoHandSpear	0	0	0
 gimmick_puzzle_troll_tower_ev_orn_cube_01	pickup		Puzzle troll tower ev orn cube	tag	0		1	0	0
@@ -1538,6 +1596,9 @@ gimmick_rock_01	container		Rock catch	tag	0		0	0	0
 gimmick_rock_02	stone		Rock break	name	0	Stone_Quarry	0	0	0
 gimmick_rubber_tree_0001	wood		Rubber tree	name	0		0	0	0
 gimmick_sack_02	container		Sack	tag	0		0	0	0
+gimmick_sea_rock_0001	stone		Searock	name	0		0	0	0
+gimmick_sea_rock_0002	stone		Searock	name	0		0	0	0
+gimmick_sea_rock_0003	stone		Searock	name	0		0	0	0
 gimmick_shinystone_01	stone		Shinystone	name	0		0	0	0
 gimmick_shinystone_02	pickup	ShinyStone_02	Shiny Rock	tag	0		0	0	0
 gimmick_ships_elevator_01_longleaf	plant		Ships elevator 01 longleaf	name	0		0	0	0
@@ -1639,6 +1700,10 @@ gimmick_socket_collection_veratrum_01	plant		Veratrum	tag	0	Chickadee	0	0	0
 gimmick_socket_collection_victorialis_01	item	Victorialis	Wild Garlic	tag	0	Victorialis	0	0	0
 gimmick_socket_collection_villosa_01	plant		Villosa	tag	0	FoxBean_Flower	0	0	0
 gimmick_socket_collection_wheat_01	item	Wheat	Wheat	tag	0	Wheat	0	0	0
+gimmick_spot_altar_stonewaymarker_01	stone		Spot altar stonewaymarker	name	0		0	0	0
+gimmick_spot_altar_stonewaymarker_01_parts02	stone		Stone	name	0		0	0	0
+gimmick_spot_altar_stonewaymarker_01_parts03	stone		Stone	name	0		0	0	0
+gimmick_spot_altar_stonewaymarker_corrupted_01	stone		Stone	name	0		0	0	0
 gimmick_spot_marni_pictureframe_01	container	Collection_Prop_Picture_0059	Notable - Marni's Portrait	tag	0		0	0	0
 gimmick_spot_marni_pictureframe_02	container	Collection_Prop_Picture_0060	Study - Dignified Genius	tag	0		0	0	0
 gimmick_spot_marni_pictureframe_02_index01	container	Collection_Prop_Picture_0067	Study - Gathering Genius	tag	0		0	0	0
@@ -1668,11 +1733,12 @@ gimmick_spot_troll_cup_01	container		Troll cup	tag	0		0	0	0
 gimmick_spot_troll_pot_01	pickup		Troll pot	tag	1		0	0	0
 gimmick_spot_troll_pot_02	pickup		Troll pot	tag	1		0	0	0
 gimmick_spot_troll_pot_03	pickup		Troll pot	tag	1		0	0	0
+gimmick_stake_attach_01	container		Stake attach	tag	0		0	0	0
 gimmick_stalactite_0003	ore	Item_Rare_Collect_Stalactites	Stalactite	tag	0	Item_Rare_Collect_Stalactites	0	0	0
 gimmick_stalactite_0004	ore	Item_Rare_Collect_Stalactites	Stalactite	tag	0	Item_Rare_Collect_Stalactites	0	0	0
-gimmick_standstone_01_challenge	stone		Standstone 01 challenge	name	0	Slave_Fabric_Boots	0	0	0
-gimmick_standstone_01_challenge_del	stone		Standstone 01 challenge del	name	0	Slave_Fabric_Boots	0	0	0
-gimmick_standstone_01_challenge_desert	stone		Standstone 01 challenge desert	name	0	Slave_Fabric_Boots	0	0	0
+gimmick_standstone_01_challenge	stone		Standstone 01 challenge	name	0	Slave_Fabric_Boots Gladiator_Fabric_Armor_III	0	0	0
+gimmick_standstone_01_challenge_del	stone		Standstone 01 challenge del	name	0	Slave_Fabric_Boots Gladiator_Fabric_Armor_III	0	0	0
+gimmick_standstone_01_challenge_desert	stone		Standstone 01 challenge desert	name	0	Slave_Fabric_Boots Gladiator_Fabric_Armor_III	0	0	0
 gimmick_standstone_turn_totem_pushstone_01	stone		Standstone turn totem pushstone	name	0		0	0	0
 gimmick_standstone_turn_totem_pushstone_01_parts01	stone		Stone	name	0		0	0	0
 gimmick_standstone_turn_totem_pushstone_body_01	stone		Stone	name	0		0	0	0
@@ -1685,6 +1751,7 @@ gimmick_sulfur_rock_0002	stone		Sulfur rock	name	0		0	0	0
 gimmick_sulfur_rock_0002_parts01	stone		Sulfur rock 0002 parts01	name	0		0	0	0
 gimmick_sulfur_rock_0003	stone		Sulfur rock	name	0		0	0	0
 gimmick_sulfur_rock_0004	stone		Sulfur rock	name	0		0	0	0
+gimmick_supply_box_01	container		Supply box	tag	0		0	0	0
 gimmick_swingbridge_vine_01	plant		Swingbridge vine 01 part	name	0		0	0	0
 gimmick_swingbridge_vine_01_set	plant		Swingbridge vine 01 set	name	0		0	0	0
 gimmick_swingbridge_vine_02	plant		Swingbridge vine 02 part	name	0		0	0	0
@@ -1744,8 +1811,8 @@ gimmick_tombstone_0031	stone		Tombstone	name	0		0	0	0
 gimmick_tombstone_0032	stone		Tombstone	name	0		0	0	0
 gimmick_tombstone_0033	stone		Tombstone	name	0		0	0	0
 gimmick_tombstone_0034	stone		Tombstone	name	0		0	0	0
-gimmick_tool_fishing_basket_01	container		Tool fishing basket	tag	1		0	0	0
-gimmick_tool_fishing_basket_03	container		Tool fishing basket	tag	1		0	0	0
+gimmick_tool_fishing_basket_01	container		Tool fishing basket	tag	0		0	0	0
+gimmick_tool_fishing_basket_03	container		Tool fishing basket	tag	0		0	0	0
 gimmick_tool_grinder_01	container		Tool grinder	tag	0		0	0	0
 gimmick_tool_kinetic_barbell_0001	pickup		Tool kinetic barbell	tag	0		1	0	0
 gimmick_tool_kinetic_barbell_0002	pickup		Tool kinetic barbell	tag	0		1	0	0
@@ -1753,9 +1820,9 @@ gimmick_tool_kinetic_circle_0001	container		Tool kinetic circle	tag	0		0	0	0
 gimmick_tool_kinetic_dolphin_0001	pickup		Tool kinetic dolphin	tag	0		1	0	0
 gimmick_tool_kinetic_dolphin_0002	container		Tool kinetic dolphin	tag	0		0	0	0
 gimmick_tool_kinetict_boat_0001	container		Tool kinetict boat	tag	0		0	0	0
-gimmick_tool_kitchenknife_0001	pickup		Tool kitchenknife	tag	0		0	0	0
-gimmick_tool_kitchenknife_0002	pickup		Tool kitchenknife	tag	0		0	0	0
-gimmick_tool_ladle_0001	pickup		Tool ladle	tag	0		0	0	0
+gimmick_tool_kitchenknife_0001	pickup		Tool kitchenknife	tag	0	KitchenKnife_OneHandDagger	0	0	0
+gimmick_tool_kitchenknife_0002	pickup		Tool kitchenknife	tag	0	KitchenKnife_OneHandDagger	0	0	0
+gimmick_tool_ladle_0001	pickup		Tool ladle	tag	0	Ladle_OneHandMace	0	0	0
 gimmick_tool_trap_01	container		Tool trap	tag	0		0	0	0
 gimmick_tool_trap_03	container		Tool trap	tag	0		0	0	0
 gimmick_tool_trap_05	container		Tool trap	tag	0		0	0	0
@@ -1877,6 +1944,7 @@ gimmick_urdavha_water_bottle_01	container		Water bottle	tag	0		0	0	0
 gimmick_urdavha_water_bottle_02	container		Water bottle	tag	0		0	0	0
 gimmick_vine_bomb_01	pickup		Battle vine bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_water_bomb_01	pickup		Battle water bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
+gimmick_wood_bench_0001_parts01	container		Wood bench 0001 parts01	tag	0		0	0	0
 gimmick_wood_firewood_0001	container		Wood firewood	tag	0	Wood	0	0	0
 gimmick_wood_firewood_set_0001	wood		Wood firewood set	name	0		0	0	0
 gimmick_wood_firewood_set_0001_index01	wood		Wood firewood set 0001 index01	name	0		0	0	0
@@ -1885,3 +1953,5 @@ gimmick_woodlog_set_05_02_pail	wood		Woodlog set 05 02 pail	name	0		0	0	0
 gimmick_woodlog_set_05_03_pail	wood		Woodlog set 05 03 pail	name	0		0	0	0
 gimmick_woodlog_set_05_04_pail	wood		Woodlog set 05 04 pail	name	0		0	0	0
 gimmick_woodlog_set_05_05_pail	wood		Woodlog set 05 05 pail	name	0		0	0	0
+me_00_str_cliffstone_001_0001	stone		Me 00 str cliffstone 001	name	0	Sealed_Abyss_Artifact_0003	0	0	0
+mo_00_prp_broken_tree_000_0001	wood		Mo 00 prp broken tree 000	name	0		0	0	0

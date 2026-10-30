@@ -99,6 +99,7 @@ namespace ml::ItemDb
     bool Loaded() { return g_loaded; }
     const char* Source() { return g_source; }
     int  Count()  { return static_cast<int>(g_items.size()); }
+    int  RowCount() { return static_cast<int>(g_byRow.size()); }
 
     const Item* Find(uint32_t key)
     {

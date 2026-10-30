@@ -860,6 +860,34 @@ namespace ml::loot::hooks
         LOG("[inter] the game asked whether %s offers interaction row %u", what, row);
     }
 
+    // The row is a header position, and the header is reshuffled by patches,
+    // so it is read by name from the game's own table rather than written down.
+    // Until that has happened the hook compares against the constant.
+    static volatile LONG g_deadLootPetRow = ml::sig::kInteraction_DeadLootPet;
+    static volatile LONG g_interRowsDone = 0;
+
+    void ResolveInteractionRows()
+    {
+        if (g_interRowsDone) return;
+        static DWORD s_last = 0;
+        const DWORD now = GetTickCount();
+        if (s_last && now - s_last < 10000) return;
+        s_last = now;
+        const int row = game::RowByKey(ml::sig::kStr_InteractionTable, ml::sig::kRowKey_DeadLootPet);
+        static int s_tries = 0;
+        if (row < 0 && ++s_tries < 6) return;
+        InterlockedExchange(&g_interRowsDone, 1);
+        if (row >= 0 && row <= 0xFFFF)
+        {
+            InterlockedExchange(&g_deadLootPetRow, row);
+            LOG("[pet] %s is interaction row %d on this build%s", ml::sig::kRowKey_DeadLootPet, row,
+                row == ml::sig::kInteraction_DeadLootPet ? ", as written down" : ", not the row written down; using the table's");
+        }
+        else
+            LOG_ERR("[pet] %s was not found in %s; the body half of the pet switch keeps row %u, its place in the base table of 1.0.0.3392",
+                    ml::sig::kRowKey_DeadLootPet, ml::sig::kStr_InteractionTable, ml::sig::kInteraction_DeadLootPet);
+    }
+
     static uint64_t hkHasInteraction(void* self, void* a2, void* a3, void* a4)
     {
         NoteInteractionAsked(self, a2);
@@ -867,7 +895,7 @@ namespace ml::loot::hooks
         {
             unsigned short key = 0;
             if (mem::Read16(reinterpret_cast<uintptr_t>(self) + kOff_CondArg, &key) &&
-                key == ml::sig::kInteraction_DeadLootPet)
+                key == static_cast<unsigned short>(g_deadLootPetRow))
             {
                 static volatile LONG s_said = 0;
                 if (InterlockedIncrement(&s_said) == 1)

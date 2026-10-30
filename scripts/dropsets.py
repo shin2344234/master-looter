@@ -1,10 +1,15 @@
-"""Parser for dropsetinfo.staticinfobody (Crimson Desert 2.02.00).
+"""Parser for dropsetinfo.staticinfobody (exe 1.0.0.3392, the DLC build).
 
-Record layout (verified against every record's byte boundary):
-  key u32, string_key cstr, is_blocked u8, drop_roll_type u8, drop_roll_count u32,
-  drop_condition_string cstr, drop_tag_name_hash u32, entries CArray<Entry>,
-  nee_slot_count u16, need_weight u64, total_drop_rate u64, roll_dice_skip_rate u64,
-  original_string cstr, is_equal_percent u8
+Record layout, in the order the game's loader (RVA +0x16FC290) reads it and
+verified against every record's byte boundary:
+  string_key cstr, key u32, is_blocked u8, is_equal_percent u8, drop_roll_type u8,
+  nee_slot_count u16, drop_tag_name_hash u32, drop_roll_count u32,
+  entries CArray<Entry>, need_weight u64, total_drop_rate u64,
+  roll_dice_skip_rate u64, drop_condition_string u32, original_string cstr
+
+Before 3392 the key came first, the small fields were spread through the
+record, and drop_condition_string was a string; it is a u32 reference now.
+The entry body (RVA +0x1C45B20) reads the same bytes as before.
 
 Entry:
   tag u8 (always 1), key_raw u64, result_type u8, four u32 (conditions/tag hash, zero so far),
@@ -18,12 +23,15 @@ import sys
 
 from cdtables import Reader, load_table, hexdump
 
-# result_type -> tail size in bytes, from brute-forcing single-entry records against the boundary
-TAIL_SIZES = {0: 4, 1: 4, 3: 4, 4: 4, 5: 4, 6: 4, 7: 32, 9: 4, 10: 8, 13: 5, 16: 6}
+# result_type -> tail size in bytes, from brute-forcing single-entry records against the boundary.
+# On 3392 types 7, 8 and 15 share one reader (RVA +0x16ECAC0) that takes 34 bytes, two more than
+# type 7 took before, and type 16 takes 10 where it took 6. Type 14, a u16 global game event
+# and a u8 state, appears only in two DLC sets.
+TAIL_SIZES = {0: 4, 1: 4, 3: 4, 4: 4, 5: 4, 6: 4, 7: 34, 9: 4, 10: 8, 13: 5, 14: 3, 15: 34, 16: 10}
 
 RESULT_TYPE_NAMES = {
     0: "item", 1: "type1", 3: "type3", 4: "knowledge", 5: "type5", 6: "type6", 7: "friendly",
-    9: "type9", 10: "type10", 13: "gameplay-variable", 16: "type16",
+    9: "type9", 10: "type10", 13: "gameplay-variable", 14: "global-game-event", 15: "type15", 16: "type16",
 }
 
 
@@ -54,20 +62,20 @@ def parse_dropset(rec, trace=False, r=None):
     if r is None:
         r = Reader(rec, trace)
     d = {}
-    d["key"] = r.u32("key")
     d["string_key"] = r.cstr("string_key")
+    d["key"] = r.u32("key")
     d["is_blocked"] = r.u8("is_blocked")
+    d["is_equal_percent"] = r.u8("is_equal_percent")
     d["drop_roll_type"] = r.u8("drop_roll_type")
-    d["drop_roll_count"] = r.u32("drop_roll_count")
-    d["drop_condition_string"] = r.cstr("drop_condition_string")
-    d["drop_tag_name_hash"] = r.u32("drop_tag_name_hash")
-    d["entries"] = r.array(parse_entry, "entries")
     d["nee_slot_count"] = r.u16("nee_slot_count")
+    d["drop_tag_name_hash"] = r.u32("drop_tag_name_hash")
+    d["drop_roll_count"] = r.u32("drop_roll_count")
+    d["entries"] = r.array(parse_entry, "entries")
     d["need_weight"] = r.u64("need_weight")
     d["total_drop_rate"] = r.u64("total_drop_rate")
     d["roll_dice_skip_rate"] = r.u64("roll_dice_skip_rate")
+    d["drop_condition_string"] = r.u32("drop_condition_string")
     d["original_string"] = r.cstr("original_string")
-    d["is_equal_percent"] = r.u8("is_equal_percent")
     d["_end"] = r.p
     d["_len"] = len(rec)
     return d, r

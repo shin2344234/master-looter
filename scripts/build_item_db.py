@@ -355,9 +355,16 @@ DEV_RE = re.compile(r"(^|_)(Test|Dev|QA|Specialty|Dummy|Debug|Sample)(_|$)|_QA$|
 def load_groups():
     gloc = load_paloc(os.path.join(LOCDIR, "itemgroup.paloc"))
     groups = {}
+    # Exe 1.0.0.3392 layout (loader RVA +0x1714370): string key, u16 key, six
+    # flag bytes, a u16, a u32 reference, the name, the sub-group and item
+    # lists, then a byte list. Before 3392 the key came first and only one
+    # flag byte sat between the string key and the name.
     for k, rec in load_table("itemgroupinfo"):
         r = Reader(rec)
-        key = r.u16(); s = r.cstr(); r.u8(); r.locstr()
+        s = r.cstr(); key = r.u16()
+        for _ in range(6):
+            r.u8()
+        r.u16(); r.u32(); r.locstr()
         subs = r.array(lambda r: r.u16()); items = r.array(lambda r: r.u32())
         groups[key] = dict(key=key, name=s, eng=gloc.get((key << 32) | 0x80), subs=set(subs), items=items)
     return groups
@@ -366,14 +373,14 @@ def load_groups():
 def load_equip_types():
     et = {}
     for k, rec in load_table("equiptypeinfo"):
-        r = Reader(rec); kk = r.u32(); et[kk] = r.cstr()
+        r = Reader(rec); name = r.cstr(); et[r.u32()] = name
     return et
 
 
 def load_categories():
     cats = {}
     for k, rec in load_table("categoryinfo"):
-        r = Reader(rec); kk = r.u16(); r.cstr(); r.u8(); cats[kk] = (r.u16(), r.u16(), r.u16())
+        r = Reader(rec); r.cstr(); kk = r.u16(); r.u8(); cats[kk] = (r.u16(), r.u16(), r.u16())
     return cats
 
 

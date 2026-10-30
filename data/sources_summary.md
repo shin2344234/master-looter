@@ -1,13 +1,13 @@
-# Drop sources, build 2.02.00
+# Drop sources, exe 1.0.0.3392
 
-- characters: 7250; with reward drop sets: 6107; with equipment: 4934; with a catch/steal set: 1125
-- gimmicks: 13941; with a drop block: 314
-- drop sets used by at least one character or gimmick: 640 of 14744
-- items with at least one known source (set via character or gimmick, worn equipment, or catch): 2937 of 6816
+- characters: 7600; with reward drop sets: 6377; with equipment: 5127; with a catch/steal set: not derived on this build; catch_sets finds no anchor in the 1.0.0.3392 CharacterInfo layout, so the catch_sets column of character_drops.csv is empty
+- gimmicks: 15563; with a drop block: 519
+- drop sets used by at least one character or gimmick: 616 of 17130
+- items with at least one known source (set via character or gimmick, worn equipment): 3027 of 8373
 
 ## How each source was found
 
-Character records hold a reward list (count, then triples of drop set, reward flag, repeat count), an equipment list (count, then 64-byte entries of item, unused set key and seven percent fields) and, for catchable animals and searchable people, an inline drop set followed by 01 00 00 00 00. Gimmick records hold roll count, a list of 64-bit drop set keys, a socket name, a buyable item and inline entries. Each block was located by requiring every referenced key to exist in its table.
+Character records hold a reward list (count, then triples of drop set, reward flag, repeat count) and an equipment list (count, then 64-byte entries of item, unused set key and seven percent fields). Gimmick records hold a flagged list of drop set keys, a flagged list of inline entries and a flagged buyable entry; the roll count and drop socket sit elsewhere in the record on this build and are not read. Each block was located by requiring every referenced key to exist in its table.
 
 ## Equipment drops
 
@@ -15,25 +15,25 @@ NPC gear never points at a drop set: the worn item itself drops. The first perce
 
 ## Reward flag values by set family (top 20)
 
-- 0x4 on DropContribution: 3011
-- 0x409 on Character: 2347
-- 0x409 on Human: 1746
-- 0x1 on Human: 1644
-- 0x1 on Faction: 1123
-- 0x800 on Middleclass: 1076
-- 0x401 on Character: 712
-- 0x1 on Character: 678
-- 0x400 on Faction: 666
-- 0x800 on Soldier: 592
-- 0x401 on Human: 533
-- 0x800 on Worker: 307
+- 0x4 on DropContribution: 3094
+- 0x409 on Character: 2430
+- 0x409 on Human: 1829
+- 0x1 on Human: 1705
+- 0x1 on Faction: 1162
+- 0x800 on Middleclass: 1086
+- 0x401 on Character: 738
+- 0x400 on Faction: 700
+- 0x1 on Character: 696
+- 0x800 on Soldier: 599
+- 0x401 on Human: 560
 - 0x9 on Faction: 294
-- 0x1 on Middle: 258
-- 0x2 on Arrow: 231
+- 0x1 on Middle: 270
+- 0x800 on Worker: 247
+- 0x2 on Arrow: 244
 - 0x409 on Troll: 220
-- 0x9 on Character: 207
+- 0x9 on Character: 216
+- 0x800 on Upperclass: 187
 - 0x409 on Orc: 182
-- 0x1 on Animal: 173
-- 0x1 on Goblin: 171
+- 0x1 on Animal: 176
 
 Flags are the stored reward_tag_type_flag bitfields. 0x400 series co-occur with common death drops, 0x800 with favorite-item gifts; the exact bit meanings are not decoded.

@@ -1,79 +1,81 @@
 # Drop sets, build 2.02.00
 
-14744 drop sets, 18044 entries, parsed from dropsetinfo.staticinfobody with every record ending on its byte boundary.
+17130 drop sets, 21682 entries, parsed from dropsetinfo.staticinfobody with every record ending on its byte boundary.
 
 ## Kinds of set
 
-- inline item: 12140
-- inline knowledge: 1174
-- designed: 1140
+- inline item: 13901
+- designed: 1335
+- inline knowledge: 1310
+- mercenary: 321
 - inline friendly: 112
-- sub-level exp: 85
-- mercenary: 65
-- gameplay variable: 28
+- sub-level exp: 88
+- gameplay variable: 63
 
 Inline sets are generated from scripts and quests (their name is literally `Item(Carrot,5)` or `Knowledge(...)`): one guaranteed target. Designed sets (`DropSet_*`) are the hand-made loot tables.
 
 ## What entries point at
 
-- item: 15930
-- knowledge: 1638
-- contribution: 166
-- friendly points: 115
-- character (mount): 97
-- gameplay variable: 54
+- item: 19051
+- knowledge: 1823
+- character (mount): 355
+- contribution: 169
+- friendly points: 116
+- gameplay variable: 99
+- type15: 21
 - gimmick: 20
 - character (spawn): 15
+- type16: 4
 - knowledge group: 4
 - character (mercenary): 3
-- type16: 2
+- type14: 2
 
 ## Designed set families (first two name tokens)
 
-- DropSet_KitchenTool: 290
+- DropSet_KitchenTool: 330
 - DropSet_Faction: 121
 - DropSet_Reblockade: 77
+- DropSet_Craft: 72
+- DropSet_Operation: 47
 - DropSet_AbyssGear: 42
-- DropSet_Craft: 32
-- DropSet_Operation: 31
-- DropSet_DropItem: 31
+- DropSet_DropItem: 33
 - DropSet_Character: 28
 - DropSet_DropKnowledge: 25
 - DropSet_Contribution: 17
 - DropSet_Legendary: 15
 - DropSet_Fish: 14
 - DropSet_DropMercenary: 14
+- Drops_Reward: 13
+- DropSet_Ocean: 13
+- Affinity(NHW_Unique: 12
 - DropSet_Camp: 11
 - DropSet_RestArea: 11
-- DropSet_Middle: 9
-- DropSet_ChestItem: 9
+- DropSet_Middle: 10
+- DropSet_Farm: 10
+- DropSet_ChestItem: 10
+- DropSet_GameplayVariable: 10
+- DropSet_BossRush: 10
+- DropSet_Animal: 9
 - DropSet_Money: 9
-- DropSet_Animal: 8
-- DropSet_Farm: 8
+- DropSet_Recipe: 9
+- DropSet_Affinity: 8
 - DropSet_Gimmick: 8
 - DropSet_GamePlayVariable: 8
 - DropSet_Dungeon: 7
-- Drops_Reward: 7
 - DropSet_TreeWeapon: 6
 - DropSet_MiniGame: 6
+- DropSet_Big: 6
 - DropSet_Random: 6
+- DropSet_Riding: 6
 - DropSet_Small: 5
 - DropSet_Large: 5
-- DropSet_Riding: 5
-- DropSet_GameplayVariable: 4
-- DropSet_Abyss: 4
-- DropSet_BoxBarrel: 4
-- DropSet_Chest: 4
-- DropSet_ExpensionInventory: 4
-- DropSet_Collection: 4
-- DropSet_Inventory: 4
-- Purchase_Reward: 4
-- Bilibili_Drops: 4
-- DropSet_Friendly: 3
+- DropSet_Normal: 5
+- Purchase_Reward: 5
+- DropSet_Living: 4
 
 ## Items
 
-- 2765 of 6813 items appear in at least one drop set; 1416 appear in a designed set.
+- 3318 of 8373 items appear in at least one drop set; 1682 appear in a designed set.
 
 ## Field semantics
 
