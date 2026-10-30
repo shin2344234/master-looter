@@ -1,11 +1,11 @@
 # Master Looter
 
-Auto-loot for Crimson Desert 2.03.00 with an in-game menu.
+Auto-loot for Crimson Desert with an in-game menu, built for the DLC update (exe 1.0.0.3424, the patch of 30 October 2026).
 
 > [!IMPORTANT]
 > **New in 1.6.28: loot can go straight into storage.** Install [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) 1.1.0 or later beside Master Looter, and what Master Looter picks up can be moved into your storage as it lands. Nothing you pick up by hand is touched. It starts off; see [Storing loot](#storing-loot) for how to turn it on.
 
-Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals, and the carcasses and bodies of anything you kill. Each kind has its own switch. Every item it picks up is checked against a database of 6,816 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Searching a body or skinning a carcass is the exception. The game hands over the whole yield before the mod sees any of it, so what your rules refuse arrives anyway unless **Drop refused loot from bodies** under General is on, and then it goes straight back on the ground beside you. Everything is set from a menu inside the game.
+Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals, and the carcasses and bodies of anything you kill. Each kind has its own switch. Every item it picks up is checked against a database of 8,373 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits. Searching a body or skinning a carcass is the exception. The game hands over the whole yield before the mod sees any of it, so what your rules refuse arrives anyway unless **Drop refused loot from bodies** under General is on, and then it goes straight back on the ground beside you. Everything is set from a menu inside the game.
 
 [Nexus Mods page](https://www.nexusmods.com/crimsondesert/mods/3402) · [Releases](https://github.com/shin2344234/master-looter/releases) · [Plugin manual](mod/README.md) · [Data pipeline](scripts/README.md)
 
@@ -62,10 +62,10 @@ The tab also shows which mod is applying the multiplier, how many item records w
 
 ## Installing
 
-**1.6.15 needs the 2.02.00 game update.** The tables are built from that
-build's data and one of the functions the plugin hooks moved in the patch.
-If the game is still on 2.01.00, use 1.6.10 from
-[Releases](https://github.com/shin2344234/master-looter/releases) instead.
+**1.6.51 needs the DLC update, exe 1.0.0.3392 or the 1.0.0.3424 patch.** The
+update moved every function the plugin hooks, so 1.6.50 loots nothing on it. 1.6.50 stays on
+[Releases](https://github.com/shin2344234/master-looter/releases) for a game
+still on exe 1.0.0.2976.
 
 ### With Definitive Mod Manager
 
@@ -93,7 +93,7 @@ One scanner out of sixty-five flags `MasterLooter.asi` on 1.6.50. Webroot calls 
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one and 1.6.50 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.50: [the plugin](https://www.virustotal.com/gui/file/560b0ae6fd1db4ee74f5840f56e8cf619235d31496a1d8564d9aa56ac1635f85) and [the package](https://www.virustotal.com/gui/file/8a15fdb4feba2a8441dc6c17600f2d15c3d0d370f139a3d45acc58878a177090).
+Reports for 1.6.51: [the plugin](https://www.virustotal.com/gui/file/4061a44ed4fa91736fe09c518770e0ada2120a452e8ce75f6455a70ab2eb5f38) and [the package](https://www.virustotal.com/gui/file/db3bd8e8d67569a945dfc9bd87eb4dc9994a7ff742510e297a44521f2fd4b003).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -101,11 +101,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.50:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.51:
 
-    8a15fdb4feba2a8441dc6c17600f2d15c3d0d370f139a3d45acc58878a177090  MasterLooter-1.6.50-DMM.zip
-    483482642e4cb0e4cce304e21c6f091dd4fd6d3fe314d66bbfa5bfd5e341c5cc  MasterLooter-1.6.50.zip
-    560b0ae6fd1db4ee74f5840f56e8cf619235d31496a1d8564d9aa56ac1635f85  MasterLooter.asi
+    db3bd8e8d67569a945dfc9bd87eb4dc9994a7ff742510e297a44521f2fd4b003  MasterLooter-1.6.51-DMM.zip
+    18eb039d5f496021dba51d00ee1ef282998cf0c2d0b22a1f8e3c05a4c3e9b925  MasterLooter-1.6.51.zip
+    4061a44ed4fa91736fe09c518770e0ada2120a452e8ce75f6455a70ab2eb5f38  MasterLooter.asi
 
 ## Controls
 
@@ -144,7 +144,7 @@ Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come with 
     build.bat
     powershell -ExecutionPolicy Bypass -File scripts\package.ps1 -Unsigned
 
-`dist\` receives the plugin and the documents, and `package.ps1` builds the two release archives from them. Releases are signed first with `scripts\sign.ps1`, which is why a local build needs `-Unsigned`. The item database and the creature table in `mod\data` are current for 2.01.00 and are compiled into the plugin; regenerating them after a game patch is described in [scripts/README.md](scripts/README.md). After a patch, `py -3 mod\scripts\sigcheck.py` reports which signatures still resolve against the installed exe.
+`dist\` receives the plugin and the documents, and `package.ps1` builds the two release archives from them. Releases are signed first with `scripts\sign.ps1`, which is why a local build needs `-Unsigned`. The item database and the creature table in `mod\data` are current for exe 1.0.0.3392, DLC items included, and are compiled into the plugin; regenerating them after a game patch is described in [scripts/README.md](scripts/README.md). After a patch, `py -3 mod\scripts\sigcheck.py` reports which signatures still resolve against the installed exe.
 
 ## Repository layout
 

@@ -5,8 +5,8 @@
 // to 1.6.1 shipped a PE version resource still reading 1.3.0.
 #define ML_VERSION_MAJOR 1
 #define ML_VERSION_MINOR 6
-#define ML_VERSION_PATCH 50
-#define ML_VERSION "1.6.50"
+#define ML_VERSION_PATCH 51
+#define ML_VERSION "1.6.51"
 // What a test build calls itself. Every log opens with this, so a log from a
 // build handed to one reporter cannot be read as a log from the release.
 // Empty on anything that ships, and set from the build line rather than by
@@ -18,8 +18,9 @@
 #define ML_BUILD_TAG ""
 #endif
 #define ML_VERSION_FULL ML_VERSION ML_BUILD_TAG
-// The exe version until the DLC update of 29 October 2026 has a settled public
-// patch name; Private Storage Master and Stack Master say the same.
-#define ML_GAME_BUILD "1.0.0.3392"
+// The exe version until the DLC update of 29 October 2026 and its patch of 30
+// October have a settled public patch name; Private Storage Master and Stack
+// Master say the same.
+#define ML_GAME_BUILD "1.0.0.3424"
 #define ML_MOD_PAGE "https://www.nexusmods.com/crimsondesert/mods/3402"
 #define ML_SOURCE_URL "https://github.com/shin2344234/master-looter"
