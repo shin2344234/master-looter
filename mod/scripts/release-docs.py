@@ -14,9 +14,12 @@ The four documents every release writes:
     private/discord/release-<version>.txt        Discord announcement
 
 new never overwrites a file that exists. Template lines that start with TODO
-are guidance, and check refuses while any are left.
+are guidance, and check refuses while any are left. A line holding only
+{{ASSET_LINES}} becomes one checksum line per file under assets in
+release.json, at the same indent, and disappears for a mod with none.
 
-stamp replaces {{SHA256_DMM}}, {{SHA256_MANUAL}} and {{SHA256_PLUGIN}}, and
+stamp replaces {{SHA256_DMM}}, {{SHA256_MANUAL}}, {{SHA256_PLUGIN}} and
+{{SHA256_<ROLE>}} for each asset, and
 rewrites any line that pairs a checksum with one of this mod's release file
 names, in the four documents and in the files listed under evergreen in
 release.json (the Nexus description and the root README by default). A file
@@ -89,6 +92,8 @@ def tokens():
         "NAME": CFG.name,
         "FILEBASE": CFG.file_base,
         "VERSION": CFG.version,
+        "ZIP_DMM": CFG.archive_name("dmm"),
+        "ZIP_MANUAL": CFG.archive_name("manual"),
         "NEXUS_FILES_URL": CFG.nexus_files_url or "{{NEXUS_FILES_URL}}",
         "GITHUB_RELEASE_URL": CFG.github_release_url(),
         "GITHUB_REPO_URL": CFG.github_repo_url,
@@ -96,7 +101,12 @@ def tokens():
     }
 
 
+ASSET_LINES = re.compile(r"^([ \t]*)\{\{ASSET_LINES\}\}[ \t]*\r?\n", re.M)
+
+
 def fill(text, values):
+    text = ASSET_LINES.sub(lambda m: "".join("%s{{SHA256_%s}}  %s\n" % (m.group(1), a["role"].upper(), a["name"])
+                                             for a in CFG.assets()), text)
     for k, v in values.items():
         text = text.replace("{{%s}}" % k, v)
     return text
@@ -130,15 +140,22 @@ def previous_hashes():
     if not best:
         return {}, None
     files = best[1].get("files", {})
-    return dict((files[r]["sha256"], r) for r in ("dmm", "manual", "plugin") if r in files), best[0]
+    return dict((f["sha256"], r) for r, f in files.items()), best[0]
 
 
 def sha_tokens(files):
-    return {
-        "SHA256_DMM": files["dmm"]["sha256"],
-        "SHA256_MANUAL": files["manual"]["sha256"],
-        "SHA256_PLUGIN": files["plugin"]["sha256"],
-    }
+    """SHA256_DMM, SHA256_MANUAL, SHA256_PLUGIN, and SHA256_<ROLE> per asset."""
+    return dict(("SHA256_%s" % r.upper(), f["sha256"]) for r, f in files.items())
+
+
+def roles():
+    """Every release file's role: the assets, then the two archives and the plugin."""
+    return [a["role"] for a in CFG.assets()] + ["dmm", "manual", "plugin"]
+
+
+def role_paths():
+    return [(a["role"], a["path"]) for a in CFG.assets()] + [
+        ("dmm", CFG.zip_dmm), ("manual", CFG.zip_manual), ("plugin", CFG.asi)]
 
 
 def cmd_new():
@@ -166,26 +183,24 @@ def evergreen():
     return [CFG.path(p) for p in CFG.data.get("evergreen", ["private/nexus/nexus-description.bbcode", "README.md"])]
 
 
+def name_pattern(template):
+    r"""A release file's name pattern, any version standing in for {version}.
+    [\w.] has no hyphen, so Foo-{version}.zip never matches Foo-1.0-DMM.zip."""
+    return re.compile(re.escape(template).replace(re.escape("{version}"), r"\d[\w.]*"))
+
+
 def role_patterns():
-    b = re.escape(CFG.file_base)
-    return {
-        "dmm": re.compile(r"%s-\d[\w.]*-DMM\.zip" % b),
-        "manual": re.compile(r"%s-\d[\w.]*\.zip" % b),
-        "plugin": re.compile(r"%s\.asi" % b),
-    }
+    pats = dict((a["role"], name_pattern(a["template"])) for a in CFG.assets())
+    pats["dmm"] = name_pattern(CFG.archive_template("dmm"))
+    pats["manual"] = name_pattern(CFG.archive_template("manual"))
+    pats["plugin"] = re.compile(r"%s\.asi" % re.escape(CFG.file_base))
+    return pats
 
 
 def line_role(line, pats):
     """The one release file a line names, or None when it names none or several."""
-    found = set()
-    for m in pats["dmm"].finditer(line):
-        found.add(("dmm", m.group(0)))
-    for m in pats["manual"].finditer(line):   # never matches a -DMM name: [\w.] has no hyphen
-        found.add(("manual", m.group(0)))
-    for m in pats["plugin"].finditer(line):
-        found.add(("plugin", m.group(0)))
-    roles = set(r for r, _ in found)
-    return roles.pop() if len(roles) == 1 else None
+    found = set(r for r, p in pats.items() if p.search(line))
+    return found.pop() if len(found) == 1 else None
 
 
 def stamp_text(text, files, pats, previous):
@@ -198,7 +213,7 @@ def stamp_text(text, files, pats, previous):
     # line around it can name the plugin and still hold a link to an archive.
     def vt(m):
         h = m.group(2)
-        if h in previous:
+        if h in previous and previous[h] in files:
             return m.group(1) + files[previous[h]]["sha256"]
         if h not in current:
             unknown.append(h)
@@ -209,9 +224,11 @@ def stamp_text(text, files, pats, previous):
         links = set(m.start(2) for m in VT_HASH.finditer(line))
         plain = [m for m in HEX.finditer(line) if m.start() not in links]
         role = line_role(line, pats) if plain else None
+        if role and role not in files:
+            role = None
         if role:
             line = HEX.sub(lambda m: m.group(0) if m.start() in links else files[role]["sha256"], line)
-            if role in ("dmm", "manual"):
+            if role != "plugin":
                 line = pats[role].sub(files[role]["name"], line)
         elif plain:
             leftover.append(line.strip()[:110])
@@ -301,11 +318,17 @@ def cmd_check():
     if not files:
         problems.append("no %s (package.ps1)" % rel(CFG.checksums_path()))
     else:
-        for role, path in (("dmm", CFG.zip_dmm), ("manual", CFG.zip_manual), ("plugin", CFG.asi)):
-            if not os.path.exists(path):
+        for role, path in role_paths():
+            if role not in files:
+                problems.append("%s has no %s; package and stamp again" % (rel(CFG.checksums_path()), role))
+            elif not os.path.exists(path):
                 problems.append("missing %s" % rel(path))
             elif rehash(path) != files[role]["sha256"]:
                 problems.append("%s changed since package.ps1 recorded it; package and stamp again" % rel(path))
+        # An asset is a copy, so its source changing means dist ships an old one.
+        for a in CFG.assets():
+            if a["role"] in files and os.path.exists(a["source"]) and rehash(a["source"]) != files[a["role"]]["sha256"]:
+                problems.append("%s changed after package.ps1 copied it; package and stamp again" % rel(a["source"]))
         # A file that goes into the manual archive and changed after packaging
         # means the archive on record is not what the repo now describes.
         if os.path.exists(CFG.zip_manual):
@@ -317,8 +340,8 @@ def cmd_check():
         for role, path in docs[:2]:
             if os.path.exists(path):
                 text = read(path)
-                for r in ("dmm", "manual", "plugin"):
-                    if files[r]["sha256"] not in text:
+                for r in roles():
+                    if r in files and files[r]["sha256"] not in text:
                         problems.append("%s lacks the %s checksum" % (rel(path), r))
         # stamp only rewrites checksum lines that are already there, so a
         # description that never had a line for one of the files stays without
@@ -326,8 +349,8 @@ def cmd_check():
         desc = CFG.path("private", "nexus", "nexus-description.bbcode")
         if os.path.exists(desc):
             text = read(desc)
-            for r in ("dmm", "manual", "plugin"):
-                if files[r]["sha256"] not in text:
+            for r in roles():
+                if r in files and files[r]["sha256"] not in text:
                     problems.append("%s lacks the %s checksum. If it has no line for %s at all, add "
                                     "'<sha256>  %s' to its checksum block, then run release-docs.py stamp"
                                     % (rel(desc), r, files[r]["name"], files[r]["name"]))

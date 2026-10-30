@@ -20,8 +20,8 @@
          1.1.22 was cut with three commits unpushed, so the tag GitHub made
          pointed at the previous release's source, and every casual check
          passed. This reads origin back instead of trusting the push.
-      4. runs gh release create with the notes file and both archives, titled
-         "<name> <version>"
+      4. runs gh release create with the notes file, every file under assets
+         in release.json and both archives, titled "<name> <version>"
 
     Report only unless you pass -Apply.
 
@@ -99,7 +99,8 @@ if ($view.Code -eq 0) {
     $problems += "could not ask GitHub about ${tag}: " + ($view.Out -join ' ').Trim()
 }
 
-foreach ($f in @($cfg.Notes, $cfg.ZipManual, $cfg.ZipDmm)) {
+$uploads = @($cfg.Assets | ForEach-Object { $_.Path }) + @($cfg.ZipManual, $cfg.ZipDmm)
+foreach ($f in @($cfg.Notes) + $uploads) {
     if (-not (Test-Path -LiteralPath $f)) { $problems += "missing $f" }
 }
 
@@ -108,8 +109,11 @@ Write-Host "$title from $branch at $($head.Substring(0, 7)) to $($cfg.GitHub)" -
 Write-Host ("  tag      {0} (annotated, 'Version {1}'){2}" -f $tag, $v, $(if ($tagExists) { ', exists' } else { '' }))
 Write-Host ("  push     {0} {1}, then {0} {2}" -f $remote, $branch, $tag)
 Write-Host ("  notes    {0}" -f $cfg.Notes)
-Write-Host ("  assets   {0}" -f (Split-Path $cfg.ZipManual -Leaf))
-Write-Host ("           {0}" -f (Split-Path $cfg.ZipDmm -Leaf))
+$label = '  assets '
+foreach ($f in $uploads) {
+    Write-Host ("{0}  {1}" -f $label, (Split-Path $f -Leaf))
+    $label = '         '
+}
 
 if ($problems) {
     Write-Host ""
@@ -136,8 +140,8 @@ if (-not ($contains | Where-Object { $_.Trim() -eq "$remote/$branch" })) {
 }
 Write-Host "$remote/$branch holds $tag at $($head.Substring(0, 7))" -ForegroundColor Green
 
-$made = Invoke-Native gh @('release', 'create', $tag, '--repo', $cfg.GitHub, '--verify-tag', '--title', $title,
-                           '--notes-file', $cfg.Notes, $cfg.ZipManual, $cfg.ZipDmm)
+$made = Invoke-Native gh (@('release', 'create', $tag, '--repo', $cfg.GitHub, '--verify-tag', '--title', $title,
+                            '--notes-file', $cfg.Notes) + $uploads)
 $made.Out | ForEach-Object { Write-Host $_ }
 if ($made.Code -ne 0) { throw "gh release create failed ($($made.Code)). The tag is pushed; fix the cause and run this again." }
 Write-Host "Released: $($cfg.ReleaseUrl)" -ForegroundColor Green

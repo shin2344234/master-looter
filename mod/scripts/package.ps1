@@ -18,6 +18,10 @@
                                       every mod's LICENSE would land on the
                                       same file
 
+    archives in release.json can give the two zips other names. Each file
+    under assets, such as a Blender add-on, is copied into dist under its own
+    name, outside both archives, and ships beside them on GitHub.
+
     Neither archive carries an ini. The plugin writes its own on first run, so
     an upgrade never overwrites settings someone has already changed.
 
@@ -26,6 +30,7 @@
       - a gate in release.json exits non-zero
       - the plugin is not signed (pass -Unsigned to package anyway)
       - manualZip or dmmZip lists an ini
+      - an asset's source is missing, or two release files share a name
 
     Writes private\checksums\<version>.json, which release-docs.py reads to
     fill the checksums into the release documents.
@@ -94,6 +99,12 @@ foreach ($list in @(@{ Key = 'manualZip'; Files = $extra; Archive = 'manual'; Na
     $dupes = $leaves | Group-Object | Where-Object Count -gt 1
     if ($dupes) { throw "Two files in the $($list.Archive) archive would share the name $($dupes[0].Name)." }
 }
+foreach ($a in $cfg.Assets) {
+    if (-not (Test-Path -LiteralPath $a.Source)) { throw "assets lists $($a.Source) for $($a.Name) and it does not exist." }
+}
+$released = @($cfg.Asi, $cfg.ZipManual, $cfg.ZipDmm) + @($cfg.Assets | ForEach-Object { $_.Path }) | ForEach-Object { Split-Path $_ -Leaf }
+$dupes = $released | Group-Object | Where-Object Count -gt 1
+if ($dupes) { throw "Two release files would share the name $($dupes[0].Name). Check archives and assets in release.json." }
 
 $staging = Join-Path $env:TEMP ("release-kit-{0}-{1}" -f $cfg.FileBase, $cfg.Version)
 Remove-Item -LiteralPath $staging -Recurse -Force -ErrorAction SilentlyContinue
@@ -109,6 +120,7 @@ Copy-Item -LiteralPath $cfg.Asi -Destination $staging
 foreach ($f in $dmmExtra) { Copy-Item -LiteralPath $f -Destination (Join-Path $staging (Get-DmmName $f)) }
 Compress-Archive -Path (Join-Path $staging '*') -DestinationPath $cfg.ZipDmm
 Remove-Item -LiteralPath $staging -Recurse -Force
+foreach ($a in $cfg.Assets) { Copy-Item -LiteralPath $a.Source -Destination $a.Path -Force }
 
 Write-Host ("`n{0} {1}" -f $cfg.Name, $cfg.Version)
 foreach ($z in @($cfg.ZipManual, $cfg.ZipDmm)) {
@@ -116,9 +128,14 @@ foreach ($z in @($cfg.ZipManual, $cfg.ZipDmm)) {
     $zip = [System.IO.Compression.ZipFile]::OpenRead($z)
     try { $zip.Entries | ForEach-Object { Write-Host "      $($_.FullName)" } } finally { $zip.Dispose() }
 }
+foreach ($a in $cfg.Assets) {
+    Write-Host ("  {0,-40} {1,9:N0} bytes, a copy of {2}" -f $a.Name, (Get-Item -LiteralPath $a.Path).Length,
+                (Split-Path $a.Source -Leaf))
+}
 
-# The order the README and the Nexus description list them.
-$rows = @(
+# The order the README and the Nexus description list them: the assets
+# first, then the two archives and the plugin.
+$rows = @($cfg.Assets | ForEach-Object { @{ role = $_.Role; path = $_.Path } }) + @(
     @{ role = 'dmm';    path = $cfg.ZipDmm },
     @{ role = 'manual'; path = $cfg.ZipManual },
     @{ role = 'plugin'; path = $cfg.Asi }

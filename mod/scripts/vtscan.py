@@ -8,9 +8,9 @@
 
 Synced from release-kit. Do not edit it here; the next sync overwrites it.
 
-Run package.ps1 first: this reads the two archives and the plugin out of dist
-and takes the version from the header named in release.json, so the three
-files it reports are the three the release actually ships.
+Run package.ps1 first: this reads the release files out of dist
+and takes the version from the header named in release.json, so the files
+it reports are the ones the release actually ships.
 
 Needs a key in VT_API_KEY. Get one by signing in at virustotal.com and opening
 the API key page from the account menu. The free key is enough: the limits are
@@ -46,9 +46,9 @@ read_key = rc.read_key
 
 # The order the README and the description list them.
 def release_files(version):
-    return [
-        ("%s-%s-DMM.zip" % (CFG.file_base, version), "the DMM archive"),
-        ("%s-%s.zip" % (CFG.file_base, version), "the full archive"),
+    return [(a["name"], "the %s file" % a["role"]) for a in CFG.assets(version)] + [
+        (CFG.archive_name("dmm", version), "the DMM archive"),
+        (CFG.archive_name("manual", version), "the full archive"),
         ("%s.asi" % CFG.file_base, "the plugin"),
     ]
 

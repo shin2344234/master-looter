@@ -11,6 +11,7 @@ root, and this module is the one place that reads it.
                          file by version.pattern, whose first group it is
     cfg.path("private", "github", "release-%s.md" % cfg.version)
     cfg.zip_manual       mod/dist/StaminaMaster-1.0.2.zip
+    cfg.assets()         files that ship beside the archives, such as an add-on
     rc.read_key("NEXUS_API_KEY")
 """
 import io
@@ -74,13 +75,38 @@ class Config(object):
     def set_version(self, version):
         self._version = version
 
+    def archive_template(self, role):
+        """The name pattern for the manual or DMM archive, from archives in
+        release.json, with {fileBase} filled in and {version} left."""
+        default = {"manual": "{fileBase}-{version}.zip", "dmm": "{fileBase}-{version}-DMM.zip"}[role]
+        t = (self.data.get("archives") or {}).get(role, default)
+        return t.replace("{fileBase}", self.file_base)
+
+    def archive_name(self, role, version=None):
+        return self.archive_template(role).replace("{version}", version or self.version)
+
     @property
     def zip_manual(self):
-        return os.path.join(self.dist, "%s-%s.zip" % (self.file_base, self.version))
+        return os.path.join(self.dist, self.archive_name("manual"))
 
     @property
     def zip_dmm(self):
-        return os.path.join(self.dist, "%s-%s-DMM.zip" % (self.file_base, self.version))
+        return os.path.join(self.dist, self.archive_name("dmm"))
+
+    def assets(self, version=None):
+        """The files under assets in release.json, which ship beside the two
+        archives on GitHub. Each is a dict: role, template (its published name
+        with {version} left), name, source and path, the copy package.ps1 puts
+        in dist under that name."""
+        v = version or self.version
+        out = []
+        for a in self.data.get("assets", []):
+            template = a["name"].replace("{fileBase}", self.file_base)
+            name = template.replace("{version}", v)
+            out.append({"role": a["role"], "template": template, "name": name,
+                        "source": self.path(a["from"].replace("{version}", v)),
+                        "path": os.path.join(self.dist, name)})
+        return out
 
     @property
     def nexus_files_url(self):

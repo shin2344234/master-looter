@@ -52,6 +52,27 @@ function Get-ReleaseConfig {
     $game = 'crimsondesert'
     if ($data.nexus -and $data.nexus.game) { $game = $data.nexus.game }
 
+    # archives in release.json can rename the two zips; {fileBase} and
+    # {version} in a name are filled in. release_config.py reads them the same way.
+    $names = @{ manual = '{fileBase}-{version}.zip'; dmm = '{fileBase}-{version}-DMM.zip' }
+    foreach ($role in @('manual', 'dmm')) {
+        if ($data.archives -and $data.archives.$role) { $names[$role] = [string] $data.archives.$role }
+        $names[$role] = $names[$role].Replace('{fileBase}', $data.fileBase).Replace('{version}', $Version)
+    }
+
+    # assets: files that ship beside the two archives on GitHub, such as an
+    # add-on. package.ps1 copies each from its source into dist under its name.
+    $assets = @(foreach ($a in @($data.assets)) {
+        if (-not $a) { continue }
+        $name = ([string] $a.name).Replace('{fileBase}', $data.fileBase).Replace('{version}', $Version)
+        [pscustomobject] @{
+            Role   = [string] $a.role
+            Name   = $name
+            Source = Join-Path $root (([string] $a.from).Replace('{version}', $Version))
+            Path   = Join-Path $dist $name
+        }
+    })
+
     [pscustomobject] @{
         Root         = $root
         Data         = $data
@@ -60,8 +81,9 @@ function Get-ReleaseConfig {
         Version      = $Version
         Dist         = $dist
         Asi          = Join-Path $dist ($data.fileBase + '.asi')
-        ZipManual    = Join-Path $dist ('{0}-{1}.zip' -f $data.fileBase, $Version)
-        ZipDmm       = Join-Path $dist ('{0}-{1}-DMM.zip' -f $data.fileBase, $Version)
+        ZipManual    = Join-Path $dist $names.manual
+        ZipDmm       = Join-Path $dist $names.dmm
+        Assets       = $assets
         ScriptsDir   = Join-Path $root $data.scriptsDir
         GitHub       = $data.github
         GitHubUrl    = 'https://github.com/' + $data.github
