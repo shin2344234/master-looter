@@ -1,10 +1,10 @@
 # Drop sets, build 2.02.00
 
-17130 drop sets, 21682 entries, parsed from dropsetinfo.staticinfobody with every record ending on its byte boundary.
+17146 drop sets, 21698 entries, parsed from dropsetinfo.staticinfobody with every record ending on its byte boundary.
 
 ## Kinds of set
 
-- inline item: 13901
+- inline item: 13917
 - designed: 1335
 - inline knowledge: 1310
 - mercenary: 321
@@ -16,7 +16,7 @@ Inline sets are generated from scripts and quests (their name is literally `Item
 
 ## What entries point at
 
-- item: 19051
+- item: 19067
 - knowledge: 1823
 - character (mount): 355
 - contribution: 169
@@ -75,7 +75,7 @@ Inline sets are generated from scripts and quests (their name is literally `Item
 
 ## Items
 
-- 3318 of 8373 items appear in at least one drop set; 1682 appear in a designed set.
+- 3319 of 8374 items appear in at least one drop set; 1682 appear in a designed set.
 
 ## Field semantics
 

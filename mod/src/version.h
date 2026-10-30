@@ -18,9 +18,9 @@
 #define ML_BUILD_TAG ""
 #endif
 #define ML_VERSION_FULL ML_VERSION ML_BUILD_TAG
-// The exe version until the DLC update of 29 October 2026 and its patch of 30
-// October have a settled public patch name; Private Storage Master and Stack
-// Master say the same.
-#define ML_GAME_BUILD "1.0.0.3424"
+// The exe version until the DLC update of 29 October 2026 and its two patches
+// of 30 October have a settled public patch name; Private Storage Master and
+// Stack Master say the same.
+#define ML_GAME_BUILD "1.0.0.3446"
 #define ML_MOD_PAGE "https://www.nexusmods.com/crimsondesert/mods/3402"
 #define ML_SOURCE_URL "https://github.com/shin2344234/master-looter"

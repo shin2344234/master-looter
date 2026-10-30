@@ -8198,6 +8198,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1005479	Diving_BackPack_02	Explorer's Breathing Device	armor	accessory armor backpack equipment special tier-2	2	2632
 -1	1005439	Diving_Propulsion_BackPack	Propulsion Breathing Device	armor	accessory armor backpack docking equipment special tier-3	3	5263
 -1	1006523	Diving_Propulsion_BackPack_I	Enhanced Propulsion Breathing Device	armor	accessory armor backpack docking equipment special tier-3	3	7895
+-1	1004823	Oongka_Rocket_BackPack_II	Skyway Rocket Pack	armor	accessory armor backpack docking equipment important no-sell special tier-5	5	1
 -1	1005304	MachineGun_Backpack	Machine Gun Pack	accessory	accessory backpack docking equipment tier-3	3	85
 -1	1005585	item_ship_bowdeco_0002	Medium Fair Wind Figurehead	platform-bonus	equipment important no-sell platform-bonus preorder special tier-0	0	1
 -1	1005591	item_ship_sterndecor_0003	Medium Fair Wind Stern	platform-bonus	equipment important no-sell platform-bonus preorder special tier-0	0	1

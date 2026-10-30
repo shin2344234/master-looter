@@ -1,6 +1,6 @@
 # Master Looter item tags, build 2.02.00
 
-8373 items parsed from iteminfo.staticinfobody; 8301 have an English name.
+8374 items parsed from iteminfo.staticinfobody; 8302 have an English name.
 
 ## Class column (one per item, first match in priority order)
 
@@ -78,8 +78,8 @@
 - abyss-gear-box: 14
 - decoration: 13
 - drink: 13
+- armor: 12
 - crafting-material: 11
-- armor: 11
 - arrow: 10
 - magic-bullet: 9
 - grain: 9
@@ -121,15 +121,15 @@
 
 - tier-0: 4780
 - stackable: 3405
-- armor: 2280
+- armor: 2281
 - wild: 1749
 - goods: 1732
-- equipment: 1726
+- equipment: 1727
 - damaged-gear: 1662
 - document: 1363
 - tier-1: 1277
 - knowledge: 1236
-- no-sell: 1145
+- no-sell: 1146
 - extractable: 1105
 - furniture: 1054
 - body-armor: 1039
@@ -137,13 +137,13 @@
 - tier-2: 896
 - leather: 882
 - tier-3: 805
-- important: 757
+- important: 758
 - quest: 722
 - weapon: 623
 - recipe: 558
 - cloth: 556
 - plate: 551
-- docking: 540
+- docking: 541
 - housing-only: 519
 - gimmick: 486
 - keepsake: 484
@@ -160,13 +160,13 @@
 - material: 364
 - boots: 358
 - household: 256
-- special: 239
-- tier-5: 238
+- special: 240
+- tier-5: 239
 - two-hand: 237
 - field-cooked: 212
 - abyss-gear: 209
 - book: 204
-- accessory: 193
+- accessory: 194
 - dev: 191
 - one-hand: 187
 - ingredient: 183
@@ -184,7 +184,7 @@
 - storage: 112
 - recipe-furniture: 110
 - recipe-book: 108
-- backpack: 104
+- backpack: 105
 - seafood: 101
 - shield: 101
 - mount-gear: 98
