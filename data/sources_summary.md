@@ -1,7 +1,7 @@
 # Drop sources, exe 1.0.0.3392
 
 - characters: 7600; with reward drop sets: 6377; with equipment: 5127; with a catch/steal set: not derived on this build; catch_sets finds no anchor in the 1.0.0.3392 CharacterInfo layout, so the catch_sets column of character_drops.csv is empty
-- gimmicks: 15563; with a drop block: 519
+- gimmicks: 15565; with a drop block: 519
 - drop sets used by at least one character or gimmick: 616 of 17130
 - items with at least one known source (set via character or gimmick, worn equipment): 3027 of 8373
 
