@@ -1,6 +1,6 @@
 # Master Looter plugin
 
-An ASI plugin for Crimson Desert, built for the DLC update (exe 1.0.0.3424, the patch of 30 October 2026): an auto-looter driven by the tagged item database, with an in-game settings menu.
+An ASI plugin for Crimson Desert, built for the DLC update (exe 1.0.0.3446, the second patch of 30 October 2026): an auto-looter driven by the tagged item database, with an in-game settings menu.
 
 ## Installing
 
@@ -19,7 +19,7 @@ Uninstall by deleting the `MasterLooter.*` files from `bin64` and the `%LOCALAPP
 ## What is in the box
 
 - `MasterLooter.asi`: the plugin. Draws a Dear ImGui menu over the game through a DirectX 12 present hook (adapted from Trinity, see THIRD_PARTY_NOTICES.md), so it works with DLSS frame generation and HDR.
-- `MasterLooter.items.tsv`: the item database, compiled into the plugin (a copy next to the plugin overrides the built-in one, for trying a regenerated table): 8,373 items with runtime row id, class, tags, tier and sell value (the 1,309 that only the DLC carries have no row id and are found by key), generated from `data/items_tagged.csv` by `scripts/make_itemdb_tsv.py`. Classes and tags come from the group rules in `scripts/build_item_db.py`; the hand-made corrections for items the rules get wrong (legendary fish, salamanders, ores, horse feed) live in `data/class_overrides.csv`.
+- `MasterLooter.items.tsv`: the item database, compiled into the plugin (a copy next to the plugin overrides the built-in one, for trying a regenerated table): 8,374 items with runtime row id, class, tags, tier and sell value (the 1,309 that only the DLC carries have no row id and are found by key), generated from `data/items_tagged.csv` by `scripts/make_itemdb_tsv.py`. Classes and tags come from the group rules in `scripts/build_item_db.py`; the hand-made corrections for items the rules get wrong (legendary fish, salamanders, ores, horse feed) live in `data/class_overrides.csv`.
 - `MasterLooter.ini`: written next to the plugin on first run, rewritten whenever a setting changes in the menu, and reloaded within a second if edited by hand while the game runs.
 - `MasterLooter.log`, in the game's `bin64` folder beside the plugin, so `...\steamapps\common\Crimson Desert\bin64\MasterLooter.log` on a Steam install. The Status tab prints the full path with a button that opens the folder. It is created as the plugin loads rather than at the first frame, so a crash before anything is drawn still leaves one. Rewritten every launch. Signature resolution, hook installation, the event self test, every item taken and, once per object, why anything within range was skipped.
 - `MasterLooter.creatures.tsv`: every creature the player can catch with the class of the item it becomes, compiled into the plugin the same way, generated from the character data by `scripts/make_creatures_tsv.py`. It is how insects, fish, seafood and small animals are told apart; crabs, shrimp, squid, starfish and seahorses count as fish for the Fish toggle, and a row without an item still carries a class, which is what the Classes tab judges for the few of those that can be caught, such as a Firefly Colony.
