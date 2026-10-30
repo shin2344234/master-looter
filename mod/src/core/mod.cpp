@@ -183,6 +183,69 @@ namespace ml::Mod
         *isSelf = (h == g_self);
     }
 
+    // The exe's self-checking code, which faults on purpose.
+    //
+    // From exe 1.0.0.3392 on, the game raises a burst of first-chance faults
+    // in the first ten seconds of every session: reads of FFFFFFFFFFFFFFFF and
+    // an illegal instruction, each at the head of a two-instruction stub like
+    // mov rdx, [rdx]; ret, and the game handles every one itself. All of them
+    // sit in one section of the exe that is both writable and executable,
+    // around 196 MB on 3446, whose name changes with every build (.xtls,
+    // .code, .00cfg, .debug). No compiler emits a section like that, and 2976
+    // already had one without faulting. Since 3392 they took all 24 lines the
+    // handler below allows a session, so a real fault later in play had no
+    // line left. Faults there are counted instead of written now, and the
+    // count is written when the loot engine starts and at shutdown.
+    //
+    // Found once at load, before the handler is added, and never changed
+    // after, so the handler reads it without a lock. Only sections of 16 MB
+    // and up: a small writable code section is ordinary in some binaries.
+    struct CodeRange { uintptr_t lo, hi; };
+    static CodeRange g_selfCheck[4] = {};
+    static int g_selfCheckN = 0;
+    static volatile LONG g_selfCheckFaults = 0;
+
+    static void FindSelfCheckSections()
+    {
+        const auto base = reinterpret_cast<const unsigned char*>(GetModuleHandleW(nullptr));
+        if (!base) return;
+        const auto dos = reinterpret_cast<const IMAGE_DOS_HEADER*>(base);
+        if (dos->e_magic != IMAGE_DOS_SIGNATURE) return;
+        const auto nt = reinterpret_cast<const IMAGE_NT_HEADERS*>(base + dos->e_lfanew);
+        if (nt->Signature != IMAGE_NT_SIGNATURE) return;
+        const DWORD rwx = IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_WRITE;
+        const IMAGE_SECTION_HEADER* s = IMAGE_FIRST_SECTION(nt);
+        for (WORD i = 0; i < nt->FileHeader.NumberOfSections && g_selfCheckN < 4; ++i, ++s)
+        {
+            if ((s->Characteristics & rwx) != rwx || s->Misc.VirtualSize < (16u << 20)) continue;
+            const uintptr_t lo = reinterpret_cast<uintptr_t>(base) + s->VirtualAddress;
+            g_selfCheck[g_selfCheckN++] = { lo, lo + s->Misc.VirtualSize };
+            char name[9] = {};
+            memcpy(name, s->Name, 8);
+            LOG("[fault] the exe has a code section it can write to, %s at +0x%lX, %lu MB. Since exe "
+                "1.0.0.3392 the game's self-checking code faults there on purpose at startup and handles "
+                "every fault itself, so faults there are counted, not written, and do not use up the "
+                "lines kept for faults anywhere else.",
+                name, static_cast<unsigned long>(s->VirtualAddress),
+                static_cast<unsigned long>(s->Misc.VirtualSize >> 20));
+        }
+    }
+
+    static bool InSelfCheck(const void* at)
+    {
+        const uintptr_t a = reinterpret_cast<uintptr_t>(at);
+        for (int i = 0; i < g_selfCheckN; ++i)
+            if (a >= g_selfCheck[i].lo && a < g_selfCheck[i].hi) return true;
+        return false;
+    }
+
+    static void LogSelfCheckFaults(const char* when)
+    {
+        if (!g_selfCheckN) return;
+        LOG("[fault] %ld first-chance fault(s) in the exe's self-checking section %s, all passed on to the "
+            "game, which handles them.", static_cast<long>(g_selfCheckFaults), when);
+    }
+
     // A dump of the process the moment a thread runs out of stack.
     //
     // A stack overflow leaves nothing behind otherwise: no event in the
@@ -315,6 +378,17 @@ namespace ml::Mod
         char mod[MAX_PATH]; unsigned long long off = 0; bool self = false;
         WhereIs(er->ExceptionAddress, mod, sizeof mod, &off, &self);
         if (self) return EXCEPTION_CONTINUE_SEARCH;   // mem:: probing, as designed
+
+        // The exe's self-checking code, above FindSelfCheckSections. The first
+        // is written so the log shows this test firing; the rest are counted.
+        if (InSelfCheck(er->ExceptionAddress))
+        {
+            if (InterlockedIncrement(&g_selfCheckFaults) == 1)
+                LOG("[fault] first chance 0x%08X at %p (%s+0x%llX) is the exe's self-checking code; "
+                    "this one and every later one there is counted, not written.",
+                    c, er->ExceptionAddress, mod, off);
+            return EXCEPTION_CONTINUE_SEARCH;
+        }
 
         // One line per faulting instruction, not one per fault.
         //
@@ -479,6 +553,7 @@ namespace ml::Mod
         }
         LOG("Master Looter v%s for Crimson Desert %s starting (built %s %s%s).", ML_VERSION_FULL, ML_GAME_BUILD, __DATE__, __TIME__, stamp);
         g_self = module;
+        if (HostIsGame()) FindSelfCheckSections();
         g_prevFilter = SetUnhandledExceptionFilter(&LastChance);
         AddVectoredExceptionHandler(1 /* first */, &FirstChance);
         LOG("[crash] handlers armed: vectored plus top-level filter.");
@@ -690,6 +765,7 @@ namespace ml::Mod
         else LOG_ERR("Creature table unavailable: neither compiled into the plugin nor next to it as MasterLooter.creatures.tsv; creatures cannot be told apart by species.");
         State::Get().overlayReady = true;
         if (HostIsGame()) LogLoadedModules();
+        LogSelfCheckFaults("before the loot engine started");
 
         // The loot engine touches game memory and game functions: only in the game itself.
         if (HostIsGame()) loot::Start();
@@ -701,6 +777,7 @@ namespace ml::Mod
         if (!g_initialized)
             return;
         g_initialized = false;
+        LogSelfCheckFaults("this session");
         if (terminating)
         {
             Settings::Save();
