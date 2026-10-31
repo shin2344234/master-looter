@@ -17,7 +17,7 @@ Item, item group, drop set and drop source tables for Crimson Desert exe 1.0.0.3
 
 ## What is committed and what is not
 
-data/class_overrides.csv and the three summaries are committed. The full outputs (items_tagged.csv/.json, character_drops.csv, the drop set and source tables, item_groups_tree.txt, unmapped_groups.txt) are generated locally from your own extracted game files and are not: they carry the game's text and tables. The three TSVs in mod/data are committed and current for exe 1.0.0.3446, DLC rows included; a plain build of the plugin does not need any of this.
+data/class_overrides.csv and the three summaries are committed. The full outputs (items_tagged.csv/.json, character_drops.csv, the drop set and source tables, item_groups_tree.txt, unmapped_groups.txt) are generated locally from your own extracted game files and are not: they carry the game's text and tables. The three TSVs in mod/data are committed and current for exe 1.0.0.3460, DLC rows included; a plain build of the plugin does not need any of this.
 
 ## Regenerating after a game patch
 
