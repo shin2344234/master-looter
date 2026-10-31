@@ -230,12 +230,28 @@ GROUP_TAGS = {
     "ItemGroup_Food_Horse_Only": ["mount-feed"],
     "ItemGroup_ExpansionBag": ["bag"],
     "ItemGroup_ExpansionFarmSlot": ["bag"],
+    # The full item review for 1.6.53. Each of these left its items in a class
+    # no Classes tab group reaches, "other", "equipment" or "recipe", so no
+    # group checkbox could switch them. The island house modules carry no
+    # housing-only flag in the game data, unlike the fences and trees of the
+    # same build menu, and were the one set the defaults took.
+    "ItemGroup_HousingV2": ["housing-only"],
+    "ItemGroup_Ocean_Box": ["chest"],
+    "ItemGroup_Equip_Drops_Special_Ocean_PetBox": ["chest"],
+    "ItemGroup_Material_Food_BossRush_DLC": ["food"],
+    "ItemGroup_Vehicle_Ship": ["vehicle-part"],
+    "ItemGroup_ETC_Recipe_Ship_Parts": ["recipe-vehicle"],
+    "ItemGroup_ETC_Recipe_Wagon_Parts": ["recipe-vehicle"],
+    "ItemGroup_ETC_Recipe_Diving": ["recipe-armor"],
 }
 
 # prefix rules (group string_key startswith) -> tags; applied after exact matches
 GROUP_PREFIX_TAGS = [
     ("ItemGroup_Material_Alchemy_", ["reagent"]),
     ("ItemGroup_ETC_Recipe_Furniture", ["recipe-furniture"]),
+    ("ItemGroup_ETC_Recipe_HousingObject", ["recipe-furniture"]),
+    ("ItemGroup_Wagon_Equipment_", ["vehicle-part"]),
+    ("ItemGroup_Potion_StatBuff_", ["elixir"]),
     ("ItemGroup_Material_Object_Wood", ["wood"]),
     ("ItemGroup_Material_Object_Leather", ["hide"]),
     ("ItemGroup_Material_Object_Metal", ["metal"]),
@@ -319,6 +335,7 @@ CLASS_ORDER = [
     "key", "cube-key",
     # recipe kinds before the generic bucket, so each kind is its own class
     "skill-book", "recipe-book", "recipe-food", "recipe-potion", "recipe-furniture", "recipe-abyss-gear", "recipe-armor",
+    "recipe-vehicle",
     "recipe", "book", "treasure-map", "bounty-notice", "skill-poster", "poster",
     "legendary-animal-report", "contract", "note", "document",
     "ammo-bundle", "explosive", "arrow", "bullet", "cannonball", "magic-bullet", "ammo",

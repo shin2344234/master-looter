@@ -940,7 +940,7 @@ namespace ml::gui
         dirty |= ImGui::Checkbox(TR("Skip quest items"), &c.skipQuestItems);
         Help(TR("Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived."));
         dirty |= ImGui::Checkbox(TR("Skip quest equipment"), &c.skipQuestGear);
-        Help(TR("Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 180 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in."));
+        Help(TR("Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in."));
         dirty |= ImGui::Checkbox(TR("Skip items shops refuse to buy"), &c.skipNoSell);
         dirty |= ImGui::SliderInt(TR("Minimum value (copper)"), &c.minValueCopper, 0, 10000, c.minValueCopper ? "%d" : "off", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_AlwaysClamp);
         Help((std::string(TR("Items with an unknown value are never filtered by it.")) + " " + TR("A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.")).c_str());
@@ -1075,10 +1075,10 @@ namespace ml::gui
         { "Accessories",         "accessory necklace ring earring bag", "" },
         { "Abyss and Kuku",      "abyss-gear abyss-gear-box abyss-item kuku-power-core kuku-core kuku-pot-item kuku-pot kuku-currency stat-boost", "Abyss gear, Kuku pots and their parts." },
         { "Food and drink",      "food field-cooked drink elixir potion store-food honey meat seafood fruit vegetable grain cooking-basic", "" },
-        { "Materials",           "ore jewel stone wood hide fabric bone crafting-material alchemy-material herb ingredient seed trade-good bait", "Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input." },
+        { "Materials",           "ore jewel stone wood hide fabric bone crafting-material alchemy-material herb ingredient seed trade-good bait dye", "Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input." },
         { "Creatures",           "insect fish animal amphibian", "Caught creatures, live or lying around; a creature the table can name follows its class rule. Crabs, shrimp and squid are seafood under Food and drink." },
         { "Ammunition",          "arrow ammo ammo-bundle bullet magic-bullet cannonball explosive", "" },
-        { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report skill-book recipe-book recipe-food recipe-potion recipe-furniture recipe-abyss-gear recipe-armor", "" },
+        { "Books and papers",    "book document note poster skill-poster bounty-notice treasure-map legendary-animal-report skill-book recipe-book recipe-food recipe-potion recipe-furniture recipe-abyss-gear recipe-armor recipe-vehicle", "" },
         { "Furniture and decor", "furniture household lamp light ornament painting flower-pot decoration cooking-facility storage container", "Household clutter and collectibles, most of it worthless." },
         { "Mounts and vehicles", "mount-gear mount-feed mount-utility pet-gear vehicle-part", "" },
         { "Treasure and keepsakes", "treasure sealed-artifact artifact keepsake currency chest", "Boss rewards, artifacts, memory items, coin pouches and reward chests." },

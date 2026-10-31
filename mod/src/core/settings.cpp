@@ -537,7 +537,33 @@ namespace ml::Settings
             c.configVersion = 8;
             migrated = true;
         }
-        if (!fromFile) c.configVersion = 8;
+        // 1.6.53 moved items out of three classes no group reached. Ship and
+        // wagon parts left "equipment" for "vehicle-part", and the recipes
+        // left "recipe" for "recipe-vehicle", "recipe-furniture" and
+        // "recipe-armor". A rule on the old class carries to the new one
+        // wherever that one has no rule of its own, so nothing a player
+        // switched off by class comes back on.
+        if (fromFile && c.configVersion < 9)
+        {
+            struct Move { const char* from; const char* to; };
+            static const Move kMoves[] = {
+                { "equipment", "vehicle-part" }, { "recipe", "recipe-vehicle" },
+                { "recipe", "recipe-furniture" }, { "recipe", "recipe-armor" },
+            };
+            for (const Move& m : kMoves)
+            {
+                const auto old = c.classRule.find(m.from);
+                if (old == c.classRule.end() || c.classRule.count(m.to)) continue;
+                c.classRule[m.to] = old->second;
+                LOG("Settings migrated to version 9: the %s rule (%s) now covers %s, where those items moved.",
+                    m.from, old->second ? "loot" : "skip", m.to);
+            }
+            c.classRule.erase("equipment");
+            c.classRule.erase("recipe");
+            c.configVersion = 9;
+            migrated = true;
+        }
+        if (!fromFile) c.configVersion = 9;
         return migrated;
     }
 

@@ -15,15 +15,13 @@
 - dev: 189
 - container: 170
 - sealed-artifact: 161
+- recipe-furniture: 159
 - helm: 153
 - body-armor: 152
-- food: 132
-- equipment: 124
-- recipe: 119
-- poster: 115
-- other: 115
+- vehicle-part: 146
+- food: 133
+- poster: 118
 - recipe-abyss-gear: 112
-- recipe-furniture: 110
 - cloak: 102
 - boots: 102
 - shield: 100
@@ -32,6 +30,7 @@
 - storage: 91
 - gloves: 91
 - recipe-food: 85
+- other: 84
 - insect: 82
 - painting: 78
 - kuku-power-core: 78
@@ -39,13 +38,14 @@
 - bounty-notice: 76
 - treasure: 73
 - recipe-book: 72
-- treasure-map: 67
+- treasure-map: 69
+- recipe-vehicle: 65
 - trade-good: 65
 - gimmick: 63
 - lamp: 62
 - dye: 60
 - light: 56
-- tool: 54
+- tool: 55
 - ornament: 50
 - key: 48
 - skill-poster: 42
@@ -63,6 +63,8 @@
 - household: 26
 - kuku-pot-item: 26
 - animal: 25
+- chest: 25
+- elixir: 24
 - earring: 23
 - cooking-facility: 21
 - seed: 20
@@ -70,10 +72,8 @@
 - fruit: 19
 - vegetable: 19
 - bag: 19
-- vehicle-part: 19
 - ore: 16
 - kuku-core: 16
-- elixir: 15
 - quest: 15
 - abyss-gear-box: 14
 - decoration: 13
@@ -84,7 +84,7 @@
 - magic-bullet: 9
 - grain: 9
 - wood: 8
-- chest: 8
+- recipe-armor: 8
 - eyewear: 8
 - cannonball: 7
 - amphibian: 7
@@ -106,16 +106,13 @@
 - honey: 4
 - cooking-basic: 4
 - mount-utility: 4
-- platform-bonus: 4
 - abyss-item: 3
 - kuku-currency: 3
 - artifact: 3
-- recipe-armor: 3
 - kuku-pot: 3
 - potion: 2
 - bait: 2
 - mask: 1
-- goods: 1
 
 ## All tags
 
@@ -140,11 +137,11 @@
 - tier-3: 805
 - important: 758
 - weapon: 623
+- housing-only: 572
 - recipe: 558
 - cloth: 556
 - plate: 551
 - docking: 541
-- housing-only: 519
 - gimmick: 486
 - keepsake: 484
 - decoration: 431
@@ -156,7 +153,7 @@
 - collectible: 376
 - consumable: 376
 - gloves: 374
-- food: 364
+- food: 365
 - material: 364
 - boots: 358
 - household: 256
@@ -173,7 +170,9 @@
 - container: 170
 - reagent: 167
 - sealed-artifact: 161
-- poster: 157
+- poster: 160
+- recipe-furniture: 159
+- vehicle-part: 147
 - trade-good: 134
 - cloak: 130
 - alchemy-material: 125
@@ -182,7 +181,6 @@
 - use-immediately: 116
 - recipe-abyss-gear: 112
 - storage: 112
-- recipe-furniture: 110
 - recipe-book: 108
 - backpack: 105
 - seafood: 101
@@ -200,15 +198,16 @@
 - treasure: 73
 - stealth-gear: 71
 - restores-mp: 69
+- treasure-map: 69
 - packaged: 68
-- treasure-map: 67
 - contribution-reward: 66
 - ranged: 65
+- recipe-vehicle: 65
 - lamp: 62
 - mace: 62
 - preorder: 61
+- tool: 61
 - dye: 60
-- tool: 60
 - crafting-material: 57
 - ammo: 56
 - restores-stamina: 56
@@ -236,9 +235,11 @@
 - hidden: 28
 - recipe-potion: 28
 - cube-key: 27
+- chest: 26
 - warhammer: 26
 - dagger: 24
 - earring: 24
+- elixir: 24
 - potion: 23
 - greataxe: 22
 - large-shield: 22
@@ -246,7 +247,6 @@
 - npc-tool: 21
 - bow: 20
 - seed: 20
-- vehicle-part: 20
 - atag: 19
 - axe: 19
 - bag: 19
@@ -257,7 +257,6 @@
 - kuku-core: 16
 - mount-feed: 16
 - ore: 16
-- elixir: 15
 - legendary: 15
 - abyss-gear-box: 14
 - clam: 13
@@ -279,7 +278,6 @@
 - token: 10
 - abyss-item: 9
 - cannonball: 9
-- chest: 9
 - eyewear: 9
 - grain: 9
 - magic-bullet: 9
@@ -287,6 +285,7 @@
 - character-exclusive: 8
 - currency-pack: 8
 - legendary-animal: 8
+- recipe-armor: 8
 - shotgun: 8
 - stat-boost: 8
 - wood: 8
@@ -328,7 +327,6 @@
 - mushroom: 3
 - npc-only: 3
 - quest-reward: 3
-- recipe-armor: 3
 - sprayer: 3
 - bait: 2
 - crossbow: 2
@@ -550,11 +548,22 @@ Group rules (item gets the tags of every group in its ancestry):
 - ItemGroup_Food_Horse_Only -> mount-feed
 - ItemGroup_ExpansionBag -> bag
 - ItemGroup_ExpansionFarmSlot -> bag
+- ItemGroup_HousingV2 -> housing-only
+- ItemGroup_Ocean_Box -> chest
+- ItemGroup_Equip_Drops_Special_Ocean_PetBox -> chest
+- ItemGroup_Material_Food_BossRush_DLC -> food
+- ItemGroup_Vehicle_Ship -> vehicle-part
+- ItemGroup_ETC_Recipe_Ship_Parts -> recipe-vehicle
+- ItemGroup_ETC_Recipe_Wagon_Parts -> recipe-vehicle
+- ItemGroup_ETC_Recipe_Diving -> recipe-armor
 
 Group prefix rules:
 
 - ItemGroup_Material_Alchemy_* -> reagent
 - ItemGroup_ETC_Recipe_Furniture* -> recipe-furniture
+- ItemGroup_ETC_Recipe_HousingObject* -> recipe-furniture
+- ItemGroup_Wagon_Equipment_* -> vehicle-part
+- ItemGroup_Potion_StatBuff_* -> elixir
 - ItemGroup_Material_Object_Wood* -> wood
 - ItemGroup_Material_Object_Leather* -> hide
 - ItemGroup_Material_Object_Metal* -> metal

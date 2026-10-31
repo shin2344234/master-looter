@@ -3318,49 +3318,49 @@ row	key	string_key	name	class	tags	tier	value_copper
 3316	1004865	Recipe_Item_gimmick_ex_dpf_dogcushion_0002_index01	Blueprint: Lotus Leaf Fragrance Puppy Cushion	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1816
 3317	1004866	Recipe_Item_dogcushion_0001	Blueprint: Sunset-Touched Puppy Cushion	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1871
 3318	1004867	Recipe_Item_dogcushion_0001_index01	Blueprint: Dewlit Vineyard Puppy Cushion	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1829
-3319	1005721	Recipe_Item_wagon_base_0001	Blueprint: Wandering Merchant's Cargo Hold	recipe	recipe stackable tier-0	0	2020
-3320	1005722	Recipe_Item_wagon_base_0002	Blueprint: Meticulous Carpenter's Cargo Hold	recipe	recipe stackable tier-0	0	2810
-3321	1005723	Recipe_Item_wagon_base_0003	Blueprint: Seasoned Comrade's Cargo Hold	recipe	recipe stackable tier-0	0	2040
-3322	1005724	Recipe_Item_wagon_base_0004	Blueprint: Rugged Traveler's Cargo Hold	recipe	recipe stackable tier-0	0	1980
-3323	1005725	Recipe_Item_wagon_base_0005	Blueprint: The Laughing Marionette's Cargo Hold	recipe	recipe stackable tier-0	0	3520
-3324	1005726	Recipe_Item_wagon_base_0006	Blueprint: Renowned Magnate's Cargo Hold	recipe	recipe stackable tier-0	0	4220
-3325	1005727	Recipe_Item_wagon_base_0007	Blueprint: Elegant Noble's Cargo Hold	recipe	recipe stackable tier-0	0	4180
-3326	1005728	Recipe_Item_wagon_base_0008	Blueprint: Noble Delegation's Cargo Hold	recipe	recipe stackable tier-0	0	4250
-3327	1005801	Recipe_Item_Wagon_Base_Seat_0001	Blueprint: Meticulous Carpenter's Wagon Seat	recipe	recipe stackable tier-0	0	2700
-3328	1005729	Recipe_Item_Wagon_Base_Seat_0002	Blueprint: The Laughing Marionette's Wagon Seat	recipe	recipe stackable tier-0	0	3520
-3329	1005730	Recipe_Item_Wagon_Base_Seat_0003	Blueprint: Seasoned Comrade's Wagon Seat	recipe	recipe stackable tier-0	0	2000
-3330	1005731	Recipe_Item_Wagon_Base_Seat_0004	Blueprint: Noble Delegation's Wagon Seat	recipe	recipe stackable tier-0	0	3930
-3331	1005732	Recipe_Item_Wagon_Base_Seat_0005	Blueprint: Wandering Merchant's Wagon Seat	recipe	recipe stackable tier-0	0	1980
-3332	1005733	Recipe_Item_Wagon_Base_Seat_0006	Blueprint: Renowned Magnate's Wagon Seat	recipe	recipe stackable tier-0	0	3960
-3333	1005734	Recipe_Item_Wagon_Base_Seat_0007	Blueprint: Eccentric Doctor's Wagon Seat	recipe	recipe stackable tier-0	0	4490
-3334	1005735	Recipe_Item_Wagon_Base_Seat_0008	Blueprint: Eccentric Lord's Wagon Seat	recipe	recipe stackable tier-0	0	4460
-3335	1005736	Recipe_Item_Wagon_Base_Seat_0009	Blueprint: Elegant Noble's Wagon Seat	recipe	recipe stackable tier-0	0	3950
-3336	1005737	Recipe_Item_wagon_wheel_0001	Blueprint: Seasoned Comrade's Wheel	recipe	recipe stackable tier-0	0	1920
-3337	1005738	Recipe_Item_wagon_wheel_0002	Blueprint: Meticulous Carpenter's Wheel	recipe	recipe stackable tier-0	0	2510
-3338	1005739	Recipe_Item_wagon_wheel_0003	Blueprint: The Laughing Marionette's Wheel	recipe	recipe stackable tier-0	0	3180
-3339	1005740	Recipe_Item_wagon_wheel_0004	Blueprint: Renowned Magnate's Wheel	recipe	recipe stackable tier-0	0	3660
-3340	1005741	Recipe_Item_wagon_wheel_0005	Blueprint: Wandering Merchant's Wheel	recipe	recipe stackable tier-0	0	1910
-3341	1005742	Recipe_Item_wagon_wheel_0006	Blueprint: Elegant Noble's Wheel	recipe	recipe stackable tier-0	0	3670
-3342	1005743	Recipe_Item_wagon_wheel_0007	Blueprint: Noble Delegation's Wheel	recipe	recipe stackable tier-0	0	3650
-3343	1005744	Recipe_Item_Wagon_Base_lantern_0001	Blueprint: Wagon Lantern	recipe	recipe stackable tier-0	0	1880
-3344	1006839	Recipe_Paper_HousingObject_Flowerbed_000_0101	Golden Front Yard	recipe	document recipe stackable tier-0	0	2500
-3345	1006840	Recipe_Paper_HousingObject_Flowerbed_000_0102	Garden of Morning Dew	recipe	document recipe stackable tier-0	0	2500
-3346	1006841	Recipe_Paper_HousingObject_Flowerbed_000_0103	Flowerbeds of Sunsets	recipe	document recipe stackable tier-0	0	2500
-3347	1006842	Recipe_Paper_HousingObject_Flowerbed_001_0101	Sunflower-Lined Path	recipe	document recipe stackable tier-0	0	2500
-3348	1006843	Recipe_Paper_HousingObject_Flowerbed_001_0102	Flowers Along the Waters	recipe	document recipe stackable tier-0	0	2500
-3349	1006844	Recipe_Paper_HousingObject_Flowerbed_001_0103	A Red-Blossomed Path	recipe	document recipe stackable tier-0	0	2500
-3350	1006845	Recipe_Paper_HousingObject_Flowerbed_002_0101	Sunlit Plot of Land	recipe	document recipe stackable tier-0	0	2500
-3351	1006846	Recipe_Paper_HousingObject_Flowerbed_002_0102	Small Garden Beneath the Giant Tree	recipe	document recipe stackable tier-0	0	2500
-3352	1006847	Recipe_Paper_HousingObject_Flowerbed_002_0103	Beside the Tall Tree	recipe	document recipe stackable tier-0	0	2500
-3353	1006848	Recipe_Paper_HousingObject_Flowerbed_003_0101	Corner-Brightening Blooms	recipe	document recipe stackable tier-0	0	2500
-3354	1006849	Recipe_Paper_HousingObject_Flowerbed_003_0102	Everblue Corners	recipe	document recipe stackable tier-0	0	2500
-3355	1006850	Recipe_Paper_HousingObject_Flowerbed_003_0103	Thorned Corners	recipe	document recipe stackable tier-0	0	2500
-3356	1006851	Recipe_Paper_HousingObject_Flowerbed_004_0101	Sunlight Around the Bend	recipe	document recipe stackable tier-0	0	2500
-3357	1006852	Recipe_Paper_HousingObject_Flowerbed_004_0102	A Sea of Blooms	recipe	document recipe stackable tier-0	0	2500
-3358	1006853	Recipe_Paper_HousingObject_Flowerbed_004_0103	Sunset at the Edges	recipe	document recipe stackable tier-0	0	2500
-3359	1006854	Recipe_Paper_HousingObject_Flowerbed_005_0101	Golden Colony	recipe	document recipe stackable tier-0	0	2500
-3360	1006855	Recipe_Paper_HousingObject_Flowerbed_005_0102	Waves in the Wind	recipe	document recipe stackable tier-0	0	2500
-3361	1006856	Recipe_Paper_HousingObject_Flowerbed_005_0103	A Blaze of Red Blossoms	recipe	document recipe stackable tier-0	0	2500
+3319	1005721	Recipe_Item_wagon_base_0001	Blueprint: Wandering Merchant's Cargo Hold	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	2020
+3320	1005722	Recipe_Item_wagon_base_0002	Blueprint: Meticulous Carpenter's Cargo Hold	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	2810
+3321	1005723	Recipe_Item_wagon_base_0003	Blueprint: Seasoned Comrade's Cargo Hold	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	2040
+3322	1005724	Recipe_Item_wagon_base_0004	Blueprint: Rugged Traveler's Cargo Hold	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	1980
+3323	1005725	Recipe_Item_wagon_base_0005	Blueprint: The Laughing Marionette's Cargo Hold	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3520
+3324	1005726	Recipe_Item_wagon_base_0006	Blueprint: Renowned Magnate's Cargo Hold	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	4220
+3325	1005727	Recipe_Item_wagon_base_0007	Blueprint: Elegant Noble's Cargo Hold	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	4180
+3326	1005728	Recipe_Item_wagon_base_0008	Blueprint: Noble Delegation's Cargo Hold	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	4250
+3327	1005801	Recipe_Item_Wagon_Base_Seat_0001	Blueprint: Meticulous Carpenter's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	2700
+3328	1005729	Recipe_Item_Wagon_Base_Seat_0002	Blueprint: The Laughing Marionette's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3520
+3329	1005730	Recipe_Item_Wagon_Base_Seat_0003	Blueprint: Seasoned Comrade's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	2000
+3330	1005731	Recipe_Item_Wagon_Base_Seat_0004	Blueprint: Noble Delegation's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3930
+3331	1005732	Recipe_Item_Wagon_Base_Seat_0005	Blueprint: Wandering Merchant's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	1980
+3332	1005733	Recipe_Item_Wagon_Base_Seat_0006	Blueprint: Renowned Magnate's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3960
+3333	1005734	Recipe_Item_Wagon_Base_Seat_0007	Blueprint: Eccentric Doctor's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	4490
+3334	1005735	Recipe_Item_Wagon_Base_Seat_0008	Blueprint: Eccentric Lord's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	4460
+3335	1005736	Recipe_Item_Wagon_Base_Seat_0009	Blueprint: Elegant Noble's Wagon Seat	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3950
+3336	1005737	Recipe_Item_wagon_wheel_0001	Blueprint: Seasoned Comrade's Wheel	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	1920
+3337	1005738	Recipe_Item_wagon_wheel_0002	Blueprint: Meticulous Carpenter's Wheel	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	2510
+3338	1005739	Recipe_Item_wagon_wheel_0003	Blueprint: The Laughing Marionette's Wheel	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3180
+3339	1005740	Recipe_Item_wagon_wheel_0004	Blueprint: Renowned Magnate's Wheel	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3660
+3340	1005741	Recipe_Item_wagon_wheel_0005	Blueprint: Wandering Merchant's Wheel	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	1910
+3341	1005742	Recipe_Item_wagon_wheel_0006	Blueprint: Elegant Noble's Wheel	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3670
+3342	1005743	Recipe_Item_wagon_wheel_0007	Blueprint: Noble Delegation's Wheel	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	3650
+3343	1005744	Recipe_Item_Wagon_Base_lantern_0001	Blueprint: Wagon Lantern	recipe-vehicle	recipe recipe-vehicle stackable tier-0	0	1880
+3344	1006839	Recipe_Paper_HousingObject_Flowerbed_000_0101	Golden Front Yard	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3345	1006840	Recipe_Paper_HousingObject_Flowerbed_000_0102	Garden of Morning Dew	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3346	1006841	Recipe_Paper_HousingObject_Flowerbed_000_0103	Flowerbeds of Sunsets	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3347	1006842	Recipe_Paper_HousingObject_Flowerbed_001_0101	Sunflower-Lined Path	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3348	1006843	Recipe_Paper_HousingObject_Flowerbed_001_0102	Flowers Along the Waters	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3349	1006844	Recipe_Paper_HousingObject_Flowerbed_001_0103	A Red-Blossomed Path	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3350	1006845	Recipe_Paper_HousingObject_Flowerbed_002_0101	Sunlit Plot of Land	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3351	1006846	Recipe_Paper_HousingObject_Flowerbed_002_0102	Small Garden Beneath the Giant Tree	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3352	1006847	Recipe_Paper_HousingObject_Flowerbed_002_0103	Beside the Tall Tree	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3353	1006848	Recipe_Paper_HousingObject_Flowerbed_003_0101	Corner-Brightening Blooms	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3354	1006849	Recipe_Paper_HousingObject_Flowerbed_003_0102	Everblue Corners	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3355	1006850	Recipe_Paper_HousingObject_Flowerbed_003_0103	Thorned Corners	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3356	1006851	Recipe_Paper_HousingObject_Flowerbed_004_0101	Sunlight Around the Bend	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3357	1006852	Recipe_Paper_HousingObject_Flowerbed_004_0102	A Sea of Blooms	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3358	1006853	Recipe_Paper_HousingObject_Flowerbed_004_0103	Sunset at the Edges	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3359	1006854	Recipe_Paper_HousingObject_Flowerbed_005_0101	Golden Colony	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3360	1006855	Recipe_Paper_HousingObject_Flowerbed_005_0102	Waves in the Wind	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+3361	1006856	Recipe_Paper_HousingObject_Flowerbed_005_0103	A Blaze of Red Blossoms	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
 3362	1002785	Item_Stat_AbyssGear_DDD_LV1	Destruction I	abyss-gear	abyss-gear no-discard stackable tier-0	0	633
 3363	1002791	Item_Stat_AbyssGear_CriticalRate_LV1	Insight I	abyss-gear	abyss-gear no-discard stackable tier-0	0	560
 3364	1002810	Item_Stat_AbyssGear_AttackSpeedRate_LV1	Swift I	abyss-gear	abyss-gear no-discard stackable tier-0	0	700
@@ -6121,7 +6121,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 6119	1005306	Pirate_Lantern	Pirate Lantern	tool	docking equipment important lantern platform-bonus preorder special tier-0 tool	0	240
 6120	1005102	Pirate_OneHandSword	Pirate's Sword	weapon	docking equipment extractable important no-sell npc-weapon-pool one-hand platform-bonus preorder quest special sword tier-4 weapon	4	1
 6121	1004909	PetArmor_Pirate_Helm_parrot	Parrot Pirate Hat	pet-gear	equipment important no-sell pet-gear platform-bonus preorder special tier-0	0	1
-6122	1006026	Item_Ocean_Parrot_PetBox	Chitty-Chatty Companion Chest	platform-bonus	no-sell platform-bonus special tier-0 wild	0	1
+6122	1006026	Item_Ocean_Parrot_PetBox	Chitty-Chatty Companion Chest	chest	chest no-sell platform-bonus special tier-0 wild	0	1
 6123	1001166	Greymane_Nobility_Degree_I	Greymane Signet	ring	accessory contribution-reward equipment extractable important ring tier-5	5	
 6124	1001118	Hernand_Nobility_Degree_I	Hernandian Signet	ring	accessory contribution-reward equipment extractable important ring tier-5	5	
 6125	1000251	Pailune_Nobility_Degree_I	Pailunese Signet	ring	accessory contribution-reward equipment extractable important ring tier-5	5	
@@ -6348,31 +6348,31 @@ row	key	string_key	name	class	tags	tier	value_copper
 6346	1004404	AlpineIbex_Armor	Ibex Saddle	mount-gear	equipment mount-gear tier-0	0	180
 6347	1004405	Camel_Armor	Embroidered Camel Saddle	mount-gear	equipment mount-gear tier-0	0	2800
 6348	1004446	wyvern_Armor	Wyvern Saddle	mount-gear	equipment mount-gear tier-0	0	4300
-6349	1005776	Item_wagon_base_0001	Wandering Merchant's Cargo Hold	equipment	docking equipment tier-0	0	800
-6350	1005777	Item_wagon_base_0002	Meticulous Carpenter's Cargo Hold	equipment	docking equipment tier-0	0	2500
-6351	1005778	Item_wagon_base_0003	Seasoned Comrade's Cargo Hold	equipment	docking equipment tier-0	0	800
-6352	1005779	Item_wagon_base_0004	Rugged Traveler's Cargo Hold	equipment	docking equipment tier-0	0	800
-6353	1005780	Item_wagon_base_0005	The Laughing Marionette's Cargo Hold	equipment	docking equipment tier-0	0	4000
-6354	1005781	Item_wagon_base_0006	Renowned Magnate's Cargo Hold	equipment	docking equipment tier-0	0	6000
-6355	1005782	Item_wagon_base_0007	Elegant Noble's Cargo Hold	equipment	docking equipment tier-0	0	6000
-6356	1005783	Item_wagon_base_0008	Noble Delegation's Cargo Hold	equipment	docking equipment tier-0	0	6000
-6357	1005802	Item_Wagon_Base_Seat_0001	Meticulous Carpenter's Wagon Seat	equipment	docking equipment tier-0	0	2300
-6358	1005784	Item_Wagon_Base_Seat_0002	The Laughing Marionette's Wagon Seat	equipment	docking equipment tier-0	0	4000
-6359	1005785	Item_Wagon_Base_Seat_0003	Seasoned Comrade's Wagon Seat	equipment	docking equipment tier-0	0	750
-6360	1005786	Item_Wagon_Base_Seat_0004	Noble Delegation's Wagon Seat	equipment	docking equipment tier-0	0	5500
-6361	1005787	Item_Wagon_Base_Seat_0005	Wandering Merchant's Wagon Seat	equipment	docking equipment tier-0	0	750
-6362	1005788	Item_Wagon_Base_Seat_0006	Renowned Magnate's Wagon Seat	equipment	docking equipment tier-0	0	5500
-6363	1005789	Item_Wagon_Base_Seat_0007	Eccentric Doctor's Wagon Seat	equipment	docking equipment tier-0	0	7500
-6364	1005790	Item_Wagon_Base_Seat_0008	Eccentric Lord's Wagon Seat	equipment	docking equipment tier-0	0	7500
-6365	1005791	Item_Wagon_Base_Seat_0009	Elegant Noble's Wagon Seat	equipment	docking equipment tier-0	0	5500
-6366	1005792	Item_wagon_wheel_0001	Seasoned Comrade's Wheel	equipment	equipment tier-0	0	600
-6367	1005793	Item_wagon_wheel_0002	Meticulous Carpenter's Wheel	equipment	equipment tier-0	0	2000
-6368	1005794	Item_wagon_wheel_0003	The Laughing Marionette's Wheel	equipment	equipment tier-0	0	3500
-6369	1005795	Item_wagon_wheel_0004	Renowned Magnate's Wheel	equipment	equipment tier-0	0	5000
-6370	1005796	Item_wagon_wheel_0005	Wandering Merchant's Wheel	equipment	equipment tier-0	0	600
-6371	1005797	Item_wagon_wheel_0006	Elegant Noble's Wheel	equipment	equipment tier-0	0	5000
-6372	1005798	Item_wagon_wheel_0007	Noble Delegation's Wheel	equipment	equipment tier-0	0	5000
-6373	1005799	Item_Wagon_Base_lantern_0001	Wagon Lantern	equipment	equipment tier-0	0	500
+6349	1005776	Item_wagon_base_0001	Wandering Merchant's Cargo Hold	vehicle-part	docking equipment tier-0 vehicle-part	0	800
+6350	1005777	Item_wagon_base_0002	Meticulous Carpenter's Cargo Hold	vehicle-part	docking equipment tier-0 vehicle-part	0	2500
+6351	1005778	Item_wagon_base_0003	Seasoned Comrade's Cargo Hold	vehicle-part	docking equipment tier-0 vehicle-part	0	800
+6352	1005779	Item_wagon_base_0004	Rugged Traveler's Cargo Hold	vehicle-part	docking equipment tier-0 vehicle-part	0	800
+6353	1005780	Item_wagon_base_0005	The Laughing Marionette's Cargo Hold	vehicle-part	docking equipment tier-0 vehicle-part	0	4000
+6354	1005781	Item_wagon_base_0006	Renowned Magnate's Cargo Hold	vehicle-part	docking equipment tier-0 vehicle-part	0	6000
+6355	1005782	Item_wagon_base_0007	Elegant Noble's Cargo Hold	vehicle-part	docking equipment tier-0 vehicle-part	0	6000
+6356	1005783	Item_wagon_base_0008	Noble Delegation's Cargo Hold	vehicle-part	docking equipment tier-0 vehicle-part	0	6000
+6357	1005802	Item_Wagon_Base_Seat_0001	Meticulous Carpenter's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	2300
+6358	1005784	Item_Wagon_Base_Seat_0002	The Laughing Marionette's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	4000
+6359	1005785	Item_Wagon_Base_Seat_0003	Seasoned Comrade's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	750
+6360	1005786	Item_Wagon_Base_Seat_0004	Noble Delegation's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	5500
+6361	1005787	Item_Wagon_Base_Seat_0005	Wandering Merchant's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	750
+6362	1005788	Item_Wagon_Base_Seat_0006	Renowned Magnate's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	5500
+6363	1005789	Item_Wagon_Base_Seat_0007	Eccentric Doctor's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	7500
+6364	1005790	Item_Wagon_Base_Seat_0008	Eccentric Lord's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	7500
+6365	1005791	Item_Wagon_Base_Seat_0009	Elegant Noble's Wagon Seat	vehicle-part	docking equipment tier-0 vehicle-part	0	5500
+6366	1005792	Item_wagon_wheel_0001	Seasoned Comrade's Wheel	vehicle-part	equipment tier-0 vehicle-part	0	600
+6367	1005793	Item_wagon_wheel_0002	Meticulous Carpenter's Wheel	vehicle-part	equipment tier-0 vehicle-part	0	2000
+6368	1005794	Item_wagon_wheel_0003	The Laughing Marionette's Wheel	vehicle-part	equipment tier-0 vehicle-part	0	3500
+6369	1005795	Item_wagon_wheel_0004	Renowned Magnate's Wheel	vehicle-part	equipment tier-0 vehicle-part	0	5000
+6370	1005796	Item_wagon_wheel_0005	Wandering Merchant's Wheel	vehicle-part	equipment tier-0 vehicle-part	0	600
+6371	1005797	Item_wagon_wheel_0006	Elegant Noble's Wheel	vehicle-part	equipment tier-0 vehicle-part	0	5000
+6372	1005798	Item_wagon_wheel_0007	Noble Delegation's Wheel	vehicle-part	equipment tier-0 vehicle-part	0	5000
+6373	1005799	Item_Wagon_Base_lantern_0001	Wagon Lantern	vehicle-part	equipment tier-0 vehicle-part	0	500
 6374	53016	Item_Kuku_Pot	Kuku Pot	kuku-pot	important knowledge kuku-gear kuku-pot no-sell quest stackable tier-0	0	1
 6375	1002182	Item_Kuku_Pot_02	Enhanced Kuku Pot	kuku-pot	important kuku-gear kuku-pot no-sell quest stackable tier-0	0	1
 6376	1002132	Item_KuKu_Small_ATAG	Small Kuku A.T.A.G.	kuku-pot	kuku-gear kuku-pot no-discard no-sell quest tier-0	0	1
@@ -7612,59 +7612,59 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1006290	Item_basecamp_desk_dye_01_housing	Dyehouse	storage	furniture housing-only no-discard stackable storage tier-0	0	12000
 -1	1006291	Item_basecamp_desk_supplies_01_housing	Provisioner's Shop	storage	furniture housing-only no-discard stackable storage tier-0	0	5000
 -1	1006292	Item_basecamp_desk_furniture_01_housing	Facilities Shop	storage	furniture housing-only no-discard stackable storage tier-0	0	5000
--1	1005808	Item_me_00_str_door_set_000_0001	Wooden Interior Door	other	stackable tier-0	0	1
--1	1005809	Item_me_00_str_door_set_000_0002	Iron Nail Interior Door	other	stackable tier-0	0	1
--1	1005810	Item_me_00_str_door_set_000_0003	Iron Interior Wooden Door	other	stackable tier-0	0	1
--1	1005811	Item_me_00_str_door_set_000_0004	Bright Plank Interior Door	other	stackable tier-0	0	1
--1	1005812	Item_me_00_str_door_set_000_0004_index0001	Dark Plank Interior Door	other	stackable tier-0	0	1
--1	1005813	Item_me_00_str_door_set_000_0005	Palatial Wooden Interior Door	other	stackable tier-0	0	1
--1	1005814	Item_me_00_str_door_set_000_0006	Palatial Wooden Front Door	other	stackable tier-0	0	1
--1	1005815	Item_me_00_str_door_set_000_0007	Dark Wooden Front Door	other	stackable tier-0	0	1
--1	1005816	Item_me_00_str_door_set_000_0008	Church Wooden Front Door	other	stackable tier-0	0	1
--1	1005817	Item_me_00_str_door_set_000_0009	Dark Log Side Door	other	stackable tier-0	0	1
--1	1005818	Item_me_00_str_door_set_000_0009_index0001	Bright Log Side Door	other	stackable tier-0	0	1
--1	1005819	Item_me_00_str_door_set_000_0010	Sun Crest Wooden Side Door	other	stackable tier-0	0	1
--1	1005820	Item_me_00_str_door_set_000_0011	Wooden Mesh Side Door	other	stackable tier-0	0	1
--1	1005821	Item_me_00_str_door_set_000_0012	Wooden Windowed Side Door	other	stackable tier-0	0	1
--1	1005822	Item_me_00_str_door_set_000_0013	Iron-Windowed Side Door	other	stackable tier-0	0	1
--1	1005823	Item_me_00_str_door_set_000_0014	Bright Wooden Side Door	other	stackable tier-0	0	1
--1	1005824	Item_me_00_str_door_set_000_0014_index0001	Red Wooden Side Door	other	stackable tier-0	0	1
--1	1005825	Item_me_00_str_door_set_000_0015	Rustic Wood Side Door	other	stackable tier-0	0	1
--1	1005826	Item_me_00_str_door_set_000_0016	Iron Side Door	other	stackable tier-0	0	1
--1	1005827	Item_me_00_str_door_set_000_0017	Iron Lattice Side Door	other	stackable tier-0	0	1
--1	1005828	Item_me_00_str_door_set_002_0001	Large Church Main Gate	other	stackable tier-0	0	1
--1	1005829	Item_me_00_str_door_set_002_0002	Large Palatial Main Gate	other	stackable tier-0	0	1
--1	1005830	Item_me_00_str_door_set_002_0003	Large Manor Main Gate	other	stackable tier-0	0	1
--1	1006273	Item_me_00_str_door_set_002_0004	Large Fort Main Gate	other	stackable tier-0	0	1
--1	1005831	Item_me_00_str_window_set_001_0001	Wooden Manor Window	other	stackable tier-0	0	1
--1	1005832	Item_me_00_str_window_set_001_0001_index0001	Green Wooden Manor Window	other	stackable tier-0	0	1
--1	1005833	Item_me_00_str_window_set_001_0002	Iron Manor Window	other	stackable tier-0	0	1
--1	1005834	Item_me_00_str_window_set_001_0003	Bright Church Glass Window	other	stackable tier-0	0	1
--1	1005835	Item_me_00_str_window_set_001_0003_index0001	Dark Church Glass Window	other	stackable tier-0	0	1
--1	1005836	Item_me_00_str_window_set_001_0004	Arched Bright Wooden Window	other	stackable tier-0	0	1
--1	1005837	Item_me_00_str_window_set_001_0004_index0001	Arched Dark Wooden Window	other	stackable tier-0	0	1
--1	1005838	Item_me_00_str_window_set_001_0005	Arched Iron-Barred Window	other	stackable tier-0	0	1
--1	1005839	Item_me_00_str_window_set_001_0006	Star-Decorated Wooden Window	other	stackable tier-0	0	1
--1	1005840	Item_me_00_str_window_set_005_0001	Bright Wooden Window	other	stackable tier-0	0	1
--1	1005841	Item_me_00_str_window_set_005_0001_index0001	Dark Wooden Window	other	stackable tier-0	0	1
--1	1005842	Item_me_00_str_window_set_005_0002	Bright Plank Window	other	stackable tier-0	0	1
--1	1005843	Item_me_00_str_window_set_005_0002_index0001	Dark Plank Window	other	stackable tier-0	0	1
--1	1005844	Item_me_00_str_window_set_005_0003	Paned Wooden Window	other	stackable tier-0	0	1
--1	1005845	Item_me_00_str_window_set_005_0004	Bright Wooden Lattice Window	other	stackable tier-0	0	1
--1	1005846	Item_me_00_str_window_set_005_0004_index0001	Dark Wooden Lattice Window	other	stackable tier-0	0	1
--1	1005847	Item_me_00_str_window_set_004_0001	Paned Wooden Manor Window	other	stackable tier-0	0	1
--1	1005848	Item_me_00_str_window_set_004_0002	Wooden Manor Square Window	other	stackable tier-0	0	1
--1	1005849	Item_me_00_str_window_set_004_0003	Iron Manor Glass Window	other	stackable tier-0	0	1
--1	1005850	Item_me_00_str_window_set_003_0001	Large Church Glass Window	other	stackable tier-0	0	1
--1	1006274	Item_me_00_str_window_set_002_0001	Small Square Window	other	stackable tier-0	0	1
--1	1006275	Item_me_00_str_window_set_005_0001_index0002	Rustic Wood Window	other	stackable tier-0	0	1
--1	1006276	Item_me_00_str_window_set_005_0001_index0003	Red Wooden Window	other	stackable tier-0	0	1
--1	1006277	Item_me_00_str_window_set_005_0004_index0002	Rustic Wooden Lattice Window	other	stackable tier-0	0	1
--1	1006278	Item_me_00_str_window_set_005_0004_index0003	Red Wooden Lattice Window	other	stackable tier-0	0	1
--1	1006279	Item_me_00_str_window_set_006_0001	Red Wooden Awning Window	other	stackable tier-0	0	1
--1	1006280	Item_me_00_str_window_set_007_0001	Red Wooden Arcade Window	other	stackable tier-0	0	1
--1	1006294	Item_me_00_str_window_set_008_0001	Arched Rustic Wooden Lattice Window	other	stackable tier-0	0	1
--1	1006295	Item_me_00_str_window_set_008_0001_index0001	Arched Red Wooden Lattice Window	other	stackable tier-0	0	1
+-1	1005808	Item_me_00_str_door_set_000_0001	Wooden Interior Door	other	housing-only stackable tier-0	0	1
+-1	1005809	Item_me_00_str_door_set_000_0002	Iron Nail Interior Door	other	housing-only stackable tier-0	0	1
+-1	1005810	Item_me_00_str_door_set_000_0003	Iron Interior Wooden Door	other	housing-only stackable tier-0	0	1
+-1	1005811	Item_me_00_str_door_set_000_0004	Bright Plank Interior Door	other	housing-only stackable tier-0	0	1
+-1	1005812	Item_me_00_str_door_set_000_0004_index0001	Dark Plank Interior Door	other	housing-only stackable tier-0	0	1
+-1	1005813	Item_me_00_str_door_set_000_0005	Palatial Wooden Interior Door	other	housing-only stackable tier-0	0	1
+-1	1005814	Item_me_00_str_door_set_000_0006	Palatial Wooden Front Door	other	housing-only stackable tier-0	0	1
+-1	1005815	Item_me_00_str_door_set_000_0007	Dark Wooden Front Door	other	housing-only stackable tier-0	0	1
+-1	1005816	Item_me_00_str_door_set_000_0008	Church Wooden Front Door	other	housing-only stackable tier-0	0	1
+-1	1005817	Item_me_00_str_door_set_000_0009	Dark Log Side Door	other	housing-only stackable tier-0	0	1
+-1	1005818	Item_me_00_str_door_set_000_0009_index0001	Bright Log Side Door	other	housing-only stackable tier-0	0	1
+-1	1005819	Item_me_00_str_door_set_000_0010	Sun Crest Wooden Side Door	other	housing-only stackable tier-0	0	1
+-1	1005820	Item_me_00_str_door_set_000_0011	Wooden Mesh Side Door	other	housing-only stackable tier-0	0	1
+-1	1005821	Item_me_00_str_door_set_000_0012	Wooden Windowed Side Door	other	housing-only stackable tier-0	0	1
+-1	1005822	Item_me_00_str_door_set_000_0013	Iron-Windowed Side Door	other	housing-only stackable tier-0	0	1
+-1	1005823	Item_me_00_str_door_set_000_0014	Bright Wooden Side Door	other	housing-only stackable tier-0	0	1
+-1	1005824	Item_me_00_str_door_set_000_0014_index0001	Red Wooden Side Door	other	housing-only stackable tier-0	0	1
+-1	1005825	Item_me_00_str_door_set_000_0015	Rustic Wood Side Door	other	housing-only stackable tier-0	0	1
+-1	1005826	Item_me_00_str_door_set_000_0016	Iron Side Door	other	housing-only stackable tier-0	0	1
+-1	1005827	Item_me_00_str_door_set_000_0017	Iron Lattice Side Door	other	housing-only stackable tier-0	0	1
+-1	1005828	Item_me_00_str_door_set_002_0001	Large Church Main Gate	other	housing-only stackable tier-0	0	1
+-1	1005829	Item_me_00_str_door_set_002_0002	Large Palatial Main Gate	other	housing-only stackable tier-0	0	1
+-1	1005830	Item_me_00_str_door_set_002_0003	Large Manor Main Gate	other	housing-only stackable tier-0	0	1
+-1	1006273	Item_me_00_str_door_set_002_0004	Large Fort Main Gate	other	housing-only stackable tier-0	0	1
+-1	1005831	Item_me_00_str_window_set_001_0001	Wooden Manor Window	other	housing-only stackable tier-0	0	1
+-1	1005832	Item_me_00_str_window_set_001_0001_index0001	Green Wooden Manor Window	other	housing-only stackable tier-0	0	1
+-1	1005833	Item_me_00_str_window_set_001_0002	Iron Manor Window	other	housing-only stackable tier-0	0	1
+-1	1005834	Item_me_00_str_window_set_001_0003	Bright Church Glass Window	other	housing-only stackable tier-0	0	1
+-1	1005835	Item_me_00_str_window_set_001_0003_index0001	Dark Church Glass Window	other	housing-only stackable tier-0	0	1
+-1	1005836	Item_me_00_str_window_set_001_0004	Arched Bright Wooden Window	other	housing-only stackable tier-0	0	1
+-1	1005837	Item_me_00_str_window_set_001_0004_index0001	Arched Dark Wooden Window	other	housing-only stackable tier-0	0	1
+-1	1005838	Item_me_00_str_window_set_001_0005	Arched Iron-Barred Window	other	housing-only stackable tier-0	0	1
+-1	1005839	Item_me_00_str_window_set_001_0006	Star-Decorated Wooden Window	other	housing-only stackable tier-0	0	1
+-1	1005840	Item_me_00_str_window_set_005_0001	Bright Wooden Window	other	housing-only stackable tier-0	0	1
+-1	1005841	Item_me_00_str_window_set_005_0001_index0001	Dark Wooden Window	other	housing-only stackable tier-0	0	1
+-1	1005842	Item_me_00_str_window_set_005_0002	Bright Plank Window	other	housing-only stackable tier-0	0	1
+-1	1005843	Item_me_00_str_window_set_005_0002_index0001	Dark Plank Window	other	housing-only stackable tier-0	0	1
+-1	1005844	Item_me_00_str_window_set_005_0003	Paned Wooden Window	other	housing-only stackable tier-0	0	1
+-1	1005845	Item_me_00_str_window_set_005_0004	Bright Wooden Lattice Window	other	housing-only stackable tier-0	0	1
+-1	1005846	Item_me_00_str_window_set_005_0004_index0001	Dark Wooden Lattice Window	other	housing-only stackable tier-0	0	1
+-1	1005847	Item_me_00_str_window_set_004_0001	Paned Wooden Manor Window	other	housing-only stackable tier-0	0	1
+-1	1005848	Item_me_00_str_window_set_004_0002	Wooden Manor Square Window	other	housing-only stackable tier-0	0	1
+-1	1005849	Item_me_00_str_window_set_004_0003	Iron Manor Glass Window	other	housing-only stackable tier-0	0	1
+-1	1005850	Item_me_00_str_window_set_003_0001	Large Church Glass Window	other	housing-only stackable tier-0	0	1
+-1	1006274	Item_me_00_str_window_set_002_0001	Small Square Window	other	housing-only stackable tier-0	0	1
+-1	1006275	Item_me_00_str_window_set_005_0001_index0002	Rustic Wood Window	other	housing-only stackable tier-0	0	1
+-1	1006276	Item_me_00_str_window_set_005_0001_index0003	Red Wooden Window	other	housing-only stackable tier-0	0	1
+-1	1006277	Item_me_00_str_window_set_005_0004_index0002	Rustic Wooden Lattice Window	other	housing-only stackable tier-0	0	1
+-1	1006278	Item_me_00_str_window_set_005_0004_index0003	Red Wooden Lattice Window	other	housing-only stackable tier-0	0	1
+-1	1006279	Item_me_00_str_window_set_006_0001	Red Wooden Awning Window	other	housing-only stackable tier-0	0	1
+-1	1006280	Item_me_00_str_window_set_007_0001	Red Wooden Arcade Window	other	housing-only stackable tier-0	0	1
+-1	1006294	Item_me_00_str_window_set_008_0001	Arched Rustic Wooden Lattice Window	other	housing-only stackable tier-0	0	1
+-1	1006295	Item_me_00_str_window_set_008_0001_index0001	Arched Red Wooden Lattice Window	other	housing-only stackable tier-0	0	1
 -1	1006478	Item_Mecoptera	Scorpionfly	insect	alchemy-material arachnid insect knowledge material reagent stackable tier-0	0	100
 -1	1006190	Item_Hydrothermal_Snail	Scaly-Foot Snail	insect	alchemy-material insect knowledge material mollusc reagent stackable tier-0	0	10
 -1	1006479	Item_Hercules_Beetle	Great Horned Rhinoceros Beetle	insect	alchemy-material beetle insect knowledge material reagent stackable tier-0	0	100
@@ -7774,17 +7774,17 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1005701	GrilledClams	Grilled Clams	field-cooked	consumable field-cooked food restores-stamina stackable tier-1	1	76
 -1	1005707	SeaString_Seasoned	Seasoned Red Seaweed	field-cooked	consumable field-cooked food restores-stamina stackable tier-1	1	68
 -1	1005708	Jellyfish_Salad	Jellyfish Salad	field-cooked	consumable field-cooked food restores-hp stackable tier-1	1	66
--1	1005923	Gimbap_BossRush_00	Battlefield Feast - Restores Health and Spirit	other	stackable tier-5	5	960
--1	1006975	Potion_StatBuff_Tier1_0007	Luftis's Lesser Elixir	other	stackable tier-0	0	100
--1	1006976	Potion_StatBuff_Tier1_0008	Fluva's Lesser Elixir	other	stackable tier-0	0	100
--1	1006977	Potion_StatBuff_Tier1_0009	Lucaris's Lesser Elixir	other	stackable tier-0	0	100
--1	1006978	Potion_StatBuff_Tier2_0007	Luftis's Elixir	other	stackable tier-0	0	100
--1	1006979	Potion_StatBuff_Tier2_0008	Fluva's Elixir	other	stackable tier-0	0	100
--1	1006980	Potion_StatBuff_Tier2_0009	Lucaris's Elixir	other	stackable tier-0	0	100
--1	1006981	Potion_StatBuff_Tier3_0007	Luftis's Greater Elixir	other	stackable tier-0	0	100
--1	1006982	Potion_StatBuff_Tier3_0008	Fluva's Greater Elixir	other	stackable tier-0	0	100
--1	1006983	Potion_StatBuff_Tier3_0009	Lucaris's Greater Elixir	other	stackable tier-0	0	100
--1	1003917	Tool_Binoculars	Binoculars	goods	goods tier-0 wild	0	980
+-1	1005923	Gimbap_BossRush_00	Battlefield Feast - Restores Health and Spirit	food	food stackable tier-5	5	960
+-1	1006975	Potion_StatBuff_Tier1_0007	Luftis's Lesser Elixir	elixir	elixir stackable tier-0	0	100
+-1	1006976	Potion_StatBuff_Tier1_0008	Fluva's Lesser Elixir	elixir	elixir stackable tier-0	0	100
+-1	1006977	Potion_StatBuff_Tier1_0009	Lucaris's Lesser Elixir	elixir	elixir stackable tier-0	0	100
+-1	1006978	Potion_StatBuff_Tier2_0007	Luftis's Elixir	elixir	elixir stackable tier-0	0	100
+-1	1006979	Potion_StatBuff_Tier2_0008	Fluva's Elixir	elixir	elixir stackable tier-0	0	100
+-1	1006980	Potion_StatBuff_Tier2_0009	Lucaris's Elixir	elixir	elixir stackable tier-0	0	100
+-1	1006981	Potion_StatBuff_Tier3_0007	Luftis's Greater Elixir	elixir	elixir stackable tier-0	0	100
+-1	1006982	Potion_StatBuff_Tier3_0008	Fluva's Greater Elixir	elixir	elixir stackable tier-0	0	100
+-1	1006983	Potion_StatBuff_Tier3_0009	Lucaris's Greater Elixir	elixir	elixir stackable tier-0	0	100
+-1	1003917	Tool_Binoculars	Binoculars	tool	goods tier-0 tool wild	0	980
 -1	1006915	Quest_Book_MarnisMansion_I	Marni and the Secret Chamber	key	cube-key hidden key no-sell quest tier-0 wild	0	1
 -1	1005625	Item_Natural_Pearl	Natural Pearl	currency	currency stackable tier-0	0	50000
 -1	1005493	Item_Sea_Coin	Ancient Relic	currency	currency no-discard no-sell stackable tier-0 token	0	1
@@ -7839,11 +7839,11 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1005890	Quest_Paper_Slave_Contract	Slave Contract	quest	quest tier-0 wild	0	27
 -1	1005891	Quest_Paper_Mysterious_Plan	A Certain Plan	quest	quest tier-0 wild	0	27
 -1	1005892	Quest_Paper_Antumbra_Plan	Pact of Antumbra	quest	quest tier-0 wild	0	27
--1	1006130	Paper_TreasureMap_Diamond	Diamond Map	other	tier-0 wild	0	27
--1	1006131	Paper_TreasureMap_Kudzu	Skyroot Map	other	tier-0 wild	0	27
--1	1006132	Paper_Anamorphic_Shield	Shield Constellation Poster	other	tier-0 wild	0	27
--1	1006133	Paper_Anamorphic_Key	Key Constellation Poster	other	tier-0 wild	0	27
--1	1006134	Paper_Anamorphic_Adventurer	Adventurer Constellation Poster	other	tier-0 wild	0	27
+-1	1006130	Paper_TreasureMap_Diamond	Diamond Map	treasure-map	tier-0 treasure-map wild	0	27
+-1	1006131	Paper_TreasureMap_Kudzu	Skyroot Map	treasure-map	tier-0 treasure-map wild	0	27
+-1	1006132	Paper_Anamorphic_Shield	Shield Constellation Poster	poster	poster tier-0 wild	0	27
+-1	1006133	Paper_Anamorphic_Key	Key Constellation Poster	poster	poster tier-0 wild	0	27
+-1	1006134	Paper_Anamorphic_Adventurer	Adventurer Constellation Poster	poster	poster tier-0 wild	0	27
 -1	1006538	Legend_Knowledge_Ocean_GoldMarlin_Report	Sighting of the Golden Striped Marlin	legendary-animal-report	document legendary-animal-report tier-0	0	3200
 -1	1006161	Legend_Knowledge_Ocean_PinkMantaRay_Report	Sighting of the Pink Manta Ray	legendary-animal-report	document legendary-animal-report tier-0	0	3200
 -1	1006162	Legend_Knowledge_Ocean_GoldShark_Report	Sighting of the Golden Shark	legendary-animal-report	document legendary-animal-report tier-0	0	3200
@@ -7933,82 +7933,82 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1006566	Recipe_Item_megastructure_carousel_01_housing	Blueprint: Striped Tent Carousel	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	3112
 -1	1006567	Recipe_Item_gimmick_circus_ferriswheel_0001_housing	Blueprint: Tricolor Ferris Wheel	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	3659
 -1	1006231	Recipe_Item_gimmick_in_dpf_carpet_0017	Blueprint: Captain's Carpet of Dignity	recipe-furniture	document gimmick recipe recipe-furniture stackable tier-0	0	1360
--1	1005915	Recipe_item_ship_cannon_0003	Blueprint: Gilded Naval Cannon	recipe	document recipe stackable tier-0	0	4497
--1	1005917	Recipe_item_ship_cannon_0005	Blueprint: Sea King's Naval Cannon	recipe	document recipe stackable tier-0	0	6385
--1	1006984	Recipe_Item_ship_cannon_0012	Blueprint: Admiral's Bow Cannon	recipe	document recipe stackable tier-0	0	5371
--1	1006991	Recipe_Item_ship_cannon_0010_TurtleShip	Blueprint: Dragon Head Prow Cannon	recipe	document recipe stackable tier-0	0	5634
--1	1005752	Recipe_item_ship_sail_open_0001	Blueprint: Pearlescent Voyage Sail	recipe	document recipe stackable tier-0	0	2153
--1	1005755	Recipe_item_ship_sail_open_0001_index03	Blueprint: Windborne Sail	recipe	document recipe stackable tier-0	0	7865
--1	1006785	Recipe_item_ship_sail_open_0001_index08	Blueprint: Gently Curved Sail	recipe	document recipe stackable tier-0	0	4184
--1	1006786	Recipe_item_smallship_sail_open_0001_index14	Blueprint: Pirates' Sail	recipe	document recipe stackable tier-0	0	2596
--1	1006787	Recipe_item_ship_sail_open_0001_index07	Blueprint: Red Checkered Sail	recipe	document recipe stackable tier-0	0	6477
--1	1006788	Recipe_item_ship_sail_open_0001_index09	Blueprint: Silver Crescent Sail	recipe	document recipe stackable tier-0	0	4184
--1	1006789	Recipe_item_ship_sail_open_0001_index11	Blueprint: Greymane Sail	recipe	document recipe stackable tier-0	0	5088
--1	1006790	Recipe_item_ship_sail_open_0001_index12	Blueprint: Hernandian Sail	recipe	document recipe stackable tier-0	0	5088
--1	1006793	Recipe_item_smallship_sail_open_0001_index04	Blueprint: The Siren's Cry Pirates' Small Sail	recipe	document recipe stackable tier-0	0	2640
--1	1006794	Recipe_item_smallship_sail_open_0001_index08	Blueprint: The Sea Claw Pirates' Small Sail	recipe	document recipe stackable tier-0	0	3907
--1	1006795	Recipe_item_ship_sail_open_0001_index05	Blueprint: The Death Blossom Pirates' Medium Sail	recipe	document recipe stackable tier-0	0	7186
--1	1006796	Recipe_item_ship_sail_open_0001_index06	Blueprint: The Sea's Vengeance Pirates' Medium Sail	recipe	document recipe stackable tier-0	0	7186
--1	1006797	Recipe_item_bigship_sail_open_0001_index04	Blueprint: The Black Bloom Pirates' Large Sail	recipe	document recipe stackable tier-0	0	5088
--1	1006798	Recipe_item_bigship_sail_open_0001_index05	Blueprint: The Crimson Shield Pirates' Large Sail	recipe	document recipe stackable tier-0	0	5088
--1	1006799	Recipe_item_bigship_sail_open_0001_index06	Blueprint: The Vengeance Pirates' Large Sail	recipe	document recipe stackable tier-0	0	6477
--1	1006800	Recipe_item_bigship_sail_open_0001_index07	Blueprint: Faunus Pirates' Large Sail	recipe	document recipe stackable tier-0	0	6477
--1	1006801	Recipe_item_bigship_sail_open_0001_index08	Blueprint: The Grim Wind Pirates' Large Sail	recipe	document recipe stackable tier-0	0	6477
--1	1006802	Recipe_item_bigship_sail_open_0001_index09	Blueprint: The Scarlet Widow Pirates' Large Sail	recipe	document recipe stackable tier-0	0	5088
--1	1006803	Recipe_item_bigship_sail_open_0001_index10	Blueprint: The Bloodied Stake Pirates' Large Sail	recipe	document recipe stackable tier-0	0	5088
--1	1006804	Recipe_item_bigship_sail_open_0001_index11	Blueprint: The Devils' Plunder Pirates' Large Sail	recipe	document recipe stackable tier-0	0	5088
--1	1006805	Recipe_item_bigship_sail_open_0001_index12	Blueprint: The Black Curved Blade Pirates' Large Sail	recipe	document recipe stackable tier-0	0	6477
--1	1007011	Recipe_item_bigship_sail_open_0001_index24	Blueprint: Large Tidewish Sail	recipe	document recipe stackable tier-0	0	7845
--1	1006806	Recipe_item_bigship_sail_open_0001_index26	Blueprint: Large Delesyian Naval Sail	recipe	document recipe stackable tier-0	0	7865
--1	1006807	Recipe_item_bigship_sail_open_0002	Blueprint: Large Wraithdrift Sail	recipe	document recipe stackable tier-0	0	7865
--1	1005759	Recipe_item_bigship_sail_open_0001_index03	Blueprint: Large Deathbound Sail	recipe	document recipe stackable tier-0	0	7865
--1	1006993	Recipe_item_hugeship_sail_open_0001_index02	Blueprint: Giant Golden Compass Sail	recipe	document recipe stackable tier-0	0	7961
--1	1006997	Recipe_item_turtleship_sail_open_0001_index01	Blueprint: Bluewake Sail	recipe	document recipe stackable tier-0	0	7501
--1	1006998	Recipe_item_turtleship_sail_open_0001_index02	Blueprint: Four Taegeuk Sail	recipe	document recipe stackable tier-0	0	7604
--1	1005763	Recipe_item_ship_bowdeco_0004	Blueprint: Skyborne Beast Figurehead	recipe	document recipe stackable tier-0	0	5308
--1	1005764	Recipe_item_ship_bowdeco_0005	Blueprint: Steam and Clockwork Figurehead	recipe	document recipe stackable tier-0	0	7850
--1	1005765	Recipe_item_ship_bowdeco_0006	Blueprint: Chain-Breaking Wolf Figurehead	recipe	document recipe stackable tier-0	0	7850
--1	1006681	Recipe_item_ship_bowdeco_0007	Blueprint: Long-Horned Fish Figurehead	recipe	document recipe stackable tier-0	0	5308
--1	1005769	Recipe_item_ship_sterndecor_0004	Blueprint: Skyborne Beast Stern	recipe	document recipe stackable tier-0	0	5853
--1	1005770	Recipe_item_ship_sterndecor_0005	Blueprint: Steam and Clockwork Stern	recipe	document recipe stackable tier-0	0	7216
--1	1006683	Recipe_item_ship_sterndecor_0006	Blueprint: Long-Horned Fish Stern	recipe	document recipe stackable tier-0	0	5853
--1	1006622	Recipe_item_ship_teleporter_0001	Blueprint: Ship Teleportation Device	recipe	document recipe stackable tier-0	0	7880
--1	1007001	Recipe_Diving_BackPack_02	Blueprint: Explorer's Breathing Device	recipe	document recipe stackable tier-0	0	1316
--1	1006934	Recipe_Diving_Propulsion_BackPack	Blueprint: Propulsion Breathing Device	recipe	document recipe stackable tier-0	0	1316
--1	1006935	Recipe_Diving_Propulsion_BackPack_I	Blueprint: Enhanced Propulsion Breathing Device	recipe	document recipe stackable tier-0	0	1316
--1	1006018	Recipe_PetArmor_Diving_Helm	Blueprint: Charter Assistant's Diving Helm	recipe	document recipe stackable tier-0	0	300
--1	1006019	Recipe_PetArmor_Diving_Armor	Blueprint: Charter Assistant's Diving Suit	recipe	document recipe stackable tier-0	0	300
--1	1006738	Recipe_Paper_HousingObject_Canopy_I	A Rest in the Shade	recipe	document recipe stackable tier-0	0	2500
--1	1006739	Recipe_Paper_HousingObject_Canopy_II	Shade Stronger Than Rainstorms	recipe	document recipe stackable tier-0	0	3000
--1	1006740	Recipe_Paper_HousingObject_Canopy_III	Nature's Humble Shade	recipe	document recipe stackable tier-0	0	2500
--1	1006741	Recipe_Paper_HousingObject_Canopy_IV	Stone That Weathers the Ages	recipe	document recipe stackable tier-0	0	3500
--1	1006810	Recipe_Paper_HousingObject_Tower	A Sparrow's Perch	recipe	document recipe stackable tier-0	0	1500
--1	1006811	Recipe_Paper_HousingObject_Tower_Tribe	For the Lone Watch	recipe	document recipe stackable tier-0	0	1200
--1	1006812	Recipe_Paper_HousingObject_Tower_North	Shielded Watchtower	recipe	document recipe stackable tier-0	0	2000
--1	1006813	Recipe_Paper_HousingObject_Tower_Canopy	Shelter Under a Canopy	recipe	document recipe stackable tier-0	0	1500
--1	1006814	Recipe_Paper_HousingObject_Tower_Nest	High-Nesting Birds	recipe	document recipe stackable tier-0	0	2200
--1	1006815	Recipe_Paper_HousingObject_Tower_Windmill	The Windwatch Tower	recipe	document recipe stackable tier-0	0	2000
--1	1006816	Recipe_Paper_HousingObject_Tower_Nobility	Watchtowers of Three Factions	recipe	document recipe stackable tier-0	0	2500
--1	1006817	Recipe_Paper_HousingObject_Tower_Fortress	The Stone Sentinel	recipe	document recipe stackable tier-0	0	2800
--1	1006818	Recipe_Paper_HousingObject_Tower_Siege	Take Aim from Above	recipe	document recipe stackable tier-0	0	2800
--1	1006819	Recipe_Paper_HousingObject_Tower_Machine	Strength from Earth and Wind	recipe	document recipe stackable tier-0	0	3000
--1	1006820	Recipe_Paper_HousingObject_Tent	A Night Anywhere	recipe	document recipe stackable tier-0	0	1200
--1	1006821	Recipe_Paper_HousingObject_Tent_Graymane	Greymanes' Camp	recipe	document recipe stackable tier-0	0	1500
--1	1006822	Recipe_Paper_HousingObject_Tent_Military	The Tent Behind the Front	recipe	document recipe stackable tier-0	0	2000
--1	1006823	Recipe_Paper_HousingObject_Tent_Desert	Shade on the Sand	recipe	document recipe stackable tier-0	0	1800
--1	1006824	Recipe_Paper_HousingObject_Tent_Trade	Drawn to the Tent	recipe	document recipe stackable tier-0	0	2500
--1	1006825	Recipe_Paper_HousingObject_Barricade	The First Bulwark	recipe	document recipe stackable tier-0	0	1500
--1	1006826	Recipe_Paper_HousingObject_Pinwheel	The Wind's Passing	recipe	document recipe stackable tier-0	0	800
--1	1006827	Recipe_Paper_HousingObject_Map	Homes Without Dead Ends	recipe	document recipe stackable tier-0	0	1200
--1	1006875	Recipe_Paper_HousingObject_GraymaneFlag	An Unbreakable Will	recipe	document recipe stackable tier-0	0	1500
--1	1006876	Recipe_Paper_HousingObject_Cart_I	Easing Daily Life	recipe	document recipe stackable tier-0	0	27
--1	1006877	Recipe_Paper_HousingObject_Cart_II	Reliable Porter	recipe	document recipe stackable tier-0	0	27
--1	1006878	Recipe_Paper_HousingObject_Straw_I	Sun-Dried Fodder	recipe	document recipe stackable tier-0	0	1000
--1	1006879	Recipe_Paper_HousingObject_Straw_II	Flower-Scented Grass	recipe	document recipe stackable tier-0	0	800
--1	1006880	Recipe_Paper_HousingObject_Straw_III	Where the Honey Mead Matures	recipe	document recipe stackable tier-0	0	800
--1	1006881	Recipe_Paper_HousingObject_Straw_IV	Barren Hill Honeybee Shelter	recipe	document recipe stackable tier-0	0	800
--1	1006882	Recipe_Paper_HousingObject_Windmill_Dem	Where Only the Wind Lingers	recipe	document recipe stackable tier-0	0	27
--1	1006883	Recipe_Paper_HousingObject_Windmill_SandCrawler	Crimson Wasteland's Rusted Pillars	recipe	document recipe stackable tier-0	0	27
+-1	1005915	Recipe_item_ship_cannon_0003	Blueprint: Gilded Naval Cannon	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	4497
+-1	1005917	Recipe_item_ship_cannon_0005	Blueprint: Sea King's Naval Cannon	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	6385
+-1	1006984	Recipe_Item_ship_cannon_0012	Blueprint: Admiral's Bow Cannon	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5371
+-1	1006991	Recipe_Item_ship_cannon_0010_TurtleShip	Blueprint: Dragon Head Prow Cannon	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5634
+-1	1005752	Recipe_item_ship_sail_open_0001	Blueprint: Pearlescent Voyage Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	2153
+-1	1005755	Recipe_item_ship_sail_open_0001_index03	Blueprint: Windborne Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7865
+-1	1006785	Recipe_item_ship_sail_open_0001_index08	Blueprint: Gently Curved Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	4184
+-1	1006786	Recipe_item_smallship_sail_open_0001_index14	Blueprint: Pirates' Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	2596
+-1	1006787	Recipe_item_ship_sail_open_0001_index07	Blueprint: Red Checkered Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	6477
+-1	1006788	Recipe_item_ship_sail_open_0001_index09	Blueprint: Silver Crescent Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	4184
+-1	1006789	Recipe_item_ship_sail_open_0001_index11	Blueprint: Greymane Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5088
+-1	1006790	Recipe_item_ship_sail_open_0001_index12	Blueprint: Hernandian Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5088
+-1	1006793	Recipe_item_smallship_sail_open_0001_index04	Blueprint: The Siren's Cry Pirates' Small Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	2640
+-1	1006794	Recipe_item_smallship_sail_open_0001_index08	Blueprint: The Sea Claw Pirates' Small Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	3907
+-1	1006795	Recipe_item_ship_sail_open_0001_index05	Blueprint: The Death Blossom Pirates' Medium Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7186
+-1	1006796	Recipe_item_ship_sail_open_0001_index06	Blueprint: The Sea's Vengeance Pirates' Medium Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7186
+-1	1006797	Recipe_item_bigship_sail_open_0001_index04	Blueprint: The Black Bloom Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5088
+-1	1006798	Recipe_item_bigship_sail_open_0001_index05	Blueprint: The Crimson Shield Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5088
+-1	1006799	Recipe_item_bigship_sail_open_0001_index06	Blueprint: The Vengeance Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	6477
+-1	1006800	Recipe_item_bigship_sail_open_0001_index07	Blueprint: Faunus Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	6477
+-1	1006801	Recipe_item_bigship_sail_open_0001_index08	Blueprint: The Grim Wind Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	6477
+-1	1006802	Recipe_item_bigship_sail_open_0001_index09	Blueprint: The Scarlet Widow Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5088
+-1	1006803	Recipe_item_bigship_sail_open_0001_index10	Blueprint: The Bloodied Stake Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5088
+-1	1006804	Recipe_item_bigship_sail_open_0001_index11	Blueprint: The Devils' Plunder Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5088
+-1	1006805	Recipe_item_bigship_sail_open_0001_index12	Blueprint: The Black Curved Blade Pirates' Large Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	6477
+-1	1007011	Recipe_item_bigship_sail_open_0001_index24	Blueprint: Large Tidewish Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7845
+-1	1006806	Recipe_item_bigship_sail_open_0001_index26	Blueprint: Large Delesyian Naval Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7865
+-1	1006807	Recipe_item_bigship_sail_open_0002	Blueprint: Large Wraithdrift Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7865
+-1	1005759	Recipe_item_bigship_sail_open_0001_index03	Blueprint: Large Deathbound Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7865
+-1	1006993	Recipe_item_hugeship_sail_open_0001_index02	Blueprint: Giant Golden Compass Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7961
+-1	1006997	Recipe_item_turtleship_sail_open_0001_index01	Blueprint: Bluewake Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7501
+-1	1006998	Recipe_item_turtleship_sail_open_0001_index02	Blueprint: Four Taegeuk Sail	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7604
+-1	1005763	Recipe_item_ship_bowdeco_0004	Blueprint: Skyborne Beast Figurehead	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5308
+-1	1005764	Recipe_item_ship_bowdeco_0005	Blueprint: Steam and Clockwork Figurehead	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7850
+-1	1005765	Recipe_item_ship_bowdeco_0006	Blueprint: Chain-Breaking Wolf Figurehead	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7850
+-1	1006681	Recipe_item_ship_bowdeco_0007	Blueprint: Long-Horned Fish Figurehead	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5308
+-1	1005769	Recipe_item_ship_sterndecor_0004	Blueprint: Skyborne Beast Stern	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5853
+-1	1005770	Recipe_item_ship_sterndecor_0005	Blueprint: Steam and Clockwork Stern	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7216
+-1	1006683	Recipe_item_ship_sterndecor_0006	Blueprint: Long-Horned Fish Stern	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	5853
+-1	1006622	Recipe_item_ship_teleporter_0001	Blueprint: Ship Teleportation Device	recipe-vehicle	document recipe recipe-vehicle stackable tier-0	0	7880
+-1	1007001	Recipe_Diving_BackPack_02	Blueprint: Explorer's Breathing Device	recipe-armor	document recipe recipe-armor stackable tier-0	0	1316
+-1	1006934	Recipe_Diving_Propulsion_BackPack	Blueprint: Propulsion Breathing Device	recipe-armor	document recipe recipe-armor stackable tier-0	0	1316
+-1	1006935	Recipe_Diving_Propulsion_BackPack_I	Blueprint: Enhanced Propulsion Breathing Device	recipe-armor	document recipe recipe-armor stackable tier-0	0	1316
+-1	1006018	Recipe_PetArmor_Diving_Helm	Blueprint: Charter Assistant's Diving Helm	recipe-armor	document recipe recipe-armor stackable tier-0	0	300
+-1	1006019	Recipe_PetArmor_Diving_Armor	Blueprint: Charter Assistant's Diving Suit	recipe-armor	document recipe recipe-armor stackable tier-0	0	300
+-1	1006738	Recipe_Paper_HousingObject_Canopy_I	A Rest in the Shade	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+-1	1006739	Recipe_Paper_HousingObject_Canopy_II	Shade Stronger Than Rainstorms	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	3000
+-1	1006740	Recipe_Paper_HousingObject_Canopy_III	Nature's Humble Shade	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+-1	1006741	Recipe_Paper_HousingObject_Canopy_IV	Stone That Weathers the Ages	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	3500
+-1	1006810	Recipe_Paper_HousingObject_Tower	A Sparrow's Perch	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1500
+-1	1006811	Recipe_Paper_HousingObject_Tower_Tribe	For the Lone Watch	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1200
+-1	1006812	Recipe_Paper_HousingObject_Tower_North	Shielded Watchtower	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2000
+-1	1006813	Recipe_Paper_HousingObject_Tower_Canopy	Shelter Under a Canopy	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1500
+-1	1006814	Recipe_Paper_HousingObject_Tower_Nest	High-Nesting Birds	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2200
+-1	1006815	Recipe_Paper_HousingObject_Tower_Windmill	The Windwatch Tower	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2000
+-1	1006816	Recipe_Paper_HousingObject_Tower_Nobility	Watchtowers of Three Factions	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+-1	1006817	Recipe_Paper_HousingObject_Tower_Fortress	The Stone Sentinel	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2800
+-1	1006818	Recipe_Paper_HousingObject_Tower_Siege	Take Aim from Above	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2800
+-1	1006819	Recipe_Paper_HousingObject_Tower_Machine	Strength from Earth and Wind	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	3000
+-1	1006820	Recipe_Paper_HousingObject_Tent	A Night Anywhere	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1200
+-1	1006821	Recipe_Paper_HousingObject_Tent_Graymane	Greymanes' Camp	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1500
+-1	1006822	Recipe_Paper_HousingObject_Tent_Military	The Tent Behind the Front	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2000
+-1	1006823	Recipe_Paper_HousingObject_Tent_Desert	Shade on the Sand	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1800
+-1	1006824	Recipe_Paper_HousingObject_Tent_Trade	Drawn to the Tent	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	2500
+-1	1006825	Recipe_Paper_HousingObject_Barricade	The First Bulwark	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1500
+-1	1006826	Recipe_Paper_HousingObject_Pinwheel	The Wind's Passing	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	800
+-1	1006827	Recipe_Paper_HousingObject_Map	Homes Without Dead Ends	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1200
+-1	1006875	Recipe_Paper_HousingObject_GraymaneFlag	An Unbreakable Will	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1500
+-1	1006876	Recipe_Paper_HousingObject_Cart_I	Easing Daily Life	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	27
+-1	1006877	Recipe_Paper_HousingObject_Cart_II	Reliable Porter	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	27
+-1	1006878	Recipe_Paper_HousingObject_Straw_I	Sun-Dried Fodder	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	1000
+-1	1006879	Recipe_Paper_HousingObject_Straw_II	Flower-Scented Grass	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	800
+-1	1006880	Recipe_Paper_HousingObject_Straw_III	Where the Honey Mead Matures	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	800
+-1	1006881	Recipe_Paper_HousingObject_Straw_IV	Barren Hill Honeybee Shelter	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	800
+-1	1006882	Recipe_Paper_HousingObject_Windmill_Dem	Where Only the Wind Lingers	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	27
+-1	1006883	Recipe_Paper_HousingObject_Windmill_SandCrawler	Crimson Wasteland's Rusted Pillars	recipe-furniture	document recipe recipe-furniture stackable tier-0	0	27
 -1	1004203	Item_Skill_AbyssGear_Attack_HPRecover_LV2	Solar Transference	abyss-gear	abyss-gear no-discard stackable tier-0	0	1000
 -1	1006108	Item_Skill_AbyssGear_Satyros	Eclipsed Thorn	abyss-gear	abyss-gear no-discard stackable tier-0	0	3200
 -1	1006109	Item_Skill_AbyssGear_Ludvig_OneArmed	Writhebolt	abyss-gear	abyss-gear no-discard stackable tier-0	0	3179
@@ -8037,22 +8037,22 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1006936	Item_AbyssGear_Recipe_Box_VII	Unidentified Abyss Gear Blueprint	abyss-gear-box	abyss-gear-box no-sell stackable tier-0 use-immediately wild	0	1
 -1	1006623	Collection_Prop_Chest_0020	Cylindrical Wooden Box	chest	chest collectible goods knowledge stackable tier-0	0	243
 -1	1006884	DropItem_Recipe_Paper_HousingObject_Windmill_SandCrawler	Mysterious Old Blueprint Box	chest	chest goods no-sell stackable tier-0 use-immediately wild	0	1
--1	1006126	Item_Set_All_Ocean_Box	The Sea's Treasures - Collection	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006037	Item_Set_A_Ocean_Box	The Sea's Treasures - Ingredients	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006038	Item_Set_B_Ocean_Box	The Sea's Treasures - Fiber	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006039	Item_Set_C_Ocean_Box	The Sea's Treasures - Crafted Ornaments	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006040	Item_Set_D_Ocean_Box	The Sea's Treasures - Meat	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006041	Item_Set_E_Ocean_Box	The Sea's Treasures - Spices	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006042	Item_Set_F_Ocean_Box	The Sea's Treasures - Processed Foods	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006043	Item_Set_G_Ocean_Box	The Sea's Treasures - Delicacies	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006044	Item_Set_H_Ocean_Box	The Sea's Treasures - Premium Goods	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006045	Item_Set_I_Ocean_Box	The Sea's Treasures - Luxury Goods	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006046	Item_Set_J_Ocean_Box	The Sea's Treasures - Artwork	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006047	Item_Set_K_Ocean_Box	The Sea's Treasures - Armor	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006048	Item_Set_L_Ocean_Box	The Sea's Treasures - Munitions	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006127	Item_DropSet_Collect_Manganese	Manganese Nodule	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006885	DropItem_Premium_Ocean_Chest	Rare Ocean Relic	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006949	DropItem_Pirate_Ocean_Box	Pirate's Loot	other	no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006126	Item_Set_All_Ocean_Box	The Sea's Treasures - Collection	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006037	Item_Set_A_Ocean_Box	The Sea's Treasures - Ingredients	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006038	Item_Set_B_Ocean_Box	The Sea's Treasures - Fiber	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006039	Item_Set_C_Ocean_Box	The Sea's Treasures - Crafted Ornaments	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006040	Item_Set_D_Ocean_Box	The Sea's Treasures - Meat	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006041	Item_Set_E_Ocean_Box	The Sea's Treasures - Spices	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006042	Item_Set_F_Ocean_Box	The Sea's Treasures - Processed Foods	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006043	Item_Set_G_Ocean_Box	The Sea's Treasures - Delicacies	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006044	Item_Set_H_Ocean_Box	The Sea's Treasures - Premium Goods	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006045	Item_Set_I_Ocean_Box	The Sea's Treasures - Luxury Goods	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006046	Item_Set_J_Ocean_Box	The Sea's Treasures - Artwork	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006047	Item_Set_K_Ocean_Box	The Sea's Treasures - Armor	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006048	Item_Set_L_Ocean_Box	The Sea's Treasures - Munitions	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006127	Item_DropSet_Collect_Manganese	Manganese Nodule	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006885	DropItem_Premium_Ocean_Chest	Rare Ocean Relic	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
+-1	1006949	DropItem_Pirate_Ocean_Box	Pirate's Loot	chest	chest no-sell stackable tier-0 use-immediately wild	0	1
 -1	1006895	Essence_Riding_Big_Player_ship_PanokSeon_I	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	
 -1	1006896	Essence_Riding_Big_Player_ship_PanokSeon_II	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	1
 -1	1006899	Essence_Riding_Player_Big_Ship_TurtleShip_I	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	
@@ -8200,9 +8200,9 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1006523	Diving_Propulsion_BackPack_I	Enhanced Propulsion Breathing Device	armor	accessory armor backpack docking equipment special tier-3	3	7895
 -1	1004823	Oongka_Rocket_BackPack_II	Skyway Rocket Pack	armor	accessory armor backpack docking equipment important no-sell special tier-5	5	1
 -1	1005304	MachineGun_Backpack	Machine Gun Pack	accessory	accessory backpack docking equipment tier-3	3	85
--1	1005585	item_ship_bowdeco_0002	Medium Fair Wind Figurehead	platform-bonus	equipment important no-sell platform-bonus preorder special tier-0	0	1
--1	1005591	item_ship_sterndecor_0003	Medium Fair Wind Stern	platform-bonus	equipment important no-sell platform-bonus preorder special tier-0	0	1
--1	1006234	item_ship_sail_open_0001_index04	Medium Fair Wind Sail	platform-bonus	docking equipment important no-sell platform-bonus preorder special tier-0	0	1
+-1	1005585	item_ship_bowdeco_0002	Medium Fair Wind Figurehead	vehicle-part	equipment important no-sell platform-bonus preorder special tier-0 vehicle-part	0	1
+-1	1005591	item_ship_sterndecor_0003	Medium Fair Wind Stern	vehicle-part	equipment important no-sell platform-bonus preorder special tier-0 vehicle-part	0	1
+-1	1006234	item_ship_sail_open_0001_index04	Medium Fair Wind Sail	vehicle-part	docking equipment important no-sell platform-bonus preorder special tier-0 vehicle-part	0	1
 -1	1005282	Diving_PlateArmor_Helm_01	Charter's Diving Helm	helm	armor equipment extractable helm important no-sell platform-bonus preorder special tier-4	4	1
 -1	1005286	Diving_PlateArmor_Helm_02	Charter's Light Diving Helm	helm	armor equipment extractable helm important no-sell platform-bonus preorder special tier-4	4	1
 -1	1005283	Diving_PlateArmor_Armor_01	Charter's Diving Suit	body-armor	armor body-armor equipment extractable important no-sell platform-bonus preorder special tier-4	4	1
@@ -8219,105 +8219,105 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1004878	Brindor_Wolf_Armor	Brynndor Wolf Armor	mount-gear	equipment mount-gear tier-0	0	5000
 -1	1004501	Florin_deer_Armor	Pororin Petal Deer Saddle	mount-gear	equipment mount-gear tier-0	0	4800
 -1	1004429	AlpineIbex_Ent_Armor	Ibex Shadowleaf Armor	mount-gear	equipment mount-gear tier-0	0	8500
--1	1005569	Item_ship_cannon_0001	Iron Naval Cannon	equipment	equipment no-discard tier-0	0	3000
--1	1005919	item_ship_cannon_0003	Gilded Naval Cannon	equipment	equipment no-discard tier-0	0	24000
--1	1005921	item_ship_cannon_0005	Sea King's Naval Cannon	equipment	equipment no-discard tier-0	0	55000
--1	1006888	Item_ship_cannon_0013	Steel Naval Cannon	equipment	equipment no-discard tier-0	0	15000
--1	1006937	Item_ship_cannon_0014	Reinforced Steel Naval Cannon	equipment	equipment no-discard tier-0	0	24000
--1	1006889	Item_ghostship_cannon_0001	Gloom Dead Naval Cannon	equipment	equipment no-discard tier-0	0	55000
--1	1006890	Item_turtleship_cannon_0001	Dragon Naval Cannon	equipment	equipment no-discard tier-0	0	55000
--1	1006297	Item_ship_cannon_0007	Bright Iron Prow Cannon	equipment	equipment no-discard tier-0	0	3000
--1	1006624	Item_ship_cannon_0011	Captain's Bow Cannon	equipment	equipment no-discard tier-0	0	24000
--1	1006625	Item_ship_cannon_0012	Admiral's Bow Cannon	equipment	equipment no-discard tier-0	0	35000
--1	1006298	Item_ship_cannon_0007_index0001	Dark Iron Prow Cannon	equipment	equipment no-discard tier-0	0	15000
--1	1006857	Item_ship_cannon_0009_TurtleShip	Turtle Head Prow Cannon	equipment	equipment no-discard tier-0	0	55000
--1	1006858	Item_ship_cannon_0010_TurtleShip	Dragon Head Prow Cannon	equipment	equipment no-discard tier-0	0	55000
--1	1006891	Item_ghostship_cannon_0002	Gloom Dead Prow Cannon	equipment	equipment no-discard tier-0	0	55000
--1	1005571	item_smallship_sail_open_0001	Small Pearlescent Voyage Sail	equipment	docking equipment no-discard tier-0	0	1000
--1	1005572	item_smallship_sail_open_0001_index01	Small Tideblessed Sail	equipment	docking equipment no-discard tier-0	0	7000
--1	1005573	item_smallship_sail_open_0001_index02	Small Tidesworn Sail	equipment	docking equipment no-discard tier-0	0	11000
--1	1005574	item_smallship_sail_open_0001_index03	Small Windborne Sail	equipment	docking equipment no-discard tier-0	0	20000
--1	1006742	item_SmallShip_sail_open_0001_index13	Crimson Pirates' Small Sail	equipment	docking equipment no-discard tier-0	0	7000
--1	1006743	item_SmallShip_sail_open_0001_index14	Black Stripe Pirates' Small Sail	equipment	docking equipment no-discard tier-0	0	7000
--1	1006744	item_SmallShip_sail_open_0001_index15	Black Pirates' Small Sail	equipment	docking equipment no-discard tier-0	0	7000
--1	1006745	item_SmallShip_sail_open_0001_index04	The Siren's Cry Pirates' Small Sail	equipment	docking equipment no-discard tier-0	0	11000
--1	1006746	item_SmallShip_sail_open_0001_index05	Scorched Pirates' Small Sail	equipment	docking equipment no-discard tier-0	0	11000
--1	1006747	item_SmallShip_sail_open_0001_index06	Small Red Checkered Sail	equipment	docking equipment no-discard tier-0	0	16000
--1	1006748	item_SmallShip_sail_open_0001_index07	Small Gently Curved Sail	equipment	docking equipment no-discard tier-0	0	16000
--1	1006749	item_SmallShip_sail_open_0001_index08	The Sea Claw Pirates' Small Sail	equipment	docking equipment no-discard tier-0	0	20000
--1	1006750	item_SmallShip_sail_open_0001_index09	Small Delesyian Sail	equipment	docking equipment no-discard tier-0	0	11000
--1	1006751	item_SmallShip_sail_open_0001_index10	Small Greymane Sail	equipment	docking equipment no-discard tier-0	0	11000
--1	1006752	item_SmallShip_sail_open_0001_index11	Small Hernandian Sail	equipment	docking equipment no-discard tier-0	0	11000
--1	1006753	item_SmallShip_sail_open_0001_index12	Small Demenissian Sail	equipment	docking equipment no-discard tier-0	0	11000
--1	1006959	item_SmallShip_sail_open_0001_index16	Small Silver Crescent Sail	equipment	docking equipment no-discard tier-0	0	11000
--1	1005575	item_ship_sail_open_0001	Medium Pearlescent Voyage Sail	equipment	docking equipment no-discard tier-0	0	2000
--1	1005576	item_ship_sail_open_0001_index01	Medium Tideblessed Sail	equipment	docking equipment no-discard tier-0	0	14000
--1	1005577	item_ship_sail_open_0001_index02	Medium Tidesworn Sail	equipment	docking equipment no-discard tier-0	0	22000
--1	1005578	item_ship_sail_open_0001_index03	Medium Windborne Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006754	item_Ship_sail_open_0001_index10	Dark Crimson Pirates' Medium Sail	equipment	docking equipment no-discard tier-0	0	14000
--1	1006755	item_Ship_sail_open_0001_index08	Medium Gently Curved Sail	equipment	docking equipment no-discard tier-0	0	22000
--1	1006756	item_Ship_sail_open_0001_index09	Medium Silver Crescent Sail	equipment	docking equipment no-discard tier-0	0	22000
--1	1006757	item_Ship_sail_open_0001_index12	Medium Hernandian Sail	equipment	docking equipment no-discard tier-0	0	22000
--1	1006758	item_Ship_sail_open_0001_index13	Medium Demenissian Sail	equipment	docking equipment no-discard tier-0	0	22000
--1	1006759	item_Ship_sail_open_0001_index14	Medium Delesyian Sail	equipment	docking equipment no-discard tier-0	0	22000
--1	1006938	item_Ship_sail_open_0001_index15	Black Pirates' Medium Sail	equipment	docking equipment no-discard tier-0	0	22000
--1	1006760	item_Ship_sail_open_0001_index11	Medium Greymane Sail	equipment	docking equipment no-discard tier-0	0	22000
--1	1006761	item_Ship_sail_open_0001_index07	Medium Red Checkered Sail	equipment	docking equipment no-discard tier-0	0	32000
--1	1006762	item_Ship_sail_open_0001_index05	The Death Blossom Pirates' Medium Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006763	item_Ship_sail_open_0001_index06	The Sea's Vengeance Pirates' Medium Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1005579	item_bigship_sail_open_0001	Large Pearlescent Voyage Sail	equipment	docking equipment no-discard tier-0	0	2500
--1	1005580	item_bigship_sail_open_0001_index01	Large Tideblessed Sail	equipment	docking equipment no-discard tier-0	0	17500
--1	1005581	item_bigship_sail_open_0001_index02	Large Tidesworn Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1005582	item_bigship_sail_open_0001_index03	Large Deathbound Sail	equipment	docking equipment no-discard tier-0	0	50000
--1	1006764	item_bigship_sail_open_0001_index24	Large Tidewish Sail	equipment	docking equipment no-discard tier-0	0	17500
--1	1006765	item_bigship_sail_open_0001_index22	Large Gently Curved Sail	equipment	docking equipment no-discard tier-0	0	17500
--1	1006766	item_bigship_sail_open_0001_index23	Large Silver Crescent Sail	equipment	docking equipment no-discard tier-0	0	17500
--1	1006767	item_bigship_sail_open_0001_index04	The Black Bloom Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006768	item_bigship_sail_open_0001_index05	The Crimson Shield Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006769	item_bigship_sail_open_0001_index09	The Scarlet Widow Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006770	item_bigship_sail_open_0001_index10	The Bloodied Stake Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006771	item_bigship_sail_open_0001_index11	The Devils' Plunder Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006772	item_BigShip_sail_open_0001_index17	Large Greymane Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006773	item_BigShip_sail_open_0001_index18	Large Hernandian Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006774	item_BigShip_sail_open_0001_index19	Large Demenissian Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006775	item_BigShip_sail_open_0001_index20	Large Delesyian Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006776	item_bigship_sail_open_0001_index08	The Grim Wind Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006777	item_bigship_sail_open_0001_index12	The Black Curved Blade Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006778	item_bigship_sail_open_0001_index25	Large Red Checkered Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006779	item_bigship_sail_open_0001_index06	The Vengeance Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006780	item_bigship_sail_open_0001_index07	Faunus Pirates' Large Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006781	item_bigship_sail_open_0001_index21	Large Windborne Sail	equipment	docking equipment no-discard tier-0	0	50000
--1	1006782	item_bigship_sail_open_0001_index26	Large Delesyian Naval Sail	equipment	docking equipment no-discard tier-0	0	50000
--1	1006783	item_bigship_sail_open_0002	Large Wraithdrift Sail	equipment	docking equipment no-discard tier-0	0	50000
--1	1006960	item_hugeship_sail_open_0001	Giant Pearlescent Voyage Sail	equipment	docking equipment no-discard tier-0	0	2500
--1	1006961	item_hugeship_sail_open_0001_index01	Sir Catfish Giant Sail	equipment	docking equipment no-discard tier-0	0	50000
--1	1006962	item_hugeship_sail_open_0001_index02	Giant Golden Compass Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006966	item_turtleship_sail_open_0001	Cotton Sail	equipment	docking equipment no-discard tier-0	0	27500
--1	1006967	item_turtleship_sail_open_0001_index01	Bluewake Sail	equipment	docking equipment no-discard tier-0	0	40000
--1	1006968	item_turtleship_sail_open_0001_index02	Four Taegeuk Sail	equipment	docking equipment no-discard tier-0	0	50000
--1	1005584	item_ship_bowdeco_0001	Medium Gentle Wave Figurehead	equipment	equipment no-discard tier-0	0	12500
--1	1005586	item_ship_bowdeco_0004	Medium Skyborne Beast Figurehead	equipment	equipment no-discard tier-0	0	29000
--1	1005587	item_ship_bowdeco_0005	Medium Steam and Clockwork Figurehead	equipment	equipment no-discard tier-0	0	46000
--1	1005588	item_ship_bowdeco_0006	Medium Chain-Breaking Wolf Figurehead	equipment	equipment no-discard tier-0	0	46000
--1	1006685	item_ship_bowdeco_0007	Medium Long-Horned Fish Figurehead	equipment	equipment no-discard tier-0	0	29000
--1	1006021	item_bigship_bowdeco_0001	Large Gentle Wave Figurehead	equipment	equipment no-discard tier-0	0	15600
--1	1006022	item_bigship_bowdeco_0002	Large Fair Wind Figurehead	equipment	equipment no-discard tier-0	0	25000
--1	1006023	item_bigship_bowdeco_0004	Large Skyborne Beast Figurehead	equipment	equipment no-discard tier-0	0	36200
--1	1006024	item_bigship_bowdeco_0005	Large Steam and Clockwork Figurehead	equipment	equipment no-discard tier-0	0	57000
--1	1006025	item_bigship_bowdeco_0006	Large Chain-Breaking Wolf Figurehead	equipment	equipment no-discard tier-0	0	57000
--1	1006232	item_bigship_bowdeco_0007	Large Phantom Figurehead	equipment	equipment no-discard tier-0	0	57000
--1	1006686	item_bigship_bowdeco_0008	Large Long-Horned Fish Figurehead	equipment	equipment no-discard tier-0	0	36200
--1	1005590	item_ship_sterndecor_0002	Medium Gentle Wave Stern	equipment	equipment no-discard tier-0	0	14000
--1	1005592	item_ship_sterndecor_0004	Medium Skyborne Beast Stern	equipment	equipment no-discard tier-0	0	32000
--1	1005593	item_ship_sterndecor_0005	Medium Steam and Clockwork Stern	equipment	equipment no-discard tier-0	0	40000
--1	1006687	item_ship_sterndecor_0006	Medium Long-Horned Fish Stern	equipment	equipment no-discard tier-0	0	32000
--1	1006868	item_bigship_sterndecor_0002	Large Gentle Wave Stern	equipment	equipment no-discard tier-0	0	17500
--1	1006869	item_bigship_sterndecor_0003	Large Fair Wind Stern	equipment	equipment no-discard tier-0	0	27500
--1	1006870	item_bigship_sterndecor_0004	Large Skyborne Beast Stern	equipment	equipment no-discard tier-0	0	40000
--1	1006871	item_bigship_sterndecor_0005	Large Steam and Clockwork Stern	equipment	equipment no-discard tier-0	0	50000
--1	1006872	item_bigship_sterndecor_0007	Large Phantom Stern	equipment	equipment no-discard tier-0	0	50000
--1	1006873	item_bigship_sterndecor_0008	Large Long-Horned Fish Stern	equipment	equipment no-discard tier-0	0	40000
--1	1006626	item_ship_teleporter_0001	Ship Teleportation Device	equipment	equipment no-discard tier-0	0	15000
+-1	1005569	Item_ship_cannon_0001	Iron Naval Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	3000
+-1	1005919	item_ship_cannon_0003	Gilded Naval Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	24000
+-1	1005921	item_ship_cannon_0005	Sea King's Naval Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	55000
+-1	1006888	Item_ship_cannon_0013	Steel Naval Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	15000
+-1	1006937	Item_ship_cannon_0014	Reinforced Steel Naval Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	24000
+-1	1006889	Item_ghostship_cannon_0001	Gloom Dead Naval Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	55000
+-1	1006890	Item_turtleship_cannon_0001	Dragon Naval Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	55000
+-1	1006297	Item_ship_cannon_0007	Bright Iron Prow Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	3000
+-1	1006624	Item_ship_cannon_0011	Captain's Bow Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	24000
+-1	1006625	Item_ship_cannon_0012	Admiral's Bow Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	35000
+-1	1006298	Item_ship_cannon_0007_index0001	Dark Iron Prow Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	15000
+-1	1006857	Item_ship_cannon_0009_TurtleShip	Turtle Head Prow Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	55000
+-1	1006858	Item_ship_cannon_0010_TurtleShip	Dragon Head Prow Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	55000
+-1	1006891	Item_ghostship_cannon_0002	Gloom Dead Prow Cannon	vehicle-part	equipment no-discard tier-0 vehicle-part	0	55000
+-1	1005571	item_smallship_sail_open_0001	Small Pearlescent Voyage Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	1000
+-1	1005572	item_smallship_sail_open_0001_index01	Small Tideblessed Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	7000
+-1	1005573	item_smallship_sail_open_0001_index02	Small Tidesworn Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	11000
+-1	1005574	item_smallship_sail_open_0001_index03	Small Windborne Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	20000
+-1	1006742	item_SmallShip_sail_open_0001_index13	Crimson Pirates' Small Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	7000
+-1	1006743	item_SmallShip_sail_open_0001_index14	Black Stripe Pirates' Small Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	7000
+-1	1006744	item_SmallShip_sail_open_0001_index15	Black Pirates' Small Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	7000
+-1	1006745	item_SmallShip_sail_open_0001_index04	The Siren's Cry Pirates' Small Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	11000
+-1	1006746	item_SmallShip_sail_open_0001_index05	Scorched Pirates' Small Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	11000
+-1	1006747	item_SmallShip_sail_open_0001_index06	Small Red Checkered Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	16000
+-1	1006748	item_SmallShip_sail_open_0001_index07	Small Gently Curved Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	16000
+-1	1006749	item_SmallShip_sail_open_0001_index08	The Sea Claw Pirates' Small Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	20000
+-1	1006750	item_SmallShip_sail_open_0001_index09	Small Delesyian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	11000
+-1	1006751	item_SmallShip_sail_open_0001_index10	Small Greymane Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	11000
+-1	1006752	item_SmallShip_sail_open_0001_index11	Small Hernandian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	11000
+-1	1006753	item_SmallShip_sail_open_0001_index12	Small Demenissian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	11000
+-1	1006959	item_SmallShip_sail_open_0001_index16	Small Silver Crescent Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	11000
+-1	1005575	item_ship_sail_open_0001	Medium Pearlescent Voyage Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	2000
+-1	1005576	item_ship_sail_open_0001_index01	Medium Tideblessed Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	14000
+-1	1005577	item_ship_sail_open_0001_index02	Medium Tidesworn Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	22000
+-1	1005578	item_ship_sail_open_0001_index03	Medium Windborne Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006754	item_Ship_sail_open_0001_index10	Dark Crimson Pirates' Medium Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	14000
+-1	1006755	item_Ship_sail_open_0001_index08	Medium Gently Curved Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	22000
+-1	1006756	item_Ship_sail_open_0001_index09	Medium Silver Crescent Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	22000
+-1	1006757	item_Ship_sail_open_0001_index12	Medium Hernandian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	22000
+-1	1006758	item_Ship_sail_open_0001_index13	Medium Demenissian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	22000
+-1	1006759	item_Ship_sail_open_0001_index14	Medium Delesyian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	22000
+-1	1006938	item_Ship_sail_open_0001_index15	Black Pirates' Medium Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	22000
+-1	1006760	item_Ship_sail_open_0001_index11	Medium Greymane Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	22000
+-1	1006761	item_Ship_sail_open_0001_index07	Medium Red Checkered Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	32000
+-1	1006762	item_Ship_sail_open_0001_index05	The Death Blossom Pirates' Medium Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006763	item_Ship_sail_open_0001_index06	The Sea's Vengeance Pirates' Medium Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1005579	item_bigship_sail_open_0001	Large Pearlescent Voyage Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	2500
+-1	1005580	item_bigship_sail_open_0001_index01	Large Tideblessed Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	17500
+-1	1005581	item_bigship_sail_open_0001_index02	Large Tidesworn Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1005582	item_bigship_sail_open_0001_index03	Large Deathbound Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	50000
+-1	1006764	item_bigship_sail_open_0001_index24	Large Tidewish Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	17500
+-1	1006765	item_bigship_sail_open_0001_index22	Large Gently Curved Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	17500
+-1	1006766	item_bigship_sail_open_0001_index23	Large Silver Crescent Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	17500
+-1	1006767	item_bigship_sail_open_0001_index04	The Black Bloom Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006768	item_bigship_sail_open_0001_index05	The Crimson Shield Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006769	item_bigship_sail_open_0001_index09	The Scarlet Widow Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006770	item_bigship_sail_open_0001_index10	The Bloodied Stake Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006771	item_bigship_sail_open_0001_index11	The Devils' Plunder Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006772	item_BigShip_sail_open_0001_index17	Large Greymane Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006773	item_BigShip_sail_open_0001_index18	Large Hernandian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006774	item_BigShip_sail_open_0001_index19	Large Demenissian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006775	item_BigShip_sail_open_0001_index20	Large Delesyian Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006776	item_bigship_sail_open_0001_index08	The Grim Wind Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006777	item_bigship_sail_open_0001_index12	The Black Curved Blade Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006778	item_bigship_sail_open_0001_index25	Large Red Checkered Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006779	item_bigship_sail_open_0001_index06	The Vengeance Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006780	item_bigship_sail_open_0001_index07	Faunus Pirates' Large Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006781	item_bigship_sail_open_0001_index21	Large Windborne Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	50000
+-1	1006782	item_bigship_sail_open_0001_index26	Large Delesyian Naval Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	50000
+-1	1006783	item_bigship_sail_open_0002	Large Wraithdrift Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	50000
+-1	1006960	item_hugeship_sail_open_0001	Giant Pearlescent Voyage Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	2500
+-1	1006961	item_hugeship_sail_open_0001_index01	Sir Catfish Giant Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	50000
+-1	1006962	item_hugeship_sail_open_0001_index02	Giant Golden Compass Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006966	item_turtleship_sail_open_0001	Cotton Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006967	item_turtleship_sail_open_0001_index01	Bluewake Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006968	item_turtleship_sail_open_0001_index02	Four Taegeuk Sail	vehicle-part	docking equipment no-discard tier-0 vehicle-part	0	50000
+-1	1005584	item_ship_bowdeco_0001	Medium Gentle Wave Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	12500
+-1	1005586	item_ship_bowdeco_0004	Medium Skyborne Beast Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	29000
+-1	1005587	item_ship_bowdeco_0005	Medium Steam and Clockwork Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	46000
+-1	1005588	item_ship_bowdeco_0006	Medium Chain-Breaking Wolf Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	46000
+-1	1006685	item_ship_bowdeco_0007	Medium Long-Horned Fish Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	29000
+-1	1006021	item_bigship_bowdeco_0001	Large Gentle Wave Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	15600
+-1	1006022	item_bigship_bowdeco_0002	Large Fair Wind Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	25000
+-1	1006023	item_bigship_bowdeco_0004	Large Skyborne Beast Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	36200
+-1	1006024	item_bigship_bowdeco_0005	Large Steam and Clockwork Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	57000
+-1	1006025	item_bigship_bowdeco_0006	Large Chain-Breaking Wolf Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	57000
+-1	1006232	item_bigship_bowdeco_0007	Large Phantom Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	57000
+-1	1006686	item_bigship_bowdeco_0008	Large Long-Horned Fish Figurehead	vehicle-part	equipment no-discard tier-0 vehicle-part	0	36200
+-1	1005590	item_ship_sterndecor_0002	Medium Gentle Wave Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	14000
+-1	1005592	item_ship_sterndecor_0004	Medium Skyborne Beast Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	32000
+-1	1005593	item_ship_sterndecor_0005	Medium Steam and Clockwork Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006687	item_ship_sterndecor_0006	Medium Long-Horned Fish Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	32000
+-1	1006868	item_bigship_sterndecor_0002	Large Gentle Wave Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	17500
+-1	1006869	item_bigship_sterndecor_0003	Large Fair Wind Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	27500
+-1	1006870	item_bigship_sterndecor_0004	Large Skyborne Beast Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006871	item_bigship_sterndecor_0005	Large Steam and Clockwork Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	50000
+-1	1006872	item_bigship_sterndecor_0007	Large Phantom Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	50000
+-1	1006873	item_bigship_sterndecor_0008	Large Long-Horned Fish Stern	vehicle-part	equipment no-discard tier-0 vehicle-part	0	40000
+-1	1006626	item_ship_teleporter_0001	Ship Teleportation Device	vehicle-part	equipment no-discard tier-0 vehicle-part	0	15000
 -1	1004876	PetArmor_Rudion_Plate_Helm_Cat	Feline Ludeon Plate Hat	pet-gear	equipment pet-gear tier-0	0	240
 -1	1004511	PetArmor_Scholarstone_Helm_Cat	Feline Scholastone Honorary Scholar Cap	pet-gear	equipment pet-gear tier-0	0	240
 -1	1004877	PetArmor_Rudion_Plate_Armor_Cat	Feline Ludeon Plate Outfit	pet-gear	equipment pet-gear tier-0	0	240

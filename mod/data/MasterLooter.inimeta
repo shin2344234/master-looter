@@ -320,7 +320,7 @@
           "default": "1",
           "true": "1",
           "false": "0",
-          "help": "Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 180 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.",
+          "help": "Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.",
           "order": 20
         },
         "SkipNoSell": {
@@ -841,7 +841,7 @@
           "label": "Config version",
           "type": "int",
           "group": "Overlay and diagnostics",
-          "default": "8",
+          "default": "9",
           "help": "Written by the mod so old files can be migrated. Do not change it.",
           "hidden": true,
           "readonly": true,

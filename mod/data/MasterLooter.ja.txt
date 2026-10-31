@@ -255,7 +255,7 @@ Skip all	全てスキップ
 Skip quest equipment	クエスト装備を拾わない
 Quest equipment	クエスト装備
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	ゲームが重要と印を付け、どの店も買い取らない装備を、すべての分類で対象にします。オフにすると、クエスト用の道具はその場に残ります。
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 180 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	ゲームが重要と印を付け、どの店も買い取らない道具と装備です。肥料散布器と潤滑剤散布器、ククの槍、斥候の指輪と首飾りなど180点で、ほぼすべてが銅貨1枚の価値しかありません。地面から早く拾ってしまうと、クエストの手順が前後することがあります。\n\n二つの印を合わせて見るため、片方しか持たない品は対象外です。フィールド散布器は売却できませんが重要の印がないので、これまでどおり拾います。
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	ゲームが重要と印を付け、どの店も買い取らない道具と装備です。肥料散布器と潤滑剤散布器、ククの槍、斥候の指輪と首飾りなど251点で、ほぼすべてが銅貨1枚の価値しかありません。地面から早く拾ってしまうと、クエストの手順が前後することがあります。\n\n二つの印を合わせて見るため、片方しか持たない品は対象外です。フィールド散布器は売却できませんが重要の印がないので、これまでどおり拾います。
 Skip items shops refuse to buy	店が買い取らないアイテムをスキップ
 Skip quest items	クエストアイテムをスキップ
 skip: %s	スキップ：%s

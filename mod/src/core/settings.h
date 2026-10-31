@@ -227,7 +227,7 @@ namespace ml
         // without it: how many descriptors this build has, any that moved, the
         // three the mod sends, and any it could not find.
         bool  descriptorDump = false;
-        int   configVersion  = 8;      // bumps when a default changes in a way old files should follow; Migrate() stamps a fresh file with the same number
+        int   configVersion  = 9;      // bumps when a default changes in a way old files should follow; Migrate() stamps a fresh file with the same number
 
         // [Classes] class -> 1 loot / 0 skip. Absent means loot.
         std::map<std::string, int> classRule;

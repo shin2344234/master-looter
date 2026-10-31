@@ -61,3 +61,9 @@ MultiCannonBall,,cannonball,,a bundle of cannonballs carries the tag of what it 
 MultiCannonBall_Package_Small,,cannonball,,a bundle of cannonballs carries the tag of what it holds so a cannonball rule covers it (issue on the posts tab 10 Sep 2026)
 Item_troll_academy_Core,abyss-item,quest,,the Gate to the Otherworld experiment in Chapter 4 uses it and loads forever once it is gone (Metshael 30 Sep 2026)
 Chocolate_Factory_BackPack,armor,quest,,the Gearmelt factory quest needs it picked up by hand and a looted one nearly stalled it (Sov1737 30 Sep 2026)
+Tool_Binoculars,tool,,,filed as general goods; it is a tool you hold
+Paper_TreasureMap_Diamond,treasure-map,,,in no item group at all
+Paper_TreasureMap_Kudzu,treasure-map,,,in no item group at all
+Paper_Anamorphic_Shield,poster,,,in no item group at all
+Paper_Anamorphic_Key,poster,,,in no item group at all
+Paper_Anamorphic_Adventurer,poster,,,in no item group at all
