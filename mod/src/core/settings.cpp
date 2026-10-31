@@ -381,6 +381,24 @@ namespace ml::Settings
     {
         c.lootRange = std::min(c.lootRange, c.scanRange); c.gatherRange = std::min(c.gatherRange, c.scanRange);
         c.catchRange = std::min(c.catchRange, c.scanRange); c.corpseRange = std::min(c.corpseRange, c.scanRange);
+
+        // micha31303, 31 October 2026: MenuKey set to Home, which KeyWatch
+        // already was by default. Each press opened the menu and the watch key
+        // put it straight into watch mode, the next press undid both, so the
+        // menu never closed and never took a click, and reinstalling kept the
+        // ini. A key that also opens the menu loses its other job here, so a
+        // file already in that state comes back usable.
+        struct { const char* name; int* vk; } other[] = {
+            { "KeyToggle", &c.keyToggle }, { "KeyBurst", &c.keyBurst },
+            { "KeyWatch", &c.keyWatch },   { "KeyOwned", &c.keyOwned },
+        };
+        for (auto& o : other)
+            if (*o.vk && *o.vk == c.menuKey)
+            {
+                LOG("[settings] %s was the menu key too (%s), so it is unbound; bind it again under General, Keys",
+                    o.name, KeyName(c.menuKey));
+                *o.vk = 0;
+            }
     }
 
     // Every correction a saved file needs, in version order.

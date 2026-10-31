@@ -535,10 +535,61 @@ namespace ml::gui
         return m ? m : -1;
     }
 
-    static bool KeyRow(const char* label, int& vk, int target)
+    // One key does one job on the Keys tab. micha31303 set the menu key to
+    // Home, which watch mode already had, and the two handlers then undid each
+    // other on every press: the menu came up in watch mode and never closed.
+    // A key taken from another row leaves that row unbound, and the menu key
+    // is never taken, because the menu is where keys get bound again. Each
+    // row writes its label down as it draws; the labels stay literal at the
+    // KeyRow calls because that is where the translation template finds them.
+    static const char* s_keyRowLabel[5] = {};
+    static const char* KeyRowLabel(int target)
+    {
+        return target >= 0 && target < 5 && s_keyRowLabel[target] ? s_keyRowLabel[target] : "another key";
+    }
+    static int* KeySlot(Config& c, int target)
+    {
+        switch (target)
+        {
+        case 0: return &c.menuKey;
+        case 1: return &c.keyToggle;
+        case 2: return &c.keyBurst;
+        case 3: return &c.keyWatch;
+        case 4: return &c.keyOwned;
+        }
+        return nullptr;
+    }
+
+    // False when the key is the menu's and this row is another one.
+    static bool TakeKey(Config& c, int target, int vk)
+    {
+        char msg[200];
+        for (int t = 0; t < 5; ++t)
+        {
+            int* other = KeySlot(c, t);
+            if (t == target || !other || *other != vk) continue;
+            if (t == 0)
+            {
+                snprintf(msg, sizeof msg, "Master Looter: %s opens this menu, so it cannot do that as well.", Settings::KeyName(vk));
+                LOG("[menu] %s refused for %s: it is the menu key", Settings::KeyName(vk), KeyRowLabel(target));
+                State::Get().Notify(msg, 5000);
+                return false;
+            }
+            *other = 0;
+            snprintf(msg, sizeof msg, "Master Looter: %s moved here from \"%s\", which has no key now.",
+                     Settings::KeyName(vk), TR(KeyRowLabel(t)));
+            LOG("[menu] %s moved from %s to %s", Settings::KeyName(vk), KeyRowLabel(t), KeyRowLabel(target));
+            State::Get().Notify(msg, 5000);
+        }
+        return true;
+    }
+
+    static bool KeyRow(const char* label, Config& c, int target)
     {
         State& st = State::Get();
         bool dirty = false;
+        s_keyRowLabel[target] = label;
+        int& vk = *KeySlot(c, target);
         ImGui::PushID(target);
         ImGui::TextUnformatted(TR(label));
         s_rowLabel.Next();
@@ -549,7 +600,7 @@ namespace ml::gui
             ImGui::TextColored(Accent(), TR("press a key (Escape cancels)"));
             if (s_cap.combo) ImGui::TextColored(kWarn, "%s", TR("One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held."));
             const int got = CaptureStep(s_cap, KeyDown);
-            if (got > 0) { vk = got; dirty = true; }
+            if (got > 0 && got != vk && TakeKey(c, target, got)) { vk = got; dirty = true; }
             if (got >= 0) { st.rebindCapture = false; g_rebindTarget = -1; s_cap = Capture{}; }
         }
         else if (!st.rebindCapture)
@@ -776,12 +827,12 @@ namespace ml::gui
         Help(TR("Nothing else is drawn while the menu is closed."));
 
         Section(TR("Keys"));
-        dirty |= KeyRow("Open and close this menu", c.menuKey, 0);
+        dirty |= KeyRow("Open and close this menu", c, 0);
         Help(TR("One key on its own. Ctrl and Alt combinations are never read, because these keys stay quiet while Ctrl or Alt is held."));
-        dirty |= KeyRow("Auto-loot on / off", c.keyToggle, 1);
-        dirty |= KeyRow("Loot everything in range once", c.keyBurst, 2);
-        dirty |= KeyRow("Watch mode (menu stays up, you keep playing)", c.keyWatch, 3);
-        dirty |= KeyRow("Take goods that belong to someone, on / off", c.keyOwned, 4);
+        dirty |= KeyRow("Auto-loot on / off", c, 1);
+        dirty |= KeyRow("Loot everything in range once", c, 2);
+        dirty |= KeyRow("Watch mode (menu stays up, you keep playing)", c, 3);
+        dirty |= KeyRow("Take goods that belong to someone, on / off", c, 4);
         Help(TR("Unbound until you set it. The game calls taking owned goods stealing and puts a bounty on you for it, so this is the switch you want on for a moment and off again, which is a poor fit for a menu."));
 
         Section(TR("Language"));
