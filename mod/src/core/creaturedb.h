@@ -14,6 +14,11 @@ namespace ml
         std::string name;
         std::string klass;      // insect, fish, seafood, animal, amphibian
         int         itemRow = -1;
+        // The item's string key. A DLC-only item has no row the mod knows, so
+        // a creature caught into one is found by this instead; lzg669 on 30
+        // October 2026 could catch none of the DLC's new fish.
+        std::string itemKey;
+        bool        HasItem() const { return itemRow >= 0 || !itemKey.empty(); }
         // The interactioninfo key skinning this creature by hand rewards,
         // SmallAnimal_Skin or Animal_Skin, or 0 for one that is not skinned.
         uint32_t    skin = 0;

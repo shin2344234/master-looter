@@ -107,11 +107,20 @@ namespace ml::loot
     // (fish, seafood, butterflies, small birds), 09 walks (ground insects,
     // small animals, frogs, geese). A species word that contradicts it is a
     // false match; a byte-05 "animal" is only believed when it is a bird.
+    // The item a creature is caught into: by row for the base game, by string
+    // key for a DLC-only item, which has no row the mod knows.
+    static const Item* CatchItem(const Creature* cr)
+    {
+        if (!cr) return nullptr;
+        if (cr->itemRow >= 0) return ItemDb::ByRow(cr->itemRow);
+        return cr->itemKey.empty() ? nullptr : ItemDb::ByStringKey(cr->itemKey.c_str());
+    }
+
     static bool IsBird(const Species& sp)
     {
         static const char* words[] = { "bird", "smallbird", "embriza", "goose", "duck", "chicken", "hen", "rooster", "coot", "crow", "pigeon" };
         for (const char* w : words) if (sp.word == w) return true;
-        if (sp.row) if (const Item* it = ItemDb::ByRow(sp.row->itemRow)) return it->HasTag("bird");
+        if (const Item* it = CatchItem(sp.row)) return it->HasTag("bird");
         return false;
     }
     // Byte 05 turned out to be a movement state rather than a family: a goose
@@ -3668,7 +3677,7 @@ namespace ml::loot
         // same test with a byte list bolted on. smallGame keeps its byte-only
         // path: 0x05 and 0x09 are mapped and admit things the table does not
         // always name, so dropping it would lose catches.
-        const bool namedGame = c.speciesExact && c.species && c.species->itemRow >= 0;
+        const bool namedGame = c.speciesExact && c.species && c.species->HasItem();
         const bool catchable = (smallGame || namedGame) && !c.inter;
         const bool beastCorpse = c.dead == 1 && (c.cat2 == 0x0C || c.ai);
         if (c.dead == 1 && !beastCorpse) return skip("corpse: loot drops separately");
@@ -3776,7 +3785,7 @@ namespace ml::loot
                 if (cl == "insect")                       { if (!cfg.catchInsects) return skip("insects off"); }
                 else if (cl == "fish" || cl == "seafood") { if (!cfg.catchFish)    return skip("fish off"); }
                 else                                      { if (!cfg.catchAnimals) return skip("small animals off"); }
-                if (const Item* it = c.species ? ItemDb::ByRow(c.species->itemRow) : nullptr)
+                if (const Item* it = CatchItem(c.species))
                 {
                     const Rules::Verdict r = Rules::Decide(*it, cfg);
                     if (!r.loot) { snprintf(v.detail, sizeof v.detail, "%s", r.detail.c_str()); v.loot = false; v.why = r.rule; return v; }

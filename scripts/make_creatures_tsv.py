@@ -92,17 +92,17 @@ def main():
     n = 0
     counts = {}
     with open(DST, "w", encoding="utf-8", newline="\n") as f:
-        f.write("character_key\tstring_key\tname\titem_row\titem_class\tskin\n")
+        f.write("character_key\tstring_key\tname\titem_row\titem_class\tskin\titem_key\n")
         for c in chars:
             sk = c["string_key"]
             if not sk.startswith("Animal_"):
                 continue
             it = find_item(c["name"])
             if it:
-                klass, row = it["klass"], order.get(int(it["key"]), -1)
+                klass, row, ikey = it["klass"], order.get(int(it["key"]), -1), it["string_key"]
             else:
-                klass, row = guess(sk, c["name"]), -1
-            f.write("%s\t%s\t%s\t%d\t%s\t%d\n" % (c["key"], sk, c["name"], row, klass, skin_of(int(c["key"]))))
+                klass, row, ikey = guess(sk, c["name"]), -1, ""
+            f.write("%s\t%s\t%s\t%d\t%s\t%d\t%s\n" % (c["key"], sk, c["name"], row, klass, skin_of(int(c["key"])), ikey))
             counts[klass] = counts.get(klass, 0) + 1
             n += 1
     print("wrote", DST, n, "creatures", counts)

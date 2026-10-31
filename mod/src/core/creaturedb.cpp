@@ -106,11 +106,12 @@ namespace ml::CreatureDb
             pos = nl + 1;
             if (header) { header = false; continue; }
             // A sixth column, skin, arrived in 1.6.32. A table written before
-            // it still loads, with no skinning reward for anything in it.
-            std::string cols[6]; int c = 0;
-            for (const char* p = line.c_str(); *p && c < 6; ++p)
+            // it still loads, with no skinning reward for anything in it. The
+            // seventh, the item's string key, arrived in 1.6.53.
+            std::string cols[7]; int c = 0;
+            for (const char* p = line.c_str(); *p && c < 7; ++p)
             {
-                if (*p == '\t') { ++c; continue; }
+                if (*p == '\t') { if (++c == 7) break; continue; }
                 if (*p == '\r' || *p == '\n') break;
                 cols[c] += *p;
             }
@@ -121,6 +122,7 @@ namespace ml::CreatureDb
             cr.itemRow = atoi(cols[3].c_str());
             cr.klass = cols[4];
             if (c >= 5) cr.skin = static_cast<uint32_t>(strtoul(cols[5].c_str(), nullptr, 10));
+            if (c >= 6) cr.itemKey = cols[6];
             g_byKey[cr.stringKey] = g_rows.size();
             g_rows.push_back(std::move(cr));
         }
