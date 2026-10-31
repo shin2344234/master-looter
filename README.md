@@ -1,6 +1,6 @@
 # Master Looter
 
-Auto-loot for Crimson Desert with an in-game menu, built for the DLC update (exe 1.0.0.3446, the second patch of 30 October 2026).
+Auto-loot for Crimson Desert with an in-game menu, built for the DLC update (exe 1.0.0.3460, the patch of 31 October 2026).
 
 > [!IMPORTANT]
 > **New in 1.6.28: loot can go straight into storage.** Install [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) 1.1.0 or later beside Master Looter, and what Master Looter picks up can be moved into your storage as it lands. Nothing you pick up by hand is touched. It starts off; see [Storing loot](#storing-loot) for how to turn it on.
@@ -62,7 +62,7 @@ The tab also shows which mod is applying the multiplier, how many item records w
 
 ## Installing
 
-**1.6.52 needs the DLC update, exe 1.0.0.3392 or either of its 30 October patches, 3424 and 3446.** The
+**1.6.53 needs the DLC update, exe 1.0.0.3392 or one of its later patches, 3424, 3446 and 3460.** The
 update moved every function the plugin hooks, so 1.6.50 loots nothing on it. 1.6.50 stays on
 [Releases](https://github.com/shin2344234/master-looter/releases) for a game
 still on exe 1.0.0.2976.
@@ -93,7 +93,7 @@ One scanner out of sixty-six flags `MasterLooter.asi` on 1.6.52. Webroot calls i
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one, 1.6.50 one, 1.6.51 one and 1.6.52 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.52: [the plugin](https://www.virustotal.com/gui/file/c33a2db989c41a628fc67dc7772c852e644bcfe12a7e4877d829188cb59863d4) and [the package](https://www.virustotal.com/gui/file/492b6d5dd3ad4ade06b81fc3d975fa687e4a19f4c361c147a618d7b79471be35).
+Reports for 1.6.52: [the plugin](https://www.virustotal.com/gui/file/fcf099fd5d48d8925159f20cea82d53c1f39f9195552f6c6e2149b9d235bb24e) and [the package](https://www.virustotal.com/gui/file/4bf4fbe33f1e4906d3fb479f75c0947da7f0ac6081676fa0c58ee66880fbbc78).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -101,11 +101,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.52:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.53:
 
-    492b6d5dd3ad4ade06b81fc3d975fa687e4a19f4c361c147a618d7b79471be35  MasterLooter-1.6.52-DMM.zip
-    b8851cd6822290b025db6aaa937d9b48a84cb3e5373b04061929d5105c875e5a  MasterLooter-1.6.52.zip
-    c33a2db989c41a628fc67dc7772c852e644bcfe12a7e4877d829188cb59863d4  MasterLooter.asi
+    4bf4fbe33f1e4906d3fb479f75c0947da7f0ac6081676fa0c58ee66880fbbc78  MasterLooter-1.6.53-DMM.zip
+    b3e4532f9ffc279ba7110658e51c236555970aea835521baed95e9bd8f6beba2  MasterLooter-1.6.53.zip
+    fcf099fd5d48d8925159f20cea82d53c1f39f9195552f6c6e2149b9d235bb24e  MasterLooter.asi
 
 ## Controls
 
@@ -115,6 +115,8 @@ If Defender or your browser quarantines the download, restore it and exclude the
 - While the menu is interactive the game does not see the keyboard, mouse or controller. Key releases still pass so nothing sticks.
 
 All four keys are rebindable in the menu under General, and they also sit in `MasterLooter.ini` beside the plugin as `MenuKey`, `KeyToggle`, `KeyBurst` and `KeyWatch`, written as virtual-key codes or by name, `End` or `F12`. Edit the file and save it and the change is picked up about a second later without a restart, which is the quickest way to clear a clash with another ASI mod. Every key but the menu key can also be left unbound, with the Clear button beside it, or a 0, `none` or nothing at all after the `=` in the file. A value the mod cannot read is named in the log at launch. Each of the four also takes a controller shortcut of two buttons at once rather than one, since every single button already does something in this game.
+
+A key does one job. Rebinding a key that another row already holds moves it to the new row and leaves the old one unbound, with a notice naming it, and no other row can take the menu key. An ini that gives the menu key a second job loads with that job unbound and a `[settings]` line in the log naming it. Before 1.6.53, setting `MenuKey` to Home, which watch mode already used, left a menu on screen that took no clicks and never closed.
 
 Hold Ctrl or Alt and none of these keys fire, unless the key is Ctrl or Alt itself, so Rebind takes one key on its own and turns a combination down with a line saying why. That keeps Private Storage Master's Ctrl+F10 from toggling auto-loot as well. Shift is left alone because the game sprints on it, and controller shortcuts work as they always did.
 
