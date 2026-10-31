@@ -124,18 +124,26 @@ def load_checksums():
 
 def previous_hashes():
     """Each hash on the latest checksum record older than this version, mapped
-    to its file's role, and that record's version. ({}, None) without one."""
+    to its file's role, and that record's version. ({}, None) without one.
+
+    A release never takes a test build's record. The public documents only
+    ever carry released hashes, and Glint Spotter 1.1.34 took 1.1.33-test1,
+    which ties with 1.1.33 on its numbers and comes first in the folder, so
+    the 1.1.33 VirusTotal links were left behind."""
     d = CFG.path("private", "checksums")
     if not os.path.isdir(d):
         return {}, None
-    now = version_tuple(CFG.version)
+    now = version_key(CFG.version)
+    release = not is_prerelease(CFG.version)
     best = None
-    for name in os.listdir(d):
+    for name in sorted(os.listdir(d)):
         if not name.endswith(".json"):
             continue
         data = json.loads(read(os.path.join(d, name)))
         v = data.get("version") or name[:-5]
-        if version_tuple(v) < now and (best is None or version_tuple(v) > version_tuple(best[0])):
+        if release and is_prerelease(v):
+            continue
+        if version_key(v) < now and (best is None or version_key(v) > version_key(best[0])):
             best = (v, data)
     if not best:
         return {}, None
@@ -283,6 +291,18 @@ def rehash(path):
 
 def version_tuple(v):
     return tuple(int(x) for x in re.findall(r"\d+", v)[:3])
+
+
+def is_prerelease(v):
+    """True for anything past the plain dotted numbers, such as 1.1.33-test1."""
+    return re.match(r"^\d+(\.\d+)*$", v) is None
+
+
+def version_key(v):
+    """Orders versions with a test build before the release it leads to:
+    1.1.33-test1 < 1.1.33-test2 < 1.1.33 < 1.1.34-test1."""
+    rest = tuple(int(x) for x in re.findall(r"\d+", v)[3:])
+    return version_tuple(v), (0, rest) if is_prerelease(v) else (1, ())
 
 
 def check_requires(problems):
