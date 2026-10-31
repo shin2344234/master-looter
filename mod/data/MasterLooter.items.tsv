@@ -1887,13 +1887,13 @@ row	key	string_key	name	class	tags	tier	value_copper
 1885	1002096	Condola	Contola	abyss-item	abyss-item no-sell tier-0 wild	0	1
 1886	1002519	Item_Abyss_Artifact_Maker	Abyss Artifact Fabricator	abyss-item	abyss-item no-sell stackable tier-0	0	1
 1887	1000309	Item_troll_academy_Core	Dimensional Fusion Experimental Power Core	abyss-item	abyss-item no-sell quest stackable tier-0	0	1
-1888	1003650	Item_gimmick_abyssruins_useartifact_01_attach_part	Abyss Transporter	kuku-pot-item	gimmick important kuku-pot-item no-sell stackable tier-0 wild	0	1
-1889	1003553	Item_puzzle_troll_lake_pillar_01_part_01	Kharonso Ruins Pillar: No. 1	kuku-pot-item	gimmick important kuku-pot-item no-sell stackable tier-0 wild	0	1
-1890	1003554	Item_puzzle_troll_lake_pillar_02_part_01	Kharonso Ruins Pillar: No. 2	kuku-pot-item	gimmick important kuku-pot-item no-sell stackable tier-0 wild	0	1
-1891	1003555	Item_puzzle_troll_lake_pillar_03_part_01	Kharonso Ruins Pillar: No. 3	kuku-pot-item	gimmick important kuku-pot-item no-sell stackable tier-0 wild	0	1
-1892	1003556	Item_puzzle_troll_lake_pillar_04_part_01	Kharonso Ruins Pillar: No. 4	kuku-pot-item	gimmick important kuku-pot-item no-sell stackable tier-0 wild	0	1
-1893	1003651	Item_gimmick_attach_nuclear_fusion_core_01	Tenebrum Magnetic Core	kuku-pot-item	gimmick kuku-pot-item no-sell stackable tier-0 wild	0	1
-1894	1003642	Item_gimmick_abyss_quest_kuku_seal_01	Magnetic Power Core	kuku-pot-item	gimmick important kuku-pot-item no-sell stackable tier-0 wild	0	1
+1888	1003650	Item_gimmick_abyssruins_useartifact_01_attach_part	Abyss Transporter	kuku-pot-item	gimmick important kuku-pot-item no-sell quest stackable tier-0 wild	0	1
+1889	1003553	Item_puzzle_troll_lake_pillar_01_part_01	Kharonso Ruins Pillar: No. 1	kuku-pot-item	gimmick important kuku-pot-item no-sell quest stackable tier-0 wild	0	1
+1890	1003554	Item_puzzle_troll_lake_pillar_02_part_01	Kharonso Ruins Pillar: No. 2	kuku-pot-item	gimmick important kuku-pot-item no-sell quest stackable tier-0 wild	0	1
+1891	1003555	Item_puzzle_troll_lake_pillar_03_part_01	Kharonso Ruins Pillar: No. 3	kuku-pot-item	gimmick important kuku-pot-item no-sell quest stackable tier-0 wild	0	1
+1892	1003556	Item_puzzle_troll_lake_pillar_04_part_01	Kharonso Ruins Pillar: No. 4	kuku-pot-item	gimmick important kuku-pot-item no-sell quest stackable tier-0 wild	0	1
+1893	1003651	Item_gimmick_attach_nuclear_fusion_core_01	Tenebrum Magnetic Core	kuku-pot-item	gimmick kuku-pot-item no-sell quest stackable tier-0 wild	0	1
+1894	1003642	Item_gimmick_abyss_quest_kuku_seal_01	Magnetic Power Core	kuku-pot-item	gimmick important kuku-pot-item no-sell quest stackable tier-0 wild	0	1
 1895	1002827	Item_gimmick_puzzle_antumbra_tokamak_01_parts20	Core of Penitence	kuku-core	gimmick important kuku-core kuku-pot-item no-sell stackable tier-0 wild	0	1
 1896	1002828	Item_gimmick_puzzle_antumbra_tokamak_01_parts21	Core of Renunciation	kuku-core	gimmick important kuku-core kuku-pot-item no-sell stackable tier-0 wild	0	1
 1897	1002829	Item_gimmick_puzzle_antumbra_tokamak_01_parts22	Core of Expiation	kuku-core	gimmick important kuku-core kuku-pot-item no-sell stackable tier-0 wild	0	1
@@ -2059,11 +2059,11 @@ row	key	string_key	name	class	tags	tier	value_copper
 2057	1001309	Quest_TrollCube_I	Engraved Stone	key	cube-key hidden key no-sell quest tier-0 wild	0	1
 2058	1001310	Quest_TrollCube_III	Engraved Stone	key	cube-key hidden key no-sell quest tier-0 wild	0	1
 2059	1001311	Quest_TrollCube_IV	Engraved Stone	key	cube-key hidden key no-sell quest tier-0 wild	0	1
-2060	1001764	Installation_01_key	Valvegard Garrison Key	key	cube-key hidden key no-sell tier-0 wild	0	1
-2061	1001765	Installation_02_key	Marni's Laboratorium Key	key	cube-key hidden key no-sell tier-0 wild	0	1
-2062	1001766	Installation_03_key	Aeronautical Research Base Key	key	cube-key hidden key no-sell tier-0 wild	0	1
-2063	1000497	Neut_Delpheon_EMP_key	Gate of Peace Disruptor Key	key	cube-key hidden key no-sell tier-0 wild	0	1
-2064	1002524	MarniTower_Key	Spire of Clockwork Key	key	cube-key hidden key no-sell tier-0 wild	0	1
+2060	1001764	Installation_01_key	Valvegard Garrison Key	key	cube-key hidden key no-sell quest tier-0 wild	0	1
+2061	1001765	Installation_02_key	Marni's Laboratorium Key	key	cube-key hidden key no-sell quest tier-0 wild	0	1
+2062	1001766	Installation_03_key	Aeronautical Research Base Key	key	cube-key hidden key no-sell quest tier-0 wild	0	1
+2063	1000497	Neut_Delpheon_EMP_key	Gate of Peace Disruptor Key	key	cube-key hidden key no-sell quest tier-0 wild	0	1
+2064	1002524	MarniTower_Key	Spire of Clockwork Key	key	cube-key hidden key no-sell quest tier-0 wild	0	1
 2065	1002500	Quest_Fissure_Maze_I	Engraved Stone	key	cube-key hidden key no-sell quest tier-0 wild	0	1
 2066	1002709	Quest_Fissure_Maze_II	Engraved Stone	key	cube-key hidden key no-sell quest tier-0 wild	0	1
 2067	1002713	Quest_Fissure_Maze_III	Engraved Stone	key	cube-key hidden key no-sell quest tier-0 wild	0	1
@@ -2092,11 +2092,11 @@ row	key	string_key	name	class	tags	tier	value_copper
 2090	15	Money_Camp_Weapon	Camp Weapons	currency	camp-resource currency no-sell stackable tier-0	0	20
 2091	1000547	Cog	Cogwheel	currency	currency knowledge kuku-currency stackable tier-0	0	56
 2092	1002198	Small_Mechanical_Powerplant	Small Battery	currency	currency knowledge kuku-currency stackable tier-0	0	121
-2093	30022	Specialty_Oil	Lubricant	dev	currency dev knowledge kuku-currency stackable tier-0	0	234
+2093	30022	Specialty_Oil	Lubricant	currency	currency knowledge kuku-currency stackable tier-0	0	234
 2094	1000485	Money_Kuku_MachineBug	Clockwork Insect	currency	currency knowledge kuku-currency stackable tier-0	0	240
 2095	1002971	Cog_Pack	Cogwheel	kuku-currency	kuku-currency stackable tier-0 use-immediately wild	0	56
 2096	1003735	Small_Mechanical_Powerplant_Pack	Small Battery	kuku-currency	kuku-currency stackable tier-0 use-immediately wild	0	121
-2097	1003756	Specialty_Oil_Pack	Lubricant	dev	dev kuku-currency stackable tier-0 use-immediately wild	0	234
+2097	1003756	Specialty_Oil_Pack	Lubricant	kuku-currency	kuku-currency stackable tier-0 use-immediately wild	0	234
 2098	1000658	Contribution_Graymane	Greymane Contribution	currency	contribution currency no-sell stackable tier-0	0	1
 2099	1001754	Contribution_Hernandian	Hernandian Contribution	currency	contribution currency no-sell stackable tier-0	0	1
 2100	1001753	Contribution_Demenissian	Demenissian Contribution	currency	contribution currency no-sell stackable tier-0	0	1
@@ -2376,446 +2376,446 @@ row	key	string_key	name	class	tags	tier	value_copper
 2374	4336	Quest_BrokenVisionPro_ThiefCave	Broken Visione	helm	armor equipment helm no-sell plate quest tier-0 use-immediately visione wild	0	1
 2375	4344	Quest_BrokenVisionPro_Witch_Kidnapped_Memory	Broken Visione	helm	armor equipment helm no-sell plate quest tier-0 use-immediately visione wild	0	1
 2376	4377	Quest_BrokenVisionPro_MasterGrundir_Diary	Broken Visione	helm	armor equipment helm no-sell plate quest tier-0 use-immediately visione wild	0	1
-2377	1000493	Visione_Chip_MarniFirstMeet	Secret of the Helm	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2378	1000386	Visione_Chip_Bremer	Missing Cows	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2379	1000387	Visione_Chip_Ibano	Hornless Goats	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2380	1000388	Visione_Chip_ThiefCave	Lair of Animal Thieves	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2381	1000271	Visione_Chip_Witch_Kidnapped_Memory	Memory of the Kidnapped Witch	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2382	1003658	Visione_Chip_Mansion_Marseille_Memory_I	Azerian's Whereabouts	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2383	1003659	Visione_Chip_Mansion_Marseille_Memory_II	Bastier's Co-conspirators	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2384	1003660	Visione_Chip_Mansion_Byron_Memory	Memory of Byron's Manor	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2385	1001529	Visione_Chip_Bloodcoronation	The Blood Coronation	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2386	1002218	Visione_Chip_AntumbraFanatic	Suspicious Religion	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2387	1002289	Visione_Chip_HiddenTreasure	Hidden Treasure	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2388	1002290	Visione_Chip_LadyJustice	Statue of the Goddess of Justice	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2389	1002295	Visione_Chip_UndertheBridge	The Beginning of Greed	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2390	1000566	Visione_Chip_NamelessHeorGrave	Bloodied Hills	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2391	1002313	Visione_Chip_JohnDoe	Unidentified Corpse	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2392	1002314	Visione_Chip_TreeForestTomb	Birch Forest Grave	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2393	1002315	Visione_Chip_WagonOnATree	Treetop Wagon	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2394	1002316	Visione_Chip_AbandonedHouse	Abandoned House	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2395	1002317	Visione_Chip_WeirdSkull	A Strange Skull	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2396	1002318	Visione_Chip_Sculptor	A Suspicious Sculptor	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2397	1002319	Visione_Chip_Hall	H.A.L.L.	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2398	1002183	Visione_Chip_RightHandStone	Right Hand Boulder	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2399	1002321	Visione_Chip_HernandGibbet	Hernand Gallows	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2400	1002323	Visione_Chip_Suspiciouscult	The Crow and the Lunatic	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2401	1002324	Visione_Chip_MeteorHouse	Boulder Crash Site	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2402	1002325	Visione_Chip_RuinedHouse	Abandoned House on the Water	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2403	1002326	Visione_Chip_RuinedHouse_II	Dyer on the Water	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2404	1002327	Visione_Chip_Shipwreck	Sky Galleon	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2405	1002328	Visione_Chip_LakeAltar	Communal Ritual	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2406	1002392	Visione_Chip_LongleafTree_OmenMisfortune	Signs of Misfortune	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2407	1002393	Visione_Chip_LongleafTree_HuntBegin	Beginning of the Hunt	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2408	1002394	Visione_Chip_LongleafTree_DailyLife	Day of the Longleaf Tribe	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2409	1002332	Visione_Chip_FiveFingerMountain	Five-Finger Mountain	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2410	1002333	Visione_Chip_SwordAndThrone	The Sword's Grave and Throne	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2411	1002334	Visione_Chip_GiantBone	Remains of the Giants	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2412	1002335	Visione_Chip_BrokenMill	Broken Watermill	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2413	1002336	Visione_Chip_GiantBallista	Giant Ballista	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2414	1002337	Visione_Chip_TreeOfAxes	Axe-Studded Tree	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2415	1002338	Visione_Chip_MushroomCave	Mushroom Cave	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2416	1002339	Visione_Chip_Bonesrobbed	Bones of the Bandits' Victims	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2417	1002340	Visione_Chip_Sinkhole	Sinkhole	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2418	1002342	Visione_Chip_CaveEntrance	Mysterious Cave Entrance	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2419	1002343	Visione_Chip_LightningstrikeTree	Lightning-Struck Tree	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2420	1000767	Visione_Chip_DumpBell	Abandoned Bell	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2421	1002344	Visione_Chip_SafetyFlowerBush	Corrupted Feral Dog	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2422	1000772	Visione_Chip_FallenBallon	Crashed Cloudcart	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2423	1000837	Visione_Chip_OldGrave	Timeworn Graves	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2424	1000955	Visione_Chip_GiantRoots	Wide Roots Hideout	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2425	1001074	Visione_Chip_AnchorForest	Abandoned Anchor	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2426	1002424	Visione_Chip_KnottedHollow	Forest Memorial Stone	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2427	1002425	Visione_Chip_BolsteinnRuins	Volstein Ruins	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2428	1002426	Visione_Chip_MissingStatue	Vanished Statue	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2429	1002427	Visione_Chip_ForsakenHome	Abandoned House	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2430	1002428	Visione_Chip_TrainThief	Ironcrawler Thief's Hideout	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2431	1001075	Visione_Chip_BrokenWindmill	The Traitor's End	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2432	1001076	Visione_Chip_Dungeon	Dungeon	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2433	1001078	Visione_Chip_HumanUnderBridge	Someone Living Under a Bridge	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2434	1001079	Visione_Chip_PororinCave	Pororin Cave	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2435	1001080	Visione_Chip_Roofless	Roofless House	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2436	1001089	Visione_Chip_ZooHole	Wildlife Park Passageway	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2437	1002185	Visione_Chip_FishingSpot	Creaky Fishing Dock	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2438	1002259	Visione_Chip_SilenceShipwreck	Shipwreck in Silence	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2439	1002346	Visione_Chip_UnknownCave	Unknown Cave	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2440	1002347	Visione_Chip_OminousProphecy	Ominous Prophecy	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2441	1002348	Visione_Chip_MotherAndSon	Mother and Son	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2442	1002349	Visione_Chip_EmptyRanch	Abandoned Ranch	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2443	1002350	Visione_Chip_OldKingOfTheSea	Old King of the Sea	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2444	1002351	Visione_Chip_DestroyedMerchantShip	Stranded Merchant Vessel	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2445	1002352	Visione_Chip_CliffUnderHome	Settlement Beneath the Cliff	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2446	1002353	Visione_Chip_FishermanPlace	Bounty's Net	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2447	1002320	Visione_Chip_riverdam	Upper Nas River Dam	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2448	1002354	Visione_Chip_emptycoffin	Empty Coffin	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2449	1002356	Visione_Chip_pharmacy	Halssius Apothecary	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2450	1000739	Visione_Chip_hernandcampsite	Hernand Encampment	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2451	1000740	Visione_Chip_vinevillage	Ivynook	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2452	1000741	Visione_Chip_guardiandeity	Guardian Deity Altar	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2453	1000748	Visione_Chip_PetrifiedHumans	Petrified Humans	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2454	1000749	Visione_Chip_BloodyFarmhouse	Bloody Farmhouse	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2455	1002361	Visione_Chip_RockShelter	A House Between Rocks	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2456	1002362	Visione_Chip_DesperateSituation	Dire Situation	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2457	1002363	Visione_Chip_OrcCamp	Freesword Dwelling	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2458	1002364	Visione_Chip_WarNews	News of War	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2459	1002466	Visione_Chip_GiantBoots	The Forbidden Call	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2460	1002468	Visione_Chip_FallenExplorer	Corpse of an Adventurer	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2461	1002469	Visione_Chip_BigTreeRoots	Hollow Tree	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2462	1002357	Visione_Chip_castleruincamp	Castle Ruins Encampment	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2463	1002470	Visione_Chip_PaintedCave	Painted Cavern	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2464	1002375	Visione_Chip_OasisShelter	Oasis Hearth	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2465	1002391	Visione_Chip_OldQuarry	Old Quarry	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2466	1002376	Visione_Chip_SandHole	Sand Dunes	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2467	1002377	Visione_Chip_GreyRift	Ashen Rift	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2468	1002477	Visione_Chip_BoneAndSword	Skull and Sword	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2469	1002442	Visione_Chip_HelmaraVillageScrapGrave	Helmara Scrap Graveyard	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2470	1002443	Visione_Chip_HatRock	Shattered Token	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2471	1002444	Visione_Chip_DemJohnDoe	Unidentifiable Corpse	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2472	1002445	Visione_Chip_SaltRoadRuins	Ruins by the Saltroad Camp	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2473	1002446	Visione_Chip_DesertSwamp	Desert Swamp	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2474	1002447	Visione_Chip_HolyGlass	Sacred Chalice	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2475	1002448	Visione_Chip_WisdomWell	Well of Enlightenment	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2476	1002449	Visione_Chip_CarnageStreet	Bloodstained Street	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2477	1002450	Visione_Chip_VerheimRuins	Verheim Ruins	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2478	1002451	Visione_Chip_RockingStone	Rocking Boulder	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2479	1002452	Visione_Chip_WoodKnot	Shipyard Wood Knot	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2480	1002453	Visione_Chip_StoryWell	A Well with a Story	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2481	1002454	Visione_Chip_CrowdedBranch	Branch of Birds	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2482	1002612	Visione_Chip_MuralCave	Breezeblown Knoll Cave	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2483	1002613	Visione_Chip_BaronBarrel	Keglord Garnier Mk. XXIII	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2484	1002614	Visione_Chip_AbandonedMineVillage	Abandoned Mining Village	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2485	1002370	Visione_Chip_DesertShipwreck	Desert Shipwreck	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2486	1002372	Visione_Chip_OasisMonument	Oasis Headstone	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2487	1002374	Visione_Chip_DeathSandpit	Pit of Death	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2488	1002381	Visione_Chip_PrecariousRock	Unstable Rock	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2489	1002382	Visione_Chip_MushroomRock	Mushroom Rock	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2490	1002383	Visione_Chip_GodsGarden	Garden of the Gods	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2491	1002400	Visione_Chip_OwnerlessGrave	Empty Grave	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2492	1002401	Visione_Chip_DeadTree	Dead Tree	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2493	1002402	Visione_Chip_RectangularStone	Square Rock	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2494	1002403	Visione_Chip_RuinsSite	Ruins Excavation	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2495	1002404	Visione_Chip_IguanaHatchery	Iguana Hatchery	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2496	1002405	Visione_Chip_Bariklair	Barrick's Hideout	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2497	1002432	Visione_Chip_MossyGenerator	Mossy Generator	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2498	1002434	Visione_Chip_EntHunterLair	Mistwood Hunters' Hideout	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2499	1002435	Visione_Chip_RidgehunterLeatherMaker	Ridgehunter Tannery	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2500	1002437	Visione_Chip_WindmillCoastShipWreck	Coast Windmill Shipwreck	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2501	1002438	Visione_Chip_StonemireRuins	Stonemire Ruins	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2502	1002458	Visione_Chip_ValleyRockWatchTower	Gorgerock Watchtower	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2503	1002459	Visione_Chip_SavageFangStele	Savage Fangs Monument	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2504	1002561	Visione_Chip_ReventineWinery	Reventine Winery	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2505	1002562	Visione_Chip_HayroofFarmWindmill	Hayroof Farm Windmill	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2506	1002563	Visione_Chip_HoopLakeCave	Horseshoe Lake Burrow	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2507	1002564	Visione_Chip_WaterFallsCabin	Cabin by the Waterfall	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2508	1002565	Visione_Chip_NoEenterZone	Restricted Area	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2509	1002619	Visione_Chip_DemenissFuture	Future of Demeniss	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2510	1002620	Visione_Chip_EndlessDanger	The Life-Devouring Rock	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2511	1002621	Visione_Chip_BlockedSupply	Blocked Supply Route	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2512	1002622	Visione_Chip_HellWoodFortGoblin	Goblins of Fort Hellwood	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2513	1002623	Visione_Chip_OakenshieldManorhall	Oakenshield Manor Reception Room	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2514	1002624	Visione_Chip_BluemontManorAlley	Bluemont Manor Alley	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2515	1002506	Visione_Chip_AntumbraAltar	Antumbra's Ritual Site	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2516	1002384	Visione_Chip_SkyBluePool	Turquoise Rock Pools	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2517	1001081	Visione_Chip_StoneAltar	Desolate Monolith Altar	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2518	1002397	Visione_Chip_PainterRegret	A Painter's Regret	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2519	1002398	Visione_Chip_IronWing	Wings of Steel	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2520	1002329	Visione_Chip_DelesyiaBell	Bell of Delesyia	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2521	1002330	Visione_Chip_MentalCareRoom	Mental Reconditioning	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2522	1002331	Visione_Chip_VatnhollCamp	Vat'nholl Camp	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2523	1002399	Visione_Chip_MerchantRefuge	Snowy Plains Hearth	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2524	1002417	Visione_Chip_DinosaurBones	Giant Bone Pile	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2525	1002418	Visione_Chip_RordOfBones	Path of Giant Bones	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2526	1002407	Visione_Chip_Bolmen	Dolmen	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2527	1002408	Visione_Chip_LoggingCabin	Timberdale Cabin	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2528	1002409	Visione_Chip_RockCreviceRuinse	Rockshard Valley Ruins	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2529	1002410	Visione_Chip_DeadTreeRoad	Withered Path	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2530	1002411	Visione_Chip_ArcosaHouse	Empty House of Arcosa	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2531	1002412	Visione_Chip_OldBattlefield	Old Battlefield	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2532	1002413	Visione_Chip_BloodTombstone	Blood-Soaked Gravestone	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2533	1002414	Visione_Chip_precipicecoffin	Clifftop Coffin	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2534	1002460	Visione_Chip_JungleRuins	Jungle Ruins	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2535	1002461	Visione_Chip_RockshroudRuins	Rockveil Ruins	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2536	1002419	Visione_Chip_BursadaIslandRuins	Remote Ruins	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2537	1002420	Visione_Chip_ZianeTomb	Burial Mound	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2538	1002421	Visione_Chip_ShipWreckOakBarrel	Shipwreck Oak Barrel	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2539	1002422	Visione_Chip_SilverbrookRuins	Silverbrook Ruins	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2540	1002423	Visione_Chip_WoodenGazebo	Wooden Pavilion	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2541	1002429	Visione_Chip_PailuneSecretBase	Pailune Secret Vault	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2542	1002430	Visione_Chip_ScaryHole	Eerie Pit	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2543	1002431	Visione_Chip_OdeckHunterCamp	Hunters of Odeck	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2544	1002439	Visione_Chip_EdgeAltar	Cliff Edge Altar	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2545	1002455	Visione_Chip_FireFlySwarm	Hayroof Farm Fireflies	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2546	1002457	Visione_Chip_DemenissCabin	Demeniss Cabin	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2547	1002462	Visione_Chip_CryingRock	Weeping Rocks	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2548	1002463	Visione_Chip_VikingTomb	Grave of Warriors' Axes	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2549	1002464	Visione_Chip_DelesiaAcademy	Inside of the Delesyian Institute	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2550	1002465	Visione_Chip_GodTreeCamp	Eldertree Research Camp	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2551	1000764	Visione_Chip_BoneCollectorWagon	The Skull Collector's Wagon	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2552	1000765	Visione_Chip_TestToMarni	An Experiment to Reach Marni	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2553	1002507	Visione_Chip_ArcheryRange	Vellua Hill Archery Range	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2554	1002508	Visione_Chip_MaidsTales	Stories of the Maids	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2555	1002533	Visione_Chip_WreckedTradingShip	Wrecked Trading Ship	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2556	1002572	Visione_Chip_BumperCrop	Bountiful Harvest	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2557	1002573	Visione_Chip_BrookFieldManor	Brookfield Manor	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2558	1002575	Visione_Chip_LioncrestManor	Lioncrest Manor	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2559	1002486	Visione_Chip_DanteAndBleed	Dante and the Bleed	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2560	1002487	Visione_Chip_UpLionTower	Lioncrest Watchtower	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2561	1002488	Visione_Chip_BrokenRaft	Broken Raft	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2562	1002607	Visione_Chip_FiresideTale	Fireside Story	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2563	1002617	Visione_Chip_RootFortress	Report on Roothold	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2564	1002618	Visione_Chip_RiverwardOutpost	Riverward Outpost Dispatch	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2565	1002630	Visione_Chip_MysteryTower	Mysterious Giant Tower	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2566	1002633	Visione_Chip_LampkeeperPatrol	Stone Lantern Keeper's Patrol	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2567	1002635	Visione_Chip_DesertCrocodile	Ruler of the Oasis	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2568	1002440	Visione_Chip_SmugglerDock	Smugglers' Dock	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2569	1002441	Visione_Chip_Meteor	Meteorite	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2570	1002591	Visione_Chip_Alustainroom	The Alchemist's Chamber	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2571	1002595	Visione_Chip_Splithornrobber	Sword of the Cursed	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2572	1002598	Visione_Chip_Oakenshieldmanor	Serkis's Study	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2573	1002601	Visione_Chip_Halsius	St. Halssius's House of Healing	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2574	1002605	Visione_Chip_GraceMansionStorage	Glenbright Manor Storage	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2575	1002638	Visione_Chip_GraceMansion	Glenbright Manor	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2576	1002641	Visione_Chip_Kukucraft	Pot Artisans	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2577	1002663	Visione_Chip_Trolluniversity	Scholastone Celestial Telescope	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2578	1002664	Visione_Chip_HernandcastleBallroom	Hernand Banquet Hall	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2579	1002665	Visione_Chip_DemenissOrphanage	Demeniss Orphanage	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2580	1002666	Visione_Chip_Crowmanribentain	Crow's Ambush	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2581	1002667	Visione_Chip_HernandcastleChamber	Hernand Office	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2582	1002668	Visione_Chip_Pailoonoldtree	Old Tree	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2583	1002669	Visione_Chip_Mjordinludvig	Myurdin and Ludvig	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2584	1002670	Visione_Chip_Pailoonwatergate	Runaway	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2585	1002671	Visione_Chip_Azureiansister	Azerian Manor	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2586	1002690	Visione_Chip_Orcneutralzone	Gorthak	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2587	1002691	Visione_Chip_Marnisecretplace	Marni's Secret Laboratory	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2588	1003744	Visione_Chip_Abyss_Platform_01	Memories of the Disconnected Truth	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2589	1003745	Visione_Chip_Abyss_Platform_02	Shadows Within the Ether Fragment	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2590	1003746	Visione_Chip_Abyss_Platform_03	Memories of the Loop of Life	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2591	1002989	Visione_Chip_HiddenSpace_0001	Hidden Space - 0001	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2592	1002990	Visione_Chip_HiddenSpace_0002	Hidden Space - 0002	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2593	1002991	Visione_Chip_HiddenSpace_0003	Hidden Space - 0003	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2594	1002992	Visione_Chip_HiddenSpace_0004	Hidden Space - 0004	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2595	1002993	Visione_Chip_HiddenSpace_0005	Hidden Space - 0005	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2596	1002994	Visione_Chip_HiddenSpace_0006	Hidden Space - 0006	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2597	1002995	Visione_Chip_HiddenSpace_0007	Hidden Space - 0007	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2598	1002996	Visione_Chip_HiddenSpace_0008	Hidden Space - 0008	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2599	1002997	Visione_Chip_HiddenSpace_0009	Hidden Space - 0009	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2600	1002998	Visione_Chip_HiddenSpace_0010	Hidden Space - 0010	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2601	1002999	Visione_Chip_HiddenSpace_0011	Hidden Space - 0011	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2602	1003000	Visione_Chip_HiddenSpace_0012	Hidden Space - 0012	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2603	1003001	Visione_Chip_HiddenSpace_0013	Hidden Space - 0013	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2604	1003002	Visione_Chip_HiddenSpace_0014	Hidden Space - 0014	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2605	1003003	Visione_Chip_HiddenSpace_0015	Hidden Space - 0015	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2606	1003004	Visione_Chip_HiddenSpace_0016	Hidden Space - 0016	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2607	1003005	Visione_Chip_HiddenSpace_0017	Hidden Space - 0017	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2608	1003006	Visione_Chip_HiddenSpace_0018	Hidden Space - 0018	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2609	1003007	Visione_Chip_HiddenSpace_0019	Hidden Space - 0019	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2610	1003008	Visione_Chip_HiddenSpace_0020	Hidden Space - 0020	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2611	1003009	Visione_Chip_HiddenSpace_0021	Hidden Space - 0021	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2612	1003010	Visione_Chip_HiddenSpace_0022	Hidden Space - 0022	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2613	1003011	Visione_Chip_HiddenSpace_0023	Hidden Space - 0023	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2614	1003012	Visione_Chip_HiddenSpace_0024	Hidden Space - 0024	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2615	1003013	Visione_Chip_HiddenSpace_0025	Hidden Space - 0025	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2616	1003014	Visione_Chip_HiddenSpace_0026	Hidden Space - 0026	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2617	1003015	Visione_Chip_HiddenSpace_0027	Hidden Space - 0027	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2618	1003016	Visione_Chip_HiddenSpace_0028	Hidden Space - 0028	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2619	1003017	Visione_Chip_HiddenSpace_0029	Hidden Space - 0029	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2620	1003018	Visione_Chip_HiddenSpace_0030	Hidden Space - 0030	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2621	1003019	Visione_Chip_HiddenSpace_0031	Hidden Space - 0031	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2622	1003020	Visione_Chip_HiddenSpace_0032	Hidden Space - 0032	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2623	1003021	Visione_Chip_HiddenSpace_0033	Hidden Space - 0033	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2624	1003022	Visione_Chip_HiddenSpace_0034	Hidden Space - 0034	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2625	1003023	Visione_Chip_HiddenSpace_0035	Hidden Space - 0035	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2626	1003024	Visione_Chip_HiddenSpace_0036	Hidden Space - 0036	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2627	1003025	Visione_Chip_HiddenSpace_0037	Hidden Space - 0037	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2628	1003026	Visione_Chip_HiddenSpace_0038	Hidden Space - 0038	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2629	1003027	Visione_Chip_HiddenSpace_0039	Hidden Space - 0039	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2630	1003028	Visione_Chip_HiddenSpace_0040	Hidden Space - 0040	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2631	1003029	Visione_Chip_HiddenSpace_0041	Hidden Space - 0041	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2632	1003030	Visione_Chip_HiddenSpace_0042	Hidden Space - 0042	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2633	1003031	Visione_Chip_HiddenSpace_0043	Hidden Space - 0043	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2634	1003032	Visione_Chip_HiddenSpace_0044	Hidden Space - 0044	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2635	1003033	Visione_Chip_HiddenSpace_0045	Hidden Space - 0045	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2636	1003034	Visione_Chip_HiddenSpace_0046	Hidden Space - 0046	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2637	1003035	Visione_Chip_HiddenSpace_0047	Hidden Space - 0047	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2638	1003036	Visione_Chip_HiddenSpace_0048	Hidden Space - 0048	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2639	1003037	Visione_Chip_HiddenSpace_0049	Hidden Space - 0049	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2640	1003038	Visione_Chip_HiddenSpace_0050	Hidden Space - 0050	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2641	1003039	Visione_Chip_HiddenSpace_0051	Hidden Space - 0051	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2642	1003040	Visione_Chip_HiddenSpace_0052	Hidden Space - 0052	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2643	1003041	Visione_Chip_HiddenSpace_0053	Hidden Space - 0053	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2644	1003042	Visione_Chip_HiddenSpace_0054	Hidden Space - 0054	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2645	1003043	Visione_Chip_HiddenSpace_0055	Hidden Space - 0055	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2646	1003044	Visione_Chip_HiddenSpace_0056	Hidden Space - 0056	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2647	1003045	Visione_Chip_HiddenSpace_0057	Hidden Space - 0057	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2648	1003046	Visione_Chip_HiddenSpace_0058	Hidden Space - 0058	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2649	1003047	Visione_Chip_HiddenSpace_0059	Hidden Space - 0059	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2650	1003048	Visione_Chip_HiddenSpace_0060	Hidden Space - 0060	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2651	1003049	Visione_Chip_HiddenSpace_0061	Hidden Space - 0061	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2652	1003050	Visione_Chip_HiddenSpace_0062	Hidden Space - 0062	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2653	1003051	Visione_Chip_HiddenSpace_0063	Hidden Space - 0063	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2654	1003052	Visione_Chip_HiddenSpace_0064	Hidden Space - 0064	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2655	1003053	Visione_Chip_HiddenSpace_0065	Hidden Space - 0065	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2656	1003054	Visione_Chip_HiddenSpace_0066	Hidden Space - 0066	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2657	1003055	Visione_Chip_HiddenSpace_0067	Hidden Space - 0067	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2658	1003056	Visione_Chip_HiddenSpace_0068	Hidden Space - 0068	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2659	1003057	Visione_Chip_HiddenSpace_0069	Hidden Space - 0069	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2660	1003058	Visione_Chip_HiddenSpace_0070	Hidden Space - 0070	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2661	1003059	Visione_Chip_HiddenSpace_0071	Hidden Space - 0071	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2662	1003060	Visione_Chip_HiddenSpace_0072	Hidden Space - 0072	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2663	1003061	Visione_Chip_HiddenSpace_0073	Hidden Space - 0073	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2664	1003062	Visione_Chip_HiddenSpace_0074	Hidden Space - 0074	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2665	1003063	Visione_Chip_HiddenSpace_0075	Hidden Space - 0075	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2666	1003064	Visione_Chip_HiddenSpace_0076	Hidden Space - 0076	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2667	1003065	Visione_Chip_HiddenSpace_0077	Hidden Space - 0077	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2668	1003066	Visione_Chip_HiddenSpace_0078	Hidden Space - 0078	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2669	1003067	Visione_Chip_HiddenSpace_0079	Hidden Space - 0079	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2670	1003068	Visione_Chip_HiddenSpace_0080	Hidden Space - 0080	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2671	1003069	Visione_Chip_HiddenSpace_0081	Hidden Space - 0081	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2672	1003070	Visione_Chip_HiddenSpace_0082	Hidden Space - 0082	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2673	1003071	Visione_Chip_HiddenSpace_0083	Hidden Space - 0083	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2674	1003072	Visione_Chip_HiddenSpace_0084	Hidden Space - 0084	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2675	1003073	Visione_Chip_HiddenSpace_0085	Hidden Space - 0085	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2676	1003074	Visione_Chip_HiddenSpace_0086	Hidden Space - 0086	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2677	1003075	Visione_Chip_HiddenSpace_0087	Hidden Space - 0087	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2678	1003076	Visione_Chip_HiddenSpace_0088	Hidden Space - 0088	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2679	1003077	Visione_Chip_HiddenSpace_0089	Hidden Space - 0089	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2680	1003078	Visione_Chip_HiddenSpace_0090	Hidden Space - 0090	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2681	1003079	Visione_Chip_HiddenSpace_0091	Hidden Space - 0091	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2682	1003080	Visione_Chip_HiddenSpace_0092	Hidden Space - 0092	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2683	1003081	Visione_Chip_HiddenSpace_0093	Hidden Space - 0093	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2684	1003082	Visione_Chip_HiddenSpace_0094	Hidden Space - 0094	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2685	1003083	Visione_Chip_HiddenSpace_0095	Hidden Space - 0095	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2686	1003084	Visione_Chip_HiddenSpace_0096	Hidden Space - 0096	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2687	1003085	Visione_Chip_HiddenSpace_0097	Hidden Space - 0097	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2688	1003086	Visione_Chip_HiddenSpace_0098	Hidden Space - 0098	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2689	1003087	Visione_Chip_HiddenSpace_0099	Hidden Space - 0099	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2690	1003088	Visione_Chip_HiddenSpace_0100	Hidden Space - 0100	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2691	1003089	Visione_Chip_HiddenSpace_0101	Hidden Space - 0101	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2692	1003090	Visione_Chip_HiddenSpace_0102	Hidden Space - 0102	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2693	1003091	Visione_Chip_HiddenSpace_0103	Hidden Space - 0103	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2694	1003092	Visione_Chip_HiddenSpace_0104	Hidden Space - 0104	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2695	1003093	Visione_Chip_HiddenSpace_0105	Hidden Space - 0105	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2696	1003094	Visione_Chip_HiddenSpace_0106	Hidden Space - 0106	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2697	1003095	Visione_Chip_HiddenSpace_0107	Hidden Space - 0107	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2698	1003096	Visione_Chip_HiddenSpace_0108	Hidden Space - 0108	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2699	1003097	Visione_Chip_HiddenSpace_0109	Hidden Space - 0109	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2700	1003098	Visione_Chip_HiddenSpace_0110	Hidden Space - 0110	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2701	1003099	Visione_Chip_HiddenSpace_0111	Hidden Space - 0111	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2702	1003100	Visione_Chip_HiddenSpace_0112	Hidden Space - 0112	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2703	1003101	Visione_Chip_HiddenSpace_0113	Hidden Space - 0113	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2704	1003102	Visione_Chip_HiddenSpace_0114	Hidden Space - 0114	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2705	1003103	Visione_Chip_HiddenSpace_0115	Hidden Space - 0115	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2706	1003104	Visione_Chip_HiddenSpace_0116	Hidden Space - 0116	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2707	1003105	Visione_Chip_HiddenSpace_0117	Hidden Space - 0117	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2708	1003106	Visione_Chip_HiddenSpace_0118	Hidden Space - 0118	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2709	1003107	Visione_Chip_HiddenSpace_0119	Hidden Space - 0119	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2710	1003108	Visione_Chip_HiddenSpace_0120	Hidden Space - 0120	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2711	1003109	Visione_Chip_HiddenSpace_0121	Hidden Space - 0121	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2712	1003110	Visione_Chip_HiddenSpace_0122	Hidden Space - 0122	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2713	1003111	Visione_Chip_HiddenSpace_0123	Hidden Space - 0123	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2714	1003112	Visione_Chip_HiddenSpace_0124	Hidden Space - 0124	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2715	1003113	Visione_Chip_HiddenSpace_0125	Hidden Space - 0125	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2716	1003114	Visione_Chip_HiddenSpace_0126	Hidden Space - 0126	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2717	1003115	Visione_Chip_HiddenSpace_0127	Hidden Space - 0127	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2718	1003116	Visione_Chip_HiddenSpace_0128	Hidden Space - 0128	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2719	1003117	Visione_Chip_HiddenSpace_0129	Hidden Space - 0129	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2720	1003118	Visione_Chip_HiddenSpace_0130	Hidden Space - 0130	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2721	1003119	Visione_Chip_HiddenSpace_0131	Hidden Space - 0131	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2722	1003120	Visione_Chip_HiddenSpace_0132	Hidden Space - 0132	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2723	1003121	Visione_Chip_HiddenSpace_0133	Hidden Space - 0133	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2724	1003122	Visione_Chip_HiddenSpace_0134	Hidden Space - 0134	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2725	1003123	Visione_Chip_HiddenSpace_0135	Hidden Space - 0135	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2726	1003124	Visione_Chip_HiddenSpace_0136	Hidden Space - 0136	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2727	1003125	Visione_Chip_HiddenSpace_0137	Hidden Space - 0137	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2728	1003126	Visione_Chip_HiddenSpace_0138	Hidden Space - 0138	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2729	1003127	Visione_Chip_HiddenSpace_0139	Hidden Space - 0139	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2730	1003128	Visione_Chip_HiddenSpace_0140	Hidden Space - 0140	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2731	1003129	Visione_Chip_HiddenSpace_0141	Hidden Space - 0141	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2732	1003130	Visione_Chip_HiddenSpace_0142	Hidden Space - 0142	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2733	1003131	Visione_Chip_HiddenSpace_0143	Hidden Space - 0143	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2734	1003132	Visione_Chip_HiddenSpace_0144	Hidden Space - 0144	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2735	1003133	Visione_Chip_HiddenSpace_0145	Hidden Space - 0145	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2736	1003134	Visione_Chip_HiddenSpace_0146	Hidden Space - 0146	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2737	1003135	Visione_Chip_HiddenSpace_0147	Hidden Space - 0147	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2738	1003136	Visione_Chip_HiddenSpace_0148	Hidden Space - 0148	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2739	1003137	Visione_Chip_HiddenSpace_0149	Hidden Space - 0149	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2740	1003138	Visione_Chip_HiddenSpace_0150	Hidden Space - 0150	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2741	1003139	Visione_Chip_HiddenSpace_0151	Hidden Space - 0151	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2742	1003140	Visione_Chip_HiddenSpace_0152	Hidden Space - 0152	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2743	1003141	Visione_Chip_HiddenSpace_0153	Hidden Space - 0153	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2744	1003142	Visione_Chip_HiddenSpace_0154	Hidden Space - 0154	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2745	1003143	Visione_Chip_HiddenSpace_0155	Hidden Space - 0155	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2746	1003144	Visione_Chip_HiddenSpace_0156	Hidden Space - 0156	keepsake	keepsake memory-fragment no-sell stackable tier-0 wild	0	1
-2747	1004319	Visione_Chip_Alustin_Journal_0001	Archive Entry #1	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2748	1004320	Visione_Chip_Alustin_Journal_0002	Archive Entry #2	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2749	1004321	Visione_Chip_Alustin_Journal_0003	Archive Entry #3	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2750	1004322	Visione_Chip_Alustin_Journal_0004	Archive Entry #4	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2751	1004323	Visione_Chip_Alustin_Journal_0005	Archive Entry #5	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2752	1004324	Visione_Chip_Alustin_Journal_0006	Archive Entry #7	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2753	1004325	Visione_Chip_Alustin_Journal_0007	Archive Entry #8	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2754	1004326	Visione_Chip_Alustin_Journal_0008	Archive Entry #16	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2755	1004327	Visione_Chip_Alustin_Journal_0009	Archive Entry #17	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2756	1004328	Visione_Chip_Alustin_Journal_0010	Archive Entry #18	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2757	1004329	Visione_Chip_Alustin_Journal_0011	Archive Entry #19	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2758	1004330	Visione_Chip_Alustin_Journal_0012	Archive Entry #25	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2759	1004331	Visione_Chip_Alustin_Journal_0013	Archive Entry #26	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2760	1004332	Visione_Chip_Alustin_Journal_0014	Archive Entry #35	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2761	1004333	Visione_Chip_Alustin_Journal_0015	Archive Entry #36	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2762	1004334	Visione_Chip_Alustin_Journal_0016	Archive Entry #38	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2763	1004335	Visione_Chip_Alustin_Journal_0017	Archive Entry #39	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2764	1004336	Visione_Chip_Alustin_Journal_0018	Archive Entry #45	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2765	1004337	Visione_Chip_Alustin_Journal_0019	Archive Entry #46	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2766	1004338	Visione_Chip_Alustin_Journal_0020	Archive Entry #47	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2767	1004339	Visione_Chip_Alustin_Journal_0021	Archive Entry #48	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2768	1004340	Visione_Chip_Alustin_Journal_0022	Archive Entry #53	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2769	1004341	Visione_Chip_Alustin_Journal_0023	Archive Entry #54	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2770	1004342	Visione_Chip_Alustin_Journal_0024	Archive Entry #59	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2771	1004343	Visione_Chip_Alustin_Journal_0025	Archive Entry #60	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2772	1004344	Visione_Chip_Alustin_Journal_0026	Archive Entry #61	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2773	1004345	Visione_Chip_Alustin_Journal_0027	Archive Entry #62	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2774	1004346	Visione_Chip_Alustin_Journal_0028	Archive Entry #66	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2775	1004347	Visione_Chip_Alustin_Journal_0029	Archive Entry #67	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2776	1004348	Visione_Chip_Alustin_Journal_0030	Archive Entry #71	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2777	1004349	Visione_Chip_Alustin_Journal_0031	Archive Entry #72	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2778	1004350	Visione_Chip_Alustin_Journal_0032	Archive Entry #77	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2779	1004351	Visione_Chip_Alustin_Journal_0033	Archive Entry #78	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2780	1004352	Visione_Chip_Alustin_Journal_0034	Archive Entry #82	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2781	1004353	Visione_Chip_Alustin_Journal_0035	Archive Entry #83	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2782	1004354	Visione_Chip_Alustin_Journal_0036	Archive Entry #89	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2783	1004355	Visione_Chip_Alustin_Journal_0037	Archive Entry #90	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2784	1004356	Visione_Chip_Alustin_Journal_0038	Archive Entry #98	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2785	1004357	Visione_Chip_Alustin_Journal_0039	Archive Entry #99	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2786	1004358	Visione_Chip_Alustin_Journal_0040	Archive Entry #100	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2787	1004359	Visione_Chip_Alustin_Journal_0041	Archive Entry #106	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2788	1004360	Visione_Chip_Alustin_Journal_0042	Archive Entry #107	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
-2789	1003838	Riding_Bear_Claw	White Bear's Claws	treasure	important knowledge mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2790	1003839	Riding_Wolf_Tooth	Fang of Silver Fang	treasure	important knowledge mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2791	1003840	Riding_Deer_Horn	Snowwhite Deer's Antlers	treasure	important knowledge mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2792	1003841	Riding_AlpineIbex_Horn	Icicle Edge Alpine Ibex Horn	treasure	important knowledge mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2793	1003842	Riding_Warthog_Tooth	Rock Tusk Warthog Tusk	treasure	important knowledge mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2794	1003920	Pet_Phoenix_Feather	Phoenix Feather	treasure	important knowledge mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2795	1003843	Riding_Bear_Amulet	Sigil of Solidarity (White Bear)	treasure	important mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2796	1003844	Riding_Wolf_Amulet	Sigil of Solidarity (Silver Fang)	treasure	important mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2797	1003845	Riding_Deer_Amulet	Sigil of Solidarity (Snowwhite Deer)	treasure	important mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2798	1003846	Riding_AlpineIbex_Amulet	Sigil of Solidarity (Icicle Edge Alpine Ibex)	treasure	important mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2799	1003847	Riding_Warthog_Amulet	Sigil of Solidarity (Rock Tusk Warthog)	treasure	important mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2800	1003921	Pet_Phoenix_Amulet	Sigil of Solidarity (Phoenix)	treasure	important mount-summon no-discard no-sell tier-0 treasure wild	0	1
-2801	1001170	Trade_Golden_Sword_Unpack	Golden Sword	keepsake	keepsake quest-reward stackable tier-0 trade-good	0	3000
-2802	1004388	Item_Egg_KuKu	Kuku Bird's Egg	keepsake	keepsake no-sell quest-reward stackable tier-0	0	1
-2803	1004389	Item_Egg_Wyvern	Wyvern Egg	keepsake	keepsake no-sell quest-reward stackable tier-0	0	1
-2804	1000859	Paper_ReventineMonastery_Document	Reventine Monastery Exclusive Document	document	document stackable tier-0	0	2130
-2805	1001605	CharacterCustomize_Damian_DefultHair	Damiane's Basic Hair Ticket	keepsake	character-exclusive keepsake no-sell tier-0 use-immediately	0	1
-2806	1001740	CharacterCustomize_Damian_TieHair	Damiane's Ponytail Ticket	keepsake	character-exclusive keepsake no-sell tier-0 use-immediately	0	1
-2807	1000389	Notepad	Notepad	keepsake	character-exclusive keepsake no-sell tier-0 tool wild	0	1
-2808	1000390	Feather_Pen	Feather Pen	keepsake	character-exclusive keepsake no-sell tier-0 tool wild	0	1
-2809	1003363	Item_Scale	Scales of Fairness and Justice	keepsake	character-exclusive keepsake no-sell tier-0 tool wild	0	1
-2810	1000329	Abacus	Abacus	keepsake	keepsake no-sell tier-0 tool wild	0	1
-2811	1000529	CharacterCustomize_Oongka_Arm_Aging	Oongka's Arms Aging Appearance Change Coupon	keepsake	keepsake no-sell tier-0 use-immediately	0	1
-2812	1000064	CharacterCustomize_Kliff_Neck_Scar	Kliff's Neck Scar Change Coupon	keepsake	character-exclusive keepsake no-sell tier-0 use-immediately	0	1
-2813	1002857	CharacterCustomize_Kliff_Aging	Kliff Aging Appearance Change Coupon	keepsake	character-exclusive keepsake no-sell tier-0 use-immediately	0	1
-2814	1003755	CharacterCustomize_Kliff_Deaging	Kliff Youthful Appearance Change Coupon	keepsake	character-exclusive keepsake no-sell tier-0 use-immediately	0	1
-2815	801001	Permit_Her_Pass	Hernand Entry Permit	document	document important no-sell tier-0 wild	0	1
-2816	802204	MonasteryVisitorPass	St. Halssius Visitor Pass	document	document important tier-0 wild	0	1000
+2377	1000493	Visione_Chip_MarniFirstMeet	Secret of the Helm	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2378	1000386	Visione_Chip_Bremer	Missing Cows	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2379	1000387	Visione_Chip_Ibano	Hornless Goats	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2380	1000388	Visione_Chip_ThiefCave	Lair of Animal Thieves	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2381	1000271	Visione_Chip_Witch_Kidnapped_Memory	Memory of the Kidnapped Witch	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2382	1003658	Visione_Chip_Mansion_Marseille_Memory_I	Azerian's Whereabouts	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2383	1003659	Visione_Chip_Mansion_Marseille_Memory_II	Bastier's Co-conspirators	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2384	1003660	Visione_Chip_Mansion_Byron_Memory	Memory of Byron's Manor	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2385	1001529	Visione_Chip_Bloodcoronation	The Blood Coronation	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2386	1002218	Visione_Chip_AntumbraFanatic	Suspicious Religion	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2387	1002289	Visione_Chip_HiddenTreasure	Hidden Treasure	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2388	1002290	Visione_Chip_LadyJustice	Statue of the Goddess of Justice	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2389	1002295	Visione_Chip_UndertheBridge	The Beginning of Greed	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2390	1000566	Visione_Chip_NamelessHeorGrave	Bloodied Hills	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2391	1002313	Visione_Chip_JohnDoe	Unidentified Corpse	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2392	1002314	Visione_Chip_TreeForestTomb	Birch Forest Grave	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2393	1002315	Visione_Chip_WagonOnATree	Treetop Wagon	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2394	1002316	Visione_Chip_AbandonedHouse	Abandoned House	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2395	1002317	Visione_Chip_WeirdSkull	A Strange Skull	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2396	1002318	Visione_Chip_Sculptor	A Suspicious Sculptor	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2397	1002319	Visione_Chip_Hall	H.A.L.L.	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2398	1002183	Visione_Chip_RightHandStone	Right Hand Boulder	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2399	1002321	Visione_Chip_HernandGibbet	Hernand Gallows	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2400	1002323	Visione_Chip_Suspiciouscult	The Crow and the Lunatic	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2401	1002324	Visione_Chip_MeteorHouse	Boulder Crash Site	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2402	1002325	Visione_Chip_RuinedHouse	Abandoned House on the Water	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2403	1002326	Visione_Chip_RuinedHouse_II	Dyer on the Water	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2404	1002327	Visione_Chip_Shipwreck	Sky Galleon	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2405	1002328	Visione_Chip_LakeAltar	Communal Ritual	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2406	1002392	Visione_Chip_LongleafTree_OmenMisfortune	Signs of Misfortune	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2407	1002393	Visione_Chip_LongleafTree_HuntBegin	Beginning of the Hunt	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2408	1002394	Visione_Chip_LongleafTree_DailyLife	Day of the Longleaf Tribe	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2409	1002332	Visione_Chip_FiveFingerMountain	Five-Finger Mountain	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2410	1002333	Visione_Chip_SwordAndThrone	The Sword's Grave and Throne	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2411	1002334	Visione_Chip_GiantBone	Remains of the Giants	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2412	1002335	Visione_Chip_BrokenMill	Broken Watermill	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2413	1002336	Visione_Chip_GiantBallista	Giant Ballista	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2414	1002337	Visione_Chip_TreeOfAxes	Axe-Studded Tree	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2415	1002338	Visione_Chip_MushroomCave	Mushroom Cave	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2416	1002339	Visione_Chip_Bonesrobbed	Bones of the Bandits' Victims	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2417	1002340	Visione_Chip_Sinkhole	Sinkhole	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2418	1002342	Visione_Chip_CaveEntrance	Mysterious Cave Entrance	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2419	1002343	Visione_Chip_LightningstrikeTree	Lightning-Struck Tree	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2420	1000767	Visione_Chip_DumpBell	Abandoned Bell	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2421	1002344	Visione_Chip_SafetyFlowerBush	Corrupted Feral Dog	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2422	1000772	Visione_Chip_FallenBallon	Crashed Cloudcart	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2423	1000837	Visione_Chip_OldGrave	Timeworn Graves	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2424	1000955	Visione_Chip_GiantRoots	Wide Roots Hideout	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2425	1001074	Visione_Chip_AnchorForest	Abandoned Anchor	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2426	1002424	Visione_Chip_KnottedHollow	Forest Memorial Stone	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2427	1002425	Visione_Chip_BolsteinnRuins	Volstein Ruins	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2428	1002426	Visione_Chip_MissingStatue	Vanished Statue	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2429	1002427	Visione_Chip_ForsakenHome	Abandoned House	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2430	1002428	Visione_Chip_TrainThief	Ironcrawler Thief's Hideout	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2431	1001075	Visione_Chip_BrokenWindmill	The Traitor's End	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2432	1001076	Visione_Chip_Dungeon	Dungeon	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2433	1001078	Visione_Chip_HumanUnderBridge	Someone Living Under a Bridge	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2434	1001079	Visione_Chip_PororinCave	Pororin Cave	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2435	1001080	Visione_Chip_Roofless	Roofless House	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2436	1001089	Visione_Chip_ZooHole	Wildlife Park Passageway	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2437	1002185	Visione_Chip_FishingSpot	Creaky Fishing Dock	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2438	1002259	Visione_Chip_SilenceShipwreck	Shipwreck in Silence	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2439	1002346	Visione_Chip_UnknownCave	Unknown Cave	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2440	1002347	Visione_Chip_OminousProphecy	Ominous Prophecy	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2441	1002348	Visione_Chip_MotherAndSon	Mother and Son	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2442	1002349	Visione_Chip_EmptyRanch	Abandoned Ranch	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2443	1002350	Visione_Chip_OldKingOfTheSea	Old King of the Sea	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2444	1002351	Visione_Chip_DestroyedMerchantShip	Stranded Merchant Vessel	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2445	1002352	Visione_Chip_CliffUnderHome	Settlement Beneath the Cliff	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2446	1002353	Visione_Chip_FishermanPlace	Bounty's Net	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2447	1002320	Visione_Chip_riverdam	Upper Nas River Dam	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2448	1002354	Visione_Chip_emptycoffin	Empty Coffin	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2449	1002356	Visione_Chip_pharmacy	Halssius Apothecary	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2450	1000739	Visione_Chip_hernandcampsite	Hernand Encampment	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2451	1000740	Visione_Chip_vinevillage	Ivynook	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2452	1000741	Visione_Chip_guardiandeity	Guardian Deity Altar	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2453	1000748	Visione_Chip_PetrifiedHumans	Petrified Humans	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2454	1000749	Visione_Chip_BloodyFarmhouse	Bloody Farmhouse	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2455	1002361	Visione_Chip_RockShelter	A House Between Rocks	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2456	1002362	Visione_Chip_DesperateSituation	Dire Situation	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2457	1002363	Visione_Chip_OrcCamp	Freesword Dwelling	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2458	1002364	Visione_Chip_WarNews	News of War	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2459	1002466	Visione_Chip_GiantBoots	The Forbidden Call	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2460	1002468	Visione_Chip_FallenExplorer	Corpse of an Adventurer	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2461	1002469	Visione_Chip_BigTreeRoots	Hollow Tree	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2462	1002357	Visione_Chip_castleruincamp	Castle Ruins Encampment	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2463	1002470	Visione_Chip_PaintedCave	Painted Cavern	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2464	1002375	Visione_Chip_OasisShelter	Oasis Hearth	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2465	1002391	Visione_Chip_OldQuarry	Old Quarry	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2466	1002376	Visione_Chip_SandHole	Sand Dunes	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2467	1002377	Visione_Chip_GreyRift	Ashen Rift	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2468	1002477	Visione_Chip_BoneAndSword	Skull and Sword	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2469	1002442	Visione_Chip_HelmaraVillageScrapGrave	Helmara Scrap Graveyard	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2470	1002443	Visione_Chip_HatRock	Shattered Token	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2471	1002444	Visione_Chip_DemJohnDoe	Unidentifiable Corpse	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2472	1002445	Visione_Chip_SaltRoadRuins	Ruins by the Saltroad Camp	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2473	1002446	Visione_Chip_DesertSwamp	Desert Swamp	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2474	1002447	Visione_Chip_HolyGlass	Sacred Chalice	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2475	1002448	Visione_Chip_WisdomWell	Well of Enlightenment	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2476	1002449	Visione_Chip_CarnageStreet	Bloodstained Street	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2477	1002450	Visione_Chip_VerheimRuins	Verheim Ruins	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2478	1002451	Visione_Chip_RockingStone	Rocking Boulder	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2479	1002452	Visione_Chip_WoodKnot	Shipyard Wood Knot	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2480	1002453	Visione_Chip_StoryWell	A Well with a Story	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2481	1002454	Visione_Chip_CrowdedBranch	Branch of Birds	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2482	1002612	Visione_Chip_MuralCave	Breezeblown Knoll Cave	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2483	1002613	Visione_Chip_BaronBarrel	Keglord Garnier Mk. XXIII	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2484	1002614	Visione_Chip_AbandonedMineVillage	Abandoned Mining Village	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2485	1002370	Visione_Chip_DesertShipwreck	Desert Shipwreck	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2486	1002372	Visione_Chip_OasisMonument	Oasis Headstone	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2487	1002374	Visione_Chip_DeathSandpit	Pit of Death	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2488	1002381	Visione_Chip_PrecariousRock	Unstable Rock	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2489	1002382	Visione_Chip_MushroomRock	Mushroom Rock	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2490	1002383	Visione_Chip_GodsGarden	Garden of the Gods	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2491	1002400	Visione_Chip_OwnerlessGrave	Empty Grave	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2492	1002401	Visione_Chip_DeadTree	Dead Tree	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2493	1002402	Visione_Chip_RectangularStone	Square Rock	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2494	1002403	Visione_Chip_RuinsSite	Ruins Excavation	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2495	1002404	Visione_Chip_IguanaHatchery	Iguana Hatchery	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2496	1002405	Visione_Chip_Bariklair	Barrick's Hideout	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2497	1002432	Visione_Chip_MossyGenerator	Mossy Generator	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2498	1002434	Visione_Chip_EntHunterLair	Mistwood Hunters' Hideout	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2499	1002435	Visione_Chip_RidgehunterLeatherMaker	Ridgehunter Tannery	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2500	1002437	Visione_Chip_WindmillCoastShipWreck	Coast Windmill Shipwreck	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2501	1002438	Visione_Chip_StonemireRuins	Stonemire Ruins	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2502	1002458	Visione_Chip_ValleyRockWatchTower	Gorgerock Watchtower	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2503	1002459	Visione_Chip_SavageFangStele	Savage Fangs Monument	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2504	1002561	Visione_Chip_ReventineWinery	Reventine Winery	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2505	1002562	Visione_Chip_HayroofFarmWindmill	Hayroof Farm Windmill	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2506	1002563	Visione_Chip_HoopLakeCave	Horseshoe Lake Burrow	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2507	1002564	Visione_Chip_WaterFallsCabin	Cabin by the Waterfall	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2508	1002565	Visione_Chip_NoEenterZone	Restricted Area	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2509	1002619	Visione_Chip_DemenissFuture	Future of Demeniss	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2510	1002620	Visione_Chip_EndlessDanger	The Life-Devouring Rock	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2511	1002621	Visione_Chip_BlockedSupply	Blocked Supply Route	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2512	1002622	Visione_Chip_HellWoodFortGoblin	Goblins of Fort Hellwood	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2513	1002623	Visione_Chip_OakenshieldManorhall	Oakenshield Manor Reception Room	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2514	1002624	Visione_Chip_BluemontManorAlley	Bluemont Manor Alley	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2515	1002506	Visione_Chip_AntumbraAltar	Antumbra's Ritual Site	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2516	1002384	Visione_Chip_SkyBluePool	Turquoise Rock Pools	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2517	1001081	Visione_Chip_StoneAltar	Desolate Monolith Altar	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2518	1002397	Visione_Chip_PainterRegret	A Painter's Regret	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2519	1002398	Visione_Chip_IronWing	Wings of Steel	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2520	1002329	Visione_Chip_DelesyiaBell	Bell of Delesyia	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2521	1002330	Visione_Chip_MentalCareRoom	Mental Reconditioning	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2522	1002331	Visione_Chip_VatnhollCamp	Vat'nholl Camp	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2523	1002399	Visione_Chip_MerchantRefuge	Snowy Plains Hearth	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2524	1002417	Visione_Chip_DinosaurBones	Giant Bone Pile	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2525	1002418	Visione_Chip_RordOfBones	Path of Giant Bones	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2526	1002407	Visione_Chip_Bolmen	Dolmen	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2527	1002408	Visione_Chip_LoggingCabin	Timberdale Cabin	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2528	1002409	Visione_Chip_RockCreviceRuinse	Rockshard Valley Ruins	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2529	1002410	Visione_Chip_DeadTreeRoad	Withered Path	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2530	1002411	Visione_Chip_ArcosaHouse	Empty House of Arcosa	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2531	1002412	Visione_Chip_OldBattlefield	Old Battlefield	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2532	1002413	Visione_Chip_BloodTombstone	Blood-Soaked Gravestone	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2533	1002414	Visione_Chip_precipicecoffin	Clifftop Coffin	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2534	1002460	Visione_Chip_JungleRuins	Jungle Ruins	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2535	1002461	Visione_Chip_RockshroudRuins	Rockveil Ruins	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2536	1002419	Visione_Chip_BursadaIslandRuins	Remote Ruins	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2537	1002420	Visione_Chip_ZianeTomb	Burial Mound	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2538	1002421	Visione_Chip_ShipWreckOakBarrel	Shipwreck Oak Barrel	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2539	1002422	Visione_Chip_SilverbrookRuins	Silverbrook Ruins	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2540	1002423	Visione_Chip_WoodenGazebo	Wooden Pavilion	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2541	1002429	Visione_Chip_PailuneSecretBase	Pailune Secret Vault	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2542	1002430	Visione_Chip_ScaryHole	Eerie Pit	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2543	1002431	Visione_Chip_OdeckHunterCamp	Hunters of Odeck	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2544	1002439	Visione_Chip_EdgeAltar	Cliff Edge Altar	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2545	1002455	Visione_Chip_FireFlySwarm	Hayroof Farm Fireflies	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2546	1002457	Visione_Chip_DemenissCabin	Demeniss Cabin	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2547	1002462	Visione_Chip_CryingRock	Weeping Rocks	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2548	1002463	Visione_Chip_VikingTomb	Grave of Warriors' Axes	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2549	1002464	Visione_Chip_DelesiaAcademy	Inside of the Delesyian Institute	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2550	1002465	Visione_Chip_GodTreeCamp	Eldertree Research Camp	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2551	1000764	Visione_Chip_BoneCollectorWagon	The Skull Collector's Wagon	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2552	1000765	Visione_Chip_TestToMarni	An Experiment to Reach Marni	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2553	1002507	Visione_Chip_ArcheryRange	Vellua Hill Archery Range	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2554	1002508	Visione_Chip_MaidsTales	Stories of the Maids	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2555	1002533	Visione_Chip_WreckedTradingShip	Wrecked Trading Ship	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2556	1002572	Visione_Chip_BumperCrop	Bountiful Harvest	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2557	1002573	Visione_Chip_BrookFieldManor	Brookfield Manor	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2558	1002575	Visione_Chip_LioncrestManor	Lioncrest Manor	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2559	1002486	Visione_Chip_DanteAndBleed	Dante and the Bleed	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2560	1002487	Visione_Chip_UpLionTower	Lioncrest Watchtower	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2561	1002488	Visione_Chip_BrokenRaft	Broken Raft	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2562	1002607	Visione_Chip_FiresideTale	Fireside Story	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2563	1002617	Visione_Chip_RootFortress	Report on Roothold	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2564	1002618	Visione_Chip_RiverwardOutpost	Riverward Outpost Dispatch	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2565	1002630	Visione_Chip_MysteryTower	Mysterious Giant Tower	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2566	1002633	Visione_Chip_LampkeeperPatrol	Stone Lantern Keeper's Patrol	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2567	1002635	Visione_Chip_DesertCrocodile	Ruler of the Oasis	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2568	1002440	Visione_Chip_SmugglerDock	Smugglers' Dock	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2569	1002441	Visione_Chip_Meteor	Meteorite	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2570	1002591	Visione_Chip_Alustainroom	The Alchemist's Chamber	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2571	1002595	Visione_Chip_Splithornrobber	Sword of the Cursed	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2572	1002598	Visione_Chip_Oakenshieldmanor	Serkis's Study	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2573	1002601	Visione_Chip_Halsius	St. Halssius's House of Healing	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2574	1002605	Visione_Chip_GraceMansionStorage	Glenbright Manor Storage	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2575	1002638	Visione_Chip_GraceMansion	Glenbright Manor	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2576	1002641	Visione_Chip_Kukucraft	Pot Artisans	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2577	1002663	Visione_Chip_Trolluniversity	Scholastone Celestial Telescope	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2578	1002664	Visione_Chip_HernandcastleBallroom	Hernand Banquet Hall	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2579	1002665	Visione_Chip_DemenissOrphanage	Demeniss Orphanage	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2580	1002666	Visione_Chip_Crowmanribentain	Crow's Ambush	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2581	1002667	Visione_Chip_HernandcastleChamber	Hernand Office	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2582	1002668	Visione_Chip_Pailoonoldtree	Old Tree	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2583	1002669	Visione_Chip_Mjordinludvig	Myurdin and Ludvig	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2584	1002670	Visione_Chip_Pailoonwatergate	Runaway	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2585	1002671	Visione_Chip_Azureiansister	Azerian Manor	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2586	1002690	Visione_Chip_Orcneutralzone	Gorthak	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2587	1002691	Visione_Chip_Marnisecretplace	Marni's Secret Laboratory	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2588	1003744	Visione_Chip_Abyss_Platform_01	Memories of the Disconnected Truth	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2589	1003745	Visione_Chip_Abyss_Platform_02	Shadows Within the Ether Fragment	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2590	1003746	Visione_Chip_Abyss_Platform_03	Memories of the Loop of Life	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2591	1002989	Visione_Chip_HiddenSpace_0001	Hidden Space - 0001	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2592	1002990	Visione_Chip_HiddenSpace_0002	Hidden Space - 0002	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2593	1002991	Visione_Chip_HiddenSpace_0003	Hidden Space - 0003	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2594	1002992	Visione_Chip_HiddenSpace_0004	Hidden Space - 0004	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2595	1002993	Visione_Chip_HiddenSpace_0005	Hidden Space - 0005	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2596	1002994	Visione_Chip_HiddenSpace_0006	Hidden Space - 0006	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2597	1002995	Visione_Chip_HiddenSpace_0007	Hidden Space - 0007	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2598	1002996	Visione_Chip_HiddenSpace_0008	Hidden Space - 0008	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2599	1002997	Visione_Chip_HiddenSpace_0009	Hidden Space - 0009	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2600	1002998	Visione_Chip_HiddenSpace_0010	Hidden Space - 0010	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2601	1002999	Visione_Chip_HiddenSpace_0011	Hidden Space - 0011	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2602	1003000	Visione_Chip_HiddenSpace_0012	Hidden Space - 0012	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2603	1003001	Visione_Chip_HiddenSpace_0013	Hidden Space - 0013	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2604	1003002	Visione_Chip_HiddenSpace_0014	Hidden Space - 0014	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2605	1003003	Visione_Chip_HiddenSpace_0015	Hidden Space - 0015	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2606	1003004	Visione_Chip_HiddenSpace_0016	Hidden Space - 0016	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2607	1003005	Visione_Chip_HiddenSpace_0017	Hidden Space - 0017	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2608	1003006	Visione_Chip_HiddenSpace_0018	Hidden Space - 0018	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2609	1003007	Visione_Chip_HiddenSpace_0019	Hidden Space - 0019	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2610	1003008	Visione_Chip_HiddenSpace_0020	Hidden Space - 0020	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2611	1003009	Visione_Chip_HiddenSpace_0021	Hidden Space - 0021	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2612	1003010	Visione_Chip_HiddenSpace_0022	Hidden Space - 0022	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2613	1003011	Visione_Chip_HiddenSpace_0023	Hidden Space - 0023	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2614	1003012	Visione_Chip_HiddenSpace_0024	Hidden Space - 0024	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2615	1003013	Visione_Chip_HiddenSpace_0025	Hidden Space - 0025	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2616	1003014	Visione_Chip_HiddenSpace_0026	Hidden Space - 0026	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2617	1003015	Visione_Chip_HiddenSpace_0027	Hidden Space - 0027	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2618	1003016	Visione_Chip_HiddenSpace_0028	Hidden Space - 0028	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2619	1003017	Visione_Chip_HiddenSpace_0029	Hidden Space - 0029	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2620	1003018	Visione_Chip_HiddenSpace_0030	Hidden Space - 0030	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2621	1003019	Visione_Chip_HiddenSpace_0031	Hidden Space - 0031	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2622	1003020	Visione_Chip_HiddenSpace_0032	Hidden Space - 0032	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2623	1003021	Visione_Chip_HiddenSpace_0033	Hidden Space - 0033	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2624	1003022	Visione_Chip_HiddenSpace_0034	Hidden Space - 0034	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2625	1003023	Visione_Chip_HiddenSpace_0035	Hidden Space - 0035	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2626	1003024	Visione_Chip_HiddenSpace_0036	Hidden Space - 0036	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2627	1003025	Visione_Chip_HiddenSpace_0037	Hidden Space - 0037	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2628	1003026	Visione_Chip_HiddenSpace_0038	Hidden Space - 0038	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2629	1003027	Visione_Chip_HiddenSpace_0039	Hidden Space - 0039	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2630	1003028	Visione_Chip_HiddenSpace_0040	Hidden Space - 0040	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2631	1003029	Visione_Chip_HiddenSpace_0041	Hidden Space - 0041	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2632	1003030	Visione_Chip_HiddenSpace_0042	Hidden Space - 0042	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2633	1003031	Visione_Chip_HiddenSpace_0043	Hidden Space - 0043	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2634	1003032	Visione_Chip_HiddenSpace_0044	Hidden Space - 0044	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2635	1003033	Visione_Chip_HiddenSpace_0045	Hidden Space - 0045	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2636	1003034	Visione_Chip_HiddenSpace_0046	Hidden Space - 0046	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2637	1003035	Visione_Chip_HiddenSpace_0047	Hidden Space - 0047	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2638	1003036	Visione_Chip_HiddenSpace_0048	Hidden Space - 0048	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2639	1003037	Visione_Chip_HiddenSpace_0049	Hidden Space - 0049	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2640	1003038	Visione_Chip_HiddenSpace_0050	Hidden Space - 0050	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2641	1003039	Visione_Chip_HiddenSpace_0051	Hidden Space - 0051	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2642	1003040	Visione_Chip_HiddenSpace_0052	Hidden Space - 0052	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2643	1003041	Visione_Chip_HiddenSpace_0053	Hidden Space - 0053	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2644	1003042	Visione_Chip_HiddenSpace_0054	Hidden Space - 0054	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2645	1003043	Visione_Chip_HiddenSpace_0055	Hidden Space - 0055	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2646	1003044	Visione_Chip_HiddenSpace_0056	Hidden Space - 0056	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2647	1003045	Visione_Chip_HiddenSpace_0057	Hidden Space - 0057	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2648	1003046	Visione_Chip_HiddenSpace_0058	Hidden Space - 0058	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2649	1003047	Visione_Chip_HiddenSpace_0059	Hidden Space - 0059	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2650	1003048	Visione_Chip_HiddenSpace_0060	Hidden Space - 0060	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2651	1003049	Visione_Chip_HiddenSpace_0061	Hidden Space - 0061	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2652	1003050	Visione_Chip_HiddenSpace_0062	Hidden Space - 0062	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2653	1003051	Visione_Chip_HiddenSpace_0063	Hidden Space - 0063	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2654	1003052	Visione_Chip_HiddenSpace_0064	Hidden Space - 0064	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2655	1003053	Visione_Chip_HiddenSpace_0065	Hidden Space - 0065	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2656	1003054	Visione_Chip_HiddenSpace_0066	Hidden Space - 0066	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2657	1003055	Visione_Chip_HiddenSpace_0067	Hidden Space - 0067	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2658	1003056	Visione_Chip_HiddenSpace_0068	Hidden Space - 0068	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2659	1003057	Visione_Chip_HiddenSpace_0069	Hidden Space - 0069	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2660	1003058	Visione_Chip_HiddenSpace_0070	Hidden Space - 0070	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2661	1003059	Visione_Chip_HiddenSpace_0071	Hidden Space - 0071	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2662	1003060	Visione_Chip_HiddenSpace_0072	Hidden Space - 0072	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2663	1003061	Visione_Chip_HiddenSpace_0073	Hidden Space - 0073	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2664	1003062	Visione_Chip_HiddenSpace_0074	Hidden Space - 0074	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2665	1003063	Visione_Chip_HiddenSpace_0075	Hidden Space - 0075	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2666	1003064	Visione_Chip_HiddenSpace_0076	Hidden Space - 0076	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2667	1003065	Visione_Chip_HiddenSpace_0077	Hidden Space - 0077	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2668	1003066	Visione_Chip_HiddenSpace_0078	Hidden Space - 0078	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2669	1003067	Visione_Chip_HiddenSpace_0079	Hidden Space - 0079	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2670	1003068	Visione_Chip_HiddenSpace_0080	Hidden Space - 0080	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2671	1003069	Visione_Chip_HiddenSpace_0081	Hidden Space - 0081	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2672	1003070	Visione_Chip_HiddenSpace_0082	Hidden Space - 0082	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2673	1003071	Visione_Chip_HiddenSpace_0083	Hidden Space - 0083	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2674	1003072	Visione_Chip_HiddenSpace_0084	Hidden Space - 0084	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2675	1003073	Visione_Chip_HiddenSpace_0085	Hidden Space - 0085	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2676	1003074	Visione_Chip_HiddenSpace_0086	Hidden Space - 0086	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2677	1003075	Visione_Chip_HiddenSpace_0087	Hidden Space - 0087	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2678	1003076	Visione_Chip_HiddenSpace_0088	Hidden Space - 0088	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2679	1003077	Visione_Chip_HiddenSpace_0089	Hidden Space - 0089	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2680	1003078	Visione_Chip_HiddenSpace_0090	Hidden Space - 0090	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2681	1003079	Visione_Chip_HiddenSpace_0091	Hidden Space - 0091	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2682	1003080	Visione_Chip_HiddenSpace_0092	Hidden Space - 0092	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2683	1003081	Visione_Chip_HiddenSpace_0093	Hidden Space - 0093	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2684	1003082	Visione_Chip_HiddenSpace_0094	Hidden Space - 0094	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2685	1003083	Visione_Chip_HiddenSpace_0095	Hidden Space - 0095	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2686	1003084	Visione_Chip_HiddenSpace_0096	Hidden Space - 0096	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2687	1003085	Visione_Chip_HiddenSpace_0097	Hidden Space - 0097	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2688	1003086	Visione_Chip_HiddenSpace_0098	Hidden Space - 0098	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2689	1003087	Visione_Chip_HiddenSpace_0099	Hidden Space - 0099	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2690	1003088	Visione_Chip_HiddenSpace_0100	Hidden Space - 0100	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2691	1003089	Visione_Chip_HiddenSpace_0101	Hidden Space - 0101	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2692	1003090	Visione_Chip_HiddenSpace_0102	Hidden Space - 0102	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2693	1003091	Visione_Chip_HiddenSpace_0103	Hidden Space - 0103	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2694	1003092	Visione_Chip_HiddenSpace_0104	Hidden Space - 0104	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2695	1003093	Visione_Chip_HiddenSpace_0105	Hidden Space - 0105	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2696	1003094	Visione_Chip_HiddenSpace_0106	Hidden Space - 0106	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2697	1003095	Visione_Chip_HiddenSpace_0107	Hidden Space - 0107	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2698	1003096	Visione_Chip_HiddenSpace_0108	Hidden Space - 0108	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2699	1003097	Visione_Chip_HiddenSpace_0109	Hidden Space - 0109	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2700	1003098	Visione_Chip_HiddenSpace_0110	Hidden Space - 0110	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2701	1003099	Visione_Chip_HiddenSpace_0111	Hidden Space - 0111	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2702	1003100	Visione_Chip_HiddenSpace_0112	Hidden Space - 0112	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2703	1003101	Visione_Chip_HiddenSpace_0113	Hidden Space - 0113	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2704	1003102	Visione_Chip_HiddenSpace_0114	Hidden Space - 0114	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2705	1003103	Visione_Chip_HiddenSpace_0115	Hidden Space - 0115	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2706	1003104	Visione_Chip_HiddenSpace_0116	Hidden Space - 0116	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2707	1003105	Visione_Chip_HiddenSpace_0117	Hidden Space - 0117	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2708	1003106	Visione_Chip_HiddenSpace_0118	Hidden Space - 0118	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2709	1003107	Visione_Chip_HiddenSpace_0119	Hidden Space - 0119	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2710	1003108	Visione_Chip_HiddenSpace_0120	Hidden Space - 0120	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2711	1003109	Visione_Chip_HiddenSpace_0121	Hidden Space - 0121	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2712	1003110	Visione_Chip_HiddenSpace_0122	Hidden Space - 0122	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2713	1003111	Visione_Chip_HiddenSpace_0123	Hidden Space - 0123	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2714	1003112	Visione_Chip_HiddenSpace_0124	Hidden Space - 0124	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2715	1003113	Visione_Chip_HiddenSpace_0125	Hidden Space - 0125	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2716	1003114	Visione_Chip_HiddenSpace_0126	Hidden Space - 0126	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2717	1003115	Visione_Chip_HiddenSpace_0127	Hidden Space - 0127	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2718	1003116	Visione_Chip_HiddenSpace_0128	Hidden Space - 0128	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2719	1003117	Visione_Chip_HiddenSpace_0129	Hidden Space - 0129	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2720	1003118	Visione_Chip_HiddenSpace_0130	Hidden Space - 0130	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2721	1003119	Visione_Chip_HiddenSpace_0131	Hidden Space - 0131	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2722	1003120	Visione_Chip_HiddenSpace_0132	Hidden Space - 0132	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2723	1003121	Visione_Chip_HiddenSpace_0133	Hidden Space - 0133	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2724	1003122	Visione_Chip_HiddenSpace_0134	Hidden Space - 0134	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2725	1003123	Visione_Chip_HiddenSpace_0135	Hidden Space - 0135	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2726	1003124	Visione_Chip_HiddenSpace_0136	Hidden Space - 0136	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2727	1003125	Visione_Chip_HiddenSpace_0137	Hidden Space - 0137	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2728	1003126	Visione_Chip_HiddenSpace_0138	Hidden Space - 0138	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2729	1003127	Visione_Chip_HiddenSpace_0139	Hidden Space - 0139	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2730	1003128	Visione_Chip_HiddenSpace_0140	Hidden Space - 0140	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2731	1003129	Visione_Chip_HiddenSpace_0141	Hidden Space - 0141	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2732	1003130	Visione_Chip_HiddenSpace_0142	Hidden Space - 0142	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2733	1003131	Visione_Chip_HiddenSpace_0143	Hidden Space - 0143	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2734	1003132	Visione_Chip_HiddenSpace_0144	Hidden Space - 0144	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2735	1003133	Visione_Chip_HiddenSpace_0145	Hidden Space - 0145	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2736	1003134	Visione_Chip_HiddenSpace_0146	Hidden Space - 0146	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2737	1003135	Visione_Chip_HiddenSpace_0147	Hidden Space - 0147	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2738	1003136	Visione_Chip_HiddenSpace_0148	Hidden Space - 0148	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2739	1003137	Visione_Chip_HiddenSpace_0149	Hidden Space - 0149	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2740	1003138	Visione_Chip_HiddenSpace_0150	Hidden Space - 0150	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2741	1003139	Visione_Chip_HiddenSpace_0151	Hidden Space - 0151	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2742	1003140	Visione_Chip_HiddenSpace_0152	Hidden Space - 0152	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2743	1003141	Visione_Chip_HiddenSpace_0153	Hidden Space - 0153	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2744	1003142	Visione_Chip_HiddenSpace_0154	Hidden Space - 0154	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2745	1003143	Visione_Chip_HiddenSpace_0155	Hidden Space - 0155	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2746	1003144	Visione_Chip_HiddenSpace_0156	Hidden Space - 0156	keepsake	keepsake memory-fragment no-sell quest stackable tier-0 wild	0	1
+2747	1004319	Visione_Chip_Alustin_Journal_0001	Archive Entry #1	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2748	1004320	Visione_Chip_Alustin_Journal_0002	Archive Entry #2	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2749	1004321	Visione_Chip_Alustin_Journal_0003	Archive Entry #3	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2750	1004322	Visione_Chip_Alustin_Journal_0004	Archive Entry #4	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2751	1004323	Visione_Chip_Alustin_Journal_0005	Archive Entry #5	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2752	1004324	Visione_Chip_Alustin_Journal_0006	Archive Entry #7	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2753	1004325	Visione_Chip_Alustin_Journal_0007	Archive Entry #8	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2754	1004326	Visione_Chip_Alustin_Journal_0008	Archive Entry #16	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2755	1004327	Visione_Chip_Alustin_Journal_0009	Archive Entry #17	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2756	1004328	Visione_Chip_Alustin_Journal_0010	Archive Entry #18	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2757	1004329	Visione_Chip_Alustin_Journal_0011	Archive Entry #19	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2758	1004330	Visione_Chip_Alustin_Journal_0012	Archive Entry #25	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2759	1004331	Visione_Chip_Alustin_Journal_0013	Archive Entry #26	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2760	1004332	Visione_Chip_Alustin_Journal_0014	Archive Entry #35	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2761	1004333	Visione_Chip_Alustin_Journal_0015	Archive Entry #36	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2762	1004334	Visione_Chip_Alustin_Journal_0016	Archive Entry #38	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2763	1004335	Visione_Chip_Alustin_Journal_0017	Archive Entry #39	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2764	1004336	Visione_Chip_Alustin_Journal_0018	Archive Entry #45	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2765	1004337	Visione_Chip_Alustin_Journal_0019	Archive Entry #46	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2766	1004338	Visione_Chip_Alustin_Journal_0020	Archive Entry #47	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2767	1004339	Visione_Chip_Alustin_Journal_0021	Archive Entry #48	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2768	1004340	Visione_Chip_Alustin_Journal_0022	Archive Entry #53	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2769	1004341	Visione_Chip_Alustin_Journal_0023	Archive Entry #54	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2770	1004342	Visione_Chip_Alustin_Journal_0024	Archive Entry #59	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2771	1004343	Visione_Chip_Alustin_Journal_0025	Archive Entry #60	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2772	1004344	Visione_Chip_Alustin_Journal_0026	Archive Entry #61	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2773	1004345	Visione_Chip_Alustin_Journal_0027	Archive Entry #62	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2774	1004346	Visione_Chip_Alustin_Journal_0028	Archive Entry #66	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2775	1004347	Visione_Chip_Alustin_Journal_0029	Archive Entry #67	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2776	1004348	Visione_Chip_Alustin_Journal_0030	Archive Entry #71	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2777	1004349	Visione_Chip_Alustin_Journal_0031	Archive Entry #72	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2778	1004350	Visione_Chip_Alustin_Journal_0032	Archive Entry #77	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2779	1004351	Visione_Chip_Alustin_Journal_0033	Archive Entry #78	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2780	1004352	Visione_Chip_Alustin_Journal_0034	Archive Entry #82	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2781	1004353	Visione_Chip_Alustin_Journal_0035	Archive Entry #83	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2782	1004354	Visione_Chip_Alustin_Journal_0036	Archive Entry #89	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2783	1004355	Visione_Chip_Alustin_Journal_0037	Archive Entry #90	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2784	1004356	Visione_Chip_Alustin_Journal_0038	Archive Entry #98	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2785	1004357	Visione_Chip_Alustin_Journal_0039	Archive Entry #99	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2786	1004358	Visione_Chip_Alustin_Journal_0040	Archive Entry #100	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2787	1004359	Visione_Chip_Alustin_Journal_0041	Archive Entry #106	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2788	1004360	Visione_Chip_Alustin_Journal_0042	Archive Entry #107	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+2789	1003838	Riding_Bear_Claw	White Bear's Claws	treasure	important knowledge mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2790	1003839	Riding_Wolf_Tooth	Fang of Silver Fang	treasure	important knowledge mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2791	1003840	Riding_Deer_Horn	Snowwhite Deer's Antlers	treasure	important knowledge mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2792	1003841	Riding_AlpineIbex_Horn	Icicle Edge Alpine Ibex Horn	treasure	important knowledge mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2793	1003842	Riding_Warthog_Tooth	Rock Tusk Warthog Tusk	treasure	important knowledge mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2794	1003920	Pet_Phoenix_Feather	Phoenix Feather	treasure	important knowledge mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2795	1003843	Riding_Bear_Amulet	Sigil of Solidarity (White Bear)	treasure	important mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2796	1003844	Riding_Wolf_Amulet	Sigil of Solidarity (Silver Fang)	treasure	important mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2797	1003845	Riding_Deer_Amulet	Sigil of Solidarity (Snowwhite Deer)	treasure	important mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2798	1003846	Riding_AlpineIbex_Amulet	Sigil of Solidarity (Icicle Edge Alpine Ibex)	treasure	important mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2799	1003847	Riding_Warthog_Amulet	Sigil of Solidarity (Rock Tusk Warthog)	treasure	important mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2800	1003921	Pet_Phoenix_Amulet	Sigil of Solidarity (Phoenix)	treasure	important mount-summon no-discard no-sell quest tier-0 treasure wild	0	1
+2801	1001170	Trade_Golden_Sword_Unpack	Golden Sword	keepsake	keepsake quest quest-reward stackable tier-0 trade-good	0	3000
+2802	1004388	Item_Egg_KuKu	Kuku Bird's Egg	keepsake	keepsake no-sell quest quest-reward stackable tier-0	0	1
+2803	1004389	Item_Egg_Wyvern	Wyvern Egg	keepsake	keepsake no-sell quest quest-reward stackable tier-0	0	1
+2804	1000859	Paper_ReventineMonastery_Document	Reventine Monastery Exclusive Document	document	document quest stackable tier-0	0	2130
+2805	1001605	CharacterCustomize_Damian_DefultHair	Damiane's Basic Hair Ticket	keepsake	character-exclusive keepsake no-sell quest tier-0 use-immediately	0	1
+2806	1001740	CharacterCustomize_Damian_TieHair	Damiane's Ponytail Ticket	keepsake	character-exclusive keepsake no-sell quest tier-0 use-immediately	0	1
+2807	1000389	Notepad	Notepad	keepsake	character-exclusive keepsake no-sell quest tier-0 tool wild	0	1
+2808	1000390	Feather_Pen	Feather Pen	keepsake	character-exclusive keepsake no-sell quest tier-0 tool wild	0	1
+2809	1003363	Item_Scale	Scales of Fairness and Justice	keepsake	character-exclusive keepsake no-sell quest tier-0 tool wild	0	1
+2810	1000329	Abacus	Abacus	keepsake	keepsake no-sell quest tier-0 tool wild	0	1
+2811	1000529	CharacterCustomize_Oongka_Arm_Aging	Oongka's Arms Aging Appearance Change Coupon	keepsake	keepsake no-sell quest tier-0 use-immediately	0	1
+2812	1000064	CharacterCustomize_Kliff_Neck_Scar	Kliff's Neck Scar Change Coupon	keepsake	character-exclusive keepsake no-sell quest tier-0 use-immediately	0	1
+2813	1002857	CharacterCustomize_Kliff_Aging	Kliff Aging Appearance Change Coupon	keepsake	character-exclusive keepsake no-sell quest tier-0 use-immediately	0	1
+2814	1003755	CharacterCustomize_Kliff_Deaging	Kliff Youthful Appearance Change Coupon	keepsake	character-exclusive keepsake no-sell quest tier-0 use-immediately	0	1
+2815	801001	Permit_Her_Pass	Hernand Entry Permit	document	document important no-sell quest tier-0 wild	0	1
+2816	802204	MonasteryVisitorPass	St. Halssius Visitor Pass	document	document important quest tier-0 wild	0	1000
 2817	1001762	License_Operation_HernandBank	Personal Strongbox Permit	document	document tier-0 use-immediately	0	10000
 2818	1004546	License_Operation_CopperPaperBank	Personal Bond Strongbox Permit	document	document tier-0 use-immediately	0	100000
 2819	1002860	Permit_Her_Furniture	Furniture Supply Contract - Timberham	document	document tier-0	0	845
@@ -2900,7 +2900,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 2898	1004559	Piranhas_Report	Sighting of the Piranha	document	document tier-0	0	800
 2899	75001	Abyss_Artifact	Abyss Artifact	artifact	abyss-item artifact important knowledge no-discard no-sell stackable tier-0	0	2850
 2900	75002	Deactived_Abyss_Artifact	Faded Abyss Artifact	artifact	abyss-item artifact no-discard no-sell stackable tier-0	0	285
-2901	75000	First_Artifact	The First Artifact	artifact	abyss-item artifact no-sell tier-0 wild	0	1
+2901	75000	First_Artifact	The First Artifact	artifact	abyss-item artifact no-sell quest tier-0 wild	0	1
 2902	1000822	Sealed_Abyss_Artifact_0001	Sealed Abyss Artifact	sealed-artifact	no-sell sealed-artifact tier-0 wild	0	1
 2903	1000823	Sealed_Abyss_Artifact_0002	Sealed Abyss Artifact	sealed-artifact	no-sell sealed-artifact tier-0 wild	0	1
 2904	1000339	Sealed_Abyss_Artifact_0003	Sealed Abyss Artifact	sealed-artifact	no-sell sealed-artifact tier-0 wild	0	1
@@ -3577,44 +3577,44 @@ row	key	string_key	name	class	tags	tier	value_copper
 3575	1001843	Pear	Pear	fruit	fruit ingredient knowledge material mount-feed restores-mp stackable tier-0	0	50
 3576	1000634	RevivalItem	Refined Palmar Pill	potion	consumable no-sell potion stackable tier-0 wild	0	1080
 3577	1001959	RevivalItemPartialRecovery	Palmar Pill	potion	consumable no-sell potion stackable tier-0 wild	0	360
-3578	1002138	Boss_Reward_SuperWeapon	Axe of the Apocalypse	treasure	equipment no-sell npc-weapon-pool one-hand tier-0 tool treasure weapon	0	1
-3579	1002139	Boss_Reward_DragonParts	Golden Star's Component	treasure	boss-reward knowledge no-sell tier-0 treasure wild	0	1
-3580	1002199	Boss_Reward_Graymanes	Seal of Devotion	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3581	1002200	Boss_Reward_Survivors	The Ivory Messenger	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3582	1002142	Boss_Reward_BigMoney	Plunderer's Gold Chest	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3583	1002201	Boss_Reward_LargeWood	Wrecked Keglord	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3584	1002202	Boss_Reward_LargeStone	Secret of the Abandoned Mine	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3585	1002145	Boss_Reward_KweidenNode	Eye of the Sky	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3586	1002146	Boss_Reward_DelesyianNode	REN-X Surveillance Record	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3587	1002150	Boss_Reward_Supercarrot	Giant Brown Sugar Cube	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3588	1002151	Boss_Reward_GoldVeinMap	Gold Vein Map	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3589	1002152	Boss_Reward_FishMap	Mossy Secret Map	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3590	1002153	Boss_Reward_CatFishMap	Voyages of Sir Catfish	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3591	1002154	Boss_Reward_KweidenContribution	Trace of the Thunder God	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3592	1002155	Boss_Reward_Npc01Intimacy	Mysterious Gift	treasure	boss-reward no-sell stackable tier-0 treasure wild	0	1
-3593	1002157	Boss_Reward_MiraculousRecovery	Bloodstained Blessing	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3594	1002160	Boss_Reward_AutomatedIncome	Golden Piggy Bank	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3595	1002164	Boss_Reward_StatsStamina	Dark Red Goblet	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3596	1002165	Boss_Reward_StatsMp	T'rukan's Fighting Spirit	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3597	1002168	Boss_Reward_KnowledgeOverview	Memory of Ancient Nature	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3598	1002169	Boss_Reward_Tracker	Leebur's Soul	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3599	1003918	Boss_Reward_QuickLearner_Charm	Sage's Eye	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3600	1000060	Puzzle_Reward_TreasureMap_Her_First	Memories of Abundance	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3601	1000898	Puzzle_Reward_TreasureMap_Her_Second	Memory of Tide	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3602	1000905	Puzzle_Reward_TreasureMap_Kwe	Memories of the Northern Winds	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3603	1001194	Puzzle_Reward_TreasureMap_Dem_First	Memories of Prosperity	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3604	1002251	Puzzle_Reward_TreasureMap_Dem_Second	Memory of Turbulence	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3605	1002298	Puzzle_Reward_TreasureMap_Del	Forgotten Memory	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3606	1002163	Boss_Reward_SummonMerchant	Hologram Projector	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3607	1002156	Boss_Reward_StatsCrime	Chalice of Corruption	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3608	1002159	Boss_Reward_MasterThief	Shadow Gloves	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3609	1002166	Boss_Reward_BountyReduction	Shadow Contract	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3610	1002140	Boss_Reward_SuperSkill	Blessing of the Immortal	treasure	boss-reward no-sell tier-0 treasure	0	1
-3611	1000989	Boss_Reward_MerchantKing_GoldleafGuildhouse	Seal of Greed - Goldleaf Merchant Guild	treasure	boss-reward no-sell tier-0 treasure	0	1
-3612	1002543	Boss_Reward_MerchantKing_SilvermoonTroll	Seal of Greed - Silvermoon Trade Group	treasure	boss-reward no-sell tier-0 treasure	0	1
-3613	1003661	Boss_Reward_MerchantKing_SaltroadTradePost	Seal of Greed - Saltroad Trading Post	treasure	boss-reward no-sell tier-0 treasure	0	1
-3614	1003919	Boss_Reward_Efficiency_Charm	Golden Beer	treasure	boss-reward no-sell tier-0 treasure wild	0	1
-3615	1002174	Boss_Reward_ReturnCamp	Memory of a Fallen Kingdom	treasure	boss-reward no-discard no-sell stackable tier-0 treasure	0	1
+3578	1002138	Boss_Reward_SuperWeapon	Axe of the Apocalypse	treasure	equipment no-sell npc-weapon-pool one-hand quest tier-0 tool treasure weapon	0	1
+3579	1002139	Boss_Reward_DragonParts	Golden Star's Component	treasure	boss-reward knowledge no-sell quest tier-0 treasure wild	0	1
+3580	1002199	Boss_Reward_Graymanes	Seal of Devotion	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3581	1002200	Boss_Reward_Survivors	The Ivory Messenger	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3582	1002142	Boss_Reward_BigMoney	Plunderer's Gold Chest	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3583	1002201	Boss_Reward_LargeWood	Wrecked Keglord	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3584	1002202	Boss_Reward_LargeStone	Secret of the Abandoned Mine	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3585	1002145	Boss_Reward_KweidenNode	Eye of the Sky	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3586	1002146	Boss_Reward_DelesyianNode	REN-X Surveillance Record	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3587	1002150	Boss_Reward_Supercarrot	Giant Brown Sugar Cube	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3588	1002151	Boss_Reward_GoldVeinMap	Gold Vein Map	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3589	1002152	Boss_Reward_FishMap	Mossy Secret Map	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3590	1002153	Boss_Reward_CatFishMap	Voyages of Sir Catfish	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3591	1002154	Boss_Reward_KweidenContribution	Trace of the Thunder God	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3592	1002155	Boss_Reward_Npc01Intimacy	Mysterious Gift	treasure	boss-reward no-sell quest stackable tier-0 treasure wild	0	1
+3593	1002157	Boss_Reward_MiraculousRecovery	Bloodstained Blessing	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3594	1002160	Boss_Reward_AutomatedIncome	Golden Piggy Bank	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3595	1002164	Boss_Reward_StatsStamina	Dark Red Goblet	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3596	1002165	Boss_Reward_StatsMp	T'rukan's Fighting Spirit	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3597	1002168	Boss_Reward_KnowledgeOverview	Memory of Ancient Nature	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3598	1002169	Boss_Reward_Tracker	Leebur's Soul	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3599	1003918	Boss_Reward_QuickLearner_Charm	Sage's Eye	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3600	1000060	Puzzle_Reward_TreasureMap_Her_First	Memories of Abundance	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3601	1000898	Puzzle_Reward_TreasureMap_Her_Second	Memory of Tide	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3602	1000905	Puzzle_Reward_TreasureMap_Kwe	Memories of the Northern Winds	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3603	1001194	Puzzle_Reward_TreasureMap_Dem_First	Memories of Prosperity	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3604	1002251	Puzzle_Reward_TreasureMap_Dem_Second	Memory of Turbulence	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3605	1002298	Puzzle_Reward_TreasureMap_Del	Forgotten Memory	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3606	1002163	Boss_Reward_SummonMerchant	Hologram Projector	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3607	1002156	Boss_Reward_StatsCrime	Chalice of Corruption	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3608	1002159	Boss_Reward_MasterThief	Shadow Gloves	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3609	1002166	Boss_Reward_BountyReduction	Shadow Contract	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3610	1002140	Boss_Reward_SuperSkill	Blessing of the Immortal	treasure	boss-reward no-sell quest tier-0 treasure	0	1
+3611	1000989	Boss_Reward_MerchantKing_GoldleafGuildhouse	Seal of Greed - Goldleaf Merchant Guild	treasure	boss-reward no-sell quest tier-0 treasure	0	1
+3612	1002543	Boss_Reward_MerchantKing_SilvermoonTroll	Seal of Greed - Silvermoon Trade Group	treasure	boss-reward no-sell quest tier-0 treasure	0	1
+3613	1003661	Boss_Reward_MerchantKing_SaltroadTradePost	Seal of Greed - Saltroad Trading Post	treasure	boss-reward no-sell quest tier-0 treasure	0	1
+3614	1003919	Boss_Reward_Efficiency_Charm	Golden Beer	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+3615	1002174	Boss_Reward_ReturnCamp	Memory of a Fallen Kingdom	treasure	boss-reward no-discard no-sell quest stackable tier-0 treasure	0	1
 3616	19994	Abyss_InfiniteStat_Sp3	Breath of the Abyss	dev	dev no-sell stackable stat-boost tier-0 use-immediately	0	1
 3617	19995	Abyss_InfiniteStat_Mp2	Spirit of the Abyss	dev	dev no-sell stackable stat-boost tier-0 use-immediately	0	1
 3618	19996	Abyss_InfiniteStat_Hp30	Vitality of the Abyss	dev	dev no-sell stackable stat-boost tier-0 use-immediately	0	1
@@ -6373,9 +6373,9 @@ row	key	string_key	name	class	tags	tier	value_copper
 6371	1005797	Item_wagon_wheel_0006	Elegant Noble's Wheel	equipment	equipment tier-0	0	5000
 6372	1005798	Item_wagon_wheel_0007	Noble Delegation's Wheel	equipment	equipment tier-0	0	5000
 6373	1005799	Item_Wagon_Base_lantern_0001	Wagon Lantern	equipment	equipment tier-0	0	500
-6374	53016	Item_Kuku_Pot	Kuku Pot	kuku-pot	important knowledge kuku-gear kuku-pot no-sell stackable tier-0	0	1
-6375	1002182	Item_Kuku_Pot_02	Enhanced Kuku Pot	kuku-pot	important kuku-gear kuku-pot no-sell stackable tier-0	0	1
-6376	1002132	Item_KuKu_Small_ATAG	Small Kuku A.T.A.G.	kuku-pot	kuku-gear kuku-pot no-discard no-sell tier-0	0	1
+6374	53016	Item_Kuku_Pot	Kuku Pot	kuku-pot	important knowledge kuku-gear kuku-pot no-sell quest stackable tier-0	0	1
+6375	1002182	Item_Kuku_Pot_02	Enhanced Kuku Pot	kuku-pot	important kuku-gear kuku-pot no-sell quest stackable tier-0	0	1
+6376	1002132	Item_KuKu_Small_ATAG	Small Kuku A.T.A.G.	kuku-pot	kuku-gear kuku-pot no-discard no-sell quest tier-0	0	1
 6377	1000374	KuKu_Pot_TwoHandSpear	Kuku Spear	weapon	docking equipment important kuku-gear no-sell npc-weapon-pool spear tier-4 two-hand weapon	4	1
 6378	1002175	KuKu_Lightning_TwoHandSpear	Kuku Lightning Spear	weapon	docking equipment extractable important kuku-gear no-sell npc-weapon-pool spear tier-4 two-hand weapon	4	1
 6379	1002176	KuKu_Fire_staff_spear_TwoHandSpear	Kuku Flame Spear	weapon	docking equipment extractable important kuku-gear no-sell npc-weapon-pool spear tier-4 two-hand weapon	4	1
@@ -6400,7 +6400,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 6398	1002181	Kuku_IceThrower	Kuku Frostspitter	accessory	accessory backpack docking equipment important kuku-gear no-sell thrower tier-3	3	1
 6399	1003259	Kuku_LightningThrower	Kuku Boltspitter	accessory	accessory backpack docking equipment important kuku-gear no-sell thrower tier-3	3	1
 6400	1000424	KuKu_Golden999K	Kuku Transmission 999K Pack	accessory	accessory backpack equipment important kuku-gear no-sell tier-3	3	1
-6401	1001091	Dragon_Armor_Material	Abyssal Fusion	treasure	important kuku-gear no-sell tier-0 treasure wild	0	1
+6401	1001091	Dragon_Armor_Material	Abyssal Fusion	treasure	important kuku-gear no-sell quest tier-0 treasure wild	0	1
 6402	1000760	PetArmor_Musket_Helm_Cat	Uniform Cat Hat	pet-gear	equipment pet-gear tier-0	0	240
 6403	1000118	PetArmor_backpack_Helm_Cat	Peddler Cat Hat	pet-gear	equipment pet-gear tier-0	0	240
 6404	1000006	PetArmor_Plate_Helm_Cat	Cat Plate Helm	pet-gear	equipment pet-gear tier-0	0	240
@@ -6664,7 +6664,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 6662	1004530	Pot_Lid_OneHandShield_X	Master's Jar Lid	shield	docking equipment shield tier-1 weapon	1	10240
 6663	1001147	Wood_OneHandShield	Grey Wolf Wooden Shield	shield	docking equipment extractable important no-sell shield tier-1 weapon	1	1
 6664	1000683	Damian_OneHandShield	Demenissian Gold-Decorated Shield	shield	docking equipment extractable important no-sell shield tier-2 weapon	2	1
-6665	1000462	Minigame_OneHandShield	Competition Shield	shield	docking extractable minigame shield tier-1 weapon	1	151
+6665	1000462	Minigame_OneHandShield	Competition Shield	shield	docking extractable minigame quest shield tier-1 weapon	1	151
 6666	1000578	Old_Kliff_OneHandSword	Fated Shadow	weapon	docking equipment extractable important npc-weapon-pool one-hand sword tier-5 weapon	5	1170
 6667	13810	Legendary_WhiteHorn_OneHandSword	Chillfallen Sword	weapon	docking equipment extractable important npc-weapon-pool one-hand sword tier-5 weapon	5	1170
 6668	1001055	Magnet_OneHandSword	Red Needle	weapon	docking equipment extractable important npc-weapon-pool one-hand sword tier-5 weapon	5	1170
@@ -6740,7 +6740,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 6738	1163042	Wolf_OneHandSword	Sword of the Wolf	weapon	docking equipment extractable important no-sell npc-weapon-pool one-hand sword tier-1 weapon	1	1
 6739	1000260	Soulknight_Sprit_OneHandSword	Specter Sword	dev	dev docking sword tier-1 weapon	1	87
 6740	1000491	Ghost_TwohandSword	Invisible Longsword	dev	dev longsword no-sell tier-1 weapon	1	1
-6741	1003244	Minigame_OneHandSword	Competition Sword	weapon	docking extractable minigame sword tier-2 weapon	2	174
+6741	1003244	Minigame_OneHandSword	Competition Sword	weapon	docking extractable minigame quest sword tier-2 weapon	2	174
 6742	1000761	Silver_Armor_OneHandTowerShield	Shield of Betrayal	shield	docking equipment extractable important large-shield shield tier-3 weapon	3	684
 6743	1001427	Legendary_Soulknight_OneHandTowerShield	Shield of Sacrifice	shield	docking equipment extractable important large-shield shield tier-3 weapon	3	684
 6744	1001428	Soulknight_Sprit_OneHandTowerShield	Shield of the Phantom	shield	docking equipment extractable important shield tier-1 weapon	1	171
@@ -6782,7 +6782,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 6780	300050	Mercernary_OneHandBow	White Wood Bow	weapon	bow docking equipment extractable npc-weapon-pool ranged tier-1 weapon	1	432
 6781	300003	Paunah_OneHandBow	Bekker Bow	weapon	bow docking equipment extractable npc-weapon-pool ranged tier-1 weapon	1	432
 6782	1003265	GreyWolf_OneHandBow	Grey Wolf Bow	weapon	bow docking equipment extractable important no-sell npc-weapon-pool ranged tier-1 weapon	1	1
-6783	1003245	Minigame_OneHandBow	Competition Wooden Bow	weapon	bow docking extractable minigame tier-2 weapon	2	432
+6783	1003245	Minigame_OneHandBow	Competition Wooden Bow	weapon	bow docking extractable minigame quest tier-2 weapon	2	432
 6784	320001	Hyde_OneHandCrossBow	Hyde Crossbow	weapon	crossbow equipment ranged tier-2 weapon	2	432
 6785	320002	South_Wanderer_Troll_OneHandCrossBow	Southern Wandering Troll's Crossbow	weapon	crossbow equipment ranged tier-1 weapon	1	216
 6786	13304	Legendary_DemenisMusket_OneHandMusket	Demenissian Hero's Musket	weapon	equipment extractable important musket npc-weapon-pool ranged tier-5 weapon	5	2530
@@ -6795,7 +6795,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 6793	280018	Argatah_OneHandMusket	Pailunese Musket	weapon	equipment extractable musket npc-weapon-pool ranged tier-2 weapon	2	506
 6794	280004	Torretlan_OneHandMusket	Wells Musket	weapon	equipment extractable musket npc-weapon-pool ranged tier-2 weapon	2	506
 6795	280002	Lopelun_OneHandMusket	Bekker Musket	weapon	equipment extractable musket npc-weapon-pool ranged tier-1 weapon	1	253
-6796	1003246	Minigame_OneHandMusket	Competition Musket	weapon	extractable minigame musket tier-2 weapon	2	506
+6796	1003246	Minigame_OneHandMusket	Competition Musket	weapon	extractable minigame musket quest tier-2 weapon	2	506
 6797	270013	Caliburn_Tolerance_OneHandPistol	Caliburn's Mercy Pistol	weapon	equipment extractable important pistol ranged tier-5 weapon	5	2470
 6798	270011	Alida_Restraint_OneHandPistol	Shadow of the Past Pistol	weapon	equipment extractable pistol ranged tier-4 weapon	4	1729
 6799	270004	Vilancia_OneHandPistol	Vilancia Pistol	weapon	equipment extractable pistol ranged tier-3 weapon	3	988
@@ -6936,7 +6936,7 @@ row	key	string_key	name	class	tags	tier	value_copper
 6934	310018	Kamperdian_TwoHandSpear	Warspike Spear	weapon	equipment extractable npc-weapon-pool spear tier-1 two-hand weapon	1	316
 6935	1001201	Troom_TwoHandSpear	Ancient Wood Pole	weapon	equipment extractable npc-weapon-pool spear tier-1 two-hand weapon	1	316
 6936	1002124	Bamboo_TwoHandSpear	Bamboo Spear	weapon	equipment extractable npc-weapon-pool spear tier-1 two-hand weapon	1	316
-6937	1003247	Minigame_TwoHandSpear	Competition Spear	weapon	extractable minigame spear tier-1 weapon	1	316
+6937	1003247	Minigame_TwoHandSpear	Competition Spear	weapon	extractable minigame quest spear tier-1 weapon	1	316
 6938	1001830	Hernand_Flag_I	Small Hernandian Banner Pike	weapon	banner equipment pike tier-1 two-hand weapon	1	316
 6939	1000250	Calphade_Flag_I	Small Calphadean Banner Pike	weapon	banner equipment pike tier-1 two-hand weapon	1	316
 6940	52020	Demeniss_Flag_II	Small Demenissian Banner Pike	weapon	banner equipment pike tier-1 two-hand weapon	1	316
@@ -7821,9 +7821,9 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1006946	Demeniss_Paper_Flyer_0004	Demeniss Justice Defenders Poster	document	document quest tier-0 wild	0	2
 -1	1006947	Demeniss_Paper_Flyer_0005	Demeniss Justice Defenders Poster	document	document quest tier-0 wild	0	2
 -1	1006948	Demeniss_Paper_Flyer_0006	Demeniss Justice Defenders Poster	document	document quest tier-0 wild	0	2
--1	1005913	Visione_Chip_Colette	Suspicious Traces	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
--1	1006784	Visione_Chip_AnotherMarni	Meeting Marni in Another Dimension	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
--1	1006886	Visione_Chip_MarniDrone_Butler	Uninvited Guest	keepsake	keepsake knowledge memory-fragment no-sell stackable tier-0 wild	0	1
+-1	1005913	Visione_Chip_Colette	Suspicious Traces	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+-1	1006784	Visione_Chip_AnotherMarni	Meeting Marni in Another Dimension	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
+-1	1006886	Visione_Chip_MarniDrone_Butler	Uninvited Guest	keepsake	keepsake knowledge memory-fragment no-sell quest stackable tier-0 wild	0	1
 -1	1005879	Quest_Paper_CroggtheCatfishman_Journal	Sir Catfish's Journal	quest	quest tier-0 wild	0	27
 -1	1005880	Quest_Paper_GoblinMarketCertificate	Goldleaf Goods Verification Form	quest	quest tier-0 wild	0	27
 -1	1005881	Quest_Paper_Order_Document	Kharzek's Directive	quest	quest tier-0 wild	0	27
@@ -8029,11 +8029,11 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1006124	Item_Skill_AbyssGear_Ogre_GroundEdge	Earthen Wedge	abyss-gear	abyss-gear no-discard stackable tier-0	0	2549
 -1	1006125	Item_Skill_AbyssGear_EchoStrom	Storm's Echo	abyss-gear	abyss-gear no-discard stackable tier-0	0	2528
 -1	1006610	Desert_ShinyStone_01	Glowing Seed	ammo	ammo buff no-sell stackable tier-0	0	1
--1	1006985	Boss_Reward_StatsBreath	Tear of Oquilla	treasure	boss-reward no-sell tier-0 treasure wild	0	1
--1	1006163	Management_Reward_Sawmill	Woodworking Artisan's Seal	treasure	boss-reward no-sell stackable tier-0 treasure wild	0	1
--1	1006164	Management_Reward_Pub	Master's Secret to Managing Ingredients	treasure	boss-reward no-sell stackable tier-0 treasure wild	0	1
--1	1006165	Management_Reward_Forge	Precision Forging Handbook	treasure	boss-reward no-sell stackable tier-0 treasure wild	0	1
--1	1006166	Management_Reward_Clothier	Golden Scissors Medal	treasure	boss-reward no-sell stackable tier-0 treasure wild	0	1
+-1	1006985	Boss_Reward_StatsBreath	Tear of Oquilla	treasure	boss-reward no-sell quest tier-0 treasure wild	0	1
+-1	1006163	Management_Reward_Sawmill	Woodworking Artisan's Seal	treasure	boss-reward no-sell quest stackable tier-0 treasure wild	0	1
+-1	1006164	Management_Reward_Pub	Master's Secret to Managing Ingredients	treasure	boss-reward no-sell quest stackable tier-0 treasure wild	0	1
+-1	1006165	Management_Reward_Forge	Precision Forging Handbook	treasure	boss-reward no-sell quest stackable tier-0 treasure wild	0	1
+-1	1006166	Management_Reward_Clothier	Golden Scissors Medal	treasure	boss-reward no-sell quest stackable tier-0 treasure wild	0	1
 -1	1006936	Item_AbyssGear_Recipe_Box_VII	Unidentified Abyss Gear Blueprint	abyss-gear-box	abyss-gear-box no-sell stackable tier-0 use-immediately wild	0	1
 -1	1006623	Collection_Prop_Chest_0020	Cylindrical Wooden Box	chest	chest collectible goods knowledge stackable tier-0	0	243
 -1	1006884	DropItem_Recipe_Paper_HousingObject_Windmill_SandCrawler	Mysterious Old Blueprint Box	chest	chest goods no-sell stackable tier-0 use-immediately wild	0	1
@@ -8053,23 +8053,23 @@ row	key	string_key	name	class	tags	tier	value_copper
 -1	1006127	Item_DropSet_Collect_Manganese	Manganese Nodule	other	no-sell stackable tier-0 use-immediately wild	0	1
 -1	1006885	DropItem_Premium_Ocean_Chest	Rare Ocean Relic	other	no-sell stackable tier-0 use-immediately wild	0	1
 -1	1006949	DropItem_Pirate_Ocean_Box	Pirate's Loot	other	no-sell stackable tier-0 use-immediately wild	0	1
--1	1006895	Essence_Riding_Big_Player_ship_PanokSeon_I	Unidentified Box	treasure	important no-discard no-sell stackable tier-0 treasure use-immediately wild	0	
--1	1006896	Essence_Riding_Big_Player_ship_PanokSeon_II	Unidentified Box	treasure	important no-discard no-sell stackable tier-0 treasure use-immediately wild	0	1
--1	1006899	Essence_Riding_Player_Big_Ship_TurtleShip_I	Unidentified Box	treasure	important no-discard no-sell stackable tier-0 treasure use-immediately wild	0	
--1	1006900	Essence_Riding_Player_Big_Ship_TurtleShip_II	Unidentified Box	treasure	important no-discard no-sell stackable tier-0 treasure use-immediately wild	0	1
--1	1006901	Essence_Riding_Player_Big_Ship_TurtleShip_III	Unidentified Box	treasure	important no-discard no-sell stackable tier-0 treasure use-immediately wild	0	1
--1	1006902	Essence_Riding_Player_Big_Ship_TurtleShip_IV	Unidentified Box	treasure	important no-discard no-sell stackable tier-0 treasure use-immediately wild	0	1
--1	1007012	Recipe_Riding_Big_Player_ship_PanokSeon_I	Unfinished Ship Blueprint Part 1	treasure	important no-sell recipe tier-0 treasure wild	0	
--1	1007013	Recipe_Riding_Big_Player_ship_PanokSeon_II	Unfinished Ship Blueprint Part 2	treasure	important no-sell recipe tier-0 treasure wild	0	1
--1	1007014	Recipe_Riding_Player_Big_Ship_TurtleShip_I	Mysterious Ship Blueprint Part 1	treasure	important no-sell recipe tier-0 treasure wild	0	
--1	1007015	Recipe_Riding_Player_Big_Ship_TurtleShip_II	Mysterious Ship Blueprint Part 2	treasure	important no-sell recipe tier-0 treasure wild	0	1
--1	1007016	Recipe_Riding_Player_Big_Ship_TurtleShip_III	Mysterious Ship Blueprint Part 3	treasure	important no-sell recipe tier-0 treasure wild	0	1
--1	1007017	Recipe_Riding_Player_Big_Ship_TurtleShip_IV	Mysterious Ship Blueprint Part 4	treasure	important no-sell recipe tier-0 treasure wild	0	1
--1	1006930	Recipe_Riding_Big_Player_ship_PanokSeon	Unfinished Ship Blueprint	treasure	important no-discard recipe tier-0 treasure wild	0	1316
--1	1006931	Recipe_Riding_Player_Big_Ship_TurtleShip	Mysterious Ship Blueprint	treasure	important no-discard recipe tier-0 treasure wild	0	1316
--1	1006932	Recipe_Riding_ghost_Big_Ship_01	Phantom Ship Blueprint	treasure	important no-discard recipe tier-0 treasure wild	0	1316
--1	1006933	Recipe_Riding_Big_Monster_ship_02	The Drunken Catfish Blueprint	treasure	important no-discard recipe tier-0 treasure wild	0	1316
--1	1006950	Capsule_Riding_Underwater_Atag_Scooter_1	Ancients' Chest	treasure	important no-discard no-sell tier-0 treasure wild	0	1
+-1	1006895	Essence_Riding_Big_Player_ship_PanokSeon_I	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	
+-1	1006896	Essence_Riding_Big_Player_ship_PanokSeon_II	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	1
+-1	1006899	Essence_Riding_Player_Big_Ship_TurtleShip_I	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	
+-1	1006900	Essence_Riding_Player_Big_Ship_TurtleShip_II	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	1
+-1	1006901	Essence_Riding_Player_Big_Ship_TurtleShip_III	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	1
+-1	1006902	Essence_Riding_Player_Big_Ship_TurtleShip_IV	Unidentified Box	treasure	important no-discard no-sell quest stackable tier-0 treasure use-immediately wild	0	1
+-1	1007012	Recipe_Riding_Big_Player_ship_PanokSeon_I	Unfinished Ship Blueprint Part 1	treasure	important no-sell quest recipe tier-0 treasure wild	0	
+-1	1007013	Recipe_Riding_Big_Player_ship_PanokSeon_II	Unfinished Ship Blueprint Part 2	treasure	important no-sell quest recipe tier-0 treasure wild	0	1
+-1	1007014	Recipe_Riding_Player_Big_Ship_TurtleShip_I	Mysterious Ship Blueprint Part 1	treasure	important no-sell quest recipe tier-0 treasure wild	0	
+-1	1007015	Recipe_Riding_Player_Big_Ship_TurtleShip_II	Mysterious Ship Blueprint Part 2	treasure	important no-sell quest recipe tier-0 treasure wild	0	1
+-1	1007016	Recipe_Riding_Player_Big_Ship_TurtleShip_III	Mysterious Ship Blueprint Part 3	treasure	important no-sell quest recipe tier-0 treasure wild	0	1
+-1	1007017	Recipe_Riding_Player_Big_Ship_TurtleShip_IV	Mysterious Ship Blueprint Part 4	treasure	important no-sell quest recipe tier-0 treasure wild	0	1
+-1	1006930	Recipe_Riding_Big_Player_ship_PanokSeon	Unfinished Ship Blueprint	treasure	important no-discard quest recipe tier-0 treasure wild	0	1316
+-1	1006931	Recipe_Riding_Player_Big_Ship_TurtleShip	Mysterious Ship Blueprint	treasure	important no-discard quest recipe tier-0 treasure wild	0	1316
+-1	1006932	Recipe_Riding_ghost_Big_Ship_01	Phantom Ship Blueprint	treasure	important no-discard quest recipe tier-0 treasure wild	0	1316
+-1	1006933	Recipe_Riding_Big_Monster_ship_02	The Drunken Catfish Blueprint	treasure	important no-discard quest recipe tier-0 treasure wild	0	1316
+-1	1006950	Capsule_Riding_Underwater_Atag_Scooter_1	Ancients' Chest	treasure	important no-discard no-sell quest tier-0 treasure wild	0	1
 -1	1006049	Trade_SeaweedBundle	Red Seaweed Bundle	trade-good	special stackable tier-0 trade-good	0	80
 -1	1006050	Trade_KelpBundle	Kelp Bundle	trade-good	special stackable tier-0 trade-good	0	95
 -1	1006051	Trade_PremiumAbaloneBox	Special Abalone	trade-good	special stackable tier-0 trade-good	0	197

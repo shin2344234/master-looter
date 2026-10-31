@@ -349,7 +349,11 @@ INSECT_NAME_TAGS = [
     (re.compile(r"Snail"), "mollusc"), (re.compile(r"Wharf Roach"), "crustacean"),
 ]
 
-DEV_RE = re.compile(r"(^|_)(Test|Dev|QA|Specialty|Dummy|Debug|Sample)(_|$)|_QA$|_T\d_QA|^TestNeck|^Testarmor|^Socket_Test", re.I)
+# "Specialty" was in this list until 1.6.53 and made Lubricant a dev item,
+# which the plugin never takes, though 46 kinds of machine and 18 jars and
+# barrels drop it (Fyreon87). The other Specialty_ rows have no English name
+# and stay dev for that.
+DEV_RE = re.compile(r"(^|_)(Test|Dev|QA|Dummy|Debug|Sample)(_|$)|_QA$|_T\d_QA|^TestNeck|^Testarmor|^Socket_Test", re.I)
 
 
 def load_groups():
@@ -396,6 +400,21 @@ def tag_item(it, groups, equip_types, name_en):
         tags.add("minigame")
     sk = it["string_key"]
     if sk.startswith("Quest_") or "_Quest_" in sk:
+        tags.add("quest")
+    # The game's own quest groups, the keys to one installation each, and the
+    # gear a festival match hands out. Picked up from a distance, any of these
+    # can take away what a quest step or a match is waiting for the player to
+    # pick up, so they answer to Skip quest items like anything named Quest_.
+    # Boss rewards, the customisation coupons, the kuku and wyvern eggs and
+    # the legendary ship blueprints sit in SubCategory_ETC_Quest_* groups and
+    # carried no quest tag before 1.6.53. ItemGroup_ETC_Quest itself is left
+    # out: it is a parent of half the ETC tree, and the 161 sealed artifacts
+    # and the bounty notices under it are ordinary loot.
+    if any(re.search(r"_Quest(_|$)", gn.strip()) and gn.strip() != "ItemGroup_ETC_Quest" for gn in gnames):
+        tags.add("quest")
+    if "ItemGroup_ETC_Key_Cube" in gnames and it["hide_from_inventory_on_pop_item"]:
+        tags.add("quest")
+    if "minigame" in tags and it["equip_type_info"]:
         tags.add("quest")
     if sk.startswith(("Item_gimmick_", "Item_puzzle_", "Item_cd_")) or "_gimmick_" in sk:
         tags.add("gimmick")

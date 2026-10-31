@@ -12,6 +12,7 @@ Item, item group, drop set and drop source tables for Crimson Desert exe 1.0.0.3
 - make_itemdb_tsv.py: exports items_tagged.csv as mod/data/MasterLooter.items.tsv, the table the plugin loads at runtime (row id, key, class, tags, tier, value).
 - make_creatures_tsv.py: exports every catchable creature with the class of the item it becomes as mod/data/MasterLooter.creatures.tsv.
 - make_nodes_tsv.py: exports every gather node as mod/data/MasterLooter.nodes.tsv, keyed on the basename of the prefab it is placed from. A node's runtime id changes between sessions, so the prefab is the only durable name it has; the gimmick row's own tags (collect_botany, collect_tree, collect_mine and the rest) give the kind, and the socket name gives the item where the two share a name.
+- audit_items.py: runs every item through the plugin's default verdict and switch mapping and writes data/item_audit.md, with item_audit.csv beside it for the per-item detail. It exits 1 when an item a body, a gimmick, a node or a catch hands out is classed dev, which the plugin refuses with no setting to lift it. Run it after the six scripts in step 3 of the order below.
 - make_review_page.py, make_dropset_page.py: render single-file review pages from the data folder.
 - make_translation_template.py: read the menu strings out of mod/src and write docs/MasterLooter.template.txt, the file a translator fills in. Re-run it whenever a menu string is added or the template goes stale.
 

@@ -9,6 +9,7 @@ mod/build/
 mod/dist/
 # generated from the extracted game tables; they carry the game's own text, so they stay local
 data/items_tagged.csv
+data/item_audit.csv
 data/items_tagged.json
 data/character_drops.csv
 data/dropsets.json

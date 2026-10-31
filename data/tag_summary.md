@@ -12,7 +12,7 @@
 - field-cooked: 212
 - abyss-gear: 209
 - book: 204
-- dev: 191
+- dev: 189
 - container: 170
 - sealed-artifact: 161
 - helm: 153
@@ -50,7 +50,7 @@
 - key: 48
 - skill-poster: 42
 - pet-gear: 41
-- currency: 38
+- currency: 39
 - skill-book: 36
 - herb: 35
 - flower-pot: 34
@@ -108,10 +108,10 @@
 - mount-utility: 4
 - platform-bonus: 4
 - abyss-item: 3
+- kuku-currency: 3
 - artifact: 3
 - recipe-armor: 3
 - kuku-pot: 3
-- kuku-currency: 2
 - potion: 2
 - bait: 2
 - mask: 1
@@ -128,6 +128,7 @@
 - damaged-gear: 1662
 - document: 1363
 - tier-1: 1277
+- quest: 1247
 - knowledge: 1236
 - no-sell: 1146
 - extractable: 1105
@@ -138,7 +139,6 @@
 - leather: 882
 - tier-3: 805
 - important: 758
-- quest: 722
 - weapon: 623
 - recipe: 558
 - cloth: 556
@@ -167,7 +167,7 @@
 - abyss-gear: 209
 - book: 204
 - accessory: 194
-- dev: 191
+- dev: 189
 - one-hand: 187
 - ingredient: 183
 - container: 170
