@@ -200,10 +200,22 @@ namespace ml::Mod
     // Found once at load, before the handler is added, and never changed
     // after, so the handler reads it without a lock. Only sections of 16 MB
     // and up: a small writable code section is ordinary in some binaries.
+    //
+    // The section is not only the stubs. On 3460 it is .didata, 192 MB, and
+    // it holds the exe's entry point and ordinary game code, DropCount and
+    // the inventory delete among it. So a fault there is only counted when it
+    // has the burst's shape, a read of FFFFFFFFFFFFFFFF, an execute fault at
+    // address 0 or an illegal instruction, and only in the first two minutes
+    // after load. Eleven logs from 3392 to 3446 hold 249 faults in the exe
+    // and every one has that shape. Each log ran out of lines 10 to 19
+    // seconds in, so the burst may go on longer; two minutes leaves room for
+    // that. A fault there of any other shape, or of that shape later in play,
+    // gets its line like a fault anywhere else.
     struct CodeRange { uintptr_t lo, hi; };
     static CodeRange g_selfCheck[4] = {};
     static int g_selfCheckN = 0;
     static volatile LONG g_selfCheckFaults = 0;
+    static ULONGLONG g_selfCheckUntil = 0;
 
     static void FindSelfCheckSections()
     {
@@ -220,20 +232,28 @@ namespace ml::Mod
             if ((s->Characteristics & rwx) != rwx || s->Misc.VirtualSize < (16u << 20)) continue;
             const uintptr_t lo = reinterpret_cast<uintptr_t>(base) + s->VirtualAddress;
             g_selfCheck[g_selfCheckN++] = { lo, lo + s->Misc.VirtualSize };
+            g_selfCheckUntil = GetTickCount64() + 120000;
             char name[9] = {};
             memcpy(name, s->Name, 8);
             LOG("[fault] the exe has a code section it can write to, %s at +0x%lX, %lu MB. Since exe "
                 "1.0.0.3392 the game's self-checking code faults there on purpose at startup and handles "
-                "every fault itself, so faults there are counted, not written, and do not use up the "
-                "lines kept for faults anywhere else.",
+                "every fault itself, so for two minutes faults there of that kind are counted, not written. "
+                "Any other fault there is written as usual.",
                 name, static_cast<unsigned long>(s->VirtualAddress),
                 static_cast<unsigned long>(s->Misc.VirtualSize >> 20));
         }
     }
 
-    static bool InSelfCheck(const void* at)
+    static bool InSelfCheck(const EXCEPTION_RECORD* er)
     {
-        const uintptr_t a = reinterpret_cast<uintptr_t>(at);
+        if (!g_selfCheckN || GetTickCount64() > g_selfCheckUntil) return false;
+        const DWORD c = er->ExceptionCode;
+        const bool shape = c == EXCEPTION_ILLEGAL_INSTRUCTION ||
+            (c == EXCEPTION_ACCESS_VIOLATION && er->NumberParameters >= 2 &&
+             ((er->ExceptionInformation[0] == 0 && er->ExceptionInformation[1] == ~static_cast<ULONG_PTR>(0)) ||
+              (er->ExceptionInformation[0] == 8 && er->ExceptionInformation[1] == 0)));
+        if (!shape) return false;
+        const uintptr_t a = reinterpret_cast<uintptr_t>(er->ExceptionAddress);
         for (int i = 0; i < g_selfCheckN; ++i)
             if (a >= g_selfCheck[i].lo && a < g_selfCheck[i].hi) return true;
         return false;
@@ -381,7 +401,7 @@ namespace ml::Mod
 
         // The exe's self-checking code, above FindSelfCheckSections. The first
         // is written so the log shows this test firing; the rest are counted.
-        if (InSelfCheck(er->ExceptionAddress))
+        if (InSelfCheck(er))
         {
             if (InterlockedIncrement(&g_selfCheckFaults) == 1)
                 LOG("[fault] first chance 0x%08X at %p (%s+0x%llX) is the exe's self-checking code; "
