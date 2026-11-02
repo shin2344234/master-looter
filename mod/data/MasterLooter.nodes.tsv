@@ -1636,6 +1636,7 @@ gimmick_socket_collection_barley_01	item	Barley	Barley	tag	0	Barley	0	0	0
 gimmick_socket_collection_bean_01	plant	Bean	Beans	tag	0	Bean	0	0	0
 gimmick_socket_collection_begonia_01	plant	Begonia	Begonia	tag	0	Begonia	0	0	0
 gimmick_socket_collection_blackberry_01	item	Blackberry	Blackberry	tag	0	Blackberry	0	0	0
+gimmick_socket_collection_blackcoral_01	item	Item_Rare_Collect_sea_blackcoral	Sea Fan Coral	tag	0	Item_Rare_Collect_sea_blackcoral	0	0	0
 gimmick_socket_collection_blueberry_01	item	Blueberry	Blueberry	tag	0	Blueberry	0	0	0
 gimmick_socket_collection_buckwheat_01	item	Buckwheat	Buckwheat	tag	0	Buckwheat	0	0	0
 gimmick_socket_collection_cabbage_01	item	Cabbage	Cabbage	tag	0	Cabbage	0	0	0
@@ -1655,6 +1656,7 @@ gimmick_socket_collection_fennel_01	item	Fennel	Fennel	tag	0	Fennel	0	0	0
 gimmick_socket_collection_figs_01	item	Figs	Fig	tag	0	Figs	0	0	0
 gimmick_socket_collection_garlic_01	item	Garlic	Garlic	tag	0	Garlic	0	0	0
 gimmick_socket_collection_glowfruit_01	item		Glowfruit	tag	0		0	0	0
+gimmick_socket_collection_goldencoral_01	item	Item_Rare_Collect_sea_goldencoral	Golden Coral	tag	0	Item_Rare_Collect_sea_goldencoral	0	0	0
 gimmick_socket_collection_grape_01	item	Grape	Grape	tag	0	Grape	0	0	0
 gimmick_socket_collection_heterophylla_01	plant		Weed harsam	tag	0	Haasam	0	0	0
 gimmick_socket_collection_imperata_01	plant	Croton	Croton	tag	0	WhiteHair_Root	0	0	0
@@ -1955,3 +1957,19 @@ gimmick_woodlog_set_05_04_pail	wood		Woodlog set 05 04 pail	name	0		0	0	0
 gimmick_woodlog_set_05_05_pail	wood		Woodlog set 05 05 pail	name	0		0	0	0
 me_00_str_cliffstone_001_0001	stone		Me 00 str cliffstone 001	name	0	Sealed_Abyss_Artifact_0003	0	0	0
 mo_00_prp_broken_tree_000_0001	wood		Mo 00 prp broken tree 000	name	0		0	0	0
+pa_00_veg_sea_abalone_000_0001	item	Item_Rare_Collect_Abalone	Abalone	tag	0	Item_Rare_Collect_Abalone	0	0	0
+pa_00_veg_sea_abalone_001_0001	item	Item_Rare_Collect_GiantAbalone	Giant Abalone	tag	0	Item_Rare_Collect_GiantAbalone	0	0	0
+pa_00_veg_sea_conch_000_0001	item	Item_Rare_Collect_Conch	Conch	tag	0	Item_Rare_Collect_Conch	0	0	0
+pa_00_veg_sea_conch_003_0001	item	Item_Rare_Collect_GiantConch	Giant Conch	tag	0	Item_Rare_Collect_GiantConch	0	0	0
+pa_00_veg_sea_kelp_000_0001	item	Item_Rare_Collect_Sea_Kelp	Kelp	tag	0	Item_Rare_Collect_Sea_Kelp	0	0	0
+pa_00_veg_sea_mussel_000_0001	item	Item_Rare_Collect_Mussel	Mussel	tag	0	Item_Rare_Collect_Mussel	0	0	0
+pa_00_veg_sea_penshell_000_0001	item	Item_Rare_Collect_GiantPenShell	Giant Pen Shell	tag	0	Item_Rare_Collect_GiantPenShell	0	0	0
+pa_00_veg_sea_scallops_000_0001	item	Item_Rare_Collect_Scallops	Scallop	tag	0	Item_Rare_Collect_Scallops	0	0	0
+pa_00_veg_sea_seacucumber_000_0001	item	Item_Rare_Collect_GiantSeaCucumber	Giant Sea Cucumber	tag	0	Item_Rare_Collect_GiantSeaCucumber	0	0	0
+pa_00_veg_sea_seapineapple_000_0001	item	Item_Rare_Collect_seapineapple	Sea Pineapple	tag	0	Item_Rare_Collect_seapineapple	0	0	0
+pa_00_veg_sea_seapineapple_001_0001	item	Item_Rare_Collect_GiantSeaPineapple	Giant Sea Pineapple	tag	0	Item_Rare_Collect_GiantSeaPineapple	0	0	0
+pa_00_veg_sea_seasquirt_000_0001	item	Item_Rare_Collect_GiantSeaSquirt	Giant Stalked Sea Squirt	tag	0	Item_Rare_Collect_GiantSeaSquirt	0	0	0
+pa_00_veg_sea_shortneckclam_000_0001	item	Item_Rare_Collect_Shortneckclam	Clams	tag	0	Item_Rare_Collect_Shortneckclam	0	0	0
+pa_00_veg_sea_starfish_000_0001	item	Item_Rare_Collect_GiantStarfish	Giant Starfish	tag	0	Item_Rare_Collect_GiantStarfish	0	0	0
+pa_00_veg_sea_string_000_0001	item	Item_Rare_Collect_Sea_String	Red Seaweed	tag	0	Item_Rare_Collect_Sea_String	0	0	0
+pa_00_veg_sea_weed_000_0001	item	Item_Rare_Collect_Sea_Weed	Seaweed	tag	0	Item_Rare_Collect_Sea_Weed	0	0	0

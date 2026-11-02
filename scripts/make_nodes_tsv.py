@@ -44,6 +44,39 @@ TAG_KIND = {
     "collect_botany": "plant",
     "catch_treefruit": "item", "catch_berries": "item", "catch_groundfruit": "item",
     "catch_crops": "item", "catch_vegetable": "item",
+    # The DLC's seabed: shellfish, seaweed, kelp and two corals, 18 prefabs and
+    # all of them DLC rows. Their records are built like the base game's
+    # collection sockets, a Collect interaction and a NatureBuffTrigger, and
+    # no other tag. Until November 2026 the tag was unknown here, so none of
+    # them had a row, the engine called each one unidentified and the default
+    # switches left them all. lzg669, bug 1162553: the DLC's clams could not
+    # be picked up. See SWIM_ITEMS for what each one holds.
+    "catch_swim": "item",
+}
+# The record names no yield, so the item is written down here, and the engine
+# finds it by string key because none of these items has a row. The seven
+# 1013902 to 1013908 prefabs went in as one batch, and the seven Giant items
+# 1006531 to 1006537 are the only items they can be; the plain ones share
+# their prefab's word. Not played yet.
+SWIM_ITEMS = {
+    "pa_00_veg_sea_abalone_000_0001":       "Item_Rare_Collect_Abalone",
+    "pa_00_veg_sea_conch_000_0001":         "Item_Rare_Collect_Conch",
+    "pa_00_veg_sea_mussel_000_0001":        "Item_Rare_Collect_Mussel",
+    "pa_00_veg_sea_scallops_000_0001":      "Item_Rare_Collect_Scallops",
+    "pa_00_veg_sea_shortneckclam_000_0001": "Item_Rare_Collect_Shortneckclam",
+    "pa_00_veg_sea_seapineapple_000_0001":  "Item_Rare_Collect_seapineapple",
+    "pa_00_veg_sea_weed_000_0001":          "Item_Rare_Collect_Sea_Weed",
+    "pa_00_veg_sea_kelp_000_0001":          "Item_Rare_Collect_Sea_Kelp",
+    "pa_00_veg_sea_string_000_0001":        "Item_Rare_Collect_Sea_String",
+    "gimmick_socket_collection_blackcoral_01":  "Item_Rare_Collect_sea_blackcoral",
+    "gimmick_socket_collection_goldencoral_01": "Item_Rare_Collect_sea_goldencoral",
+    "pa_00_veg_sea_abalone_001_0001":       "Item_Rare_Collect_GiantAbalone",
+    "pa_00_veg_sea_conch_003_0001":         "Item_Rare_Collect_GiantConch",
+    "pa_00_veg_sea_starfish_000_0001":      "Item_Rare_Collect_GiantStarfish",
+    "pa_00_veg_sea_penshell_000_0001":      "Item_Rare_Collect_GiantPenShell",
+    "pa_00_veg_sea_seacucumber_000_0001":   "Item_Rare_Collect_GiantSeaCucumber",
+    "pa_00_veg_sea_seapineapple_001_0001":  "Item_Rare_Collect_GiantSeaPineapple",
+    "pa_00_veg_sea_seasquirt_000_0001":     "Item_Rare_Collect_GiantSeaSquirt",
 }
 # A fruit tree or bush you harvest rather than fell. See kind_for.
 FRUIT_PLANT = re.compile(r"^gimmick_(unique_)?(tree|bush)_.*(crop_|broad_pear).*_collect")
@@ -762,6 +795,8 @@ def main():
             continue
         seen.add(base)
         it = match_item(name, kind, by_key, by_name)
+        if base in SWIM_ITEMS:
+            it = by_key[SWIM_ITEMS[base].lower()]
         web = bool(SPIDER_WEB.match(base))
         if web:
             it = by_key.get(SPIDER_WEB_ITEM)
