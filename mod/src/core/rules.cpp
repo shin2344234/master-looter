@@ -14,6 +14,16 @@ namespace ml::Rules
             v.detail = item.stringKey;
             return v;
         }
+        // A pack follows the override on what it holds, and the other way
+        // round, since the Items tab shows both under one name (see Item::twin).
+        if (item.twin && (io = cfg.itemRule.find(item.twin)) != cfg.itemRule.end())
+        {
+            v.loot = io->second > 0;
+            v.rule = "item override";
+            const Item* other = ItemDb::Find(item.twin);
+            v.detail = other ? other->stringKey : item.stringKey;
+            return v;
+        }
 
         // Tags: a "never" on any tag wins over an "always" on another.
         const char* alwaysTag = nullptr;

@@ -84,6 +84,21 @@ namespace ml::ItemDb
             if (!it.stringKey.empty()) g_byName.emplace(it.stringKey, g_items.size());
             g_items.push_back(std::move(it));
         }
+        // X_Pack and X under one English name are a pack and its contents.
+        // The table has three pairs, Cogwheel, Small Battery and Lubricant; the
+        // copper and silver pouches end in _Pack too but hold no item of
+        // their own name, so they get no twin.
+        for (Item& pack : g_items)
+        {
+            const std::string& k = pack.stringKey;
+            if (k.size() <= 5 || k.compare(k.size() - 5, 5, "_Pack") != 0) continue;
+            auto base = g_byName.find(k.substr(0, k.size() - 5));
+            if (base == g_byName.end()) continue;
+            Item& held = g_items[base->second];
+            if (held.name.empty() || held.name != pack.name) continue;
+            pack.twin = held.key;
+            held.twin = pack.key;
+        }
         g_byRow.assign(maxRow >= 0 ? static_cast<size_t>(maxRow) + 1 : 0, -1);
         for (size_t i = 0; i < g_items.size(); ++i)
             if (g_items[i].row >= 0) g_byRow[g_items[i].row] = static_cast<int>(i);

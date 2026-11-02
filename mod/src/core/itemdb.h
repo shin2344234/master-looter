@@ -16,6 +16,15 @@ namespace ml
         std::string tags;       // space separated, with a leading and trailing space for fast lookup
         int         tier  = 0;
         long long   value = -1; // copper sell value, -1 when unknown
+        // The other half of a pack and what it holds, 0 for nearly everything.
+        // A Delysian machine drops Cog_Pack, which turns into Cog the moment it
+        // is taken; both are called Cogwheel, so the Items tab lists two rows
+        // with one name and an override on the wrong one did nothing. Fyreon87
+        // said on the posts tab on 29 October 2026 that Cogwheel and Small
+        // Battery set to Always were still left on Delysian enemies, with his
+        // kuku-currency class off. Rules::Decide reads the twin's override
+        // when the item has none of its own.
+        uint32_t    twin  = 0;
         bool HasTag(const std::string& tag) const { return tags.find(" " + tag + " ") != std::string::npos; }
         const char* Label() const { return name.empty() ? stringKey.c_str() : name.c_str(); }
     };
