@@ -2074,7 +2074,7 @@ namespace ml::gui
             // 1.0.1 started rotating its logs, and the key-block exports came
             // with it, so their presence says which text is true.
             if (api->getKeyBlock)
-                Help("Writes every key press, open and close to PrivateStorageMaster.log, and keeps the last 24 sessions. Off, the log keeps the startup summary, errors and the size dump, and the last two sessions.");
+                Help("Writes every key press, open and close to PrivateStorageMaster.log, and keeps the last five sessions. Off, the log keeps the startup summary, errors and the size dump, and the last two sessions.");
             else
                 Help("Writes every key press, open and close to PrivateStorageMaster.log. Off, the log keeps the startup summary, errors and the size dump.");
         }

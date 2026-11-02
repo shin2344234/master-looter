@@ -471,7 +471,7 @@ While Ctrl, or any modifier your storage keys use, is held, other keys are kept 
 Why	Por quê
 working	funcionando
 Write the size dump to the log	Gravar o despejo de tamanhos no registro
-Writes every key press, open and close to PrivateStorageMaster.log, and keeps the last 24 sessions. Off, the log keeps the startup summary, errors and the size dump, and the last two sessions.	Grava cada tecla pressionada, abertura e fechamento em PrivateStorageMaster.log, mantendo as últimas 24 sessões. Desativado, o registro mantém o resumo de inicialização, os erros e o despejo de tamanhos, além das duas últimas sessões.
+Writes every key press, open and close to PrivateStorageMaster.log, and keeps the last five sessions. Off, the log keeps the startup summary, errors and the size dump, and the last two sessions.	Grava cada tecla pressionada, abertura e fechamento em PrivateStorageMaster.log, mantendo as últimas 5 sessões. Desativado, o registro mantém o resumo de inicialização, os erros e o despejo de tamanhos, além das duas últimas sessões.
 Writes every key press, open and close to PrivateStorageMaster.log. Off, the log keeps the startup summary, errors and the size dump.	Grava cada tecla pressionada, abertura e fechamento em PrivateStorageMaster.log. Desativado, o registro mantém o resumo de inicialização, os erros e o despejo de tamanhos.
 x%d, by %s	x%d, por %s
 your own camp farm (off)	sua própria fazenda de acampamento (desativada)

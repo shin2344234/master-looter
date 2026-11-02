@@ -463,7 +463,7 @@ While Ctrl, or any modifier your storage keys use, is held, other keys are kept 
 Why	原因
 working	運作中
 Write the size dump to the log	把容量傾印資料寫入記錄檔
-Writes every key press, open and close to PrivateStorageMaster.log, and keeps the last 24 sessions. Off, the log keeps the startup summary, errors and the size dump, and the last two sessions.	把每一次按鍵、開啟與關閉都寫入 PrivateStorageMaster.log，並保留最近 24 個工作階段。關閉時，記錄檔只保留啟動摘要、錯誤與容量傾印資料，並只保留最近 2 個工作階段。
+Writes every key press, open and close to PrivateStorageMaster.log, and keeps the last five sessions. Off, the log keeps the startup summary, errors and the size dump, and the last two sessions.	把每一次按鍵、開啟與關閉都寫入 PrivateStorageMaster.log，並保留最近 5 個工作階段。關閉時，記錄檔只保留啟動摘要、錯誤與容量傾印資料，並只保留最近 2 個工作階段。
 Writes every key press, open and close to PrivateStorageMaster.log. Off, the log keeps the startup summary, errors and the size dump.	把每一次按鍵、開啟與關閉都寫入 PrivateStorageMaster.log。關閉時，記錄檔只保留啟動摘要、錯誤與容量傾印資料。
 x%d, by %s	x%d，由 %s 提供
 your own camp farm (off)	你自己的營地農場 (已關閉)

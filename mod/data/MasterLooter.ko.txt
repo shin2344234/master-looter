@@ -426,7 +426,7 @@ Turn that on and off	켜고 끄기
 While Ctrl, or any modifier your storage keys use, is held, other keys are kept from the game, so a slip off a storage key does not fire a skill. Movement, Space, Tab, Enter, Escape, Alt+F4 and the keys the game uses with Ctrl (Z, Shift, +) still go through.	Ctrl이나 보관함 키가 쓰는 다른 보조키가 눌려 있는 동안에는 다른 키가 게임으로부터 차단되므로, 보관함 키에서 손이 미끄러져도 스킬이 발동하지 않습니다. 이동, Space, Tab, Enter, Escape, Alt+F4, 그리고 게임이 Ctrl과 함께 쓰는 키(Z, Shift, +)는 그대로 전달됩니다.
 working	작동 중
 Write the size dump to the log	크기 덤프를 로그에 기록
-Writes every key press, open and close to PrivateStorageMaster.log, and keeps the last 24 sessions. Off, the log keeps the startup summary, errors and the size dump, and the last two sessions.	모든 키 입력, 열기와 닫기를 PrivateStorageMaster.log에 기록하고 최근 24개 세션을 보관합니다. 꺼짐에서는 로그가 시작 요약, 오류, 크기 덤프와 최근 두 개 세션만 보관합니다.
+Writes every key press, open and close to PrivateStorageMaster.log, and keeps the last five sessions. Off, the log keeps the startup summary, errors and the size dump, and the last two sessions.	모든 키 입력, 열기와 닫기를 PrivateStorageMaster.log에 기록하고 최근 5개 세션을 보관합니다. 꺼짐에서는 로그가 시작 요약, 오류, 크기 덤프와 최근 두 개 세션만 보관합니다.
 Writes every key press, open and close to PrivateStorageMaster.log. Off, the log keeps the startup summary, errors and the size dump.	모든 키 입력, 열기와 닫기를 PrivateStorageMaster.log에 기록합니다. 꺼짐에서는 로그가 시작 요약, 오류, 크기 덤프만 보관합니다.
 your own camp farm (off)	당신 자신의 야영지 농장 (꺼짐)
 %d of %d, the rest do not stack	%d / %d, 나머지는 스택이 되지 않습니다

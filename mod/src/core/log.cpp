@@ -81,17 +81,26 @@ namespace ml::Log
     // with one of these is paste it into a comment or a paste site, and an
     // archive is a barrier to that. And the plugin's import list is short by
     // design (the README's antivirus note leans on it), so pulling in a
-    // compressor would lengthen the very list that argument rests on. Twelve
-    // sessions come to a few megabytes, against a saved game of any size.
-    static constexpr int kArchives = 11;   // plus the live one, so twelve in all
+    // compressor would lengthen the very list that argument rests on.
+    //
+    // Builds before November 2026 kept eleven, and a bin64 shared with eight
+    // other plugins that kept 24 each was a pile players asked about. Five is
+    // what a report needs and what Glint Spotter keeps. Rotate deletes .06 up
+    // to .24 as it goes, so a folder an older build filled is cleared on the
+    // first launch.
+    static constexpr int kArchives = 5;      // plus the live one
+    static constexpr int kOldArchives = 24;  // the most any plugin of Seth's kept
 
     static void Rotate()
     {
         wchar_t from[64], to[64];
         // Oldest out first, then each one shuffles up a place, so the numbers
-        // read as age: 01 is the session before this one, 11 the furthest back.
-        _snwprintf_s(to, _countof(to), _TRUNCATE, L"MasterLooter.%02d.log", kArchives);
-        DeleteFileW(Paths::File(to).c_str());
+        // read as age: 01 is the session before this one, 05 the furthest back.
+        for (int i = kOldArchives; i >= kArchives; --i)
+        {
+            _snwprintf_s(to, _countof(to), _TRUNCATE, L"MasterLooter.%02d.log", i);
+            DeleteFileW(Paths::File(to).c_str());
+        }
         for (int i = kArchives - 1; i >= 1; --i)
         {
             _snwprintf_s(from, _countof(from), _TRUNCATE, L"MasterLooter.%02d.log", i);
