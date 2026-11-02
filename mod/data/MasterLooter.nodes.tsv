@@ -46,16 +46,16 @@ cd_gimmick_puzzle_kweiden_tombstone_part_02	stone		Kwe tombstone part	name	0		0	
 cd_gimmick_puzzle_kweiden_tombstone_part_03	stone		Kwe tombstone part	name	0		0	0	0
 cd_in_dpfo_cup_legendanimal_0001	pickup		Cd in dpfo cup legendanimal	tag	0		0	0	0
 cd_in_dpfo_goldbar_01	pickup		Cd in dpfo goldbar	tag	0	GoldBar_Fake	0	0	0
-cd_in_dpfo_meat_chicken_01	pickup		Item collect hang meat	folder	0	Roast_Chicken	0	1	0
+cd_in_dpfo_meat_chicken_01	pickup		Salt-Roasted Bird Meat	folder	0	Roast_Chicken	0	1	0
 cd_in_dpfo_meat_pork_01	pickup		Item collect hang meat	folder	0	Freshly_Grilled_Bird	0	1	0
-cd_in_dpfo_meat_pork_03	pickup		Item collect hang meat	folder	0	Grilled_Meat	0	1	0
+cd_in_dpfo_meat_pork_03	pickup		Grilled Meat	folder	0	Grilled_Meat	0	1	0
 cd_in_dpfo_steak_01	pickup		Item collect hang meat	folder	0	Grilled_Meat_Fish	0	1	0
 cd_in_dpfo_steak_01a	pickup		Item collect hang meat	folder	0	Meat_Sanjeok	0	1	0
 cd_in_dpfo_steak_01a_01	pickup		Item collect hang meat	folder	0	Grilled_Meat	0	1	0
 cd_in_dpfo_steak_01b	pickup		Item collect hang meat	folder	0	Meat_Fish_Sanjeok	0	1	0
 cd_in_dpfo_steak_01c	pickup		Item collect hang meat	folder	0	Meat_Fish_Sanjeok	0	1	0
 cd_in_dpfo_steak_01c_01	pickup		Item collect hang meat	folder	0	Freshly_Grilled_Bird	0	1	0
-cd_in_food_chicken_01	pickup		Item collect hang meat	folder	0	Roast_Chicken	0	1	0
+cd_in_food_chicken_01	pickup		Salt-Roasted Bird Meat	folder	0	Roast_Chicken	0	1	0
 cd_in_food_meat_01	pickup		Item collect hang meat	folder	0	Freshly_Grilled_Crab	0	1	0
 cd_nature_wood_broken_tree_11	wood		Cd nature wood broken tree	name	0		0	0	0
 cd_nature_wood_broken_tree_11_burn	wood		Wood	name	0		0	0	0
@@ -720,9 +720,9 @@ gimmick_collection_prop_flowerpot_0001	container	Collection_Prop_FlowerPot_0001	
 gimmick_collection_prop_glasscraft_0004	container	Collection_Prop_Glasscraft_0004	Dolphin Glass Art	tag	0		0	0	0
 gimmick_collection_prop_glasscraft_0005	container	Collection_Prop_Glasscraft_0005	Humpback Whale Glass Art	tag	0		0	0	0
 gimmick_collection_prop_luxury_0004	pickup		Collection prop luxury	tag	0		1	0	0
-gimmick_collection_prop_meatfish_0002	container		Item collect hang meat	tag	0	Meat_IV	0	0	0
-gimmick_collection_prop_meatfish_0007	container		Item collect hang meat	tag	0	Meat_IV	0	0	0
-gimmick_collection_prop_meatfish_0008	container		Item collect hang meat	tag	0	Meat_IV	0	0	0
+gimmick_collection_prop_meatfish_0002	container		Marbled Meat	tag	0	Meat_IV	0	0	0
+gimmick_collection_prop_meatfish_0007	container		Marbled Meat	tag	0	Meat_IV	0	0	0
+gimmick_collection_prop_meatfish_0008	container		Marbled Meat	tag	0	Meat_IV	0	0	0
 gimmick_collection_prop_plate_0001	pickup	Collection_Prop_Plate_0001	Large Wooden Plate	tag	0		0	0	0
 gimmick_collection_prop_plate_0002	pickup	Collection_Prop_Plate_0002	Bright Wooden Plate	tag	0		0	0	0
 gimmick_collection_prop_plate_0003	pickup	Collection_Prop_Plate_0003	Concave Wooden Plate	tag	0		0	0	0
@@ -968,7 +968,7 @@ gimmick_item_aircastle_cannonball_0001	pickup		Battle aircastle emp cannonball	t
 gimmick_item_arrow_memo_01	pickup		Item arrow memo	folder	0	Slave_Fabric_Boots Arrow	0	1	0
 gimmick_item_arrowbundle_0001	pickup		Item arrowbundle	tag	0		0	1	0
 gimmick_item_arrowbundle_0002	pickup		Item arrowbundle	tag	0		0	1	0
-gimmick_item_basic_backpack	container		Item basic backpack	tag	0	Farmer_BackPack_II	0	1	0
+gimmick_item_basic_backpack	container		Farmer's Pack	tag	0	Farmer_BackPack_II	0	1	0
 gimmick_item_basic_bowl	pickup		Item basic bowl	tag	0	Goblin_Merchant_Fabric_Cloak_Ⅳ	0	1	0
 gimmick_item_basic_cup	pickup		Item basic cup	tag	0		0	1	0
 gimmick_item_basic_dish	pickup		Item basic dish	tag	0	Goblin_Merchant_Fabric_Cloak_Ⅳ	0	1	0
@@ -997,15 +997,15 @@ gimmick_item_bulletbundle_0003	pickup		Item bulletbundle	tag	0		0	1	0
 gimmick_item_collectbundle_0001	pickup		Item collectbundle	tag	0		0	1	0
 gimmick_item_collectbundle_0002	pickup		Item collectbundle	tag	0		0	1	0
 gimmick_item_collectbundle_0003	pickup		Item collectbundle	tag	0		0	1	0
-gimmick_item_common_bread_01	pickup		Item common bread	folder	0	Bread	0	1	0
-gimmick_item_common_bread_02	pickup		Item common bread	folder	0	Bread	0	1	0
-gimmick_item_common_bread_03	pickup		Item common bread	folder	0	Bread	0	1	0
-gimmick_item_common_bread_04	pickup		Item common bread	folder	0	Bread	0	1	0
-gimmick_item_common_bread_05	pickup		Item common bread	folder	0	Bread	0	1	0
-gimmick_item_common_bread_06	pickup		Item common bread	folder	0	Bread	0	1	0
-gimmick_item_common_bread_07	pickup		Item common bread	folder	0	Bread	0	1	0
+gimmick_item_common_bread_01	pickup		Bread	folder	0	Bread	0	1	0
+gimmick_item_common_bread_02	pickup		Bread	folder	0	Bread	0	1	0
+gimmick_item_common_bread_03	pickup		Bread	folder	0	Bread	0	1	0
+gimmick_item_common_bread_04	pickup		Bread	folder	0	Bread	0	1	0
+gimmick_item_common_bread_05	pickup		Bread	folder	0	Bread	0	1	0
+gimmick_item_common_bread_06	pickup		Bread	folder	0	Bread	0	1	0
+gimmick_item_common_bread_07	pickup		Bread	folder	0	Bread	0	1	0
 gimmick_item_common_cerealstall_0001	pickup		Item common cerealstall	folder	1	Bean Barley peas	0	1	0
-gimmick_item_common_chicken_01	pickup		Item collect hang meat	folder	0	Chicken_Meat	0	1	0
+gimmick_item_common_chicken_01	pickup		Bird Meat	folder	0	Chicken_Meat	0	1	0
 gimmick_item_common_cloth_0001	pickup		Item common cloth	folder	0	Collection_Prop_Tool_0010	0	1	0
 gimmick_item_common_cloth_0001_index01	pickup		Item common cloth 0001 index01	folder	0	Collection_Prop_Tool_0010	0	1	0
 gimmick_item_common_cloth_0001_index02	pickup		Item common cloth 0001 index02	folder	0	Collection_Prop_Tool_0010	0	1	0
@@ -1026,42 +1026,42 @@ gimmick_item_common_cloth_shop_0004	pickup		Item common cloth shop	folder	0		0	1
 gimmick_item_common_cloth_shop_0005	pickup		Item common cloth shop	folder	0		0	1	0
 gimmick_item_common_coin_0001	pickup		Item common coin	folder	0		0	1	0
 gimmick_item_common_coin_0002	pickup		Item common coin	folder	0		0	1	0
-gimmick_item_common_dryapple_0001	pickup		Item common dryapple	folder	0	Apple	0	1	0
-gimmick_item_common_drycorn_0001	pickup		Item common drycorn	folder	0	Corn	0	1	0
-gimmick_item_common_dryfish_0001	pickup		Item common dryfish	folder	0	Food_Dried_Fish	0	1	0
-gimmick_item_common_dryfish_0002	pickup		Item common dryfish	folder	0	Food_Dried_Fish	0	1	0
-gimmick_item_common_dryfish_0003	pickup		Item common dryfish	folder	0	Food_Dried_Fish	0	1	0
-gimmick_item_common_dryfish_0004	pickup		Item common dryfish	folder	0	Food_Dried_Fish	0	1	0
-gimmick_item_common_dryfish_0005	pickup		Item common dryfish	folder	0	Food_Dried_Fish	0	1	0
-gimmick_item_common_dryfish_0006	pickup		Item common dryfish	folder	0	Food_Dried_Fish	0	1	0
-gimmick_item_common_dryfish_0007	pickup		Item common dryfish	folder	0	Food_Dried_Fish	0	1	0
-gimmick_item_common_drygarlic_0001	pickup		Item common drygarlic	folder	0	Garlic	0	1	0
+gimmick_item_common_dryapple_0001	pickup		Apple	folder	0	Apple	0	1	0
+gimmick_item_common_drycorn_0001	pickup		Corn	folder	0	Corn	0	1	0
+gimmick_item_common_dryfish_0001	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1	0
+gimmick_item_common_dryfish_0002	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1	0
+gimmick_item_common_dryfish_0003	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1	0
+gimmick_item_common_dryfish_0004	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1	0
+gimmick_item_common_dryfish_0005	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1	0
+gimmick_item_common_dryfish_0006	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1	0
+gimmick_item_common_dryfish_0007	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1	0
+gimmick_item_common_drygarlic_0001	pickup		Garlic	folder	0	Garlic	0	1	0
 gimmick_item_common_dryham_0001	pickup		Item common dryham	folder	0	Meat_III	0	1	0
-gimmick_item_common_dryherb_0001	plant		Item common dryherb	name	0	Rosemary	0	1	0
-gimmick_item_common_dryherb_0002	plant		Item common dryherb	name	0	Rosemary	0	1	0
-gimmick_item_common_dryherb_0003	plant		Item common dryherb	name	0	Rosemary	0	1	0
-gimmick_item_common_dryherb_0004	plant		Item common dryherb	name	0	Rosemary	0	1	0
-gimmick_item_common_drymushroom_0001	plant		Item common drymushroom	name	0	Pyogo_Mushroom	0	1	0
-gimmick_item_common_dryonion_0001	pickup		Item common dryonion	folder	0	Onion	0	1	0
+gimmick_item_common_dryherb_0001	plant		Rosemary	name	0	Rosemary	0	1	0
+gimmick_item_common_dryherb_0002	plant		Rosemary	name	0	Rosemary	0	1	0
+gimmick_item_common_dryherb_0003	plant		Rosemary	name	0	Rosemary	0	1	0
+gimmick_item_common_dryherb_0004	plant		Rosemary	name	0	Rosemary	0	1	0
+gimmick_item_common_drymushroom_0001	plant		Oakwood Mushroom	name	0	Pyogo_Mushroom	0	1	0
+gimmick_item_common_dryonion_0001	pickup		Onion	folder	0	Onion	0	1	0
 gimmick_item_common_fruitstall_0001	pickup		Object	folder	0		0	1	0
-gimmick_item_common_goldbar_0001	pickup		Item common goldbar fake	tag	0	GoldBar_Fake	0	1	0
-gimmick_item_common_goldbar_0002	pickup		Item common goldbar fake	tag	0	GoldBar_Fake	0	1	0
-gimmick_item_common_goldbar_0003	pickup		Item common goldbar fake	tag	0	GoldBar_Fake	0	1	0
-gimmick_item_common_goldbar_0004	pickup		Item common goldbar fake	tag	0	GoldBar_Fake	0	1	0
-gimmick_item_common_leather_0001	pickup		Item common leather	folder	0	Leather	0	1	0
-gimmick_item_common_leather_0001_index01	pickup		Item common leather 0001 index01	folder	0	Leather	0	1	0
-gimmick_item_common_leather_0001_index02	pickup		Item common leather 0001 index02	folder	0	Leather	0	1	0
-gimmick_item_common_leather_0002	pickup		Item common leather	folder	0	Leather	0	1	0
-gimmick_item_common_leather_0002_index01	pickup		Item common leather 0002 index01	folder	0	Leather	0	1	0
-gimmick_item_common_leather_0002_index02	pickup		Item common leather 0002 index02	folder	0	Leather	0	1	0
-gimmick_item_common_leather_0003	pickup		Item common leather	folder	0	Leather	0	1	0
-gimmick_item_common_leather_0003_index01	pickup		Item common leather 0003 index01	folder	0	Leather	0	1	0
-gimmick_item_common_leather_0003_index02	pickup		Item common leather 0003 index02	folder	0	Leather	0	1	0
-gimmick_item_common_leather_bundle_0001	pickup		Item common leather bundle	folder	0	Leather	0	1	0
+gimmick_item_common_goldbar_0001	pickup		Crude Gold Bar	tag	0	GoldBar_Fake	0	1	0
+gimmick_item_common_goldbar_0002	pickup		Crude Gold Bar	tag	0	GoldBar_Fake	0	1	0
+gimmick_item_common_goldbar_0003	pickup		Crude Gold Bar	tag	0	GoldBar_Fake	0	1	0
+gimmick_item_common_goldbar_0004	pickup		Crude Gold Bar	tag	0	GoldBar_Fake	0	1	0
+gimmick_item_common_leather_0001	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_0001_index01	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_0001_index02	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_0002	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_0002_index01	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_0002_index02	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_0003	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_0003_index01	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_0003_index02	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_bundle_0001	pickup		Thin Hide	folder	0	Leather	0	1	0
 gimmick_item_common_leather_bundle_0001_index01	pickup		Object	folder	0	Leather	0	1	0
-gimmick_item_common_leather_bundle_0002	pickup		Item common leather bundle	folder	0	Leather	0	1	0
-gimmick_item_common_leather_bundle_0003	pickup		Item common leather bundle	folder	0	Leather	0	1	0
-gimmick_item_common_leather_bundle_0004	pickup		Item common leather bundle	folder	0	Leather	0	1	0
+gimmick_item_common_leather_bundle_0002	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_bundle_0003	pickup		Thin Hide	folder	0	Leather	0	1	0
+gimmick_item_common_leather_bundle_0004	pickup		Thin Hide	folder	0	Leather	0	1	0
 gimmick_item_common_leather_rack_0001	pickup		Item common leather rack	folder	0		0	1	0
 gimmick_item_common_leather_rack_0001_index01	pickup		Object	folder	0		0	1	0
 gimmick_item_common_leather_rack_0002	pickup		Item common leather rack	folder	0		0	1	0
@@ -1071,18 +1071,18 @@ gimmick_item_common_leather_rack_0004	pickup		Item common leather rack	folder	0	
 gimmick_item_common_leather_rack_0005	pickup		Item common leather rack	folder	0		0	1	0
 gimmick_item_common_leather_rack_0005_index01	pickup		Object	folder	0		0	1	0
 gimmick_item_common_leather_rack_0005_index02	pickup		Object	folder	0		0	1	0
-gimmick_item_common_meat_02	pickup		Item collect hang meat	folder	0	Meat_II	0	1	0
-gimmick_item_common_meat_03	pickup		Item collect hang meat	folder	0	Meat_III	0	1	0
-gimmick_item_common_meat_04	pickup		Item collect hang meat	folder	0	Meat_IV	0	1	0
+gimmick_item_common_meat_02	pickup		Fine Meat	folder	0	Meat_II	0	1	0
+gimmick_item_common_meat_03	pickup		Tender Meat	folder	0	Meat_III	0	1	0
+gimmick_item_common_meat_04	pickup		Marbled Meat	folder	0	Meat_IV	0	1	0
 gimmick_item_common_potatoes_0001	pickup		Item common potatoes	folder	0		0	1	0
-gimmick_item_common_saddle_0001	pickup		Item common saddle	folder	0	Old_HorseArmor_Saddle	0	1	0
-gimmick_item_common_saddle_0001_index01	pickup		Item common saddle 0001 index01	folder	0	Old_HorseArmor_Saddle	0	1	0
-gimmick_item_common_saddle_0001_index02	pickup		Item common saddle 0001 index02	folder	0	Old_HorseArmor_Saddle	0	1	0
+gimmick_item_common_saddle_0001	pickup		Shabby Horse Saddle	folder	0	Old_HorseArmor_Saddle	0	1	0
+gimmick_item_common_saddle_0001_index01	pickup		Shabby Horse Saddle	folder	0	Old_HorseArmor_Saddle	0	1	0
+gimmick_item_common_saddle_0001_index02	pickup		Shabby Horse Saddle	folder	0	Old_HorseArmor_Saddle	0	1	0
 gimmick_item_common_silverbar_0001	pickup		Item common silverbar	tag	0		0	1	0
 gimmick_item_common_vegetablestall_0001	pickup		Object	folder	0		0	1	0
 gimmick_item_decoy_human_01	pickup		Item decoy human	tag	0		0	1	0
 gimmick_item_decoy_summon_ball_01	pickup		Item decoy summon ball	tag	0		0	1	0
-gimmick_item_deerking_crown_0001	pickup		Item deerking crown	tag	0	DeerKing_Crown_Helm	0	1	0
+gimmick_item_deerking_crown_0001	pickup		Faded Deer Antler	tag	0	DeerKing_Crown_Helm	0	1	0
 gimmick_item_dropset_armor_fabric_01	container		Item dropset armor fabric	folder	0		0	1	0
 gimmick_item_dropset_armor_fabric_02	container		Item dropset armor fabric	folder	0		0	1	0
 gimmick_item_dropset_armor_fabric_03	container		Item dropset armor fabric	folder	0		0	1	0
@@ -1104,13 +1104,13 @@ gimmick_item_dropset_food_0006	container		Item dropset food	tag	1	Bread	0	1	0
 gimmick_item_dropset_food_0007	container		Item dropset food	tag	1	Songyi_Mushroom	0	1	0
 gimmick_item_dropset_food_0008	container		Item dropset food	tag	0	Bread	0	1	0
 gimmick_item_dropset_food_0009	container		Item dropset food	folder	1		0	1	0
-gimmick_item_dropset_food_0010	container		Item dropset food	tag	1	Food_Dried_Fish	0	1	0
+gimmick_item_dropset_food_0010	container		Dried Fish	tag	1	Food_Dried_Fish	0	1	0
 gimmick_item_dropset_food_0011	container		Item dropset food	tag	0	peas	0	1	0
 gimmick_item_dropset_food_0012	container		Item dropset food	tag	1	peas	0	1	0
 gimmick_item_dropset_food_0013	container		Item dropset food	tag	0	Pan_fried_Meat_Pancake	0	1	0
 gimmick_item_dropset_food_0014	container		Item dropset food	folder	1		0	1	0
 gimmick_item_dropset_food_0015	container		Item dropset food	folder	1		0	1	0
-gimmick_item_dropset_food_0016	container		Item dropset food	tag	1	Food_Dried_Fish	0	1	0
+gimmick_item_dropset_food_0016	container		Dried Fish	tag	1	Food_Dried_Fish	0	1	0
 gimmick_item_dropset_food_0017	container		Item dropset food	tag	1	Bird_Meat	0	1	0
 gimmick_item_dropset_food_0018	container		Item dropset food	tag	1	High_Meat	0	1	0
 gimmick_item_dropset_food_0019	container		Item dropset food	tag	0	Freshly_Grilled_Bird Grilled_Vegetables	0	1	0
@@ -1262,14 +1262,14 @@ gimmick_item_firewood_2003_premium	wood		Firewood 2003 premium	tag	0	Premium_Woo
 gimmick_item_gimbap_0001	pickup		Item gimbap	folder	0	Vegetable_Fruit_Porridge_Large	0	1	0
 gimmick_item_goblinpot	pickup		Item goblinpot	folder	0		0	1	0
 gimmick_item_graymane_clue_01	pickup		Item graymane clue	folder	0		0	1	0
-gimmick_item_graymane_clue_02	pickup		Item graymane clue	tag	0	Broken_Graymane_Token	0	1	0
-gimmick_item_handmirror_0001	pickup		Item handmirror	tag	0	Scorched_HandMirror	0	1	0
+gimmick_item_graymane_clue_02	pickup		Shattered Greymane Token	tag	0	Broken_Graymane_Token	0	1	0
+gimmick_item_handmirror_0001	pickup		Fire-Scorched Mirror	tag	0	Scorched_HandMirror	0	1	0
 gimmick_item_jangjorim_0001	pickup		Item jangjorim	folder	0	Pan_fried_Meat_Fruit_Pancake_Large	0	1	0
 gimmick_item_jijeongdan	pickup		Item jijeongdan	tag	0		0	1	0
 gimmick_item_jijeongsindan	pickup		Item jijeongsindan	tag	0		0	1	0
 gimmick_item_lookat_paper_01	pickup		Item lookat paper	folder	0		0	1	0
 gimmick_item_lookat_stone	stone	Stone_Quarry	Stone	name	0		0	1	0
-gimmick_item_marni_coin_0001	pickup		Item marni coin	folder	0	Item_Pinball_Coin	0	1	0
+gimmick_item_marni_coin_0001	pickup		Marni Token	folder	0	Item_Pinball_Coin	0	1	0
 gimmick_item_paper	pickup		Item paper	tag	0		0	1	0
 gimmick_item_paper_empty	pickup		Item paper empty	tag	0		0	1	0
 gimmick_item_poop_spawn_0001	pickup		Item poop spawner	folder	0		0	1	0
@@ -1281,12 +1281,12 @@ gimmick_item_quest_sticky_flower_bomb	pickup		Item quest sticky flower bomb	tag	
 gimmick_item_quest_witch_ship_bell	pickup		Item quest witch ship bell	tag	0		0	1	0
 gimmick_item_quest_witch_ship_charm	pickup		Item quest witch ship charm	tag	0		0	1	0
 gimmick_item_quest_witch_ship_thurible	container		Item quest witch ship thurible	tag	0		0	1	0
-gimmick_item_razorclam_0001	pickup		Item razorclam	folder	0	Item_Rare_Collect_RazorClam	0	1	0
-gimmick_item_razorclam_0002	pickup		Item rare collect razorclam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
-gimmick_item_razorclam_0003	pickup		Item rare collect razorclam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
-gimmick_item_razorclam_0004	pickup		Item rare collect razorclam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
+gimmick_item_razorclam_0001	pickup		Razor Clam	folder	0	Item_Rare_Collect_RazorClam	0	1	0
+gimmick_item_razorclam_0002	pickup		Freshwater Clam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
+gimmick_item_razorclam_0003	pickup		Freshwater Clam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
+gimmick_item_razorclam_0004	pickup		Freshwater Clam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
 gimmick_item_reeddevil_doll	plant		Item reeddevil doll	name	0		0	1	0
-gimmick_item_seacoin_0001	pickup		Item seacoin	folder	0	Item_Sea_Coin	0	1	0
+gimmick_item_seacoin_0001	pickup		Ancient Relic	folder	0	Item_Sea_Coin	0	1	0
 gimmick_item_sealed_artifact	pickup		Item sealed artifact	folder	0		0	1	0
 gimmick_item_shay_cat_clue_01	pickup		Item shay cat clue	folder	0		0	1	0
 gimmick_item_shay_cat_clue_02	pickup		Item shay cat clue	folder	0		0	1	0
@@ -1294,65 +1294,65 @@ gimmick_item_smoke_bomb_01	pickup		Item smoke bomb	tag	0		0	1	0
 gimmick_item_snakerelic_0001	container	snakerelic_0001	Serpent Relic	tag	0	snakerelic_0001	0	1	0
 gimmick_item_tool_book_0001	pickup		Item tool book	folder	0		0	1	0
 gimmick_item_tool_bookstand_0001	pickup		Item tool bookstand	folder	0		0	1	0
-gimmick_item_tool_helm_0001	pickup		Item tool helm	folder	0	Hartman_PlateArmor_Helm	0	1	0
+gimmick_item_tool_helm_0001	pickup		Hartmann Plate Helm	folder	0	Hartman_PlateArmor_Helm	0	1	0
 gimmick_item_tool_shield_0001	pickup		Item tool shield	folder	0	ReiGhis_Wood_OneHandShield	0	1	0
 gimmick_item_trade_abalone_0001	pickup		Item trade abalone	tag	0		0	1	0
-gimmick_item_trade_armor_01	container		Item trade armor	tag	0	Trade_Armor_03	0	1	0
+gimmick_item_trade_armor_01	container		Ceremonial Armor	tag	0	Trade_Armor_03	0	1	0
 gimmick_item_trade_armor_03	container		Item trade armor	tag	0		0	1	0
 gimmick_item_trade_armor_wild_chain_01	container		Item trade armor wild chain	tag	0		0	1	0
-gimmick_item_trade_armor_wild_chain_03	container		Item trade armor wild chain	tag	0	Trade_Armor_Wild_Chain_01	0	1	0
+gimmick_item_trade_armor_wild_chain_03	container		Field Chain Mail	tag	0	Trade_Armor_Wild_Chain_01	0	1	0
 gimmick_item_trade_armor_wild_fabric_01	container		Item trade armor wild fabric	tag	0		0	1	0
-gimmick_item_trade_armor_wild_fabric_03	container		Item trade armor wild fabric	tag	0	Trade_Armor_Wild_Fabric_01	0	1	0
+gimmick_item_trade_armor_wild_fabric_03	container		Field Cloth Armor	tag	0	Trade_Armor_Wild_Fabric_01	0	1	0
 gimmick_item_trade_brimstone_0001	pickup		Item trade brimstone	tag	0		0	1	0
-gimmick_item_trade_brimstone_01	pickup		Item trade brimstone	tag	0	Trade_Sulfur_02	0	1	0
+gimmick_item_trade_brimstone_01	pickup		Brimstone	tag	0	Trade_Sulfur_02	0	1	0
 gimmick_item_trade_brimstone_02	pickup		Item trade brimstone	tag	0		0	1	0
-gimmick_item_trade_brimstone_03	pickup		Item trade brimstone	tag	0	Trade_Sulfur_02	0	1	0
-gimmick_item_trade_calligraphypainting_01	pickup		Item trade calligraphypainting	tag	0	Trade_Caligraphy_02	0	1	0
+gimmick_item_trade_brimstone_03	pickup		Brimstone	tag	0	Trade_Sulfur_02	0	1	0
+gimmick_item_trade_calligraphypainting_01	pickup		Calligraphic Paintings	tag	0	Trade_Caligraphy_02	0	1	0
 gimmick_item_trade_calligraphypainting_02	pickup		Item trade calligraphypainting	tag	0		0	1	0
 gimmick_item_trade_carpet_01	pickup		Item trade carpet	tag	0		0	1	0
-gimmick_item_trade_carpet_02	pickup		Item trade carpet	tag	0	Trade_Carpet_02	0	1	0
-gimmick_item_trade_cheese_01	container		Item trade cheese	tag	0	Trade_Cheese_03	0	1	0
-gimmick_item_trade_cheese_02	container		Item trade cheese	tag	0	Trade_Cheese_03	0	1	0
+gimmick_item_trade_carpet_02	pickup		Carpet	tag	0	Trade_Carpet_02	0	1	0
+gimmick_item_trade_cheese_01	container		Well-Aged Cheese	tag	0	Trade_Cheese_03	0	1	0
+gimmick_item_trade_cheese_02	container		Well-Aged Cheese	tag	0	Trade_Cheese_03	0	1	0
 gimmick_item_trade_cheese_03	pickup		Item trade cheese	tag	0		0	1	0
-gimmick_item_trade_cigarette_01	pickup		Item trade cigarette	tag	0	Trade_Tobacco_02	0	1	0
+gimmick_item_trade_cigarette_01	pickup		Tobacco	tag	0	Trade_Tobacco_02	0	1	0
 gimmick_item_trade_cigarette_02	pickup		Item trade cigarette	tag	0		0	1	0
 gimmick_item_trade_compass_0001	pickup		Item trade compass	tag	0		0	1	0
 gimmick_item_trade_coolant_0001	pickup		Item trade coolant	tag	0		0	1	0
 gimmick_item_trade_deerleather_0001	pickup		Item trade deerleather	tag	0		0	1	0
 gimmick_item_trade_divinemushroom_0001	pickup		Item trade divinemushroom	tag	0		0	1	0
-gimmick_item_trade_fishmeat_01	container		Item trade fishmeat	tag	0	Trade_FishMeat_03	0	1	0
-gimmick_item_trade_fishmeat_02	container		Item trade fishmeat	tag	0	Trade_FishMeat_03	0	1	0
+gimmick_item_trade_fishmeat_01	container		Fish Meat	tag	0	Trade_FishMeat_03	0	1	0
+gimmick_item_trade_fishmeat_02	container		Fish Meat	tag	0	Trade_FishMeat_03	0	1	0
 gimmick_item_trade_fishmeat_03	pickup		Item trade fishmeat	tag	0		0	1	0
 gimmick_item_trade_flint_0001	pickup		Item trade flint	tag	0		0	1	0
 gimmick_item_trade_flour_01	pickup		Item trade flour	tag	0		0	1	0
-gimmick_item_trade_flour_02	pickup		Item trade flour	tag	0	Trade_Flour_01	0	1	0
-gimmick_item_trade_flour_03	pickup		Item trade flour	tag	0	Trade_Flour_01	0	1	0
+gimmick_item_trade_flour_02	pickup		Flour	tag	0	Trade_Flour_01	0	1	0
+gimmick_item_trade_flour_03	pickup		Flour	tag	0	Trade_Flour_01	0	1	0
 gimmick_item_trade_food_01	container		Item trade food	tag	0		0	1	0
-gimmick_item_trade_food_02	container		Item trade food	tag	0	Trade_Camp_Food	0	1	0
-gimmick_item_trade_fur_01	pickup		Item trade fur	tag	0	Trade_Fur_01	0	1	0
+gimmick_item_trade_food_02	container		Camp Food	tag	0	Trade_Camp_Food	0	1	0
+gimmick_item_trade_fur_01	pickup		Pelt	tag	0	Trade_Fur_01	0	1	0
 gimmick_item_trade_fur_02	container		Item trade fur	tag	0		0	1	0
-gimmick_item_trade_ginseng_01	container		Item trade ginseng	tag	0	Trade_Ginseng_03	0	1	0
-gimmick_item_trade_ginseng_02	container		Item trade ginseng	tag	0	Trade_Ginseng_03	0	1	0
+gimmick_item_trade_ginseng_01	container		Red Ginseng	tag	0	Trade_Ginseng_03	0	1	0
+gimmick_item_trade_ginseng_02	container		Red Ginseng	tag	0	Trade_Ginseng_03	0	1	0
 gimmick_item_trade_ginseng_03	pickup		Item trade ginseng	tag	0		0	1	0
-gimmick_item_trade_glass_01	container		Item trade glass	tag	0	Trade_Glass_02	0	1	0
+gimmick_item_trade_glass_01	container		Glass	tag	0	Trade_Glass_02	0	1	0
 gimmick_item_trade_glass_02	pickup		Item trade glass	tag	0		0	1	0
 gimmick_item_trade_glowingmushroom_0001	pickup		Item trade glowingmushroom	tag	0		0	1	0
-gimmick_item_trade_golden_sword_01	pickup		Item trade golden sword	tag	0	Trade_Golden_Sword_Unpack	0	1	0
+gimmick_item_trade_golden_sword_01	pickup		Golden Sword	tag	0	Trade_Golden_Sword_Unpack	0	1	0
 gimmick_item_trade_gracilaria_0001	pickup		Item trade gracilaria	tag	0		0	1	0
-gimmick_item_trade_gun_01	container		Item trade gun	tag	0	Trade_Gun_02	0	1	0
+gimmick_item_trade_gun_01	container		Gun	tag	0	Trade_Gun_02	0	1	0
 gimmick_item_trade_gun_02	pickup		Item trade gun	tag	0		0	1	0
 gimmick_item_trade_gunpowder_0001	pickup		Item trade gunpowder	tag	0		0	1	0
-gimmick_item_trade_gunpowder_01	pickup		Item trade gunpowder	tag	0	Trade_Gunpowder_02	0	1	0
+gimmick_item_trade_gunpowder_01	pickup		High-Purity Gunpowder	tag	0	Trade_Gunpowder_02	0	1	0
 gimmick_item_trade_gunpowder_02	pickup		Item trade gunpowder	tag	0		0	1	0
-gimmick_item_trade_honey_01	pickup		Item trade honey	tag	0	Trade_Honey_02	0	1	0
+gimmick_item_trade_honey_01	pickup		Honey	tag	0	Trade_Honey_02	0	1	0
 gimmick_item_trade_honey_02	container		Item trade honey	tag	0		0	1	0
 gimmick_item_trade_horseshoe_0001	pickup		Item trade horseshoe	tag	0		0	1	0
 gimmick_item_trade_icestone_0001	pickup		Item trade icestone	tag	0		0	1	0
 gimmick_item_trade_icetear_0001	pickup		Item trade icetear	tag	0		0	1	0
-gimmick_item_trade_ivory_02	container		Item trade ivory	tag	0	Trade_Ivory_03	0	1	0
+gimmick_item_trade_ivory_02	container		Finely Crafted Ivory	tag	0	Trade_Ivory_03	0	1	0
 gimmick_item_trade_ivory_03	pickup		Item trade ivory	tag	0		0	1	0
-gimmick_item_trade_jade_01	container		Item trade jade	tag	0	Trade_Jade_03	0	1	0
-gimmick_item_trade_jade_02	container		Item trade jade	tag	0	Trade_Jade_03	0	1	0
+gimmick_item_trade_jade_01	container		Jade	tag	0	Trade_Jade_03	0	1	0
+gimmick_item_trade_jade_02	container		Jade	tag	0	Trade_Jade_03	0	1	0
 gimmick_item_trade_jade_03	pickup		Item trade jade	tag	0		0	1	0
 gimmick_item_trade_jerky_0001	pickup		Item trade jerky	tag	0		0	1	0
 gimmick_item_trade_kelp_0001	pickup		Item trade kelp	tag	0		0	1	0
@@ -1362,48 +1362,48 @@ gimmick_item_trade_modelboat_0001	pickup		Item trade modelboat	tag	0		0	1	0
 gimmick_item_trade_mussel_0001	pickup		Item trade mussel	tag	0		0	1	0
 gimmick_item_trade_oasisbottle_0001	pickup		Item trade oasisbottle	tag	0		0	1	0
 gimmick_item_trade_pearl_0001	pickup		Item trade pearl	tag	0		0	1	0
-gimmick_item_trade_pepper_01	pickup		Item trade pepper	tag	0	Trade_Pepper_02	0	1	0
+gimmick_item_trade_pepper_01	pickup		Pepper	tag	0	Trade_Pepper_02	0	1	0
 gimmick_item_trade_pepper_02	pickup		Item trade pepper	tag	0		0	1	0
-gimmick_item_trade_pepper_03	pickup		Item trade pepper	tag	0	Trade_Pepper_02	0	1	0
-gimmick_item_trade_pot_01	container		Item trade pot	tag	0	Trade_Ceramics_03	0	1	0
-gimmick_item_trade_pot_02	container		Item trade pot	tag	0	Trade_Ceramics_03	0	1	0
+gimmick_item_trade_pepper_03	pickup		Pepper	tag	0	Trade_Pepper_02	0	1	0
+gimmick_item_trade_pot_01	container		Ceramic	tag	0	Trade_Ceramics_03	0	1	0
+gimmick_item_trade_pot_02	container		Ceramic	tag	0	Trade_Ceramics_03	0	1	0
 gimmick_item_trade_pot_03	container		Item trade pot	tag	0		0	1	0
 gimmick_item_trade_pricklypear_chocolate_0001	pickup		Item trade pricklypear chocolate	tag	0		0	1	0
 gimmick_item_trade_relicbox_01	container		Item trade relicbox	tag	0		0	1	0
-gimmick_item_trade_relicbox_02	container		Item trade relicbox	tag	0	Trade_PearlLacquerware_01	0	1	0
+gimmick_item_trade_relicbox_02	container		Nacre Lacquer	tag	0	Trade_PearlLacquerware_01	0	1	0
 gimmick_item_trade_ritualplate_0001	pickup		Item trade ritualplate	tag	0		0	1	0
 gimmick_item_trade_rosin_0001	pickup		Item trade rosin	tag	0		0	1	0
 gimmick_item_trade_royaljelly_0001	pickup		Item trade royaljelly	tag	0		0	1	0
 gimmick_item_trade_salt_01	pickup		Item trade salt	tag	0		0	1	0
-gimmick_item_trade_salt_02	pickup		Item trade salt	tag	0	Trade_Salt_01	0	1	0
-gimmick_item_trade_salt_03	pickup		Item trade salt	tag	0	Trade_Salt_01	0	1	0
+gimmick_item_trade_salt_02	pickup		Finely Ground Salt	tag	0	Trade_Salt_01	0	1	0
+gimmick_item_trade_salt_03	pickup		Finely Ground Salt	tag	0	Trade_Salt_01	0	1	0
 gimmick_item_trade_saltrock_0001	pickup		Item trade saltrock	tag	0		0	1	0
 gimmick_item_trade_scallops_0001	pickup		Item trade scallops	tag	0		0	1	0
 gimmick_item_trade_scorpion_jewel_0001	pickup		Item trade scorpion jewel	tag	0		0	1	0
 gimmick_item_trade_scripture_0001	pickup		Item trade scripture	tag	0		0	1	0
 gimmick_item_trade_seapineapple_0001	pickup		Item trade seapineapple	tag	0		0	1	0
 gimmick_item_trade_silks_01	container		Item trade silks	tag	0		0	1	0
-gimmick_item_trade_silks_02	pickup		Item trade silks	tag	0	Trade_Silk_02	0	1	0
+gimmick_item_trade_silks_02	pickup		Silk	tag	0	Trade_Silk_02	0	1	0
 gimmick_item_trade_snowginseng_0001	pickup		Item trade snowginseng	tag	0		0	1	0
 gimmick_item_trade_stone_01	container		Item trade stone	tag	0		0	1	0
-gimmick_item_trade_stone_02	container		Item trade stone	tag	0	Trade_Camp_Stone	0	1	0
-gimmick_item_trade_sugar_01	pickup		Item trade sugar	tag	0	Trade_Sugar_02	0	1	0
+gimmick_item_trade_stone_02	container		Camp Stone	tag	0	Trade_Camp_Stone	0	1	0
+gimmick_item_trade_sugar_01	pickup		Richly Flavored Sugar	tag	0	Trade_Sugar_02	0	1	0
 gimmick_item_trade_sugar_02	pickup		Item trade sugar	tag	0		0	1	0
-gimmick_item_trade_sugar_03	pickup		Item trade sugar	tag	0	Trade_Sugar_02	0	1	0
-gimmick_item_trade_sword_01	container		Item trade sword	tag	0	Trade_Sword_03	0	1	0
-gimmick_item_trade_sword_02	container		Item trade sword	tag	0	Trade_Sword_03	0	1	0
+gimmick_item_trade_sugar_03	pickup		Richly Flavored Sugar	tag	0	Trade_Sugar_02	0	1	0
+gimmick_item_trade_sword_01	container		Ceremonial Sword	tag	0	Trade_Sword_03	0	1	0
+gimmick_item_trade_sword_02	container		Ceremonial Sword	tag	0	Trade_Sword_03	0	1	0
 gimmick_item_trade_sword_03	pickup		Item trade sword	tag	0		0	1	0
 gimmick_item_trade_tableclock_0001	pickup		Item trade tableclock	tag	0		0	1	0
 gimmick_item_trade_telescope_0001	pickup		Item trade telescope	tag	0		0	1	0
 gimmick_item_trade_toolkit_0001	pickup		Item trade toolkit	tag	0		0	1	0
 gimmick_item_trade_weapon_01	container		Item trade weapon	tag	0		0	1	0
-gimmick_item_trade_weapon_02	container		Item trade weapon	tag	0	Trade_Camp_Weapon	0	1	0
+gimmick_item_trade_weapon_02	container		Camp Weapons	tag	0	Trade_Camp_Weapon	0	1	0
 gimmick_item_trade_wine_01	pickup		Item trade wine	tag	0		0	1	0
-gimmick_item_trade_wine_02	container		Item trade wine	tag	0	Trade_Wine_01	0	1	0
+gimmick_item_trade_wine_02	container		Fragrant Wine	tag	0	Trade_Wine_01	0	1	0
 gimmick_item_trade_wood_01	container		Item trade wood	tag	0		0	1	0
-gimmick_item_trade_wood_02	container		Item trade wood	tag	0	Trade_Camp_Wood	0	1	0
-gimmick_item_trade_wool_01	container		Item trade wool	tag	0	Trade_Wool_03	0	1	0
-gimmick_item_trade_wool_02	container		Item trade wool	tag	0	Trade_Wool_03	0	1	0
+gimmick_item_trade_wood_02	container		Camp Timber	tag	0	Trade_Camp_Wood	0	1	0
+gimmick_item_trade_wool_01	container		Wool	tag	0	Trade_Wool_03	0	1	0
+gimmick_item_trade_wool_02	container		Wool	tag	0	Trade_Wool_03	0	1	0
 gimmick_item_trade_wool_03	pickup		Item trade wool	tag	0		0	1	0
 gimmick_item_weaponbox_0001	container	Collection_Prop_WeaponBox_0001	Firearms Box	tag	0		0	1	0
 gimmick_item_weaponbox_0002	container	Collection_Prop_WeaponBox_0002	Swords Box	tag	0		0	1	0

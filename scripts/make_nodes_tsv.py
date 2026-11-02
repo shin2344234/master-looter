@@ -295,6 +295,41 @@ def pretty(name, kind):
     return s[0].upper() + s[1:]
 
 
+# Words in a prefab or an item key that say nothing about what the thing is.
+LABEL_NOISE = {"gimmick", "item", "common", "basic", "collect", "collection", "rare", "index"}
+
+
+def yield_label(base, kind, yields, by_key):
+    """The display name of what a node yields, when that is a better label.
+
+    Only for a row whose own label would be its internal key read aloud,
+    "Item common dryherb" for what the game calls Rosemary. GG1313 asked on the
+    Nexus posts tab on 28 October 2026 what that line in the Nearby list was.
+    303 rows were named that way and 156 of them list a yield; 110 take the
+    yield's name now.
+
+    The yields column is not clean enough to name every one of them: a bowl
+    lists a merchant's cloak and the cloths list a collection prop. So the
+    yield has to be the only one and has to agree with the node, either by
+    its class fitting the kind (Rosemary on a plant) or by a word of its key
+    sitting inside the prefab's name (Apple in dryapple, Leather in leather).
+    "trade" counts as such a word on purpose: the nine prefabs it alone admits
+    are trade-goods props each listing one trade good, and all nine read right.
+    """
+    if len(set(yields)) != 1:
+        return None
+    row = by_key.get(yields[0].lower())
+    if not row or not row.get("name"):
+        return None
+    if row["klass"] in KIND_CLASSES.get(kind, ()):
+        return row["name"]
+    ctx = [w for w in re.split(r"[^a-z]+", base.lower()) if w not in LABEL_NOISE]
+    want = [w for w in re.split(r"[^a-z]+", yields[0].lower()) if len(w) > 3 and w not in LABEL_NOISE]
+    if any(w in c for w in want for c in ctx):
+        return row["name"]
+    return None
+
+
 def load_items():
     by_key, by_name = {}, {}
     path = os.path.join(DATA, "items_tagged.csv")
@@ -609,7 +644,8 @@ def main():
     by_key, by_name = load_items()
     out, seen = [], set()
     stats = {"rows": 0, "with_path": 0, "tagged": 0, "by_name": 0, "with_item": 0, "with_yields": 0,
-             "yields_dropped_crowded": 0, "yields_dropped_guarded": 0, "pot_containers": 0}
+             "yields_dropped_crowded": 0, "yields_dropped_guarded": 0, "pot_containers": 0,
+             "named_by_yield": 0}
     pot_bases = container_bases()
 
     # Every row's candidates first, so the boilerplate can be counted before any
@@ -752,8 +788,14 @@ def main():
         yields = kept
         if yields:
             stats["with_yields"] += 1
+        label = it["name"] if it else pretty(name, kind)
+        if not it and label.startswith("Item "):
+            better = yield_label(base, kind, yields, by_key)
+            if better:
+                label = better
+                stats["named_by_yield"] += 1
         out.append((base, kind, it["string_key"] if it else "",
-                    it["name"] if it else pretty(name, kind),
+                    label,
                     # kind_for returns True for the game's own tag, False for a
                     # name guess, or the name of another source it trusts.
                     vouched if isinstance(vouched, str) else ("tag" if vouched else "name"),
@@ -795,7 +837,7 @@ def main():
         kinds[k] = kinds.get(k, 0) + 1
     print("gimmick rows %(rows)d, with a prefab path %(with_path)d, "
           "classified by tag %(tagged)d, by name %(by_name)d, item resolved %(with_item)d, "
-          "drop candidates read %(with_yields)d" % stats)
+          "drop candidates read %(with_yields)d, named by their yield %(named_by_yield)d" % stats)
     print("wrote %d rows to %s" % (len(out), os.path.relpath(OUT, HERE)))
     print("by kind: " + ", ".join("%s %d" % kv for kv in sorted(kinds.items())))
     for k in sorted(NOUNLESS):
