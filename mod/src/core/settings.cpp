@@ -368,7 +368,12 @@ namespace ml::Settings
             if (section == "MasterLooter") ApplyGeneral(c, k, v);
             else if (section == "Classes") c.classRule[k] = atoi(v.c_str()) != 0 ? 1 : 0;
             else if (section == "ClassFloors") { const int f = atoi(v.c_str()); if (f > 0) c.classFloor[k] = std::min(f, kMaxFloor); }
-            else if (section == "NotVeins") { if (atoi(v.c_str()) != 0) c.notVeins.insert(k); }
+            // Only =2 and up. Builds before 1.6.55 wrote =1 and started the
+            // silence clock when the break was queued, so a slow game tick
+            // could put a real vein here: LuxDragon's copper, 28 October 2026.
+            // Each of those gets one more break and is learned again if it is
+            // really silent.
+            else if (section == "NotVeins") { if (atoi(v.c_str()) >= 2) c.notVeins.insert(k); }
             else if (section == "NodeYields") { if (!v.empty()) c.nodeYields[k] = v; }
             else if (section == "Tags") { const int r = atoi(v.c_str()); if (r == 1 || r == -1) c.tagRule[k] = r; }
             else if (section == "Items") { const int r = atoi(v.c_str()); const unsigned long key = strtoul(k.c_str(), nullptr, 10); if (key && (r == 1 || r == -1)) c.itemRule[static_cast<uint32_t>(key)] = r; }
@@ -755,8 +760,10 @@ namespace ml::Settings
         {
             s += "\n; ore nodes that answered a break with nothing, so the mod gathers them\n"
                  "; instead. Worked out in play and written here so it is not worked out\n"
-                 "; again every launch. Delete a line to let the mod try breaking it once more.\n[NotVeins]\n";
-            for (const std::string& n : c.notVeins) { s += n; s += "=1\n"; }
+                 "; again every launch. Delete a line to let the mod try breaking it once more.\n"
+                 "; Lines ending in =1 came from a build before 1.6.55, which could judge a real\n"
+                 "; vein silent when the game was slow, and are tried once more.\n[NotVeins]\n";
+            for (const std::string& n : c.notVeins) { s += n; s += "=2\n"; }
         }
         if (!c.nodeYields.empty())
         {

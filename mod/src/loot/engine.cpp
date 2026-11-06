@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "breakjudge.h"
 #include "events.h"
 #include "game.h"
 #include "hooks.h"
@@ -2503,7 +2504,6 @@ namespace ml::loot
 
     struct DrivenBreak { uint32_t eid; uint64_t key; DWORD when; char node[160]; };
     static std::vector<DrivenBreak> g_drivenBreaks;
-    static constexpr DWORD kBreakAnswerMs = 1500;        // a drop lands in a frame or two
 
     // The answer is kept in the player's own MasterLooter.ini, under
     // [NotVeins], because it costs a wasted break on every chunk in the first
@@ -2532,21 +2532,43 @@ namespace ml::loot
         for (const std::string& n : cfg.notVeins) g_notVeins.insert(n);
     }
 
-    // Called once a pass. Anything driven longer ago than the answer window is
-    // judged: drop seen, it was a vein and there is nothing to do; silence, and
-    // the node goes back to being gatherable.
+    struct SilentBreak { uint32_t eid; uint64_t key; DWORD when; char node[160]; };
+    static std::vector<SilentBreak> g_silentBreaks;
+
+    static void UnretireBreak(uint32_t eid, uint64_t key)
+    {
+        g_searched.erase(key);
+        g_searched.erase(eid);
+        g_retiredEid.erase(eid);
+        g_done.erase(key);
+    }
+
+    // Called once a pass. A driven break is judged a second and a half after
+    // it ran on the game thread: drop seen, it was a vein and there is nothing
+    // to do; silence, and the node goes back to being gatherable.
+    //
+    // Until 1.6.55 the clock started when the break was queued. In LuxDragon's
+    // 28 October log a world change held the game tick back, two copper veins
+    // were judged silent at +1634 ms, the queued break ran at +1712 ms and both
+    // dropped their ore at +1768 ms. The prefab had already gone into
+    // [NotVeins], so every copper vein after that was gathered and never broken.
     static void ReviewBreaks(DWORD now)
     {
         for (size_t i = 0; i < g_drivenBreaks.size();)
         {
             const DrivenBreak& b = g_drivenBreaks[i];
-            if (now - b.when < kBreakAnswerMs) { ++i; continue; }
-            if (!SawDropFor(b.eid))
+            const BreakVerdict v = JudgeBreak(now, b.when, events::BreakRanAt(b.eid), SawDropFor(b.eid));
+            if (v == BreakVerdict::Wait) { ++i; continue; }
+            if (v == BreakVerdict::NeverRan)
             {
-                g_searched.erase(b.key);
-                g_searched.erase(b.eid);
-                g_retiredEid.erase(b.eid);
-                g_done.erase(b.key);
+                UnretireBreak(b.eid, b.key);
+                LOG("[break] the break queued for %s eid %08X never ran in %lu ms, so nothing is learned about it "
+                    "and the node is a candidate again.", b.node[0] ? b.node : "?", b.eid,
+                    static_cast<unsigned long>(now - b.when));
+            }
+            else if (v == BreakVerdict::NotVein)
+            {
+                UnretireBreak(b.eid, b.key);
                 if (b.node[0] && !NotAVein(b.node))
                 {
                     g_notVeins.insert(b.node);
@@ -2556,11 +2578,47 @@ namespace ml::loot
                     }
                     Settings::MarkDirty();
                     LOG("[break] %s did not answer the break, so it is not a vein: gathering these instead. "
-                        "A vein drops within a frame or two of the swing; this one dropped nothing. "
-                        "Written to [NotVeins] in MasterLooter.ini, so it is worked out once and not again.", b.node);
+                        "A vein drops within a frame or two of the swing; this one dropped nothing in %lu ms "
+                        "after the break ran. Written to [NotVeins] in MasterLooter.ini, so it is worked out "
+                        "once and not again.", b.node, static_cast<unsigned long>(now - events::BreakRanAt(b.eid)));
+                }
+                // Every silent vein is watched for a late drop, not only the
+                // one that taught the prefab: two copper veins went silent
+                // together in LuxDragon's log, and either one dropping proves it.
+                if (b.node[0])
+                {
+                    if (g_silentBreaks.size() > 32) g_silentBreaks.erase(g_silentBreaks.begin());
+                    SilentBreak s{ b.eid, b.key, now, "" };
+                    snprintf(s.node, sizeof s.node, "%s", b.node);
+                    g_silentBreaks.push_back(s);
                 }
             }
             g_drivenBreaks.erase(g_drivenBreaks.begin() + static_cast<long>(i));
+        }
+
+        // A drop that lands after the verdict proves the prefab is a vein.
+        for (size_t i = 0; i < g_silentBreaks.size();)
+        {
+            const SilentBreak& s = g_silentBreaks[i];
+            if (now - s.when >= kLateDropMs) { g_silentBreaks.erase(g_silentBreaks.begin() + static_cast<long>(i)); continue; }
+            if (!SawDropFor(s.eid)) { ++i; continue; }
+            // Retired again, so the vein that just paid is not gathered or
+            // broken a second time.
+            g_searched.insert(s.key);
+            g_searched.insert(s.eid);
+            g_retiredEid.insert(s.eid);
+            if (g_notVeins.erase(s.node))
+            {
+                {
+                    std::lock_guard<std::recursive_mutex> lk(Settings::Mutex());
+                    Settings::Get().notVeins.erase(s.node);
+                }
+                Settings::MarkDirty();
+                LOG("[break] %s dropped its ore %lu ms after it was judged silent, so it is a vein after all: "
+                    "taken back out of [NotVeins] and broken again from now on.", s.node,
+                    static_cast<unsigned long>(now - s.when));
+            }
+            g_silentBreaks.erase(g_silentBreaks.begin() + static_cast<long>(i));
         }
     }
 

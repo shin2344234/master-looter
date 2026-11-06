@@ -130,3 +130,21 @@ add_custom_command(TARGET MasterLooter POST_BUILD
     COMMENT "Staging dist/"
     VERBATIM
 )
+
+# Checks that need no game: ninja -C build ml_tests, then build\ml_tests.exe.
+# Left out of the default build, so build.bat makes only the plugin.
+add_executable(ml_tests EXCLUDE_FROM_ALL
+    tests/ml_tests.cpp
+    src/core/paths.cpp
+    src/core/log.cpp
+    src/core/settings.cpp
+    src/core/itemdb.cpp
+    src/core/rules.cpp
+)
+target_include_directories(ml_tests PRIVATE src)
+target_compile_definitions(ml_tests PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX _CRT_SECURE_NO_WARNINGS)
+target_compile_options(ml_tests PRIVATE /utf-8 /W3)
+add_custom_command(TARGET ml_tests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv" "$<TARGET_FILE_DIR:ml_tests>/"
+    VERBATIM
+)

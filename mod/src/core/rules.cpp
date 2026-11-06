@@ -48,10 +48,20 @@ namespace ml::Rules
         // cabinets, the house chairs and tables, the Cooking Pot, Griddle and
         // Cauldron, and a dozen jars. Each one taken is a fixture gone from the
         // scene it furnishes, so none is taken unless the tag is set to always.
+        //
+        // A gimmick item that is also a material is let through. LuxDragon, 28
+        // October 2026: tumbleweeds can be picked up by hand and the mod passed
+        // every one over as protected. Of the 486 items tagged gimmick, the
+        // Tumbleweed (Item_gimmick_tumbleweed_0001) is the only one that is
+        // also tagged material, so no puzzle part or power core is let through
+        // with it. It is a crafting material and the Plants switch decides it
+        // like any other plant. An "always" or "never" on material or gimmick
+        // still wins, since the tag rules above run first.
         static const char* protectedTags[] = { "memory-fragment", "gimmick", "housing-only" };
         for (const char* tag : protectedTags)
         {
             if (!item.HasTag(tag)) continue;
+            if (tag == protectedTags[1] && item.HasTag("material")) continue;
             auto t = cfg.tagRule.find(tag);
             if (t != cfg.tagRule.end() && t->second > 0) continue;
             v.loot = false; v.rule = "protected"; v.detail = tag; return v;

@@ -40,6 +40,15 @@ namespace ml::events
     bool DriveBreak(uintptr_t gimmickComp, uint32_t playerEid, uintptr_t playerActor,
                     uint32_t targetEid, uintptr_t targetEnt, float x, float y, float z);
 
+    // GetTickCount at the moment a vein break for targetEid actually ran on the
+    // game thread, or 0 if none of the last 32 breaks that ran was aimed at it.
+    // A queued break waits for the next game tick, and a slow tick after an
+    // area change held one back 1.7 seconds in LuxDragon's 28 October log, so
+    // the drop has to be timed from here and not from when the break was asked
+    // for. A break refused because its area unloaded never gets a time.
+    // Safe from any thread.
+    uint32_t BreakRanAt(uint32_t targetEid);
+
     // BreakTest only. The vein's pair with swing set, onbreak alone without
     // it, and each answer logged on the game thread. No ore-bonus marker.
     bool DriveBreakTest(uintptr_t gimmickComp, uint32_t playerEid, uintptr_t playerActor,

@@ -572,6 +572,39 @@ namespace ml::events
     }
     static const char* DriveTargetGone(const PendDrive& d) { return TargetGone(d.ent, d.target, d.comp); }
 
+    // When each of the last 32 vein breaks ran. Written on the game thread,
+    // read from the scan thread. The target is cleared while its time is
+    // written so a reader never pairs one break's target with another's time.
+    static volatile LONG g_ranEid[32] = {};
+    static volatile LONG g_ranAt[32] = {};
+    static volatile LONG g_ranNext = 0;
+
+    static void NoteBreakRan(uint32_t target)
+    {
+        const LONG slot = InterlockedIncrement(&g_ranNext) & 31;
+        InterlockedExchange(&g_ranEid[slot], 0);
+        DWORD t = GetTickCount();
+        if (!t) t = 1;
+        InterlockedExchange(&g_ranAt[slot], static_cast<LONG>(t));
+        InterlockedExchange(&g_ranEid[slot], static_cast<LONG>(target));
+    }
+
+    uint32_t BreakRanAt(uint32_t target)
+    {
+        if (!target) return 0;
+        DWORD best = 0;
+        const DWORD now = GetTickCount();
+        for (int i = 0; i < 32; ++i)
+        {
+            if (static_cast<uint32_t>(InterlockedCompareExchange(&g_ranEid[i], 0, 0)) != target) continue;
+            const DWORD at = static_cast<DWORD>(InterlockedCompareExchange(&g_ranAt[i], 0, 0));
+            if (static_cast<uint32_t>(InterlockedCompareExchange(&g_ranEid[i], 0, 0)) != target) continue;
+            // The most recent run wins when one vein was broken twice.
+            if (!best || now - at < now - best) best = at;
+        }
+        return best;
+    }
+
     static bool DriveNow(const PendDrive& d)
     {
         if (const char* gone = DriveTargetGone(d))
@@ -609,6 +642,7 @@ namespace ml::events
             return swing || brk;
         }
 
+        NoteBreakRan(d.target);
         // Stamp the time so the ore bonus knows this vein was broken by the
         // mod. The drop resolves after this returns, so a flag held only for
         // the call would never cover it.
