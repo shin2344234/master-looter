@@ -433,6 +433,45 @@ namespace ml::Mod
             if (known) return EXCEPTION_CONTINUE_SEARCH;
         }
 
+        // Another plugin's own guarded reads. On exe 1.0.0.3576 a 23 minute
+        // session logged 14 of them from five of Seth's other mods and none
+        // crashed. They are written as a note, one line each with the engine
+        // state on it, and kept off the 24 lines below so a busy neighbour
+        // cannot use up the room a real crash needs. Every line is flushed as
+        // it is written, so a note that turns out to be the crash is still on
+        // disk.
+        {
+            const size_t n = strlen(mod);
+            const bool plugin = n > 4 && _stricmp(mod + n - 4, ".asi") == 0;
+            if (plugin)
+            {
+                static volatile LONG s_otherSaid = 0;
+                if (InterlockedIncrement(&s_otherSaid) <= 64)
+                {
+                    static volatile LONG s_otherExplained = 0;
+                    if (InterlockedIncrement(&s_otherExplained) == 1)
+                        LOG("[fault] note lines name a fault inside another mod's plugin. Plugins "
+                            "read game memory with guarded reads that expect to be refused, the "
+                            "same way this mod does, so a note is only worth reading when it is "
+                            "the last line before the log stops.");
+                    char access[128] = "";
+                    if (c == EXCEPTION_ACCESS_VIOLATION && er->NumberParameters >= 2)
+                    {
+                        const ULONG_PTR kind = er->ExceptionInformation[0];
+                        snprintf(access, sizeof access, ", %s %p",
+                                 kind == 0 ? "reading" : (kind == 1 ? "writing" : "executing"),
+                                 reinterpret_cast<void*>(er->ExceptionInformation[1]));
+                    }
+                    char state[256] = "";
+                    ml::loot::DescribeEngineState(state, sizeof state);
+                    LOG("[fault] note: first chance 0x%08X at %p (%s+0x%llX) thread %lu%s; loot engine: %s",
+                        c, er->ExceptionAddress, mod, off,
+                        static_cast<unsigned long>(GetCurrentThreadId()), access, state);
+                }
+                return EXCEPTION_CONTINUE_SEARCH;
+            }
+        }
+
         if (InterlockedIncrement(&s_said) <= 24)
         {
             char access[128] = "";
