@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "breakjudge.h"
+#include "scanretry.h"
 #include "events.h"
 #include "game.h"
 #include "hooks.h"
@@ -4227,12 +4228,25 @@ namespace ml::loot
                      kind == 0 ? "reading" : (kind == 1 ? "writing" : "executing"),
                      reinterpret_cast<void*>(xp->ExceptionRecord->ExceptionInformation[1]));
         }
-        LOG_ERR("[scan] fault 0x%08X at %p (%s+0x%llX)%s - looting is off for this session, the game keeps running.",
+        LOG_ERR("[scan] fault 0x%08X at %p (%s+0x%llX)%s - looting pauses and the scan starts again shortly, the game keeps running.",
                 code, at, mod, static_cast<unsigned long long>(off), where);
         return EXCEPTION_EXECUTE_HANDLER;
     }
 
     static bool g_scanDisabled = false;
+    // Until 1.6.55 one fault switched the scan off until the game was
+    // restarted, and nothing on screen said so. SoulCaliburSK on the bugs tab,
+    // 4 November 2026, the day of a game patch: ore stopped first, then
+    // everything, and a restart brought it all back. The scan now waits and
+    // starts again with the player found afresh, since a pointer that went
+    // stale under it is the usual cause. A fault that keeps coming back
+    // doubles the wait each time, up to five minutes, so it cannot repeat
+    // thirty times a second, and ten clean minutes put the wait back to five
+    // seconds. NextScanRetryMs in scanretry.h has the numbers.
+    static volatile LONG g_scanFaultNew = 0;   // set in the handler, read by the loop
+    static DWORD g_scanRetryAt = 0, g_scanRetryMs = 0, g_scanLastFault = 0;
+    static long  g_scanFaults = 0;
+    static bool  g_scanRestarted = false;      // the next scan runs the world-change purge
 
     // --- break test -----------------------------------------------------------
     //
@@ -4353,7 +4367,38 @@ namespace ml::loot
         __except (ScanFaultFilter(GetExceptionCode(), GetExceptionInformation()))
         {
             g_scanDisabled = true;
+            InterlockedExchange(&g_scanFaultNew, 1);
         }
+    }
+
+    // Called by the loop on every pass while the scan is off after a fault.
+    // Returns true when the scan may run again.
+    static bool ScanRecovered(DWORD now)
+    {
+        if (InterlockedExchange(&g_scanFaultNew, 0) != 0)
+        {
+            ++g_scanFaults;
+            g_scanRetryMs = NextScanRetryMs(g_scanRetryMs, now - g_scanLastFault);
+            g_scanLastFault = now;
+            g_scanRetryAt = now + g_scanRetryMs;
+            LOG_ERR("[scan] fault %ld this session; the scan starts again in %lu s with the player found afresh.",
+                    g_scanFaults, static_cast<unsigned long>(g_scanRetryMs / 1000));
+            std::lock_guard<std::mutex> lk(g_mu);
+            snprintf(g_status.hold, sizeof g_status.hold, "paused after a fault, back in %lu s",
+                     static_cast<unsigned long>(g_scanRetryMs / 1000));
+            return false;
+        }
+        if (static_cast<LONG>(now - g_scanRetryAt) < 0) return false;
+        // Whatever the scan held when it faulted may point at freed memory.
+        // The player is looked up again, and the next scan runs the purge of
+        // queues and remembered pointers that an area change runs.
+        g_me = 0;
+        g_scanRestarted = true;
+        g_scanDisabled = false;
+        LOG("[scan] starting again after fault %ld.", g_scanFaults);
+        std::lock_guard<std::mutex> lk(g_mu);
+        g_status.hold[0] = 0;
+        return true;
     }
 
     // The pools ForEachEntity walks, as the log can show them: each one's
@@ -6062,6 +6107,8 @@ namespace ml::loot
             const char* why = nullptr; DWORD hold = 2000;
             if (jump2 > 400.0f) why = "player moved more than 20 m in one scan";
             else if (g_me != s_lastMe) { why = "player actor changed (mount, cutscene or area)"; hold = 800; }
+            else if (g_scanRestarted) { why = "the scan restarted after a fault"; hold = 800; }
+            g_scanRestarted = false;
             if (why)
             {
                 g_changeAt = now;
@@ -6615,8 +6662,49 @@ namespace ml::loot
                 k.inter ? "node " : "", k.item ? "item " : "", k.gather ? "gather " : "", k.ai ? "ai " : "",
                 k.twin ? "twin " : "", k.heap ? "heap " : "", k.mine ? "mine " : "", k.node[0] ? k.node : "");
         }
+        // PauseAtHome. The game gives the mod no area name, so the player's own
+        // camp or house is told by what stands close: a camp farm plot, a seed
+        // planted in one, or furniture only a player can place, which is what
+        // the housing-only tag and the dpf folders hold. Three of those within
+        // 25 m count as home, and home lasts 8 s past the last pass that saw
+        // three, so walking between rooms does not flicker it. Every change is
+        // logged with what decided it, since nobody has yet seen whether a town
+        // full of other people's furniture reads the same.
+        static DWORD s_homeUntil = 0;
+        static bool  s_wasHome = false;
+        bool homePause = false;
+        if (cfg.pauseAtHome)
+        {
+            int marks = 0;
+            const char* seen[3] = {};
+            for (const Cand& k : list)
+            {
+                if (!k.filled || k.d > 25.0f) continue;
+                const bool mark = (k.node[0] && (IStr(k.node, "gimmick_camp_farm_") || IStr(k.node, "/dpf/")))
+                                  || (k.db && k.db->HasTag("housing-only"));
+                if (!mark) continue;
+                if (marks < 3) seen[marks] = k.node[0] ? k.node : Label(k);
+                ++marks;
+            }
+            if (marks >= 3) s_homeUntil = now + 8000;
+            const bool home = s_homeUntil && static_cast<LONG>(now - s_homeUntil) < 0;
+            if (home != s_wasHome)
+            {
+                if (home)
+                    LOG("[home] %d camp or house pieces within 25 m, so looting pauses (PauseAtHome=1): %s, %s, %s",
+                        marks, seen[0] ? seen[0] : "-", seen[1] ? seen[1] : "-", seen[2] ? seen[2] : "-");
+                else
+                    LOG("[home] fewer than three camp or house pieces in reach for 8 s, so looting starts again (%d now)", marks);
+                s_wasHome = home;
+            }
+            homePause = home;
+        }
+        else if (s_wasHome) { s_wasHome = false; s_homeUntil = 0; }
+        if (homePause && !settling)
+            snprintf(s_holdWhy, sizeof s_holdWhy, "%s", "in your camp or house (PauseAtHome)");
+
         // Wind a well, if one is in reach and the switch is on.
-        WellTick(list, cfg, now);
+        if (!homePause) WellTick(list, cfg, now);
 
         // Per-entity memories grow with every object ever seen; a long session
         // sees hundreds of thousands. Forget the diagnostics wholesale and the
@@ -6630,7 +6718,7 @@ namespace ml::loot
                 it = (now - it->second.when > 600000) ? g_done.erase(it) : std::next(it);
 
         int armedNow[32]; int armedN = 0;
-        if (act && !settling)
+        if (act && !settling && !homePause)
         {
             const uint32_t route = events::RouteKnown() ? events::Route() : g_meRoute;
             if (cfg.breakTest && g_me) BreakTestPass(list, cfg, now);
@@ -7090,7 +7178,7 @@ namespace ml::loot
         g_status.playerFound = true;
         g_status.playerEid = g_meEid;
         g_status.settling = settling;
-        snprintf(g_status.hold, sizeof g_status.hold, "%s", settling ? s_holdWhy : "");
+        snprintf(g_status.hold, sizeof g_status.hold, "%s", (settling || homePause) ? s_holdWhy : "");
         g_status.inventoryItems = game::InventoryCount();
         g_status.bagFull = g_bagFull;
         int bagUsed = 0, bagCap = 0;
@@ -7211,6 +7299,7 @@ namespace ml::loot
                 }
             }
             const bool want = cfg.enabled || burst || st.menuOpen;
+            if (g_scanDisabled) ScanRecovered(GetTickCount());
             if (want && !g_scanDisabled) ScanGuarded(cfg, cfg.enabled || burst, burst);
             {
                 std::lock_guard<std::mutex> lk(g_mu);
@@ -7222,7 +7311,8 @@ namespace ml::loot
                 g_status.sent        = events::SentCount();
                 g_status.faults      = mem::FaultCount();
                 g_status.pumpTicks   = hooks::PumpTicks();
-                if (g_status.playerFound) strncpy(g_status.note, cfg.enabled ? "looting" : "idle", sizeof g_status.note - 1);
+                if (g_scanDisabled) strncpy(g_status.note, "paused after a fault", sizeof g_status.note - 1);
+                else if (g_status.playerFound) strncpy(g_status.note, cfg.enabled ? "looting" : "idle", sizeof g_status.note - 1);
             }
             const int sps = std::clamp(cfg.scansPerSec, 1, 30);
             const DWORD nap = want ? static_cast<DWORD>(1000 / sps) : 100;

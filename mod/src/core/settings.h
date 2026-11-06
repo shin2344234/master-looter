@@ -93,6 +93,12 @@ namespace ml
         // holding a release for. Promote it when the next batch of strings goes
         // through.
         bool  gatherCampFarm = true;
+        // Take nothing while the player stands in their own camp or house.
+        // Ahplla on Discord, 5 November 2026. The game hands the mod no area
+        // name, so home is told by what stands round the player: camp farm
+        // plots, planted seeds and furniture only a player can place. Off by
+        // default, and ini only for now for the same reason as the line above.
+        bool  pauseAtHome    = false;
         bool  gatherOre      = true;
         bool  gatherWood     = true;
         bool  gatherUnknown  = false;  // nodes whose yield has not been seen yet (learned from what you gather by hand)

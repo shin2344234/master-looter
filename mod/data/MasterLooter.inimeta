@@ -442,6 +442,16 @@
           "help": "The growing crops on a camp farm, which are plants a player planted. Not in the in-game menu yet; this ini line is the only switch for it.",
           "order": 31
         },
+        "PauseAtHome": {
+          "label": "Pause in your camp or house",
+          "type": "bool",
+          "group": "What to collect",
+          "default": "0",
+          "true": "1",
+          "false": "0",
+          "help": "Takes nothing while you stand in your own camp or house. Home is recognised by what stands within 25 m of you: three or more camp farm plots, planted seeds or pieces of furniture only a player can place. Looting starts again 8 seconds after fewer than three are in reach. Not in the in-game menu yet; this ini line is the only switch for it.",
+          "order": 32
+        },
         "GatherOre": {
           "label": "Ore and stone",
           "type": "bool",

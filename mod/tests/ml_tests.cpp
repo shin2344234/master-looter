@@ -16,10 +16,12 @@
 #include "core/rules.h"
 #include "core/settings.h"
 #include "loot/breakjudge.h"
+#include "loot/scanretry.h"
 
 using namespace ml;
 using loot::BreakVerdict;
 using loot::JudgeBreak;
+using loot::NextScanRetryMs;
 
 static int g_failed = 0, g_passed = 0;
 
@@ -51,6 +53,20 @@ static void BreakTiming()
     const uint32_t w = 0xFFFFFF00u;
     Check(JudgeBreak(w + 1549, w, w + 50, false) == BreakVerdict::Wait, "wrap: 1499 ms after the run is still waited on");
     Check(JudgeBreak(w + 1550, w, w + 50, false) == BreakVerdict::NotVein, "wrap: judged across the tick counter wrapping");
+}
+
+static void ScanRetry()
+{
+    // SoulCaliburSK, bug 1166149: one fault used to leave looting off until a
+    // restart. The wait after a fault never runs past five minutes now.
+    Check(NextScanRetryMs(0, 0) == 5000, "the first fault waits 5 s");
+    Check(NextScanRetryMs(5000, 6000) == 10000, "a second fault soon after doubles the wait");
+    Check(NextScanRetryMs(160000, 170000) == 300000, "the wait stops at 5 minutes");
+    Check(NextScanRetryMs(300000, 310000) == 300000, "and stays there while faults keep coming");
+    Check(NextScanRetryMs(300000, 600000) == 5000, "ten clean minutes put it back to 5 s");
+    uint32_t w = 0, total = 0;
+    for (int i = 0; i < 40; ++i) { w = NextScanRetryMs(w, w + 1); total += w; }
+    Check(w == 300000 && total < 40u * 300000u, "forty faults in a row never wait longer than 5 minutes each");
 }
 
 static void ProtectedTags()
@@ -119,6 +135,10 @@ static void NotVeins()
           "a =1 line from an older build is forgotten, so copper gets another break");
     Check(c.notVeins.count("object/gimmick/mine/rock_b_0011.prefab") == 1, "a =2 line is kept");
     Check(!c.notVeins.count("object/gimmick/mine/rock_b_0012.prefab"), "a =0 line is ignored");
+    Check(!c.pauseAtHome, "PauseAtHome is off when the ini does not name it");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nPauseAtHome=1\r\n"), "the second test ini is written");
+    Settings::Load();
+    Check(Settings::Snapshot().pauseAtHome, "PauseAtHome=1 in the ini turns it on");
     DeleteFileW(ini.c_str());
 }
 
@@ -132,6 +152,7 @@ int main()
     Paths::Init(GetModuleHandleW(nullptr));
 
     BreakTiming();
+    ScanRetry();
     ProtectedTags();
     NotVeins();
 
