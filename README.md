@@ -1,6 +1,6 @@
 # Master Looter
 
-Auto-loot for Crimson Desert with an in-game menu, built for the DLC update (exe 1.0.0.3460, the patch of 31 October 2026).
+Auto-loot for Crimson Desert with an in-game menu, built for the DLC update and its patch of 6 November 2026, game 2.04.08 (exe 1.0.0.3576).
 
 > [!IMPORTANT]
 > **New in 1.6.28: loot can go straight into storage.** Install [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) 1.1.0 or later beside Master Looter, and what Master Looter picks up can be moved into your storage as it lands. Nothing you pick up by hand is touched. It starts off; see [Storing loot](#storing-loot) for how to turn it on.
@@ -20,6 +20,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 - Gather nodes are armed from a distance, so bushes fill their data without you standing on them.
 - Ore veins are broken rather than emptied, the way a pickaxe does it, so the contents drop on the ground and your tool's Mining Yield Up is applied by the game. Each vein is struck once. What a vein of an unlisted kind paid is remembered in `[NodeYields]` in the ini, and a tool or other equipment is never written there.
 - Water is lifted out of a well bucket while you turn the handle yourself. The mod drives the one state change the game makes for that and nothing else, so the bucket stays on the well and the handle stays in your hands. Off by default.
+- `PauseAtHome=1` in `MasterLooter.ini` stops all looting while you stand in your own camp or house. The mod knows home by three or more camp farm plots, planted seeds or pieces of furniture only a player can place within 25 m of you, and starts again 8 seconds after fewer than three are in reach. It is off by default and not in the menu yet, and each pause and restart writes a `[home]` line to the log.
 - Presets: every setting and every rule saved under a name, swapped in two clicks. Settings are also backed up when the game starts, whenever they changed since the last backup, and the last twelve are kept, so a version with different defaults is one button to undo. Backups, presets and a copy of the ini live in `%LOCALAPPDATA%\MasterLooter`, where a mod manager reinstalling the plugin cannot reach them, and a missing ini is put back from that copy at the next launch. Anything that overwrites or discards asks first.
 - A notice appears when the bag is full, read from the bag's own slot count, so it shows the moment it fills whether or not you are looting. Turn it off under General.
 - The menu comes in 28 languages besides English, every language Steam offers, all built into the plugin and picked from one list under General. Brazilian Portuguese is from Kyo-70 and both Chinese menus from dofo7777. The other 25 are machine translations that no native speaker has read yet, and the menu says so whenever one is on. A corrected file beside the plugin overrides the built-in copy, no rebuild needed. The [template of every line](docs/MasterLooter.template.txt) is in the repository, and a partial translation leaves the rest in English.
@@ -58,11 +59,13 @@ Pick Off, x2, x3, x5, x10, x20, x50 or x100. Most things the game stacks 100 of,
 
 The tab also shows which mod is applying the multiplier, how many item records were raised, the largest limit written, and, when nothing is being changed, that mod's own sentence saying why.
 
+Stack Master 1.0.6 adds `StackSize` to `StackMaster.ini`, one stack size for every item that stacks. While it is set, Stack Master ignores the multiplier, so the tab reads `every stack at least 9999, by Stack Master` for a StackSize of 9999 and greys the multiplier out. Set `StackSize=0` in that ini to pick a multiplier here again.
+
 **Empty your big stacks before turning the multiplier down or off.** Lowering it does not shrink a stack you already built. A slot holding more than the game now allows keeps what is in it until you take some out, and anything above the new limit can be lost.
 
 ## Installing
 
-**1.6.54 needs the DLC update, exe 1.0.0.3392 or one of its later patches, 3424, 3446, 3460, 3462 and 3479.** The
+**1.6.55 needs the DLC update, exe 1.0.0.3392 or one of its later patches, 3424, 3446, 3460, 3462, 3479 and 3576.** 3576 is game 2.04.08, the patch of 6 November 2026. The
 update moved every function the plugin hooks, so 1.6.50 loots nothing on it. 1.6.50 stays on
 [Releases](https://github.com/shin2344234/master-looter/releases) for a game
 still on exe 1.0.0.2976.
@@ -89,11 +92,11 @@ Uninstall by deleting the `MasterLooter.*` files from `bin64` and the `%LOCALAPP
 
 ## Antivirus
 
-One scanner out of seventy-one flags `MasterLooter.asi` on 1.6.54. Webroot calls it `Win.Hacktool.Gen`, its generic name for anything shaped like a trainer, as it has every build since 1.6.5 apart from 1.6.44, where it timed out. Elastic came back on 1.6.47 for the first time since 1.6.8, naming nothing beyond `malicious (moderate confidence)`, a model scoring the file, and has stayed away on every build since, 1.6.54 included. Microsoft's `Trojan:Win32/Wacatac.C!ml` guess, back for 1.6.45, stayed away after it; the `!ml` is a model reporting the shape of a file, not a match on anything. Deep Instinct, which reports nothing but `MALICIOUS`, flagged the early builds, stopped some time before 1.6.8, objected to 1.6.33 and 1.6.34, and has gone again. Symantec and Cynet stopped at the first signed build and have not come back. Webroot alone objects to the archives as well, one of sixty-eight for each zip, for the same file inside them.
+One scanner out of seventy-one flags `MasterLooter.asi` on 1.6.55. Webroot calls it `Win.Hacktool.Gen`, its generic name for anything shaped like a trainer, as it has every build since 1.6.5 apart from 1.6.44, where it timed out. Elastic came back on 1.6.47 for the first time since 1.6.8, naming nothing beyond `malicious (moderate confidence)`, a model scoring the file, and has stayed away on every build since, 1.6.55 included. Microsoft's `Trojan:Win32/Wacatac.C!ml` guess, back for 1.6.45, stayed away after it; the `!ml` is a model reporting the shape of a file, not a match on anything. Deep Instinct, which reports nothing but `MALICIOUS`, flagged the early builds, stopped some time before 1.6.8, objected to 1.6.33 and 1.6.34, and has gone again. Symantec and Cynet stopped at the first signed build and have not come back. Webroot alone objects to the archives as well, one of sixty-eight for each zip, for the same file inside them.
 
-The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one, 1.6.50 one, 1.6.51 one, 1.6.52 one, 1.6.53 one and 1.6.54 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
+The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one, 1.6.50 one, 1.6.51 one, 1.6.52 one, 1.6.53 one, 1.6.54 one and 1.6.55 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.54: [the plugin](https://www.virustotal.com/gui/file/3268592e1ab0b165048e22dab31159108738617632e7e397ef075602fe22866d) and [the package](https://www.virustotal.com/gui/file/9971a3b290d78417ebdcfb2bc44bfc5a6cd75a35a63c9b2a1f54bd05538875f1).
+Reports for 1.6.55: [the plugin](https://www.virustotal.com/gui/file/1eb0e80806978eb8a585ebd9a27c8c3826ab0d18de1fc7951a10e7ad8f347300) and [the package](https://www.virustotal.com/gui/file/08ccb58124f26f0251604881ec3beb38a9fe2155feba9a5607a1b12c1fe262ee).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -101,11 +104,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.54:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.55:
 
-    9971a3b290d78417ebdcfb2bc44bfc5a6cd75a35a63c9b2a1f54bd05538875f1  MasterLooter-1.6.54-DMM.zip
-    76612340d9599f1f1c202b3a929f88e2a25c139a56faf8c256193998864cbec3  MasterLooter-1.6.54.zip
-    3268592e1ab0b165048e22dab31159108738617632e7e397ef075602fe22866d  MasterLooter.asi
+    08ccb58124f26f0251604881ec3beb38a9fe2155feba9a5607a1b12c1fe262ee  MasterLooter-1.6.55-DMM.zip
+    98b5e7331b744f0b2277d5ff5510e795af317727e0132dad15378524022e00f1  MasterLooter-1.6.55.zip
+    1eb0e80806978eb8a585ebd9a27c8c3826ab0d18de1fc7951a10e7ad8f347300  MasterLooter.asi
 
 ## Controls
 

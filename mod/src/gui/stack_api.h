@@ -72,6 +72,13 @@ typedef struct StackStatus
      * the limit. Read it to word the tab; you do not have to act on it, since
      * StackApplyMultiplier does the right thing either way. */
     int32_t  liveRaise;
+    /* Added with Stack Master 1.0.6. Not 0 when one size for every stacking
+     * item is what sets the limits this launch, rather than the multiplier:
+     * every item that stacks holds at least this many, one the game stacks
+     * higher keeps its own limit, and `multiplier` is not used. Stack Master's
+     * StackSize setting is the only source; Private Storage Master has none and
+     * fills less than this. Check `size` before reading it. */
+    int32_t  stackSize;
 } StackStatus;
 
 /* The first published layout, up to and including `biggest`. A provider accepts
@@ -97,8 +104,11 @@ STACK_API int StackGetStatus(StackStatus* out);
  * which mod took precedence. Writes something printable whenever out is valid,
  * and returns 1 for a code this provider knows, 0 for one it does not. */
 STACK_API int StackStandDownText(int reason, char* out, int outLen);
+/* For reason 0 the sentence also says when stackSize, not the multiplier, is
+ * what sets the limits, so a menu that predates that field still shows it. */
 
-/* The multiplier in the ini, 1 when off. 0 means the call failed. */
+/* The multiplier in the ini, 1 when off. 0 means the call failed. While a
+ * provider's stackSize is set the multiplier is saved but not used. */
 STACK_API int StackGetMultiplier(void);
 
 /* Writes the multiplier to the provider's own ini, between 1 and the
@@ -112,8 +122,9 @@ STACK_API int StackGetMultiplier(void);
  * Either way the setting is saved and this returns 1. Read StackGetStatus after
  * it: `multiplier` is what is in force now and `restartNeeded` is 0 when the
  * change is already live, 1 when it is waiting for a restart. That is the one
- * thing to tell the player. Returns 0 only when the value itself is refused,
- * with a reason in `why` (which may be null). */
+ * thing to tell the player. Returns 0 when the value itself is refused, or
+ * when the provider has stackSize set, since then no multiplier would change
+ * anything; `why` (which may be null) says which. */
 STACK_API int StackApplyMultiplier(int multiplier, char* why, int whyLen);
 
 #ifdef __cplusplus

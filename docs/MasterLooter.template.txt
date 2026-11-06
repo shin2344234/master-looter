@@ -29,6 +29,7 @@
 %s is a machine translation that nobody has checked yet. Corrections are welcome on GitHub or the Nexus page.	
 %s is not the mod setting stack sizes, so changing it here would do nothing. Set the multiplier in %s instead.	
 %s refused the change: %s	
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	
 %s translated by %s.	
 %s, %d rules	
 %s, let go to keep it	
@@ -134,6 +135,7 @@ entity %08X, %d items across every store
 entity %08X, bag %d of %d slots, %d items across every store	
 Event descriptors	
 Every rock: ore and stone chunks on the ground, veins, boulders, rubble piles and quarry stone. A vein is broken where it stands and its contents picked up off the floor, which is what your pickaxe does and what makes a better pickaxe worth carrying: the tool's Mining Yield Up applies to the drop, not to the node. Each vein is struck once and left alone until the game brings it back. Reaching for veins starts as far out as the scan can see, because they take seconds to answer where a bush takes a fraction of one.\n\nStone used to have a switch of its own and the split never held: the game files most quarry stone under mining, so turning Stone off left it arriving anyway. To keep the ore and leave the stone, refuse the class stone on the Classes tab. That covers Stone, Fine Stone, Flawless Stone and Stalactite, and every rock the game says holds nothing else is then left standing, the mine rocks and the stalactites included. A vein that also holds ore or a jewel is still broken, since refusing the stone is not refusing what sits beside it. Where the game describes a node not at all, it takes ore, jewels and stone all being refused before that one is passed over.	
+every stack at least %d, by %s	
 Every stackable item's limit is multiplied when the game starts. The setting is saved in that mod's own ini as soon as you pick it.	
 Every storage's size and how many slots are in use, written to PrivateStorageMaster.log. Attach it to a size report.	
 Extra ore per vein	
@@ -285,7 +287,7 @@ Open now
 Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.	
 Ore and stone	
 ore off	
-Ore, gems, stone, timber, hides, herbs, trade goods and other crafting input.	
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	
 out of range	
 Overlay	
 Override	

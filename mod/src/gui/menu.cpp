@@ -1927,6 +1927,12 @@ namespace ml::gui
         // less and the tab keeps the old wording, which is still true there.
         const bool liveOk = s.size >= static_cast<uint32_t>(STACK_STATUS_V1) + sizeof s.liveRaise;
         const bool live = liveOk && s.liveRaise != 0;
+        // stackSize came later still, with Stack Master 1.0.6. When it is set
+        // every stack is that size and the multiplier the provider reports is
+        // only what its ini holds, so the tab names the size and offers no
+        // multiplier, which the provider would refuse anyway.
+        const bool sizeOk = s.size >= static_cast<uint32_t>(offsetof(StackStatus, stackSize) + sizeof s.stackSize);
+        const int fixedSize = sizeOk && s.stackSize > 1 ? s.stackSize : 0;
         // A raise still waiting where the provider can apply one means the
         // game was busy with a storage screen, a shop, a cutscene or a load
         // when it was picked. The value is saved either way, so picking it
@@ -1946,7 +1952,8 @@ namespace ml::gui
         // Named here as well as in the line above, because with both mods
         // installed the one applying the multiplier is not the one a player
         // went looking for.
-        if (s.multiplier > 1) ImGui::TextColored(kGood, TR("x%d, by %s"), s.multiplier, s.provider);
+        if (fixedSize)        ImGui::TextColored(kGood, TR("every stack at least %d, by %s"), fixedSize, s.provider);
+        else if (s.multiplier > 1) ImGui::TextColored(kGood, TR("x%d, by %s"), s.multiplier, s.provider);
         else                  ImGui::TextColored(kMuted, "%s", TR("stacks are the size the game ships"));
         ImGui::TextUnformatted(TR("Saved")); s_statusLabel.Next();
         if (s.multiplierSetting > 1) ImGui::Text(TR("x%d"), s.multiplierSetting);
@@ -1969,11 +1976,13 @@ namespace ml::gui
         // restart, and would change nothing after it. That happens when the
         // mod it stood aside for is one this build cannot talk to, which the
         // line above names.
-        const bool futile = !s.applying && s.standDownReason == STACK_STANDDOWN_OTHER_MOD;
+        const bool futile = fixedSize || (!s.applying && s.standDownReason == STACK_STANDDOWN_OTHER_MOD);
         // Only one of these can promise the player somewhere to go. A mod
         // that stood aside for something this build cannot name leaves the
-        // second sentence, which says so rather than pointing at nothing.
-        if (futile && stack::RefusedModule()[0])
+        // third sentence, which says so rather than pointing at nothing.
+        if (fixedSize)
+            ImGui::TextColored(kWarn, TR("%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it."), s.provider, fixedSize);
+        else if (futile && stack::RefusedModule()[0])
             ImGui::TextColored(kWarn, TR("%s is not the mod setting stack sizes, so changing it here would do nothing. Set the multiplier in %s instead."), s.provider, stack::RefusedModule());
         else if (futile)
             ImGui::TextColored(kWarn, TR("%s has stood aside for another mod, so changing it here would do nothing. That mod is not one this menu can reach, so set the multiplier in it directly."), s.provider);

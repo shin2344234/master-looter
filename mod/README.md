@@ -1,6 +1,6 @@
 # Master Looter plugin
 
-An ASI plugin for Crimson Desert, built for the DLC update (exe 1.0.0.3460, the patch of 31 October 2026): an auto-looter driven by the tagged item database, with an in-game settings menu.
+An ASI plugin for Crimson Desert, built for the DLC update and its patch of 6 November 2026, game 2.04.08 (exe 1.0.0.3576): an auto-looter driven by the tagged item database, with an in-game settings menu.
 
 ## Installing
 
@@ -54,6 +54,8 @@ What you drop out of the bag yourself is watched from the same parser, which the
 
 "Leave living creatures alone" under General is on by default. It leaves anything attached to a creature that is still alive, such as the Abyss cells on a stone crab, and any living creature that carries a node of its own. Taking one kills the creature, so a stone crab stops counting for its challenge and drops none of its ore. The arm loop skips those nodes too. A creature that is dead is not covered and is still skinned under Carcasses. A [spare] line in the log names each one the first time it is left alone and says whether it hung off a creature or was one.
 
+`PauseAtHome=1` in `MasterLooter.ini` stops all looting while you stand in your own camp or house. The mod knows home by three or more camp farm plots, planted seeds or pieces of furniture only a player can place within 25 m of you, and starts again 8 seconds after fewer than three are in reach. It is off by default and not in the menu yet, and each pause and restart writes a `[home]` line to the log.
+
 Swapping characters is noticed by who walks. As Kliff the actor the game raises your events under is your body and walks with you; as Damiane or Oongka it sits wherever the game parked it, jumps when the game moves it, and never walks. A few steps after a swap put the scan on the right character: the actor walking means Kliff, a played body walking means her, and between Damiane and Oongka the body that walked in the last three seconds takes the centre from one that has stood for ten.
 
 ## When the game will not start
@@ -68,7 +70,7 @@ The menu ships in 28 languages besides English, the set Steam itself offers, all
 
 A language not in that set, or a correction to one that is, is a text file. Every English string is its own key, so a translation covering half the menu leaves the other half in English rather than showing gaps.
 
-1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 472 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
+1. Take [docs/MasterLooter.template.txt](../docs/MasterLooter.template.txt), which holds all 474 strings. It is generated from the source by `scripts/make_translation_template.py`, so it covers the whole menu.
 2. Or make your own from the running game: play with the menu open, visit every tab, then General, Language, press `Write translation template`. That writes the file beside the plugin, but only the lines that have actually been drawn.
 3. Each record is the English, a tab, then your translation. `
 ` is a line break, lines starting with `#` are ignored, and a record left empty after the tab stays English.
