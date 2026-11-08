@@ -3147,7 +3147,7 @@ namespace ml::loot
         // the same folder holds Manure and the Standstone challenge rocks,
         // which the logs show players collecting, 1 and 21 times.
         static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle", "woodthorn",
-                                        "equip_openclose", "gimmick_equip_", "effect_gimmick", "transparency_autospawn" };
+                                        "equip_openclose", "gimmick_equip_", "effect_gimmick", "transparency_autospawn", "reeddevil" };
         for (const char* w : kWords)
         {
             // The verdict has already decided this piece is not being worn,
@@ -3510,6 +3510,15 @@ namespace ml::loot
             // cloak, and both hold an open and shut state the game drives
             // through the interaction. Taking one as loose loot skips that.
             if (IStr(c.node, "equip_openclose")) return skip("take this one by hand, looting it can lock the quest");
+            // Every prop of the Devil of the Reed Field fight: scarecrows, totems,
+            // towers, temple walls and the doll. LuxDragon, 13 September 2026, on
+            // the forum thread about that quest: the log sent 28 gathers at the
+            // scarecrows, the same ones again and again for as long as the player
+            // stood there, while the plant word in "reed" had them filed as plants.
+            // The doll is a quest item and the rest are the fight itself, and the
+            // prefab is the only thing that says so. Loot from the fight reaches
+            // the ground under the ordinary item prefabs and is not touched.
+            if (IStr(c.node, "reeddevil")) return skip("part of the Reed Field quest, take it by hand");
             if (PlantedSeed(c.node)) return skip("a seed planted in your camp farm");
             if (PlacedCookFire(c.node)) return skip("a placed Field Pot or Bonfire");
             if (CraftStation(c.node)) return skip("a crafting station");

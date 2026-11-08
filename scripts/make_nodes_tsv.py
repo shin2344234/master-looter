@@ -58,6 +58,13 @@ TAG_KIND = {
 # 1013902 to 1013908 prefabs went in as one batch, and the seven Giant items
 # 1006531 to 1006537 are the only items they can be; the plain ones share
 # their prefab's word. Not played yet.
+# A loose prop that is a quest item and whose record names no item. Without a
+# key here the Nearby list shows a prefab name and the Skip quest items rule has
+# nothing to read. ReedDevil_Doll carries the quest tag in iteminfo.
+QUEST_PROPS = {
+    "gimmick_item_reeddevil_doll": "ReedDevil_Doll",
+}
+
 SWIM_ITEMS = {
     "pa_00_veg_sea_abalone_000_0001":       "Item_Rare_Collect_Abalone",
     "pa_00_veg_sea_conch_000_0001":         "Item_Rare_Collect_Conch",
@@ -243,7 +250,7 @@ SPIDER_WEB_ITEM = "spider_web"
 MECHANISM_SEGMENTS = {
     "door", "switch", "gate", "lamp", "streetlamp", "operator", "decolinker",
     "decotrigger", "spotlight", "candle", "brazier", "firepot", "pusher",
-    "pinballmachine", "cushionballmachine", "clawmachine",
+    "pinballmachine", "cushionballmachine", "clawmachine", "milepost",
 }
 
 # Fallback for gather nodes the table does not tag, read off the prefab name.
@@ -570,7 +577,13 @@ def kind_for(tags, name, prefab, folder=""):
         return "", False
     if MECHANISM_SEGMENTS & set(re.split(r"[^a-z]+", prefab.lower())):
         return "", False
-    low = name.lower()
+    # "reed" is a plant word and the Devil of the Reed Field is a boss. Every
+    # prop of that fight came out as a plant from the substring: totems, towers,
+    # temple walls, scarecrows and the quest doll, 19 rows. A saved log of 13
+    # September 2026 from that quest has 28 gathers sent at its scarecrows.
+    # The engine refuses the word as well, for a player with Unidentified nodes
+    # on.
+    low = name.lower().replace("reeddevil", "")
     for kind, words in NAME_KIND:
         if kind == "ore":
             # Whole segments only. Anywhere-in-the-string is what let a bare
@@ -797,6 +810,8 @@ def main():
         it = match_item(name, kind, by_key, by_name)
         if base in SWIM_ITEMS:
             it = by_key[SWIM_ITEMS[base].lower()]
+        if base in QUEST_PROPS:
+            it = by_key[QUEST_PROPS[base].lower()]
         web = bool(SPIDER_WEB.match(base))
         if web:
             it = by_key.get(SPIDER_WEB_ITEM)
@@ -833,7 +848,19 @@ def main():
                     label,
                     # kind_for returns True for the game's own tag, False for a
                     # name guess, or the name of another source it trusts.
-                    vouched if isinstance(vouched, str) else ("tag" if vouched else "name"),
+                    # A plant the game files in the loose-item folder is a
+                    # pick-up that happens to be named after a plant, and the
+                    # engine only sends the pick-up verb to a row with a
+                    # source it trusts. The dried rosemary and mushrooms on
+                    # drying ropes in camps were the five rows caught by that:
+                    # 1,366 arms and 842 "node empty" verdicts across the saved
+                    # logs and not one pick-up, while the dried fish, garlic,
+                    # ham and onion on the same ropes, which have no plant word
+                    # in the name, were picked up 56 times. Pio, 28 October
+                    # 2026. Plants only: gimmick_item_lookat_stone is a quest
+                    # prop that merely says stone.
+                    "folder" if (vouched is False and kind == "plant" and loose_by_base[base])
+                    else vouched if isinstance(vouched, str) else ("tag" if vouched else "name"),
                     "1" if breaks else "0",
                     " ".join(yields),
                     "1" if (driven and kind == "pickup" and not it and not yields) else "0",

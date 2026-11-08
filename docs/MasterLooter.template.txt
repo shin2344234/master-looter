@@ -297,6 +297,7 @@ Ownership oracle
 Pace	
 part of a creature or a mechanism	
 part of a mechanism, not loose loot	
+part of the Reed Field quest, take it by hand	
 paused: %s	
 Pets and companions follow the filters	
 pick up off	

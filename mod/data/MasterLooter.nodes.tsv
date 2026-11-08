@@ -188,7 +188,6 @@ gimmick_bigtree_02_fire_part	wood		Bigtree 02 fire part	name	0		0	0	0
 gimmick_blue_bomb_01	pickup		Battle blue bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_boss_landspider_bismuth_pillar_0001	ore		Landspider bismuth pillar	tag	1		0	0	0
 gimmick_boss_landspider_bismuth_pillar_0002	ore		Landspider bismuth pillar	tag	1		0	0	0
-gimmick_boss_reeddevil_totem_01	plant		Boss reeddevil totem	name	1		0	0	0
 gimmick_boss_titan_stone_01	stone	Stone_Quarry	Stone	name	0		0	0	0
 gimmick_box_barrel_01	container		Box barrel	tag	1		0	0	0
 gimmick_box_barrel_01_hellhound	container		Box barrel 01 hellhound	tag	1		0	0	0
@@ -1037,11 +1036,11 @@ gimmick_item_common_dryfish_0006	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1
 gimmick_item_common_dryfish_0007	pickup		Dried Fish	folder	0	Food_Dried_Fish	0	1	0
 gimmick_item_common_drygarlic_0001	pickup		Garlic	folder	0	Garlic	0	1	0
 gimmick_item_common_dryham_0001	pickup		Item common dryham	folder	0	Meat_III	0	1	0
-gimmick_item_common_dryherb_0001	plant		Rosemary	name	0	Rosemary	0	1	0
-gimmick_item_common_dryherb_0002	plant		Rosemary	name	0	Rosemary	0	1	0
-gimmick_item_common_dryherb_0003	plant		Rosemary	name	0	Rosemary	0	1	0
-gimmick_item_common_dryherb_0004	plant		Rosemary	name	0	Rosemary	0	1	0
-gimmick_item_common_drymushroom_0001	plant		Oakwood Mushroom	name	0	Pyogo_Mushroom	0	1	0
+gimmick_item_common_dryherb_0001	plant		Rosemary	folder	0	Rosemary	0	1	0
+gimmick_item_common_dryherb_0002	plant		Rosemary	folder	0	Rosemary	0	1	0
+gimmick_item_common_dryherb_0003	plant		Rosemary	folder	0	Rosemary	0	1	0
+gimmick_item_common_dryherb_0004	plant		Rosemary	folder	0	Rosemary	0	1	0
+gimmick_item_common_drymushroom_0001	plant		Oakwood Mushroom	folder	0	Pyogo_Mushroom	0	1	0
 gimmick_item_common_dryonion_0001	pickup		Onion	folder	0	Onion	0	1	0
 gimmick_item_common_fruitstall_0001	pickup		Object	folder	0		0	1	0
 gimmick_item_common_goldbar_0001	pickup		Crude Gold Bar	tag	0	GoldBar_Fake	0	1	0
@@ -1285,7 +1284,7 @@ gimmick_item_razorclam_0001	pickup		Razor Clam	folder	0	Item_Rare_Collect_RazorC
 gimmick_item_razorclam_0002	pickup		Freshwater Clam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
 gimmick_item_razorclam_0003	pickup		Freshwater Clam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
 gimmick_item_razorclam_0004	pickup		Freshwater Clam	folder	0	Item_Rare_Collect_RazorClam_01	0	1	0
-gimmick_item_reeddevil_doll	plant		Item reeddevil doll	name	0		0	1	0
+gimmick_item_reeddevil_doll	pickup	ReedDevil_Doll	Devil of the Reed Field's Doll	folder	0		0	1	0
 gimmick_item_seacoin_0001	pickup		Ancient Relic	folder	0	Item_Sea_Coin	0	1	0
 gimmick_item_sealed_artifact	pickup		Item sealed artifact	folder	0		0	1	0
 gimmick_item_shay_cat_clue_01	pickup		Item shay cat clue	folder	0		0	1	0
@@ -1431,8 +1430,6 @@ gimmick_marni_chocolate_product_02_index02	container		Container	tag	0		0	0	0
 gimmick_marni_chocolate_product_02_index03	container		Container	tag	0		0	0	0
 gimmick_marni_emp_capsule_0001_parts01	pickup		Marni emp capsule 0001 parts01	tag	0		1	0	0
 gimmick_marni_emp_capsule_0001_parts02	pickup		Marni emp capsule 0001 parts02	tag	0		1	0	0
-gimmick_milepost_crimsondesert	plant		Milepost reeddevil	name	0		0	0	0
-gimmick_milepost_her_reeds	plant		Milepost her reeds	name	0		0	0	0
 gimmick_mine_ambergris_place_0001	ore	ambergris	Ambergris	tag	1	ambergris	0	0	0
 gimmick_mine_bismuth_place_01	ore		Mine bismuth	tag	1		0	0	0
 gimmick_mine_bismuth_place_01_cave	ore		Mine bismuth cave	tag	1		0	0	0
@@ -1582,16 +1579,6 @@ gimmick_quarry_stone_0001	ore	Stone_Quarry	Stone	tag	0		0	0	0
 gimmick_quest_abyss_debris_01	container		Quest abyss debris	tag	0		0	0	0
 gimmick_rare_collect_kudzu_0001	plant		Rare collect kudzu	tag	0	Item_Rare_Collect_Kudzu	0	0	0
 gimmick_rare_collect_stalactites_0001	ore		Rare collect stalactites	tag	0	Item_Rare_Collect_Stalactites	0	0	0
-gimmick_reeddevil_scarecrow_01	plant		Reeddevil scarecrow	name	0		0	0	0
-gimmick_reeddevil_scarecrow_02	plant		Reeddevil scarecrow	name	0		0	0	0
-gimmick_reeddevil_scarecrow_03	plant		Reeddevil scarecrow	name	0		0	0	0
-gimmick_reeddevil_tower_0001	plant		Reeddevil tower 0001 base	name	0		0	0	0
-gimmick_reeddevil_tower_0001_parts01	plant		Reeddevil tower 0001 parts01	name	1		0	0	0
-gimmick_reeddevil_tower_0001_parts02	plant		Reeddevil tower 0001 parts02	name	0		0	0	0
-gimmick_reeddevil_tower_0002	plant		Reeddevil tower 0002 base	name	0		0	0	0
-gimmick_reeddevil_tower_0002_parts01	plant		Reeddevil tower 0002 parts01	name	1		0	0	0
-gimmick_reeddevil_tower_0002_parts02	plant		Reeddevil tower 0002 parts02	name	0		0	0	0
-gimmick_reeddevil_tower_0002_parts03	plant		Reeddevil tower 0002 parts03	name	0		0	0	0
 gimmick_rock_01	container		Rock catch	tag	0		0	0	0
 gimmick_rock_02	stone		Rock break	name	0	Stone_Quarry	0	0	0
 gimmick_rubber_tree_0001	wood		Rubber tree	name	0		0	0	0
@@ -1772,12 +1759,6 @@ gimmick_tableset_food_03_02	container		Tableset food 03	tag	0	Fish_Fruit_Porridg
 gimmick_tank_electric_bomb_01	pickup		Tank electric bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_tank_electric_bomb_02	pickup		Tank electric bomb	tag	1		1	0	0
 gimmick_tank_fire_bomb_01	pickup		Tank fire bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
-gimmick_temple_break_ground_01_reeddevil	plant		Temple break ground 01 reeddevil	name	1		0	0	0
-gimmick_temple_break_wall_arch_02a_reeddevil	plant		Plant	name	0		0	0	0
-gimmick_temple_fall_pillar_01_reeddevil	plant		Temple fall pillar 01 reeddevil	name	0		0	0	0
-gimmick_temple_wall_02_broken_01_reeddevil	plant		Plant	name	1		0	0	0
-gimmick_temple_wall_02_broken_02_reeddevil	plant		Plant	name	0		0	0	0
-gimmick_temple_wall_09_reeddevil	plant		Temple wall 09 reeddevil	name	0		0	0	0
 gimmick_timber_hotdeck_04_pail	wood		Gimmicktimber hotdeck 04 pail	name	0		0	0	0
 gimmick_tombstone_0001	stone		Tombstone	name	0		0	0	0
 gimmick_tombstone_0002	stone		Tombstone	name	0		0	0	0
@@ -1830,7 +1811,6 @@ gimmick_tool_trap_03	container		Tool trap	tag	0		0	0	0
 gimmick_tool_trap_05	container		Tool trap	tag	0		0	0	0
 gimmick_tool_trap_07	container		Tool trap	tag	0		0	0	0
 gimmick_trade_item_common	pickup		Item trade pack common	folder	0		0	1	0
-gimmick_transparent_effect_detect_01_reeddevil	plant		Plant	name	0		0	0	0
 gimmick_trap_bomb_01	pickup		Battle trap bomb	tag	1		1	0	0
 gimmick_trap_laser_box_0001	container		Trap laser box	tag	0		0	0	0
 gimmick_tree_balsa_sapling_01	wood		Tree balsa sapling	tag	0		0	0	0
