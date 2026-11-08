@@ -436,9 +436,16 @@ namespace ml::events
     // TrocTrInteractionRewardOnceTimer, id FF, then the interaction key and
     // the creature's character key, eleven bytes. Two hand skins on 19
     // September 2026 read F8 07 FF 7A 42 0F 00 B2 7A 00 00, SmallAnimal_Skin
-    // and the Desert Fox, and the same with the Desert Porcupine. It carries
-    // no entity, so it names the kind of creature and not the carcass. The id
+    // and the Desert Fox, and the same with the Desert Porcupine. It carried
+    // no entity then, so it named the kind of creature and not the carcass.
+    //
+    // Some later build made it fifteen bytes by adding an entity id at +11.
+    // LuxDragon's 1.6.55 log on exe 3576 has six raised for character 1002939,
+    // Elowen, reading ... BB 4D 0F 00 C0 02 10 B0, and B01002C0 is the humanoid
+    // actor standing beside the player at the time. So the field is taken to
+    // be the entity the interaction was with, the carcass for a skin. The id
     // is found by class name, like every other one here, since ids drift.
+    static uint16_t s_rewardSize = 0;
     static uint16_t RewardId()
     {
         static uint16_t s_id = 0;
@@ -449,8 +456,8 @@ namespace ml::events
             for (const DescName& d : g_descMap)
                 if (d.cls.find("TrocTrInteractionRewardOnceTimer") != std::string::npos)
                 {
-                    if (d.size == 11) s_id = d.id;
-                    else LOG_ERR("[skin] the interaction reward is %u bytes here, not 11; skins get no knowledge", d.size);
+                    if (d.size == 11 || d.size == 15) { s_id = d.id; s_rewardSize = static_cast<uint16_t>(d.size); }
+                    else LOG_ERR("[skin] the interaction reward is %u bytes here, not 11 or 15; skins get no knowledge", d.size);
                     break;
                 }
             if (!s_id) LOG_ERR("[skin] no interaction reward descriptor; skins get no knowledge");
@@ -458,15 +465,16 @@ namespace ml::events
         return s_id;
     }
 
-    static void* BuildReward(uint32_t inter, uint32_t chr, uint32_t player, uint32_t route, void** descOut)
+    static void* BuildReward(uint32_t inter, uint32_t chr, uint32_t target, uint32_t player, uint32_t route, void** descOut)
     {
         const uint16_t id = RewardId();
         if (!id) return nullptr;
         unsigned char* buf = nullptr;
-        void* e = NewEvent(id, 11, player, route, descOut, &buf);
+        void* e = NewEvent(id, s_rewardSize, player, route, descOut, &buf);
         if (!e) return nullptr;
         *reinterpret_cast<uint32_t*>(buf + 3) = inter;
         *reinterpret_cast<uint32_t*>(buf + 7) = chr;
+        if (s_rewardSize >= 15) *reinterpret_cast<uint32_t*>(buf + 11) = target;
         return e;
     }
 
@@ -485,7 +493,7 @@ namespace ml::events
             // never follows a search that could.
             void* rdesc = nullptr;
             void* rev = act == Action::Search && skinInter && skinChr
-                ? BuildReward(skinInter, skinChr, player, route, &rdesc) : nullptr;
+                ? BuildReward(skinInter, skinChr, target, player, route, &rdesc) : nullptr;
             uintptr_t q = 0;
             if (!mem::ReadPtr(f.queue, &q)) { LOG_ERR("[send] queue global unreadable"); return false; }
             InterlockedExchange(&g_sendTid, static_cast<LONG>(GetCurrentThreadId()));
@@ -500,7 +508,7 @@ namespace ml::events
             if (rev)
             {
                 static int s_said = 0;
-                if (s_said < 20) { ++s_said; LOG("[skin] %08X: sent the skinning reward, interaction %u, character %u", target, skinInter, skinChr); }
+                if (s_said < 20) { ++s_said; LOG("[skin] %08X: sent the skinning reward, %u bytes, interaction %u, character %u", target, s_rewardSize, skinInter, skinChr); }
             }
         }
         __except (EXCEPTION_EXECUTE_HANDLER)
@@ -893,7 +901,6 @@ namespace ml::events
         {
             static uint16_t s_rewardId = 0;
             static bool s_rewardLooked = false;
-            static volatile LONG s_rewardSeen = 0;
             if (!s_rewardLooked && !g_descMap.empty())
             {
                 s_rewardLooked = true;
@@ -905,15 +912,15 @@ namespace ml::events
             if (s_rewardId &&
                 mem::ReadPtr(ev + kOff_Ev_Buffer, &payload) &&
                 mem::Read16(ev + kOff_Ev_Size, &size) && size >= 11 &&
-                mem::Read16(payload, &id) && id == s_rewardId &&
-                InterlockedIncrement(&s_rewardSeen) <= 6)
+                mem::Read16(payload, &id) && id == s_rewardId)
             {
-                uint32_t inter = 0, chr = 0;
+                uint32_t inter = 0, chr = 0, with = 0;
                 mem::Read32(payload + 3, &inter);
                 mem::Read32(payload + 7, &chr);
+                if (size >= 15) mem::Read32(payload + 11, &with);
                 const Creature* cr = CreatureDb::ByCharacterKey(chr);
-                LOG("[reward] raised by %08X route %08X thread %lu: interaction %u, character %u (%s)",
-                    who, rt, GetCurrentThreadId(), inter, chr, cr ? cr->name.c_str() : "not in the creature table");
+                LOG("[reward] raised by %08X route %08X thread %lu: interaction %u, character %u (%s), %u bytes, entity %08X",
+                    who, rt, GetCurrentThreadId(), inter, chr, cr ? cr->name.c_str() : "not in the creature table", size, with);
                 void* frames[28] = {};
                 const USHORT n = RtlCaptureStackBackTrace(0, 28, frames, nullptr);
                 const uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleW(nullptr));

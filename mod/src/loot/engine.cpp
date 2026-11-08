@@ -3998,7 +3998,17 @@ namespace ml::loot
                         : v.act == Action::Gather || v.nodeReach ? cfg.gatherRange : cfg.lootRange;
         if (lim > 0 && c.d > lim) return skip("out of range");
 
-        if (!cfg.lootOwned && v.act != Action::Catch)
+        // Searching a body has no stealing form. interactioninfo has Wagon_Steal
+        // and nothing like it beside Dead_Loot, and in conditioninfo row 30 only
+        // the loose item half tests IsCrimeTarget. The ownership check still
+        // answered yes for about one body in sixteen across the saved logs, at
+        // the same category bytes as the bodies it passed, so Ahplla's raiders
+        // and thieves were left lying for no reason the game shares. A body
+        // that reads peaceful keeps the old test.
+        const bool hostileBody = v.act == Action::Search && c.cat2 != 0x0A;
+        if (hostileBody && !cfg.lootOwned && WouldStealCached(c) == 1)
+            LOG("[corpse] %08X: the ownership check says theft, searching anyway, cat %02X/%02X", c.eid, c.cat, c.cat2);
+        if (!cfg.lootOwned && v.act != Action::Catch && !hostileBody)
         {
             const int steal = WouldStealCached(c);
             if (steal == 1)  return skip("owned by someone (theft)");
