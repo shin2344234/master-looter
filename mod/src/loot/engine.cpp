@@ -3832,7 +3832,19 @@ namespace ml::loot
                 for (const char* f : forbidden) if (IStr(c.key, f)) return skip("protected item name");
                 if (v.act == Action::Take && !cfg.takeUnknownItems) return skip("not in item database");
             }
-            else if (v.act == Action::Take && !cfg.takeUnknownItems) return skip("unnamed item");
+            else if (v.act == Action::Take)
+            {
+                // No key means no rule can be asked about it. When the item
+                // table is unreadable that is every item in the world, and
+                // TakeUnknownItems=1 used to wave the lot into the bag, quest
+                // items included. Exe 1.0.0.3663 did exactly that until the
+                // reader learned its layout. On that layout a missing key can
+                // also be a row the game has not built yet, so it is refused
+                // there too and the next scan asks again.
+                if (game::ItemTableState() <= 0) return skip("item names unavailable");
+                if (game::ItemTableLazy())       return skip("item name not loaded yet");
+                if (!cfg.takeUnknownItems)       return skip("unnamed item");
+            }
         }
 
         switch (v.act)

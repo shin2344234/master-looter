@@ -106,6 +106,12 @@ namespace ml::sig
         "40 53 48 83 EC 20 48 8B 41 68 48 8B D9 48 8B 50 20 0F B7 52 30 E8 ?? ?? ?? ?? "
         "0F B7 90 ?? ?? 00 00 81 FA FF FF 00 00 75 04 B0 03 EB 09 E8 ?? ?? ?? ?? 0F B6 40 ?? 0F B6 C8 84 C0 74 ?? "
         "83 F9 01 75 ?? 48 8B 9B A0 00 00 00 48 85 DB 74 ?? 48 8B 9B D0 00 00 00";
+    // 1.0.0.3663 passes the character row by pointer, and the compare against
+    // 0xFFFF loads the constant first. Same function, unique at +0x23626F0.
+    inline constexpr const char* kSig_InvHolder3663 =
+        "40 53 48 83 EC 20 48 8B 41 68 48 8B D9 48 8B 48 20 0F B7 41 30 48 8D 4C 24 30 66 89 44 24 30 E8 ?? ?? ?? ?? "
+        "48 8D 88 ?? ?? 00 00 B8 FF FF 00 00 66 39 01 75 04 B0 03 EB 09 E8 ?? ?? ?? ?? 0F B6 40 ?? 0F B6 C8 84 C0 74 ?? "
+        "83 F9 01 75 ?? 48 8B 9B A0 00 00 00 48 85 DB 74 ?? 48 8B 9B D0 00 00 00";
 
     // How many item entities one drop-table row spawns. Watched, never called.
     //   if (!instigator) return 1;
@@ -114,10 +120,12 @@ namespace ml::sig
     // It has no direct callers: all three call sites reach it through a
     // one-instruction thunk, so hooking the body catches every drop in the game.
     // The pattern covers the prologue through the null-instigator early-out,
-    // which is the branch worth watching.
+    // which is the branch worth watching. 1.0.0.3663 returns a loaded value
+    // there instead of the constant 1, so the pattern stops at the jnz; it is
+    // still unique in 3576 (+0xCB08C80) and 3663 (+0xCF51350).
     inline constexpr const char* kSig_DropCount =
         "48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 57 48 83 EC 20 "
-        "44 89 C3 48 89 D7 48 89 CE 48 85 C9 75 0A B8 01 00 00 00 E9";
+        "44 89 C3 48 89 D7 48 89 CE 48 85 C9 75";
 
     // Walks a gimmick's drop table and calls the count function once per row that
     // passes the row filter. A pickaxe swing gets two calls out of this, a break
@@ -153,6 +161,8 @@ namespace ml::sig
     // past anything a fifteen-byte patch covers, confirms it. Both are unique
     // in exe 1.0.0.3392 and agree on +0x27FBCD0.
     inline constexpr const char* kSig_OwnCheckCaller = "48 8B 89 20 01 00 00 E8 ?? ?? ?? ?? 84 C0 74 05 40 B7 02";
+    // 1.0.0.3663 went back to the older tail, unique at +0x2DA26DA.
+    inline constexpr const char* kSig_OwnCheckCaller3663 = "48 8B 89 20 01 00 00 E8 ?? ?? ?? ?? 84 C0 74 04 B3 02";
     inline constexpr unsigned    kOff_OwnCheckCaller_Call = 7;
     inline constexpr const char* kSig_OwnCheckBody =
         "55 41 54 41 55 41 56 41 57 48 8B EC 48 81 EC 80 00 00 00 49 8B ?? 4C 8B ?? 4C 8B ?? 0F B6 7D 50";
@@ -166,9 +176,10 @@ namespace ml::sig
     // and its actor at [controller+0D8h]; both displacements are read out of
     // its own instructions at run time. Unique in exe 1.0.0.3392 at
     // +0xB8F5C8, global +0x71ACBC8, accessor +0x99C250. The compare read
-    // [rbp+0] before that build, which is the byte that broke.
+    // [rbp+0] before that build, which is the byte that broke. 1.0.0.3663
+    // compares r12b, so the ModRM byte is a wildcard; unique at +0xBC9D88.
     inline constexpr const char* kSig_ControlSite =
-        "48 8B 0D ?? ?? ?? ?? 48 8B 49 10 E8 ?? ?? ?? ?? 90 44 38 AD C0 00 00 00 0F 84";
+        "48 8B 0D ?? ?? ?? ?? 48 8B 49 10 E8 ?? ?? ?? ?? 90 44 38 ?? C0 00 00 00 0F 84";
     inline constexpr unsigned kOff_ControlSite_Call = 11;
     inline constexpr unsigned kOff_ControlSite_Svc  = 0x10;
 
@@ -209,6 +220,19 @@ namespace ml::sig
     //   mov rbx, cs:<table> | cmp r32, [rbx+8] | jae
     inline constexpr const char* kSig_TableIndex = "48 8B 1D ?? ?? ?? ?? 3B ?? 08 0F 83";
     inline constexpr unsigned kOff_TableIndex_MovGlobal = 0;   // 7-byte `mov rbx, [rip+disp]`
+    // Exe 1.0.0.3663 rebuilt the table container. Every getter is one template
+    // now, 120 of them, and takes its row by pointer:
+    //   sub rsp, 0x28 | movzx r8d, word [rcx] | mov rcx, cs:<table global>
+    //   | cmp r8d, [rcx+0x28] | jb
+    // The table's name is no longer inside the getter. A row the game has not
+    // built yet has a zero def, and the getter calls that table's loader,
+    // which names its table with the first `lea r8` it holds and reads the
+    // name object from [table+8]. So the getter pattern lists every table and
+    // the loader it calls names it.
+    inline constexpr const char* kSig_TableGetterPtr =
+        "48 83 EC 28 44 0F B7 01 48 8B 0D ?? ?? ?? ?? 44 3B 41 28 72";
+    inline constexpr unsigned kOff_TableGetter_MovGlobal = 0x08; // `mov rcx, cs:<table global>`
+    inline constexpr unsigned kMax_TableGetterToCall     = 0x50; // the loader call sits at +0x3F on 3663
     inline constexpr unsigned kMax_LeaToPrologue = 0x180;
 
     inline constexpr const char* kStr_ItemInfoTable    = "iteminfo";
@@ -219,6 +243,28 @@ namespace ml::sig
     inline constexpr unsigned kOff_Table_Count   = 0x08;
     inline constexpr unsigned kOff_Table_DefsA   = 0x58;
     inline constexpr unsigned kOff_Table_DefsB   = 0x50;
+    // The 16-bit key map behind each table, read by every lookup that turns a
+    // key into a row: a flag, a bucket count, a bucket array (0x100 bytes per
+    // bucket) and a node array. Counted on both builds by the
+    // `mov r10, cs:<table> | cmp [r10+flag], 0 | je | mov ecx, [r10+count]`
+    // head: 119 sites at 6C/68 on 3576, 145 at 54/50 on 3663, and none of the
+    // other pair on either.
+    inline constexpr unsigned kOff_Table_MapFlag    = 0x6C;
+    inline constexpr unsigned kOff_Table_MapBuckets = 0x68;
+    inline constexpr unsigned kOff_Table_MapArray   = 0x78;
+    inline constexpr unsigned kOff_Table_MapNodes   = 0x80;
+    // The same table on 1.0.0.3663: name object at +0x08, an entry array at
+    // +0x20 with the row count at +0x28, 0x18 bytes an entry and the def at
+    // entry+8. A zero def is a row not built yet, not a dead row. The map
+    // moved to +0x54, +0x50, +0x60 and +0x68.
+    inline constexpr unsigned kOff_Table3663_Entries    = 0x20;
+    inline constexpr unsigned kOff_Table3663_Count      = 0x28;
+    inline constexpr unsigned kTable3663_EntryStride    = 0x18;
+    inline constexpr unsigned kOff_Table3663_EntryDef   = 0x08;
+    inline constexpr unsigned kOff_Table3663_MapFlag    = 0x54;
+    inline constexpr unsigned kOff_Table3663_MapBuckets = 0x50;
+    inline constexpr unsigned kOff_Table3663_MapArray   = 0x60;
+    inline constexpr unsigned kOff_Table3663_MapNodes   = 0x68;
     // A def record opens with its string key since 1.0.0.3392, and the numeric
     // key follows it at +0x08; before that the key came first and the string
     // key sat at +0x08. Read from the loaders of ItemInfo, InventoryInfo,

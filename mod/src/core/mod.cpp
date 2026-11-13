@@ -784,6 +784,22 @@ namespace ml::Mod
         LOG("[modules] system DLL names loaded from the game folder instead (proxies and the ASI loader): %s",
             proxy.empty() ? "none" : proxy.c_str());
         LOG("[modules] known overlays: %s", overlay.empty() ? "none" : overlay.c_str());
+        // CDAL is a shared address library other mods load to find and hook
+        // game functions. It hooks with SafetyHook, whose entry patches are an
+        // E9 jump or an FF 25 absolute jump, and FindUnderPatch already reads
+        // past both, so this mod finds its functions by pattern and stacks on
+        // whatever CDAL put there. The line says it was present, so a log from
+        // a player running both shows which arrangement it was.
+        if (HMODULE cdal = GetModuleHandleW(L"cdal.dll"))
+        {
+            wchar_t path[MAX_PATH] = L"";
+            GetModuleFileNameW(cdal, path, MAX_PATH);
+            char p8[MAX_PATH * 3] = "";
+            WideCharToMultiByte(CP_UTF8, 0, path, -1, p8, sizeof p8, nullptr, nullptr);
+            LOG("[cdal] cdal.dll is loaded from %s. This mod does not use it and finds every function by its own patterns, "
+                "stacking on any hook CDAL or a mod using it has placed.", p8);
+        }
+        else LOG("[cdal] cdal.dll is not loaded.");
         // Mod menus that open on Insert, as this one does. hayxo on the posts tab,
         // 18 October 2026, saw the menu flicker constantly with DesertLink Mod Menu
         // loaded. It is a fork of the Trinity menu, opens on Insert or F10 by

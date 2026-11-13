@@ -140,6 +140,9 @@ namespace ml::game
     // -1 unavailable. Call after ItemDb::Load and once the game has loaded.
     int  ProbeItemTable();
     int  ItemTableState();
+    // True when the game builds table rows lazily (exe 1.0.0.3663 on), so a
+    // missing key can mean a row not built yet rather than a nameless item.
+    bool ItemTableLazy();
     uint32_t ItemTableCount();
     bool ItemKeyForType(uint16_t typeId, char* out, size_t n);
     bool GimmickKeyForType(uint16_t typeId, char* out, size_t n);

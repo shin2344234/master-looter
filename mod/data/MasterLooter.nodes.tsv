@@ -582,7 +582,7 @@ gimmick_collection_prop_ceramic_0010	container	Collection_Prop_Ceramic_0010	Gray
 gimmick_collection_prop_ceramic_0011	container	Collection_Prop_Ceramic_0011	Brown Two-Handled Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0012	container	Collection_Prop_Ceramic_0012	Red One-Handled Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0013	container	Collection_Prop_Ceramic_0013	Gray Jar	tag	0		0	0	0
-gimmick_collection_prop_ceramic_0014	container	Collection_Prop_Ceramic_0014	Ocher Jar	tag	0		0	0	0
+gimmick_collection_prop_ceramic_0014	container	Collection_Prop_Ceramic_0014	Red Clay Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0015	container	Collection_Prop_Ceramic_0015	Small Storage Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0016	container	Collection_Prop_Ceramic_0016	Large Medicine Jar	tag	0		0	0	0
 gimmick_collection_prop_ceramic_0017	container	Collection_Prop_Ceramic_0017	Cylindrical Jar	tag	0		0	0	0
@@ -1505,6 +1505,12 @@ gimmick_nature_tree_stump_0001	wood		Nature tree stump	name	0		0	0	0
 gimmick_nature_wood_broken_tree_12_swamp_body	wood		Wood	name	0		0	0	0
 gimmick_nature_wood_broken_tree_12_swamp_parts01	wood		Wood	name	0		0	0	0
 gimmick_nature_wood_redwoodsierra_stump_02_swamp	wood		Wood	name	0		0	0	0
+gimmick_ocean_decostone_0001	stone		Ocean decostone	name	0		0	0	0
+gimmick_ocean_decostone_0001_parts01	stone		Ocean decostone 0001 parts01	name	0		0	0	0
+gimmick_ocean_decostone_0002	stone		Ocean decostone	name	0		0	0	0
+gimmick_ocean_decostone_0002_parts01	stone		Ocean decostone 0002 parts01	name	0		0	0	0
+gimmick_ocean_decostone_0004	stone		Ocean decostone	name	0		0	0	0
+gimmick_ocean_decostone_0004_parts01	stone		Ocean decostone 0004 parts01	name	0		0	0	0
 gimmick_pearl_0001	pickup		Pearl	tag	0	Item_Natural_Pearl	0	0	0
 gimmick_pictureframe_01	container	Collection_Prop_Picture_0065	Replica - Poverty Amidst Plenty	tag	0		0	0	0
 gimmick_play_artificial_barrel_01	container		Barrel catch	tag	1		0	0	0
@@ -1951,5 +1957,5 @@ pa_00_veg_sea_seapineapple_001_0001	item	Item_Rare_Collect_GiantSeaPineapple	Gia
 pa_00_veg_sea_seasquirt_000_0001	item	Item_Rare_Collect_GiantSeaSquirt	Giant Stalked Sea Squirt	tag	0	Item_Rare_Collect_GiantSeaSquirt	0	0	0
 pa_00_veg_sea_shortneckclam_000_0001	item	Item_Rare_Collect_Shortneckclam	Clams	tag	0	Item_Rare_Collect_Shortneckclam	0	0	0
 pa_00_veg_sea_starfish_000_0001	item	Item_Rare_Collect_GiantStarfish	Giant Starfish	tag	0	Item_Rare_Collect_GiantStarfish	0	0	0
-pa_00_veg_sea_string_000_0001	item	Item_Rare_Collect_Sea_String	Red Seaweed	tag	0	Item_Rare_Collect_Sea_String	0	0	0
+pa_00_veg_sea_string_000_0001	item	Item_Rare_Collect_Sea_String	Red Sea Algae	tag	0	Item_Rare_Collect_Sea_String	0	0	0
 pa_00_veg_sea_weed_000_0001	item	Item_Rare_Collect_Sea_Weed	Seaweed	tag	0	Item_Rare_Collect_Sea_Weed	0	0	0

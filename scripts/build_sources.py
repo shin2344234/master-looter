@@ -22,6 +22,7 @@ import struct
 import sys
 
 from cdtables import LOCDIR, Reader, load_paloc, load_table
+import dropsets
 from dropsets import parse_entry
 
 DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
@@ -203,6 +204,7 @@ def gimmick_drop_block(rec, dskeys, itemkeys):
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    dropsets.detect()
     items = keyed("iteminfo")
     item_en = paloc_sub(os.path.join(LOCDIR, "item.paloc"), 0x70)
     tagged = {int(r["key"]): r for r in csv.DictReader(open(os.path.join(DATA, "items_tagged.csv"), encoding="utf-8-sig"))}

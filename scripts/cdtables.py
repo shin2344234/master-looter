@@ -407,7 +407,16 @@ _U8_FLAGS = ("is_reward_loot_drop", "lost_item_recovery_type", "is_editable_grim
              "item_tier", "usable_alert_type", "item_charge_type", "apply_drop_stat_type")
 
 
-def parse_item(rec, trace=False, r=None):
+# 1.0.0.3663 put two strings between filter_type and default_texture_path in
+# every ItemInfo record, so eight zero bytes where both are empty,
+# which is 3,790 of the first 4,000 shared keys. parse_all_items decides per table which
+# layout it holds by trying the first records both ways.
+ITEM_3663 = False
+
+
+def parse_item(rec, trace=False, r=None, v3663=None):
+    if v3663 is None:
+        v3663 = ITEM_3663
     if r is None:
         r = Reader(rec, trace)
     it = {}
@@ -451,6 +460,11 @@ def parse_item(rec, trace=False, r=None):
     it["item_desc2"] = r.locstr("item_desc2") if r.u8("item_desc2.flag") else None
     it["item_memo"] = r.cstr("item_memo")
     it["filter_type"] = r.cstr("filter_type")
+    if v3663:
+        # Two strings, empty on nearly every item. The ship cannon has
+        # "env_walla_ship_combat_cannon_ready" and "SoundNameOnMaxCharged".
+        it["sound_3663_a"] = r.cstr("sound_3663_a")
+        it["sound_3663_b"] = r.cstr("sound_3663_b")
     it["default_texture_path"] = r.u32("default_texture_path")
     it["emoji_texture_id"] = r.u32("emoji_texture_id")
     it["occupied_equip_slot_data_list"] = flag_array(r, occupied_equip_slot, "occupied_equip_slot_data_list")
@@ -507,9 +521,21 @@ def parse_item(rec, trace=False, r=None):
     return it, r
 
 
+def _fits(rec, v3663):
+    try:
+        _, r = parse_item(rec, v3663=v3663)
+        return r.p == len(rec)
+    except Exception:  # noqa
+        return False
+
+
 def parse_all_items(gamedata=GAMEDATA):
+    global ITEM_3663
     out, bad = [], []
-    for key, rec in load_table("iteminfo", gamedata):
+    rows = load_table("iteminfo", gamedata)
+    sample = [rec for _, rec in rows[:64]]
+    ITEM_3663 = sum(_fits(x, True) for x in sample) > sum(_fits(x, False) for x in sample)
+    for key, rec in rows:
         try:
             it, r = parse_item(rec)
             if r.p != len(rec):

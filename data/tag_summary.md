@@ -1,13 +1,13 @@
 # Master Looter item tags, build 2.02.00
 
-8374 items parsed from iteminfo.staticinfobody; 8302 have an English name.
+8379 items parsed from iteminfo.staticinfobody; 8307 have an English name.
 
 ## Class column (one per item, first match in priority order)
 
-- damaged-gear: 1645
+- damaged-gear: 1649
 - weapon: 518
 - keepsake: 484
-- furniture: 393
+- furniture: 394
 - document: 288
 - field-cooked: 212
 - abyss-gear: 209
@@ -16,8 +16,8 @@
 - container: 170
 - sealed-artifact: 161
 - recipe-furniture: 159
-- helm: 153
-- body-armor: 152
+- helm: 155
+- body-armor: 153
 - vehicle-part: 146
 - food: 133
 - poster: 118
@@ -39,10 +39,10 @@
 - treasure: 73
 - recipe-book: 72
 - treasure-map: 69
-- recipe-vehicle: 65
 - trade-good: 65
 - gimmick: 63
 - lamp: 62
+- recipe-vehicle: 62
 - dye: 60
 - light: 56
 - tool: 55
@@ -116,42 +116,42 @@
 
 ## All tags
 
-- tier-0: 4780
-- stackable: 3405
-- armor: 2281
+- tier-0: 4778
+- stackable: 3404
+- armor: 2288
 - wild: 1749
-- goods: 1732
-- equipment: 1727
-- damaged-gear: 1662
+- goods: 1736
+- equipment: 1730
+- damaged-gear: 1666
 - document: 1363
-- tier-1: 1277
+- tier-1: 1283
 - quest: 1247
 - knowledge: 1236
-- no-sell: 1146
-- extractable: 1105
-- furniture: 1054
-- body-armor: 1039
-- no-discard: 1007
-- tier-2: 896
+- no-sell: 1148
+- extractable: 1108
+- furniture: 1055
+- body-armor: 1042
+- no-discard: 1009
+- tier-2: 897
 - leather: 882
 - tier-3: 805
 - important: 758
 - weapon: 623
 - housing-only: 572
-- recipe: 558
-- cloth: 556
+- cloth: 563
+- recipe: 555
 - plate: 551
 - docking: 541
 - gimmick: 486
 - keepsake: 484
 - decoration: 431
-- restores-hp: 416
+- restores-hp: 417
 - memory-fragment: 415
 - npc-weapon-pool: 395
-- helm: 390
+- helm: 392
+- consumable: 386
 - tier-4: 377
 - collectible: 376
-- consumable: 376
 - gloves: 374
 - food: 365
 - material: 364
@@ -174,7 +174,7 @@
 - recipe-furniture: 159
 - vehicle-part: 147
 - trade-good: 134
-- cloak: 130
+- cloak: 132
 - alchemy-material: 125
 - kuku-pot-item: 120
 - light: 118
@@ -202,9 +202,9 @@
 - packaged: 68
 - contribution-reward: 66
 - ranged: 65
-- recipe-vehicle: 65
 - lamp: 62
 - mace: 62
+- recipe-vehicle: 62
 - preorder: 61
 - tool: 61
 - dye: 60
@@ -229,6 +229,7 @@
 - flower-pot: 34
 - kuku-gear: 33
 - legendary-animal-report: 33
+- potion: 32
 - note: 31
 - longsword: 29
 - animal: 28
@@ -240,7 +241,6 @@
 - dagger: 24
 - earring: 24
 - elixir: 24
-- potion: 23
 - greataxe: 22
 - large-shield: 22
 - cooking-facility: 21

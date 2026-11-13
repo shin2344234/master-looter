@@ -35,7 +35,16 @@ RESULT_TYPE_NAMES = {
 }
 
 
-def parse_entry(r):
+# 1.0.0.3663 added a u8 to the set header and one to every entry, before the
+# tail. Every one of them reads 0 in that build. The header byte sits after
+# is_blocked or is_equal_percent, which read the same because both are always
+# 0; this takes the second. parse_all decides the layout from the first sets.
+SET_3663 = False
+
+
+def parse_entry(r, v3663=None):
+    if v3663 is None:
+        v3663 = SET_3663
     e = {}
     e["tag"] = r.u8("e.tag")
     e["key_raw"] = r.u64("e.key_raw")
@@ -46,6 +55,8 @@ def parse_entry(r):
     e["min"] = r.i64("e.min")
     e["max"] = r.i64("e.max")
     e["enchant_level"] = r.u16("e.enchant")
+    if v3663:
+        e["unk_3663"] = r.u8("e.unk_3663")
     t = TAIL_SIZES.get(e["result_type"])
     if t is None:
         raise ValueError("unknown result_type %d at 0x%x" % (e["result_type"], r.p))
@@ -58,7 +69,9 @@ def parse_entry(r):
     return e
 
 
-def parse_dropset(rec, trace=False, r=None):
+def parse_dropset(rec, trace=False, r=None, v3663=None):
+    if v3663 is None:
+        v3663 = SET_3663
     if r is None:
         r = Reader(rec, trace)
     d = {}
@@ -66,11 +79,13 @@ def parse_dropset(rec, trace=False, r=None):
     d["key"] = r.u32("key")
     d["is_blocked"] = r.u8("is_blocked")
     d["is_equal_percent"] = r.u8("is_equal_percent")
+    if v3663:
+        d["unk_3663"] = r.u8("unk_3663")
     d["drop_roll_type"] = r.u8("drop_roll_type")
     d["nee_slot_count"] = r.u16("nee_slot_count")
     d["drop_tag_name_hash"] = r.u32("drop_tag_name_hash")
     d["drop_roll_count"] = r.u32("drop_roll_count")
-    d["entries"] = r.array(parse_entry, "entries")
+    d["entries"] = r.array(lambda r: parse_entry(r, v3663), "entries")
     d["need_weight"] = r.u64("need_weight")
     d["total_drop_rate"] = r.u64("total_drop_rate")
     d["roll_dice_skip_rate"] = r.u64("roll_dice_skip_rate")
@@ -81,9 +96,30 @@ def parse_dropset(rec, trace=False, r=None):
     return d, r
 
 
+def _fits(rec, v3663):
+    try:
+        _, r = parse_dropset(rec, v3663=v3663)
+        return r.p == len(rec)
+    except Exception:  # noqa
+        return False
+
+
+def detect(rows=None):
+    """Which layout the extracted dropsetinfo holds. Also sets SET_3663, so a
+    caller that reads entries embedded in other tables gets the same layout."""
+    global SET_3663
+    rows = rows if rows is not None else load_table("dropsetinfo")
+    sample = [rec for _, rec in rows[:64]]
+    SET_3663 = sum(_fits(x, True) for x in sample) > sum(_fits(x, False) for x in sample)
+    return SET_3663
+
+
 def parse_all():
+    global SET_3663
     out, bad = [], []
-    for key, rec in load_table("dropsetinfo"):
+    rows = load_table("dropsetinfo")
+    SET_3663 = detect(rows)
+    for key, rec in rows:
         try:
             d, r = parse_dropset(rec)
             if r.p != len(rec):

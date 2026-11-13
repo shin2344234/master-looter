@@ -133,12 +133,26 @@ def main():
         # is every game on this machine, 2949 included.
         if not hits and name.endswith("Jumped"):
             tag = "none"
-        if len(hits) != 1 and name not in ("kSig_LeaR8Rip", "kSig_TableResolver16", "kSig_TableIndex",
-                                           "kSig_OwnCallSite", "kSig_MoveUpdateJumped", "kSig_OwnCheckJumped"):
+        # A pattern with a 3663 twin counts as one: the pair passes when
+        # either half lands on exactly one site, so the old half missing on
+        # the new exe (or the new half on the old one) is no problem.
+        twin = name[:-4] if name.endswith("3663") else name + "3663"
+        has_twin = twin in dict(pats)
+        if not hits and has_twin:
+            tag = "alt "
+        elif len(hits) != 1 and name not in ("kSig_LeaR8Rip", "kSig_TableResolver16", "kSig_TableIndex",
+                                             "kSig_OwnCallSite", "kSig_MoveUpdateJumped", "kSig_OwnCheckJumped",
+                                             "kSig_TableGetterPtr"):
             bad += 1
         print("%-5s %-24s hits=%-3d %s" % (tag, name, len(hits), " ".join("+0x%X" % h for h in hits[:6])))
         if len(hits) == 1:
             found[name] = hits[0]
+    for name, _ in pats:
+        if name.endswith("3663"):
+            base_name = name[:-4]
+            if base_name not in found and name not in found:
+                print("MISS  neither %s nor %s resolves" % (base_name, name))
+                bad += 1
     for name, s in strs:
         n = buf.count(s.encode() + (bytes([0]) if name.startswith("kStr_") else b""))
         print("%-5s %-24s %d occurrence(s) of %r" % ("ok " if n else "MISS", name, n, s))
@@ -165,6 +179,44 @@ def main():
 
     # Table resolvers: every `lea r8, [rip+str]` whose string is one of the two table
     # names, with the 16-bit resolver prologue at most 0x180 bytes above.
+    # 1.0.0.3663 on: every table has a getter that takes the key by pointer,
+    # loads the table global, and calls a loader that names the table with
+    # its first lea r8. That is how the plugin finds them, so check the same.
+    getters = {}
+    for m in pat2re(dict(pats)["kSig_TableGetterPtr"]).finditer(buf):
+        fn = off2rva(secs, m.start())
+        if fn is None:
+            continue
+        g = rip(buf, secs, fn + 8, 7)
+        off = m.start()
+        for j in range(0x20, 0x50):
+            if buf[off + j] != 0xE8:
+                continue
+            loader = fn + j + 5 + struct.unpack_from("<i", buf, off + j + 1)[0]
+            lo = rva2off(secs, loader)
+            if lo is None:
+                continue
+            k = buf.find(bytes([0x4C, 0x8D, 0x05]), lo, lo + 0x80)
+            if k < 0:
+                continue
+            s = rva2off(secs, off2rva(secs, k) + 7 + struct.unpack_from("<i", buf, k + 3)[0])
+            if s is None:
+                continue
+            nm = buf[s:s + 40].split(bytes([0]))[0].decode(errors="replace")
+            getters.setdefault(nm, set()).add((fn, g))
+            break
+    if getters:
+        print("3663 table getters: %d named" % len(getters))
+        for want in ("iteminfo", "gimmickinfo", "characterinfo", "interactioninfo"):
+            hs = getters.get(want, set())
+            gl = {g for _, g in hs}
+            tag = "ok " if len(gl) == 1 else ("MULTI" if gl else "MISS")
+            if len(gl) != 1:
+                bad += 1
+            print("%-5s table %-15s %s" % (tag, want, "  ".join("fn +0x%X global +0x%X" % h for h in sorted(hs))))
+        print("RESULT:", "all good" if not bad else "%d problem(s)" % bad)
+        return 0 if not bad else 1
+
     pro = pat2re(dict(pats)["kSig_TableResolver16"])
     for want in ("iteminfo", "gimmickinfo"):
         soff = buf.find(want.encode() + b"\0")
