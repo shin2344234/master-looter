@@ -3087,12 +3087,20 @@ namespace ml::loot
     // a lamp the game hands over as an item, the Icy White Glass Lamp, carries
     // item data and is still taken. make_nodes_tsv.py refuses the same words
     // before its name guess.
+    // "displaystand" and "bed" came from a player's 1.6.56 log on 3663, 13
+    // November 2026, with Unidentified nodes on: five weapon stands gathered
+    // 23 times in a minute and a bed twice, each again every six seconds. A
+    // stand is shop or wall decoration and an in_dff bed is an NPC sleep spot,
+    // and the 52 saved logs hold 538 gathers at display stands and 7 at beds
+    // with nothing learned from any of them. A weapon lying on a stand is its
+    // own object with item data, so it is not refused by this.
     static bool Mechanism(const char* node, const NodeType* type, bool identified)
     {
         if (!node || !node[0] || type || identified) return false;
         static const char* kParts[] = { "door", "switch", "gate", "lamp", "streetlamp", "operator", "decolinker",
                                         "decotrigger", "spotlight", "candle", "brazier", "firepot", "pusher",
-                                        "pinballmachine", "cushionballmachine", "clawmachine", "standstone", "challenge" };
+                                        "pinballmachine", "cushionballmachine", "clawmachine", "standstone", "challenge",
+                                        "displaystand", "bed" };
         const char* base = node;
         for (const char* q = node; *q; ++q) if (*q == '/' || *q == '\\') base = q + 1;
         char seg[48];

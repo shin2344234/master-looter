@@ -255,6 +255,9 @@ MECHANISM_SEGMENTS = {
     # "standstone_" holds "stone_". The challenge rocks of 13 November 2026
     # came in this way with two yields borrowed from the challenge reward.
     "standstone", "challenge",
+    # A display stand is shop or wall decoration and an in_dff bed is where an
+    # NPC sleeps. 538 and 7 gathers in the saved logs, none paid out.
+    "displaystand", "bed",
 }
 
 # Fallback for gather nodes the table does not tag, read off the prefab name.
