@@ -1,11 +1,11 @@
 # Master Looter
 
-Auto-loot for Crimson Desert with an in-game menu, built for the DLC update and its patch of 6 November 2026, game 2.04.08 (exe 1.0.0.3576).
+Auto-loot for Crimson Desert with an in-game menu, built for the DLC update and game 2.05.00 (exe 1.0.0.3663).
 
 > [!IMPORTANT]
 > **New in 1.6.28: loot can go straight into storage.** Install [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) 1.1.0 or later beside Master Looter, and what Master Looter picks up can be moved into your storage as it lands. Nothing you pick up by hand is touched. It starts off; see [Storing loot](#storing-loot) for how to turn it on.
 
-Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals, and the carcasses and bodies of anything you kill. Each kind has its own switch. Every item it picks up is checked against a database of 8,374 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits, apart from hostile bodies, which the mod searches without asking it. Searching a body or skinning a carcass is the exception. The game hands over the whole yield before the mod sees any of it, so what your rules refuse arrives anyway unless **Drop refused loot from bodies** under General is on, and then it goes straight back on the ground beside you. Everything is set from a menu inside the game.
+Walk past it and it is in your bag: dropped items, herbs and flowers, ore and stone chunks, timber, insects, fish, small animals, and the carcasses and bodies of anything you kill. Each kind has its own switch. Every item it picks up is checked against a database of 8,379 items with classes and tags, and the game's own Take-or-Steal check decides what is off limits, apart from hostile bodies, which the mod searches without asking it. Searching a body or skinning a carcass is the exception. The game hands over the whole yield before the mod sees any of it, so what your rules refuse arrives anyway unless **Drop refused loot from bodies** under General is on, and then it goes straight back on the ground beside you. Everything is set from a menu inside the game.
 
 [Nexus Mods page](https://www.nexusmods.com/crimsondesert/mods/3402) · [Releases](https://github.com/shin2344234/master-looter/releases) · [Plugin manual](mod/README.md) · [Data pipeline](scripts/README.md)
 
@@ -32,7 +32,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 
 New in 1.6.28. With [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) installed beside it, whatever Master Looter picks up can be moved into your storage a moment after it lands in the bag, the same move you would make standing at the storage.
 
-You need Master Looter 1.6.28 or later and Private Storage Master 1.1.0 or later, both in `bin64`. Playing as Damiane or Oongka takes Master Looter 1.6.29 and Private Storage Master 1.1.1 or later, because neither of them carries a bag of their own and the game fills the one it lends them. Master Looter only stores what it picks up itself, so it has to be looting: auto-loot on, or the loot-everything key.
+You need Master Looter 1.6.28 or later and Private Storage Master 1.1.0 or later, both in `bin64`. On game 2.05.00 that is Master Looter 1.6.57 and Private Storage Master 1.1.12. Playing as Damiane or Oongka takes Master Looter 1.6.29 and Private Storage Master 1.1.1 or later, because neither of them carries a bag of their own and the game fills the one it lends them. Master Looter only stores what it picks up itself, so it has to be looting: auto-loot on, or the loot-everything key.
 
 To turn it on:
 
@@ -65,10 +65,16 @@ Stack Master 1.0.6 adds `StackSize` to `StackMaster.ini`, one stack size for eve
 
 ## Installing
 
-**1.6.56 needs the DLC update, exe 1.0.0.3392 or one of its later patches, 3424, 3446, 3460, 3462, 3479 and 3576.** 3576 is game 2.04.08, the patch of 6 November 2026. The
-update moved every function the plugin hooks, so 1.6.50 loots nothing on it. 1.6.50 stays on
-[Releases](https://github.com/shin2344234/master-looter/releases) for a game
-still on exe 1.0.0.2976.
+**1.6.57 needs game 2.05.00, exe 1.0.0.3663.** That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
+
+What changed in 1.6.57:
+
+- The item, gimmick and creature tables are read the way 2.05.00 builds them, one row at a time on first use. Until an item's row exists the mod leaves that item alone, and the log says `item name not loaded yet`.
+- The standing stones that a world challenge lights are left alone. They were being gathered as stone.
+- Weapon display stands and the beds NPCs sleep in are never gathered. With Unidentified nodes on, the mod came back to the same stand every six seconds.
+- Dried herbs and mushrooms hanging on drying ropes are picked up now, like the fish and garlic beside them. The props from the Reed Field fight are left alone.
+- Storing loot waits until the bag shows a stored item gone before counting it, so a stack you already carried can't be moved by mistake.
+- The first log line names exe 1.0.0.3663, and the log says whether `cdal.dll` is loaded. Master Looter does not need CDAL and runs beside it.
 
 ### With Definitive Mod Manager
 
@@ -96,7 +102,7 @@ One scanner out of seventy-one flags `MasterLooter.asi` on 1.6.56. Webroot calls
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one, 1.6.50 one, 1.6.51 one, 1.6.52 one, 1.6.53 one, 1.6.54 one, 1.6.55 one and 1.6.56 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.56: [the plugin](https://www.virustotal.com/gui/file/e067d9eb95d74bf4bc8fba6768478fac506a197e0d654195d8047931f34446e8) and [the package](https://www.virustotal.com/gui/file/dfe42c9d9cc707c27f943530274a764849db523c0714f7d8292052b5a5eb1536).
+Reports for 1.6.56: [the plugin](https://www.virustotal.com/gui/file/d62c549d2c5709d5e63057933dbf52940a5451c7c287afc921d159e04af369c5) and [the package](https://www.virustotal.com/gui/file/955d7f110b669c080c2db451234e80d53415b45b8a801fe9b1a933fcc86ca543).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -104,11 +110,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.56:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.57:
 
-    dfe42c9d9cc707c27f943530274a764849db523c0714f7d8292052b5a5eb1536  MasterLooter-1.6.56-DMM.zip
-    d629b6e34dc4d8bce5dada34edb6a5a435bd307b0ceb7b2d34c07ecfb4180721  MasterLooter-1.6.56.zip
-    e067d9eb95d74bf4bc8fba6768478fac506a197e0d654195d8047931f34446e8  MasterLooter.asi
+    955d7f110b669c080c2db451234e80d53415b45b8a801fe9b1a933fcc86ca543  MasterLooter-1.6.57-DMM.zip
+    e3d7697c88336ad2ef63685b8845237528e1c3844955059a3f15ec8f9577f83c  MasterLooter-1.6.57.zip
+    d62c549d2c5709d5e63057933dbf52940a5451c7c287afc921d159e04af369c5  MasterLooter.asi
 
 ## Controls
 
