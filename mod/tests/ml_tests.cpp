@@ -111,6 +111,62 @@ static void ProtectedTags()
     Check(core && !Prot(Rules::Decide(*core, always)), "an always on gimmick still lifts the protection");
 }
 
+// LuxDragon, 9 November 2026: an Always on flower pots did nothing with
+// Furniture off. stinkfire, bug 1172278: shop tables are housing-only and must
+// never be taken, whatever the player sets.
+static void AlwaysOverSwitch()
+{
+    const Config cfg;
+    const Item* pot = ItemDb::ByStringKey("Collection_Prop_FlowerPot_0005");
+    Check(pot && pot->HasTag("furniture"), "the Red Rose Flower Pot is in the table and tagged furniture");
+    if (pot)
+    {
+        Check(!Rules::ExplicitAlways(*pot, cfg).loot, "no rule set: the Furniture switch still decides a pot");
+        Config item = cfg; item.itemRule[pot->key] = 1;
+        const Rules::Verdict a = Rules::ExplicitAlways(*pot, item);
+        Check(a.loot && strcmp(a.rule, "item override") == 0, "an item Always on the pot lifts the switch");
+        Config tag = cfg; tag.tagRule["flower-pot"] = 1;
+        Check(Rules::ExplicitAlways(*pot, tag).loot, "a tag Always on flower-pot lifts the switch");
+        Config cls = cfg; cls.classRule["flower-pot"] = 1;
+        Check(!Rules::ExplicitAlways(*pot, cls).loot, "a ticked class does not lift the switch");
+        Config veto = tag; veto.tagRule["collectible"] = -1;
+        Check(!Rules::ExplicitAlways(*pot, veto).loot, "a never on another of its tags wins over the Always");
+        Config never = cfg; never.itemRule[pot->key] = -1;
+        Check(!Rules::ExplicitAlways(*pot, never).loot, "an item Never is not an Always");
+    }
+    static const char* fixtures[] = {
+        "Item_cd_in_dff_standing_table_02_housing", "Item_Background_Breakable_Wood_176",
+        "Item_Background_Breakable_Wood_259", "Item_gimmick_wood_bench_0001", "Item_me_00_str_sawmill_000_0001",
+    };
+    for (const char* key : fixtures)
+    {
+        const Item* it = ItemDb::ByStringKey(key);
+        Check(it != nullptr, key);
+        if (!it) continue;
+        Config c = cfg;
+        c.itemRule[it->key] = 1;
+        c.tagRule["furniture"] = 1;
+        c.tagRule["housing-only"] = 1;
+        Check(!Rules::ExplicitAlways(*it, c).loot, "a housing-only shop fixture never lifts a switch, even with Always on it and its tags");
+    }
+    // Population: Always on the furniture tag, how many furnishings lift the
+    // switch and how many stay behind it.
+    Config fur = cfg; fur.tagRule["furniture"] = 1;
+    int furn = 0, lifted = 0, held = 0, quest = 0;
+    for (const Item& it : ItemDb::All())
+    {
+        const bool ok = Rules::ExplicitAlways(it, fur).loot;
+        if (it.HasTag("quest") && ok) ++quest;
+        if (!it.HasTag("furniture")) { Check(!ok, "an Always on furniture lifts nothing outside the tag"); continue; }
+        ++furn;
+        if (ok) ++lifted;
+        else ++held;
+        if (ok && it.HasTag("housing-only")) Check(false, it.stringKey.c_str());
+    }
+    printf("      Always on furniture: %d of %d furnishings lift the switch, %d stay behind it\n", lifted, furn, held);
+    Check(quest == 0, "no quest item ever lifts a switch");
+}
+
 static bool WriteText(const std::wstring& path, const char* text)
 {
     FILE* f = _wfopen(path.c_str(), L"wb");
@@ -154,6 +210,7 @@ int main()
     BreakTiming();
     ScanRetry();
     ProtectedTags();
+    AlwaysOverSwitch();
     NotVeins();
 
     printf("%d passed, %d failed\n", g_passed, g_failed);

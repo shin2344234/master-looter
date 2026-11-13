@@ -1,5 +1,7 @@
 #include "rules.h"
 
+#include <cstring>
+
 namespace ml::Rules
 {
     Verdict Decide(const Item& item, const Config& cfg)
@@ -117,6 +119,35 @@ namespace ml::Rules
         }
 
         return DecideClass(item.klass, cfg);
+    }
+
+    // LuxDragon, Discord, 9 November 2026: an Always on flower pots did
+    // nothing while Furniture was off. The kind switch is asked in the engine
+    // before Decide is ever reached, so the Always was never read. 309
+    // refusals of flower pots in the saved logs read "furniture off".
+    Verdict ExplicitAlways(const Item& item, const Config& cfg)
+    {
+        Verdict v;
+        v.loot = false;
+        v.rule = "no always";
+        // The protected tags and quest outrank every rule when the question is
+        // a switch. Decide lets an item override past them, and that is left
+        // as it was, but a switch the player turned off is a second refusal,
+        // and stinkfire's shop tables (bug 1172278) are housing-only furniture
+        // that must stay put with Furniture on or off.
+        static const char* never[] = { "memory-fragment", "gimmick", "housing-only", "quest" };
+        for (const char* tag : never)
+        {
+            if (!item.HasTag(tag)) continue;
+            if (tag == never[1] && item.HasTag("material")) continue;
+            v.rule = "protected"; v.detail = tag; return v;
+        }
+        if (item.klass == "dev") { v.rule = "dev item"; return v; }
+        if (item.HasTag("important") && item.HasTag("no-sell")) { v.rule = "quest equipment"; return v; }
+        const Verdict d = Decide(item, cfg);
+        if (!d.loot) { v.rule = d.rule; v.detail = d.detail; return v; }
+        if (std::strcmp(d.rule, "item override") == 0 || std::strcmp(d.rule, "tag always") == 0) return d;
+        return v;
     }
 
     Verdict DecideClass(const std::string& klass, const Config& cfg)

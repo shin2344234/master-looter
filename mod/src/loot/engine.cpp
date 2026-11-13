@@ -2301,6 +2301,35 @@ namespace ml::loot
         }
     }
 
+    // A kind switch the player turned off, unless they also set Always on the
+    // very thing it would refuse. LuxDragon, 9 November 2026: flower pots set
+    // to Always stayed put with Furniture off, because the switch was asked
+    // first and the item rule never at all. The Always has to be explicit, on
+    // the item or one of its tags; Rules::ExplicitAlways says which, and keeps
+    // protected, quest and dev items behind the switch. Your own camp farm is
+    // a place rather than a kind of thing, so nothing lifts that one.
+    //
+    // Every lift is counted and the first of each item and switch pair writes
+    // a line, so a session shows which Always opened which switch without a
+    // line per scan.
+    static std::mutex g_liftMu;
+    static std::unordered_map<std::string, unsigned> g_lifts;
+    static const char* SwitchRefuses(GatherKind kind, const Item* y, const Config& cfg)
+    {
+        const char* off = GatherSwitchOff(kind, cfg);
+        if (!off || !y || kind == GatherKind::CampFarm) return off;
+        const Rules::Verdict a = Rules::ExplicitAlways(*y, cfg);
+        if (!a.loot) return off;
+        unsigned n;
+        {
+            std::lock_guard<std::mutex> lk(g_liftMu);
+            n = ++g_lifts[y->stringKey + '|' + off];
+        }
+        if (n == 1)
+            LOG("[rules] %s (%s): %s %s lifts \"%s\"", y->Label(), y->stringKey.c_str(), a.rule, a.detail.c_str(), off);
+        return nullptr;
+    }
+
     // The item classes a node of this kind can hand over, where the node table
     // is evidence enough to say. Read it off the 131 rows of
     // MasterLooter.nodes.tsv that name a yield, never off the kind's own name:
@@ -3937,9 +3966,9 @@ namespace ml::loot
         case Action::Gather:
         {
             const GatherKind kind = NodeKind(c);
-            if (const char* off = GatherSwitchOff(kind, cfg)) return skip(off);
-            if (const char* tree = TreeUnsafe(kind, c.d)) return skip(tree);
             const Item* yield = c.db ? c.db : NodeYield(c);
+            if (const char* off = SwitchRefuses(kind, yield, cfg)) return skip(off);
+            if (const char* tree = TreeUnsafe(kind, c.d)) return skip(tree);
             // The item-rule block above is gated on c.tid, and a vein the table
             // vouches for is routed to Gather before it has answered, when tid
             // is still zero and the gather data has not arrived. Every one of
@@ -3983,8 +4012,10 @@ namespace ml::loot
             // wood, so turning Wood off has to stop it. Issue #63. For an
             // ordinary pick-up the kind is Item and this asks Ground items,
             // which is the same question it asked before.
-            if (v.nodeReach) { if (const char* off = GatherSwitchOff(NodeKind(c), cfg)) return skip(off); }
-            else if (!cfg.pickUpItems) return skip("pick up off");
+            // An explicit Always on the thing itself lifts either switch, the
+            // same as in the Gather case.
+            if (v.nodeReach) { if (const char* off = SwitchRefuses(NodeKind(c), c.db ? c.db : NodeYield(c), cfg)) return skip(off); }
+            else if (const char* off = SwitchRefuses(GatherKind::Item, c.db, cfg)) return skip(off);
             // A node the table vouches for arrives with no item of its own, so
             // c.tid is zero, the item-rule block above is gated out, and the
             // switch below reads a null database row. Both were holes: an item
@@ -4046,17 +4077,23 @@ namespace ml::loot
             // dried crops walked past their own switches. A node whose yield
             // is still unknown stays Item and is unaffected, so nothing that
             // the pick-up fix reached stops working.
-            switch (v.nodeReach ? NodeKind(c) : KindOf(c.db, true))
+            //
+            // These eight kinds ask GatherSwitchOff, which gives the same
+            // answer and wording the switch here used to spell out, so an
+            // Always can lift them. Item, Unknown and CampFarm stay out:
+            // Item was asked just above, and an unnamed loose thing never
+            // answered to Unidentified nodes here, which GatherSwitchOff
+            // would start doing.
             {
-            case GatherKind::Plant: if (!cfg.gatherPlants) return skip("plants off"); break;
-            case GatherKind::Crop:  if (!cfg.gatherCrops)  return skip("crops off"); break;
-            case GatherKind::Ore:
-            case GatherKind::Stone: if (!cfg.gatherOre)   return skip("ore off"); break;
-            case GatherKind::Wood:  if (!cfg.gatherWood)  return skip("wood off"); break;
-            case GatherKind::Furniture: if (!cfg.lootFurniture) return skip("furniture off"); break;
-            case GatherKind::Container: if (!cfg.lootContainers) return skip("containers off"); break;
-            case GatherKind::Dye:       if (!cfg.lootDyes)       return skip("dyes off"); break;
-            default: break;
+                const GatherKind gk = v.nodeReach ? NodeKind(c) : KindOf(c.db, true);
+                switch (gk)
+                {
+                case GatherKind::Plant: case GatherKind::Crop: case GatherKind::Ore: case GatherKind::Stone:
+                case GatherKind::Wood: case GatherKind::Furniture: case GatherKind::Container: case GatherKind::Dye:
+                    if (const char* off = SwitchRefuses(gk, v.nodeReach ? (c.db ? c.db : NodeYield(c)) : c.db, cfg)) return skip(off);
+                    break;
+                default: break;
+                }
             }
             break;
         }
@@ -6843,7 +6880,7 @@ namespace ml::loot
                     // apply set to off, the mod still armed a damaging thorn
                     // 28 times in one session.
                     const GatherKind armKind = NodeKind(k);
-                    if (GatherSwitchOff(armKind, cfg)) continue;
+                    if (SwitchRefuses(armKind, k.db ? k.db : NodeYield(k), cfg)) continue;
                     if (TreeUnsafe(armKind, k.d)) continue;
                     // And both of the questions the verdict asks, for the same
                     // reason arming consults the switches at all: nothing here
