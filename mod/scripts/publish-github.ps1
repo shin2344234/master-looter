@@ -99,7 +99,7 @@ if ($view.Code -eq 0) {
     $problems += "could not ask GitHub about ${tag}: " + ($view.Out -join ' ').Trim()
 }
 
-$uploads = @($cfg.Assets | ForEach-Object { $_.Path }) + @($cfg.ZipManual, $cfg.ZipDmm)
+$uploads = @($cfg.Assets | ForEach-Object { $_.Path }) + @($cfg.Archives)
 foreach ($f in @($cfg.Notes) + $uploads) {
     if (-not (Test-Path -LiteralPath $f)) { $problems += "missing $f" }
 }

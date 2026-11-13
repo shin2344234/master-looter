@@ -70,12 +70,15 @@ $Version = $cfg.Version
 $nx = $cfg.Data.nexus
 $game = if ($nx.game) { $nx.game } else { 'crimsondesert' }
 
-foreach ($k in @('modId', 'dmmFileId', 'page')) {
+# A mod with one archive has one file entry, kept in manualFileId, and no
+# DMM entry at all.
+$mainId = if ($cfg.OneArchive) { 'manualFileId' } else { 'dmmFileId' }
+foreach ($k in @('modId', $mainId, 'page')) {
     if (-not $nx -or [string]::IsNullOrWhiteSpace([string] $nx.$k)) {
         throw ("nexus.{0} is not set in release.json. Run nexus-ids.py and copy it in." -f $k)
     }
 }
-foreach ($f in @($cfg.ZipDmm, $cfg.ZipManual)) {
+foreach ($f in $cfg.Archives) {
     if (-not (Test-Path -LiteralPath $f)) { throw "No archive at $f. Run package.ps1 first." }
 }
 if (-not (Test-Path -LiteralPath $cfg.Changelog)) { throw "No changelog at $($cfg.Changelog). Write it before publishing." }
@@ -97,6 +100,17 @@ $entries = @(
         State = 'send'; Note = ''
     }
 )
+if ($cfg.OneArchive) {
+    # The one entry carries the changelog and sets the page version. It is
+    # an app's download, so neither mod manager flag is touched.
+    $entries = @(
+        [pscustomobject] @{
+            Label = 'file'; FileId = [string] $nx.manualFileId; Archive = $cfg.ZipManual
+            DisplayName = ('{0} {1}' -f $cfg.FileBase, $Version); Changelog = $true
+            State = 'send'; Note = ''
+        }
+    )
+}
 foreach ($e in $entries) { if ([string]::IsNullOrWhiteSpace($e.FileId)) { $e.State = 'create' } }
 
 # What is already up there, per entry. Sizes come from the v1 files list,
@@ -138,7 +152,7 @@ if (-not [string]::IsNullOrWhiteSpace($key)) {
         } else {
             $theirs = ($hits | ForEach-Object { '{0:N0}' -f $sizes[[string] $_.game_scoped_id] }) -join ', '
             $e.State = 'wrong'
-            $flags = if ($e.Label -eq 'manual') { '-NoModManagerDownload' } else { '-PrimaryModManagerDownload' }
+            $flags = switch ($e.Label) { 'manual' { '-NoModManagerDownload' } 'DMM' { '-PrimaryModManagerDownload' } default { '' } }
             $problems += (("{0} entry {1} lists {2} with an archive of {3} bytes, but {4} is {5:N0} bytes. " +
                            "It holds a different archive. Repair it with a new version that archives the wrong one:`n" +
                            "    Publish-NexusModUpdate.ps1 -FilePath `"{6}`" -FileId {1} -Version {2} " +
@@ -165,7 +179,8 @@ if ($problems) {
     foreach ($p in $problems) { Write-Host "REFUSED  $p" -ForegroundColor Red }
     if ($Apply) { Write-Host "Nothing was sent." -ForegroundColor Red; exit 1 }
 }
-if (($entries | Where-Object { $_.Label -eq 'DMM' }).State -eq 'create') {
+$dmmEntry = $entries | Where-Object { $_.Label -eq 'DMM' }
+if ($dmmEntry -and $dmmEntry.State -eq 'create') {
     throw "The DMM entry has to exist already; it is the page's primary download. Set nexus.dmmFileId."
 }
 
@@ -184,7 +199,7 @@ foreach ($e in $entries) {
     if ($e.Changelog) {
         $call['ChangelogPath']             = $cfg.Changelog
         $call['UpdateModVersion']          = $true
-        $call['PrimaryModManagerDownload'] = $true
+        if ($e.Label -eq 'DMM') { $call['PrimaryModManagerDownload'] = $true }
     }
     if ($ArchivePrevious -and $e.State -ne 'create') { $call['ArchiveExistingFile'] = $true }
     if ($Apply) { $call['Apply'] = $true }

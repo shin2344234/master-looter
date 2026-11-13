@@ -46,10 +46,10 @@ read_key = rc.read_key
 
 # The order the README and the description list them.
 def release_files(version):
+    said = {"dmm": "the DMM archive", "manual": "the full archive"}
     return [(a["name"], "the %s file" % a["role"]) for a in CFG.assets(version)] + [
-        (CFG.archive_name("dmm", version), "the DMM archive"),
-        (CFG.archive_name("manual", version), "the full archive"),
-        ("%s.asi" % CFG.file_base, "the plugin"),
+        (CFG.archive_name(r, version), said[r]) for r in CFG.archive_roles()] + [
+        (CFG.plugin_name, "the plugin"),
     ]
 
 
@@ -206,8 +206,11 @@ def main():
     if not args.prose:
         return
 
-    plugin = next((r for r in rows if r[0] == "%s.asi" % CFG.file_base and r[3]), None)
-    dmm = next((r for r in rows if r[0].endswith("-DMM.zip") and r[3]), None)
+    plugin = next((r for r in rows if r[0] == CFG.plugin_name and r[3]), None)
+    # The archive players download: the DMM zip, or the one zip of a mod
+    # that ships a single archive.
+    main = CFG.archive_name(CFG.archive_roles()[0])
+    dmm = next((r for r in rows if r[0] == main and r[3]), None)
     if not plugin:
         print("\nNo plugin report yet, so no prose.")
         return
@@ -216,7 +219,7 @@ def main():
     print("\n--- for README.md and the description ---")
     print("plugin %d/%d: %s" % (hits, total, named or "nothing"))
     if dmm:
-        print("DMM archive %d/%d" % dmm[3])
+        print("%s %d/%d" % ("archive" if CFG.one_archive else "DMM archive", dmm[3][0], dmm[3][1]))
     print("plugin report:  %s%s" % (GUI, plugin[2]))
     if dmm:
         print("archive report: %s%s" % (GUI, dmm[2]))

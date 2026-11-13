@@ -73,6 +73,18 @@ function Get-ReleaseConfig {
         }
     })
 
+    # The signed file the release is about. A plugin by default; an app names
+    # its exe under "plugin". "oneArchive": true is a release with a single
+    # zip and one Nexus file entry, such as an app nobody installs through
+    # DMM. "package" is a command that builds the archive itself, for a mod
+    # whose zip is more than the plugin and a few files beside it.
+    $pluginName = $data.fileBase + '.asi'
+    if ($data.plugin) { $pluginName = [string] $data.plugin }
+    $one = [bool] $data.oneArchive
+    $zipManual = Join-Path $dist $names.manual
+    $zipDmm = $null
+    if (-not $one) { $zipDmm = Join-Path $dist $names.dmm }
+
     [pscustomobject] @{
         Root         = $root
         Data         = $data
@@ -80,9 +92,12 @@ function Get-ReleaseConfig {
         FileBase     = $data.fileBase
         Version      = $Version
         Dist         = $dist
-        Asi          = Join-Path $dist ($data.fileBase + '.asi')
-        ZipManual    = Join-Path $dist $names.manual
-        ZipDmm       = Join-Path $dist $names.dmm
+        Asi          = Join-Path $dist $pluginName
+        OneArchive   = $one
+        Package      = [string] $data.package
+        ZipManual    = $zipManual
+        ZipDmm       = $zipDmm
+        Archives     = @(@($zipManual, $zipDmm) | Where-Object { $_ })
         Assets       = $assets
         ScriptsDir   = Join-Path $root $data.scriptsDir
         GitHub       = $data.github

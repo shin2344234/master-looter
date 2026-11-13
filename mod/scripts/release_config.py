@@ -41,7 +41,13 @@ class Config(object):
         self.name = data["name"]
         self.file_base = data["fileBase"]
         self.dist = self.path(data["dist"])
-        self.asi = os.path.join(self.dist, self.file_base + ".asi")
+        # The signed file the release is about. A plugin by default; an app
+        # names its exe under "plugin" in release.json.
+        self.plugin_name = data.get("plugin") or (self.file_base + ".asi")
+        self.asi = os.path.join(self.dist, self.plugin_name)
+        # "oneArchive": true is a release with a single zip and one Nexus
+        # file entry, such as an app nobody installs through DMM.
+        self.one_archive = bool(data.get("oneArchive"))
         self.github = data["github"]
         self.nexus = data.get("nexus") or {}
         self.discord = data.get("discord") or {}
@@ -91,7 +97,13 @@ class Config(object):
 
     @property
     def zip_dmm(self):
+        if self.one_archive:
+            return None
         return os.path.join(self.dist, self.archive_name("dmm"))
+
+    def archive_roles(self):
+        """The archive roles this mod ships, in the order documents list them."""
+        return ["manual"] if self.one_archive else ["dmm", "manual"]
 
     def assets(self, version=None):
         """The files under assets in release.json, which ship beside the two

@@ -48,14 +48,23 @@ $cfg = Get-ReleaseConfig
 $data = $cfg.Data
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-if (-not (Test-Path -LiteralPath $cfg.Asi)) { throw "Missing $($cfg.Asi). Run the build first." }
+# A mod with "package" in release.json builds its own archive, and that
+# command builds the plugin too, so there is nothing here yet to be stale.
+$own = -not [string]::IsNullOrWhiteSpace($cfg.Package)
+if ($cfg.OneArchive -and -not $own) {
+    throw 'release.json sets oneArchive without a package command. The archives built here are always the manual and DMM pair.'
+}
 
-# Stale build: a source newer than the plugin means dist holds an old build.
-$sourceDirs = @($data.sources | ForEach-Object { Join-Path $cfg.Root $_ })
-$newest = Get-ChildItem -LiteralPath $sourceDirs -Recurse -File |
-    Sort-Object LastWriteTime -Descending | Select-Object -First 1
-if ($newest -and $newest.LastWriteTime -gt (Get-Item -LiteralPath $cfg.Asi).LastWriteTime) {
-    throw "$($newest.FullName) is newer than the built plugin. Rebuild first."
+if (-not $own) {
+    if (-not (Test-Path -LiteralPath $cfg.Asi)) { throw "Missing $($cfg.Asi). Run the build first." }
+
+    # Stale build: a source newer than the plugin means dist holds an old build.
+    $sourceDirs = @($data.sources | ForEach-Object { Join-Path $cfg.Root $_ })
+    $newest = Get-ChildItem -LiteralPath $sourceDirs -Recurse -File |
+        Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    if ($newest -and $newest.LastWriteTime -gt (Get-Item -LiteralPath $cfg.Asi).LastWriteTime) {
+        throw "$($newest.FullName) is newer than the built plugin. Rebuild first."
+    }
 }
 
 # The mod's own checks, from release.json. They run from the repo root.
@@ -70,8 +79,22 @@ foreach ($gate in @($data.gates)) {
     if ($code -ne 0) { throw "Gate '$($gate.name)' failed with exit code $code. Run '$($gate.run)' and read its output." }
 }
 
+if ($own) {
+    Write-Host ("Packaging with the mod's own command: {0}" -f $cfg.Package) -ForegroundColor Cyan
+    Push-Location $cfg.Root
+    try {
+        & cmd /c $cfg.Package
+        $code = $LASTEXITCODE
+    } finally { Pop-Location }
+    if ($code -ne 0) { throw "The package command failed with exit code $code. Run '$($cfg.Package)' and read its output." }
+    foreach ($f in @($cfg.Asi) + @($cfg.Archives)) {
+        if (-not (Test-Path -LiteralPath $f)) { throw "The package command ran, but $f is not there." }
+    }
+}
+
 # Sign before packaging, never after: the archives carry the plugin and the
-# checksums on the Nexus page are of the signed file.
+# checksums on the Nexus page are of the signed file. A mod's own package
+# command signs before it zips, and this checks that it did.
 if (-not $Unsigned) {
     $sig = Get-AuthenticodeSignature -LiteralPath $cfg.Asi
     if ($sig.Status -ne 'Valid') {
@@ -80,6 +103,7 @@ if (-not $Unsigned) {
     Write-Host ("Signed by {0}" -f $sig.SignerCertificate.Subject)
 }
 
+if (-not $own) {
 # {version} in a path is this release's version, for a file whose name carries it.
 $extra = @($data.manualZip | ForEach-Object { Join-Path $cfg.Root ($_ -replace '\{version\}', $cfg.Version) })
 # dmmZip is optional, and a missing list piped on would still run once, on null.
@@ -121,9 +145,10 @@ foreach ($f in $dmmExtra) { Copy-Item -LiteralPath $f -Destination (Join-Path $s
 Compress-Archive -Path (Join-Path $staging '*') -DestinationPath $cfg.ZipDmm
 Remove-Item -LiteralPath $staging -Recurse -Force
 foreach ($a in $cfg.Assets) { Copy-Item -LiteralPath $a.Source -Destination $a.Path -Force }
+}
 
 Write-Host ("`n{0} {1}" -f $cfg.Name, $cfg.Version)
-foreach ($z in @($cfg.ZipManual, $cfg.ZipDmm)) {
+foreach ($z in $cfg.Archives) {
     Write-Host ("  {0,-40} {1,9:N0} bytes" -f (Split-Path $z -Leaf), (Get-Item -LiteralPath $z).Length)
     $zip = [System.IO.Compression.ZipFile]::OpenRead($z)
     try { $zip.Entries | ForEach-Object { Write-Host "      $($_.FullName)" } } finally { $zip.Dispose() }
@@ -135,8 +160,9 @@ foreach ($a in $cfg.Assets) {
 
 # The order the README and the Nexus description list them: the assets
 # first, then the two archives and the plugin.
-$rows = @($cfg.Assets | ForEach-Object { @{ role = $_.Role; path = $_.Path } }) + @(
-    @{ role = 'dmm';    path = $cfg.ZipDmm },
+$rows = @($cfg.Assets | ForEach-Object { @{ role = $_.Role; path = $_.Path } })
+if (-not $cfg.OneArchive) { $rows += @{ role = 'dmm'; path = $cfg.ZipDmm } }
+$rows += @(
     @{ role = 'manual'; path = $cfg.ZipManual },
     @{ role = 'plugin'; path = $cfg.Asi }
 )

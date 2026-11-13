@@ -158,12 +158,13 @@ def sha_tokens(files):
 
 def roles():
     """Every release file's role: the assets, then the two archives and the plugin."""
-    return [a["role"] for a in CFG.assets()] + ["dmm", "manual", "plugin"]
+    return [a["role"] for a in CFG.assets()] + CFG.archive_roles() + ["plugin"]
 
 
 def role_paths():
+    zips = {"dmm": CFG.zip_dmm, "manual": CFG.zip_manual}
     return [(a["role"], a["path"]) for a in CFG.assets()] + [
-        ("dmm", CFG.zip_dmm), ("manual", CFG.zip_manual), ("plugin", CFG.asi)]
+        (r, zips[r]) for r in CFG.archive_roles()] + [("plugin", CFG.asi)]
 
 
 def cmd_new():
@@ -199,9 +200,9 @@ def name_pattern(template):
 
 def role_patterns():
     pats = dict((a["role"], name_pattern(a["template"])) for a in CFG.assets())
-    pats["dmm"] = name_pattern(CFG.archive_template("dmm"))
-    pats["manual"] = name_pattern(CFG.archive_template("manual"))
-    pats["plugin"] = re.compile(r"%s\.asi" % re.escape(CFG.file_base))
+    for role in CFG.archive_roles():
+        pats[role] = name_pattern(CFG.archive_template(role))
+    pats["plugin"] = re.compile(re.escape(CFG.plugin_name))
     return pats
 
 
