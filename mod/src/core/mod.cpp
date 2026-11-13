@@ -586,10 +586,13 @@ namespace ml::Mod
         // game itself: this plugin gets loaded by other processes too, and one
         // of those must not truncate a real session's log.
         if (HostIsGame()) Log::Claim();
-        // The plugin's own file time, not __DATE__ and __TIME__ alone. Those are
+        // The plugin's own file time, not __DATE__ and __TIME__. Those are
         // baked into this file's object and only move when this file recompiles,
         // so a build that changed only the loot engine reported the previous
-        // build's time and read in the log as the wrong plugin entirely. The file
+        // build's time and read in the log as the wrong plugin entirely. They
+        // were still printed beside the file time until 13 November 2026, when
+        // the b678d62 build said "built 05:36:17" next to a file written at
+        // 06:34:07, so they are gone from the line. The file
         // time is the thing to hold up against mod\dist, and the question "is the
         // game running what I just staged" is asked in this project constantly.
         char stamp[64] = "";
@@ -610,7 +613,8 @@ namespace ml::Mod
                 }
             }
         }
-        LOG("Master Looter v%s for Crimson Desert %s starting (built %s %s%s).", ML_VERSION_FULL, ML_GAME_BUILD, __DATE__, __TIME__, stamp);
+        LOG("Master Looter v%s for Crimson Desert %s starting%s%s%s.", ML_VERSION_FULL, ML_GAME_BUILD,
+            stamp[0] ? " (" : "", stamp[0] ? stamp + 2 : "", stamp[0] ? ")" : "");
         g_self = module;
         if (HostIsGame()) FindSelfCheckSections();
         g_prevFilter = SetUnhandledExceptionFilter(&LastChance);

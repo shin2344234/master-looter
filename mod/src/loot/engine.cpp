@@ -1341,7 +1341,21 @@ namespace ml::loot
     // after its move would report stock the player already carried, and
     // Private Storage Master would store it. Every way this can be off leaves
     // things in the bag rather than taking more than arrived.
-    struct StoreTally { long long delta = 0, moved = 0, credited = 0; DWORD opened = 0, lastAt = 0; bool resulted = false; };
+    //
+    // A result does not count the moment it arrives. Private Storage Master
+    // calls a move stored when the chest's count rises, and the bag can show
+    // the fall later. Counted at once, the stored units and the bag still
+    // holding them add up to more than arrived, and credited never comes back
+    // down. Seth's session of 13 November 2026 did that with Poison Fire Coral
+    // Mushroom: four picked, five counted, at 06:42:33 a result for a move made
+    // 0.4 s earlier while the bag still read two. Only one was offered that
+    // time, because no gone pick-up was left to vouch for the fifth, but a row
+    // a vein of the mod's has just paid is offered without that check, and the
+    // extra unit would have come out of what the player already carried. So a
+    // result's units wait in settling until the bag has fallen by as much, or
+    // for kMovedSettleMs, whichever comes first.
+    struct StoreTally { long long delta = 0, moved = 0, credited = 0, fell = 0, settling = 0; DWORD opened = 0, lastAt = 0, settleAt = 0; bool resulted = false; };
+    static constexpr DWORD kMovedSettleMs = 3000;
     static std::unordered_map<uint16_t, StoreTally> g_storeTally;
     static constexpr DWORD kTallyQuietMs = 8000;
     static constexpr DWORD kTallyMaxMs = 120000;
@@ -1551,7 +1565,7 @@ namespace ml::loot
                 const auto t = g_storeTally.find(r.item);
                 if (t != g_storeTally.end())
                 {
-                    if (r.reason == PSM_DEPOSIT_STORED && r.moved > 0) t->second.moved += r.moved;
+                    if (r.reason == PSM_DEPOSIT_STORED && r.moved > 0) { t->second.settling += r.moved; t->second.settleAt = now; }
                     t->second.resulted = true;
                     t->second.lastAt = now;
                 }
@@ -1723,7 +1737,17 @@ namespace ml::loot
                     for (auto it = g_storeTally.begin(); it != g_storeTally.end();)
                     {
                         StoreTally& t = it->second;
-                        t.delta += BagCount(bcur, it->first) - BagCount(g_bagPrev, it->first);
+                        const long long step = BagCount(bcur, it->first) - BagCount(g_bagPrev, it->first);
+                        t.delta += step;
+                        if (step < 0) t.fell -= step;
+                        if (t.settling > 0)
+                        {
+                            const long long shown = t.fell - t.moved;
+                            long long fold = shown > 0 ? (shown < t.settling ? shown : t.settling) : 0;
+                            if (now - t.settleAt > kMovedSettleMs) fold = t.settling;
+                            t.moved += fold;
+                            t.settling -= fold;
+                        }
                         const long long rise = t.delta + t.moved - t.credited;
                         if (rise > 0)
                         {
