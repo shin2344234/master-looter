@@ -80,12 +80,6 @@ gimmick_abyss_artifact_0001	pickup		Abyss artifact	tag	0		0	0	0
 gimmick_abyss_ator_dungeon_blackstone_01	stone		Abyss ator dungeon blackstone	name	0		0	0	0
 gimmick_abyss_ator_dungeon_blackstone_02	stone		Abyss ator dungeon blackstone	name	0		0	0	0
 gimmick_abyss_effect_umbra_floatingstone_01	stone		Abyss effect umbra floatingstone	name	0		0	0	0
-gimmick_abyss_fit_height_pillar_0001_standstone_parts01	stone		Stone	name	0		0	0	0
-gimmick_abyss_standstone_01	stone		Abyss standstone	name	0		0	0	0
-gimmick_abyss_standstone_01_part_02	stone		Abyss standstone 01 part	name	0		0	0	0
-gimmick_abyss_standstone_01_part_02_index01	stone		Stone	name	0		0	0	0
-gimmick_abyss_standstone_02	stone		Abyss standstone	name	0		0	0	0
-gimmick_abyss_standstone_03	stone		Abyss standstone	name	0		0	0	0
 gimmick_abyss_stone_01	stone	Stone_Quarry	Stone	name	1		0	0	0
 gimmick_abyss_stone_01_parts_0003	stone		Abyss stone 01 parts	name	0		0	0	0
 gimmick_abyss_stone_01a	stone		Abyss stone 01a	name	0		0	0	0
@@ -815,7 +809,6 @@ gimmick_falltree_04_titan	wood		Falltree 04 titan	name	0		0	0	0
 gimmick_falltree_05	wood		Falltree	name	0		0	0	0
 gimmick_fireplace_firewood_0001	wood		Fireplace firewood	name	0		0	0	0
 gimmick_fishingspot_trigger_rock_bream	stone		Fishingspottrigger rock bream	name	0		0	0	0
-gimmick_fit_height_pillar_01_part_standstone_guideaction	stone		Stone	name	0		0	0	0
 gimmick_floating_rock_02	stone		Floating rock	name	0		0	0	0
 gimmick_floating_rock_03	stone		Floating rock	name	0		0	0	0
 gimmick_floating_rock_04	stone		Floating rock	name	0		0	0	0
@@ -1561,13 +1554,9 @@ gimmick_puzzle_omok_02	container		Puzzle omok	tag	0		0	0	0
 gimmick_puzzle_pickaxe_break_point_01	ore		Puzzle pickaxe break point	tag	0		0	0	0
 gimmick_puzzle_stacking_pot_0001_parts01	container		Puzzle stacking pot 0001 parts01	tag	0		0	0	0
 gimmick_puzzle_stacking_pot_0001_parts02	container		Container	tag	0		0	0	0
-gimmick_puzzle_standstone_01	stone		Puzzle standstone	name	0		0	0	0
 gimmick_puzzle_standstone_smallstone_01	pickup		Puzzle standstone smallstone	tag	0		1	0	0
 gimmick_puzzle_standstone_smallstone_02	pickup		Puzzle standstone smallstone	tag	0		1	0	0
 gimmick_puzzle_standstone_smallstone_03	pickup		Puzzle standstone smallstone	tag	0		1	0	0
-gimmick_puzzle_statue_01_standstone_combi	stone		Stone	name	0		0	0	0
-gimmick_puzzle_statue_01_standstone_dial	stone		Puzzle statue 01 standstone dial	name	0		0	0	0
-gimmick_puzzle_statue_01_standstone_part	stone		Puzzle statue 01 standstone part	name	0		0	0	0
 gimmick_puzzle_stone_arrow_0001_part01	stone		Puzzle stone arrow 0001 part01	name	0		0	0	0
 gimmick_puzzle_stone_arrow_0001_part02	stone		Puzzle stone arrow 0001 part02	name	0		0	0	0
 gimmick_puzzle_stone_arrow_0001_part03	stone		Puzzle stone arrow 0001 part03	name	0		0	0	0
@@ -1731,12 +1720,6 @@ gimmick_spot_troll_pot_03	pickup		Troll pot	tag	1		0	0	0
 gimmick_stake_attach_01	container		Stake attach	tag	0		0	0	0
 gimmick_stalactite_0003	ore	Item_Rare_Collect_Stalactites	Stalactite	tag	0	Item_Rare_Collect_Stalactites	0	0	0
 gimmick_stalactite_0004	ore	Item_Rare_Collect_Stalactites	Stalactite	tag	0	Item_Rare_Collect_Stalactites	0	0	0
-gimmick_standstone_01_challenge	stone		Standstone 01 challenge	name	0	Slave_Fabric_Boots Gladiator_Fabric_Armor_III	0	0	0
-gimmick_standstone_01_challenge_del	stone		Standstone 01 challenge del	name	0	Slave_Fabric_Boots Gladiator_Fabric_Armor_III	0	0	0
-gimmick_standstone_01_challenge_desert	stone		Standstone 01 challenge desert	name	0	Slave_Fabric_Boots Gladiator_Fabric_Armor_III	0	0	0
-gimmick_standstone_turn_totem_pushstone_01	stone		Standstone turn totem pushstone	name	0		0	0	0
-gimmick_standstone_turn_totem_pushstone_01_parts01	stone		Stone	name	0		0	0	0
-gimmick_standstone_turn_totem_pushstone_body_01	stone		Stone	name	0		0	0	0
 gimmick_sticky_bomb_01	pickup		Sticky bomb	tag	1		1	0	0
 gimmick_subinner_mushroomfarm_0001	plant		Subinner mushroomfarm	name	0		0	0	0
 gimmick_subinner_timberstorage_0001	wood		Subinner timberstorage	name	0		0	0	0

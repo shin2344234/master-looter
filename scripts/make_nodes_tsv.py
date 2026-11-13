@@ -251,6 +251,10 @@ MECHANISM_SEGMENTS = {
     "door", "switch", "gate", "lamp", "streetlamp", "operator", "decolinker",
     "decotrigger", "spotlight", "candle", "brazier", "firepot", "pusher",
     "pinballmachine", "cushionballmachine", "clawmachine", "milepost",
+    # A standing stone is a lamp, a switch or a challenge marker, and
+    # "standstone_" holds "stone_". The challenge rocks of 13 November 2026
+    # came in this way with two yields borrowed from the challenge reward.
+    "standstone", "challenge",
 }
 
 # Fallback for gather nodes the table does not tag, read off the prefab name.

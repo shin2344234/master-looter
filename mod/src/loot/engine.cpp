@@ -3092,7 +3092,7 @@ namespace ml::loot
         if (!node || !node[0] || type || identified) return false;
         static const char* kParts[] = { "door", "switch", "gate", "lamp", "streetlamp", "operator", "decolinker",
                                         "decotrigger", "spotlight", "candle", "brazier", "firepot", "pusher",
-                                        "pinballmachine", "cushionballmachine", "clawmachine" };
+                                        "pinballmachine", "cushionballmachine", "clawmachine", "standstone", "challenge" };
         const char* base = node;
         for (const char* q = node; *q; ++q) if (*q == '/' || *q == '\\') base = q + 1;
         char seg[48];
@@ -3144,10 +3144,23 @@ namespace ml::loot
         // "transparency_autospawn" is a developer prefab in /99_develop/ that
         // Sov1737's log of 28 September 2026 armed nine times with
         // Unidentified nodes off. It is this one prefab and not the folder:
-        // the same folder holds Manure and the Standstone challenge rocks,
-        // which the logs show players collecting, 1 and 21 times.
+        // the same folder holds Manure, which players do collect.
+        // "challenge" and "standstone" are the standing stones the world
+        // challenges light. Seth's first 3663 session on 13 November 2026 sent
+        // three gathers to gimmick_standstone_01_challenge in twenty seconds
+        // and Glint Spotter recorded Challenge_Standstone_Adventure_0015 as
+        // done. The record is a lamp: its states switch
+        // fx_gimmick_play_subset_a__lamp_desert_on and off and end the stage,
+        // and the Abyss standstones beside it are gate switches. None holds an
+        // item. They came in as stone because "standstone_" contains
+        // "stone_", and every build since September did the same; the saved
+        // logs hold 24 such gathers. This line used to call them rocks the
+        // players collect, which was the mod collecting them. Every prefab in
+        // the 3663 data with either word is a challenge piece, a puzzle part,
+        // a lamp or a switch.
         static const char* kWords[] = { "visione", "quest", "artifact", "abyssruins", "mission", "puzzle", "woodthorn",
-                                        "equip_openclose", "gimmick_equip_", "effect_gimmick", "transparency_autospawn", "reeddevil" };
+                                        "equip_openclose", "gimmick_equip_", "effect_gimmick", "transparency_autospawn", "reeddevil",
+                                        "challenge", "standstone" };
         for (const char* w : kWords)
         {
             // The verdict has already decided this piece is not being worn,
@@ -3651,7 +3664,8 @@ namespace ml::loot
             // stone_wall_break), and because OffLimits stops them being armed
             // they never fill, fall through to the ore branch below, and were
             // reaching the vein break. The mod was swinging at an ice wall.
-            if (OffLimits(c.node, unwornEquip)) return skip("puzzle or protected mechanism");
+            if (OffLimits(c.node, unwornEquip)) return skip(IStr(c.node, "challenge") ? "a world challenge, which is the player's to do"
+                                                                                       : "puzzle or protected mechanism");
             // Kept in step with OffLimits(), which stops arming touching the same
             // things. The words above are the detail this one summarises.
             // These read the prefab path, so a gather node whose name happens to
