@@ -41,6 +41,22 @@ namespace ml
         int  RowCount();
         const Item* Find(uint32_t key);
         const Item* ByRow(int row);                       // runtime type id -> item
+
+        // The live table's own row order, read from each row's string key.
+        // keyByRow[row] is the key the game's row holds, empty where the row
+        // was unbuilt or unreadable. After this, ByRow answers from the live
+        // order: a row with a key maps to the item with that key whatever our
+        // row column says, and a row without one keeps the shipped mapping.
+        // Game 1.0.0.3663 puts the 1,311 DLC-only items after the base rows,
+        // and the shipped table gives those no row, so until this ran ByRow
+        // named none of them. Call once; later calls are ignored.
+        struct LiveRows { int readable = 0, sameRow = 0, byKey = 0, unknown = 0; };
+        LiveRows SetLiveRows(const std::vector<std::string>& keyByRow);
+        bool HasLiveRows();
+        // The game's runtime row for this item: the live row once
+        // SetLiveRows has run, the shipped row before that. -1 when the item
+        // has none, which before the live rows is every DLC-only item.
+        int GameRow(const Item& item);
         const Item* ByStringKey(const char* stringKey);   // engine key ("Money_Copper") -> item
         const std::vector<Item>& All();
         // (class, item count) sorted by count, largest first

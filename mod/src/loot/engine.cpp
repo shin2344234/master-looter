@@ -6567,7 +6567,7 @@ namespace ml::loot
             if (k.tid && k.db) { if (g_tidByEid.size() > 8192) g_tidByEid.clear(); g_tidByEid[k.eid] = k.tid; }
             else if (!k.db && k.node[0])
                 if (const Item* y = NodeYield(k))
-                { if (g_yieldByEid.size() > 8192) g_yieldByEid.clear(); g_yieldByEid[k.eid] = static_cast<uint16_t>(y->row); }
+                { if (g_yieldByEid.size() > 8192) g_yieldByEid.clear(); g_yieldByEid[k.eid] = static_cast<uint16_t>(ItemDb::GameRow(*y)); }
         }
         // Any instance id on two objects in this scan is shared from now on, and
         // it has to be known before the check below, or one sibling's retirement
@@ -7140,8 +7140,8 @@ namespace ml::loot
                         // it pays is credited to it and auto-store can see it.
                         {
                             const Item* y = NodeYield(k);
-                            g_pend.push_back({ now, Action::Gather, k.gtid, -1, false, std::string(), true, y ? y->row : -1 });
-                            if (y && g_mineYields.size() < 256) g_mineYields.push_back({ now, static_cast<uint16_t>(y->row) });
+                            g_pend.push_back({ now, Action::Gather, k.gtid, -1, false, std::string(), true, y ? ItemDb::GameRow(*y) : -1 });
+                            if (y && g_mineYields.size() < 256) g_mineYields.push_back({ now, static_cast<uint16_t>(ItemDb::GameRow(*y)) });
                         }
                         // Written without the verbose switch, up to 40 a
                         // session: a pick writes no [loot] line, so this is
@@ -7228,9 +7228,9 @@ namespace ml::loot
                     ++taken;
                     {
                         const Item* y = v.act == Action::Gather ? NodeYield(k) : nullptr;
-                        g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.gtid : static_cast<uint16_t>(0), k.db ? k.db->row : -1, false,
-                                           std::string(), true, y ? y->row : -1 });
-                        if (y && !k.db && g_mineYields.size() < 256) g_mineYields.push_back({ now, static_cast<uint16_t>(y->row) });
+                        g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.gtid : static_cast<uint16_t>(0), k.db ? ItemDb::GameRow(*k.db) : -1, false,
+                                           std::string(), true, y ? ItemDb::GameRow(*y) : -1 });
+                        if (y && !k.db && g_mineYields.size() < 256) g_mineYields.push_back({ now, static_cast<uint16_t>(ItemDb::GameRow(*y)) });
                     }
                     if (k.db && k.db->row >= 0)
                     {

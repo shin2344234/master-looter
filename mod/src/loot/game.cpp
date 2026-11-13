@@ -1137,13 +1137,16 @@ namespace ml::game
             s_last = now;
             if (!s_first) s_first = now;
             int built = 0, readable = 0, match = 0;
+            std::vector<std::string> keyByRow(count < 0x10000 ? count : 0x10000);
+            std::vector<uint32_t> unread;
             for (uint32_t row = 0; row < count && row < 0x10000; ++row)
             {
                 if (!DefFor(g_f.itemTableGlobal, row, kOff_Table_DefsA)) continue;
                 ++built;
                 char key[96];
-                if (!KeyAt(g_f.itemTableGlobal, row, kOff_Table_DefsA, key, sizeof key)) continue;
+                if (!KeyAt(g_f.itemTableGlobal, row, kOff_Table_DefsA, key, sizeof key)) { unread.push_back(row); continue; }
                 ++readable;
+                keyByRow[row] = key;
                 const Item* it = static_cast<int>(row) < dbN ? ItemDb::ByRow(static_cast<int>(row)) : nullptr;
                 if (it && it->stringKey == key) ++match;
             }
@@ -1164,8 +1167,40 @@ namespace ml::game
             if (g_f.gimmickTableGlobal && mem::ReadPtr(g_f.gimmickTableGlobal, &gt) && TblCount(gt, &gCount))
                 for (gRow = 0; gRow < gCount && gRow < 0x10000; ++gRow)
                     if (KeyAt(g_f.gimmickTableGlobal, gRow, kOff_Table_DefsA, gk, sizeof gk, kOff_GimmickDef_StringKey)) break;
-            if (match * 10 >= readable * 9) { g_tableState = 1; LOG_OK("[table] iteminfo: %u rows in the 1.0.0.3663 layout, %d built, row ids match our database (%d/%d)", count, built, match, readable); }
-            else { g_tableState = 2; LOG("[table] iteminfo: %u rows in the 1.0.0.3663 layout, %d built, row ids differ from our database (%d/%d); matching by name", count, built, match, readable); }
+            // 2.05.00 has 8,379 rows: our 7,068 base rows where our table puts
+            // them, then the 1,311 DLC-only items our table gives no row. Every
+            // path that names an item by its type id (the bag, the pet filter,
+            // the store tally, the drop path) asks ByRow, so those 1,311 read
+            // as nothing there until the live order is adopted. The live order
+            // comes from each row's own key, so it holds on any build.
+            const ItemDb::LiveRows lr = ItemDb::SetLiveRows(keyByRow);
+            LOG("[table] iteminfo: %u rows in the 1.0.0.3663 layout, %d built, %d with a readable key, %d unreadable; shipped rows agree on %d",
+                count, built, readable, static_cast<int>(unread.size()), match);
+            LOG("[table] iteminfo live rows: %d at the row our table gives them, %d found by key at another row or one our table leaves out, %d keys our table does not know",
+                lr.sameRow, lr.byKey, lr.unknown);
+            {
+                char line[1500]; int w = 0, n = 0;
+                for (uint32_t row : unread)
+                {
+                    if (!n) w = snprintf(line, sizeof line, "[table] built rows with no readable key:");
+                    w += snprintf(line + w, sizeof line - w, " %u", row);
+                    if (++n == 40 || w > 1400) { LOG("%s", line); n = 0; }
+                }
+                if (n) LOG("%s", line);
+                n = 0;
+                for (uint32_t row = 0; row < keyByRow.size(); ++row)
+                {
+                    if (keyByRow[row].empty()) continue;
+                    const Item* it = ItemDb::ByStringKey(keyByRow[row].c_str());
+                    if (it && it->row == static_cast<int>(row)) continue;
+                    if (!n) w = snprintf(line, sizeof line, "[table] row by key:");
+                    w += snprintf(line + w, sizeof line - w, " %u=%s(%d)", row, keyByRow[row].c_str(), it ? it->row : -2);
+                    if (++n == 20 || w > 1300) { LOG("%s", line); n = 0; }
+                }
+                if (n) LOG("%s", line);
+            }
+            if ((lr.sameRow + lr.byKey) * 10 >= readable * 9) { g_tableState = 1; LOG_OK("[table] iteminfo: row ids now read through the game's own keys (%d of %d)", lr.sameRow + lr.byKey, readable); }
+            else { g_tableState = 2; LOG("[table] iteminfo: only %d of %d live keys are in our table; matching by name", lr.sameRow + lr.byKey, readable); }
             if (gk[0]) LOG("[table] gimmickinfo: %u rows, row %u reads key %s", gCount, gRow, gk);
             else       LOG_ERR("[table] gimmickinfo: %u rows and no readable key at +0x%X; gimmick names unavailable", gCount, kOff_GimmickDef_StringKey);
             return g_tableState;

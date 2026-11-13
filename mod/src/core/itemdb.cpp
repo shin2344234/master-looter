@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <algorithm>
+#include <atomic>
 #include <cstdio>
 #include <cstdlib>
 #include <map>
@@ -122,10 +123,66 @@ namespace ml::ItemDb
         return it == g_byKey.end() ? nullptr : &g_items[it->second];
     }
 
+    // Published once and never freed, so a reader on another thread never
+    // sees it change under it.
+    struct Live { std::vector<int> itemAt; std::vector<int> rowOf; };
+    static std::atomic<const Live*> g_live{ nullptr };
+
     const Item* ByRow(int row)
     {
-        if (row < 0 || static_cast<size_t>(row) >= g_byRow.size() || g_byRow[row] < 0) return nullptr;
+        if (row < 0) return nullptr;
+        if (const Live* live = g_live.load(std::memory_order_acquire))
+            if (static_cast<size_t>(row) < live->itemAt.size())
+            {
+                const int i = live->itemAt[row];
+                return i < 0 ? nullptr : &g_items[i];
+            }
+        if (static_cast<size_t>(row) >= g_byRow.size() || g_byRow[row] < 0) return nullptr;
         return &g_items[g_byRow[row]];
+    }
+
+    LiveRows SetLiveRows(const std::vector<std::string>& keyByRow)
+    {
+        LiveRows s;
+        if (g_live.load(std::memory_order_acquire)) return s;
+        auto* live = new Live;
+        live->itemAt.assign(keyByRow.size(), -1);
+        live->rowOf.assign(g_items.size(), -1);
+        for (size_t row = 0; row < keyByRow.size(); ++row)
+        {
+            const std::string& key = keyByRow[row];
+            if (key.empty())
+            {
+                if (row < g_byRow.size()) live->itemAt[row] = g_byRow[row];
+                continue;
+            }
+            ++s.readable;
+            auto it = g_byName.find(key);
+            if (it == g_byName.end()) { ++s.unknown; continue; }
+            live->itemAt[row] = static_cast<int>(it->second);
+            if (live->rowOf[it->second] < 0) live->rowOf[it->second] = static_cast<int>(row);
+            if (g_items[it->second].row == static_cast<int>(row)) ++s.sameRow;
+            else ++s.byKey;
+        }
+        // An item whose row was unreadable keeps the shipped row, but only
+        // where no readable row has taken that number for another item.
+        for (size_t i = 0; i < g_items.size(); ++i)
+        {
+            const int r = g_items[i].row;
+            if (live->rowOf[i] >= 0 || r < 0) continue;
+            if (static_cast<size_t>(r) >= live->itemAt.size() || live->itemAt[r] == static_cast<int>(i)) live->rowOf[i] = r;
+        }
+        g_live.store(live, std::memory_order_release);
+        return s;
+    }
+
+    bool HasLiveRows() { return g_live.load(std::memory_order_acquire) != nullptr; }
+
+    int GameRow(const Item& item)
+    {
+        const Live* live = g_live.load(std::memory_order_acquire);
+        if (!live || g_items.empty() || &item < g_items.data() || &item >= g_items.data() + g_items.size()) return item.row;
+        return live->rowOf[static_cast<size_t>(&item - g_items.data())];
     }
 
     const Item* ByStringKey(const char* stringKey)

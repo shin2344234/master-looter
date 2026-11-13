@@ -1673,9 +1673,10 @@ namespace ml::gui
         int shown = 0;
         for (const Item& it : ItemDb::All())
         {
-            if (it.row < 0 || it.row > 0xFFFF || it.name.empty() || !Contains(it.name, q)) continue;
+            const int gameRow = ItemDb::GameRow(it);
+            if (gameRow < 0 || gameRow > 0xFFFF || it.name.empty() || !Contains(it.name, q)) continue;
             bool listed = false;
-            for (int i = 0; i < s_psmNeverN; ++i) if (s_psmNever[i] == it.row) listed = true;
+            for (int i = 0; i < s_psmNeverN; ++i) if (s_psmNever[i] == gameRow) listed = true;
             if (listed) continue;
             if (++shown > 8) { ImGui::TextDisabled("%s", TR("more matches; type more of the name")); break; }
             ImGui::PushID(600 + shown);
@@ -1683,7 +1684,7 @@ namespace ml::gui
             {
                 uint16_t next[PSM_NEVER_MOVE_MAX];
                 for (int i = 0; i < s_psmNeverN; ++i) next[i] = s_psmNever[i];
-                next[s_psmNeverN] = static_cast<uint16_t>(it.row);
+                next[s_psmNeverN] = static_cast<uint16_t>(gameRow);
                 if (PsmApplyNever(api, next, s_psmNeverN + 1, "add")) query[0] = 0;
                 ImGui::PopID();
                 break;

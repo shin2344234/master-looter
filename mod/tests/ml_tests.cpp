@@ -10,6 +10,7 @@
 #include <cstdio>
 #include <cstring>
 #include <string>
+#include <vector>
 
 #include "core/itemdb.h"
 #include "core/paths.h"
@@ -167,6 +168,41 @@ static void AlwaysOverSwitch()
     Check(quest == 0, "no quest item ever lifts a switch");
 }
 
+// Game 2.05.00: 8,379 rows, our 7,068 base rows in place and the 1,311
+// DLC-only items after them, where the shipped table gives them no row. The
+// live table is laid out the same way here, with one base row unreadable.
+static void LiveRows()
+{
+    std::vector<std::string> keys;
+    std::vector<const Item*> dlc;
+    for (const Item& it : ItemDb::All())
+    {
+        if (it.row < 0) { dlc.push_back(&it); continue; }
+        if (keys.size() <= static_cast<size_t>(it.row)) keys.resize(it.row + 1);
+        keys[it.row] = it.stringKey;
+    }
+    const size_t base = keys.size();
+    printf("      %zu base rows, %zu DLC-only items\n", base, dlc.size());
+    Check(base == 7068 && dlc.size() == 1311, "the shipped table has 7,068 base rows and 1,311 DLC-only items");
+    const Item* hidden = ItemDb::ByRow(5);
+    keys[5].clear();
+    for (const Item* it : dlc) keys.push_back(it->stringKey);
+    Check(ItemDb::ByRow(static_cast<int>(base)) == nullptr, "before the live rows, the first DLC row names nothing");
+    const ItemDb::LiveRows lr = ItemDb::SetLiveRows(keys);
+    Check(lr.readable == 8378 && lr.sameRow == 7067 && lr.byKey == 1311 && lr.unknown == 0, "every readable row is found, the DLC ones by key");
+    bool all = true;
+    for (size_t i = 0; i < dlc.size(); ++i)
+    {
+        const int row = static_cast<int>(base + i);
+        if (ItemDb::ByRow(row) != dlc[i] || ItemDb::GameRow(*dlc[i]) != row) all = false;
+    }
+    Check(all, "every DLC item is named by its live row, and its live row is what gets sent back");
+    Check(hidden && ItemDb::ByRow(5) == hidden && ItemDb::GameRow(*hidden) == 5, "an unreadable row keeps the shipped mapping");
+    const Item* copper = ItemDb::ByStringKey("Money_Copper");
+    Check(copper && ItemDb::ByRow(copper->row) == copper && ItemDb::GameRow(*copper) == copper->row, "a base item keeps its row");
+    Check(ItemDb::ByRow(static_cast<int>(base + dlc.size())) == nullptr, "a row past the table names nothing");
+}
+
 static bool WriteText(const std::wstring& path, const char* text)
 {
     FILE* f = _wfopen(path.c_str(), L"wb");
@@ -211,6 +247,7 @@ int main()
     ScanRetry();
     ProtectedTags();
     AlwaysOverSwitch();
+    LiveRows();
     NotVeins();
 
     printf("%d passed, %d failed\n", g_passed, g_failed);
