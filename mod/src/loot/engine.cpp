@@ -4223,8 +4223,15 @@ namespace ml::loot
     // Wind a well and take what comes up. Started when a bucket is in reach and
     // pumped once a scan; the run is eleven seconds of transitions, so it plays
     // out across many scans rather than in one.
-    static void WellTick(const std::vector<Cand>& list, const Config& cfg, DWORD now)
+    // act is the scan's own: auto-loot on, or a burst press running. The scan
+    // also runs while the menu is open with auto-loot off, and this used to
+    // start a well run then anyway, so water was drawn with the switch off
+    // (issue #138). A run already under way still finishes, since stopping one
+    // halfway leaves the bucket and winch in the middle of their transitions.
+    static void WellTick(const std::vector<Cand>& list, const Config& cfg, DWORD now, bool act)
     {
+        static std::unordered_set<uint32_t> s_leftOff;
+        if (act) s_leftOff.clear();
         if (g_wellRun.active)
         {
             const DWORD since = now - g_wellRun.startedAt;
@@ -4289,6 +4296,16 @@ namespace ml::loot
                 r.comp[i] = comps ? game::CompByClass(comps, kCls_Gimmick) : 0;
             }
             if (!r.comp[WellWinch]) continue;   // nothing to drive
+            if (!act)
+            {
+                // Once per bucket until auto-loot is next on, since the menu
+                // scan passes the same well several times a second.
+                if (s_leftOff.size() > 256) s_leftOff.clear();
+                if (s_leftOff.insert(b.eid).second)
+                    LOG("[well] bucket %08X at %.1f m has water and was left alone, because auto-loot is off",
+                        b.eid, b.d);
+                continue;
+            }
 
             // The winch is read but never driven, so the log can say what the
             // player was doing when the water was taken. MinAngle means they had
@@ -6818,7 +6835,7 @@ namespace ml::loot
             snprintf(s_holdWhy, sizeof s_holdWhy, "%s", "in your camp or house (PauseAtHome)");
 
         // Wind a well, if one is in reach and the switch is on.
-        if (!homePause) WellTick(list, cfg, now);
+        if (!homePause) WellTick(list, cfg, now, act);
 
         // Per-entity memories grow with every object ever seen; a long session
         // sees hundreds of thousands. Forget the diagnostics wholesale and the
