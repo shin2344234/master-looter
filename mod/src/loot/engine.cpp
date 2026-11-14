@@ -829,6 +829,26 @@ namespace ml::loot
     static std::atomic<uintptr_t> g_me{ 0 };
     // Declared here, above the body helpers that read it.
     static uint32_t  g_meEid = 0, g_meRoute = 0;
+    // Whose bag the player's pick-ups land in. Issue #187: as Damiane or
+    // Oongka the scan centre can be a gear holder that is not player-tagged,
+    // taken because the identity fixture has nothing near it, and reading
+    // that holder's bag read some other actor's 36 slots with one in use. The
+    // pick-ups went to the identity's bag the whole time, so no rise was ever
+    // seen and nothing was offered to storage. The pick pass names the
+    // player-tagged identity here whenever the centre is a holder.
+    static std::atomic<uintptr_t> g_bagActor{ 0 };
+    static std::atomic<uint32_t>  g_bagActorEid{ 0 };
+    static uintptr_t BagActor()
+    {
+        const uintptr_t me = g_me;
+        uint32_t id = 0;
+        if (!me || (game::Eid(me, &id) && static_cast<uint8_t>(id >> 24) == game::kTagPlayer)) return me;
+        const uintptr_t a = g_bagActor;
+        const uint32_t want = g_bagActorEid;
+        uint32_t got = 0;
+        if (a && want && game::Eid(a, &got) && got == want) return a;
+        return me;
+    }
     // When the scan last found nothing at all around the chosen actor.
     static DWORD g_barrenSince = 0;
     // The last world change, kept for the crash handler. Issue #59: lsimo's
@@ -1813,10 +1833,18 @@ namespace ml::loot
             }
             // Worth knowing if the two ever disagree: the fields were found by
             // watching one bag fill, and a wrong guess should not go unnoticed.
+            // No cap on it. Issue #187: five lines and then silence hid a
+            // half-hour stretch of reading the wrong bag. The streak resets
+            // below, so this writes at most one line per three pick-ups, and
+            // it says whose bag it read and how many times this has happened.
             if (!full && g_noRise >= kBagFullStreak)
             {
                 static int s_odd = 0;
-                if (s_odd < 5) { ++s_odd; LOG("[bag] %d pick-ups reached nothing while the bag reads %d of %d: something else is refusing them", g_noRise, used, cap); }
+                ++s_odd;
+                uint32_t whose = 0;
+                if (const uintptr_t b = BagActor()) game::Eid(b, &whose);
+                LOG("[bag] %d pick-ups reached nothing while the bag of %08X reads %d of %d: something else is refusing them (%d time%s this session)",
+                    g_noRise, whose, used, cap, s_odd, s_odd == 1 ? "" : "s");
                 g_noRise = 0;
             }
         }
@@ -4524,6 +4552,7 @@ namespace ml::loot
         // The player is looked up again, and the next scan runs the purge of
         // queues and remembered pointers that an area change runs.
         g_me = 0;
+        g_bagActor = 0; g_bagActorEid = 0;
         g_scanRestarted = true;
         g_scanDisabled = false;
         LOG("[scan] starting again after fault %ld.", g_scanFaults);
@@ -5122,8 +5151,8 @@ namespace ml::loot
     static long long DeleteFromInventory(uint16_t tid, long long amount, const char* why)
     {
         static game::InvEntry ents[4096]; static game::BucketInfo bks[64];
-        const int n = game::InventoryEntries(g_me, ents, 4096);
-        const int bn = game::InventoryBuckets(g_me, bks, 64);
+        const int n = game::InventoryEntries(BagActor(), ents, 4096);
+        const int bn = game::InventoryBuckets(BagActor(), bks, 64);
         const uint32_t route = events::RouteKnown() ? events::Route() : game::Route(g_me);
         const Item* it = ItemDb::ByRow(tid);
         long long left = amount, sent = 0;
@@ -5250,7 +5279,7 @@ namespace ml::loot
         // later than it landed after every slot was read.
         auto snapshot = [&](std::unordered_map<uint16_t, long long>& into, uintptr_t& holderOut) {
             into.clear();
-            const int n = game::InventoryEntries(g_me, ents, 4096, &holderOut);
+            const int n = game::InventoryEntries(BagActor(), ents, 4096, &holderOut);
             for (int i = 0; i < n; ++i) into[ents[i].tid] += ents[i].count;
             return GetTickCount();
         };
@@ -5753,7 +5782,28 @@ namespace ml::loot
         // BestHolder needs. Before this timer existed a settled centre was never
         // re-contested at all, and that part was right.
         const bool rescueOnly = !noPlayer && !barren && !soleDisproved;
-        const bool reconsider = noPlayer || onGearHolder || barren || soleDisproved;
+        // Issue #187. A centre that is a gear holder needs the identity named
+        // for its bag. Once a played body holds the centre the holder timer
+        // above never runs again, so a session whose one pick could not name
+        // the identity, or whose identity went with a reload, would read the
+        // wrong bag for good. This asks again every four seconds until it has
+        // one, and a pass it asks for alone names the bag and moves nothing.
+        static DWORD s_bagRetry = 0;
+        bool needBag = false;
+        if (g_meEid && static_cast<uint8_t>(g_meEid >> 24) != game::kTagPlayer)
+        {
+            const uint32_t want = g_bagActorEid;
+            const uintptr_t a = g_bagActor;
+            uint32_t got = 0;
+            if (want && (!a || !game::Eid(a, &got) || got != want))
+            {
+                LOG("[inv] the player-tagged actor %08X whose bag was being read has gone; looking for it again", want);
+                g_bagActor = 0; g_bagActorEid = 0;
+            }
+            if (!g_bagActorEid && now - s_bagRetry > 4000) { s_bagRetry = now; needBag = true; }
+        }
+        const bool bagOnly = needBag && !(noPlayer || onGearHolder || barren || soleDisproved);
+        const bool reconsider = noPlayer || onGearHolder || barren || soleDisproved || needBag;
         if (reconsider)
         {
             // Every player-tagged actor, and how much world is standing near
@@ -5945,7 +5995,12 @@ namespace ml::loot
                                    && s_incSeenAt && now - s_incSeenAt < 12000;
             if (best >= 0 && inc >= 0 && inc != best && cand[inc].around == cand[best].around
                 && (cand[inc].tagged || !cand[best].tagged)) best = inc;
-            if (incAbsent)
+            if (bagOnly)
+            {
+                // Asked for only to name the bag's owner, below. The centre
+                // stays where it is.
+            }
+            else if (incAbsent)
             {
                 static DWORD s_saidAbsent = 0;
                 if (g_debugLog && now - s_saidAbsent > 30000)
@@ -5997,9 +6052,55 @@ namespace ml::loot
                     LOG("[route] player actor %08X carries route %08X; sends go out on %08X", g_meEid,
                         game::Route(g_me), events::RouteKnown() ? events::Route() : 0);
             }
+            // Issue #187. Whose bag to read while the centre is a gear holder.
+            // One player-tagged actor in the pass is the identity; with a
+            // party, the one the game names in its own take-or-steal check.
+            // A pass with neither keeps what was named before, which
+            // BagActor checks by id before every read.
+            if (candN > 0)
+            {
+                const bool meTagged = g_meEid && static_cast<uint8_t>(g_meEid >> 24) == game::kTagPlayer;
+                if (meTagged)
+                {
+                    if (g_bagActorEid)
+                        LOG("[inv] the scan centre %08X is player-tagged again, so the bag is read from it", g_meEid);
+                    g_bagActor = 0; g_bagActorEid = 0;
+                }
+                else if (g_meEid)
+                {
+                    const uint32_t gameSays = hooks::PlayerEidFromGame();
+                    int tagged = 0, one = -1, said = -1;
+                    for (int i = 0; i < candN; ++i)
+                    {
+                        if (!cand[i].tagged) continue;
+                        ++tagged; one = i;
+                        if (gameSays && cand[i].eid == gameSays) said = i;
+                    }
+                    const int ident = tagged == 1 ? one : said;
+                    if (ident >= 0)
+                    {
+                        if (g_bagActorEid != cand[ident].eid)
+                            LOG("[inv] the scan centre %08X is a gear holder and not the player, so the bag is read from the player-tagged actor %08X (%s)",
+                                g_meEid, cand[ident].eid,
+                                tagged == 1 ? "the only one in the world" : "the one the game asks about as the player");
+                        g_bagActor = cand[ident].ent; g_bagActorEid = cand[ident].eid;
+                    }
+                    else if (!g_bagActorEid)
+                    {
+                        static uint32_t s_saidNone = 0;
+                        if (s_saidNone != g_meEid)
+                        {
+                            s_saidNone = g_meEid;
+                            LOG("[inv] the scan centre %08X is a gear holder and no player-tagged actor can be named as the player (%d in this pass), so its own bag is read for now; asking again in 4 s",
+                                g_meEid, tagged);
+                        }
+                    }
+                }
+            }
             // Not on a starved pass: nothing was judged, so the clock that says
-            // the centre has nothing around it has not been answered.
-            if (!thin) g_barrenSince = 0;
+            // the centre has nothing around it has not been answered. Nor on a
+            // pass asked for only to name the bag, which judged nothing either.
+            if (!thin && !bagOnly) g_barrenSince = 0;
         }
         // Arm the ownership check the moment there is a player. It used to be
         // armed inside WouldSteal, the last test in Decide(), so a session
@@ -6055,8 +6156,8 @@ namespace ml::loot
         // search's sender is the pet. As Damiane or Oongka the enumeration
         // publishes the body instead.
         if (!g_bodyEid) PublishBodyDropAt(g_me, g_meEid, mp, now);
-        game::InventoryRefresh(g_me, !g_pend.empty());
-        if (g_debugLog) game::DumpInventoryShape(g_me, g_bagFull);
+        game::InventoryRefresh(BagActor(), !g_pend.empty());
+        if (g_debugLog) game::DumpInventoryShape(BagActor(), g_bagFull);
         LearnFromInventory(now);
         // Issue #32. Pets and companions follow the filters, off by default.
         {
@@ -6074,7 +6175,7 @@ namespace ml::loot
             if (cfg.debugLog && !cfg.deleteTestName.empty() && g_me && s_phase == 0)
             {
                 static game::InvEntry ents[4096];
-                const int n = game::InventoryEntries(g_me, ents, 4096);
+                const int n = game::InventoryEntries(BagActor(), ents, 4096);
                 int pick = -1;
                 for (int i = 0; i < n; ++i)
                 {
@@ -6086,7 +6187,7 @@ namespace ml::loot
                 else
                 {
                     static game::BucketInfo bks[64];
-                    const int bn = game::InventoryBuckets(g_me, bks, 64);
+                    const int bn = game::InventoryBuckets(BagActor(), bks, 64);
                     for (int i = 0; i < bn; ++i)
                         LOG("[deletetest] bucket %d at %llX: type %u, slots %u, used %u, cap %u, excluded %u%s", i, static_cast<unsigned long long>(bks[i].addr), bks[i].type, bks[i].slotN, bks[i].used, bks[i].cap, bks[i].exclN, i == ents[pick].bucket ? "  <- target" : "");
                     static game::InvTypeRow rows[96]; uint32_t rowCount = 0;
@@ -6108,7 +6209,7 @@ namespace ml::loot
             else if (s_phase == 1 && events::LastDeleteSentAt() >= s_sentAt && now - static_cast<DWORD>(events::LastDeleteSentAt()) > 3000)
             {
                 static game::InvEntry ents[4096];
-                const int n = game::InventoryEntries(g_me, ents, 4096);
+                const int n = game::InventoryEntries(BagActor(), ents, 4096);
                 long long have = 0;
                 for (int i = 0; i < n; ++i) if (ents[i].tid == s_tid) have += ents[i].count;
                 LOG("[deletetest] %s: %lld now, was %lld: %s", cfg.deleteTestName.c_str(), have, s_was, have == s_was - 2 ? "both gone, the amount field counts" : have < s_was ? "fewer, but not by two" : "no change");
@@ -7274,13 +7375,13 @@ namespace ml::loot
                     LOG("[loot] %s eid %08X type %u parent %08X cat %02X/%02X %s%s%s%s", line, k.eid, k.tid, k.parent, k.cat, k.cat2, k.key[0] ? k.key : "",
                         k.nodeType ? (" [" + k.nodeType->kind + "/" + (k.nodeType->tagged ? "vouched" : "name") + "]").c_str() : "",
                         k.node[0] ? " node " : "", k.node[0] ? k.node : "");
-                    if (cfg.dupeProbe) DupeOpen(g_me, k.eid, k.iid, k.tid, k.pos, Label(k), k.node, now);
+                    if (cfg.dupeProbe) DupeOpen(BagActor(), k.eid, k.iid, k.tid, k.pos, Label(k), k.node, now);
                 }
             }
             if (burst) g_burstLeft = std::max(0, g_burstLeft - taken);
         }
 
-        if (cfg.dupeProbe) DupeMature(g_me, now, mp, cfg.scanRange);
+        if (cfg.dupeProbe) DupeMature(BagActor(), now, mp, cfg.scanRange);
 
         QueryPerformanceCounter(&t1);
         std::lock_guard<std::mutex> lk(g_mu);
@@ -7484,7 +7585,7 @@ namespace ml::loot
         const DWORD now = GetTickCount();
         if (now - s_holderAt < 250) return;
         s_holderAt = now;
-        game::RefreshHolder(g_me);
+        game::RefreshHolder(BagActor());
     }
 
     Status GetStatus() { std::lock_guard<std::mutex> lk(g_mu); return g_status; }
