@@ -9,6 +9,7 @@
 #include "game.h"
 #include "mem.h"
 #include "signatures.h"
+#include "../core/itemdb.h"
 #include "../core/log.h"
 #include "../core/mod.h"
 #include "../core/settings.h"
@@ -639,6 +640,182 @@ namespace ml::loot::hooks
         return n;
     }
 
+    // Class multipliers, issue #28. The count above is called once per drop
+    // row that survives the game's filters, and its answer is how many times
+    // the spawn loop runs for that row, so multiplying it makes the game spawn
+    // more of that row's item through its own path. No take is sent twice and
+    // nothing already in the world is copied.
+    //
+    // The count is told only the collect key, never the item, so the row has
+    // to come from the caller. Read on exe 1.0.0.3663: the drop row walk
+    // (+0x19B24CA) loads the row out of [r14] and the second walk (+0x233CA20)
+    // out of [rdi], both callee-saved, so both still hold it when the count is
+    // entered. The row's u8 at +0x60 is its kind, 0 for an item, and its u16
+    // at +0x38 is then the iteminfo row: the spawn at +0x1CB0290 passes that
+    // u16 to +0x3DAF10, which indexes the iteminfo global the mod already
+    // reads at +0x7246370. The third caller, the probabilistic bonus list at
+    // +0x25233D8, keeps its row elsewhere, and its rows carry key 0 on every
+    // vein measured, so it is left alone.
+    //
+    // C++ cannot read a register, so the detour is a stub of three
+    // instructions in front of hkCountRow: rdi into a TLS slot, r14 into r9 as
+    // a fourth argument (the count takes three, and r9 is volatile), then a
+    // jump. A row is believed only when its own collect key is the one the
+    // count was asked about and its kind byte says item.
+
+    static volatile LONG g_lastGatherAt = 0;
+    void MarkOurGather()
+    {
+        InterlockedExchange(&g_lastGatherAt, static_cast<LONG>(GetTickCount()));
+    }
+    static bool GatheredRecently()
+    {
+        const LONG at = g_lastGatherAt;
+        return at != 0 && (static_cast<LONG>(GetTickCount()) - at) < 2000;
+    }
+
+    static SRWLOCK g_multLock = SRWLOCK_INIT;
+    static std::map<std::string, int> g_mult;
+    static bool  g_multHooked = false;
+    static DWORD g_rdiSlot = TLS_OUT_OF_INDEXES;
+    bool ClassMultipliersHooked() { return g_multHooked; }
+
+    static std::string DescribeMult(const std::map<std::string, int>& m)
+    {
+        std::string s;
+        for (const auto& kv : m)
+        {
+            if (!s.empty()) s += ", ";
+            s += kv.first; s += " x"; s += std::to_string(kv.second);
+        }
+        return s.empty() ? std::string("none") : s;
+    }
+
+    void PublishClassMultipliers(const std::map<std::string, int>& mult)
+    {
+        AcquireSRWLockShared(&g_multLock);
+        const bool same = g_mult == mult;
+        ReleaseSRWLockShared(&g_multLock);
+        if (same) return;
+        AcquireSRWLockExclusive(&g_multLock);
+        g_mult = mult;
+        ReleaseSRWLockExclusive(&g_multLock);
+        LOG("[mult] class multipliers now %s%s", DescribeMult(mult).c_str(),
+            g_multHooked ? "" : ". The drop count went in without them this launch, so they start at the next one.");
+    }
+
+    // -1 when the holder does not lead to a row for this key, -2 when it does
+    // and the row is not an item, else the iteminfo row.
+    static int DropRowItem(uintptr_t holder, uint32_t key, uint8_t* kindOut)
+    {
+        uintptr_t rd = 0;
+        uint32_t k = 0;
+        uint8_t kind = 0xFF;
+        uint16_t row = 0xFFFF;
+        if (!holder || !mem::ReadPtr(holder, &rd)) return -1;
+        if (!mem::Read32(rd + 0xC, &k) || k != key) return -1;
+        if (!mem::Read8(rd + 0x60, &kind)) return -1;
+        *kindOut = kind;
+        if (kind != 0) return -2;
+        if (!mem::Read16(rd + 0x38, &row) || row == 0xFFFF) return -1;
+        return row;
+    }
+
+    static uint32_t __fastcall hkCountRow(uintptr_t instigator, uintptr_t vein, uint32_t key, uintptr_t r14)
+    {
+        const uint32_t n = hkCount(instigator, vein, key);
+        // Key 0 is the bonus list and every gimmick nobody gathers, tens of
+        // thousands of calls a second, so it never reaches anything below.
+        if (key == 0 || n == 0) return n;
+        if (!DrivenRecently() && !GatheredRecently()) return n;
+
+        uintptr_t rdi = 0;
+        if (g_rdiSlot < 64)
+            rdi = reinterpret_cast<uintptr_t*>(reinterpret_cast<uint8_t*>(NtCurrentTeb()) + 0x1480)[g_rdiSlot];
+        uint8_t kind = 0xFF;
+        const char* via = "row walk";
+        int row = DropRowItem(r14, key, &kind);
+        if (row == -1) { row = DropRowItem(rdi, key, &kind); via = "second walk"; }
+        if (row == -1)
+        {
+            LOG("[mult] key %08X paid %u from a node the mod worked, and neither register led to its row "
+                "(r14 %p, rdi %p), so it was left as it was", key, n,
+                reinterpret_cast<void*>(r14), reinterpret_cast<void*>(rdi));
+            return n;
+        }
+        if (row == -2)
+        {
+            LOG("[mult] key %08X paid %u from a node the mod worked, through the %s, on a row of kind %u, which "
+                "is not an item, so it was left as it was", key, n, via, kind);
+            return n;
+        }
+        const Item* it = ItemDb::ByRow(row);
+        if (!it)
+        {
+            LOG("[mult] key %08X paid %u from a node the mod worked, iteminfo row %d, which the item table does "
+                "not know, so it was left as it was", key, n, row);
+            return n;
+        }
+        if (it->klass == "dev" || it->HasTag("quest") || it->HasTag("important"))
+        {
+            LOG("[mult] %s (%s) paid %u from a node the mod worked and is a quest, important or dev item, so it "
+                "is never multiplied", it->Label(), it->klass.c_str(), n);
+            return n;
+        }
+        int m = 1;
+        AcquireSRWLockShared(&g_multLock);
+        const auto f = g_mult.find(it->klass);
+        if (f != g_mult.end()) m = f->second;
+        ReleaseSRWLockShared(&g_multLock);
+        if (m < 2)
+        {
+            LOG("[mult] %s (%s) paid %u from a node the mod worked, through the %s; that class has no multiplier",
+                it->Label(), it->klass.c_str(), n, via);
+            return n;
+        }
+        if (m > 10) m = 10;
+        const uint32_t out = n * static_cast<uint32_t>(m);
+        LOG("[mult] %s (%s) paid %u from a node the mod worked, x%d makes %u, through the %s",
+            it->Label(), it->klass.c_str(), n, m, out, via);
+        return out;
+    }
+
+    // mov gs:[TlsSlots + 8*slot], rdi ; mov r9, r14 ; jmp [rip] ; dq hkCountRow
+    static void* BuildRowStub()
+    {
+        uint8_t* p = static_cast<uint8_t*>(VirtualAlloc(nullptr, 64, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
+        if (!p) return nullptr;
+        size_t i = 0;
+        const DWORD slot = TlsAlloc();
+        if (slot != TLS_OUT_OF_INDEXES && slot < 64)
+        {
+            const uint32_t off = 0x1480 + slot * 8;
+            const uint8_t mov[] = { 0x65, 0x48, 0x89, 0x3C, 0x25 };
+            memcpy(p + i, mov, sizeof mov); i += sizeof mov;
+            memcpy(p + i, &off, sizeof off); i += sizeof off;
+            g_rdiSlot = slot;
+        }
+        else
+        {
+            if (slot != TLS_OUT_OF_INDEXES) TlsFree(slot);
+            LOG_ERR("[mult] no TLS slot below 64 was free, so only the drop row walk can name an item");
+        }
+        const uint8_t r9[]  = { 0x4D, 0x89, 0xF1 };
+        const uint8_t jmp[] = { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00 };
+        memcpy(p + i, r9, sizeof r9); i += sizeof r9;
+        memcpy(p + i, jmp, sizeof jmp); i += sizeof jmp;
+        const uint64_t to = reinterpret_cast<uint64_t>(&hkCountRow);
+        memcpy(p + i, &to, sizeof to);
+        DWORD old = 0;
+        if (!VirtualProtect(p, 64, PAGE_EXECUTE_READ, &old))
+        {
+            VirtualFree(p, 0, MEM_RELEASE);
+            return nullptr;
+        }
+        FlushInstructionCache(GetCurrentProcess(), p, 64);
+        return p;
+    }
+
     static void InstallOreBonus()
     {
         const int bonus = Settings::Get().oreBonus;
@@ -657,11 +834,36 @@ namespace ml::loot::hooks
         // is how the first round of this went missing: the number had been typed
         // into the wrong section of the ini, the hook quietly never installed,
         // and there was nothing in the log to say so either way.
-        if (Hook("ore count", at, reinterpret_cast<void*>(&hkCount),
-                 reinterpret_cast<void**>(&oCount)))
+        // The class multipliers ride on the same hook, through a stub that
+        // reads the caller's registers. Only when the ini names one, so a
+        // player who never sets a multiplier runs exactly the hook above.
+        const std::map<std::string, int> mult = Settings::Snapshot().classMult;
+        void* detour = reinterpret_cast<void*>(&hkCount);
+        if (!mult.empty())
+        {
+            if (void* stub = BuildRowStub()) { detour = stub; g_multHooked = true; }
+            else LOG_ERR("[mult] the register stub could not be built, so class multipliers are off this session");
+        }
+        if (Hook("ore count", at, detour, reinterpret_cast<void**>(&oCount)))
+        {
             LOG("[ore] tool bonus hooked at +%llX, set to +%d. A vein this mod breaks pays that much "
                 "more through the game's own drop path; mining by hand is untouched.",
                 static_cast<unsigned long long>(at - mem::Game().base), bonus);
+            if (g_multHooked)
+            {
+                AcquireSRWLockExclusive(&g_multLock);
+                g_mult = mult;
+                ReleaseSRWLockExclusive(&g_multLock);
+                LOG("[mult] class multipliers hooked on the drop count, TLS slot %lu: %s. They apply to what a "
+                    "node or vein the mod worked drops in the next two seconds; nothing on the ground, in a body "
+                    "or in a carcass is multiplied.", static_cast<unsigned long>(g_rdiSlot), DescribeMult(mult).c_str());
+            }
+        }
+        else
+            g_multHooked = false;
+        if (mult.empty())
+            LOG("[mult] no class multiplier is set, so the drop count runs without them; one set in the menu "
+                "starts at the next launch.");
     }
 
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original)

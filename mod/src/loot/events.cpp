@@ -505,6 +505,8 @@ namespace ml::events
             InterlockedExchange(&g_sendTid, 0);
             InterlockedIncrement(&g_sent);
             ok = true;
+            // So a class multiplier knows the drop that follows is the mod's.
+            if (act == Action::Gather) ml::loot::hooks::MarkOurGather();
             if (rev)
             {
                 static int s_said = 0;

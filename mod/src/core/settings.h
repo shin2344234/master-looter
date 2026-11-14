@@ -245,6 +245,13 @@ namespace ml
         // the weapons in the game are worth more than 512 copper and meat is
         // worth 15 to 25.
         std::map<std::string, int> classFloor;
+        // [ClassMultipliers] class -> 2..10. What a gather node or an ore vein
+        // the mod works drops of that class is multiplied by the number,
+        // through the game's own drop count, the call the ore slider already
+        // uses. Absent means the game's own count. lsimo asked on 8 September
+        // 2026, issue #28. Nothing on the ground, in a body or in a carcass is
+        // ever multiplied, so no take is repeated and no item is copied.
+        std::map<std::string, int> classMult;
         // [Tags] tag -> 1 always loot / -1 never loot. Absent means no opinion.
         std::map<std::string, int> tagRule;
         // [Items] item key -> 1 always / -1 never.

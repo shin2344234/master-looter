@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdint>
+#include <map>
+#include <string>
 
 // MinHook detours on the game functions the engine needs: a per-frame pump on
 // the game thread (drains queued sends and arms), the event queue (learns the
@@ -15,6 +17,16 @@ namespace ml::loot::hooks
     // Records that the mod just drove a break, so the ore bonus applies to that
     // vein and not to one the player mined by hand.
     void MarkOurBreak(bool on);
+    // The same for a gather the mod sent, so a class multiplier applies to
+    // what that node drops and to nothing the player gathers by hand.
+    void MarkOurGather();
+    // Hand the drop count hook the class multipliers from the ini. Cheap when
+    // nothing changed, so the engine calls it once a scan pass.
+    void PublishClassMultipliers(const std::map<std::string, int>& mult);
+    // Whether the class multipliers went in with the drop count hook at launch.
+    // They do only when the ini named at least one, so a player who never sets
+    // one runs the plain hook, and the first one set needs a restart.
+    bool ClassMultipliersHooked();
 
     bool DriveGimmickEvent(uintptr_t gimmickComp, uint32_t eventId,
                            uint32_t instigatorEid, uintptr_t instigatorActor,

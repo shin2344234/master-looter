@@ -332,7 +332,7 @@ namespace ml::Settings
         if (!stamp || !*stamp || !ReadWhole(BackupPath(stamp), text)) return -1;
         Config c;
         ParseInto(text, c);
-        return static_cast<int>(c.classRule.size() + c.classFloor.size() + c.tagRule.size() + c.itemRule.size());
+        return static_cast<int>(c.classRule.size() + c.classFloor.size() + c.classMult.size() + c.tagRule.size() + c.itemRule.size());
     }
 
     bool DeleteBackup(const char* stamp)
@@ -348,6 +348,7 @@ namespace ml::Settings
     // The highest value an item in the table has is 100,000 copper, so a floor
     // above that refuses the whole class and a larger number means nothing more.
     static constexpr int kMaxFloor = 100000;
+    static constexpr int kMaxClassMult = 10;
 
     static void ParseInto(const std::string& text, Config& c)
     {
@@ -369,6 +370,7 @@ namespace ml::Settings
             if (section == "MasterLooter") ApplyGeneral(c, k, v);
             else if (section == "Classes") c.classRule[k] = atoi(v.c_str()) != 0 ? 1 : 0;
             else if (section == "ClassFloors") { const int f = atoi(v.c_str()); if (f > 0) c.classFloor[k] = std::min(f, kMaxFloor); }
+            else if (section == "ClassMultipliers") { const int m = atoi(v.c_str()); if (m >= 2) c.classMult[k] = std::min(m, kMaxClassMult); }
             // Only =2 and up. Builds before 1.6.55 wrote =1 and started the
             // silence clock when the break was queued, so a slow game tick
             // could put a real vein here: LuxDragon's copper, 28 October 2026.
@@ -602,7 +604,7 @@ namespace ml::Settings
             if (section == "NotVeins" || section == "NodeYields") continue;
             const size_t eq = line.find('=');
             if (eq == std::string::npos) continue;
-            const char* label = section == "Classes" ? "class " : section == "ClassFloors" ? "floor " : section == "Tags" ? "tag " : section == "Items" ? "item " : "";
+            const char* label = section == "Classes" ? "class " : section == "ClassFloors" ? "floor " : section == "ClassMultipliers" ? "multiplier " : section == "Tags" ? "tag " : section == "Items" ? "item " : "";
             out.emplace_back(label + line.substr(0, eq), line.substr(eq + 1));
         }
         std::sort(out.begin(), out.end());
@@ -675,9 +677,9 @@ namespace ml::Settings
         // An edit picked up while the game runs reaches the copy too. At the
         // launch's own load nothing is claimed yet, and Claim does it instead.
         if (!g_fromCopy) RefreshCopy();
-        LOG("Settings %s: %d class rules, %d class floors, %d tag rules, %d item rules.",
+        LOG("Settings %s: %d class rules, %d class floors, %d class multipliers, %d tag rules, %d item rules.",
             g_fromCopy ? "restored from the copy in AppData, because MasterLooter.ini was missing" : present ? "loaded" : "defaulted (no ini yet)",
-            static_cast<int>(c.classRule.size()), static_cast<int>(c.classFloor.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
+            static_cast<int>(c.classRule.size()), static_cast<int>(c.classFloor.size()), static_cast<int>(c.classMult.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
         // Every range and switch that decides whether a thing is reached, written
         // down once. A report that something was taken "from further than I set"
         // could not be checked against a log before this: the log knew what the
@@ -754,6 +756,11 @@ namespace ml::Settings
         s += "\n; class -> copper: items of that class worth less are skipped. Takes the place\n"
              "; of MinValueCopper for that class; a class not listed follows MinValueCopper.\n[ClassFloors]\n";
         for (const auto& kv : c.classFloor) if (kv.second > 0) { s += kv.first; s += '='; s += std::to_string(kv.second); s += '\n'; }
+        s += "\n; class -> 2 to 10: what a gather node or ore vein this mod works drops of that\n"
+             "; class comes out that many times over, through the game's own drop count. Items\n"
+             "; on the ground, bodies and carcasses are never multiplied. A class not listed\n"
+             "; drops what the game gives. Read at launch: setting the first one needs a restart.\n[ClassMultipliers]\n";
+        for (const auto& kv : c.classMult) if (kv.second >= 2) { s += kv.first; s += '='; s += std::to_string(kv.second); s += '\n'; }
         s += "\n; tag -> 1 always loot, -1 never loot (wins over the class rule)\n[Tags]\n";
         for (const auto& kv : c.tagRule) { s += kv.first; s += kv.second > 0 ? "=1\n" : "=-1\n"; }
         s += "\n; item key -> 1 always loot, -1 never loot (wins over everything)\n[Items]\n";
@@ -896,8 +903,8 @@ namespace ml::Settings
             ++g_generation;
         }
         MarkDirty();
-        LOG("Preset \"%s\" loaded: %d class rules, %d class floors, %d tag rules, %d item rules.", name.c_str(),
-            static_cast<int>(c.classRule.size()), static_cast<int>(c.classFloor.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
+        LOG("Preset \"%s\" loaded: %d class rules, %d class floors, %d class multipliers, %d tag rules, %d item rules.", name.c_str(),
+            static_cast<int>(c.classRule.size()), static_cast<int>(c.classFloor.size()), static_cast<int>(c.classMult.size()), static_cast<int>(c.tagRule.size()), static_cast<int>(c.itemRule.size()));
         return true;
     }
 

@@ -7328,6 +7328,7 @@ namespace ml::loot
             // A copy: the render thread edits the live Config while the menu is up.
             Config cfg = Settings::Snapshot();
             RefreshKindRules(cfg);
+            hooks::PublishClassMultipliers(cfg.classMult);
             const State& st = State::Get();
             if (!st.Captures() && State::ForegroundIsOurs())
             {

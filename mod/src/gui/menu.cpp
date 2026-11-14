@@ -1233,17 +1233,23 @@ namespace ml::gui
             ImGui::SameLine();
             if (ImGui::Button(TR("Clear floors"))) { c.classFloor.clear(); Settings::MarkDirty(); }
         }
+        if (!c.classMult.empty())
+        {
+            ImGui::SameLine();
+            if (ImGui::Button(TR("Clear multipliers"))) { c.classMult.clear(); Settings::MarkDirty(); }
+        }
         ImGui::SameLine();
         ImGui::TextDisabled(TR("%d classes"), static_cast<int>(ItemDb::Classes().size()));
 
         const std::string f = Lower(filter);
-        if (ImGui::BeginTable("classes", 4, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
+        if (ImGui::BeginTable("classes", 5, ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersInnerH))
         {
             ImGui::TableSetupScrollFreeze(0, 1);
             ImGui::TableSetupColumn(TR("Loot"), ImGuiTableColumnFlags_WidthFixed, 60 * g_scale);
             ImGui::TableSetupColumn(TR("Class"), ImGuiTableColumnFlags_WidthStretch);
             ImGui::TableSetupColumn(TR("Items"), ImGuiTableColumnFlags_WidthFixed, 70 * g_scale);
             ImGui::TableSetupColumn(TR("Floor"), ImGuiTableColumnFlags_WidthFixed, 90 * g_scale);
+            ImGui::TableSetupColumn(TR("Multiplier"), ImGuiTableColumnFlags_WidthFixed, 90 * g_scale);
             ImGui::TableHeadersRow();
             for (const auto& kv : ItemDb::Classes())
             {
@@ -1272,6 +1278,30 @@ namespace ml::gui
                 }
                 if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted(TR("Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.")); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
                 ImGui::PopID();
+                // Issue #28. A dev item is never multiplied, so it gets no control.
+                ImGui::TableSetColumnIndex(4);
+                if (kv.first != "dev")
+                {
+                    auto mi = c.classMult.find(kv.first);
+                    int mult = mi == c.classMult.end() ? 1 : mi->second;
+                    ImGui::PushID(kv.first.c_str());
+                    ImGui::SetNextItemWidth(-FLT_MIN);
+                    if (ImGui::SliderInt("##mult", &mult, 1, 10, mult > 1 ? "x%d" : TR("off"), ImGuiSliderFlags_AlwaysClamp))
+                    {
+                        if (mult > 1) c.classMult[kv.first] = mult; else c.classMult.erase(kv.first);
+                        Settings::MarkDirty();
+                    }
+                    if (ImGui::BeginItemTooltip())
+                    {
+                        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f);
+                        ImGui::TextUnformatted(TR("What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand."));
+                        if (!c.classMult.empty() && !ml::loot::hooks::ClassMultipliersHooked())
+                            ImGui::TextColored(kWarn, "%s", TR("Restart the game for the multiplier you picked to take effect."));
+                        ImGui::PopTextWrapPos();
+                        ImGui::EndTooltip();
+                    }
+                    ImGui::PopID();
+                }
             }
             ImGui::EndTable();
         }

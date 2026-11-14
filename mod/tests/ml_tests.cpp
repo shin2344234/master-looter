@@ -234,6 +234,41 @@ static void NotVeins()
     DeleteFileW(ini.c_str());
 }
 
+static void ClassMultipliers()
+{
+    const std::wstring ini = Paths::File(L"MasterLooter.ini");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\n"), "the multiplier-free ini is written");
+    Settings::Load();
+    Check(Settings::Snapshot().classMult.empty(), "no class is multiplied when the ini names none");
+    Check(WriteText(ini,
+        "[MasterLooter]\r\nConfigVersion=9\r\n\r\n"
+        "[ClassMultipliers]\r\n"
+        "ore=3\r\n"
+        "stone=1\r\n"
+        "jewel=50\r\n"
+        "herb=0\r\n"), "the multiplier ini is written");
+    Settings::Load();
+    Config c = Settings::Snapshot();
+    Check(c.classMult.count("ore") && c.classMult["ore"] == 3, "ore=3 loads as x3");
+    Check(!c.classMult.count("stone"), "x1 is the same as off and is not kept");
+    Check(c.classMult.count("jewel") && c.classMult["jewel"] == 10, "a multiplier above 10 is held at 10");
+    Check(!c.classMult.count("herb"), "x0 is not a multiplier");
+
+    // A preset is the whole config written out, so it shows what the ini
+    // writer puts under [ClassMultipliers] and that the reader takes it back.
+    Check(Settings::SavePreset("multtest"), "the preset is written");
+    {
+        std::lock_guard<std::recursive_mutex> lk(Settings::Mutex());
+        Settings::Get().classMult.clear();
+    }
+    Check(Settings::LoadPreset("multtest"), "the preset loads back");
+    c = Settings::Snapshot();
+    Check(c.classMult.size() == 2 && c.classMult["ore"] == 3 && c.classMult["jewel"] == 10,
+          "the multipliers survive a write and a read");
+    Settings::DeletePreset("multtest");
+    DeleteFileW(ini.c_str());
+}
+
 int main()
 {
     wchar_t tmp[MAX_PATH] = {};
@@ -249,6 +284,7 @@ int main()
     AlwaysOverSwitch();
     LiveRows();
     NotVeins();
+    ClassMultipliers();
 
     printf("%d passed, %d failed\n", g_passed, g_failed);
     return g_failed ? 1 : 0;

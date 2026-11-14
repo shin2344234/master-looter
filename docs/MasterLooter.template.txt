@@ -93,6 +93,7 @@ class %s
 Classes	
 Clear	
 Clear floors	
+Clear multipliers	
 Clear overrides	
 Clears what this session worked out from your bag. Nodes named by the prefab table are unaffected.	
 Click again to reset	
@@ -184,6 +185,8 @@ installed
 Item	
 item %u	
 Item database	
+item name not loaded yet	
+item names unavailable	
 Item stacks: %s	
 Item table	
 Items	
@@ -238,6 +241,7 @@ more matches; type more of the name
 Most things the game lets you stack 100 of, so at x10 they hold 1000. It applies to everything that stacks and never to what does not, like weapons and armour, and the deepest stacks in the game stop at the limit that mod reports above. Picking a bigger multiplier takes hold at once; a smaller one waits for the next launch, because a stack already built cannot be shrunk under what is in it.	
 Most things the game lets you stack 100 of, so at x10 they hold 1000. It applies to everything that stacks and never to what does not, like weapons and armour, and the deepest stacks in the game stop at the limit that mod reports above. The multiplier is read when the game starts, so the game has to be restarted before it shows.	
 Mounts and vehicles	
+Multiplier	
 name a new preset	
 Nearby	
 never	
@@ -321,7 +325,6 @@ Protected by default: a memory chip starts a memory scene when taken, and a puzz
 protected item name	
 Put what Master Looter picks up into storage	
 Puts every setting and rule back to what it was at that moment.	
-puzzle or protected mechanism	
 Quest equipment	
 Quest items	
 quest or memory trigger	
@@ -456,6 +459,7 @@ Watch mode (menu stays up, you keep playing)
 Watch mode: the game has your controls. %s to interact, %s to close.	
 Watch mode: the game has your controls. %s to interact.	
 Weapons and armor	
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	
 What enters the working list at all. The ranges below are clamped to it.	
 What to collect	
 While Ctrl, or any modifier your storage keys use, is held, other keys are kept from the game, so a slip off a storage key does not fire a skill. Movement, Space, Tab, Enter, Escape, Alt+F4 and the keys the game uses with Ctrl (Z, Shift, +) still go through.	
