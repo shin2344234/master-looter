@@ -39,6 +39,21 @@ namespace ml::input
     static DWORD   g_dbgNext   = 0;
     static WNDPROC g_ours      = nullptr;
 
+    // A plugin that subclasses the game window after us sits in front of our
+    // procedure, and if it does not pass mouse messages on the menu never sees
+    // a move (YeOldeKnob, #186: Quick Save and Reload, 0 raw, 0 legacy, 0
+    // button messages with the menu open). So when the menu opens and someone
+    // else is outermost, a second procedure of ours goes on top of theirs. It
+    // does the captured-input work and hands everything else down the chain,
+    // which reaches the first one again through the other plugin. t_below
+    // tells the first one a message already went through the top, so it is
+    // not handled twice. Installed once at most: putting it on top a second
+    // time would make it its own successor.
+    static WNDPROC g_next    = nullptr;   // what the top procedure hands down to
+    static bool    g_topOn   = false;     // the top procedure is somewhere in the chain
+    static thread_local int t_below = 0;
+    static bool    g_topSaid = false;     // the top procedure has logged its first catch this opening
+
     static void Lock()   { EnterCriticalSection(&g_cs); }
     static void Unlock() { LeaveCriticalSection(&g_cs); }
 
@@ -193,6 +208,66 @@ namespace ml::input
         LOG("[input] raw mouse input %s", g_weRegistered ? "registered for the menu cursor" : "registration FAILED; the menu cursor will not move");
     }
 
+    static LRESULT CALLBACK TopProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+    static void ModulePath(const void* addr, wchar_t (&path)[MAX_PATH])
+    {
+        path[0] = L'\0';
+        HMODULE owner = nullptr;
+        GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                           reinterpret_cast<LPCWSTR>(addr), &owner);
+        if (owner) GetModuleFileNameW(owner, path, MAX_PATH);
+    }
+
+    // Runs at each opening of the menu, on the render thread. Subclassing
+    // from another thread of the same process is allowed.
+    static void PutTopOn()
+    {
+        const WNDPROC live = reinterpret_cast<WNDPROC>(GetWindowLongPtrW(g_hwnd, GWLP_WNDPROC));
+        if (live == g_ours)
+        {
+            g_topOn = false; // whoever was above us has unhooked, taking the top procedure with them
+            LOG("[input] our window procedure is still the outermost one.");
+            return;
+        }
+        if (live == &TopProc)
+        {
+            LOG("[input] our top window procedure is still the outermost one, above %p.", (void*)g_next);
+            return;
+        }
+        wchar_t path[MAX_PATH];
+        ModulePath(reinterpret_cast<const void*>(live), path);
+        LOG("[input] something subclassed the window after us: procedure %p in %S. Messages reach us only if it passes them on.",
+            (void*)live, path[0] ? path : L"an unknown module");
+        if (g_topOn)
+        {
+            LOG("[input] our top window procedure is already below that one, so it stays where it is.");
+            return;
+        }
+        g_next = live;
+        const LONG_PTR prev = SetWindowLongPtrW(g_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&TopProc));
+        if (prev == reinterpret_cast<LONG_PTR>(live))
+        {
+            g_topOn = true;
+            LOG("[input] put our top window procedure above %S, so the menu sees the mouse before it does.",
+                path[0] ? path : L"that procedure");
+        }
+        else if (!prev)
+        {
+            const DWORD err = GetLastError();
+            g_next = nullptr;
+            LOG_ERR("[input] could not put our window procedure on top (error %lu); the menu may not see the mouse.", err);
+        }
+        else
+        {
+            // Something swapped it between the read and the write. Put back
+            // what was there and try again at the next opening.
+            SetWindowLongPtrW(g_hwnd, GWLP_WNDPROC, prev);
+            g_next = nullptr;
+            LOG_ERR("[input] could not put our window procedure on top: it changed under us, so it is left as it was until the next opening.");
+        }
+    }
+
     // Everything about the cursor that can be read from outside, written once
     // per opening. A frozen cursor and a cursor that lands somewhere else are
     // different faults and this tells them apart.
@@ -213,19 +288,7 @@ namespace ml::input
         LOG("[input] foreground %p%s, focus %p, active %p.",
             (void*)fg, fg == g_hwnd ? " (ours)" : " (not the window we subclassed)", (void*)GetFocus(), (void*)GetActiveWindow());
 
-        const WNDPROC live = reinterpret_cast<WNDPROC>(GetWindowLongPtrW(g_hwnd, GWLP_WNDPROC));
-        if (live == g_ours)
-            LOG("[input] our window procedure is still the outermost one.");
-        else
-        {
-            HMODULE owner = nullptr;
-            GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-                               reinterpret_cast<LPCWSTR>(live), &owner);
-            wchar_t path[MAX_PATH] = L"";
-            if (owner) GetModuleFileNameW(owner, path, MAX_PATH);
-            LOG("[input] something subclassed the window after us: procedure %p in %S. Messages reach us only if it passes them on.",
-                (void*)live, path[0] ? path : L"an unknown module");
-        }
+        PutTopOn();
 
         UINT n = 0;
         GetRegisteredRawInputDevices(nullptr, &n, sizeof(RAWINPUTDEVICE));
@@ -265,6 +328,7 @@ namespace ml::input
         g_pendingWheel = 0;
         Unlock();
         g_centered = true;
+        g_topSaid = false;
         ReportOnOpen(w, h);
     }
     void MenuClosed() {}
@@ -273,12 +337,26 @@ namespace ml::input
     static bool IsMouse(UINT m)    { return m >= WM_MOUSEFIRST && m <= WM_MOUSELAST; }
     static bool IsKeyboard(UINT m) { return m == WM_KEYDOWN || m == WM_KEYUP || m == WM_SYSKEYDOWN || m == WM_SYSKEYUP || m == WM_CHAR || m == WM_SYSCHAR; }
 
-    static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+    static LRESULT PassDown(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+    {
+        ++t_below;
+        const LRESULT r = CallWindowProc(g_next, hwnd, msg, wParam, lParam);
+        --t_below;
+        return r;
+    }
+
+    static void Count(UINT msg)
     {
         if (msg == WM_INPUT)          InterlockedIncrement(&g_dbgInput);
         else if (msg == WM_MOUSEMOVE) InterlockedIncrement(&g_dbgMove);
         else if (IsMouse(msg))        InterlockedIncrement(&g_dbgButton);
-        if (State::Get().Captures())
+    }
+
+    // The menu's share of a message while it holds the input. True when the
+    // message is finished with and *out is its result. top says which of our
+    // two procedures is asking, which decides where a key release goes on to.
+    static bool Captured(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, bool top, LRESULT* out)
+    {
         {
             if (msg == WM_INPUT)
             {
@@ -291,31 +369,69 @@ namespace ml::input
                     OnRawInput(reinterpret_cast<HRAWINPUT>(lParam));
                     SetCursor(nullptr); // the menu draws its own cursor; the OS one stays hidden
                 }
-                return DefWindowProcW(hwnd, msg, wParam, lParam); // the game never sees mouse look; DefWindowProc frees the buffer
+                *out = DefWindowProcW(hwnd, msg, wParam, lParam); // the game never sees mouse look; DefWindowProc frees the buffer
+                return true;
             }
-            if (msg == WM_SETCURSOR) { SetCursor(nullptr); return TRUE; }
+            if (msg == WM_SETCURSOR) { SetCursor(nullptr); *out = TRUE; return true; }
             if (msg == WM_MOUSEMOVE || msg == WM_NCMOUSEMOVE || msg == WM_MOUSELEAVE || msg == WM_NCMOUSELEAVE)
-                return 0; // the OS cursor position is meaningless here; the virtual cursor is fed each frame
+            {
+                *out = 0; // the OS cursor position is meaningless here; the virtual cursor is fed each frame
+                return true;
+            }
             if (IsMouse(msg))
             {
                 if (!g_rawButtons) ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam); // buttons and wheel
-                return 0;
+                *out = 0;
+                return true;
             }
             if (IsKeyboard(msg))
             {
                 ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam);
                 // Releases reach the game so a key held when the menu opened does not stick.
                 if (msg == WM_KEYUP || msg == WM_SYSKEYUP)
-                    return CallWindowProc(g_original, hwnd, msg, wParam, lParam);
-                return 0;
+                    *out = top ? PassDown(hwnd, msg, wParam, lParam) : CallWindowProc(g_original, hwnd, msg, wParam, lParam);
+                else
+                    *out = 0;
+                return true;
             }
         }
-        else if (msg == WM_INPUT && g_weRegistered)
+        return false;
+    }
+
+    static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+    {
+        const bool captures = State::Get().Captures();
+        // Under the top procedure every message has been counted and judged
+        // already, so this one only passes it on.
+        if (t_below == 0)
+        {
+            Count(msg);
+            LRESULT r = 0;
+            if (captures && Captured(hwnd, msg, wParam, lParam, false, &r)) return r;
+        }
+        if (!captures && msg == WM_INPUT && g_weRegistered)
         {
             // Our own registration: the game did not ask for these, so do not hand them over.
             return DefWindowProcW(hwnd, msg, wParam, lParam);
         }
         return CallWindowProc(g_original, hwnd, msg, wParam, lParam);
+    }
+
+    static LRESULT CALLBACK TopProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+    {
+        Count(msg);
+        if (State::Get().Captures())
+        {
+            if (!g_topSaid && (msg == WM_INPUT || IsMouse(msg)))
+            {
+                g_topSaid = true;
+                LOG("[input] the top window procedure caught mouse input for the menu.");
+            }
+            LRESULT r = 0;
+            if (Captured(hwnd, msg, wParam, lParam, true, &r)) return r;
+        }
+        if (!g_next) return DefWindowProcW(hwnd, msg, wParam, lParam);
+        return PassDown(hwnd, msg, wParam, lParam);
     }
 
     void Init(HWND hwnd)
