@@ -973,27 +973,56 @@ namespace ml::loot::hooks
         return false;
     }
 
-    // The game has just said a pet may take whatever is in this context. If the
-    // scan has recognised it as something the player dropped by hand, say so, once
-    // per object and a few times a session. A dropped item that is back in the bag
-    // with no scan send behind it is this: the pet took it, and the mod's own
-    // hand-drop rule never sees a pet's pick-up. Nothing is changed here.
-    static void NoteDroppedAsked(void* ctx)
+    // What the player drops by hand stays where it lands, and that includes
+    // a pet's reach. Issue #130: meat dropped for a pet went straight back
+    // into the bag, because the game lets a pet loot any loose item and hands
+    // what it takes to the player's bag, and until this the hook only wrote
+    // that down. The thing is known two ways: by entity once the scan has
+    // claimed it, and by the instance id the discard registered, which holds
+    // from the moment the drop is parsed, before the scan's next pass. Every
+    // refusal is counted; a line is written at most once per 500 ms per
+    // object, carrying how many refusals came in since the last one.
+    static bool HandDropRefuses(void* ctx)
     {
         const uintptr_t c = reinterpret_cast<uintptr_t>(ctx);
-        if (!c) return;
-        uintptr_t ent = 0;
-        for (int i = 0; i < 2 && !ent; ++i) mem::ReadPtr(c + kOff_Ctx_Entity[i], &ent);
-        uint32_t eid = 0;
-        if (!ent || !game::Eid(ent, &eid) || !ml::loot::HandDroppedEntity(eid)) return;
-        static volatile LONG s_said = 0;
-        static volatile LONG s_last = 0;
-        if (static_cast<LONG>(eid) == s_last || InterlockedIncrement(&s_said) > 12) return;
-        s_last = static_cast<LONG>(eid);
-        char name[160];
-        ml::loot::DescribeEntity(ent, name, sizeof name);
-        LOG("[pet] the game let a pet take %s, which you dropped by hand. If it turns up in the bag, the pet put it there; "
-            "Stop pets picking up loose items keeps a pet off it.", name);
+        if (!c) return false;
+        for (int i = 0; i < 2; ++i)
+        {
+            uintptr_t ent = 0;
+            if (!mem::ReadPtr(c + kOff_Ctx_Entity[i], &ent) || !ent) continue;
+            uint32_t eid = 0;
+            char name[64] = "";
+            const int how = ml::loot::HandDroppedForPet(ent, &eid, name, sizeof name);
+            if (!how) continue;
+
+            static SRWLOCK s_lock = SRWLOCK_INIT;
+            static uint32_t s_lastEid = 0;
+            static DWORD s_lastAt = 0;
+            static long s_quiet = 0, s_total = 0;
+            const DWORD now = GetTickCount();
+            bool say = false;
+            long quiet = 0, total = 0;
+            AcquireSRWLockExclusive(&s_lock);
+            ++s_total;
+            if (eid != s_lastEid || now - s_lastAt >= 500)
+            {
+                say = true;
+                quiet = s_quiet;
+                s_quiet = 0;
+                s_lastEid = eid;
+                s_lastAt = now;
+            }
+            else
+                ++s_quiet;
+            total = s_total;
+            ReleaseSRWLockExclusive(&s_lock);
+            if (say)
+                LOG("[pet] told a pet no: you dropped %08X %s by hand, known by its %s, so it stays where it lands "
+                    "(%ld refusal(s) in between not written, %ld this session)",
+                    eid, name[0] ? name : "something", how == 1 ? "entity" : "instance id", quiet, total);
+            return true;
+        }
+        return false;
     }
 
     static FnCondition oPetLooting = nullptr, oHasInteraction = nullptr;
@@ -1011,11 +1040,11 @@ namespace ml::loot::hooks
         // The filter, answered before the fact. Only for a loose item: a body
         // is asked about through HasInteraction and nothing can say what it
         // holds until it is open, so bodies stay with the old judge-what-lands
-        // path.
+        // path. A hand drop comes first and needs no switch: it is the
+        // player's own word.
+        if (HandDropRefuses(a2)) return kCondNo;
         if (cfg.petFilter && PetFilterRefuses(a2)) return kCondNo;
-        const uint64_t r = oPetLooting ? oPetLooting(a1, a2, a3, a4) : kCondUnknown;
-        if (r == 0) NoteDroppedAsked(a2);
-        return r;
+        return oPetLooting ? oPetLooting(a1, a2, a3, a4) : kCondUnknown;
     }
 
     // The other half of the same table row: a pet looting a body asks whether

@@ -63,11 +63,11 @@ namespace ml::loot
     // item on the ground at `at`, the world position the payload names. After:
     // says in the log whether it left the bag. The scan leaves it there.
     bool HandDropParse(uintptr_t sender, uint16_t key, uint16_t slot, long long amount, const float* at, bool after);
-    // Whether the scan has recognised this entity as something the player dropped
-    // by hand. Any thread. The pet-looting condition asks it so the log can say
-    // when the game let a pet take one, which is how a dropped item comes back to
-    // the bag without the scan having sent anything.
-    bool HandDroppedEntity(uint32_t eid);
+    // Whether a pet is reaching for something the player dropped by hand.
+    // 0 no, 1 the scan recognised the entity, 2 its instance id is one a
+    // discard registered, which holds before the scan has seen the object.
+    // Game thread. Fills the entity id and the item's name when it can.
+    int  HandDroppedForPet(uintptr_t ent, uint32_t* eid, char* name, size_t n);
 
     Status GetStatus();
     int  CopyNearby(Nearby* out, int max);

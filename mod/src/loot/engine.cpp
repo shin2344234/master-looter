@@ -603,27 +603,38 @@ namespace ml::loot
     static std::vector<HandDrop> g_handDrops;         // scan thread from here down
     static std::unordered_set<uint32_t> g_droppedEid;
     // A copy of the line above for threads other than the scan's, filled in
-    // beside it. Capped, and cleared when it is, since an entity id the game
-    // hands out again is not worth remembering for a log line.
+    // beside it, so the pet-looting condition can refuse a hand drop. Capped,
+    // and cleared when it is; the instance id below still answers for anything
+    // the clear forgets.
     static SRWLOCK g_droppedPubLock = SRWLOCK_INIT;
     static std::unordered_set<uint32_t> g_droppedPub;
+    // The instance ids of hand drops, with their item rows, for the same
+    // threads. Filled on the server thread the moment the discard is parsed,
+    // before the object exists, so a pet that asks about it before the scan's
+    // next pass is still told no (issue #130).
+    static std::unordered_map<uint32_t, uint16_t> g_droppedPubIid;
     static volatile LONG g_droppedPubN = 0;
+    static void PublishDroppedCount()
+    {
+        InterlockedExchange(&g_droppedPubN, static_cast<LONG>(g_droppedPub.size() + g_droppedPubIid.size()));
+    }
     static void NoteDroppedEid(uint32_t eid)
     {
         g_droppedEid.insert(eid);
         AcquireSRWLockExclusive(&g_droppedPubLock);
         if (g_droppedPub.size() >= 1024) g_droppedPub.clear();
         g_droppedPub.insert(eid);
-        InterlockedExchange(&g_droppedPubN, static_cast<LONG>(g_droppedPub.size()));
+        PublishDroppedCount();
         ReleaseSRWLockExclusive(&g_droppedPubLock);
     }
-    bool HandDroppedEntity(uint32_t eid)
+    static void NoteDroppedIidPub(uint32_t iid, uint16_t tid)
     {
-        if (!eid || InterlockedCompareExchange(&g_droppedPubN, 0, 0) == 0) return false;
-        AcquireSRWLockShared(&g_droppedPubLock);
-        const bool hit = g_droppedPub.count(eid) != 0;
-        ReleaseSRWLockShared(&g_droppedPubLock);
-        return hit;
+        if (!iid || iid == 0xFFFFFFFFu || !tid) return;
+        AcquireSRWLockExclusive(&g_droppedPubLock);
+        if (g_droppedPubIid.size() >= 1024) g_droppedPubIid.clear();
+        g_droppedPubIid[iid] = tid;
+        PublishDroppedCount();
+        ReleaseSRWLockExclusive(&g_droppedPubLock);
     }
     static std::unordered_map<uint32_t, uint16_t> g_droppedIid;   // instance id -> item row
     static std::unordered_map<uint32_t, uint32_t> g_itemFirstPass; // eid -> the scan pass that first filled it
@@ -4937,6 +4948,7 @@ namespace ml::loot
             if (g_handDropIn.size() >= 256) g_handDropIn.erase(g_handDropIn.begin());
             g_handDropIn.push_back(d);
             ReleaseSRWLockExclusive(&g_handDropLock);
+            NoteDroppedIidPub(d.bagIid, d.tid);
             g_handParse = { holder, key, slot, e.tid, e.iid, e.count };
             return true;
         }
@@ -5132,7 +5144,7 @@ namespace ml::loot
                 if (d.left <= 0) break;
                 const Cand& k = list[n.second];
                 NoteDroppedEid(k.eid);
-                if (k.iid) g_droppedIid[k.iid] = k.tid;
+                if (k.iid) { g_droppedIid[k.iid] = k.tid; NoteDroppedIidPub(k.iid, k.tid); }
                 --d.left;
                 if (!d.claimed++) d.claimedAt = now;
                 if (s_claimLines < 60)
@@ -5261,6 +5273,40 @@ namespace ml::loot
         // destroy. Not taking one is careful; keeping one out of the bag is not.
         const bool spare = NeverDelete(*it, r);
         return (r.loot || spare) ? 0 : 1;
+    }
+
+    int HandDroppedForPet(uintptr_t ent, uint32_t* eidOut, char* name, size_t n)
+    {
+        if (eidOut) *eidOut = 0;
+        if (name && n) name[0] = 0;
+        if (!ent || InterlockedCompareExchange(&g_droppedPubN, 0, 0) == 0) return 0;
+        uint32_t eid = 0;
+        game::Eid(ent, &eid);
+        if (eidOut) *eidOut = eid;
+        uint32_t iid = 0;
+        uint16_t tid = 0;
+        const uintptr_t comps = game::Comps(ent);
+        const uintptr_t gm = comps ? game::CompByClass(comps, kCls_Gimmick) : 0;
+        if (const uintptr_t idata = gm ? mem::Deref(gm, kOff_Gimmick_ItemData) : 0)
+        {
+            mem::Read32(idata, &iid);
+            mem::Read16(idata + 8, &tid);
+        }
+        int how = 0;
+        AcquireSRWLockShared(&g_droppedPubLock);
+        if (eid && g_droppedPub.count(eid)) how = 1;
+        else if (iid && iid != 0xFFFFFFFFu && tid)
+        {
+            const auto it = g_droppedPubIid.find(iid);
+            if (it != g_droppedPubIid.end() && it->second == tid) how = 2;
+        }
+        ReleaseSRWLockShared(&g_droppedPubLock);
+        if (how && name && n)
+        {
+            const Item* it = tid ? ItemDb::ByRow(tid) : nullptr;
+            snprintf(name, n, "%s", it ? it->name.c_str() : "something");
+        }
+        return how;
     }
 
     static void PetFilterTick(const Config& cfg, DWORD now)
