@@ -345,6 +345,9 @@ def pretty(name, kind):
 # Words in a prefab or an item key that say nothing about what the thing is.
 LABEL_NOISE = {"gimmick", "item", "common", "basic", "collect", "collection", "rare", "index"}
 
+# The crop and wild-plant sockets, which name the item by its yield.
+SOCKET_PREFIX = "gimmick_socket_collection_"
+
 
 def yield_label(base, kind, yields, by_key):
     """The display name of what a node yields, when that is a better label.
@@ -846,7 +849,16 @@ def main():
         if yields:
             stats["with_yields"] += 1
         label = it["name"] if it else pretty(name, kind)
-        if not it and label.startswith("Item "):
+        # A collection socket is one plant or crop handing over one item, and
+        # its prefab word is often the botanist's name rather than the game's:
+        # gimmick_socket_collection_dulse_01 read "Dulse" in the Nearby list,
+        # and Sov looked there for Red Seaweed on 29 September 2026 and found
+        # nothing by that name (issue #92). Every socket row that lists a
+        # single agreeing yield takes that item's name now, which renamed 21
+        # rows on 1.0.0.3663 and every one reads right. Taking the yield's
+        # name on every row was measured first and renamed 236, firewood to
+        # Timber among them, which is not what anybody calls it.
+        if not it and (label.startswith("Item ") or base.startswith(SOCKET_PREFIX)):
             better = yield_label(base, kind, yields, by_key)
             if better:
                 label = better

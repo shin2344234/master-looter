@@ -1611,7 +1611,7 @@ gimmick_shops_potionbox_03_desert	container		Shops potionbox 03 desert	tag	1	Col
 gimmick_smallstone_01	pickup		Smallstone	tag	0		1	0	0
 gimmick_smoke_bomb_01	pickup		Battle smoke bomb	tag	1	BountyHunter_Fabric_Boots_I	0	0	0
 gimmick_socket_collection_amaranth_01	plant	Item_Rare_Collect_amaranth	Amaranth	tag	0	Item_Rare_Collect_amaranth	0	0	0
-gimmick_socket_collection_antirrhinum_01	plant		Variegatum	tag	0	SnapDragon	0	0	0
+gimmick_socket_collection_antirrhinum_01	plant		Snapdragon	tag	0	SnapDragon	0	0	0
 gimmick_socket_collection_apple_01	item	Apple	Apple	tag	0	Apple	0	0	0
 gimmick_socket_collection_asparagus_01	item	Asparagus	Asparagus	tag	0	Asparagus	0	0	0
 gimmick_socket_collection_barley_01	item	Barley	Barley	tag	0	Barley	0	0	0
@@ -1625,35 +1625,35 @@ gimmick_socket_collection_cabbage_01	item	Cabbage	Cabbage	tag	0	Cabbage	0	0	0
 gimmick_socket_collection_cacao_01	item	Cacao	Cacao	tag	0	Cacao	0	0	0
 gimmick_socket_collection_carrot_01	item	Carrot	Carrot	tag	0	Carrot	0	0	0
 gimmick_socket_collection_chaya_01	item	Item_Rare_Collect_Chaya	Chaya	tag	0	Item_Rare_Collect_Chaya	0	0	0
-gimmick_socket_collection_chlorella_01	item		Chlorella	tag	0	Item_Rare_Collect_chlorella	0	0	0
+gimmick_socket_collection_chlorella_01	item		Green Algae	tag	0	Item_Rare_Collect_chlorella	0	0	0
 gimmick_socket_collection_coffeetree_01	item	Coffee	Coffee Cherry	tag	0	Coffee	0	0	0
 gimmick_socket_collection_corn_01	item	Corn	Corn	tag	0	Corn	0	0	0
 gimmick_socket_collection_cotton_01	plant	Cotton	Cotton	tag	0	Cotton	0	0	0
 gimmick_socket_collection_cucumber_01	item	Cucumber	Cucumber	tag	0	Cucumber	0	0	0
-gimmick_socket_collection_desertwatermelon_01	item		Desertwatermelon	tag	0	Desert_Watermelon	0	0	0
-gimmick_socket_collection_dulse_01	item		Dulse	tag	0	Item_Rare_Collect_Dulse	0	0	0
+gimmick_socket_collection_desertwatermelon_01	item		Desert Melon	tag	0	Desert_Watermelon	0	0	0
+gimmick_socket_collection_dulse_01	item		Red Seaweed	tag	0	Item_Rare_Collect_Dulse	0	0	0
 gimmick_socket_collection_elderberry_01	item	Elderberry	Elderberry	tag	0	Elderberry	0	0	0
-gimmick_socket_collection_ensete_01	item		Ensete	tag	0	Item_Rare_Collect_Ensete	0	0	0
+gimmick_socket_collection_ensete_01	item		Enset	tag	0	Item_Rare_Collect_Ensete	0	0	0
 gimmick_socket_collection_fennel_01	item	Fennel	Fennel	tag	0	Fennel	0	0	0
 gimmick_socket_collection_figs_01	item	Figs	Fig	tag	0	Figs	0	0	0
 gimmick_socket_collection_garlic_01	item	Garlic	Garlic	tag	0	Garlic	0	0	0
 gimmick_socket_collection_glowfruit_01	item		Glowfruit	tag	0		0	0	0
 gimmick_socket_collection_goldencoral_01	item	Item_Rare_Collect_sea_goldencoral	Golden Coral	tag	0	Item_Rare_Collect_sea_goldencoral	0	0	0
 gimmick_socket_collection_grape_01	item	Grape	Grape	tag	0	Grape	0	0	0
-gimmick_socket_collection_heterophylla_01	plant		Weed harsam	tag	0	Haasam	0	0	0
+gimmick_socket_collection_heterophylla_01	plant		False Starwort	tag	0	Haasam	0	0	0
 gimmick_socket_collection_imperata_01	plant	Croton	Croton	tag	0	WhiteHair_Root	0	0	0
 gimmick_socket_collection_lavender_01	plant	Lavender	Lavender	tag	0	Lavender	0	0	0
-gimmick_socket_collection_lavender_01_blue	plant		Lavender 01 blue	tag	0	Lavender_blue	0	0	0
-gimmick_socket_collection_lavender_01_white	plant		Lavender 01 white	tag	0	Lavender_white	0	0	0
-gimmick_socket_collection_lavender_01_yellow	plant		Lavender 01 yellow	tag	0	Lavender_yellow	0	0	0
+gimmick_socket_collection_lavender_01_blue	plant		Blue Lavender	tag	0	Lavender_blue	0	0	0
+gimmick_socket_collection_lavender_01_white	plant		White Lavender	tag	0	Lavender_white	0	0	0
+gimmick_socket_collection_lavender_01_yellow	plant		Yellow Lavender	tag	0	Lavender_yellow	0	0	0
 gimmick_socket_collection_lentils_01	item	Lentils	Lentils	tag	0	Lentils	0	0	0
-gimmick_socket_collection_linum_01	plant		Linum	tag	0	Ama	0	0	0
+gimmick_socket_collection_linum_01	plant		Flax	tag	0	Ama	0	0	0
 gimmick_socket_collection_marigold_01	plant	Marigold	Marigold	tag	0	Marigold	0	0	0
 gimmick_socket_collection_navet_01	item	Navet	Turnip	tag	0	Navet	0	0	0
 gimmick_socket_collection_oleander_01	plant	Oleander	Rosebay	tag	0	Oleander	0	0	0
-gimmick_socket_collection_oliganthus_01	plant		Oliganthus	tag	0	Bell_Flower	0	0	0
+gimmick_socket_collection_oliganthus_01	plant		Lily of the Valley	tag	0	Bell_Flower	0	0	0
 gimmick_socket_collection_onion_01	item	Onion	Onion	tag	0	Onion	0	0	0
-gimmick_socket_collection_opuntia_01	item		Opuntia	tag	0	Item_Rare_Collect_opuntia	0	0	0
+gimmick_socket_collection_opuntia_01	item		Prickly Pear	tag	0	Item_Rare_Collect_opuntia	0	0	0
 gimmick_socket_collection_orange_01	item	Orange	Orange	tag	0	Orange	0	0	0
 gimmick_socket_collection_pansy_01	plant	Pansy	Pansy	tag	0	Pansy	0	0	0
 gimmick_socket_collection_parsley_01	item	Parsley	Parsley	tag	0	Parsley	0	0	0
@@ -1667,22 +1667,22 @@ gimmick_socket_collection_potato_01	item	Potato	Potato	tag	0	Potato	0	0	0
 gimmick_socket_collection_pumpkin_01	item	Pumpkin	Pumpkin	tag	0	Pumpkin	0	0	0
 gimmick_socket_collection_raspberry_01	item	Rasberry	Raspberry	tag	0	Rasberry	0	0	0
 gimmick_socket_collection_redbeet_01	item	Redbeet	Beet	tag	0	Redbeet	0	0	0
-gimmick_socket_collection_rock_orchids_01	plant		Rock orchids	tag	0	Dendrobium_Flower	0	0	0
+gimmick_socket_collection_rock_orchids_01	plant		Dendrobium Orchid	tag	0	Dendrobium_Flower	0	0	0
 gimmick_socket_collection_rosemary_01	plant	Rosemary	Rosemary	tag	0	Rosemary	0	0	0
-gimmick_socket_collection_rosemary_01_pink	plant		Rosemary 01 pink	tag	0	Rosemary_pink	0	0	0
-gimmick_socket_collection_rosemary_01_white	plant		Rosemary 01 white	tag	0	Rosemary_white	0	0	0
-gimmick_socket_collection_rosemary_01_yellow	plant		Rosemary 01 yellow	tag	0	Rosemary_yellow	0	0	0
+gimmick_socket_collection_rosemary_01_pink	plant		Pink Rosemary	tag	0	Rosemary_pink	0	0	0
+gimmick_socket_collection_rosemary_01_white	plant		White Rosemary	tag	0	Rosemary_white	0	0	0
+gimmick_socket_collection_rosemary_01_yellow	plant		Yellow Rosemary	tag	0	Rosemary_yellow	0	0	0
 gimmick_socket_collection_rubber_seed_0002	item	Rubber_seed	Rubber Tree Seed	tag	0	Rubber_seed	0	0	0
-gimmick_socket_collection_sage_01	plant		Bush sage	tag	0	Croton	0	0	0
-gimmick_socket_collection_sage_01_red	plant		Bush sage 01 red	tag	0	Croton_Red	0	0	0
-gimmick_socket_collection_sophora_01	plant		Weed sophora	tag	0	ThiefWand_Flower	0	0	0
+gimmick_socket_collection_sage_01	plant		Croton	tag	0	Croton	0	0	0
+gimmick_socket_collection_sage_01_red	plant		Red Croton	tag	0	Croton_Red	0	0	0
+gimmick_socket_collection_sophora_01	plant		Shrubby Sophora	tag	0	ThiefWand_Flower	0	0	0
 gimmick_socket_collection_strawberry_01	item	Strawberry	Strawberry	tag	0	Strawberry	0	0	0
 gimmick_socket_collection_sweetpotato_01	item	SweetPotato	Sweet Potato	tag	0	SweetPotato	0	0	0
 gimmick_socket_collection_taro_01	item	Item_Rare_Collect_Taro	Taro	tag	0	Item_Rare_Collect_Taro	0	0	0
 gimmick_socket_collection_tomato_01	item	Tomato	Tomato	tag	0	Tomato	0	0	0
-gimmick_socket_collection_veratrum_01	plant		Veratrum	tag	0	Chickadee	0	0	0
+gimmick_socket_collection_veratrum_01	plant		False Hellebore	tag	0	Chickadee	0	0	0
 gimmick_socket_collection_victorialis_01	item	Victorialis	Wild Garlic	tag	0	Victorialis	0	0	0
-gimmick_socket_collection_villosa_01	plant		Villosa	tag	0	FoxBean_Flower	0	0	0
+gimmick_socket_collection_villosa_01	plant		Dunbaria	tag	0	FoxBean_Flower	0	0	0
 gimmick_socket_collection_wheat_01	item	Wheat	Wheat	tag	0	Wheat	0	0	0
 gimmick_spot_altar_stonewaymarker_01	stone		Spot altar stonewaymarker	name	0		0	0	0
 gimmick_spot_altar_stonewaymarker_01_parts02	stone		Stone	name	0		0	0	0
