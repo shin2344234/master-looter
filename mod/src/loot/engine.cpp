@@ -372,9 +372,13 @@ namespace ml::loot
     {
         Species sp;
         if (!CreatureDb::Loaded()) return sp;
-        auto hit = g_speciesByEid.find(eid);
-        if (hit != g_speciesByEid.end()) return hit->second;
-        if (g_speciesMiss.count(eid)) return sp;
+        // Only an exact answer is final. A word match, or a miss cached while
+        // the creature's row still read zero, is asked again below, so a
+        // carcass first seen alive is not stuck on what it looked like then.
+        const auto hit = g_speciesByEid.find(eid);
+        if (hit != g_speciesByEid.end() && hit->second.exact) return hit->second;
+        const bool cachedWeak = hit != g_speciesByEid.end();
+        const bool cachedMiss = !cachedWeak && g_speciesMiss.count(eid) != 0;
 
         // The creature says what it is, at status+0x30.
         //
@@ -419,12 +423,15 @@ namespace ml::loot
                                 LOG("[species] %08X is %s (%s), from characterinfo row %u at status+0x30",
                                     eid, cr->name.c_str(), cr->klass.c_str(), row);
                             }
+                            g_speciesMiss.erase(eid);
                             g_speciesByEid[eid] = sp;
                             return sp;
                         }
                 }
             }
         }
+        if (cachedWeak) return hit->second;
+        if (cachedMiss) return sp;
         // A budget per category byte rather than two buckets. The old pair sent
         // every byte that was not 05 into the 09 bucket, so with live creatures
         // now identified whatever their byte, a field of beasts would spend the
