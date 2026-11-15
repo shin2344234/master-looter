@@ -7138,11 +7138,12 @@ namespace ml::loot
         // never be searched twice, whatever the session length.)
         if (g_why.size() > 8192) g_why.clear();
         // Forgetting a recent sighting would make an old item read as new to
-        // the spill watch, so only sightings over a minute old go first.
+        // the spill watch, so only sightings over a minute old of things no
+        // longer in the scan go first.
         if (g_firstSeen.size() > 8192)
         {
             for (auto it = g_firstSeen.begin(); it != g_firstSeen.end();)
-                it = now - it->second > 60000 ? g_firstSeen.erase(it) : std::next(it);
+                it = (now - it->second > 60000 && !g_present.count(it->first)) ? g_firstSeen.erase(it) : std::next(it);
             if (g_firstSeen.size() > 8192) g_firstSeen.clear();
         }
         if (g_ownAns.size() > 4096) g_ownAns.clear();
