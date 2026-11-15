@@ -32,7 +32,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 
 New in 1.6.28. With [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) installed beside it, whatever Master Looter picks up can be moved into your storage a moment after it lands in the bag, the same move you would make standing at the storage.
 
-You need Master Looter 1.6.28 or later and Private Storage Master 1.1.0 or later, both in `bin64`. On game 2.05.00 that is Master Looter 1.6.59 and Private Storage Master 1.1.12. Playing as Damiane or Oongka takes Master Looter 1.6.29 and Private Storage Master 1.1.1 or later, because neither of them carries a bag of their own and the game fills the one it lends them. Master Looter only stores what it picks up itself, so it has to be looting: auto-loot on, or the loot-everything key.
+You need Master Looter 1.6.28 or later and Private Storage Master 1.1.0 or later, both in `bin64`. On game 2.05.00 that is Master Looter 1.6.60 and Private Storage Master 1.1.12. Playing as Damiane or Oongka takes Master Looter 1.6.29 and Private Storage Master 1.1.1 or later, because neither of them carries a bag of their own and the game fills the one it lends them. Master Looter only stores what it picks up itself, so it has to be looting: auto-loot on, or the loot-everything key.
 
 To turn it on:
 
@@ -65,24 +65,12 @@ Stack Master 1.0.6 adds `StackSize` to `StackMaster.ini`, one stack size for eve
 
 ## Installing
 
-**1.6.59 needs game 2.05.00, exe 1.0.0.3663.** That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
+**1.6.60 needs game 2.05.00, exe 1.0.0.3663.** That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
 
-What changed in 1.6.59:
+What changed in 1.6.60:
 
-- Ore a vein spills after the mod breaks it follows the Ore switch, not Ground items. With Ground items off, copper, iron and gem veins used to break and leave every piece on the ground. The pieces are also reached a few metres past gathering range and no longer read as storage contents.
-- Marni Drill Components dropped by a downed mech are picked up. A part that came off a creature that is dead is taken like any loose item. Reported by SoulCaliburSK.
-- A camp tent or other housing piece you have placed, such as the Greymane Dwelling Tent, answers to the Furniture switch and the housing protection instead of being gathered. Reported by LlexX.
-- With OutfitManager or another plugin hooking the game's item lookup, the item and gimmick tables are found again, so loose items and bodies are looted. Reported by ardenness, and Fyreon87's logs showed the same thing.
-- Unticking Wrap the swapchain and then changing a graphics setting no longer leaves the menu dark until a restart. The box is read once at launch, as its tooltip says.
-- The two Delete buttons on the Settings tab no longer share an id, which drew a red "conflicting ID" box over the menu when the mouse was on one. Reported by Ahplla.
-- INI Master no longer offers a Clear button on `MenuKey`. A `MenuKey` of 0 or nothing is read as Insert, and the log says so at launch.
-- The pet filter no longer judges a bag change against a sample taken before auto-loot was paused, so a vendor purchase or a craft is not deleted. It also leaves alone what the mod took itself from a body it searched.
-- A loose item that was already lying near a vein is no longer learned as the vein's yield, which could refuse every vein of that kind.
-- Restoring a settings backup keeps the veins and node yields the mod learned since. An empty `MasterLooter.ini` at launch, on Reload now or while the game runs no longer resets your settings to the defaults, and a version 2 ini keeps its recipe rule for vehicle recipes.
-- A creature seen at any category byte is looked up for its species until the game answers, so birds and small game are caught and carcasses skinned. DLC creatures with no item row get their search words.
-- A body search the game's queue turned away is tried again, and a fault while sending a search or a skinning reward no longer lets a carcass be searched twice.
-- Several crash and stall fixes: a fault in the gimmick state driver no longer leaves the hook calling through null or writes a vein to `[NotVeins]`, a failed swapchain rebuild lets go of the old buffers, locks cover the region cache, the pick-up rings and the creature key map, and the language box and fonts follow a language that changes under them.
-- Searching a body writes a `[drop]` line for each reason it kept or did not judge an item. duds7317 reported a mask set to never that still lands in the bag from bandit bodies, and no cause is known yet, so a log from that case will show where the rules were skipped.
+- Herb, potato, sweet potato and cereal sacks are looted under the Containers switch. The game never fills them, so the mod walked past every one. It now breaks each sack the way a hand break does and picks up what spills as ground items. The log says `[sack] broke ... the way a hand break does`. Reported by Fyreon87.
+- With Pets and companions follow the filters on, what a mercenary breaks loose and the bag takes in is judged again. The check for it had not run since 1.6.31. It now judges only a stretch of two seconds in which a companion broke something, and passes over any stretch where something left your bag or you broke something yourself, so a purchase, a craft or your own mining is never deleted. A storage withdrawal or quest reward that lands within about three seconds of a mercenary's break, with nothing leaving the bag, can still be judged as its loot.
 
 ### With Definitive Mod Manager
 
@@ -110,7 +98,7 @@ One scanner out of seventy-one flags `MasterLooter.asi` on 1.6.59. Webroot calls
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one, 1.6.50 one, 1.6.51 one, 1.6.52 one, 1.6.53 one, 1.6.54 one, 1.6.55 one, 1.6.56 one, 1.6.57 one, 1.6.58 one and 1.6.59 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46, then flagged only the DMM zip on 1.6.59 and not the plugin; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.59: [the plugin](https://www.virustotal.com/gui/file/870c7af90bbb09190d591af8c9b9e8877c2b37b1f61760d7462424f1da9184ea) and [the package](https://www.virustotal.com/gui/file/bcf920e6c91aed2093aa74116a1925851cb313acd6911d163e66d6affced5a28).
+Reports for 1.6.60: [the plugin](https://www.virustotal.com/gui/file/15572d386509e4b6d5d561239dd0e8bed24f507ca0158f6ba3da4facdf6ff604) and [the package](https://www.virustotal.com/gui/file/9055378ba915d1baad5abca4f80c952bf4217bbe9a5844e54c6492e6bf3a484e).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -118,11 +106,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.59:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.60:
 
-    bcf920e6c91aed2093aa74116a1925851cb313acd6911d163e66d6affced5a28  MasterLooter-1.6.59-DMM.zip
-    b3fbbd8a63756927b57b02a130e4296d52b89bedfa8d2fea97e453be67e71366  MasterLooter-1.6.59.zip
-    870c7af90bbb09190d591af8c9b9e8877c2b37b1f61760d7462424f1da9184ea  MasterLooter.asi
+    9055378ba915d1baad5abca4f80c952bf4217bbe9a5844e54c6492e6bf3a484e  MasterLooter-1.6.60-DMM.zip
+    cd7928e681644193c2f5492006d7e2aa89ba65c5596da10bb33c9cfcb15aa2c5  MasterLooter-1.6.60.zip
+    15572d386509e4b6d5d561239dd0e8bed24f507ca0158f6ba3da4facdf6ff604  MasterLooter.asi
 
 ## Controls
 
@@ -145,7 +133,7 @@ A worker thread finds the game's actor manager by its RTTI class name and reads 
 
 It works as Kliff, Damiane or Oongka. Playing anyone but Kliff, the actor the game raises your events under is not the character you are steering: it sits wherever the game parked it and never walks. The mod finds the body you are steering by the gear parented to it and searches from there, so nobody has to be in the party. Swapping characters is noticed by who walks: a few steps after the swap and the scan is on the new character. Verdicts that pass are queued, and a hook on the game's own per-frame tick sends the game's own loot events (pick up, gather, catch, search carcass), the same events the game sends when you press the interaction key.
 
-A pet or a companion loots whatever the game lets it, and nothing in the game looks at the item. Three switches under General deal with that, all off by default. "Stop pets picking up loose items" and "Stop pets looting bodies" answer no to the two questions the game asks before a pet loots, so the pet leaves those alone. With "Pets and companions follow the filters" on, a pet is told no before it reaches for a loose item your item rules, tags, classes or value floor refuse, and whatever it takes from a body that they refuse is deleted from the inventory as it lands, through the same removal event the game uses for its own deletions, with a notice on screen saying what went. Quest and protected items are never deleted, nor is anything refused only as unsellable or below the value floor, nor anything you pick up yourself, whoever else is out with you.
+A pet or a companion loots whatever the game lets it, and nothing in the game looks at the item. Three switches under General deal with that, all off by default. "Stop pets picking up loose items" and "Stop pets looting bodies" answer no to the two questions the game asks before a pet loots, so the pet leaves those alone. With "Pets and companions follow the filters" on, a pet is told no before it reaches for a loose item your item rules, tags, classes or value floor refuse, and whatever it takes from a body that they refuse is deleted from the inventory as it lands, through the same removal event the game uses for its own deletions, with a notice on screen saying what went. Quest and protected items are never deleted, nor is anything refused only as unsellable or below the value floor, nor anything you pick up yourself, whoever else is out with you. What a mercenary breaks loose from a rock or a crate can reach the bag with no pick-up the mod can see, so while one is out the mod compares the bag every two seconds and deletes a rise your rules refuse, but only in a stretch where the companion broke something and nothing left the bag or was broken by you.
 
 Bodies and carcasses have a switch of their own, "Drop refused loot from bodies", off by default. The game runs its requests on a server thread of its own, and a search pays out while that thread handles it. The mod reads the bag on either side, judges each new item by the same rules a loose one gets, and hands whatever they refuse to the routine the game uses when you drop something yourself. Each stack lands as one pile beside you. A copy you already carried is never the one that goes. The switch covers the mod's own searches and any body a pet or a companion loots, but never one you search yourself, and money, documents, quest items and protected items stay in the bag. [DROP.md](docs/investigations/DROP.md) has how the drop was found.
 
