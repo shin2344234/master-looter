@@ -852,9 +852,19 @@ namespace ml::gui
 
         Section(TR("Language"));
         {
+            // The box follows the setting whenever something other than the box
+            // changes it. Set only once, it kept the old code after a preset or
+            // a backup loaded another language, and the button then wrote that
+            // old code back over what was just restored.
             static char s_lang[16] = "";
+            static std::string s_langSeen;
             static bool s_init = false;
-            if (!s_init) { s_init = true; snprintf(s_lang, sizeof s_lang, "%s", c.language.c_str()); }
+            if (!s_init || c.language != s_langSeen)
+            {
+                s_init = true;
+                s_langSeen = c.language;
+                snprintf(s_lang, sizeof s_lang, "%s", c.language.c_str());
+            }
 
             // The languages that ship with the mod are picked from a list by
             // their own names, since asking someone to type "zh-tw" to read
