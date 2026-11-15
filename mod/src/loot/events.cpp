@@ -91,6 +91,12 @@ namespace ml::events
     struct PendDelete { uint64_t aval; uint16_t tid, c; uint64_t dval; uint16_t count; uint32_t player, route; bool set; };
     static PendDelete g_pendDel[16]; static int g_pendDelN = 0;
     static PetPickup g_pet[32]; static volatile LONG g_petN = 0;
+    // Guards g_pet and g_seen. A game thread writes a slot and the scan thread
+    // drains the ring, and without a lock a write could land in a slot the
+    // drain was copying or bump a count the drain had just reset, replaying
+    // stale records or losing a hand take that keeps a pick-up from deletion.
+    // Held only around the copy, never across a call out.
+    static SRWLOCK g_ringLock = SRWLOCK_INIT;
     static volatile LONG g_companionAt = 0;   // last tick a companion raised anything
     static volatile LONG g_mercenaryAt = 0;   // the same, for a player-tagged companion
     static volatile LONG g_petSearchAt = 0;   // last body search a companion raised
@@ -427,9 +433,12 @@ namespace ml::events
 
     int DrainPetPickups(PetPickup* out, int max)
     {
-        const LONG n = InterlockedExchange(&g_petN, 0);
+        AcquireSRWLockExclusive(&g_ringLock);
+        const LONG n = g_petN;
         const int k = n < max ? static_cast<int>(n) : max;
         for (int i = 0; i < k; ++i) out[i] = g_pet[i];
+        g_petN = 0;
+        ReleaseSRWLockExclusive(&g_ringLock);
         return k;
     }
 
@@ -1081,8 +1090,10 @@ namespace ml::events
                 const bool search = !pickup && eventId == g_desc[0].id && mem::Read32(payload + 3, &item);
                 if (pickup || search)
                 {
-                    const LONG n = InterlockedCompareExchange(&g_petN, 0, 0);
-                    if (n < 32) { g_pet[n] = { who, item, GetTickCount(), search }; InterlockedExchange(&g_petN, n + 1); }
+                    AcquireSRWLockExclusive(&g_ringLock);
+                    const LONG n = g_petN;
+                    if (n < 32) { g_pet[n] = { who, item, GetTickCount(), search }; g_petN = n + 1; }
+                    ReleaseSRWLockExclusive(&g_ringLock);
                 }
                 if (search)
                 {
@@ -1197,17 +1208,20 @@ namespace ml::events
             return;
         }
         if ((target >> 24) != game::kTagWorld) return;
-        const LONG n = InterlockedCompareExchange(&g_seenN, 0, 0);
-        if (n >= 32) return;
-        g_seen[n] = { target, act, GetTickCount() };
-        InterlockedExchange(&g_seenN, n + 1);
+        AcquireSRWLockExclusive(&g_ringLock);
+        const LONG n = g_seenN;
+        if (n < 32) { g_seen[n] = { target, act, GetTickCount() }; g_seenN = n + 1; }
+        ReleaseSRWLockExclusive(&g_ringLock);
     }
 
     int DrainSeen(Seen* out, int max)
     {
-        const LONG n = InterlockedExchange(&g_seenN, 0);
+        AcquireSRWLockExclusive(&g_ringLock);
+        const LONG n = g_seenN;
         const int k = n < max ? static_cast<int>(n) : max;
         for (int i = 0; i < k; ++i) out[i] = g_seen[i];
+        g_seenN = 0;
+        ReleaseSRWLockExclusive(&g_ringLock);
         return k;
     }
 }
