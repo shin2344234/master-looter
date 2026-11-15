@@ -723,6 +723,11 @@ namespace ml::loot
     // Creatures in the current scan that are alive, so a node can be asked whether
     // it hangs off one. Rebuilt every pass; scan thread only.
     static std::unordered_set<uint32_t> g_living;
+    // Every entity in the current scan by id: what it hangs off, whether it was
+    // read this pass, and whether it is a living creature. Lets a part ask about
+    // its whole chain of parents rather than the one above it. Scan thread only.
+    struct Link { uint32_t parent; bool known; bool alive; };
+    static std::unordered_map<uint32_t, Link> g_links;
     struct Seen { uintptr_t ent; Vec3 pos; DWORD when; };
     static std::unordered_map<uint32_t, Seen>  g_seen;      // merges the game's partial lists
 
@@ -3174,6 +3179,38 @@ namespace ml::loot
         return IStr(node, "gimmick_attach_");
     }
 
+    // Whether nothing c hangs from, all the way up, is alive, with every link
+    // one this pass has read. A link the scan has not read counts as alive,
+    // because the case this guards is a part still bolted to a creature.
+    static bool FreeOfLiving(const Cand& c)
+    {
+        uint32_t p = c.parent;
+        for (int hop = 0; p && hop < 8; ++hop)
+        {
+            const auto it = g_links.find(p);
+            if (it == g_links.end() || !it->second.known || it->second.alive) return false;
+            p = it->second.parent;
+        }
+        return p == 0;
+    }
+
+    // An attach part that is an ordinary item and has come off whatever carried
+    // it. SoulCaliburSK, 15 November 2026: a Marni mech carries two Marni Drill
+    // Components under gimmick_attach_marnimachine_drill_01, each on a drill
+    // base parented to the mech. When the mech dies the bases come loose, the
+    // drills are dropped loot, and AttachedPart refused them on the name for
+    // as long as they lay there, so they had to be picked up by hand. The item
+    // carries no-sell, kuku-pot-item and nothing else of note. Its class is
+    // shared with the Abyss Power Cores and the Kharonso pillar pieces, which
+    // are puzzle parts, so the class says nothing; those all carry important,
+    // quest or gimmick, and an item with any of the three stays refused here.
+    static bool DroppedPart(const Cand& c)
+    {
+        if (!c.item || !c.db) return false;
+        if (c.db->HasTag("important") || c.db->HasTag("quest") || c.db->HasTag("gimmick")) return false;
+        return FreeOfLiving(c);
+    }
+
     // A seed the player has just planted in the camp farm. The game builds one
     // of these for each of its 20 farm plants, gimmick_camp_farm_<plant>_seed,
     // and tags it catch_onehand, so it reads as a loose seed and the mod took it
@@ -3843,7 +3880,14 @@ namespace ml::loot
                 unwornEquip = true;
             }
             if (IStr(c.node, "mission")) return skip("mission object");
-            if (AttachedPart(c.node, c.nodeType)) return skip("part of a creature or a mechanism");
+            if (AttachedPart(c.node, c.nodeType))
+            {
+                if (!DroppedPart(c)) return skip("part of a creature or a mechanism");
+                static std::unordered_set<uint32_t> s_freed;
+                if (s_freed.insert(c.eid).second)
+                    LOG("[attach] %08X %.1f m %s has come off whatever carried it, so it is loot | parent %08X %s",
+                        c.eid, c.d, c.db->name.c_str(), c.parent, c.node);
+            }
             // Whatever arming refuses, the verdict refuses too. This was a
             // hand-copied list and it had drifted: "puzzle" was in OffLimits
             // and missing here. Five puzzle prefabs are tagged ore in the node
@@ -7000,6 +7044,9 @@ namespace ml::loot
         g_living.clear();
         for (const Cand& k : list)
             if (k.filled && k.ai && k.dead != 1 && k.eid) g_living.insert(k.eid);
+        g_links.clear();
+        for (const Cand& k : list)
+            if (k.eid) g_links[k.eid] = Link{ k.parent, k.filled, k.filled && k.ai && k.dead != 1 };
         // And what the player dropped by hand, before anything is decided.
         ClaimHandDrops(list, mp, now);
 
