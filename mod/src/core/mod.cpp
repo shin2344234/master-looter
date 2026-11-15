@@ -296,19 +296,65 @@ namespace ml::Mod
 #pragma pack(pop)
     typedef BOOL (WINAPI* MiniDumpWriteDumpFn)(HANDLE, DWORD, HANDLE, int, DumpExceptionInfo*, void*, void*);
 
+    // Keep the newest few dumps and delete the rest. Each one is a few hundred
+    // megabytes and nothing ever read them back, so before this a player who
+    // crashed often had gigabytes of them beside the log (LuxDragon, 15
+    // November 2026, around thirty). Runs on the dump thread at load, so it
+    // costs the game nothing. New dumps are named
+    // MasterLooter-overflow-YYYYMMDD-HHMMSS.dmp; builds before this one wrote
+    // the time alone, so age is read from the file, not the name.
+    static constexpr int kKeepDumps = 3;
+
+    static void PruneDumps()
+    {
+        struct Found { std::wstring name; FILETIME when; unsigned long long size; };
+        Found all[256];
+        int n = 0;
+        WIN32_FIND_DATAW fd{};
+        const HANDLE h = FindFirstFileW(Paths::File(L"MasterLooter-overflow-*.dmp").c_str(), &fd);
+        if (h == INVALID_HANDLE_VALUE) return;
+        do
+        {
+            if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+            if (n < 256)
+                all[n++] = { fd.cFileName, fd.ftLastWriteTime,
+                             (static_cast<unsigned long long>(fd.nFileSizeHigh) << 32) | fd.nFileSizeLow };
+        } while (FindNextFileW(h, &fd));
+        FindClose(h);
+        if (n <= kKeepDumps) return;
+
+        // Newest first by the time the file was written.
+        for (int i = 1; i < n; ++i)
+            for (int j = i; j > 0 && CompareFileTime(&all[j].when, &all[j - 1].when) > 0; --j)
+                std::swap(all[j], all[j - 1]);
+
+        int gone = 0, kept = 0;
+        unsigned long long freed = 0;
+        for (int i = kKeepDumps; i < n; ++i)
+        {
+            if (DeleteFileW(Paths::File(all[i].name.c_str()).c_str())) { ++gone; freed += all[i].size; }
+            else ++kept;
+        }
+        LOG("[crash] deleted %d old stack overflow dump(s), %.1f MB, keeping the newest %d%s.", gone,
+            static_cast<double>(freed) / (1024.0 * 1024.0), kKeepDumps,
+            kept ? "; some could not be deleted" : "");
+    }
+
     static DWORD WINAPI DumpWaiter(LPVOID)
     {
+        PruneDumps();
         // Loaded here, now, rather than when the overflow comes: a thread out
         // of stack is no place to load a library.
         const HMODULE dbghelp = LoadLibraryW(L"dbghelp.dll");
         const auto write = dbghelp ? reinterpret_cast<MiniDumpWriteDumpFn>(GetProcAddress(dbghelp, "MiniDumpWriteDump")) : nullptr;
         if (!write) { LOG_ERR("[crash] dbghelp.dll not loaded; no dump on a stack overflow this session"); return 0; }
-        LOG("[crash] a stack overflow writes MasterLooter-overflow-*.dmp beside the log.");
+        LOG("[crash] a stack overflow writes MasterLooter-overflow-*.dmp beside the log; the newest %d are kept.", kKeepDumps);
         if (WaitForSingleObject(g_dumpAsk, INFINITE) != WAIT_OBJECT_0) return 0;
 
         SYSTEMTIME st{}; GetLocalTime(&st);
         wchar_t name[64];
-        swprintf(name, 64, L"MasterLooter-overflow-%02d%02d%02d.dmp", st.wHour, st.wMinute, st.wSecond);
+        swprintf(name, 64, L"MasterLooter-overflow-%04d%02d%02d-%02d%02d%02d.dmp",
+                 st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
         const std::wstring path = Paths::File(name);
         const HANDLE f = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
         BOOL ok = FALSE;
