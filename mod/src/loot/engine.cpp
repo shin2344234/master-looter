@@ -1641,7 +1641,7 @@ namespace ml::loot
     }
 
     // Diff the bag against the last scan and attribute every rise to a pending send.
-    static void LearnFromInventory(DWORD now)
+    static void LearnFromInventory(const Config& cfg, DWORD now)
     {
         DrainDeposits(now);
         // What the player gathered or caught by hand counts as a pending send
@@ -1898,7 +1898,7 @@ namespace ml::loot
             // mod's own body search does, for eight seconds because the game
             // can hold a delivery that long, and only when nothing was done by
             // hand, since a hand pick-up could have paid the same rise.
-            const Config& petCfg = Settings::Get();
+            const Config& petCfg = cfg;
             const DWORD petSearch = events::PetSearchAt();
             const bool petVouch = petCfg.petLootToStorage && petSearch && now - petSearch < kPetStoreMs &&
                                   !(g_changeAt && static_cast<LONG>(petSearch - g_changeAt) < 0) && !handOpen;
@@ -1927,7 +1927,7 @@ namespace ml::loot
                 // the same thing stays too, rather than being put away as if
                 // the player had asked for it. An item the database cannot
                 // name has no rule to ask and is offered as before.
-                const bool rulesAllow = !it || Rules::Decide(*it, Settings::Get()).loot;
+                const bool rulesAllow = !it || Rules::Decide(*it, cfg).loot;
                 if (!handUnnamed)
                 {
                     for (const PendSend& p : g_pend)
@@ -5362,6 +5362,11 @@ namespace ml::loot
         const Item* it = ItemDb::ByRow(tid);
         if (!it) return -1;
         if (name && n) snprintf(name, n, "%s", it->name.c_str());
+        // This runs on the game thread. The menu edits the rule maps under the
+        // settings lock, so take it, and give no opinion rather than wait when
+        // the menu holds it: the game then decides as it would without the mod.
+        std::unique_lock<std::recursive_mutex> settingsLock(Settings::Mutex(), std::try_to_lock);
+        if (!settingsLock.owns_lock()) return -1;
         const Rules::Verdict r = Rules::Decide(*it, Settings::Get());
         // Refuse only what the filter would have deleted. The rules the
         // sweep spares are spared here too: the mod refuses to take a quest,
@@ -6302,19 +6307,18 @@ namespace ml::loot
         if (!g_bodyEid) PublishBodyDropAt(g_me, g_meEid, mp, now);
         game::InventoryRefresh(BagActor(), !g_pend.empty());
         if (g_debugLog) game::DumpInventoryShape(BagActor(), g_bagFull);
-        LearnFromInventory(now);
+        // Scan works from the snapshot the worker took under the settings
+        // lock. The live config is edited by the menu under that lock, so a
+        // rule map read from it here could be torn mid-edit.
+        LearnFromInventory(cfg, now);
         // Issue #32. Pets and companions follow the filters, off by default.
-        {
-            const Config& cfg = Settings::Get();
-            if (cfg.petFilter && g_me) PetFilterTick(cfg, now);
-        }
+        if (cfg.petFilter && g_me) PetFilterTick(cfg, now);
         // Issue #32 probe, kept behind DeleteTestName in the ini and the
         // verbose log: delete two of a named item once through the same path
         // the pet filter uses, and say what the inventory did. The dumps
         // around it are what proved the layout on 2760; on a new build they
         // are the first thing to read.
         {
-            const Config& cfg = Settings::Get();
             static int s_phase = 0; static DWORD s_sentAt = 0; static uint16_t s_tid = 0; static long long s_was = 0;
             if (cfg.debugLog && !cfg.deleteTestName.empty() && g_me && s_phase == 0)
             {
