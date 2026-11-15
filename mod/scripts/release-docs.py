@@ -35,13 +35,14 @@ listed. The antivirus step still rewrites the scores once they are in.
 check refuses when a document is missing, a placeholder or TODO is left, the
 checksums on record no longer match dist, two VirusTotal links with different
 labels in one file carry the same hash, the Discord text lacks a link, the
-in-game verification record is missing, or prose_check.py fails.
+in-game verification record is missing, or the prose gate fails.
 
 The verification record is private/verified/<version>.txt. Its first line is
 "tested" followed by the log lines that show the change working, or
 "untested", in which case the GitHub notes and the Discord text must both
 say the build was not tested in play.
 """
+import glob
 import hashlib
 import io
 import json
@@ -421,17 +422,19 @@ def cmd_check():
 
     check_requires(problems)
 
-    checker = CFG.path("scripts", "prose_check.py")
+    # The prose gate is the one prose_*.py that sync.ps1 puts in scripts.
+    found = sorted(glob.glob(CFG.path("scripts", "prose_*.py")))
+    checker = found[0] if found else ""
     prose = [p for _, p in docs if os.path.exists(p)]
     desc = CFG.path("private", "nexus", "nexus-description.bbcode")
     if os.path.exists(desc):
         prose.append(desc)
-    if not os.path.exists(checker):
-        problems.append("no scripts/prose_check.py (sync.ps1)")
+    if not checker:
+        problems.append("no prose gate in scripts (sync.ps1)")
     elif prose:
         r = subprocess.run([sys.executable, checker] + prose, cwd=CFG.root)
         if r.returncode != 0:
-            problems.append("prose_check.py fails; rewrite until it is clean")
+            problems.append("the prose gate fails; rewrite until it is clean")
 
     print()
     for n in notes:
