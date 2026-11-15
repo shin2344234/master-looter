@@ -442,7 +442,10 @@ namespace ml::Settings
         // player switched off comes back on.
         if (fromFile && c.configVersion < 3)
         {
-            static const char* kKinds[] = { "recipe-food", "recipe-potion", "recipe-furniture", "recipe-abyss-gear", "recipe-armor", "recipe-book", "skill-book" };
+            static const char* kKinds[] = { "recipe-food", "recipe-potion", "recipe-furniture", "recipe-abyss-gear", "recipe-armor", "recipe-book", "skill-book",
+                                            // 1.6.53 split this one off too. Version 9 moves a recipe rule to it, but
+                                            // this step has already erased that rule by then.
+                                            "recipe-vehicle" };
             const auto old = c.classRule.find("recipe");
             if (old != c.classRule.end())
             {
