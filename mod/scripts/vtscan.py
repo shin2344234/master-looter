@@ -145,10 +145,16 @@ def report_for(key, path, do_upload):
         if not do_upload:
             return digest, None, "never scanned; run with --upload to submit it"
         size = os.path.getsize(path)
-        if size > 32 * 1024 * 1024:
-            return digest, None, "over the 32 MB direct upload limit; needs /files/upload_url"
         body, ctype = multipart(path)
-        sub = call(key, "/files", "POST", body, ctype)
+        if size > 32 * 1024 * 1024:
+            # Over 32 MB the API wants the file at a one-time URL it hands
+            # out. INI Master's exe and zip are both over, at 61 and 53 MB.
+            big = call(key, "/files/upload_url")
+            if not big or not big.get("data"):
+                return digest, None, "VirusTotal gave no upload URL for a file over 32 MB"
+            sub = call(key, None, "POST", body, ctype, full_url=big["data"])
+        else:
+            sub = call(key, "/files", "POST", body, ctype)
         if not wait_for(key, sub["data"]["id"]):
             return digest, None, "analysis did not complete in twenty minutes"
         got = call(key, "/files/" + digest)
