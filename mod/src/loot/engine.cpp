@@ -2593,18 +2593,23 @@ namespace ml::loot
     // of silence the mod takes the node back off the retired list, gathers it
     // the way the player would, and remembers the prefab so the next chunk of
     // that kind is gathered outright. One line says so the first time.
-    static volatile LONG g_dropRing[32] = {};
+    // Every gimmick break that drops something lands here, crates and barrels
+    // smashed nearby as well as the veins the mod broke. With 32 slots, a
+    // burst of those inside the second and a half a break waits could push
+    // a real vein's drop out, and the vein went into [NotVeins] for good.
+    static constexpr LONG kDropRing = 256;
+    static volatile LONG g_dropRing[kDropRing] = {};
     static volatile LONG g_dropRingAt = 0;
 
     void NoteBreakDrop(uint32_t eid)
     {
-        const LONG slot = InterlockedIncrement(&g_dropRingAt) & 31;
+        const LONG slot = InterlockedIncrement(&g_dropRingAt) & (kDropRing - 1);
         InterlockedExchange(&g_dropRing[slot], static_cast<LONG>(eid));
     }
 
     static bool SawDropFor(uint32_t eid)
     {
-        for (int i = 0; i < 32; ++i)
+        for (int i = 0; i < kDropRing; ++i)
             if (static_cast<uint32_t>(InterlockedCompareExchange(&g_dropRing[i], 0, 0)) == eid) return true;
         return false;
     }
