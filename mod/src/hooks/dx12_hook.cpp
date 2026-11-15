@@ -73,6 +73,11 @@ namespace ml::hooks
     // drawing, so the native Present byte-hook must stop drawing (its buffers are
     // Streamline's read-only finished frames). Never cleared for the session.
     static bool g_wrapperActive = false;
+    // WrapSwapChain as it was at launch. The menu writes the live setting and
+    // says it takes effect next launch, so the hooks read this instead: a chain
+    // replaced after the box was unticked would otherwise go unwrapped while
+    // the present hooks still leave the drawing to a wrapper.
+    static bool g_wrapAtLaunch = true;
 
     // Frames that reached this mod through any path: the wrapper's Present, the
     // stacked detours, either flavour. Zero when the game has been running for
@@ -1949,7 +1954,7 @@ namespace ml::hooks
         // Whether anything at all can draw is knowable here, without waiting:
         // the wrapper is off when a keying overlay is loaded or the ini says
         // so, and the present calls are about to be refused or taken.
-        const bool willWrap = Settings::Get().wrapSwapChain && !stack;
+        const bool willWrap = g_wrapAtLaunch && !stack;
         InstallPass(stack, false, willWrap);
 
         if (!willWrap && !AnyDrawPathHooked())
@@ -2108,7 +2113,7 @@ namespace ml::hooks
             PublishPresentQueue(pq, true);
             pq->Release();
         }
-        if (Settings::Get().wrapSwapChain && !s_stack)
+        if (g_wrapAtLaunch && !s_stack)
             WrapSwapChain(ppSwapChain, hwnd);
         return hr;
     }
@@ -2535,8 +2540,9 @@ namespace ml::hooks
         // queue first appear, and that is now the only place the detour
         // targets can be learned from. Whether the chain is then wrapped is a
         // separate decision, made inside the hook from WrapSwapChain.
+        g_wrapAtLaunch = Settings::Get().wrapSwapChain;
         InstallSwapChainCreationPatch();
-        if (!Settings::Get().wrapSwapChain)
+        if (!g_wrapAtLaunch)
             LOG("WrapSwapChain=0: the swapchain is left alone. The overlay draws through the present hook, which does not show under DLSS frame generation.");
 
         char exePath[MAX_PATH]{};
