@@ -605,6 +605,16 @@ namespace ml::events
         InterlockedExchange(&g_ranEid[slot], static_cast<LONG>(target));
     }
 
+    // Takes a stamp back out. A break whose drive faulted switches the driver
+    // off for the session, and the stamp left behind read as a break that ran
+    // and dropped nothing, so the prefab went into [NotVeins] for good.
+    static void ForgetBreakRan(uint32_t target)
+    {
+        if (!target) return;
+        for (int i = 0; i < 32; ++i)
+            InterlockedCompareExchange(&g_ranEid[i], 0, static_cast<LONG>(target));
+    }
+
     uint32_t BreakRanAt(uint32_t target)
     {
         if (!target) return 0;
@@ -670,8 +680,12 @@ namespace ml::events
         ml::loot::hooks::DriveGimmickEvent(d.comp, game::NameId("onattackimpulsecomplete"),
                                            d.player, d.actor, d.target, nullptr);
 
-        return ml::loot::hooks::DriveGimmickEvent(d.comp, game::NameId("onbreak"),
-                                                  d.player, d.actor, d.target, pos);
+        const bool broke = ml::loot::hooks::DriveGimmickEvent(d.comp, game::NameId("onbreak"),
+                                                              d.player, d.actor, d.target, pos);
+        // The driver turns itself off on a fault. Then neither call ran to the
+        // end, so the silence that follows says nothing about the node.
+        if (!ml::loot::hooks::DriveReady()) ForgetBreakRan(d.target);
+        return broke;
     }
 
     bool DriveBreak(uintptr_t comp, uint32_t player, uintptr_t actor,
