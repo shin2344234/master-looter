@@ -232,6 +232,20 @@ namespace ml::sig
     inline constexpr const char* kSig_TableGetterPtr =
         "48 83 EC 28 44 0F B7 01 48 8B 0D ?? ?? ?? ?? 44 3B 41 28 72";
     inline constexpr unsigned kOff_TableGetter_MovGlobal = 0x08; // `mov rcx, cs:<table global>`
+    // The iteminfo getter is the game's item lookup by row (+0x3DAF10 on
+    // 3663), which item mods hook. A five-byte E9 over its entry hides it from
+    // the pattern above and every item name goes with it, which is what
+    // Fyreon87's logs on 15 November 2026 showed with 36 plugins loaded. The
+    // jump covers the first two instructions and leaves the table global's
+    // mov at +8 whole, so this form reads the global past the jump.
+    inline constexpr const char* kSig_TableGetterPtrJumped =
+        "E9 ?? ?? ?? ?? ?? ?? ?? 48 8B 0D ?? ?? ?? ?? 44 3B 41 28 72";
+    // A longer jump covers the global itself. This is the getter from its
+    // compare onward, used only to name what sits over a getter that neither
+    // form found. 142 hits on 3663, all getters, filtered by table name.
+    inline constexpr const char* kSig_TableGetterBody =
+        "44 3B 41 28 72 0C 48 8B 05 ?? ?? ?? ?? 48 83 C4 28 C3 48 8B 41 20";
+    inline constexpr unsigned kOff_TableGetterBody = 0x0F; // the compare's offset in the getter
     inline constexpr unsigned kMax_TableGetterToCall     = 0x50; // the loader call sits at +0x3F on 3663
     inline constexpr unsigned kMax_LeaToPrologue = 0x180;
 

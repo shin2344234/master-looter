@@ -142,7 +142,8 @@ def main():
             tag = "alt "
         elif len(hits) != 1 and name not in ("kSig_LeaR8Rip", "kSig_TableResolver16", "kSig_TableIndex",
                                              "kSig_OwnCallSite", "kSig_MoveUpdateJumped", "kSig_OwnCheckJumped",
-                                             "kSig_TableGetterPtr"):
+                                             "kSig_TableGetterPtr", "kSig_TableGetterPtrJumped",
+                                             "kSig_TableGetterBody"):
             bad += 1
         print("%-5s %-24s hits=%-3d %s" % (tag, name, len(hits), " ".join("+0x%X" % h for h in hits[:6])))
         if len(hits) == 1:

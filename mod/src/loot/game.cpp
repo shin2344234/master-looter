@@ -215,7 +215,7 @@ namespace ml::game
             return;
         }
     }
-    struct GetterHunt { const char* name; uintptr_t global; };
+    struct GetterHunt { const char* name; uintptr_t global; uintptr_t entry; };
     static bool GetterVisit(uintptr_t hit, void* ctx)
     {
         auto* h = static_cast<GetterHunt*>(ctx);
@@ -225,13 +225,68 @@ namespace ml::game
         const uintptr_t g = mem::RipAt(hit + kOff_TableGetter_MovGlobal, 7);
         if (!mem::InImage(g)) return false;
         h->global = g;
+        h->entry = hit;
+        return true;
+    }
+    // The jumped form only counts when the jump leaves the game module, the
+    // same test FindUnderPatch makes.
+    static bool JumpLeavesImage(uintptr_t entry)
+    {
+        const uintptr_t dest = mem::RipAt(entry, 5);
+        return dest && !mem::InImage(dest);
+    }
+    static bool GetterJumpedVisit(uintptr_t hit, void* ctx)
+    {
+        return JumpLeavesImage(hit) && GetterVisit(hit, ctx);
+    }
+    static bool GetterBodyVisit(uintptr_t hit, void* ctx)
+    {
+        auto* h = static_cast<GetterHunt*>(ctx);
+        const uintptr_t entry = hit - kOff_TableGetterBody;
+        char buf[40];
+        GetterTableName(entry, buf, sizeof buf);
+        if (strcmp(buf, h->name) != 0) return false;
+        h->entry = entry;
         return true;
     }
     static uintptr_t TableGlobal3663(const char* name)
     {
-        GetterHunt h{ name, 0 };
+        GetterHunt h{ name, 0, 0 };
         mem::FindIf(kSig_TableGetterPtr, GetterVisit, &h);
-        return h.global;
+        if (h.global) return h.global;
+
+        mem::FindIf(kSig_TableGetterPtrJumped, GetterJumpedVisit, &h);
+        if (h.global)
+        {
+            char owner[MAX_PATH] = "";
+            OwnerOf(mem::RipAt(h.entry, 5), owner, sizeof owner);
+            LOG("[sig] %s getter +0x%llX is under a jump %s put over its entry; its table global +0x%llX was read past the jump",
+                name, static_cast<unsigned long long>(mem::Rva(h.entry)), owner,
+                static_cast<unsigned long long>(mem::Rva(h.global)));
+            return h.global;
+        }
+
+        // Neither form: say what sits over the getter, so the next log names it.
+        h.entry = 0;
+        mem::FindIf(kSig_TableGetterBody, GetterBodyVisit, &h);
+        if (!h.entry)
+        {
+            LOG_ERR("[sig] %s getter not found in any form; this exe is laid out differently", name);
+            return 0;
+        }
+        uint8_t e[16] = {};
+        for (unsigned i = 0; i < sizeof e; ++i) mem::Read8(h.entry + i, &e[i]);
+        uintptr_t dest = 0;
+        if (e[0] == 0xE9) dest = mem::RipAt(h.entry, 5);
+        else dest = farhook::AbsJumpTarget(h.entry);
+        char owner[MAX_PATH] = "nothing this mod can name";
+        if (dest && !mem::InImage(dest)) OwnerOf(dest, owner, sizeof owner);
+        LOG_ERR("[sig] %s getter +0x%llX starts with %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X, "
+                "a patch by %s that covers its table global, so %s cannot be read while it is loaded",
+                name, static_cast<unsigned long long>(mem::Rva(h.entry)),
+                e[0], e[1], e[2], e[3], e[4], e[5], e[6], e[7], e[8], e[9], e[10], e[11], e[12], e[13], e[14], e[15],
+                owner, name);
+        return 0;
     }
 
     // Table resolvers are clones; the one we want references its table-name
@@ -318,15 +373,20 @@ namespace ml::game
         g_f.gimmickTableGlobal = TableGlobal(kStr_GimmickInfoTable);
         if (!g_f.itemTableGlobal)
         {
+            // Each table is looked for on its own. gimmickinfo used to be
+            // tried only once iteminfo was found, so one hooked getter took
+            // both tables and the layout flag with it, and the table sweep
+            // then ran the old pattern and found nothing.
             const uintptr_t item = TableGlobal3663(kStr_ItemInfoTable);
-            if (item)
+            const uintptr_t gim  = TableGlobal3663(kStr_GimmickInfoTable);
+            if (item || gim)
             {
                 g_table3663 = true;
                 g_f.itemTableGlobal    = item;
-                g_f.gimmickTableGlobal = TableGlobal3663(kStr_GimmickInfoTable);
+                g_f.gimmickTableGlobal = gim;
                 LOG("[sig] tables use the 1.0.0.3663 layout: iteminfo +0x%llX, gimmickinfo +0x%llX",
-                    static_cast<unsigned long long>(mem::Rva(g_f.itemTableGlobal)),
-                    static_cast<unsigned long long>(g_f.gimmickTableGlobal ? mem::Rva(g_f.gimmickTableGlobal) : 0));
+                    static_cast<unsigned long long>(item ? mem::Rva(item) : 0),
+                    static_cast<unsigned long long>(gim ? mem::Rva(gim) : 0));
             }
         }
         if (g_sigN < 16) g_sigs[g_sigN++] = { "iteminfo table", g_f.itemTableGlobal, g_f.itemTableGlobal ? 1u : 0u, false };
@@ -1312,14 +1372,22 @@ namespace ml::game
         GetterTableName(hit, t.name, sizeof t.name);
         return false;
     }
+    static bool CollectTable3663Jumped(uintptr_t hit, void* ctx)
+    {
+        return JumpLeavesImage(hit) ? CollectTable3663(hit, ctx) : false;
+    }
 
     int EnumTables(const TableRef** out)
     {
         if (g_tableN < 0)
         {
             g_tableN = 0;
-            if (g_table3663) mem::FindIf(kSig_TableGetterPtr, CollectTable3663, nullptr);
-            else             mem::FindIf(kSig_TableIndex, CollectTable, nullptr);
+            if (g_table3663)
+            {
+                mem::FindIf(kSig_TableGetterPtr, CollectTable3663, nullptr);
+                mem::FindIf(kSig_TableGetterPtrJumped, CollectTable3663Jumped, nullptr);
+            }
+            else mem::FindIf(kSig_TableIndex, CollectTable, nullptr);
             LOG("[table] %d static tables found in the image", g_tableN);
         }
         if (out) *out = g_tables;
