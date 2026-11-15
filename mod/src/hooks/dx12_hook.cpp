@@ -269,6 +269,20 @@ namespace ml::hooks
         }
     }
 
+    static void ReleaseOffscreenTarget();
+
+    // Drop every reference this overlay holds on a chain's buffers and forget
+    // the chain, so the next present rebuilds from scratch. A failed rebuild has
+    // to come here and not just null g_swapChain: the wrapper's Release and the
+    // factory replace hook free the views only while g_swapChain still names
+    // the chain, so views kept past a null pinned the old chain alive.
+    static void ForgetChain()
+    {
+        CleanupRenderTargets();
+        ReleaseOffscreenTarget();
+        g_swapChain = nullptr;
+    }
+
     static bool CreateRenderTargets(IDXGISwapChain3* swapChain)
     {
         const UINT rtvSize = g_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
@@ -574,7 +588,7 @@ namespace ml::hooks
         if (!CreateRenderTargets(swapChain))
         {
             LOG_ERR("ReconcileSwapChain: render target rebuild failed.");
-            g_swapChain = nullptr;
+            ForgetChain();
             return false;
         }
 
@@ -584,7 +598,7 @@ namespace ml::hooks
         if (!CreateOffscreenTarget(g_scWidth, g_scHeight))
         {
             LOG_ERR("ReconcileSwapChain: offscreen target rebuild failed.");
-            g_swapChain = nullptr;
+            ForgetChain();
             return false;
         }
 
@@ -881,7 +895,7 @@ namespace ml::hooks
         ImGui::Render();
 
         const UINT idx = swapChain->GetCurrentBackBufferIndex();
-        if (idx >= g_frames.size() || !g_frames[idx].renderTarget)
+        if (idx >= g_frames.size() || !g_frames[idx].renderTarget || !g_offscreenTex)
         {
             // Live index outran our (just-reconciled) frame array - never index
             // out of bounds. Should not happen after ReconcileSwapChain, but a
@@ -1155,19 +1169,31 @@ namespace ml::hooks
         DXGI_SWAP_CHAIN_DESC desc = {};
         if (SUCCEEDED(swapChain->GetDesc(&desc)))
         {
-            if (desc.BufferCount != g_bufferCount)
-                ResizeFrameResources(desc.BufferCount);
+            if (desc.BufferCount != g_bufferCount && !ResizeFrameResources(desc.BufferCount))
+            {
+                // No RTV heap now, so CreateRenderTargets below would read a
+                // null heap. Forget the count and the chain, as reconcile does.
+                LOG_ERR("PostResizeRebuild: frame resources for %u buffers could not be made.", desc.BufferCount);
+                g_bufferCount = 0;
+                ForgetChain();
+                return;
+            }
             g_hwnd      = desc.OutputWindow;
             g_swapChain = swapChain;
             g_scWidth   = desc.BufferDesc.Width;
             g_scHeight  = desc.BufferDesc.Height;
             g_scFormat  = desc.BufferDesc.Format;
         }
-        CreateRenderTargets(swapChain);
         // Must follow the g_scWidth/g_scHeight update above (and precede the
         // next ReconcileSwapChain, which would otherwise see the new signature
         // as "unchanged" and never resize the offscreen target to match).
-        CreateOffscreenTarget(g_scWidth, g_scHeight);
+        // A failure forgets the chain, so the next present's reconcile sees a
+        // changed chain and retries instead of reading it as unchanged.
+        if (!CreateRenderTargets(swapChain) || !CreateOffscreenTarget(g_scWidth, g_scHeight))
+        {
+            LOG_ERR("PostResizeRebuild: rebuild after ResizeBuffers failed, retrying on the next present.");
+            ForgetChain();
+        }
     }
 
     // Native-swapchain Present/ResizeBuffers byte-detours (from the dummy vtable).
