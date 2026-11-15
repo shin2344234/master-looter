@@ -177,7 +177,9 @@
           "type": "key",
           "group": "Keys",
           "default": "45",
+          "help": "This one cannot be left unbound, since the menu is where every key is set. 0 or an empty value reads as Insert.",
           "format": "vk",
+          "keys": ["Mouse1-Quote", "223", "224", "225", "226", "227", "228", "229", "230", "231", "232", "233", "234", "235", "236", "237", "238", "239", "240", "241", "242", "243", "244", "245", "246", "247", "248", "249", "250", "251", "252", "253", "254", "255"],
           "order": 5
         },
         "KeyToggle": {

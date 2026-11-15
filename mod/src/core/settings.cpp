@@ -81,7 +81,18 @@ namespace ml::Settings
     static int  Key(const char* name, const std::string& raw, int def, bool unbindable = false)
     {
         const std::string v = Trim(raw);
-        auto none = [&] { return unbindable ? 0 : def; };
+        // Issue #215: MenuKey=0 or an empty MenuKey used to read as Insert
+        // without a word, so an ini tool that cleared the key showed None
+        // while Insert still opened the menu. The keys list in the inimeta
+        // keeps INI Master from writing it now; this says so if anything does.
+        auto none = [&] {
+            if (unbindable) return 0;
+            char was[64];
+            snprintf(was, sizeof was, "%s", KeyName(def));
+            LOG("MasterLooter.ini: %s=%s asks for no key, and %s cannot be left unbound, so it stays %s.",
+                name, v.c_str(), name, was);
+            return def;
+        };
         if (v.empty()) return none();
         if (v[0] >= '0' && v[0] <= '9')
         {
@@ -99,7 +110,7 @@ namespace ml::Settings
             bool noKey = false;
             for (const char* w : kNone)
                 if (_stricmp(v.c_str(), w) == 0) noKey = true;
-            if (noKey && unbindable) return 0;
+            if (noKey) return none();
             // KeyName hands back one shared buffer, so each name is compared
             // before the next call writes over it.
             if (!noKey)
