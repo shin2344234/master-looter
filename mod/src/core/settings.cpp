@@ -1034,6 +1034,15 @@ namespace ml::Settings
             const ULONGLONG t = FileTime();
             if (t != 0 && t != g_knownTime && !g_dirty)
             {
+                // A tool that rewrites the ini truncates it first, and a poll
+                // that lands in that moment reads an empty file. Loading it
+                // made every setting the default, ran every migration as if
+                // the file were from the first version, and the save that
+                // followed wrote those defaults over the player's rules. Wait
+                // for the writer instead: the time is left unknown, so the
+                // next poll looks again.
+                std::string text;
+                if (!ReadFile(text) || text.find_first_not_of(" \t\r\n") == std::string::npos) return;
                 std::lock_guard<std::recursive_mutex> lk(g_mutex);
                 Load();
                 LOG("MasterLooter.ini changed on disk; reloaded.");
