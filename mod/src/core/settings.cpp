@@ -964,6 +964,11 @@ namespace ml::Settings
         Clamp(c);
         {
             std::lock_guard<std::recursive_mutex> lk(g_mutex);
+            // Learned facts about the world survive a restore, as they do a
+            // preset load: a backup older than them would make the player pay
+            // the wasted breaks and blind gathers again.
+            for (const std::string& n : g_cfg.notVeins) c.notVeins.insert(n);
+            for (const auto& kv : g_cfg.nodeYields) c.nodeYields.insert(kv);
             g_cfg = c;
             ++g_generation;
         }
