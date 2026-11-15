@@ -5444,8 +5444,10 @@ namespace ml::loot
         // buy, a craft, a quest reward. Any body search by anyone in the
         // meantime waits in the queue, and on the first tick back the window
         // judged every rise since the old sample. After a gap, start over.
+        // The first tick counts as one, since the queue may hold events from
+        // before the switch was on or the scan ever ran.
         static DWORD lastTick = 0, gapEnd = 0;
-        if (lastTick && now - lastTick > 3000)
+        if (!lastTick || now - lastTick > 3000)
         {
             // What was queued during the gap has landed already, so it is
             // dropped below rather than opening a window on a fresh sample.
