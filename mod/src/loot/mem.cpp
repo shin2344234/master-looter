@@ -39,23 +39,15 @@ namespace ml::mem
         struct Region { uintptr_t base, end; DWORD when; bool ok; };
         Region g_regs[256];
         int    g_regN = 0, g_regNext = 0;
-        CRITICAL_SECTION g_regCs;
-        LONG   g_regCsReady = 0;
+        // Statically initialised, so there is no first-use window. The lazy
+        // critical section it replaces let a second thread flip the ready
+        // flag and enter the lock while the first was still initialising it.
+        // Never taken twice on one thread, so it needs no recursion.
+        SRWLOCK g_regLock = SRWLOCK_INIT;
         volatile LONG g_faults = 0;
 
-        void RegLock()
-        {
-            if (InterlockedCompareExchange(&g_regCsReady, 1, 0) == 0)
-                InitializeCriticalSection(&g_regCs);
-            while (InterlockedCompareExchange(&g_regCsReady, 2, 2) != 2)
-            {
-                // First initializer publishes state 2 once the CS is ready.
-                if (InterlockedCompareExchange(&g_regCsReady, 2, 1) == 1) break;
-                Sleep(0);
-            }
-            EnterCriticalSection(&g_regCs);
-        }
-        void RegUnlock() { LeaveCriticalSection(&g_regCs); }
+        void RegLock()   { AcquireSRWLockExclusive(&g_regLock); }
+        void RegUnlock() { ReleaseSRWLockExclusive(&g_regLock); }
     }
 
     long FaultCount() { return g_faults; }
