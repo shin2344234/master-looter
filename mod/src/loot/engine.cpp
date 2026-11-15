@@ -5439,6 +5439,19 @@ namespace ml::loot
         // borrows a moment after the scan settles on her, and comparing them
         // reads a whole bag as arriving at once. Neither path compares them.
         static uintptr_t snapHolder = 0, baseHolder = 0;
+        // This only runs while the scan does, so with auto-loot off, between
+        // bursts, the samples stop while the bag goes on changing: a vendor
+        // buy, a craft, a quest reward. Any body search by anyone in the
+        // meantime waits in the queue, and on the first tick back the window
+        // judged every rise since the old sample. After a gap, start over.
+        static DWORD lastTick = 0;
+        if (lastTick && now - lastTick > 3000)
+        {
+            if (windowUntil) LOG("[pet] the filter was not running for %lu ms, so the open window is dropped and nothing is judged",
+                                 static_cast<unsigned long>(now - lastTick));
+            snapAt = 0; windowUntil = 0; tidN = 0; anyUnknown = false; base.clear(); snap.clear();
+        }
+        lastTick = now;
         // The snapshot's time is the end of the walk, so a pick-up stamped
         // later than it landed after every slot was read.
         auto snapshot = [&](std::unordered_map<uint16_t, long long>& into, uintptr_t& holderOut) {
