@@ -233,7 +233,7 @@ namespace ml::Settings
         const std::wstring copy = CopyPath();
         if (!g_claimed || copy.empty()) return;
         std::string now, was;
-        if (!ReadFile(now) || now.empty()) return;
+        if (!ReadFile(now) || now.find_first_not_of(" \t\r\n") == std::string::npos) return;
         if (ReadWhole(copy, was) && was == now) return;
         WriteText(copy, now);
     }
@@ -1001,7 +1001,9 @@ namespace ml::Settings
         g_claimed = true;
         CopyOldFolder(L"MasterLooter.backups", BackupDir(), "backups");
         CopyOldFolder(L"MasterLooter.presets", PresetDir(), "presets");
-        if (FileTime() == 0)
+        // A blank ini was read as missing, so it is written back the same way.
+        // Left blank, the copy refresh below wrote it over the AppData copy.
+        if (FileTime() == 0 || g_fromCopy)
         {
             Save();
             if (g_fromCopy)
