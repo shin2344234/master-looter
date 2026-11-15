@@ -646,6 +646,21 @@ namespace ml::Settings
         bool migrated = false;
         std::string text;
         bool present = ReadFile(text);
+        // A blank ini is one a writer has truncated and not refilled yet. Poll
+        // already waits for it, but the Reload button and a launch both come
+        // straight here, and loading it ran every migration as version 1 and
+        // saved the defaults over the player's rules. A later load keeps what
+        // it has and leaves the file time unknown, so the poll looks again; the
+        // first load reads the AppData copy, as for a missing file.
+        if (present && text.find_first_not_of(" \t\r\n") == std::string::npos)
+        {
+            if (g_generation > 0)
+            {
+                LOG("[settings] MasterLooter.ini is empty on disk, so the reload is skipped and the current settings stay.");
+                return;
+            }
+            present = false;
+        }
         // No ini in bin64: read the copy every save leaves in AppData, so a mod
         // manager that cleared the plugin's files costs nobody their settings.
         // Nothing is written here. Claim puts the file back, and only the copy
