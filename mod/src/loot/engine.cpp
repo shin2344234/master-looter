@@ -1486,9 +1486,17 @@ namespace ml::loot
     {
         while (!g_handRows.empty() && now - g_handRows.front().at > kHandKeepMs) g_handRows.erase(g_handRows.begin());
     }
+    // A body this mod searched, or a node it gathered whose yield nothing
+    // names, puts things in the bag that no rule was asked about. The pet
+    // window and the companion sweep both took those for a companion's and
+    // deleted the refused part while a mercenary was out, so they count the
+    // same as an unnamed take of the player's.
+    static DWORD g_modUnjudgedAt = 0;
+    static void NoteModUnjudged(DWORD now) { g_modUnjudgedAt = now ? now : 1; }
     static bool HandTookUnknown(DWORD since)
     {
-        return g_handUnknownAt && static_cast<long>(g_handUnknownAt - since) >= 0;
+        return (g_handUnknownAt && static_cast<long>(g_handUnknownAt - since) >= 0) ||
+               (g_modUnjudgedAt && static_cast<long>(g_modUnjudgedAt - since) >= 0);
     }
 
     // Only while a pet is demonstrably out and looting. A pet's body search is
@@ -5620,8 +5628,9 @@ namespace ml::loot
         // 400 ms ago and delete any rise the rules refuse. Only while one is
         // out, because with nobody else in the world a rise is the player's own
         // doing and taking it back is the bug this all started from. Anything
-        // the mod itself sent is pending in g_pend and is allowed by
-        // construction, since the mod only ever sends what the rules permit.
+        // the mod itself took by item is allowed by construction, and a body it
+        // searched or a node it gathered blind counts as unnamed, so the pass
+        // it lands in is skipped like a hand gather.
         // The companion has to have acted since this baseline was taken. One
         // that helped half a minute ago explains nothing about what arrived in
         // the last two seconds.
@@ -7417,6 +7426,7 @@ namespace ml::loot
                         {
                             const Item* y = NodeYield(k);
                             g_pend.push_back({ now, Action::Gather, k.gtid, -1, false, std::string(), true, y ? ItemDb::GameRow(*y) : -1 });
+                            if (!y) NoteModUnjudged(now);
                             if (y && g_mineYields.size() < 256) g_mineYields.push_back({ now, static_cast<uint16_t>(ItemDb::GameRow(*y)) });
                         }
                         // Written without the verbose switch, up to 40 a
@@ -7513,6 +7523,7 @@ namespace ml::loot
                         const Item* y = v.act == Action::Gather ? NodeYield(k) : nullptr;
                         g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.gtid : static_cast<uint16_t>(0), k.db ? ItemDb::GameRow(*k.db) : -1, false,
                                            std::string(), true, y ? ItemDb::GameRow(*y) : -1 });
+                        if (v.act == Action::Search || (v.act == Action::Gather && !y)) NoteModUnjudged(now);
                         if (y && !k.db && g_mineYields.size() < 256) g_mineYields.push_back({ now, static_cast<uint16_t>(ItemDb::GameRow(*y)) });
                     }
                     if (k.db && k.db->row >= 0)
