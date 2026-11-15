@@ -633,7 +633,22 @@ namespace ml::gui
         return s_armed == id && static_cast<LONG>(s_armedUntil - GetTickCount()) > 0;
     }
 
+    static bool ConfirmButtonBody(const char* id, const char* label, const char* armedLabel, bool needsConfirm);
+
+    // Presets and Backups each have a button labelled Delete on the same
+    // page. ImGui makes a widget's id from its label, so the two shared one
+    // id and the menu drew its "2 visible items with conflicting ID" box
+    // over the page. Pushing the caller's own id keeps every button apart
+    // whatever its label says.
     static bool ConfirmButton(const char* id, const char* label, const char* armedLabel, bool needsConfirm)
+    {
+        ImGui::PushID(id);
+        const bool go = ConfirmButtonBody(id, label, armedLabel, needsConfirm);
+        ImGui::PopID();
+        return go;
+    }
+
+    static bool ConfirmButtonBody(const char* id, const char* label, const char* armedLabel, bool needsConfirm)
     {
         if (!needsConfirm)
         {
