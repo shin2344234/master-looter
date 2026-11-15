@@ -251,6 +251,10 @@ namespace ml::sig
 
     inline constexpr const char* kStr_ItemInfoTable    = "iteminfo";
     inline constexpr const char* kStr_GimmickInfoTable = "gimmickinfo";
+    // The class of the object each of those table globals holds, from RTTI.
+    // Used only when a patch over the getter covers the global's mov.
+    inline constexpr const char* kRtti_ItemInfoManager    = ".?AVItemInfoManager@pa@@";
+    inline constexpr const char* kRtti_GimmickInfoManager = ".?AVGimmickInfoManager@pa@@";
     // Table object: +0x08 u32 row count; def[] pointer at +0x50 (Trinity, build
     // 2026-08) or +0x58 (CDLoot, build 2760). Probed at runtime against our
     // item database; whichever offset yields matching string keys wins.

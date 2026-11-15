@@ -168,6 +168,11 @@ namespace ml::game
     // set once by ResolveAll from whichever getter pattern found iteminfo, and
     // every reader below asks these helpers instead of naming offsets.
     static bool g_table3663 = false;
+    // Set by ResolveAll when a patch over a getter covers its global, which is
+    // OutfitManager's case on 3663 if its patch is longer than a jump. The
+    // global is then found from ProbeItemTable by its object's class.
+    static bool g_itemByClass = false, g_gimByClass = false;
+    static bool g_itemFromClass = false, g_gimFromClass = false;
 
     static bool TblCount(uintptr_t table, uint32_t* count)
     {
@@ -249,8 +254,11 @@ namespace ml::game
         h->entry = entry;
         return true;
     }
-    static uintptr_t TableGlobal3663(const char* name)
+    // covered is set when the getter is there but a patch hides its global,
+    // so ProbeItemTable can look the global up by its object's class later.
+    static uintptr_t TableGlobal3663(const char* name, bool* covered)
     {
+        *covered = false;
         GetterHunt h{ name, 0, 0 };
         mem::FindIf(kSig_TableGetterPtr, GetterVisit, &h);
         if (h.global) return h.global;
@@ -281,11 +289,12 @@ namespace ml::game
         else dest = farhook::AbsJumpTarget(h.entry);
         char owner[MAX_PATH] = "nothing this mod can name";
         if (dest && !mem::InImage(dest)) OwnerOf(dest, owner, sizeof owner);
-        LOG_ERR("[sig] %s getter +0x%llX starts with %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X, "
-                "a patch by %s that covers its table global, so %s cannot be read while it is loaded",
-                name, static_cast<unsigned long long>(mem::Rva(h.entry)),
-                e[0], e[1], e[2], e[3], e[4], e[5], e[6], e[7], e[8], e[9], e[10], e[11], e[12], e[13], e[14], e[15],
-                owner, name);
+        LOG("[sig] %s getter +0x%llX starts with %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X, "
+            "a patch by %s that covers its table global; the global will be looked up by the class of the object it holds once the game builds it",
+            name, static_cast<unsigned long long>(mem::Rva(h.entry)),
+            e[0], e[1], e[2], e[3], e[4], e[5], e[6], e[7], e[8], e[9], e[10], e[11], e[12], e[13], e[14], e[15],
+            owner);
+        *covered = true;
         return 0;
     }
 
@@ -377,13 +386,18 @@ namespace ml::game
             // tried only once iteminfo was found, so one hooked getter took
             // both tables and the layout flag with it, and the table sweep
             // then ran the old pattern and found nothing.
-            const uintptr_t item = TableGlobal3663(kStr_ItemInfoTable);
-            const uintptr_t gim  = TableGlobal3663(kStr_GimmickInfoTable);
-            if (item || gim)
+            bool itemCovered = false, gimCovered = false;
+            const uintptr_t item = TableGlobal3663(kStr_ItemInfoTable, &itemCovered);
+            const uintptr_t gim  = TableGlobal3663(kStr_GimmickInfoTable, &gimCovered);
+            // A covered getter was still matched by the 3663 body pattern,
+            // so it settles the layout as well as a found one does.
+            if (item || gim || itemCovered || gimCovered)
             {
                 g_table3663 = true;
                 g_f.itemTableGlobal    = item;
                 g_f.gimmickTableGlobal = gim;
+                g_itemByClass = itemCovered;
+                g_gimByClass  = gimCovered;
                 LOG("[sig] tables use the 1.0.0.3663 layout: iteminfo +0x%llX, gimmickinfo +0x%llX",
                     static_cast<unsigned long long>(item ? mem::Rva(item) : 0),
                     static_cast<unsigned long long>(gim ? mem::Rva(gim) : 0));
@@ -1178,12 +1192,117 @@ namespace ml::game
         return count;
     }
 
+    // The image qword holding the one object of this class, the way
+    // ActorManager finds the actor manager. Every table global on 3663 is set
+    // by a `mov [rip+global], rcx; ret` of its own and holds the manager
+    // object, so this finds a global no getter pattern can read. 0 until the
+    // game has built the object. Several globals are taken only when they all
+    // hold the same object, since any of them then reads the same table.
+    struct ClassHunt { const char* rtti; bool vtDone; int vtN; uintptr_t vt[4]; };
+    static uintptr_t GlobalByClass(ClassHunt& c, int* holders)
+    {
+        *holders = 0;
+        if (!c.vtDone) { c.vtDone = true; c.vtN = mem::FindVtablesByName(c.rtti, c.vt, 4); }
+        if (!c.vtN) return 0;
+        uintptr_t slots[8];
+        const int n = mem::FindGlobalsHoldingVtable(c.vt, c.vtN, slots, 8);
+        *holders = n;
+        if (n <= 0) return 0;
+        uintptr_t first = 0;
+        if (!mem::ReadPtr(slots[0], &first) || !first) return 0;
+        for (int i = 1; i < n; ++i)
+        {
+            uintptr_t obj = 0;
+            if (!mem::ReadPtr(slots[i], &obj) || obj != first) return 0;
+        }
+        return slots[0];
+    }
+    static ClassHunt g_itemClass{ kRtti_ItemInfoManager, false, 0, {} };
+    static ClassHunt g_gimClass{ kRtti_GimmickInfoManager, false, 0, {} };
+
+    static void NoteSig(const char* name, uintptr_t a)
+    {
+        for (int i = g_sigN - 1; i >= 0; --i)
+            if (g_sigs[i].name && strcmp(g_sigs[i].name, name) == 0) { g_sigs[i].addr = a; g_sigs[i].hits = a ? 1u : 0u; break; }
+    }
+
+    // Looks up whichever global ResolveAll could not read. True once nothing
+    // is left to look up or the two minutes are spent; it says why either way.
+    static bool LateTables()
+    {
+        if (!g_itemByClass && !g_gimByClass) return true;
+        static ULONGLONG s_last = 0, s_first = 0;
+        const ULONGLONG now = GetTickCount64();
+        if (s_last && now - s_last < 3000) return false;
+        s_last = now;
+        if (!s_first) s_first = now;
+        struct One { bool* wanted; bool* from; ClassHunt* c; uintptr_t* global; const char* table; const char* sig; };
+        One all[] = { { &g_itemByClass, &g_itemFromClass, &g_itemClass, &g_f.itemTableGlobal, kStr_ItemInfoTable, "iteminfo table" },
+                      { &g_gimByClass,  &g_gimFromClass,  &g_gimClass,  &g_f.gimmickTableGlobal, kStr_GimmickInfoTable, "gimmickinfo table" } };
+        for (One& o : all)
+        {
+            if (!*o.wanted) continue;
+            int holders = 0;
+            const uintptr_t g = GlobalByClass(*o.c, &holders);
+            if (g)
+            {
+                *o.global = g;
+                *o.wanted = false;
+                *o.from = true;
+                NoteSig(o.sig, g);
+                LOG_OK("[sig] %s table global +0x%llX found by class name %s, past the patch over its getter",
+                       o.table, static_cast<unsigned long long>(mem::Rva(g)), o.c->rtti);
+            }
+            else if (now - s_first > 120000)
+            {
+                *o.wanted = false;
+                LOG_ERR("[sig] %s table global not found by class name %s in two minutes (%d vtable(s), %d global(s) holding one); %s names unavailable",
+                        o.table, o.c->rtti, o.c->vtN, holders, o.table);
+            }
+        }
+        return !g_itemByClass && !g_gimByClass;
+    }
+
+    // Once a session, on the ordinary path: find each global by class name as
+    // well and say whether it agrees with the getter. This is what shows the
+    // lookup above works on a game where no patch forced it.
+    static void ClassCheck()
+    {
+        static bool s_done = false;
+        if (s_done || !g_table3663) return;
+        s_done = true;
+        struct One { ClassHunt* c; uintptr_t global; bool fromClass; const char* table; };
+        const One all[] = { { &g_itemClass, g_f.itemTableGlobal, g_itemFromClass, kStr_ItemInfoTable },
+                            { &g_gimClass,  g_f.gimmickTableGlobal, g_gimFromClass, kStr_GimmickInfoTable } };
+        for (const One& o : all)
+        {
+            if (!o.global || o.fromClass) continue;
+            int holders = 0;
+            const uintptr_t g = GlobalByClass(*o.c, &holders);
+            uintptr_t objByClass = 0, objByGetter = 0;
+            if (g) mem::ReadPtr(g, &objByClass);
+            mem::ReadPtr(o.global, &objByGetter);
+            if (g == o.global)
+                LOG("[sig] class check: %s by class name is +0x%llX, the same global the getter gave",
+                    o.table, static_cast<unsigned long long>(mem::Rva(g)));
+            else if (g && objByClass && objByClass == objByGetter)
+                LOG("[sig] class check: %s by class name is +0x%llX, which holds the same table as the getter's +0x%llX (%d holders)",
+                    o.table, static_cast<unsigned long long>(mem::Rva(g)), static_cast<unsigned long long>(mem::Rva(o.global)), holders);
+            else
+                LOG_ERR("[sig] class check failed: %s by class name is +0x%llX (%d vtable(s), %d holder(s)), the getter gave +0x%llX",
+                        o.table, static_cast<unsigned long long>(g ? mem::Rva(g) : 0), o.c->vtN, holders,
+                        static_cast<unsigned long long>(mem::Rva(o.global)));
+        }
+    }
+
     int ProbeItemTable()
     {
         if (g_tableState != 0) return g_tableState;
+        if (!LateTables() && !g_f.itemTableGlobal) return 0; // still looking for it by class name
         if (!g_f.itemTableGlobal || !ItemDb::Loaded()) { g_tableState = -1; return g_tableState; }
         const uint32_t count = ItemTableCount();
         if (!count) return 0; // table not built yet; try again later
+        ClassCheck();
         const int dbN = ItemDb::RowCount();
         if (g_table3663)
         {
@@ -1298,6 +1417,7 @@ namespace ml::game
     }
     bool GimmickKeyForType(uint16_t typeId, char* out, size_t n)
     {
+        if (g_gimByClass) LateTables(); // its getter was covered and the item probe is done waiting
         if (!typeId || !g_f.gimmickTableGlobal || g_tableState <= 0) return false;
         return KeyAt(g_f.gimmickTableGlobal, typeId, g_defsOff, out, n, kOff_GimmickDef_StringKey);
     }
