@@ -352,6 +352,7 @@ namespace ml::events
     {
         const game::Fns& f = game::F();
         bool ok = false;
+        volatile bool selfSend = false;
         __try
         {
             reinterpret_cast<FnTlsInit>(f.tlsInit)();
@@ -395,9 +396,9 @@ namespace ml::events
             uintptr_t q = 0;
             if (!mem::ReadPtr(f.queue, &q)) { LOG_ERR("[delete] queue global unreadable"); return false; }
             InterlockedExchange(&g_sendTid, static_cast<LONG>(GetCurrentThreadId()));
-            ml::loot::hooks::SelfSendBegin();
+            ml::loot::hooks::SelfSendBegin(); selfSend = true;
             reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), e, desc, 0);
-            ml::loot::hooks::SelfSendEnd();
+            ml::loot::hooks::SelfSendEnd(); selfSend = false;
             InterlockedExchange(&g_sendTid, 0);
             InterlockedExchange(&g_lastDeleteAt, static_cast<LONG>(GetTickCount()));
             ok = true;
@@ -405,6 +406,7 @@ namespace ml::events
         __except (EXCEPTION_EXECUTE_HANDLER)
         {
             InterlockedExchange(&g_sendTid, 0);
+            if (selfSend) ml::loot::hooks::SelfSendEnd();
             LOG_ERR("[delete] exception 0x%08X; nothing sent", GetExceptionCode());
         }
         return ok;
@@ -484,6 +486,7 @@ namespace ml::events
         if (!g_sendAllowed) return false;
         const game::Fns& f = game::F();
         bool ok = false;
+        volatile bool selfSend = false;
         __try
         {
             void* desc = nullptr;
@@ -498,10 +501,10 @@ namespace ml::events
             if (!mem::ReadPtr(f.queue, &q)) { LOG_ERR("[send] queue global unreadable"); return false; }
             InterlockedExchange(&g_sendTid, static_cast<LONG>(GetCurrentThreadId()));
             // Ours, so the spy does not report it back as something the game did.
-            ml::loot::hooks::SelfSendBegin();
+            ml::loot::hooks::SelfSendBegin(); selfSend = true;
             reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), ev, desc, 0);
             if (rev) reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), rev, rdesc, 0);
-            ml::loot::hooks::SelfSendEnd();
+            ml::loot::hooks::SelfSendEnd(); selfSend = false;
             InterlockedExchange(&g_sendTid, 0);
             InterlockedIncrement(&g_sent);
             ok = true;
@@ -516,6 +519,9 @@ namespace ml::events
         __except (EXCEPTION_EXECUTE_HANDLER)
         {
             InterlockedExchange(&g_sendTid, 0);
+            // A fault inside the enqueue skipped SelfSendEnd, and a count left
+            // raised on the game thread switches the event spy off for good.
+            if (selfSend) ml::loot::hooks::SelfSendEnd();
             LOG_ERR("[send] exception 0x%08X; event dropped", GetExceptionCode());
         }
         return ok;
