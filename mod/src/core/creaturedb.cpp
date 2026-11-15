@@ -161,14 +161,29 @@ namespace ml::CreatureDb
     const Creature* ByCharacterKey(uint32_t key)
     {
         if (!key) return nullptr;
+        // Built on first use, and the event spy on a game thread and the scan
+        // both get here, so two first calls must not fill the map together.
         static std::unordered_map<uint32_t, const Creature*> byNum;
-        if (byNum.size() != g_rows.size())
+        static size_t builtFrom = static_cast<size_t>(-1);
+        static SRWLOCK lock = SRWLOCK_INIT;
+        AcquireSRWLockShared(&lock);
+        if (builtFrom != g_rows.size())
         {
-            byNum.clear();
-            for (const Creature& c : g_rows) if (c.key) byNum[c.key] = &c;
+            ReleaseSRWLockShared(&lock);
+            AcquireSRWLockExclusive(&lock);
+            if (builtFrom != g_rows.size())
+            {
+                byNum.clear();
+                for (const Creature& c : g_rows) if (c.key) byNum[c.key] = &c;
+                builtFrom = g_rows.size();
+            }
+            ReleaseSRWLockExclusive(&lock);
+            AcquireSRWLockShared(&lock);
         }
         auto it = byNum.find(key);
-        return it == byNum.end() ? nullptr : it->second;
+        const Creature* found = it == byNum.end() ? nullptr : it->second;
+        ReleaseSRWLockShared(&lock);
+        return found;
     }
 
     bool Loaded() { return g_loaded; }
