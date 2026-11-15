@@ -87,6 +87,17 @@ namespace ml::events
     // own id. Nobody has seen whether a mercenary asks the pet-looting
     // question, so while one is out the filter still watches the bag.
     uint32_t MercenaryActiveAt();
+    // GetTickCount of the last drop on break raised by anyone but the player,
+    // and by a player-tagged companion alone. The bag sweep judges only near
+    // one of these. Zero until one breaks something.
+    uint32_t CompanionBreakAt();
+    uint32_t MercenaryBreakAt();
+    // The last sixteen drops on break, the player's own included. `self` is
+    // set when the raiser was the identity this layer compares against; as
+    // Damiane or Oongka the played body is a separate actor, so the engine
+    // checks `who` as well.
+    struct BreakRec { uint32_t who; unsigned long at; bool self; };
+    int RecentBreaks(BreakRec* out, int max);
     // GetTickCount of the last body search raised by a pet or a companion.
     uint32_t PetSearchAt();
     // Arm a gimmick node so the game fills its interaction data. Queued off-thread.

@@ -5342,8 +5342,13 @@ namespace ml::loot
             g_handDrops.erase(g_handDrops.begin(), g_handDrops.begin() + static_cast<long>(g_handDrops.size() - 256));
     }
 
+    // When each row was last sent for deletion. The delete lands on the game
+    // thread a moment later, and the companion sweep must not read that fall
+    // as the player trading or crafting.
+    static std::unordered_map<uint16_t, DWORD> g_deletedRowAt;
     static long long DeleteFromInventory(uint16_t tid, long long amount, const char* why)
     {
+        g_deletedRowAt[tid] = GetTickCount() | 1ul;
         static game::InvEntry ents[4096]; static game::BucketInfo bks[64];
         const int n = game::InventoryEntries(BagActor(), ents, 4096);
         const int bn = game::InventoryBuckets(BagActor(), bks, 64);
@@ -5501,6 +5506,12 @@ namespace ml::loot
         AgeHandRows(now);
         static std::unordered_map<uint16_t, long long> base, snap;
         static DWORD snapAt = 0, windowUntil = 0, windowFrom = 0;
+        // The sweep keeps a baseline of its own, retaken every two seconds.
+        // It used to wait for snap to be two seconds old, and snap is retaken
+        // every 400 ms for the pick-up window, so the sweep never ran from
+        // 02d5fdd on. Issue #192.
+        static std::unordered_map<uint16_t, long long> sweepSnap;
+        static DWORD sweepAt = 0; static uintptr_t sweepHolder = 0;
         static uint16_t tids[64]; static int tidN = 0; static bool anyUnknown = false;
         static game::InvEntry ents[4096];
         // Which holder each sample read. Two samples of different holders are
@@ -5524,6 +5535,7 @@ namespace ml::loot
             if (windowUntil) LOG("[pet] the filter was not running for %lu ms, so the open window is dropped and nothing is judged",
                                  static_cast<unsigned long>(now - lastTick));
             snapAt = 0; windowUntil = 0; tidN = 0; anyUnknown = false; base.clear(); snap.clear();
+            sweepAt = 0; sweepSnap.clear();
         }
         lastTick = now;
         // The snapshot's time is the end of the walk, so a pick-up stamped
@@ -5618,6 +5630,10 @@ namespace ml::loot
         }
         if (n > 0)
         {
+            // The window judges this stretch of the bag, so the sweep starts
+            // again from a sample taken after it closes and never judges the
+            // same arrivals twice.
+            sweepAt = 0; sweepSnap.clear();
             if (!windowUntil)
             {
                 if (snapAt && static_cast<long>(pp[0].at - snapAt) >= 0) { base = snap; baseHolder = snapHolder; windowFrom = snapAt; }
@@ -5717,16 +5733,22 @@ namespace ml::loot
         // every stone switch off. The window machinery above never opened
         // because it had no event to open on.
         //
-        // So: while a companion is out, diff the bag against the snapshot taken
-        // 400 ms ago and delete any rise the rules refuse. Only while one is
-        // out, because with nobody else in the world a rise is the player's own
-        // doing and taking it back is the bug this all started from. Anything
-        // the mod itself took by item is allowed by construction, and a body it
-        // searched or a node it gathered blind counts as unnamed, so the pass
-        // it lands in is skipped like a hand gather.
-        // The companion has to have acted since this baseline was taken. One
-        // that helped half a minute ago explains nothing about what arrived in
-        // the last two seconds.
+        // So: while a companion is out, diff the bag against the sweep's own
+        // sample from two seconds ago and delete any rise the rules refuse.
+        // Only while one is out, because with nobody else in the world a rise
+        // is the player's own doing and taking it back is the bug this all
+        // started from. Anything the mod itself took by item is allowed by
+        // construction, and a body it searched or a node it gathered blind
+        // counts as unnamed, so the pass it lands in is skipped like a hand
+        // gather.
+        //
+        // A companion being out is not enough, and nor is it having raised
+        // anything at all: a mercenary walking beside you while you buy, craft
+        // or take things out of storage raises events the whole time. So a
+        // pass is judged only when the companion broke something in it or in
+        // the three seconds before its sample, which is the case this sweep
+        // was written for, and never when anything in the bag fell, since a
+        // purchase spends money and a craft spends its parts. Issue #192.
         //
         // Once the pet is told no before it reaches, a pet cannot put a
         // refused loose item in the bag, and what it takes from a body is
@@ -5734,23 +5756,42 @@ namespace ml::loot
         // its own id. So only a mercenary still needs the sweep: it is the
         // companion that started it, and nobody has seen whether it asks.
         const bool prevented = hooks::PetLootingHooked() && (cfg.petFilter || cfg.stopPetLooting);
-        const DWORD companionAt = prevented ? events::MercenaryActiveAt() : events::CompanionActiveAt();
-        const bool companionSince = (companionAt && static_cast<long>(companionAt - snapAt) >= 0) ||
-                                    (!prevented && g_petSeenAt && static_cast<long>(g_petSeenAt - snapAt) >= 0);
+        const DWORD brokeAt = prevented ? events::MercenaryBreakAt() : events::CompanionBreakAt();
+        const bool companionBroke = brokeAt && sweepAt && static_cast<long>(brokeAt - (sweepAt - 3000)) >= 0;
         const bool companionOut = prevented ? MercenaryOutRecently(now) : PetOutRecently(now);
-        if (cfg.petFilter && companionOut && companionSince && snapAt && now - snapAt >= 2000)
+        if (cfg.petFilter && companionOut && companionBroke && sweepAt && now - sweepAt >= 2000)
         {
             std::unordered_map<uint16_t, long long> fresh;
             uintptr_t freshHolder = 0;
             const DWORD freshAt = snapshot(fresh, freshHolder);
+            const auto rebase = [&]() { sweepSnap.swap(fresh); sweepAt = freshAt; sweepHolder = freshHolder; };
+
+            // What the player broke by hand can reach the bag with no pick-up
+            // as well, so a pass in which the player broke anything is the
+            // player's. As Damiane or Oongka the body that swings the pickaxe
+            // is a B0 actor the event layer cannot tell from a companion, so
+            // each breaker is checked here the way the pick-up queue is above.
+            {
+                events::BreakRec br[16];
+                const int bn = events::RecentBreaks(br, 16);
+                for (int i = 0; i < bn; ++i)
+                {
+                    if (static_cast<long>(br[i].at - (sweepAt - 3000)) < 0) continue;
+                    if (!br[i].self && !RaisedByPlayer(br[i].who)) continue;
+                    LOG("[pet] sweep: you broke something in the same stretch (%08X), so nothing is judged this pass", br[i].who);
+                    rebase(); return;
+                }
+            }
+            LOG("[pet] sweep: a companion broke something %lu ms ago, so the bag is compared with the sample from %lu ms ago",
+                static_cast<unsigned long>(now - brokeAt), static_cast<unsigned long>(freshAt - sweepAt));
 
             // Everything below compares two samples of the same bag. If the
             // world moved between them it is not the same bag, so take the new
             // one as the baseline and judge nothing this pass.
-            if (TakeBagBaselineStale() || freshHolder != snapHolder)
+            if (TakeBagBaselineStale() || freshHolder != sweepHolder)
             {
                 LOG("[pet] the world, or the bag being read, changed since the last bag sample, so this one starts fresh and nothing is judged");
-                snap.swap(fresh); snapAt = freshAt; snapHolder = freshHolder; return;
+                rebase(); return;
             }
 
             // A companion picks things up one or two at a time. A dozen kinds
@@ -5758,49 +5799,80 @@ namespace ml::loot
             // being replaced rather than filled: a load the scan did not catch,
             // a storage transfer, a quest handout. Re-baseline and leave it.
             int risen = 0, fallen = 0; long long biggest = 0;
-            if (bagReplaced(snap, fresh, &risen, &fallen, &biggest))
+            if (bagReplaced(sweepSnap, fresh, &risen, &fallen, &biggest))
             {
                 LOG("[pet] the bag changed shape at once (%d kinds up, %d down, largest rise %lld): that is a bag being "
                     "replaced and not a companion looting, so nothing is deleted and the baseline resets", risen, fallen, biggest);
-                snap.swap(fresh); snapAt = freshAt; snapHolder = freshHolder; return;
+                rebase(); return;
+            }
+            // A companion only adds. Something leaving the bag in the same two
+            // seconds is the player trading, crafting, using or storing, and
+            // what arrived beside it is the other half of that.
+            // A row this mod sent for deletion in the last few seconds falls
+            // when the delete lands, and that is not the player's doing.
+            for (const auto& kv : sweepSnap)
+            {
+                const auto f = fresh.find(kv.first);
+                if ((f == fresh.end() ? 0 : f->second) >= kv.second) continue;
+                const auto d = g_deletedRowAt.find(kv.first);
+                if (d != g_deletedRowAt.end() && now - d->second < 4000) --fallen;
+            }
+            if (fallen > 0)
+            {
+                LOG("[pet] sweep: %d kinds also left the bag, which a purchase, a craft, a sale or a use does and a "
+                    "companion does not, so nothing is judged this pass", fallen);
+                rebase(); return;
             }
 
             // A gather or a catch of the player's names no row, so the whole
             // pass is the player's and nothing in it is judged.
-            if (HandTookUnknown(snapAt - 1500))
+            if (HandTookUnknown(sweepAt - 1500))
             {
-                snap.swap(fresh); snapAt = freshAt; snapHolder = freshHolder; return;
+                LOG("[pet] sweep: you or the mod took something unnamed in the same stretch, so nothing is judged this pass");
+                rebase(); return;
             }
+            int deleted = 0, kept = 0;
             char notice[240] = ""; int nw = 0;
             for (const auto& kv : fresh)
             {
-                const auto b = snap.find(kv.first);
-                const long long delta = kv.second - (b == snap.end() ? 0 : b->second);
+                const auto b = sweepSnap.find(kv.first);
+                const long long delta = kv.second - (b == sweepSnap.end() ? 0 : b->second);
                 if (delta <= 0) continue;
                 const Item* it = ItemDb::ByRow(kv.first);
-                if (!it) continue;                      // unknown row: never touched
-                if (HandTookRow(kv.first, snapAt - 1500)) continue;   // yours
+                if (!it) { LOG("[pet] sweep: +%lld of row %u, not in the item database: kept", delta, kv.first); ++kept; continue; }
+                if (HandTookRow(kv.first, sweepAt - 1500))
+                {
+                    LOG("[pet] sweep: +%lld %s: kept, you picked one up yourself", delta, it->name.c_str());
+                    ++kept; continue;
+                }
                 const Rules::Verdict r = Rules::Decide(*it, cfg);
                 const bool spare = NeverDestroy(*it, r);
-                if (r.loot || spare) continue;
-                const long long sent = DeleteFromInventory(kv.first, delta, "companion loot, swept");
+                if (r.loot || spare)
+                {
+                    LOG("[pet] sweep: +%lld %s: kept (%s%s%s)", delta, it->name.c_str(), r.rule, r.detail.empty() ? "" : " ", r.detail.c_str());
+                    ++kept; continue;
+                }
+                const long long sent = DeleteFromInventory(kv.first, delta, "companion loot, swept"); ++deleted;
+                // The next baseline is the bag as it will be once the delete
+                // lands, so another rise of the same row is still seen.
+                if (sent > 0) fresh[kv.first] -= sent;
                 LOG("[pet] sweep: +%lld %s arrived with a companion out and the rules refuse it (%s%s%s)",
                     delta, it->name.c_str(), r.rule, r.detail.empty() ? "" : " ", r.detail.c_str());
                 if (sent > 0 && nw < static_cast<int>(sizeof notice) - 40)
                     nw += snprintf(notice + nw, sizeof notice - nw, "%s%lld %s", nw ? ", " : "", sent, it->name.c_str());
             }
+            LOG("[pet] sweep: judged what arrived: %d kinds deleted, %d kept", deleted, kept);
             if (nw && cfg.showHud)
             {
                 char msg[300];
                 snprintf(msg, sizeof msg, "Master Looter: deleted %s. A companion picked it up and your rules refuse it.", notice);
                 State::Get().Notify(msg, 6000, true);
             }
-            snap.swap(fresh);
-            snapAt = freshAt;
-            snapHolder = freshHolder;
+            rebase();
             return;
         }
         if (now - snapAt >= 400) snapAt = snapshot(snap, snapHolder);
+        if (!sweepAt || now - sweepAt >= 2000) sweepAt = snapshot(sweepSnap, sweepHolder);
     }
 
     static const char* RowName(uint16_t row)

@@ -100,6 +100,12 @@ namespace ml::events
     static volatile LONG g_companionAt = 0;   // last tick a companion raised anything
     static volatile LONG g_mercenaryAt = 0;   // the same, for a player-tagged companion
     static volatile LONG g_petSearchAt = 0;   // last body search a companion raised
+    static volatile LONG g_companionBreakAt = 0;  // last drop on break a companion raised
+    static volatile LONG g_mercenaryBreakAt = 0;  // the same, for a player-tagged companion
+    // Every drop on break the game raised lately, the player's own included,
+    // so the sweep can tell a pass the player broke something in.
+    static SRWLOCK g_breakLock = SRWLOCK_INIT;
+    static BreakRec g_breaks[16] = {}; static int g_breakNext = 0;
     static volatile LONG g_lastDeleteAt = 0;
     unsigned long LastDeleteSentAt() { return static_cast<unsigned long>(InterlockedCompareExchange(&g_lastDeleteAt, 0, 0)); }
     static PendArm g_pendArm[32]; static int g_pendArmN = 0;
@@ -430,6 +436,16 @@ namespace ml::events
     uint32_t CompanionActiveAt() { return static_cast<uint32_t>(InterlockedCompareExchange(&g_companionAt, 0, 0)); }
     uint32_t MercenaryActiveAt() { return static_cast<uint32_t>(InterlockedCompareExchange(&g_mercenaryAt, 0, 0)); }
     uint32_t PetSearchAt() { return static_cast<uint32_t>(InterlockedCompareExchange(&g_petSearchAt, 0, 0)); }
+    uint32_t CompanionBreakAt() { return static_cast<uint32_t>(InterlockedCompareExchange(&g_companionBreakAt, 0, 0)); }
+    uint32_t MercenaryBreakAt() { return static_cast<uint32_t>(InterlockedCompareExchange(&g_mercenaryBreakAt, 0, 0)); }
+    int RecentBreaks(BreakRec* out, int max)
+    {
+        int n = 0;
+        AcquireSRWLockShared(&g_breakLock);
+        for (int i = 0; i < 16 && n < max; ++i) if (g_breaks[i].at) out[n++] = g_breaks[i];
+        ReleaseSRWLockShared(&g_breakLock);
+        return n;
+    }
 
     int DrainPetPickups(PetPickup* out, int max)
     {
@@ -936,6 +952,27 @@ namespace ml::events
             {
                 uint32_t broke = 0;
                 if (mem::Read32(payload + 3, &broke) && broke) ml::loot::NoteBreakDrop(broke);
+                // A companion breaking something is the one thing the bag
+                // sweep in the engine exists for: what it drops can reach the
+                // bag with no pick-up to hang a window on. A mercenary raised
+                // three of these in Seth's session of 11 September 2026 and no
+                // pick-up at all. The sweep judges the bag only near one, so a
+                // purchase, a craft or a storage withdrawal with a mercenary
+                // merely standing about is never read as its loot. Issue #192.
+                const uint32_t self = ml::loot::hooks::PlayerEidFromGame();
+                const bool notMe = self ? who != self : (who >> 24) != game::kTagPlayer;
+                AcquireSRWLockExclusive(&g_breakLock);
+                g_breaks[g_breakNext] = { who, static_cast<unsigned long>(GetTickCount()) | 1ul, !notMe };
+                g_breakNext = (g_breakNext + 1) % 16;
+                ReleaseSRWLockExclusive(&g_breakLock);
+                if (notMe)
+                {
+                    const bool merc = (who >> 24) == game::kTagPlayer;
+                    InterlockedExchange(&g_companionBreakAt, static_cast<LONG>(GetTickCount()));
+                    if (merc) InterlockedExchange(&g_mercenaryBreakAt, static_cast<LONG>(GetTickCount()));
+                    LOG("[pet] %08X (%s) broke %08X; the companion sweep compares the bag around it",
+                        who, merc ? "a hired companion" : "another actor", broke);
+                }
             }
         }
         // Skinning knowledge, issue #70. A hand skin makes the game raise
