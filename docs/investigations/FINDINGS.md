@@ -2232,3 +2232,18 @@ way. `[gstate]` keeps three samples per id, so
 those are the first three cuts and not all of them. Driving `OnBreakSpiderWeb`
 at a web is the obvious next build, the way the well is driven by its own
 transition. Nothing in the log named a sack event.
+
+Sacks, issue #223, 15 November 2026. A sack broken by hand is followed by
+`TrocTrDropItemOnGimmickBreakOnceTimer` naming it, and that event's handler
+(`kSig_DropCallback`, RVA 0x2F42860 on 3663) resolves the entity at +3 and
+spawns its drop set. A 1.6.19 log in the Discord forum caught one for
+`gimmick_breakable_sack_03`, followed ten seconds later by an Acorn picked up
+off the ground, which is in `DropSet_Burlap_Bag`. The payload is 27 bytes on
+every build in the saved logs: id FF, the broken entity, the instigator
+(A0100001 for the player, sometimes the played body), a u32 that is zero or an
+attack hash, and a unit vector whose y is about 0.577. On 3663 the id is
+0x0826. So the mod now drives `onbreak` at a sack for its state, then sends
+that event itself on the game thread, once per sack, and skips any sack the
+game already raised one for. The lines are `[sack] queued a hand-style break`
+on the scan side and `[sack] broke ... the way a hand break does` on the game
+thread. Untested in play when written.

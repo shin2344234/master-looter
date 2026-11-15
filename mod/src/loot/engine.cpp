@@ -496,7 +496,8 @@ namespace ml::loot
     // nodeReach: a pick-up the mod only knows about because the node table
     // vouched for the prefab. It is sent as a pick-up but it is reached like a
     // node, so it answers to the gather range and not the longer loot one.
-    struct Verdict { bool loot = false; bool own = false; bool nodeReach = false; bool pick = false; Action act = Action::Take; const char* why = ""; char detail[40] = ""; };
+    // sack: a burlap sack, broken and its drop event sent, issue #223.
+    struct Verdict { bool loot = false; bool own = false; bool nodeReach = false; bool pick = false; bool sack = false; Action act = Action::Take; const char* why = ""; char detail[40] = ""; };
 
     // The event the game itself sends at a plant that is picked by hand, read
     // out of LuxDragon's log of 17 September 2026: three Palmar Leaves picked
@@ -3299,6 +3300,23 @@ namespace ml::loot
                                    IStr(node, "gimmick_mon_deco_spider_web_bottom_"));
     }
 
+    // The burlap sacks the game breaks open when struck: herb, potato, sweet
+    // potato and cereal sacks and the plain breakable ones. None ever fills
+    // and none drops anything for a chart event, so the mod breaks one the
+    // way a hand break does (DriveSackBreak in events.cpp). The gunpowder
+    // sack is an enhanced explosive and is not in this list. Issue #223.
+    static bool BreakableSack(const char* node)
+    {
+        if (!node || !node[0]) return false;
+        static const char* kWords[] = {
+            "gimmick_breakable_sack_", "gimmick_breakable_ex_dpf_sack_",
+            "gimmick_breakable_ex_dpf_herbsack_", "gimmick_breakable_ex_dpf_potatosack_",
+            "gimmick_breakable_ex_dpf_sweetpotatosack_", "gimmick_breakable_shops_cerealsack_" };
+        for (const char* w : kWords)
+            if (IStr(node, w)) return true;
+        return false;
+    }
+
     // Doors, switches, gates, lamps and the operators behind puzzles, none of
     // which a player ever gathers. With Unidentified nodes on they read as
     // nodes nobody has learned yet. Across 46 logs on 15 October 2026 the mod
@@ -4068,6 +4086,15 @@ namespace ml::loot
         {
             v.act = Action::Gather;
             v.pick = true;
+        }
+        // A burlap sack never fills either, and its contents only reach the
+        // ground through the drop event a hand break raises. It is judged as a
+        // gather below, so the Containers switch and the sack's named yield
+        // decide it, and the ownership check still refuses a shop's sacks.
+        else if (c.nodeType && BreakableSack(c.node))
+        {
+            v.act = Action::Gather;
+            v.sack = true;
         }
         else return skip("not ready (node empty)");
 
@@ -7356,6 +7383,9 @@ namespace ml::loot
                     if (IsMechanism(k.node)) continue;
                     // Arming one of these has never filled and never will.
                     if (StatePick(k.nodeType)) continue;
+                    // Nor has a burlap sack's. Arming one held the break back a
+                    // pass at a time while it waited for a fill. Issue #223.
+                    if (k.nodeType && BreakableSack(k.node)) continue;
                     // Arming used to consult no looting switch whatsoever. It
                     // reached for a node whose kind the player had turned off,
                     // and the verdict that would have refused it never ran,
@@ -7564,6 +7594,53 @@ namespace ml::loot
                     // chunks it drops carry neither. NotAVein is the net under
                     // that, for a node the table does not know and for anything
                     // a later game patch changes.
+                    // A sack's drop event pays its drop set every time it is
+                    // sent, so each sack gets one and is retired. A sack the
+                    // player broke by hand already raised the game's own, and
+                    // sending a second would pay it twice.
+                    if (v.sack)
+                    {
+                        if (SawDropFor(k.eid))
+                        {
+                            commit();
+                            g_searched.insert(key);
+                            g_retiredEid.insert(k.eid);
+                            LOG("[sack] eid %08X already dropped its contents; not breaking it again", k.eid);
+                            continue;
+                        }
+                        if (k.d > kTreeReachM && held("sack further than 10 m; sacks are broken close by")) continue;
+                        if (g_moveSpeed > kTreeSpeedMps && held("moving too fast to break a sack")) continue;
+                        if (g_changeAt && now - g_changeAt < kSettleMs && held("the world just changed; sacks wait a few seconds")) continue;
+                        const uintptr_t gc = game::CompByClass(game::Comps(k.ent), kCls_Gimmick);
+                        const char* gn = gc ? mem::RttiShort(gc) : nullptr;
+                        if (!gn || !strstr(gn, "GimmickActorComponent"))
+                        {
+                            held("its gimmick component no longer reads as one");
+                            continue;
+                        }
+                        // The unit vector a hand break writes, pointing from
+                        // the player toward the sack with y at about 0.577.
+                        float hx = k.pos.x - mp.x, hz = k.pos.z - mp.z;
+                        const float hl = std::sqrt(hx * hx + hz * hz);
+                        if (hl > 0.01f) { hx /= hl; hz /= hl; } else { hx = 1.0f; hz = 0.0f; }
+                        const float dirY = 0.577f, dirH = 0.8167f;
+                        if (!events::DriveSackBreak(gc, g_meEid, g_me, k.eid, k.ent, k.pos.x, k.pos.y, k.pos.z,
+                                                    hx * dirH, dirY, hz * dirH))
+                        {
+                            LOG_ERR("[sack] eid %08X could not be queued", k.eid);
+                            commit();
+                            continue;
+                        }
+                        commit();
+                        g_searched.insert(key);
+                        g_retiredEid.insert(k.eid);
+                        // What spills is picked up like anything else, and
+                        // this keeps the heap from reading as storage.
+                        BrokeMark(k.pos, now);
+                        ++taken;
+                        LOG("[sack] queued a hand-style break at eid %08X %.1f m: %s", k.eid, k.d, k.node);
+                        continue;
+                    }
                     if (v.pick)
                     {
                         const uintptr_t gc = game::CompByClass(game::Comps(k.ent), kCls_Gimmick);

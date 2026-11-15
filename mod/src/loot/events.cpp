@@ -85,8 +85,9 @@ namespace ml::events
     // ev 0 means the vein's pair of transitions, which is what DriveBreak
     // wants. Any other value is one transition driven by id, which is what a
     // well's sequence is made of.
-    // test is the BreakTest mode, 0 for every ordinary drive.
-    struct PendDrive { uintptr_t comp, actor; uint32_t player, target; float x, y, z; uint32_t ev; uintptr_t ent; uint8_t test; };
+    // test is the BreakTest mode, 0 for every ordinary drive, and 3 for a
+    // sack break, whose direction toward the sack is (dx, dy, dz).
+    struct PendDrive { uintptr_t comp, actor; uint32_t player, target; float x, y, z; uint32_t ev; uintptr_t ent; uint8_t test; float dx, dy, dz; };
     static PendAct g_pendAct[64]; static int g_pendActN = 0;
     struct PendDelete { uint64_t aval; uint16_t tid, c; uint64_t dval; uint16_t count; uint32_t player, route; bool set; };
     static PendDelete g_pendDel[16]; static int g_pendDelN = 0;
@@ -662,6 +663,86 @@ namespace ml::events
         return best;
     }
 
+    // Issue #223. A burlap sack has no chart transition that drops anything:
+    // onbreak changes its state and pays nothing, which BreakTest showed at a
+    // sack on 15 October 2026. After a hand break the game raises
+    // TrocTrDropItemOnGimmickBreakOnceTimer naming the sack, and that
+    // handler (kSig_DropCallback) is what spawns the sack's drop set. So the
+    // break is driven for the sack's own state and the drop is sent the way
+    // the game sends it: id FF, the sack at +3, the player at +7, zero at
+    // +11, and a unit vector at +15 whose y is about 0.577, as in every
+    // capture of a hand break in the saved logs.
+    static bool SackBreakNow(const PendDrive& d)
+    {
+        {
+            const char* rtti = mem::RttiShort(d.comp);
+            if (!rtti || !strstr(rtti, "GimmickActorComponent"))
+            {
+                LOG("[sack] %08X: its gimmick component no longer reads as one; nothing sent", d.target);
+                return false;
+            }
+        }
+        const float pos[3] = { d.x, d.y, d.z };
+        const bool brk = ml::loot::hooks::DriveGimmickEvent(d.comp, game::NameId("onbreak"),
+                                                            d.player, d.actor, d.target, pos);
+        const game::Fns& f = game::F();
+        const uint32_t route = RouteKnown() ? Route() : game::Route(d.actor);
+        bool ok = false;
+        volatile bool selfSend = false;
+        __try
+        {
+            reinterpret_cast<FnTlsInit>(f.tlsInit)();
+            uint16_t id = 0;
+            for (const DescName& n : g_descMap) if (n.cls.find("TrocTrDropItemOnGimmickBreakOnceTimer") != std::string::npos) { id = n.id; break; }
+            if (!id) { LOG_ERR("[sack] the drop event is not in the descriptor map; %08X got onbreak only", d.target); return false; }
+            uint32_t known = 0; mem::Read32(f.descMask, &known);
+            const uint32_t masks[] = { known, 2u, 8u, 0x10u, 0x20u };
+            void* desc = nullptr;
+            for (uint32_t m : masks) { desc = reinterpret_cast<FnDescLookup>(f.descLookup)(0, id, m); if (desc) break; }
+            if (!desc) { LOG_ERR("[sack] descriptor 0x%04X not found under any mask; %08X got onbreak only", id, d.target); return false; }
+            uint16_t dsz = 0; mem::Read16(reinterpret_cast<uintptr_t>(desc) + kOff_Desc_Size, &dsz);
+            if (dsz != 27) { LOG_ERR("[sack] drop event size %u is not the 27 a hand break raises; not sending", dsz); return false; }
+            unsigned char* e = static_cast<unsigned char*>(reinterpret_cast<FnAllocEvent>(f.allocEvent)(0, 27));
+            if (!e) { LOG_ERR("[sack] event allocation failed"); return false; }
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_One)    = 1;
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_Zero40) = 0;
+            *reinterpret_cast<uint64_t*>(e + kOff_Ev_Zero48) = 0;
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_Player) = d.player;
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_Player + 4) = 0;
+            *reinterpret_cast<uint32_t*>(e + kOff_Ev_Route)  = route;
+            *reinterpret_cast<void**>(e + kOff_Ev_Desc)      = desc;
+            *reinterpret_cast<uint16_t*>(e + kOff_Ev_Size)   = 27;
+            *reinterpret_cast<uint8_t*>(e + kOff_Ev_Flag78)  = 1;
+            unsigned char* buf = *reinterpret_cast<unsigned char**>(e + kOff_Ev_Buffer);
+            if (!buf) { LOG_ERR("[sack] event has no payload buffer"); return false; }
+            memset(buf, 0, 27);
+            memcpy(buf, &id, 2); buf[2] = 0xFF;
+            memcpy(buf + 3, &d.target, 4);
+            memcpy(buf + 7, &d.player, 4);
+            const float dir[3] = { d.dx, d.dy, d.dz };
+            memcpy(buf + 15, dir, 12);
+            char hex[3 * 27 + 1] = ""; int w = 0;
+            for (int i = 0; i < 27; ++i) w += snprintf(hex + w, sizeof hex - w, i ? " %02X" : "%02X", buf[i]);
+            uintptr_t q = 0;
+            if (!mem::ReadPtr(f.queue, &q)) { LOG_ERR("[sack] queue global unreadable"); return false; }
+            InterlockedExchange(&g_sendTid, static_cast<LONG>(GetCurrentThreadId()));
+            ml::loot::hooks::SelfSendBegin(); selfSend = true;
+            reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), e, desc, 0);
+            ml::loot::hooks::SelfSendEnd(); selfSend = false;
+            InterlockedExchange(&g_sendTid, 0);
+            LOG("[sack] broke %08X the way a hand break does: onbreak %s, drop event 0x%04X sent as %08X on route %08X: %s",
+                d.target, brk ? "changed its state" : "changed nothing", id, d.player, route, hex);
+            ok = true;
+        }
+        __except (EXCEPTION_EXECUTE_HANDLER)
+        {
+            InterlockedExchange(&g_sendTid, 0);
+            if (selfSend) ml::loot::hooks::SelfSendEnd();
+            LOG_ERR("[sack] exception 0x%08X at %08X; nothing sent", GetExceptionCode(), d.target);
+        }
+        return ok;
+    }
+
     static bool DriveNow(const PendDrive& d)
     {
         if (const char* gone = DriveTargetGone(d))
@@ -681,6 +762,8 @@ namespace ml::events
         // one outcome the marker exists to prevent.
         if (d.ev)
             return ml::loot::hooks::DriveGimmickEvent(d.comp, d.ev, d.player, d.actor, d.target, nullptr);
+
+        if (d.test == 3) return SackBreakNow(d);
 
         // BreakTest. No ore-bonus marker, since nothing here is a vein, and
         // both answers are logged: whether the driver changed the gimmick's
@@ -743,6 +826,20 @@ namespace ml::events
     {
         if (!comp) return false;
         const PendDrive d{ comp, actor, player, target, x, y, z, 0, ent, static_cast<uint8_t>(swing ? 1 : 2) };
+        if (OnGameThread()) return DriveNow(d);
+        Lock();
+        const bool room = g_pendDrvN < 32;
+        if (room) g_pendDrv[g_pendDrvN++] = d;
+        Unlock();
+        return room;
+    }
+
+    bool DriveSackBreak(uintptr_t comp, uint32_t player, uintptr_t actor,
+                        uint32_t target, uintptr_t ent, float x, float y, float z,
+                        float dx, float dy, float dz)
+    {
+        if (!comp || !g_sendAllowed) return false;
+        const PendDrive d{ comp, actor, player, target, x, y, z, 0, ent, 3, dx, dy, dz };
         if (OnGameThread()) return DriveNow(d);
         Lock();
         const bool room = g_pendDrvN < 32;

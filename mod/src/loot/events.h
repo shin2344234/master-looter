@@ -54,6 +54,16 @@ namespace ml::events
     bool DriveBreakTest(uintptr_t gimmickComp, uint32_t playerEid, uintptr_t playerActor,
                         uint32_t targetEid, uintptr_t targetEnt, float x, float y, float z, bool swing);
 
+    // A burlap sack broken the way a hand break breaks one: onbreak at its
+    // gimmick, then the drop event the game raises after a hand break, sent
+    // on the game thread straight after. The drop pays the sack's drop set
+    // every time it is sent, so the caller sends it once per sack. (dx, dy,
+    // dz) is the unit vector written at +15, from the player toward the sack.
+    // Issue #223.
+    bool DriveSackBreak(uintptr_t gimmickComp, uint32_t playerEid, uintptr_t playerActor,
+                        uint32_t targetEid, uintptr_t targetEnt, float x, float y, float z,
+                        float dx, float dy, float dz);
+
     // Send (or queue when off the game thread). Returns false when refused.
     // A search given a skin interaction and a character key is followed on the
     // game thread by the reward a hand skin raises, which is where the game
