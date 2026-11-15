@@ -4784,22 +4784,35 @@ namespace ml::loot
         {
             g_searchHolder = 0;
             g_searchByPet = false;
-            if (!Settings::Get().dropRefused || !hooks::DropReady() || !sender) return false;
+            if (!Settings::Get().dropRefused) return false;
+            // Every way out below says so in the log. A report that a refused
+            // item stayed in the bag could not be answered from the player's
+            // log while these returned without a word.
+            if (!hooks::DropReady())
+            { LOG("[drop] the search of %08X is not judged: the game's drop call was not found on this build", target); return false; }
+            if (!sender)
+            { LOG("[drop] the search of %08X is not judged: it names no sender", target); return false; }
             // A body the player searched by hand keeps what it paid. One this
             // mod searched, or one a pet or a companion did, is judged.
             uint32_t eid = 0;
-            if (!game::Eid(sender, &eid)) return false;
+            if (!game::Eid(sender, &eid))
+            { LOG("[drop] the search of %08X is not judged: its sender has no entity id", target); return false; }
             if (events::SearchedRecently(target))
             {
-                if ((eid >> 24) != game::kTagPlayer) return false;
+                if ((eid >> 24) != game::kTagPlayer)
+                { LOG("[drop] the search of %08X is not judged: this mod asked for it, but the sender %08X is not a player", target, eid); return false; }
             }
             else if (events::CompanionSearchedRecently(target)) g_searchByPet = true;
-            else return false;
-            if (!hooks::ThreadContext()) return false;
+            else
+            { LOG("[drop] the search of %08X is not judged: neither this mod nor a companion asked for it, so it counts as searched by hand and keeps what it pays", target); return false; }
+            if (!hooks::ThreadContext())
+            { LOG("[drop] the search of %08X is not judged: no thread context on this thread", target); return false; }
             const uintptr_t holder = game::HolderNow(sender);
-            if (!holder) return false;
+            if (!holder)
+            { LOG("[drop] the search of %08X is not judged: the sender %08X has no bag holder", target, eid); return false; }
             const int n = ServerBag(holder, ents, 4096);
-            if (n < 0) return false;
+            if (n < 0)
+            { LOG("[drop] the search of %08X is not judged: the bag of %08X could not be read before it", target, eid); return false; }
             g_searchBefore.clear();
             for (int i = 0; i < n; ++i) g_searchBefore[ents[i].iid] += ents[i].count;
             g_searchHolder = holder;
@@ -4816,7 +4829,8 @@ namespace ml::loot
         g_searchHolder = 0;
         if (!holder) return false;
         const int n = ServerBag(holder, ents, 4096);
-        if (n <= 0) return false;
+        if (n <= 0)
+        { LOG("[drop] the search of %08X is not judged: the bag read %d stacks after it", target, n); return false; }
 
         // What each instance gained. An instance that was not there before
         // gained all of it.
@@ -4831,7 +4845,8 @@ namespace ml::loot
                 if (g > 0) gained[iid] = g;
             }
         }
-        if (gained.empty()) return true;
+        if (gained.empty())
+        { LOG("[drop] the search of %08X put nothing new in the bag (%d stacks before and after)", target, n); return true; }
 
         // Beside the player and a little up, near where a hand drop lands.
         uint32_t senderEid = 0; game::Eid(sender, &senderEid);
@@ -4870,13 +4885,19 @@ namespace ml::loot
                 game::InvEntry& e = ents[i];
                 if (e.iid != iid || e.count <= 0) continue;
                 const Item* it = ItemDb::ByRow(e.tid);
-                if (!it) break;   // no rule can be asked about a thing with no name
+                // No rule can be asked about a thing with no name.
+                if (!it)
+                { LOG("[drop] kept %lld of item row %u from %08X: the item table has no such row", left, static_cast<unsigned>(e.tid), target); break; }
                 // Never a document or a quest item by any route, the rule
                 // auto-store keeps as well, and nothing the pet filter would
                 // refuse to delete.
-                if (it->klass == "document" || it->tags.find(" quest ") != std::string::npos) break;
+                if (it->klass == "document" || it->tags.find(" quest ") != std::string::npos)
+                { LOG("[drop] kept %lld %s from %08X: a document or a quest item is never dropped", left, it->name.c_str(), target); break; }
                 const Rules::Verdict v = Rules::Decide(*it, cfg);
-                if (v.loot || NeverDelete(*it, v)) break;
+                if (v.loot)
+                { LOG("[drop] kept %lld %s from %08X: the rules say loot it (%s%s%s)", left, it->name.c_str(), target, v.rule, v.detail.empty() ? "" : " ", v.detail.c_str()); break; }
+                if (NeverDelete(*it, v))
+                { LOG("[drop] kept %lld %s from %08X: refused by %s%s%s, but it is a kind this mod never drops", left, it->name.c_str(), target, v.rule, v.detail.empty() ? "" : " ", v.detail.c_str()); break; }
                 if (!placed)
                 {
                     LOG("[drop] no fresh world position for the body being played; %lld %s stays in the bag", left, it->name.c_str());
