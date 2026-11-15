@@ -6967,6 +6967,9 @@ namespace ml::loot
 
         // Anything the mod broke a moment ago is being watched for what it paid,
         // and this is where a loose item on the ground is seen at all.
+        // Every loose item is stamped on every pass, watch or not, so one that
+        // was lying there before the swing reads as old when the watch opens.
+        for (const Cand& k : list) if (k.filled && k.item) AgeMs(k.eid, now);
         if (!g_spillWatch.empty()) for (const Cand& k : list) if (k.filled) NoteSpill(k, now);
         // Which creatures in reach are alive, for the rule that leaves what is
         // attached to them alone.
@@ -7110,7 +7113,14 @@ namespace ml::loot
         // retry records once they are stale. (g_searched stays: a carcass must
         // never be searched twice, whatever the session length.)
         if (g_why.size() > 8192) g_why.clear();
-        if (g_firstSeen.size() > 8192) g_firstSeen.clear();
+        // Forgetting a recent sighting would make an old item read as new to
+        // the spill watch, so only sightings over a minute old go first.
+        if (g_firstSeen.size() > 8192)
+        {
+            for (auto it = g_firstSeen.begin(); it != g_firstSeen.end();)
+                it = now - it->second > 60000 ? g_firstSeen.erase(it) : std::next(it);
+            if (g_firstSeen.size() > 8192) g_firstSeen.clear();
+        }
         if (g_ownAns.size() > 4096) g_ownAns.clear();
         if (g_done.size() > 4096)
             for (auto it = g_done.begin(); it != g_done.end();)
