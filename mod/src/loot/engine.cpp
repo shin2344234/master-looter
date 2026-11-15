@@ -5345,10 +5345,12 @@ namespace ml::loot
     // When each row was last sent for deletion. The delete lands on the game
     // thread a moment later, and the companion sweep must not read that fall
     // as the player trading or crafting.
-    static std::unordered_map<uint16_t, DWORD> g_deletedRowAt;
+    // How much of each row was sent and when. A fall is excused only up to
+    // that amount, so spending in the same row still counts as spending.
+    struct DeletedRow { DWORD at; long long left; };
+    static std::unordered_map<uint16_t, DeletedRow> g_deletedRowAt;
     static long long DeleteFromInventory(uint16_t tid, long long amount, const char* why)
     {
-        g_deletedRowAt[tid] = GetTickCount() | 1ul;
         static game::InvEntry ents[4096]; static game::BucketInfo bks[64];
         const int n = game::InventoryEntries(BagActor(), ents, 4096);
         const int bn = game::InventoryBuckets(BagActor(), bks, 64);
@@ -5376,6 +5378,13 @@ namespace ml::loot
             left -= take; sent += take; e.count = 0;
         }
         if (left > 0) LOG_ERR("[delete] %lld of %s (row %u) not found in the inventory", left, it ? it->name.c_str() : "?", tid);
+        if (sent > 0)
+        {
+            DeletedRow& d = g_deletedRowAt[tid];
+            const DWORD t = GetTickCount() | 1ul;
+            if (!d.at || t - d.at >= 4000) d.left = 0;
+            d.at = t; d.left += sent;
+        }
         return sent;
     }
 
@@ -5814,8 +5823,11 @@ namespace ml::loot
             {
                 const auto f = fresh.find(kv.first);
                 if ((f == fresh.end() ? 0 : f->second) >= kv.second) continue;
+                const long long fell = kv.second - (f == fresh.end() ? 0 : f->second);
                 const auto d = g_deletedRowAt.find(kv.first);
-                if (d != g_deletedRowAt.end() && now - d->second < 4000) --fallen;
+                if (d == g_deletedRowAt.end() || now - d->second.at >= 4000 || fell > d->second.left) continue;
+                d->second.left -= fell;
+                --fallen;
             }
             if (fallen > 0)
             {
@@ -5855,7 +5867,14 @@ namespace ml::loot
                 const long long sent = DeleteFromInventory(kv.first, delta, "companion loot, swept"); ++deleted;
                 // The next baseline is the bag as it will be once the delete
                 // lands, so another rise of the same row is still seen.
-                if (sent > 0) fresh[kv.first] -= sent;
+                if (sent > 0)
+                {
+                    fresh[kv.first] -= sent;
+                    // Already off the baseline, so its landing shows no fall
+                    // and nothing is left to excuse.
+                    const auto d = g_deletedRowAt.find(kv.first);
+                    if (d != g_deletedRowAt.end()) d->second.left = d->second.left > sent ? d->second.left - sent : 0;
+                }
                 LOG("[pet] sweep: +%lld %s arrived with a companion out and the rules refuse it (%s%s%s)",
                     delta, it->name.c_str(), r.rule, r.detail.empty() ? "" : " ", r.detail.c_str());
                 if (sent > 0 && nw < static_cast<int>(sizeof notice) - 40)
