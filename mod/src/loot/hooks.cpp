@@ -340,6 +340,12 @@ namespace ml::loot::hooks
     typedef uint64_t (__fastcall *FnStateDriver)(uintptr_t comp, uintptr_t ev,
                                                  uintptr_t instigator, uintptr_t outChanged);
     static FnStateDriver oStateDriver = nullptr;
+    // Set when a drive faults. The detour stays installed and keeps calling
+    // the trampoline for every other state change in the world, so the
+    // trampoline is never cleared: a null there was a call through address 0
+    // on the next gimmick anywhere.
+    static volatile LONG g_driveOff = 0;
+    bool DriveReady() { return oStateDriver && !InterlockedCompareExchange(&g_driveOff, 0, 0); }
 
     // Every gimmick state change in the world comes through here, and until now
     // it recorded two ids and said nothing. That is the one place a well's
@@ -408,7 +414,7 @@ namespace ml::loot::hooks
     bool DriveGimmickEvent(uintptr_t comp, uint32_t eventId, uint32_t instigatorEid,
                            uintptr_t instigatorActor, uint32_t targetEid, const float* pos3)
     {
-        if (!oStateDriver || !comp || !eventId) return false;
+        if (!DriveReady() || !comp || !eventId) return false;
         if (!mem::Readable(comp, 0x400)) return false;
 
         // 0xE8 is the size the game's own allocator copies for one of these.
@@ -517,7 +523,7 @@ namespace ml::loot::hooks
                     "and issue #35 is a lifetime problem. If it names one, the fault is inside "
                     "the game's own driver on a live object and #35 is something else.");
             State::Get().Notify("Master Looter: ore breaking is off for this session, restart to restore it", 6000);
-            oStateDriver = nullptr;
+            InterlockedExchange(&g_driveOff, 1);
             return false;
         }
         // A few good ones for comparison, so the faulting line has something to

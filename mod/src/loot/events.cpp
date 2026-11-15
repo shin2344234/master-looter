@@ -658,6 +658,10 @@ namespace ml::events
             return swing || brk;
         }
 
+        // A break only counts as run when the driver can run it. Stamped
+        // without it, the silence that follows reads as a node that is not a
+        // vein, and the prefab is written to [NotVeins] for good.
+        if (!ml::loot::hooks::DriveReady()) return false;
         NoteBreakRan(d.target);
         // Stamp the time so the ore bonus knows this vein was broken by the
         // mod. The drop resolves after this returns, so a flag held only for

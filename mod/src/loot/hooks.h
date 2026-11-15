@@ -28,6 +28,8 @@ namespace ml::loot::hooks
     // one runs the plain hook, and the first one set needs a restart.
     bool ClassMultipliersHooked();
 
+    // False once a drive has faulted, or before the driver hook is in.
+    bool DriveReady();
     bool DriveGimmickEvent(uintptr_t gimmickComp, uint32_t eventId,
                            uint32_t instigatorEid, uintptr_t instigatorActor,
                            uint32_t targetEid, const float* pos3);
