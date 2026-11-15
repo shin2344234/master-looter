@@ -547,7 +547,15 @@ namespace ml::hooks
         if (desc.BufferCount != g_bufferCount)
         {
             if (!ResizeFrameResources(desc.BufferCount))
+            {
+                // Forget the count and the chain, so the next frame takes this
+                // branch again. Left as they were, the next frame saw the new
+                // count, took the same-count branch and wrote views into a heap
+                // that was never made.
+                g_bufferCount = 0;
+                g_swapChain = nullptr;
                 return false;
+            }
         }
         else
         {
@@ -560,9 +568,13 @@ namespace ml::hooks
         g_scHeight  = newH;
         g_scFormat  = newFmt;
 
+        // A failed rebuild forgets the chain. The signature above is already
+        // the new one, so without this the next frame read as unchanged, never
+        // retried, and the menu stayed dead until the next resolution change.
         if (!CreateRenderTargets(swapChain))
         {
             LOG_ERR("ReconcileSwapChain: render target rebuild failed.");
+            g_swapChain = nullptr;
             return false;
         }
 
@@ -572,6 +584,7 @@ namespace ml::hooks
         if (!CreateOffscreenTarget(g_scWidth, g_scHeight))
         {
             LOG_ERR("ReconcileSwapChain: offscreen target rebuild failed.");
+            g_swapChain = nullptr;
             return false;
         }
 
