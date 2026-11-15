@@ -5444,9 +5444,12 @@ namespace ml::loot
         // buy, a craft, a quest reward. Any body search by anyone in the
         // meantime waits in the queue, and on the first tick back the window
         // judged every rise since the old sample. After a gap, start over.
-        static DWORD lastTick = 0;
+        static DWORD lastTick = 0, gapEnd = 0;
         if (lastTick && now - lastTick > 3000)
         {
+            // What was queued during the gap has landed already, so it is
+            // dropped below rather than opening a window on a fresh sample.
+            gapEnd = now;
             if (windowUntil) LOG("[pet] the filter was not running for %lu ms, so the open window is dropped and nothing is judged",
                                  static_cast<unsigned long>(now - lastTick));
             snapAt = 0; windowUntil = 0; tidN = 0; anyUnknown = false; base.clear(); snap.clear();
@@ -5502,6 +5505,12 @@ namespace ml::loot
             int k = 0;
             for (int i = 0; i < n; ++i)
             {
+                if (gapEnd && static_cast<long>(pp[i].at - gapEnd) < 0)
+                {
+                    LOG("[pet] %08X %s %08X while the filter was not running: nothing is judged", pp[i].pet,
+                        pp[i].search ? "searched" : "picked up", pp[i].item);
+                    continue;
+                }
                 if (RaisedByPlayer(pp[i].pet))
                 {
                     NoteHandTake(pp[i].item, !pp[i].search, now);
