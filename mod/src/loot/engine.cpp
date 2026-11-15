@@ -3506,7 +3506,14 @@ namespace ml::loot
         // grasshoppers wear 0x0F, and none of them ever flips to 0x05 in a
         // session. Butterflies wear 0x05 and were the only insects being
         // caught, which is the "intermittent" half of issue #42.
-        const bool nameable = k.cat2 == 0x05 || k.cat2 == 0x09 || k.cat2 == 0x08 || k.cat2 == 0x07 || k.cat2 == 0x0F ||
+        // Issue #78 made the catch test in Decide blind to the byte: it takes
+        // any live creature the table names with an item row. This gate kept
+        // the old byte list, so a bird at 0x01, or a live one at 0x0C, was
+        // never named outside the verbose log and Decide refused it as
+        // "creature" all the same. Every live creature is named now. The
+        // lookup is one read at status+0x30 and is cached by entity id.
+        const bool nameable = k.dead != 1 ||
+                              k.cat2 == 0x05 || k.cat2 == 0x09 || k.cat2 == 0x08 || k.cat2 == 0x07 || k.cat2 == 0x0F ||
                               (k.cat2 == 0x0C && k.dead == 1); // a corpse: beast or person, decided by the creature table
         if (k.ai && !k.inter && (nameable || g_debugLog))
         {
