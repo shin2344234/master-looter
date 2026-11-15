@@ -801,16 +801,16 @@ namespace ml::hooks
 
     // Records + submits the overlay. Kept as its own function so hkPresent can
     // wrap the call in __try/__except without object-unwinding conflicts.
-    static void DrawOverlay(IDXGISwapChain3* swapChain)
+    static bool DrawOverlay(IDXGISwapChain3* swapChain)
     {
         // Pin our render targets to the live swapchain before touching them.
         // A DLSS Frame Generation toggle silently swaps it; if the rebuild
         // fails, sit this frame out rather than draw into freed buffers.
         if (!ReconcileSwapChain(swapChain))
-            return;
+            return false;
 
         if (!EnsureCompositePipeline(g_scFormat))
-            return;
+            return false;
 
         // Hold our own ref on the present queue for the duration of this frame
         // so a concurrent republish can't pull it out from under us. Not
@@ -825,7 +825,7 @@ namespace ml::hooks
         }
         LeaveCriticalSection(&g_queueLock);
         if (!submitQueue)
-            return;
+            return false;
 
         // A language change needs glyphs the atlas does not hold. Rebuild
         // between frames, and only once our last submit has retired: the
@@ -887,7 +887,7 @@ namespace ml::hooks
             // out of bounds. Should not happen after ReconcileSwapChain, but a
             // freed device is worse than a dropped overlay frame.
             submitQueue->Release();
-            return;
+            return false;
         }
         FrameContext& frame = g_frames[idx];
 
@@ -961,7 +961,7 @@ namespace ml::hooks
         if (FAILED(g_commandList->Close()))
         {
             submitQueue->Release();
-            return;
+            return false;
         }
 
         ID3D12CommandList* toExec[] = { g_commandList };
@@ -969,6 +969,7 @@ namespace ml::hooks
         submitQueue->Signal(g_fence, ++g_fenceValue);
         frame.fenceValue = g_fenceValue;
         submitQueue->Release();
+        return true;
     }
 
     // Init-if-needed and draw the overlay into swapChain's current back buffer.
@@ -1048,12 +1049,14 @@ namespace ml::hooks
         bool drew = false;
         __try
         {
-            DrawOverlay(swapChain);
+            const bool submitted = DrawOverlay(swapChain);
             drew = true;
             // Proof the render path is alive. State::Captures reads this so an
             // overlay that stops drawing releases the pad instead of holding it
-            // for the rest of the session.
-            State::Get().lastDrawAt = GetTickCount();
+            // for the rest of the session. Only a frame that reached the queue
+            // counts: one that bailed early drew nothing, and stamping it kept
+            // an invisible menu holding the keyboard, mouse and pad.
+            if (submitted) State::Get().lastDrawAt = GetTickCount();
         }
         __except (EXCEPTION_EXECUTE_HANDLER)
         {
