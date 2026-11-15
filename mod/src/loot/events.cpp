@@ -687,6 +687,12 @@ namespace ml::events
         // without it, the silence that follows reads as a node that is not a
         // vein, and the prefab is written to [NotVeins] for good.
         if (!ml::loot::hooks::DriveReady()) return false;
+        // The driver refuses a component that was freed after the drive was
+        // queued, without a fault, so that case is caught here before the stamp.
+        {
+            const char* rtti = mem::RttiShort(d.comp);
+            if (!rtti || !strstr(rtti, "GimmickActorComponent")) return false;
+        }
         NoteBreakRan(d.target);
         // Stamp the time so the ore bonus knows this vein was broken by the
         // mod. The drop resolves after this returns, so a flag held only for
