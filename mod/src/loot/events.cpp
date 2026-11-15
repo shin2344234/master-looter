@@ -496,6 +496,7 @@ namespace ml::events
         const game::Fns& f = game::F();
         bool ok = false;
         volatile bool selfSend = false;
+        volatile bool searchSent = false;   // the search itself reached the queue
         __try
         {
             void* desc = nullptr;
@@ -512,6 +513,7 @@ namespace ml::events
             // Ours, so the spy does not report it back as something the game did.
             ml::loot::hooks::SelfSendBegin(); selfSend = true;
             reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), ev, desc, 0);
+            searchSent = true;
             if (rev) reinterpret_cast<FnEnqueue>(f.enqueue)(reinterpret_cast<void*>(q), rev, rdesc, 0);
             ml::loot::hooks::SelfSendEnd(); selfSend = false;
             InterlockedExchange(&g_sendTid, 0);
@@ -532,6 +534,10 @@ namespace ml::events
             // raised on the game thread switches the event spy off for good.
             if (selfSend) ml::loot::hooks::SelfSendEnd();
             LOG_ERR("[send] exception 0x%08X; event dropped", GetExceptionCode());
+            // A fault in the skinning reward comes after the search was queued.
+            // Reported as failed, the caller unmarked the body and searched it
+            // again, which duplicates what it held.
+            if (searchSent) ok = true;
         }
         return ok;
     }
