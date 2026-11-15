@@ -7488,7 +7488,14 @@ namespace ml::loot
                     else if (!events::Send(v.act, k.eid, g_meEid, route, 0,
                                            v.act == Action::Search && k.speciesExact && k.species ? k.species->skin : 0,
                                            v.act == Action::Search && k.speciesExact && k.species ? k.species->key : 0))
-                    { commit(); held("the game refused the event"); continue; }
+                    {
+                        // Marked searched above so nothing searches a body twice.
+                        // Refused means nothing was queued, usually a full queue
+                        // in a camp clear, and a body left marked was skipped for
+                        // the rest of the session. The retry delay still applies.
+                        if (v.act == Action::Search) g_searched.erase(key);
+                        commit(); held("the game refused the event"); continue;
+                    }
                     commit();
                     ++taken;
                     {
