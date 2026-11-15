@@ -2555,14 +2555,28 @@ namespace ml::loot
     // site is what tells the two apart: a chest does not appear where the mod
     // just swung. Deliberately narrow. It exempts only what the mod itself
     // broke, so a container standing anywhere else keeps the full guard.
-    struct Broke { Vec3 p; DWORD when; };
+    // `type` is the vein's own table row when the arm loop broke it, so the
+    // spill test below can ask what that vein yields. The break test leaves it
+    // null and only buys the storage exemption at 3 m.
+    struct Broke { Vec3 p; DWORD when; const NodeType* type; };
     static std::vector<Broke> g_broke;
     static constexpr float kBrokeRadius2  = 9.0f;      // 3 m, enough for the impulse to scatter chunks
     static constexpr DWORD kBrokeWindowMs = 45000;     // a spill is gathered in seconds, not minutes
-    static void BrokeMark(const Vec3& p, DWORD now)
+    // How far a vein's own ore lands. 3 m held for the storage rule and was
+    // short for the ore: the logs of 15 November 2026 have Iron Ore refused
+    // out of range eleven times and bismuth chunks six, all a few metres past
+    // the vein the mod had just broken.
+    static constexpr float kSpillRadius2  = 25.0f;     // 5 m
+    // Past the range slider, how much further the mod reaches for its own
+    // spill. The player chose the slider for walking up to things, and a vein
+    // broken at the edge of it throws half its ore further away. Across 86 logs
+    // the share of gathers sent twice is flat at 0.36 to 0.45 from 0 to 16 m,
+    // so the game answers a gather at 9 m as readily as at 3 m.
+    static constexpr float kSpillReach    = 3.0f;
+    static void BrokeMark(const Vec3& p, DWORD now, const NodeType* type = nullptr)
     {
         if (g_broke.size() >= 32) g_broke.erase(g_broke.begin());
-        g_broke.push_back({ p, now });
+        g_broke.push_back({ p, now, type });
     }
     // Not every node the table calls ore is a vein. Breaking a bismuth vein
     // spawns ore chunks that are gimmicks in their own right, and the chunk is
@@ -2740,6 +2754,42 @@ namespace ml::loot
             if (now - b.when > kBrokeWindowMs) continue;
             const float dx = b.p.x - p.x, dy = b.p.y - p.y, dz = b.p.z - p.z;
             if (dx * dx + dy * dy + dz * dz < kBrokeRadius2) return true;
+        }
+        return false;
+    }
+
+    // Whether this loose item or chunk is ore out of a vein the mod broke in
+    // the last 45 seconds. Every vein but bismuth spills loose items, Copper
+    // Ore, Iron Ore, Azurite, Garnet and the rest, and those used to answer to
+    // Ground items like a cup on a table, so with Ground items off the mod
+    // broke the vein and left the ore lying there ("pick up off" 36 times for
+    // copper in Seth's logs). Bismuth spills gather chunks instead, which the
+    // storage rule read as a heap. A spill belongs to the Ore switch.
+    //
+    // A loose item counts when the item table calls it ore, jewel or stone, or
+    // when the vein's own row lists it: a manganese vein drops a Manganese
+    // Nodule, which is class chest and nothing else would claim. A chunk
+    // counts when its own row says ore.
+    static bool VeinSpill(const Cand& c, DWORD now)
+    {
+        if (!c.item && !c.gather) return false;
+        for (const Broke& b : g_broke)
+        {
+            if (!b.type || now - b.when > kBrokeWindowMs) continue;
+            const float dx = b.p.x - c.pos.x, dy = b.p.y - c.pos.y, dz = b.p.z - c.pos.z;
+            if (dx * dx + dy * dy + dz * dz >= kSpillRadius2) continue;
+            if (c.db)
+            {
+                const GatherKind k = KindOf(c.db, true);
+                if (k == GatherKind::Ore || k == GatherKind::Stone) return true;
+                if (!c.db->stringKey.empty())
+                {
+                    if (b.type->itemKey == c.db->stringKey) return true;
+                    for (const std::string& y : b.type->yields)
+                        if (y == c.db->stringKey) return true;
+                }
+            }
+            else if (c.nodeType && c.nodeType->kind == "ore" && !c.nodeType->breaks) return true;
         }
         return false;
     }
@@ -3539,6 +3589,16 @@ namespace ml::loot
     static Verdict Decide(const Cand& c, const Config& cfg)
     {
         Verdict v;
+        const bool spill = VeinSpill(c, GetTickCount());
+        if (spill && g_debugLog)
+        {
+            static std::unordered_set<uint32_t> s_told;
+            if (s_told.size() > 4096) s_told.clear();
+            if (s_told.insert(c.eid).second)
+                LOG("[spill] %08X %.1f m %s is ore from a vein the mod broke: it answers to Ore, not Ground items, out to %.1f m | %s",
+                    c.eid, c.d, c.db ? c.db->name.c_str() : (c.nodeType ? c.nodeType->name.c_str() : "?"),
+                    (c.item ? (std::max)(cfg.gatherRange, cfg.lootRange) : cfg.gatherRange) + kSpillReach, c.node);
+        }
         v.own = c.mine || IsMine(c.parent);
         auto skip = [&](const char* why) { v.loot = false; v.why = why; return v; };
         if (c.banned || g_searched.count(Key(c)))
@@ -4054,6 +4114,7 @@ namespace ml::loot
             // An explicit Always on the thing itself lifts either switch, the
             // same as in the Gather case.
             if (v.nodeReach) { if (const char* off = SwitchRefuses(NodeKind(c), c.db ? c.db : NodeYield(c), cfg)) return skip(off); }
+            else if (spill) { if (const char* off = SwitchRefuses(GatherKind::Ore, c.db, cfg)) return skip(off); }
             else if (const char* off = SwitchRefuses(GatherKind::Item, c.db, cfg)) return skip(off);
             // A node the table vouches for arrives with no item of its own, so
             // c.tid is zero, the item-rule block above is gated out, and the
@@ -4137,8 +4198,12 @@ namespace ml::loot
             break;
         }
         }
-        const float lim = v.act == Action::Search ? cfg.corpseRange : v.act == Action::Catch ? cfg.catchRange
-                        : v.act == Action::Gather || v.nodeReach ? cfg.gatherRange : cfg.lootRange;
+        float lim = v.act == Action::Search ? cfg.corpseRange : v.act == Action::Catch ? cfg.catchRange
+                  : v.act == Action::Gather || v.nodeReach ? cfg.gatherRange : cfg.lootRange;
+        // A vein's own spill is reached at the gathering range plus a margin,
+        // whichever verb takes it, since the vein was broken at that range and
+        // its ore lands around it.
+        if (spill && lim > 0) lim = (std::max)(lim, cfg.gatherRange) + kSpillReach;
         if (lim > 0 && c.d > lim) return skip("out of range");
 
         // Searching a body has no stealing form. interactioninfo has Wagon_Steal
@@ -6862,7 +6927,10 @@ namespace ml::loot
             // A loose item lying where the mod has just broken a vein is that
             // vein's spill and is exempt; anything else at one point is still
             // treated as storage.
-            if (around >= 3 && !(list[i].item && NearOwnBreak(list[i].pos, now))) list[i].heap = true;
+            // A bismuth vein's chunks are gathers rather than items, so the
+            // item test alone let them read as storage; VeinSpill covers both,
+            // out to the wider spill radius, for ore the vein could have held.
+            if (around >= 3 && !(list[i].item && NearOwnBreak(list[i].pos, now)) && !VeinSpill(list[i], now)) list[i].heap = true;
         }
 
         // Anything the mod broke a moment ago is being watched for what it paid,
@@ -7390,7 +7458,7 @@ namespace ml::loot
                         // spill is not mistaken for the contents of a container,
                         // and WatchSpill reads it to find out what this prefab
                         // actually holds when the table does not say.
-                        BrokeMark(k.pos, now);
+                        BrokeMark(k.pos, now, k.nodeType);
                         if (!NodeYield(k)) WatchSpill(k.node, k.pos, k.eid, now);
                         if (g_debugLog)
                         {
