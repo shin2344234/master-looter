@@ -16,6 +16,9 @@ namespace ml::ItemDb
     static std::vector<Item>                            g_items;
     static std::unordered_map<uint32_t, size_t>         g_byKey;
     static std::unordered_map<std::string, size_t>      g_byName;
+    // Placed prefab basename -> item, for the housing-only items alone. See
+    // the placed_prefab column in scripts/make_itemdb_tsv.py.
+    static std::unordered_map<std::string, size_t>      g_byPlaced;
     static std::vector<int>                             g_byRow; // row -> index, -1 when absent
     static std::vector<std::pair<std::string, int>>     g_classes;
     static std::vector<std::pair<std::string, int>>     g_tags;
@@ -47,6 +50,7 @@ namespace ml::ItemDb
         g_items.clear();
         g_byKey.clear();
         g_byName.clear();
+        g_byPlaced.clear();
         size_t pos = 0;
         bool header = true, hasRow = false;
         int maxRow = -1;
@@ -71,6 +75,7 @@ namespace ml::ItemDb
             it.tags      = " " + cols[c++] + " ";
             it.tier      = atoi(cols[c++].c_str());
             it.value     = cols[c].empty() ? -1 : atoll(cols[c].c_str());
+            const std::string placed = c + 1 < cols.size() ? cols[c + 1] : std::string();
             if (it.row > maxRow) maxRow = it.row;
             classCount[it.klass]++;
             size_t a = 1;
@@ -83,6 +88,7 @@ namespace ml::ItemDb
             }
             g_byKey[it.key] = g_items.size();
             if (!it.stringKey.empty()) g_byName.emplace(it.stringKey, g_items.size());
+            if (!placed.empty()) g_byPlaced.emplace(placed, g_items.size());
             g_items.push_back(std::move(it));
         }
         // X_Pack and X under one English name are a pack and its contents.
@@ -191,6 +197,15 @@ namespace ml::ItemDb
         auto it = g_byName.find(stringKey);
         return it == g_byName.end() ? nullptr : &g_items[it->second];
     }
+
+    const Item* ByPlacedPrefab(const std::string& prefabKey)
+    {
+        if (prefabKey.empty()) return nullptr;
+        auto it = g_byPlaced.find(prefabKey);
+        return it == g_byPlaced.end() ? nullptr : &g_items[it->second];
+    }
+
+    int PlacedCount() { return static_cast<int>(g_byPlaced.size()); }
 
     const std::vector<Item>& All() { return g_items; }
     const std::vector<std::pair<std::string, int>>& Classes() { return g_classes; }

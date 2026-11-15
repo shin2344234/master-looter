@@ -58,6 +58,10 @@ namespace ml
         // has none, which before the live rows is every DLC-only item.
         int GameRow(const Item& item);
         const Item* ByStringKey(const char* stringKey);   // engine key ("Money_Copper") -> item
+        // The housing-only item a player places as this prefab, by the
+        // basename NodeDb::PrefabKey gives. Null for anything else.
+        const Item* ByPlacedPrefab(const std::string& prefabKey);
+        int PlacedCount();
         const std::vector<Item>& All();
         // (class, item count) sorted by count, largest first
         const std::vector<std::pair<std::string, int>>& Classes();

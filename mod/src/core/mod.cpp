@@ -833,8 +833,8 @@ namespace ml::Mod
         if (Settings::RestoredFromCopy())
             State::Get().Notify("Master Looter: MasterLooter.ini was missing, so your settings were put back from the copy kept in AppData.", 8000, true);
         if (ItemDb::Load())
-            LOG_OK("Item database loaded (%s): %d items, %d classes, %d tags.", ItemDb::Source(), ItemDb::Count(),
-                   static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size()));
+            LOG_OK("Item database loaded (%s): %d items, %d classes, %d tags, %d placed housing prefabs.", ItemDb::Source(), ItemDb::Count(),
+                   static_cast<int>(ItemDb::Classes().size()), static_cast<int>(ItemDb::Tags().size()), ItemDb::PlacedCount());
         else
             LOG_ERR("Item database unavailable: neither compiled into the plugin nor next to it as MasterLooter.items.tsv; class and tag rules will be empty.");
         if (NodeDb::Load()) LOG_OK("Gather node table loaded (%s): %d node kinds, %d picked through their state.",

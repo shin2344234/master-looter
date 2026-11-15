@@ -269,6 +269,26 @@ static void ClassMultipliers()
     DeleteFileW(ini.c_str());
 }
 
+// LlexX, posts tab, 15 November 2026: the mod gathered a Greymane Dwelling
+// Tent whatever the filter said. The node table has no row for the prefab, so
+// the item table's placed_prefab column is what names it.
+static void PlacedHousing()
+{
+    const Config cfg;
+    Check(ItemDb::PlacedCount() == 572, "every housing-only item names the prefab it is placed as");
+    const Item* tent = ItemDb::ByPlacedPrefab("gimmick_tent_graymane_01");
+    Check(tent && tent->stringKey == "tent_graymane_01", "gimmick_tent_graymane_01 is the Greymane Dwelling Tent");
+    if (tent)
+    {
+        Check(tent->HasTag("furniture"), "the tent answers to the Furniture switch");
+        Check(Prot(Rules::Decide(*tent, cfg)), "the tent is protected as housing-only by default");
+        Config item = cfg; item.itemRule[tent->key] = 1;
+        Check(Rules::Decide(*tent, item).loot, "an item Always on the tent still takes it");
+    }
+    Check(!ItemDb::ByPlacedPrefab("gimmick_tent_bandit_01"), "a bandit camp tent places no item");
+    Check(!ItemDb::ByPlacedPrefab(""), "an empty prefab names nothing");
+}
+
 int main()
 {
     wchar_t tmp[MAX_PATH] = {};
@@ -282,6 +302,7 @@ int main()
     ScanRetry();
     ProtectedTags();
     AlwaysOverSwitch();
+    PlacedHousing();
     LiveRows();
     NotVeins();
     ClassMultipliers();

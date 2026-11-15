@@ -2158,10 +2158,35 @@ namespace ml::loot
     // names the item for the nodes whose socket and item share a name; then what
     // a node of this prefab was watched paying out, in this session or an earlier
     // one; then a bag diff against the node's type id.
+    // The housing-only item a player places as this prefab, for a node the
+    // node table has no row for. The item table carries the link from each of
+    // the 572 housing-only items to its placed gimmick, and 557 of those have
+    // no row, so they reached the verdict naming nothing: Unidentified nodes
+    // was the only switch that could stop them, and with it on the mod took a
+    // camp's tents into the bag with Furniture off and housing furniture
+    // protected. LlexX on the posts tab, 15 November 2026, on
+    // gimmick_tent_graymane_01, the Greymane Dwelling Tent. A row wins where
+    // there is one, because those fifteen are jars and a book that also stand
+    // in the world as ordinary finds.
+    static const Item* PlacedHousing(const Cand& c)
+    {
+        if (c.nodeType || !c.node[0]) return nullptr;
+        const Item* it = ItemDb::ByPlacedPrefab(NodeDb::PrefabKey(c.node));
+        if (!it) return nullptr;
+        static std::mutex s_mu;
+        static std::unordered_set<std::string> s_said;
+        std::lock_guard<std::mutex> lk(s_mu);
+        if (s_said.insert(c.node).second)
+            LOG("[housing] %s is placed housing, the %s (%s), so that item's switch and rules decide it",
+                c.node, it->Label(), it->stringKey.c_str());
+        return it;
+    }
+
     static const Item* NodeYield(const Cand& c)
     {
         if (c.nodeType && !c.nodeType->itemKey.empty())
             if (const Item* it = ItemDb::ByStringKey(c.nodeType->itemKey.c_str())) return it;
+        if (const Item* it = PlacedHousing(c)) return it;
         if (const Item* it = LearnedNodeYield(c.node)) return it;
         return LearnedYield(c.gtid, c.node);
     }

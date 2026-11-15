@@ -114,6 +114,8 @@ namespace ml::NodeDb
     int Count() { return static_cast<int>(g_rows.size()); }
     int StatePickCount() { return g_statePick; }
 
+    std::string PrefabKey(const char* path) { return Key(path); }
+
     const NodeType* ByPrefab(const char* path)
     {
         if (!g_loaded) return nullptr;

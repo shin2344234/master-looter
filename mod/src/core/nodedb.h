@@ -70,5 +70,7 @@ namespace ml
         // `path` is the full prefab path as the game holds it. The folder is
         // dropped and a _scenecollector wrapper normalised away before lookup.
         const NodeType* ByPrefab(const char* path);
+        // The key ByPrefab looks up: basename, lower case, no extension or wrapper.
+        std::string PrefabKey(const char* path);
     }
 }
