@@ -484,3 +484,12 @@ machinery or a fixture, not loot	machinerie of een vast onderdeel, geen buit
 on a living creature	op een levend wezen
 Leave living creatures alone	Levende wezens met rust laten
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Slaat alles over wat vastzit aan een wezen dat nog leeft, zoals de Abyss-cellen op een steenkrab. Wie er een neemt, doodt het wezen, dat dan niet meetelt voor een uitdaging en zijn eigen buit verliest. Dode wezens worden niet geraakt, en Kadavers vilt ze nog steeds. Het vangen van kleine dieren heeft een eigen schakelaar. Uit laat de mod ze nemen.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s zet elke stapel via StackSize in zijn ini op minstens %d, dus de vermenigvuldiger doet niets. Zet daar StackSize=0 om hem te gebruiken.
+Clear multipliers	Vermenigvuldigers wissen
+every stack at least %d, by %s	elke stapel minstens %d, door %s
+item name not loaded yet	itemnaam nog niet geladen
+item names unavailable	itemnamen niet beschikbaar
+Multiplier	Vermenigvuldiger
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Erts, edelstenen, steen, hout, huiden, kruiden, kleurstoffen, handelswaar en ander ambachtsmateriaal.
+part of the Reed Field quest, take it by hand	onderdeel van de Reed Field-quest, pak het met de hand
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Hoeveel keer zoveel van deze klasse een verzamelpunt of ertsader die deze mod bewerkt laat vallen, via de eigen dropteller van het spel. Voorwerpen op de grond, lichamen en karkassen worden nooit vermenigvuldigd, en wat je met de hand verzamelt ook niet.

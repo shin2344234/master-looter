@@ -484,3 +484,12 @@ machinery or a fixture, not loot	เครื่องจักรหรือ�
 on a living creature	บนสิ่งมีชีวิตที่ยังมีชีวิตอยู่
 Leave living creatures alone	ปล่อยสิ่งมีชีวิตที่ยังมีชีวิตไว้
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	ข้ามทุกอย่างที่ติดอยู่กับสิ่งมีชีวิตที่ยังมีชีวิตอยู่ เช่น เซลล์ Abyss บนปูหิน การเก็บเซลล์นั้นจะฆ่าสิ่งมีชีวิต ทำให้ไม่นับในภารกิจท้าทายและเสียของดรอปของมันเอง สิ่งมีชีวิตที่ตายแล้วไม่ถูกกระทบ และซากสัตว์ยังคงถลกหนังต่อไป การจับสัตว์ขนาดเล็กมีสวิตช์ของตัวเอง เมื่อปิด ม็อดจะเก็บมัน
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s ตั้งค่าทุกสแตกให้อย่างน้อย %d ผ่าน StackSize ใน ini ของมัน ตัวคูณจึงไม่มีผลอะไร ตั้ง StackSize=0 ที่นั่นเพื่อใช้ตัวคูณ
+Clear multipliers	ล้างตัวคูณ
+every stack at least %d, by %s	ทุกสแตกอย่างน้อย %d โดย %s
+item name not loaded yet	ยังไม่ได้โหลดชื่อไอเทม
+item names unavailable	ไม่มีชื่อไอเทมให้ใช้
+Multiplier	ตัวคูณ
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	แร่ อัญมณี หิน ไม้ หนัง สมุนไพร สีย้อม สินค้าการค้า และวัตถุดิบคราฟต์อื่น ๆ
+part of the Reed Field quest, take it by hand	ส่วนหนึ่งของเควสต์ Reed Field ให้เก็บด้วยมือ
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	จุดเก็บของหรือเส้นแร่ที่ม็อดนี้จัดการจะดรอปของคลาสนี้ตามจำนวนเท่าที่ตั้ง ผ่านตัวนับดรอปของเกมเอง ไอเทมที่วางบนพื้น ศพ และซากสัตว์จะไม่ถูกคูณ และของที่คุณเก็บด้วยมือก็เช่นกัน

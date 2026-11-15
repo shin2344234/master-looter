@@ -484,3 +484,12 @@ machinery or a fixture, not loot	stroje nebo vybavení, ne kořist
 on a living creature	na živém tvorovi
 Leave living creatures alone	Nechat živé tvory na pokoji
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Přeskočí vše, co je připojeno k tvorovi, který je ještě naživu, například buňky Abyssu na kamenném krabovi. Vzetí takové buňky tvora zabije, takže se pak nezapočítá do výzvy a přijde o vlastní kořist. Mrtvých tvorů se to netýká a Zdechliny je stále stahují z kůže. Chytání malých zvířat má vlastní přepínač. Vypnuto dovolí modu je brát.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s nastavuje každou hromadu alespoň na %d pomocí StackSize ve svém ini, takže násobitel nic nedělá. Nastavte tam StackSize=0, abyste ho mohli použít.
+Clear multipliers	Vymazat násobitele
+every stack at least %d, by %s	každá hromada alespoň %d, od %s
+item name not loaded yet	název předmětu ještě není načten
+item names unavailable	názvy předmětů nejsou k dispozici
+Multiplier	Násobitel
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Ruda, drahokamy, kámen, dřevo, kůže, byliny, barviva, obchodní zboží a další materiál na výrobu.
+part of the Reed Field quest, take it by hand	součást úkolu Reed Field, vezměte to ručně
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Kolikrát víc z této třídy vypadne z uzlu sběru nebo rudné žíly, které mod zpracovává, podle vlastního počtu kapek hry. Předměty na zemi, těla a mršiny se nikdy nenásobí, stejně jako cokoli, co sesbíráte ručně.

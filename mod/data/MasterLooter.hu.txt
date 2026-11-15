@@ -488,3 +488,12 @@ machinery or a fixture, not loot	gépezet vagy berendezés, nem zsákmány
 on a living creature	élő lényen
 Leave living creatures alone	Az élő lényeket hagyja békén
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Kihagy mindent, ami még élő lényhez tapad, például a kőrákok hátán lévő Abyss-sejteket. Ha elveszed, a lény elpusztul, ezért nem számít bele egy kihívásba, és elveszíti a saját zsákmányát. A holt lényeket ez nem érinti, és a Tetemek továbbra is megnyúzza őket. A kisállatok befogásának saját kapcsolója van. Kikapcsolva a mod elveheti őket.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	A(z) %s a saját ini fájljában a StackSize-zal minden kupacot legalább %d-ra állít, ezért a szorzó nem csinál semmit. Állítsd ott StackSize=0-ra a használatához.
+Clear multipliers	Szorzók törlése
+every stack at least %d, by %s	minden kupac legalább %d, forrás: %s
+item name not loaded yet	a tárgy neve még nincs betöltve
+item names unavailable	a tárgynevek nem érhetők el
+Multiplier	Szorzó
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Érc, drágakövek, kő, fa, bőrök, gyógynövények, festékek, kereskedelmi áruk és egyéb barkácsanyagok.
+part of the Reed Field quest, take it by hand	a Reed Field küldetés része, vedd fel kézzel
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Hányszor annyi esik ebből az osztályból egy gyűjtőpontból vagy érctelérből, amelyet ez a mod megmunkál, a játék saját ejtési számlálóján keresztül. A földön heverő tárgyakat, a holttesteket és a tetemeket sosem szorozza meg, és azt sem, amit kézzel gyűjtesz.

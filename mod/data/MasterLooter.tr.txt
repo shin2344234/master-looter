@@ -485,3 +485,12 @@ machinery or a fixture, not loot	makine veya sabit bir donanım, ganimet değil
 on a living creature	yaşayan bir yaratığın üzerinde
 Leave living creatures alone	Yaşayan yaratıklara dokunma
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Hâlâ yaşayan bir yaratığa bağlı her şeyi atlar, örneğin taş yengeçteki Abyss hücrelerini. Birini almak yaratığı öldürür, bu yüzden bir meydan okumaya sayılmaz ve kendi ganimetini kaybeder. Ölü yaratıklar etkilenmez ve Leşler onları yine yüzer. Küçük hayvanları yakalamanın kendi anahtarı vardır. Kapalıyken mod onları alır.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s, ini dosyasındaki StackSize ile her yığını en az %d yapar, bu yüzden katsayı hiçbir şey yapmaz. Kullanmak için orada StackSize=0 yapın.
+Clear multipliers	Katsayıları temizle
+every stack at least %d, by %s	her yığın en az %d, %s tarafından
+item name not loaded yet	eşyanın adı henüz yüklenmedi
+item names unavailable	eşya adları kullanılamıyor
+Multiplier	Katsayı
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Cevher, mücevher, taş, kereste, post, ot, boya, ticaret malı ve diğer üretim malzemeleri.
+part of the Reed Field quest, take it by hand	Reed Field görevinin parçası, elle alın
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Bu modun işlediği bir toplama noktası veya cevher damarı bu sınıftan o kadar kat fazla düşürür, oyunun kendi düşürme sayısı üzerinden. Yerdeki eşyalar, cesetler ve leşler hiçbir zaman çarpılmaz, elle topladığınız şeyler de öyle.

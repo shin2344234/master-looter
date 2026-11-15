@@ -491,3 +491,12 @@ machinery or a fixture, not loot	macchinari o un'installazione, non bottino
 on a living creature	su una creatura viva
 Leave living creatures alone	Lascia stare le creature vive
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Salta tutto ciò che è attaccato a una creatura ancora viva, come le cellule dell'Abyss su un granchio di pietra. Prenderne una uccide la creatura, che poi non conta per una sfida e perde il proprio bottino. Le creature morte non sono toccate, e Carcasse le scuoia comunque. Catturare i piccoli animali ha un interruttore a parte. Se è spento, il mod può prenderle.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s imposta ogni pila ad almeno %d tramite StackSize nel suo ini, quindi il moltiplicatore non ha effetto. Imposta lì StackSize=0 per usarlo.
+Clear multipliers	Cancella moltiplicatori
+every stack at least %d, by %s	ogni pila almeno %d, da %s
+item name not loaded yet	nome dell'oggetto non ancora caricato
+item names unavailable	nomi degli oggetti non disponibili
+Multiplier	Moltiplicatore
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Minerale, gemme, pietra, legname, pelli, erbe, tinture, merci e altro materiale per l'artigianato.
+part of the Reed Field quest, take it by hand	parte della missione Reed Field, da prendere a mano
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Quante volte in più di questa classe cade da un nodo di raccolta o da un filone che questo mod lavora, tramite il conteggio dei drop del gioco stesso. Gli oggetti a terra, i corpi e le carcasse non vengono mai moltiplicati, né ciò che raccogli a mano.

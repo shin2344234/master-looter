@@ -487,3 +487,12 @@ machinery or a fixture, not loot	μηχανήματα ή εγκατάσταση,
 on a living creature	πάνω σε ζωντανό πλάσμα
 Leave living creatures alone	Άφησε τα ζωντανά πλάσματα ήσυχα
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Παραλείπει ό,τι είναι προσκολλημένο σε πλάσμα που είναι ακόμη ζωντανό, όπως τα κύτταρα Abyss πάνω σε έναν πέτρινο κάβουρα. Αν πάρεις ένα, το πλάσμα πεθαίνει, οπότε δεν μετράει για μια πρόκληση και χάνει τα δικά του λάφυρα. Τα νεκρά πλάσματα δεν επηρεάζονται και τα Κουφάρια τα γδέρνουν ακόμη. Η σύλληψη μικρών ζώων έχει δικό της διακόπτη. Όταν είναι ανενεργό, το mod τα παίρνει.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	Το %s ορίζει κάθε στοίβα σε τουλάχιστον %d μέσω του StackSize στο ini του, οπότε ο πολλαπλασιαστής δεν κάνει τίποτα. Ορίστε εκεί StackSize=0 για να τον χρησιμοποιήσετε.
+Clear multipliers	Εκκαθάριση πολλαπλασιαστών
+every stack at least %d, by %s	κάθε στοίβα τουλάχιστον %d, από το %s
+item name not loaded yet	το όνομα του αντικειμένου δεν έχει φορτωθεί ακόμα
+item names unavailable	τα ονόματα αντικειμένων δεν είναι διαθέσιμα
+Multiplier	Πολλαπλασιαστής
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Μετάλλευμα, πολύτιμοι λίθοι, πέτρα, ξυλεία, δέρματα, βότανα, βαφές, εμπορεύματα και άλλα υλικά κατασκευής.
+part of the Reed Field quest, take it by hand	μέρος της αποστολής Reed Field, πάρτε το με το χέρι
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Πόσες φορές περισσότερα από αυτή την κατηγορία αφήνει ένας κόμβος συλλογής ή μια φλέβα μεταλλεύματος που επεξεργάζεται το mod, μέσω του ίδιου του μετρητή drop του παιχνιδιού. Τα αντικείμενα στο έδαφος, τα πτώματα και τα κουφάρια δεν πολλαπλασιάζονται ποτέ, ούτε ό,τι μαζεύετε με το χέρι.

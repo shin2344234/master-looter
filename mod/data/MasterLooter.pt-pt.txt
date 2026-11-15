@@ -486,3 +486,12 @@ machinery or a fixture, not loot	maquinaria ou uma instalação, não é saque
 on a living creature	numa criatura viva
 Leave living creatures alone	Deixar as criaturas vivas em paz
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Ignora tudo o que esteja preso a uma criatura ainda viva, como as células do Abismo num caranguejo de pedra. Retirar uma mata a criatura, que depois não conta para um desafio e perde o seu próprio saque. As criaturas mortas não são afetadas, e Carcaças continua a esfolá-las. Apanhar animais pequenos tem um interruptor próprio. Desligado, o mod pode retirá-las.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s define cada pilha em pelo menos %d através do StackSize no seu ini, por isso o multiplicador não faz nada. Define lá StackSize=0 para o usares.
+Clear multipliers	Limpar multiplicadores
+every stack at least %d, by %s	cada pilha com pelo menos %d, por %s
+item name not loaded yet	o nome do item ainda não foi carregado
+item names unavailable	os nomes dos itens não estão disponíveis
+Multiplier	Multiplicador
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Minério, gemas, pedra, madeira, peles, ervas, corantes, bens comerciais e outros materiais de criação.
+part of the Reed Field quest, take it by hand	parte da missão Reed Field, apanha-o à mão
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Quantas vezes mais desta classe um ponto de recolha ou veio de minério que o mod trabalha larga, através da contagem de drops do próprio jogo. Os itens no chão, os corpos e as carcaças nunca são multiplicados, nem aquilo que recolhes à mão.

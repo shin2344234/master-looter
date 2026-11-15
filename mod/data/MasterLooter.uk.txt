@@ -485,3 +485,12 @@ machinery or a fixture, not loot	механізми або обладнання,
 on a living creature	на живій істоті
 Leave living creatures alone	Не чіпати живих істот
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Пропускає все, що прикріплене до ще живої істоти, наприклад клітини Abyss на кам'яному крабі. Якщо взяти одну, істота гине, не зараховується для випробування і втрачає власну здобич. Мертвих істот це не стосується, їх, як і раніше, обдирає перемикач «Туші». Ловлення дрібних тварин має окремий перемикач. Коли він вимкнений, мод їх забирає.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s задає кожному стосу щонайменше %d через StackSize у своєму ini, тому множник нічого не робить. Задайте там StackSize=0, щоб ним користуватися.
+Clear multipliers	Скинути множники
+every stack at least %d, by %s	кожен стос не менше %d, від %s
+item name not loaded yet	назву предмета ще не завантажено
+item names unavailable	назви предметів недоступні
+Multiplier	Множник
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Руда, самоцвіти, камінь, деревина, шкури, трави, фарби, торгові товари та інші матеріали для ремесла.
+part of the Reed Field quest, take it by hand	частина завдання Reed Field, беріть вручну
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	У скільки разів більше цього класу випадає з точки збору або рудної жили, яку обробляє мод, через власний лічильник випадіння гри. Предмети на землі, тіла й туші ніколи не множаться, як і все, що ви збираєте вручну.

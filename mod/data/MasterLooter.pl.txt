@@ -487,3 +487,12 @@ machinery or a fixture, not loot	maszyneria lub wyposażenie, nie łup
 on a living creature	na żywej istocie
 Leave living creatures alone	Zostaw żywe istoty w spokoju
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Pomija wszystko, co jest przytwierdzone do wciąż żywej istoty, na przykład komórki Abyss na kamiennym krabie. Zabranie jednej zabija istotę, która potem nie liczy się do wyzwania i traci własny łup. Martwe istoty nie są objęte, a Padlina nadal je oprawia. Łapanie małych zwierząt ma osobny przełącznik. Po wyłączeniu mod je zabiera.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s ustawia każdy stos na co najmniej %d przez StackSize w swoim ini, więc mnożnik nic nie robi. Ustaw tam StackSize=0, żeby go używać.
+Clear multipliers	Wyczyść mnożniki
+every stack at least %d, by %s	każdy stos co najmniej %d, przez %s
+item name not loaded yet	nazwa przedmiotu nie została jeszcze wczytana
+item names unavailable	nazwy przedmiotów są niedostępne
+Multiplier	Mnożnik
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Ruda, klejnoty, kamień, drewno, skóry, zioła, barwniki, towary handlowe i inne materiały rzemieślnicze.
+part of the Reed Field quest, take it by hand	część zadania Reed Field, weź to ręcznie
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Ile razy więcej z tej klasy wypada z punktu zbierania lub żyły rudy, które obrabia ten mod, przez licznik upuszczania samej gry. Przedmioty leżące na ziemi, ciała i padliny nigdy nie są mnożone, tak samo jak to, co zbierasz ręcznie.

@@ -487,3 +487,12 @@ machinery or a fixture, not loot	Maschinen oder eine Einrichtung, keine Beute
 on a living creature	auf einem lebenden Wesen
 Leave living creatures alone	Lebende Wesen in Ruhe lassen
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Überspringt alles, was an einem noch lebenden Wesen hängt, etwa die Abyss-Zellen auf einer Steinkrabbe. Wer eine nimmt, tötet das Wesen, das dann nicht für eine Herausforderung zählt und seine eigene Beute verliert. Tote Wesen sind nicht betroffen, und Kadaver häutet sie weiterhin. Das Fangen von Kleintieren hat einen eigenen Schalter. Aus lässt die Mod sie nehmen.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s setzt jeden Stapel über StackSize in seiner ini auf mindestens %d, deshalb bewirkt der Multiplikator nichts. Setze dort StackSize=0, um ihn zu nutzen.
+Clear multipliers	Multiplikatoren löschen
+every stack at least %d, by %s	jeder Stapel mindestens %d, durch %s
+item name not loaded yet	Gegenstandsname noch nicht geladen
+item names unavailable	Gegenstandsnamen nicht verfügbar
+Multiplier	Multiplikator
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Erz, Edelsteine, Stein, Holz, Häute, Kräuter, Farbstoffe, Handelswaren und anderes Handwerksmaterial.
+part of the Reed Field quest, take it by hand	Teil der Reed-Field-Quest, von Hand nehmen
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Wie viele Male die Beute dieser Klasse aus einem Sammelpunkt oder einer Erzader fällt, die diese Mod bearbeitet, über die eigene Abwurfzahl des Spiels. Gegenstände am Boden, Körper und Kadaver werden nie vervielfacht, ebenso wenig alles, was du von Hand einsammelst.

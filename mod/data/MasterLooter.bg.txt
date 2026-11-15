@@ -488,3 +488,12 @@ machinery or a fixture, not loot	машини или съоръжение, не 
 on a living creature	върху живо същество
 Leave living creatures alone	Оставяй живите същества на мира
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Пропуска всичко, прикрепено към същество, което е още живо, например клетките на Абис по един каменен рак. Вземането на такава клетка убива съществото, което след това не се брои за предизвикателство и губи собствената си плячка. Мъртвите същества не се засягат, а Трупове пак ги одират. Хващането на малки животни има свой превключвател. Изключено позволява на мода да ги взема.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s задава всеки стек поне на %d чрез StackSize в своя ini, затова множителят не прави нищо. Задайте там StackSize=0, за да го използвате.
+Clear multipliers	Изчисти множителите
+every stack at least %d, by %s	всеки стек поне %d, от %s
+item name not loaded yet	името на предмета още не е заредено
+item names unavailable	имената на предметите не са налични
+Multiplier	Множител
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Руда, скъпоценни камъни, камък, дървесина, кожи, билки, бои, търговски стоки и други материали за занаяти.
+part of the Reed Field quest, take it by hand	част от куеста Reed Field, вземете го на ръка
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Колко пъти повече от този клас пада от възел за събиране или рудна жила, които обработва модът, чрез собствения брой падания на играта. Предметите на земята, телата и труповете никога не се умножават, както и всичко, което събирате на ръка.

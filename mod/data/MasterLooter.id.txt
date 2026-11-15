@@ -484,3 +484,12 @@ machinery or a fixture, not loot	mesin atau perlengkapan tetap, bukan jarahan
 on a living creature	pada makhluk hidup
 Leave living creatures alone	Biarkan makhluk hidup
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Melewati apa pun yang menempel pada makhluk yang masih hidup, seperti sel Abyss pada kepiting batu. Mengambilnya membunuh makhluk itu, sehingga tidak dihitung untuk tantangan dan kehilangan jarahannya sendiri. Makhluk yang sudah mati tidak terpengaruh, dan Bangkai tetap mengulitinya. Menangkap hewan kecil punya sakelar sendiri. Jika dimatikan, mod boleh mengambilnya.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s menetapkan setiap tumpukan minimal %d lewat StackSize di ini-nya, jadi pengali tidak berpengaruh. Setel StackSize=0 di sana untuk memakainya.
+Clear multipliers	Hapus pengali
+every stack at least %d, by %s	setiap tumpukan minimal %d, oleh %s
+item name not loaded yet	nama item belum dimuat
+item names unavailable	nama item tidak tersedia
+Multiplier	Pengali
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Bijih, permata, batu, kayu, kulit, herba, pewarna, barang dagangan, dan bahan kerajinan lainnya.
+part of the Reed Field quest, take it by hand	bagian dari misi Reed Field, ambil dengan tangan
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Berapa kali lipat item kelas ini yang dijatuhkan simpul pengumpulan atau urat bijih yang dikerjakan mod ini, lewat hitungan jatuhan milik game sendiri. Item di tanah, mayat, dan bangkai tidak pernah dikalikan, begitu pula apa pun yang kamu ambil dengan tangan.

@@ -484,3 +484,12 @@ machinery or a fixture, not loot	機械や設備、戦利品ではない
 on a living creature	生きている生き物に付いている
 Leave living creatures alone	生きている生き物には手を出さない
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	まだ生きている生き物に付いているものはすべてスキップします。たとえば石ガニに付いたアビスの細胞です。取ると生き物が死に、チャレンジにカウントされず、本来のドロップも失われます。死んだ生き物は対象外で、死骸のスイッチが引き続き剥ぎ取ります。小動物の捕獲には別のスイッチがあります。オフにすると、MODがそれらを取ります。
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s は ini の StackSize ですべてのスタックを最低 %d にしているため、倍率は何も変えません。使うには、そこで StackSize=0 にしてください。
+Clear multipliers	倍率をクリア
+every stack at least %d, by %s	すべてのスタックが最低 %d、%s による
+item name not loaded yet	アイテム名はまだ読み込まれていません
+item names unavailable	アイテム名を利用できません
+Multiplier	倍率
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	鉱石、宝石、石、木材、皮、薬草、染料、交易品、その他の製作素材。
+part of the Reed Field quest, take it by hand	Reed Field クエストの一部。手で取ってください
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	このMODが処理する採取ノードや鉱脈が、このクラスをこの倍数だけドロップします。ゲーム自身のドロップ数を通して行われます。地面にある物、遺体、死骸は倍にならず、手で集めた物も同様です。

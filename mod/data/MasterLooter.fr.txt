@@ -486,3 +486,12 @@ machinery or a fixture, not loot	de la machinerie ou une installation, pas du bu
 on a living creature	sur une créature vivante
 Leave living creatures alone	Laisser les créatures vivantes tranquilles
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Ignore tout ce qui est attaché à une créature encore vivante, comme les cellules d'Abyss sur un crabe de pierre. En prendre une tue la créature, qui ne compte alors plus pour un défi et perd son propre butin. Les créatures mortes ne sont pas concernées, et Carcasses continue de les dépecer. La capture des petits animaux a son propre interrupteur. Désactivé, le mod peut les prendre.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s fixe chaque pile à au moins %d via StackSize dans son ini, donc le multiplicateur ne fait rien. Réglez-y StackSize=0 pour l'utiliser.
+Clear multipliers	Effacer les multiplicateurs
+every stack at least %d, by %s	chaque pile au moins %d, par %s
+item name not loaded yet	nom de l'objet pas encore chargé
+item names unavailable	noms d'objets indisponibles
+Multiplier	Multiplicateur
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Minerai, gemmes, pierre, bois, peaux, herbes, teintures, marchandises et autres matériaux d'artisanat.
+part of the Reed Field quest, take it by hand	fait partie de la quête Reed Field, à prendre à la main
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Combien de fois plus de cette classe sort d'un point de collecte ou d'un filon que ce mod travaille, via le décompte de butin du jeu lui-même. Les objets au sol, les corps et les carcasses ne sont jamais multipliés, pas plus que ce que vous ramassez à la main.

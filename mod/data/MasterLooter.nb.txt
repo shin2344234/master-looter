@@ -489,3 +489,12 @@ machinery or a fixture, not loot	maskineri eller inventar, ikke bytte
 on a living creature	på et levende vesen
 Leave living creatures alone	La levende vesener være
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Hopper over alt som sitter fast på et vesen som fortsatt lever, for eksempel Abyss-cellene på en steinkrabbe. Tar du en, dør vesenet, og da teller det ikke med i en utfordring og mister sitt eget bytte. Døde vesener berøres ikke, og Kadavre flår dem fortsatt. Fangst av små dyr har en egen bryter. Slått av lar modden ta dem.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s setter hver stabel til minst %d med StackSize i sin ini, så multiplikatoren gjør ingenting. Sett StackSize=0 der for å bruke den.
+Clear multipliers	Tøm multiplikatorer
+every stack at least %d, by %s	hver stabel minst %d, av %s
+item name not loaded yet	gjenstandsnavnet er ikke lastet ennå
+item names unavailable	gjenstandsnavn er ikke tilgjengelige
+Multiplier	Multiplikator
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Malm, edelstener, stein, tømmer, skinn, urter, fargestoffer, handelsvarer og annet håndverksmateriale.
+part of the Reed Field quest, take it by hand	del av Reed Field-oppdraget, ta den for hånd
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Hvor mange ganger mer av denne klassen et innsamlingspunkt eller en malmåre som denne modden jobber med gir fra seg, via spillets eget dropptall. Gjenstander på bakken, lik og kadaver ganges aldri, og det samme gjelder alt du samler for hånd.

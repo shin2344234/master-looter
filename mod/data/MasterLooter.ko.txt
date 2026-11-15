@@ -485,3 +485,12 @@ machinery or a fixture, not loot	기계 또는 고정 시설, 전리품 아님
 on a living creature	살아 있는 생물에 붙어 있음
 Leave living creatures alone	살아 있는 생물은 건드리지 않기
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	아직 살아 있는 생물에 붙어 있는 것은 모두 건너뜁니다. 예를 들어 돌게에 붙은 Abyss 세포가 그렇습니다. 하나를 가져가면 생물이 죽어 도전 과제에 집계되지 않고 고유 드롭도 잃습니다. 죽은 생물은 영향을 받지 않으며, 사체 스위치가 계속 가죽을 벗깁니다. 작은 동물 포획에는 별도의 스위치가 있습니다. 끄면 모드가 가져갑니다.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s이(가) ini의 StackSize로 모든 스택을 최소 %d로 맞추므로 배율은 아무 효과가 없습니다. 사용하려면 거기서 StackSize=0으로 설정하세요.
+Clear multipliers	배율 지우기
+every stack at least %d, by %s	모든 스택 최소 %d, %s 적용
+item name not loaded yet	아이템 이름이 아직 로드되지 않았습니다
+item names unavailable	아이템 이름을 사용할 수 없습니다
+Multiplier	배율
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	광석, 보석, 돌, 목재, 가죽, 약초, 염료, 교역품과 기타 제작 재료.
+part of the Reed Field quest, take it by hand	Reed Field 퀘스트의 일부, 직접 가져가세요
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	이 모드가 처리하는 채집 지점이나 광맥이 이 분류를 배율만큼 떨어뜨립니다. 게임 자체의 드롭 횟수를 통해 적용됩니다. 바닥에 있는 아이템, 시신, 사체는 배율이 적용되지 않으며 직접 채집한 것도 마찬가지입니다.

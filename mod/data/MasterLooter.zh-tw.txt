@@ -496,3 +496,13 @@ machinery or a fixture, not loot	機械或固定設施，不是戰利品
 on a living creature	附在活著的生物上
 Leave living creatures alone	不要動活著的生物
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	略過附著在仍然活著的生物身上的一切，例如石甲蟹身上的阿比斯細胞。取下一個會殺死該生物，它既不計入挑戰，也會失去自身的掉落。已經死亡的生物不受影響，生物遺骸仍會負責剝皮。捕捉小型動物有單獨的開關。關閉後，模組會取走它們。
+# 以下各行是在 2026 年 11 月 14 日以機器翻譯新增，尚未經過人工校對。
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s 透過其 ini 中的 StackSize 把每個堆疊設為至少 %d，因此倍率不起作用。要使用倍率，請在那裡設定 StackSize=0。
+Clear multipliers	清除倍率
+every stack at least %d, by %s	每個堆疊至少 %d，由 %s 設定
+item name not loaded yet	物品名稱尚未載入
+item names unavailable	物品名稱無法使用
+Multiplier	倍率
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	礦石、寶石、石頭、木材、獸皮、草藥、染料、貿易品和其他製作材料。
+part of the Reed Field quest, take it by hand	Reed Field 任務的一部分，請手動拾取
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	本模組處理的採集點或礦脈會依此倍數掉落該類別的物品，透過遊戲自身的掉落數量實現。地面上的物品、屍體和獸屍不會被倍增，你手動採集的東西同樣不會。

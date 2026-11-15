@@ -485,3 +485,12 @@ machinery or a fixture, not loot	máy móc hoặc thiết bị cố định, kh�
 on a living creature	trên sinh vật còn sống
 Leave living creatures alone	Để yên sinh vật còn sống
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Bỏ qua mọi thứ gắn trên một sinh vật còn sống, ví dụ tế bào Abyss trên con cua đá. Lấy một cái sẽ giết sinh vật, nó không được tính cho thử thách và mất vật phẩm rơi riêng. Sinh vật đã chết không bị ảnh hưởng, và Xác thú vẫn lột da chúng. Bắt động vật nhỏ có công tắc riêng. Khi tắt, mod sẽ lấy chúng.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s đặt mỗi chồng đồ ở mức tối thiểu %d qua StackSize trong ini của nó, nên hệ số nhân không có tác dụng. Hãy đặt StackSize=0 ở đó để dùng nó.
+Clear multipliers	Xóa các hệ số nhân
+every stack at least %d, by %s	mỗi chồng đồ tối thiểu %d, bởi %s
+item name not loaded yet	tên vật phẩm chưa được tải
+item names unavailable	tên vật phẩm không khả dụng
+Multiplier	Hệ số nhân
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Quặng, ngọc, đá, gỗ, da thú, thảo dược, thuốc nhuộm, hàng hóa buôn bán và các nguyên liệu chế tác khác.
+part of the Reed Field quest, take it by hand	một phần của nhiệm vụ Reed Field, hãy nhặt bằng tay
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Số lần nhân bản vật phẩm của lớp này mà một điểm thu thập hoặc mạch quặng do mod xử lý sẽ rơi ra, thông qua bộ đếm vật rơi của chính game. Vật phẩm trên mặt đất, thi thể và xác thú không bao giờ được nhân, vật phẩm bạn thu thập bằng tay cũng vậy.

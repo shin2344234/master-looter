@@ -485,3 +485,12 @@ machinery or a fixture, not loot	maskineri eller inventar, ikke bytte
 on a living creature	på et levende væsen
 Leave living creatures alone	Lad levende væsner være
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Springer alt over, der sidder på et væsen, som stadig lever, for eksempel Abyss-cellerne på en stenkrabbe. Tager man en, dør væsnet, og så tæller det ikke med i en udfordring og mister sit eget bytte. Døde væsner er ikke berørt, og Kadavere flår dem stadig. Fangst af smådyr har sin egen kontakt. Slået fra lader modden tage dem.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s sætter hver stak til mindst %d via StackSize i sin ini, så multiplikatoren gør ingenting. Sæt StackSize=0 der for at bruge den.
+Clear multipliers	Ryd multiplikatorer
+every stack at least %d, by %s	hver stak mindst %d, af %s
+item name not loaded yet	genstandens navn er ikke indlæst endnu
+item names unavailable	genstandsnavne er ikke tilgængelige
+Multiplier	Multiplikator
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Malm, ædelsten, sten, tømmer, huder, urter, farvestoffer, handelsvarer og andet håndværksmateriale.
+part of the Reed Field quest, take it by hand	del af Reed Field-questen, tag den i hånden
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Hvor mange gange mere af denne klasse en indsamlingsknude eller malmåre, som dette mod arbejder på, afgiver, via spillets eget dropantal. Genstande på jorden, lig og kadavere ganges aldrig, og det samme gælder alt, du samler op i hånden.

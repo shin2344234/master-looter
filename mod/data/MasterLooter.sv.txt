@@ -485,3 +485,12 @@ machinery or a fixture, not loot	maskineri eller en fast installation, inget byt
 on a living creature	på en levande varelse
 Leave living creatures alone	Låt levande varelser vara
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Hoppar över allt som sitter fast på en varelse som fortfarande lever, till exempel Abyss-cellerna på en stenkrabba. Tar du en, dör varelsen, och då räknas den inte för en utmaning och förlorar sitt eget byte. Döda varelser påverkas inte, och Kadaver flår dem fortfarande. Att fånga smådjur har en egen strömbrytare. Av låter modden ta dem.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s sätter varje stapel till minst %d med StackSize i sin ini, så multiplikatorn gör ingenting. Sätt StackSize=0 där för att använda den.
+Clear multipliers	Rensa multiplikatorer
+every stack at least %d, by %s	varje stapel minst %d, av %s
+item name not loaded yet	föremålets namn är inte inläst än
+item names unavailable	föremålsnamn är inte tillgängliga
+Multiplier	Multiplikator
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Malm, ädelstenar, sten, timmer, hudar, örter, färgämnen, handelsvaror och annat hantverksmaterial.
+part of the Reed Field quest, take it by hand	del av Reed Field-uppdraget, ta den för hand
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Hur många gånger mer av den här klassen som en insamlingspunkt eller ett malmstråk som den här modden bearbetar ger ifrån sig, via spelets eget droppantal. Föremål på marken, kroppar och kadaver multipliceras aldrig, och det gör inte heller något du samlar för hand.

@@ -488,3 +488,12 @@ machinery or a fixture, not loot	механизмы или оборудован�
 on a living creature	на живом существе
 Leave living creatures alone	Не трогать живых существ
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Пропускает всё, что прикреплено к ещё живому существу, например клетки Abyss на каменном крабе. Если взять такую клетку, существо погибает, не засчитывается для испытания и теряет собственную добычу. Мёртвых существ это не касается, их по-прежнему обдирает переключатель «Туши». Ловля мелких животных имеет отдельный переключатель. В выключенном положении мод их берёт.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s задаёт каждой стопке минимум %d через StackSize в своём ini, поэтому множитель ничего не делает. Задайте там StackSize=0, чтобы им пользоваться.
+Clear multipliers	Сбросить множители
+every stack at least %d, by %s	каждая стопка не меньше %d, от %s
+item name not loaded yet	название предмета ещё не загружено
+item names unavailable	названия предметов недоступны
+Multiplier	Множитель
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Руда, самоцветы, камень, древесина, шкуры, травы, красители, торговые товары и другие материалы для ремесла.
+part of the Reed Field quest, take it by hand	часть задания Reed Field, берите вручную
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Во сколько раз больше этого класса выпадает из точки сбора или рудной жилы, которую обрабатывает мод, через собственный счётчик выпадения игры. Предметы на земле, тела и туши никогда не умножаются, как и всё, что вы собираете вручную.

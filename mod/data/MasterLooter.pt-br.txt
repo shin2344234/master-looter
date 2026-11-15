@@ -506,3 +506,14 @@ machinery or a fixture, not loot	maquinário ou uma instalação, não é saque
 on a living creature	em uma criatura viva
 Leave living creatures alone	Deixar criaturas vivas em paz
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Ignora tudo que esteja preso a uma criatura ainda viva, como as células do Abismo em um caranguejo de pedra. Pegar uma mata a criatura, que então não conta para um desafio e perde o próprio saque. Criaturas mortas não são afetadas, e Carcaças continua esfolando elas. Capturar animais pequenos tem um interruptor próprio. Desligado, o mod pode pegá-las.
+# --- traduzido automaticamente em 14 de novembro de 2026 ---
+# As linhas abaixo foram traduzidas por máquina em 14 de novembro de 2026 e ainda não foram revisadas por Kyo-70.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s define cada pilha em pelo menos %d pelo StackSize no próprio ini, então o multiplicador não faz nada. Defina StackSize=0 lá para usá-lo.
+Clear multipliers	Limpar multiplicadores
+every stack at least %d, by %s	cada pilha com pelo menos %d, por %s
+item name not loaded yet	nome do item ainda não carregado
+item names unavailable	nomes de itens indisponíveis
+Multiplier	Multiplicador
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Minério, gemas, pedra, madeira, couros, ervas, tinturas, mercadorias e outros materiais de criação.
+part of the Reed Field quest, take it by hand	parte da missão Reed Field, pegue à mão
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Quantas vezes mais desta classe um ponto de coleta ou veio de minério que o mod trabalha entrega, pela contagem de drops do próprio jogo. Itens no chão, corpos e carcaças nunca são multiplicados, nem o que você coleta à mão.

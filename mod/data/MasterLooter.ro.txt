@@ -485,3 +485,12 @@ machinery or a fixture, not loot	utilaje sau o instalație, nu pradă
 on a living creature	pe o creatură vie
 Leave living creatures alone	Lasă creaturile vii în pace
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Ignoră tot ce este atașat de o creatură încă vie, de exemplu celulele Abyss de pe un crab de piatră. Dacă iei una, creatura moare, nu mai contează pentru o provocare și își pierde prada proprie. Creaturile moarte nu sunt afectate, iar Carcase le jupoaie în continuare. Prinderea animalelor mici are un comutator propriu. Dezactivat, modul le poate lua.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s setează fiecare teanc la cel puțin %d prin StackSize din ini-ul său, deci multiplicatorul nu face nimic. Setează acolo StackSize=0 ca să-l folosești.
+Clear multipliers	Șterge multiplicatorii
+every stack at least %d, by %s	fiecare teanc cel puțin %d, de la %s
+item name not loaded yet	numele obiectului nu e încărcat încă
+item names unavailable	numele obiectelor nu sunt disponibile
+Multiplier	Multiplicator
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Minereu, pietre prețioase, piatră, lemn, piei, plante, coloranți, mărfuri și alte materiale de meșteșug.
+part of the Reed Field quest, take it by hand	parte din misiunea Reed Field, ia-l cu mâna
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	De câte ori mai mult din această clasă dă un punct de strângere sau un filon de minereu pe care îl lucrează acest mod, prin numărătoarea de drop a jocului însuși. Obiectele de pe jos, cadavrele și hoiturile nu sunt multiplicate niciodată, nici ce strângi cu mâna.

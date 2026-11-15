@@ -490,3 +490,12 @@ machinery or a fixture, not loot	maquinaria o un accesorio fijo, no botín
 on a living creature	sobre una criatura viva
 Leave living creatures alone	Dejar en paz a las criaturas vivas
 Skips anything attached to a creature that is still alive, such as the Abyss cells on a stone crab. Taking one kills the creature, which then does not count for a challenge and loses its own drops. Dead creatures are not affected, and Carcasses still skins them. Catching small animals has its own switch. Off lets the mod take them.	Omite todo lo que esté unido a una criatura que sigue viva, como las células del Abyss de un cangrejo de piedra. Tomar una mata a la criatura, que entonces no cuenta para un desafío y pierde su propio botín. Las criaturas muertas no se ven afectadas, y Cadáveres sigue desollándolas. Atrapar animales pequeños tiene su propio interruptor. Desactivado deja que el mod las tome.
+%s sets every stack to at least %d from StackSize in its ini, so the multiplier does nothing. Set StackSize=0 there to use it.	%s fija cada pila en al menos %d con StackSize en su ini, así que el multiplicador no hace nada. Pon StackSize=0 allí para usarlo.
+Clear multipliers	Borrar multiplicadores
+every stack at least %d, by %s	cada pila al menos %d, por %s
+item name not loaded yet	el nombre del objeto aún no se ha cargado
+item names unavailable	los nombres de objetos no están disponibles
+Multiplier	Multiplicador
+Ore, gems, stone, timber, hides, herbs, dyes, trade goods and other crafting input.	Mineral, gemas, piedra, madera, pieles, hierbas, tintes, bienes comerciales y otros materiales de fabricación.
+part of the Reed Field quest, take it by hand	parte de la misión Reed Field, tómalo a mano
+What a gather node or ore vein this mod works drops of this class comes out this many times over, through the game's own drop count. Items lying on the ground, bodies and carcasses are never multiplied, and neither is anything you gather by hand.	Cuántas veces más de esta clase suelta un nodo de recolección o una veta de mineral que trabaja este mod, mediante el recuento de botín del propio juego. Los objetos en el suelo, los cuerpos y los cadáveres nunca se multiplican, ni tampoco lo que recoges a mano.
