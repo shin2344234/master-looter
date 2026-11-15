@@ -5417,11 +5417,6 @@ namespace ml::loot
         AgeHandRows(now);
         static std::unordered_map<uint16_t, long long> base, snap;
         static DWORD snapAt = 0, windowUntil = 0, windowFrom = 0;
-        // The sweep keeps a baseline of its own. snap is retaken every 400 ms for
-        // the pick-up window, so a sweep that waited for snap to be two seconds
-        // old never ran.
-        static std::unordered_map<uint16_t, long long> sweepSnap;
-        static DWORD sweepAt = 0; static uintptr_t sweepHolder = 0;
         static uint16_t tids[64]; static int tidN = 0; static bool anyUnknown = false;
         static game::InvEntry ents[4096];
         // Which holder each sample read. Two samples of different holders are
@@ -5615,7 +5610,7 @@ namespace ml::loot
         // because it had no event to open on.
         //
         // So: while a companion is out, diff the bag against the snapshot taken
-        // two seconds ago and delete any rise the rules refuse. Only while one is
+        // 400 ms ago and delete any rise the rules refuse. Only while one is
         // out, because with nobody else in the world a rise is the player's own
         // doing and taking it back is the bug this all started from. Anything
         // the mod itself sent is pending in g_pend and is allowed by
@@ -5631,10 +5626,10 @@ namespace ml::loot
         // companion that started it, and nobody has seen whether it asks.
         const bool prevented = hooks::PetLootingHooked() && (cfg.petFilter || cfg.stopPetLooting);
         const DWORD companionAt = prevented ? events::MercenaryActiveAt() : events::CompanionActiveAt();
-        const bool companionSince = (companionAt && static_cast<long>(companionAt - sweepAt) >= 0) ||
-                                    (!prevented && g_petSeenAt && static_cast<long>(g_petSeenAt - sweepAt) >= 0);
+        const bool companionSince = (companionAt && static_cast<long>(companionAt - snapAt) >= 0) ||
+                                    (!prevented && g_petSeenAt && static_cast<long>(g_petSeenAt - snapAt) >= 0);
         const bool companionOut = prevented ? MercenaryOutRecently(now) : PetOutRecently(now);
-        if (cfg.petFilter && companionOut && companionSince && sweepAt && now - sweepAt >= 2000)
+        if (cfg.petFilter && companionOut && companionSince && snapAt && now - snapAt >= 2000)
         {
             std::unordered_map<uint16_t, long long> fresh;
             uintptr_t freshHolder = 0;
@@ -5643,10 +5638,10 @@ namespace ml::loot
             // Everything below compares two samples of the same bag. If the
             // world moved between them it is not the same bag, so take the new
             // one as the baseline and judge nothing this pass.
-            if (TakeBagBaselineStale() || freshHolder != sweepHolder)
+            if (TakeBagBaselineStale() || freshHolder != snapHolder)
             {
                 LOG("[pet] the world, or the bag being read, changed since the last bag sample, so this one starts fresh and nothing is judged");
-                sweepSnap.swap(fresh); sweepAt = freshAt; sweepHolder = freshHolder; return;
+                snap.swap(fresh); snapAt = freshAt; snapHolder = freshHolder; return;
             }
 
             // A companion picks things up one or two at a time. A dozen kinds
@@ -5654,28 +5649,28 @@ namespace ml::loot
             // being replaced rather than filled: a load the scan did not catch,
             // a storage transfer, a quest handout. Re-baseline and leave it.
             int risen = 0, fallen = 0; long long biggest = 0;
-            if (bagReplaced(sweepSnap, fresh, &risen, &fallen, &biggest))
+            if (bagReplaced(snap, fresh, &risen, &fallen, &biggest))
             {
                 LOG("[pet] the bag changed shape at once (%d kinds up, %d down, largest rise %lld): that is a bag being "
                     "replaced and not a companion looting, so nothing is deleted and the baseline resets", risen, fallen, biggest);
-                sweepSnap.swap(fresh); sweepAt = freshAt; sweepHolder = freshHolder; return;
+                snap.swap(fresh); snapAt = freshAt; snapHolder = freshHolder; return;
             }
 
             // A gather or a catch of the player's names no row, so the whole
             // pass is the player's and nothing in it is judged.
-            if (HandTookUnknown(sweepAt - 1500))
+            if (HandTookUnknown(snapAt - 1500))
             {
-                sweepSnap.swap(fresh); sweepAt = freshAt; sweepHolder = freshHolder; return;
+                snap.swap(fresh); snapAt = freshAt; snapHolder = freshHolder; return;
             }
             char notice[240] = ""; int nw = 0;
             for (const auto& kv : fresh)
             {
-                const auto b = sweepSnap.find(kv.first);
-                const long long delta = kv.second - (b == sweepSnap.end() ? 0 : b->second);
+                const auto b = snap.find(kv.first);
+                const long long delta = kv.second - (b == snap.end() ? 0 : b->second);
                 if (delta <= 0) continue;
                 const Item* it = ItemDb::ByRow(kv.first);
                 if (!it) continue;                      // unknown row: never touched
-                if (HandTookRow(kv.first, sweepAt - 1500)) continue;   // yours
+                if (HandTookRow(kv.first, snapAt - 1500)) continue;   // yours
                 const Rules::Verdict r = Rules::Decide(*it, cfg);
                 const bool spare = NeverDestroy(*it, r);
                 if (r.loot || spare) continue;
@@ -5691,13 +5686,12 @@ namespace ml::loot
                 snprintf(msg, sizeof msg, "Master Looter: deleted %s. A companion picked it up and your rules refuse it.", notice);
                 State::Get().Notify(msg, 6000, true);
             }
-            sweepSnap.swap(fresh);
-            sweepAt = freshAt;
-            sweepHolder = freshHolder;
+            snap.swap(fresh);
+            snapAt = freshAt;
+            snapHolder = freshHolder;
             return;
         }
         if (now - snapAt >= 400) snapAt = snapshot(snap, snapHolder);
-        if (now - sweepAt >= 2000) sweepAt = snapshot(sweepSnap, sweepHolder);
     }
 
     static const char* RowName(uint16_t row)
