@@ -2393,7 +2393,11 @@ namespace ml::gui
         static std::string s_appliedLang;
         static bool s_langInit = false;
         if (!s_langInit) { s_appliedLang = c.language; s_langInit = true; }
-        else if (c.language != s_appliedLang) { s_appliedLang = c.language; Text::Load(c.language.c_str()); }
+        // A preset, a backup or an edited ini can carry a different
+        // language. The glyphs have to follow, or Chinese, Japanese, Korean,
+        // Thai and Vietnamese text draws as question marks until a language
+        // button is pressed.
+        else if (c.language != s_appliedLang) { s_appliedLang = c.language; Text::Load(c.language.c_str()); g_fontsDirty = true; }
 
         ImGuiIO& io = ImGui::GetIO();
         const bool capt = st.Captures();
