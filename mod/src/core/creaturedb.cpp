@@ -67,7 +67,11 @@ namespace ml::CreatureDb
         std::vector<std::string> toks;
         for (size_t i = 0; i < g_rows.size(); ++i)
         {
-            if (g_rows[i].itemRow < 0) continue;   // rows without a catch item (monsters, mounts, wildlife) do not vote
+            // Rows without a catch item (monsters, mounts, wildlife) do not
+            // vote. HasItem, not the row: a DLC creature's item has no
+            // shipped row and is named by its key, and testing the row alone
+            // left all of them out of the word map.
+            if (!g_rows[i].HasItem()) continue;
             toks.clear(); Tokens(g_rows[i].name, toks);
             for (size_t t = toks.size(); t-- > 0;)
                 if (!Stop(toks[t])) { AddWord(toks[t], g_rows[i].klass, static_cast<int>(i)); break; }
