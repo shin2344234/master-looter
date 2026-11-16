@@ -14,7 +14,7 @@ By hand:
 2. Copy `MasterLooter.asi` into `bin64` next to `winmm.dll`, with the game closed. The item database and the creature table are compiled into the plugin.
 3. Start the game. Press Insert for the menu; the Status tab shows whether every hook and signature resolved. `MasterLooter.log` next to the plugin says the same in more detail.
 
-Uninstall by deleting the `MasterLooter.*` files from `bin64` and the `%LOCALAPPDATA%\MasterLooter` folder. The plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself, and keeps backups, presets and a copy of the ini in `%LOCALAPPDATA%\MasterLooter`. No game file is modified and nothing is written to a save.
+Uninstall by deleting the `MasterLooter.*` files from `bin64` and the `%LOCALAPPDATA%\MasterLooter` folder. The plugin writes `MasterLooter.ini` and `MasterLooter.log` next to itself, plus up to three `MasterLooter-overflow-*.dmp` crash dumps that it prunes at each start, and keeps backups, presets and a copy of the ini in `%LOCALAPPDATA%\MasterLooter`. No game file is modified and nothing is written to a save.
 
 ## What is in the box
 
