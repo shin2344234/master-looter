@@ -29,8 +29,10 @@ the archive it would describe.
 A VirusTotal link keeps pointing at the file it named. stamp looks its hash up
 in the previous version's private/checksums record: the previous plugin's hash
 becomes this plugin's, the previous DMM zip's becomes this DMM zip's, and the
-same for the manual zip. A link to a hash on neither record is left alone and
-listed. The antivirus step still rewrites the scores once they are in.
+same for the manual zip. When every link on a line moves, the previous
+version number on that line becomes this one, so "Reports for 1.6.60" follows
+its links. A link to a hash on neither record is left alone and listed. The
+antivirus step still rewrites the scores once they are in.
 
 check refuses when a document is missing, a placeholder or TODO is left, the
 checksums on record no longer match dist, two VirusTotal links with different
@@ -213,17 +215,26 @@ def line_role(line, pats):
     return found.pop() if len(found) == 1 else None
 
 
-def stamp_text(text, files, pats, previous):
+def version_word(v):
+    """v on its own, so 1.6.6 never matches inside 1.6.60 or 1.6.6-test1."""
+    return re.compile(r"(?<![\w.])%s(?![\w-]|\.\d)" % re.escape(v))
+
+
+def stamp_text(text, files, pats, previous, prev_version=None):
     text = fill(text, sha_tokens(files))
     current = set(f["sha256"] for f in files.values())
     out, touched, leftover, unknown = [], 0, [], []
+    prev_word = version_word(prev_version) if prev_version else None
 
     # A VirusTotal link names its file by its label, not by anything stamp can
     # read, so it follows its own hash from the previous record instead. The
     # line around it can name the plugin and still hold a link to an archive.
+    moved = [0]
+
     def vt(m):
         h = m.group(2)
         if h in previous and previous[h] in files:
+            moved[0] += 1
             return m.group(1) + files[previous[h]]["sha256"]
         if h not in current:
             unknown.append(h)
@@ -242,7 +253,14 @@ def stamp_text(text, files, pats, previous):
                 line = pats[role].sub(files[role]["name"], line)
         elif plain:
             leftover.append(line.strip()[:110])
+        moved[0] = 0
         line = VT_HASH.sub(vt, line)
+        # A line whose links all moved to this version's files, such as
+        # "Reports for 1.6.60: [the plugin](...)", names the version it
+        # describes, so its label moves with them. A line that still holds a
+        # link to some other file keeps its words.
+        if moved[0] and prev_word and len(VT_HASH.findall(line)) == moved[0]:
+            line = prev_word.sub(CFG.version, line)
         # The heading over the checksum block names the version.
         line = SHA_HEADING.sub(lambda m: m.group(1) + CFG.version, line)
         if line != before:
@@ -272,7 +290,7 @@ def cmd_stamp():
             print("skipped  %s ships in an archive, so it carries no checksums" % rel(path))
             continue
         before = read(path)
-        after, touched, leftover, unknown = stamp_text(before, files, pats, previous)
+        after, touched, leftover, unknown = stamp_text(before, files, pats, previous, prev_version)
         if after != before:
             write(path, after)
         print("%-8s %s (%d lines changed)" % ("stamped" if after != before else "current", rel(path), touched))
