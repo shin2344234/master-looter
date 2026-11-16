@@ -37,6 +37,10 @@ namespace ml::psm
         int         (*applyNeverMove)(const uint16_t*, int, char*, int);
         // Whether the player is in free play now, optional.
         int         (*freePlay)(void);
+        // The Weapon's Pot (MJ7L's Weapon's Pot mod) as a store-loot target, optional
+        // and both or neither, and only beside auto-store.
+        int         (*getWeaponsPot)(PsmWeaponsPot*, int);
+        int         (*applyWeaponsPot)(const PsmWeaponsPot*, char*, int);
     };
 
     // Null until the plugin is found with a matching interface. Cheap to call

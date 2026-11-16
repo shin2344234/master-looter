@@ -1606,7 +1606,7 @@ namespace ml::loot
         const int n = psm::DepositResults(res, 64);
         if (n <= 0) return;
         const psm::Api* api = psm::Get();
-        long long perStorage[PSM_STORAGES] = {};
+        long long perStorage[PSM_STORAGES + 1] = {};   // + the Weapon's Pot (PSM_WEAPONS_POT)
         long long total = 0;
         int kept = 0;
         for (int i = 0; i < n; ++i)
@@ -1622,7 +1622,7 @@ namespace ml::loot
                     t->second.lastAt = now;
                 }
             }
-            if (r.reason == PSM_DEPOSIT_STORED && r.storage >= 0 && r.storage < PSM_STORAGES && r.moved > 0)
+            if (r.reason == PSM_DEPOSIT_STORED && r.storage >= 0 && r.storage <= PSM_WEAPONS_POT && r.moved > 0)
             {
                 perStorage[r.storage] += r.moved;
                 total += r.moved;
@@ -1645,7 +1645,7 @@ namespace ml::loot
         char msg[256];
         int len = snprintf(msg, sizeof msg, "Stored %lld item%s:", total, total == 1 ? "" : "s");
         bool first = true;
-        for (int s = 0; s < PSM_STORAGES && len > 0 && len < static_cast<int>(sizeof msg) - 1; ++s)
+        for (int s = 0; s <= PSM_WEAPONS_POT && len > 0 && len < static_cast<int>(sizeof msg) - 1; ++s)
         {
             if (!perStorage[s]) continue;
             len += snprintf(msg + len, sizeof msg - len, "%s %s %lld", first ? "" : ",",

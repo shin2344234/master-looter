@@ -1631,6 +1631,10 @@ namespace ml::gui
     // when the last read succeeded.
     static PsmAutoStore s_psmAuto{};
     static bool         s_psmAutoOk = false;
+    // The Weapon's Pot (MJ7L's Weapon's Pot mod), a store-loot target that only
+    // shows while that mod's storage is in the game.
+    static PsmWeaponsPot s_psmPot{};
+    static bool          s_psmPotOk = false;
     // Items auto-store never moves, -1 until read.
     static uint16_t     s_psmNever[PSM_NEVER_MOVE_MAX] = {};
     static int          s_psmNeverN = -1;
@@ -1660,6 +1664,8 @@ namespace ml::gui
         s_psmBlockOk = api->getKeyBlock && api->getKeyBlock(&s_psmBlock, 0);
         s_psmAuto.size = sizeof s_psmAuto;
         s_psmAutoOk = api->getAutoStore && api->getAutoStore(&s_psmAuto, 0);
+        s_psmPot.size = sizeof s_psmPot;
+        s_psmPotOk = api->getWeaponsPot && api->getWeaponsPot(&s_psmPot, 0);
         s_psmNeverN = api->getNeverMove ? api->getNeverMove(s_psmNever, PSM_NEVER_MOVE_MAX, 0) : -1;
     }
 
@@ -1764,6 +1770,19 @@ namespace ml::gui
         if (ok) s_psmWhy[0] = 0;
         else snprintf(s_psmWhy, sizeof s_psmWhy, "%s", why[0] ? why : TR("Private Storage Master refused the change"));
         // Read back what it kept.
+        PsmFetch(api);
+        return ok;
+    }
+
+    static bool PsmApplyPot(const psm::Api* api, const char* what = "Weapon's Pot")
+    {
+        s_psmPot.size = sizeof s_psmPot;
+        char why[256] = {};
+        const bool ok = api->applyWeaponsPot(&s_psmPot, why, sizeof why) != 0;
+        if (Settings::Get().debugLog)
+            LOG("[storage] %s %s: store loot there %d%s%s", what, ok ? "saved" : "refused", s_psmPot.autoStore, why[0] ? " | " : "", why);
+        if (ok) s_psmWhy[0] = 0;
+        else snprintf(s_psmWhy, sizeof s_psmWhy, "%s", why[0] ? why : TR("Private Storage Master refused the change"));
         PsmFetch(api);
         return ok;
     }
@@ -2166,6 +2185,13 @@ namespace ml::gui
                  "Loose items a pet picks up are reported by the game as your own pickups, so those stay in the bag.");
             ImGui::BeginDisabled(!on);
             ImGui::TextDisabled("%s", TR("Each item goes to the first storage in this list that takes it."));
+            if (s_psmPotOk && s_psmPot.installed)
+            {
+                ImGui::PushID(400 + PSM_WEAPONS_POT);
+                bool pot = s_psmPot.autoStore != 0;
+                if (ImGui::Checkbox(api->storageName(PSM_WEAPONS_POT), &pot)) { s_psmPot.autoStore = pot; PsmApplyPot(api); }
+                ImGui::PopID();
+            }
             for (const int i : kPsmAutoOrder)
             {
                 ImGui::PushID(400 + i);
@@ -2186,6 +2212,11 @@ namespace ml::gui
         bool dirty = false;
         for (int i = 0; i < PSM_STORAGES; ++i)
             dirty |= PsmKeyRow(api, api->storageName(i), kPsmHelp[i], s_psm.keys[i], kPsmKeyTarget + i, i, c);
+        // The Weapon's Pot (MJ7L's Weapon's Pot mod), only while it is installed. Its key is saved on its own.
+        if (s_psmPotOk && s_psmPot.installed &&
+            PsmKeyRow(api, api->storageName(PSM_WEAPONS_POT), nullptr, s_psmPot.key,
+                      kPsmKeyTarget + 11, 99, c))
+            PsmApplyPot(api);
         dirty |= PsmKeyRow(api, TR("Write the size dump to the log"), nullptr, s_psm.dumpKey, kPsmKeyTarget + PSM_STORAGES, PSM_STORAGES, c);
         if (s_psmBlockOk)
         {
@@ -2202,6 +2233,9 @@ namespace ml::gui
         ImGui::TextDisabled("%s", TR("Hold one or more buttons, then press the one that opens the storage. The pressed button is hidden from the game while the others are held."));
         for (int i = 0; i < PSM_STORAGES; ++i)
             dirty |= PsmPadRow(api, api->storageName(i), s_psm.pads[i], kPsmPadTarget + i, i, c);
+        if (s_psmPotOk && s_psmPot.installed &&
+            PsmPadRow(api, api->storageName(PSM_WEAPONS_POT), s_psmPot.pad, kPsmPadTarget + PSM_STORAGES, 99, c))
+            PsmApplyPot(api);
         if (dirty) PsmApply(api);
 
         Section(TR("Sizes"));
@@ -2270,6 +2304,25 @@ namespace ml::gui
             Help("How many Private Storage slots come from expansions you bought and from the story. The slider's total counts them, so the base size is the total less these.");
         }
         ImGui::EndDisabled();
+        // The Weapon's Pot (MJ7L's Weapon's Pot mod): its size is that mod's own setting, so
+        // "Leave every size alone" does not cover it.
+        if (s_psmPotOk && s_psmPot.installed && api->getWeaponsPot)
+        {
+            PsmWeaponsPot now{};
+            now.size = sizeof now;
+            if (api->getWeaponsPot(&now, 0)) { s_psmPot.liveUsed = now.liveUsed; s_psmPot.liveCapacity = now.liveCapacity; }
+            ImGui::PushID(300 + PSM_WEAPONS_POT);
+            ImGui::TextUnformatted(api->storageName(PSM_WEAPONS_POT));
+            s_rowLabel.Next();
+            int value = s_psmPot.slots < 10 ? 10 : (s_psmPot.slots > 1400 ? 1400 : s_psmPot.slots);
+            ImGui::SetNextItemWidth(260 * g_scale);
+            if (ImGui::SliderInt("##slots", &value, 10, 1400, "%d", ImGuiSliderFlags_AlwaysClamp)) s_psmPot.slots = value;
+            if (ImGui::IsItemDeactivatedAfterEdit()) PsmApplyPot(api);
+            ImGui::SameLine();
+            if (s_psmPot.liveCapacity >= 0) ImGui::TextDisabled(TR("now %d of %d used"), s_psmPot.liveUsed, s_psmPot.liveCapacity);
+            else ImGui::TextDisabled("%s", TR("load a save to see it"));
+            ImGui::PopID();
+        }
         if (ImGui::Button(TR("Write the size dump to the log"))) api->writeDump();
         Help("Every storage's size and how many slots are in use, written to PrivateStorageMaster.log. Attach it to a size report.");
 
@@ -2307,6 +2360,16 @@ namespace ml::gui
                 {
                     s_psmAuto = a;
                     if (!PsmApplyAuto(api, "reset to defaults, auto-store") && !refused[0]) snprintf(refused, sizeof refused, "%s", s_psmWhy);
+                }
+            }
+            if (api->getWeaponsPot)
+            {
+                PsmWeaponsPot w{};
+                w.size = sizeof w;
+                if (api->getWeaponsPot(&w, 1))
+                {
+                    s_psmPot = w;
+                    if (!PsmApplyPot(api, "reset to defaults, Weapon's Pot") && !refused[0]) snprintf(refused, sizeof refused, "%s", s_psmWhy);
                 }
             }
             if (api->getNeverMove)
