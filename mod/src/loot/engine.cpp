@@ -157,6 +157,12 @@ namespace ml::loot
         const size_t n = strlen(s), m = strlen(suffix);
         return n >= m && strcmp(s + n - m, suffix) == 0;
     }
+    // cd_r followed by a digit is the riding model family, cd_r0034_iguana
+    // among them, and 4_riding is the folder their animations sit in.
+    static bool IsRidingModel(const char* s)
+    {
+        return (!strncmp(s, "cd_r", 4) && s[4] >= '0' && s[4] <= '9') || HasNoCase(s, "/4_riding/");
+    }
     static int Trust(const char* s)
     {
         if (strchr(s, '-') || strchr(s, ',') || strchr(s, ' ')) return 0;   // CSS-like UI class names
@@ -198,6 +204,15 @@ namespace ml::loot
                 if (!m.klass) continue;
                 sp.row = m.row; sp.klass = m.klass; sp.exact = m.exact; sp.word = m.word; sp.trust = trust;
             }
+            // A riding model names the mount, not a creature anyone catches.
+            // The Iguana Riders' mounts carry "cd_r0034_iguana" and paths under
+            // character/motion/4_riding/, and the word matched the wild
+            // Iguana's row, which has an item. So the mod sent a catch to a
+            // mount every few seconds and the game refused every one: 43
+            // iguana catches across the logs on hand, none reaching the bag, some
+            // on one animal five times over minutes. SoulCaliburSK, Discord,
+            // 16 November 2026. The word still says what kind of thing it is.
+            if (sp.exact && IsRidingModel(buf)) sp.exact = false;
             sp.from = buf;
             *best = sp;
             improved = true;
@@ -401,6 +416,7 @@ namespace ml::loot
         // Exact, because this is the game's own answer rather than a word that
         // might be shared. The string walk stays as the fallback for anything
         // this cannot name.
+        char otherKey[96] = ""; uint16_t otherRow = 0;
         if (status)
         {
             uint32_t rows = 0;
@@ -411,6 +427,7 @@ namespace ml::loot
                 {
                     char key[96];
                     if (game::KeyInTable(chr, row, key, sizeof key))
+                    {
                         if (const Creature* cr = CreatureDb::ByKey(key))
                         {
                             sp.row = cr; sp.klass = cr->klass.c_str();
@@ -427,6 +444,15 @@ namespace ml::loot
                             g_speciesByEid[eid] = sp;
                             return sp;
                         }
+                        else
+                        {
+                            // The game named this character and the creature
+                            // table has no row for it, so whatever a word
+                            // match finds below is a guess at a lookalike.
+                            snprintf(otherKey, sizeof otherKey, "%s", key);
+                            otherRow = row;
+                        }
+                    }
                 }
             }
         }
@@ -465,6 +491,14 @@ namespace ml::loot
             if (s_rejected < 20) { ++s_rejected; LOG("[species] %08X (byte %02X) cannot be %s (%s): word '%s' in \"%s\" (trust %d); treated as unidentified", eid, cat2, sp.klass, sp.row ? sp.row->name.c_str() : "-", sp.word.c_str(), sp.from.c_str(), sp.trust); }
             found = false;
             sp = Species();
+        }
+        if (found && sp.exact && otherKey[0])
+        {
+            static std::unordered_set<std::string> s_saidKey;
+            if (s_saidKey.insert(otherKey).second)
+                LOG("[species] %08X reads characterinfo row %u, \"%s\", which the creature table does not hold, so the word '%s' in \"%s\" is not taken as exact",
+                    eid, otherRow, otherKey, sp.word.c_str(), sp.from.c_str());
+            sp.exact = false;
         }
         if (found)
         {
