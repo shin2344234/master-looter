@@ -545,6 +545,14 @@ namespace ml::loot
     // g_searched about an object it has not filled yet. This is what it asks
     // instead, and it is filled in as each retired object is recognised once.
     static std::unordered_set<uint32_t>        g_retiredEid;
+    // Creatures the mod has sent a catch to. A catch that fails leaves the
+    // creature alive with its retry timer running in g_done, and after five it
+    // is given up on in g_searched. Its carcass keeps the same entity id, so
+    // without this the search waited out the catch's timer, six seconds per
+    // failed catch at the default, and a creature given up on was never
+    // searched at all. SoulCaliburSK on Discord, 16 November 2026: the Skin
+    // prompt showed and the mod took seven to ten seconds to loot the body.
+    static std::unordered_set<uint32_t>        g_catchSent;
 
     // The ownership oracle is a call into the game, and it is the last gate in
     // Decide, which runs thirty times a second over every candidate in range.
@@ -1686,6 +1694,7 @@ namespace ml::loot
             {
                 g_searched.insert(seen[i].eid);
                 g_retiredEid.insert(seen[i].eid);
+                g_catchSent.erase(seen[i].eid);
             }
             uint16_t nodeType = 0;
             std::string nodePrefab;
@@ -2558,6 +2567,26 @@ namespace ml::loot
         if (it == g_done.end()) return false;
         const DWORD wait = static_cast<DWORD>(retryMs) * static_cast<DWORD>(it->second.tries);
         return now - it->second.when < wait;
+    }
+    // A creature the mod tried to catch has died. What the catches left in
+    // the retry and give-up lists was about catching a living thing, so the
+    // carcass starts clean. A search the game saw, by hand or by the mod,
+    // takes the id out of g_catchSent first, so this never reopens a
+    // carcass that was searched.
+    static void ReleaseCatchHold(uint32_t eid, uint64_t key)
+    {
+        if (!g_catchSent.erase(eid)) return;
+        int tries = 0;
+        for (uint64_t k : { key, static_cast<uint64_t>(eid) })
+        {
+            auto it = g_done.find(k);
+            if (it != g_done.end()) { tries = (std::max)(tries, it->second.tries); g_done.erase(it); }
+        }
+        const bool gaveUp = g_searched.erase(key) + g_searched.erase(eid) > 0;
+        g_retiredEid.erase(eid);
+        if (tries || gaveUp)
+            LOG("[catch] eid %08X died after %d catch attempt(s)%s; its carcass does not wait on the catch's retry delay",
+                eid, tries, gaveUp ? ", which had been given up on" : "");
     }
     static void MarkDone(uint64_t k, DWORD now)
     {
@@ -7037,6 +7066,16 @@ namespace ml::loot
             // Either list can answer without filling: g_searched holds a raw
             // entity id for anything that never had an instance id, and
             // g_retiredEid holds the rest once they have been recognised once.
+            // A creature given up on after failed catches that has since
+            // died is a carcass now, so it is filled like anything new.
+            if (g_catchSent.count(k.eid))
+                if (const uintptr_t comps = game::Comps(k.ent))
+                    if (const uintptr_t status = game::CompByClass(comps, kCls_Status))
+                    {
+                        uint8_t dead = 0;
+                        if (mem::Read8(status + kOff_Status_Dead, &dead) && dead == 1)
+                            ReleaseCatchHold(k.eid, k.eid);
+                    }
             if ((!g_debugLog || !WatchingBreak(k.eid, now)) &&
                 (g_retiredEid.count(k.eid) || g_searched.count(k.eid)))
             {
@@ -7057,6 +7096,7 @@ namespace ml::loot
             }
             Fill(k);
             ++detailed;
+            if (k.dead == 1 && g_catchSent.count(k.eid)) ReleaseCatchHold(k.eid, Key(k));
             if (k.tid && k.db) { if (g_tidByEid.size() > 8192) g_tidByEid.clear(); g_tidByEid[k.eid] = k.tid; }
             else if (!k.db && k.node[0])
                 if (const Item* y = NodeYield(k))
@@ -7575,7 +7615,12 @@ namespace ml::loot
                     // every vein, from 1.6.26 to 1.6.33. Issue #81.
                     auto commit = [&] {
                         MarkDone(key, now);
-                        if (v.act != Action::Catch) SpotMark(k.pos, k.tid, k.eid, now);
+                        if (v.act == Action::Catch)
+                        {
+                            if (g_catchSent.size() > 8192) g_catchSent.clear();
+                            g_catchSent.insert(k.eid);
+                        }
+                        else SpotMark(k.pos, k.tid, k.eid, now);
                     };
                     if (g_searched.count(key) && v.act != Action::Search) { if (cfg.debugLog) LOG("[loot] giving up on eid %08X after %d attempts", k.eid, kMaxTries); continue; }
                     if (v.act == Action::Search) g_searched.insert(key);
