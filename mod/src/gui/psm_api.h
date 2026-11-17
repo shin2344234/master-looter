@@ -195,9 +195,10 @@ typedef struct PsmWeaponsPot
     uint32_t size;                          /* sizeof(PsmWeaponsPot) */
     int32_t  autoStore;                     /* AutoStoreWeaponsPot, on by default */
     int32_t  installed;                     /* read only: the game has the Weapon's Pot's storage this launch */
-    PsmKey   key;                           /* WeaponsPotKey: opens the Weapon's Pot from anywhere, Ctrl+F11 by default */
+    PsmKey   key;                           /* WeaponsPotKey: opens the Weapon's Pot from anywhere, none by default */
     PsmPad   pad;                           /* WeaponsPotPad, none by default */
-    int32_t  slots;                         /* its size, WeaponsPotSlots in the Weapon's Pot mod's ini (10 to 1400); next launch */
+    int32_t  slots;                         /* its size, WeaponsPotSlots in the Weapon's Pot mod's ini (10 to 1400); next launch.
+                                               0 leaves it as it is, and the defaults give 0: it is that mod's setting */
     int32_t  liveUsed;                      /* read only: slots in use, -1 with no save loaded */
     int32_t  liveCapacity;                  /* read only: its size this launch, -1 with no save loaded */
 } PsmWeaponsPot;

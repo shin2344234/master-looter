@@ -1781,7 +1781,7 @@ namespace ml::gui
         const bool ok = api->applyWeaponsPot(&s_psmPot, why, sizeof why) != 0;
         if (Settings::Get().debugLog)
             LOG("[storage] %s %s: store loot there %d%s%s", what, ok ? "saved" : "refused", s_psmPot.autoStore, why[0] ? " | " : "", why);
-        if (ok) s_psmWhy[0] = 0;
+        if (ok) snprintf(s_psmWhy, sizeof s_psmWhy, "%s", why);   // empty, or what was turned off
         else snprintf(s_psmWhy, sizeof s_psmWhy, "%s", why[0] ? why : TR("Private Storage Master refused the change"));
         PsmFetch(api);
         return ok;
@@ -1823,7 +1823,7 @@ namespace ml::gui
         char why[256] = {};
         const bool ok = api->applySettings(&s_psm, why, sizeof why) != 0;
         PsmLogApply(what, ok, why);
-        if (ok) s_psmWhy[0] = 0;
+        if (ok) snprintf(s_psmWhy, sizeof s_psmWhy, "%s", why);   // empty, or what was turned off (a Weapon's Pot binding)
         else snprintf(s_psmWhy, sizeof s_psmWhy, "%s", why[0] ? why : TR("Private Storage Master refused the change"));
         // It turns a duplicate binding off, so show what it kept.
         PsmFetch(api);
@@ -1850,6 +1850,9 @@ namespace ml::gui
             if (o.vk == k.vk && o.mods == k.mods)
                 return i < PSM_STORAGES ? api->storageName(i) : i == PSM_STORAGES ? TR("the size dump") : TR("the key-block toggle");
         }
+        // The Weapon's Pot's row passes 99.
+        if (row != 99 && s_psmPotOk && s_psmPot.installed && s_psmPot.key.vk == k.vk && s_psmPot.key.mods == k.mods)
+            return api->storageName(PSM_WEAPONS_POT);
         // Master Looter's keys are bare and stay quiet while Ctrl or Alt is
         // held (State::HotkeysFree), so only a bare key or a Shift one can
         // reach them, and a Shift one only while the key block is off.
@@ -1865,6 +1868,8 @@ namespace ml::gui
         if (!p.press) return nullptr;
         for (int i = 0; i < PSM_STORAGES; ++i)
             if (i != row && s_psm.pads[i].press == p.press && s_psm.pads[i].hold == p.hold) return api->storageName(i);
+        if (row != 99 && s_psmPotOk && s_psmPot.installed && s_psmPot.pad.press == p.press && s_psmPot.pad.hold == p.hold)
+            return api->storageName(PSM_WEAPONS_POT);
         const unsigned mask = static_cast<unsigned>(p.hold | p.press);
         if (mask == c.padMenu || mask == c.padToggle || mask == c.padOwned || mask == c.padBurst || mask == c.padWatch)
             return TR("a Master Looter shortcut");
@@ -2308,9 +2313,14 @@ namespace ml::gui
         // "Leave every size alone" does not cover it.
         if (s_psmPotOk && s_psmPot.installed && api->getWeaponsPot)
         {
-            PsmWeaponsPot now{};
-            now.size = sizeof now;
-            if (api->getWeaponsPot(&now, 0)) { s_psmPot.liveUsed = now.liveUsed; s_psmPot.liveCapacity = now.liveCapacity; }
+            static DWORD s_potSizeAt = 0;
+            if (GetTickCount() - s_potSizeAt >= 500)
+            {
+                s_potSizeAt = GetTickCount();
+                PsmWeaponsPot now{};
+                now.size = sizeof now;
+                if (api->getWeaponsPot(&now, 0)) { s_psmPot.liveUsed = now.liveUsed; s_psmPot.liveCapacity = now.liveCapacity; }
+            }
             ImGui::PushID(300 + PSM_WEAPONS_POT);
             ImGui::TextUnformatted(api->storageName(PSM_WEAPONS_POT));
             s_rowLabel.Next();
