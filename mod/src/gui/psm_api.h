@@ -183,6 +183,30 @@ typedef struct PsmDepositResult
 } PsmDepositResult;
 /* Copies out and forgets finished deposits, oldest first. Returns how many. */
 PSM_API int         PsmDepositResults(PsmDepositResult* out, int max);
+/* The Weapon's Pot, from MJ7L's Weapon's Pot mod: an auto-store target that
+ * takes weapons only, offered before every storage above, and only while that
+ * mod's storage is in the game. Loot stored there comes back from
+ * PsmDepositResults with storage PSM_WEAPONS_POT, and PsmStorageName names it
+ * "Weapon's Pot". Its key and combo open it from anywhere like a storage key; it has
+ * no size here (the Weapon's Pot mod owns that). Optional, look both up by name. */
+#define PSM_WEAPONS_POT PSM_STORAGES
+typedef struct PsmWeaponsPot
+{
+    uint32_t size;                          /* sizeof(PsmWeaponsPot) */
+    int32_t  autoStore;                     /* AutoStoreWeaponsPot, on by default */
+    int32_t  installed;                     /* read only: the game has the Weapon's Pot's storage this launch */
+    PsmKey   key;                           /* WeaponsPotKey: opens the Weapon's Pot from anywhere, none by default */
+    PsmPad   pad;                           /* WeaponsPotPad, none by default */
+    int32_t  slots;                         /* its size, WeaponsPotSlots in the Weapon's Pot mod's ini (10 to 1400); next launch.
+                                               0 leaves it as it is, and the defaults give 0: it is that mod's setting */
+    int32_t  liveUsed;                      /* read only: slots in use, -1 with no save loaded */
+    int32_t  liveCapacity;                  /* read only: its size this launch, -1 with no save loaded */
+} PsmWeaponsPot;
+/* The live values, or the defaults when defaults is nonzero. */
+PSM_API int         PsmGetWeaponsPot(PsmWeaponsPot* out, int defaults);
+/* Applies at once and saves the ini. 0 with a reason in why. */
+PSM_API int         PsmApplyWeaponsPot(const PsmWeaponsPot* in, char* why, int whyLen);
+
 /* "Ctrl+F1", "LB+LS", "None". */
 PSM_API int         PsmKeyText(PsmKey key, char* out, int outLen);
 PSM_API int         PsmPadText(PsmPad pad, char* out, int outLen);

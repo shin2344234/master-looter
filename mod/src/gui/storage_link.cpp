@@ -58,6 +58,10 @@ namespace ml::psm
             if (!a.getNeverMove || !a.applyNeverMove || !a.getAutoStore)   // both or neither, and only beside auto-store
                 a.getNeverMove = nullptr, a.applyNeverMove = nullptr;
             a.freePlay       = reinterpret_cast<int (*)(void)>(GetProcAddress(h, "PsmFreePlay"));   // optional
+            a.getWeaponsPot   = reinterpret_cast<int (*)(PsmWeaponsPot*, int)>(GetProcAddress(h, "PsmGetWeaponsPot"));   // optional
+            a.applyWeaponsPot = reinterpret_cast<int (*)(const PsmWeaponsPot*, char*, int)>(GetProcAddress(h, "PsmApplyWeaponsPot"));   // optional
+            if (!a.getWeaponsPot || !a.applyWeaponsPot || !a.getAutoStore)   // both or neither, and only beside auto-store
+                a.getWeaponsPot = nullptr, a.applyWeaponsPot = nullptr;
             if (!a.apiVersion)
             {
                 snprintf(g_why, sizeof g_why, "found, but it has no interface (an older build)");
