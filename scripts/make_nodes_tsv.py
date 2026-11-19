@@ -258,10 +258,13 @@ MECHANISM_SEGMENTS = {
     # A display stand is shop or wall decoration and an in_dff bed is where an
     # NPC sleeps. 538 and 7 gathers in the saved logs, none paid out.
     "displaystand", "bed",
-    # Game 1.0.0.3732 added seven windmill inner operators, such as
+    # Game 1.0.0.3663 added seven windmill inner operators, such as
     # gimmick_tool_windmill_her_inneroperator. "inneroperator" is one segment,
     # so "operator" never matched it.
     "inneroperator",
+    # The seven housing move points under /object/prefab/10_spot/, the castle
+    # one added by 1.0.0.3663. They mark where a camp building moves to.
+    "movepoint",
 }
 
 # Fallback for gather nodes the table does not tag, read off the prefab name.
@@ -582,6 +585,11 @@ def kind_for(tags, name, prefab, folder=""):
     # and Wood is on by default. Rows the game tags itself, such as the
     # factory's product crates and the bombs, are decided above and kept.
     if "/00_common/tool/" in folder:
+        return "", False
+    # /00_common/trap/ is spear pits, booby traps, snares and tornadoes. The
+    # two the game tags, the battle trap bomb and the laser box, are decided
+    # above and kept. The engine refuses the folder for anything with no row.
+    if "/00_common/trap/" in folder:
         return "", False
     # A crafting station is never a node. gimmick_craft_millestone_01's three
     # parts sit in /00_common/farm/ and came out as stone because the name has

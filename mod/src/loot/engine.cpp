@@ -3356,6 +3356,19 @@ namespace ml::loot
         return node && node[0] && !type && !identified && IStr(node, "/00_common/tool/");
     }
 
+    // Traps from /00_common/trap/: spear pits, booby traps, bear snares,
+    // chainsaws, lasers and the desert tornadoes, 246 prefabs on 1.0.0.3732.
+    // The game tags none of them as a gather node, so with Unidentified nodes
+    // on they read as nodes nobody has learned yet. The saved logs hold 11
+    // gathers sent at spear pits and booby traps and none paid out, and the
+    // Abyss desert tornado that 1.0.0.3663 added would have been next. The
+    // two the game does tag, the battle trap bomb and the laser box, have node
+    // rows and keep them.
+    static bool Trap(const char* node, const NodeType* type, bool identified)
+    {
+        return node && node[0] && !type && !identified && IStr(node, "/00_common/trap/");
+    }
+
     // The eight cobweb prefabs; kWebStart above says why they are cut apart.
     static bool SpiderWeb(const char* node)
     {
@@ -3405,7 +3418,7 @@ namespace ml::loot
         static const char* kParts[] = { "door", "switch", "gate", "lamp", "streetlamp", "operator", "decolinker",
                                         "decotrigger", "spotlight", "candle", "brazier", "firepot", "pusher",
                                         "pinballmachine", "cushionballmachine", "clawmachine", "standstone", "challenge",
-                                        "displaystand", "bed", "inneroperator" };
+                                        "displaystand", "bed", "inneroperator", "movepoint" };
         const char* base = node;
         for (const char* q = node; *q; ++q) if (*q == '/' || *q == '\\') base = q + 1;
         char seg[48];
@@ -3866,6 +3879,7 @@ namespace ml::loot
             if (PlacedCookFire(c.node)) return skip("a placed Field Pot or Bonfire");
             if (CraftStation(c.node)) return skip("a crafting station");
             if (Machinery(c.node, c.nodeType, c.db != nullptr)) return skip("machinery or a fixture, not loot");
+            if (Trap(c.node, c.nodeType, c.db != nullptr)) return skip("a trap, not loot");
             if (Mechanism(c.node, c.nodeType, c.db != nullptr)) return skip("a door, switch or other mechanism, not loot");
             // Gear that is being worn, which the game keeps in the world as an
             // object of its own under /00_common/equip/. Taking one hands over a
@@ -7447,6 +7461,7 @@ namespace ml::loot
                     // fast-travel artifact. Refusing to loot one afterwards is too late.
                     if (OffLimits(k.node)) continue;
                     if (Machinery(k.node, k.nodeType, false)) continue;
+                    if (Trap(k.node, k.nodeType, false)) continue;
                     if (Mechanism(k.node, k.nodeType, false)) continue;
                     if (AttachedPart(k.node, k.nodeType)) continue;
                     // A well is seven entities and six of them never answer, so
