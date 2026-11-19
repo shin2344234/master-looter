@@ -1,4 +1,4 @@
-"""Readers for Crimson Desert static-info tables (ItemInfo layout for exe 1.0.0.3392).
+"""Readers for Crimson Desert static-info tables (ItemInfo layouts for exe 1.0.0.3392 to 1.0.0.3732).
 
 Inputs are the files extracted from archive group 0008 (gamedata/*.staticinfobody +
 *.staticinfoheader) and the English string tables from group 0020 (gamedata/*.paloc).
@@ -278,8 +278,13 @@ def inventory_change(r):
     return dict(game_event_execute_data=game_event_execute(r), to_inventory_info=r.u16())
 
 
-def page_data(r):
-    return dict(left=r.cstr(), right=r.cstr(), left_knowledge=r.u32(), right_knowledge=r.u32())
+def page_data(r, v3732=False):
+    p = dict(left=r.cstr(), right=r.cstr(), left_knowledge=r.u32(), right_knowledge=r.u32())
+    if v3732:
+        # 1.0.0.3732 added a byte at the end of every page. It reads 0 on all
+        # 1,233 pages of the base table.
+        p["unk_u8_3732"] = r.u8()
+    return p
 
 
 def inspect_data(r):
@@ -410,13 +415,21 @@ _U8_FLAGS = ("is_reward_loot_drop", "lost_item_recovery_type", "is_editable_grim
 # 1.0.0.3663 put two strings between filter_type and default_texture_path in
 # every ItemInfo record, so eight zero bytes where both are empty,
 # which is 3,790 of the first 4,000 shared keys. parse_all_items decides per table which
-# layout it holds by trying the first records both ways.
+# layout it holds by trying the first records each way.
 ITEM_3663 = False
 
+# 1.0.0.3732 kept the 3663 strings and added two bytes. A u8 after
+# discardable, which the exe names _discardSingleCount; with it in place
+# every flag of the 6,054 items shared with 3663 reads as it did there. And
+# a u8 at the end of each fixed and dynamic page record.
+ITEM_3732 = False
 
-def parse_item(rec, trace=False, r=None, v3663=None):
+
+def parse_item(rec, trace=False, r=None, v3663=None, v3732=None):
     if v3663 is None:
         v3663 = ITEM_3663
+    if v3732 is None:
+        v3732 = ITEM_3732
     if r is None:
         r = Reader(rec, trace)
     it = {}
@@ -427,6 +440,8 @@ def parse_item(rec, trace=False, r=None, v3663=None):
     it["max_stack_count"] = r.u64("max_stack_count")
     for name in _U8_FLAGS:
         it[name] = r.u8(name)
+        if v3732 and name == "discardable":
+            it["discard_single_count"] = r.u8("discard_single_count")
     it["look_detail_mission_info"] = r.u32("look_detail_mission_info")
     it["look_detail_game_advice_info_wrapper"] = r.u32("look_detail_game_advice_info_wrapper")
     it["convert_item_info_by_drop_npc"] = r.u32("convert_item_info_by_drop_npc")
@@ -492,8 +507,8 @@ def parse_item(rec, trace=False, r=None, v3663=None):
     it["change_character_docking_child_data_list"] = flag_array(
         r, docking_child, "change_character_docking_child_data_list")
     it["inventory_change_data"] = r.optional(inventory_change, "inventory_change_data")
-    it["fixed_page_data_list"] = flag_array(r, page_data, "fixed_page_data_list")
-    it["dynamic_page_data_list"] = flag_array(r, page_data, "dynamic_page_data_list")
+    it["fixed_page_data_list"] = flag_array(r, lambda r: page_data(r, v3732), "fixed_page_data_list")
+    it["dynamic_page_data_list"] = flag_array(r, lambda r: page_data(r, v3732), "dynamic_page_data_list")
     it["inspect_data_list"] = flag_array(r, inspect_data, "inspect_data_list")
     it["inspect_action"] = r.optional(inspect_action, "inspect_action")
     it["cooltime_data"] = (r.i64("cooltime"), r.i64("cooltime_b"), r.i64("cooltime_c")) if r.u8("cooltime.flag") else None
@@ -521,20 +536,24 @@ def parse_item(rec, trace=False, r=None, v3663=None):
     return it, r
 
 
-def _fits(rec, v3663):
+def _fits(rec, v3663, v3732=False):
     try:
-        _, r = parse_item(rec, v3663=v3663)
+        _, r = parse_item(rec, v3663=v3663, v3732=v3732)
         return r.p == len(rec)
     except Exception:  # noqa
         return False
 
 
+# (v3663, v3732) for each item layout, oldest first.
+ITEM_LAYOUTS = ((False, False), (True, False), (True, True))
+
+
 def parse_all_items(gamedata=GAMEDATA):
-    global ITEM_3663
+    global ITEM_3663, ITEM_3732
     out, bad = [], []
     rows = load_table("iteminfo", gamedata)
     sample = [rec for _, rec in rows[:64]]
-    ITEM_3663 = sum(_fits(x, True) for x in sample) > sum(_fits(x, False) for x in sample)
+    ITEM_3663, ITEM_3732 = max(ITEM_LAYOUTS, key=lambda v: sum(_fits(x, *v) for x in sample))
     for key, rec in rows:
         try:
             it, r = parse_item(rec)
