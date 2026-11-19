@@ -1,6 +1,6 @@
 # Master Looter
 
-Auto-loot for Crimson Desert with an in-game menu, built for the DLC update and game 2.05.00 (exe 1.0.0.3663).
+Auto-loot for Crimson Desert with an in-game menu, built for the DLC update and game 2.05.01 (exe 1.0.0.3732).
 
 > [!IMPORTANT]
 > **New in 1.6.28: loot can go straight into storage.** Install [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) 1.1.0 or later beside Master Looter, and what Master Looter picks up can be moved into your storage as it lands. Nothing you pick up by hand is touched. It starts off; see [Storing loot](#storing-loot) for how to turn it on.
@@ -65,7 +65,15 @@ Stack Master 1.0.6 adds `StackSize` to `StackMaster.ini`, one stack size for eve
 
 ## Installing
 
-**1.6.62 needs game 2.05.00, exe 1.0.0.3663.** That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
+**1.6.63 needs game 2.05.01, exe 1.0.0.3732.** 1.6.62 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.05.00, exe 1.0.0.3663. That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 is there for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
+
+What changed in 1.6.63:
+
+- Built for the 18 November game update, exe 1.0.0.3732. The item, creature and node tables were rebuilt from its data and came out the same as 1.6.62's.
+- With Unidentified nodes on, the mod no longer tries to gather traps. Spear pits and booby traps under the game's trap folder have no item to give, and the logs showed eleven gathers into them that paid nothing. The log says `a trap, not loot`.
+- The windmill inner operators and the camp building move points are refused as mechanisms, like other doors and switches.
+- The Storage tab has an entry for the Weapon's Pot when MJ7L's Weapon's Pot mod is installed, so looted gear can go straight into it. Contributed by MJ7L. It needs a Private Storage Master build with the Weapon's Pot calls, which so far is only the 1.1.14-wpot1 test build, and the entry stays hidden until one is installed.
+- This build was not tested in play.
 
 What changed in 1.6.62:
 
@@ -107,7 +115,7 @@ One scanner out of seventy-one flags `MasterLooter.asi` on 1.6.62. Webroot calls
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one, 1.6.50 one, 1.6.51 one, 1.6.52 one, 1.6.53 one, 1.6.54 one, 1.6.55 one, 1.6.56 one, 1.6.57 one, 1.6.58 one, 1.6.59 one, 1.6.60 one, 1.6.61 one and 1.6.62 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46, then flagged only the DMM zip on 1.6.59 and nothing on 1.6.60, 1.6.61 or 1.6.62; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.62: [the plugin](https://www.virustotal.com/gui/file/2d2cef8d937438bb45d6561542f5234c8fdb3de3d87c846e153e1656a7cdec75) and [the package](https://www.virustotal.com/gui/file/494c74be19064bd8389185d67d123ecaff19d19ad15290cea34a5dc0a4d0f071).
+Reports for 1.6.63: [the plugin](https://www.virustotal.com/gui/file/670f52f03bceebcde92bbe28ad869d9afe0d465c51469709f8aaf6c91b3f19cd) and [the package](https://www.virustotal.com/gui/file/708398c8f56b93b8a81b7f058041337eaafc33a8390b16a02549bffb55830d4a).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -115,11 +123,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.62:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.63:
 
-    494c74be19064bd8389185d67d123ecaff19d19ad15290cea34a5dc0a4d0f071  MasterLooter-1.6.62-DMM.zip
-    a4ee67926f28dc692fa4c6f6b0ddf06c6f88f66ab522afd8ae9e2488e81427c5  MasterLooter-1.6.62.zip
-    2d2cef8d937438bb45d6561542f5234c8fdb3de3d87c846e153e1656a7cdec75  MasterLooter.asi
+    708398c8f56b93b8a81b7f058041337eaafc33a8390b16a02549bffb55830d4a  MasterLooter-1.6.63-DMM.zip
+    bd461285f79b8905092358602142d9d6211611b710e6eb2f5917339c767cced7  MasterLooter-1.6.63.zip
+    670f52f03bceebcde92bbe28ad869d9afe0d465c51469709f8aaf6c91b3f19cd  MasterLooter.asi
 
 ## Controls
 

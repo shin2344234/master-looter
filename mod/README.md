@@ -1,6 +1,6 @@
 # Master Looter plugin
 
-An ASI plugin for Crimson Desert, built for the DLC update and game 2.05.00 (exe 1.0.0.3663): an auto-looter driven by the tagged item database, with an in-game settings menu.
+An ASI plugin for Crimson Desert, built for the DLC update and game 2.05.01 (exe 1.0.0.3732): an auto-looter driven by the tagged item database, with an in-game settings menu.
 
 ## Installing
 
