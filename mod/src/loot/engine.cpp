@@ -3405,7 +3405,7 @@ namespace ml::loot
         static const char* kParts[] = { "door", "switch", "gate", "lamp", "streetlamp", "operator", "decolinker",
                                         "decotrigger", "spotlight", "candle", "brazier", "firepot", "pusher",
                                         "pinballmachine", "cushionballmachine", "clawmachine", "standstone", "challenge",
-                                        "displaystand", "bed" };
+                                        "displaystand", "bed", "inneroperator" };
         const char* base = node;
         for (const char* q = node; *q; ++q) if (*q == '/' || *q == '\\') base = q + 1;
         char seg[48];

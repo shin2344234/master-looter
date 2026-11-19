@@ -258,6 +258,10 @@ MECHANISM_SEGMENTS = {
     # A display stand is shop or wall decoration and an in_dff bed is where an
     # NPC sleeps. 538 and 7 gathers in the saved logs, none paid out.
     "displaystand", "bed",
+    # Game 1.0.0.3732 added seven windmill inner operators, such as
+    # gimmick_tool_windmill_her_inneroperator. "inneroperator" is one segment,
+    # so "operator" never matched it.
+    "inneroperator",
 }
 
 # Fallback for gather nodes the table does not tag, read off the prefab name.
