@@ -1367,10 +1367,23 @@ namespace ml::loot
     // units already judged to be this mod's, waiting for Private Storage
     // Master to take them, which it refuses outside free play; they are
     // offered again until it does, for twenty seconds.
-    struct HeldRise { uint16_t row; long long units; DWORD at; bool fallback; bool inPlay; bool handUnnamed = false; long long credited = 0; };
+    // menuVouch: units of a rise read outside free play that this mod's own
+    // gathers of that item vouch for, one unit per gather. Issue #233: the mod
+    // keeps gathering while the inventory is open, and every rise read there
+    // used to be dropped as a purchase, so a player watching the bag saw some
+    // of the mod's plants stored and the rest left behind. Out of free play a
+    // rise is credited unit for unit against the mod's own sends and never
+    // wholesale, so a withdrawal or a purchase of the same item stays put.
+    // menuSaid: the line saying so has been written for this rise.
+    struct HeldRise { uint16_t row; long long units; DWORD at; bool fallback; bool inPlay; bool handUnnamed = false; long long credited = 0;
+                      long long menuVouch = 0; bool menuSaid = false; };
     static std::vector<HeldRise> g_heldRises;
     static constexpr DWORD kRiseHoldMs = 4000;
     static constexpr DWORD kRiseRetryMs = 20000;
+    // How long the mod's own pick-up read in a menu waits for free play to
+    // come back before it is left in the bag. A player can sit in the
+    // inventory well past twenty seconds, and a world change clears it anyway.
+    static constexpr DWORD kMenuRetryMs = 120000;
     // The last time Private Storage Master said the player was out of free play.
     // It is asked every tenth of a second, between scans as well, so a storage
     // opened and closed inside one scan interval is still seen. A rise read
@@ -1739,7 +1752,16 @@ namespace ml::loot
             }
             const Item* known = nullptr;
             if (seen[i].act == Action::Gather && nodeType) known = LearnedYield(nodeType, nodePrefab.c_str());
-            if (known) continue; // nothing new to learn from it
+            if (known)
+            {
+                // Nothing new to learn from it, but it is still a hand touch,
+                // and auto-store keeps what it pays in the bag. This was the one
+                // hand action that left no trace at all (issue #233).
+                if (Settings::Get().debugLog)
+                    LOG("[learn] player gather eid %08X (node type %u) yields %s, already known; what it pays is yours and stays in the bag",
+                        seen[i].eid, nodeType, known->name.c_str());
+                continue;
+            }
             g_pend.push_back({ static_cast<DWORD>(seen[i].at), seen[i].act, nodeType, -1, false, nodePrefab });
             // Anything the player takes by hand that the mod passed over is worth
             // a line: it is the only way a missed object leaves a trace at all,
@@ -1992,7 +2014,24 @@ namespace ml::loot
                 // the player had asked for it. An item the database cannot
                 // name has no rule to ask and is offered as before.
                 const bool rulesAllow = !it || Rules::Decide(*it, cfg).loot;
-                if (!handUnnamed)
+                if (!inPlay && !handUnnamed)
+                {
+                    // Read in a menu, a shop or a storage. Only a gather of the
+                    // mod's own whose yield is this item vouches, one unit per
+                    // gather, and each gather is used up by the rise it pays so
+                    // it cannot vouch twice. A body search or an unnamed gather
+                    // could have paid anything and vouches for nothing here.
+                    for (auto m = g_mineYields.begin(); m != g_mineYields.end() && h.menuVouch < h.units;)
+                    {
+                        if (m->row == type && !(g_changeAt && static_cast<LONG>(m->at - g_changeAt) < 0))
+                        {
+                            ++h.menuVouch;
+                            m = g_mineYields.erase(m);
+                        }
+                        else ++m;
+                    }
+                }
+                else if (!handUnnamed)
                 {
                     for (const PendSend& p : g_pend)
                     {
@@ -6068,16 +6107,26 @@ namespace ml::loot
             // includes the scan that noticed the change, whose bag was read
             // before the change was.
             const LONG sinceChange = g_changeAt ? static_cast<LONG>(h.at - g_changeAt) : 0x7FFFFFFF;
-            if ((sinceChange > -static_cast<LONG>(kRiseHoldMs) && sinceChange <= 3000) || !h.inPlay)
+            if (sinceChange > -static_cast<LONG>(kRiseHoldMs) && sinceChange <= 3000)
             {
+                if (g_debugLog) LOG("[store] +%lld %s stays in the bag: it was read across a world change (%s)",
+                                    h.units + h.credited, RowName(h.row), g_changeWhy);
                 g_heldRises.erase(g_heldRises.begin() + static_cast<long>(i));
                 continue;
             }
+            // Read outside free play, a rise is no longer dropped whole. It goes
+            // through the same gone-target matching as any other, plus the
+            // mod's own gathers of this item counted when it was read, and
+            // nothing is credited wholesale. Issue #233.
             // Taken by hand, or possibly: the rise is not offered, and it uses
             // up as many of this item's gone targets as it has units, so they
             // are not left over for some later rise to claim.
             if (handRows.count(h.row) || h.handUnnamed)
             {
+                if (g_debugLog && h.units > 0)
+                    LOG("[store] +%lld %s stays in the bag: %s", h.units, RowName(h.row),
+                        h.handUnnamed ? "something you took by hand in the last twelve seconds has no name here and could have paid it"
+                                      : "you took one of this kind by hand in the last twelve seconds");
                 long long left = h.units;
                 for (auto o = g_ownSends.begin(); o != g_ownSends.end() && left > 0;)
                 {
@@ -6101,8 +6150,24 @@ namespace ml::loot
             const bool waiting = h.units > 0 && lying && now - h.at < kRiseHoldMs;
             if (!waiting && h.units > 0)
             {
-                if (h.fallback) h.credited += h.units;
+                if (h.fallback && h.inPlay) { h.credited += h.units; h.units = 0; }
+                else if (!h.inPlay && h.menuVouch > 0)
+                {
+                    const long long take = h.menuVouch < h.units ? h.menuVouch : h.units;
+                    h.credited += take;
+                    h.units -= take;
+                    h.menuVouch -= take;
+                }
+                if (h.units > 0 && (g_debugLog || (!h.inPlay && psm::AutoStoreOn())))
+                    LOG("[store] +%lld %s stays in the bag: no pick-up of the mod's explains it%s", h.units, RowName(h.row),
+                        h.inPlay ? "" : ", and it arrived outside free play (a menu, a shop, a craft or a storage)");
                 h.units = 0;
+            }
+            if (!h.inPlay && h.credited > 0 && !h.menuSaid && psm::AutoStoreOn())
+            {
+                h.menuSaid = true;
+                LOG("[store] %lld %s landed outside free play and is the mod's own pick-up; it is stored once free play is back",
+                    h.credited, RowName(h.row));
             }
             if (h.credited > 0)
             {
@@ -6114,10 +6179,11 @@ namespace ml::loot
                         if (!t.opened) t.opened = now;
                         t.lastAt = now;
                     }
-                    if (g_debugLog) LOG("[store] offered %lld %s to Private Storage Master", h.credited, RowName(h.row));
+                    if (!h.inPlay) LOG("[store] offered %lld %s to Private Storage Master after a stretch outside free play", h.credited, RowName(h.row));
+                    else if (g_debugLog) LOG("[store] offered %lld %s to Private Storage Master", h.credited, RowName(h.row));
                     h.credited = 0;
                 }
-                else if (psm::FreePlay() == 0 && now - h.at < kRiseRetryMs)
+                else if (psm::FreePlay() == 0 && now - h.at < (h.inPlay ? kRiseRetryMs : kMenuRetryMs))
                 {
                     // Out of free play for now, a menu or a storage opened just
                     // after the pick-up landed. Offered again next scan.
