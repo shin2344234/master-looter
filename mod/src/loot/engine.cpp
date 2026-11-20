@@ -1402,7 +1402,14 @@ namespace ml::loot
     // A gather of this mod's whose yield is known, kept for twelve seconds
     // because the game can hold a delivery for eight. It vouches for a rise of
     // that item alone. The pending sends expire at four, which is too soon.
-    struct MineYield { DWORD at; uint16_t row; };
+    // paid: a rise read in free play, or one held for an unnamed hand
+    // pick-up, has already been explained by this gather. It still vouches
+    // for later rises in play, since one gather can
+    // spill its yield over several scans, but never for a rise read in a
+    // menu, or a withdrawal or a purchase of the same item made within
+    // twelve seconds of the mod storing its gathers would go to storage with
+    // them (issue #233).
+    struct MineYield { DWORD at; uint16_t row; bool paid = false; };
     static std::vector<MineYield> g_mineYields;
     // What the player touched by hand, by entity. Kept for twelve seconds,
     // because the game can hold a delivery for eight and a hand pick-up
@@ -2019,11 +2026,12 @@ namespace ml::loot
                     // Read in a menu, a shop or a storage. Only a gather of the
                     // mod's own whose yield is this item vouches, one unit per
                     // gather, and each gather is used up by the rise it pays so
-                    // it cannot vouch twice. A body search or an unnamed gather
+                    // it cannot vouch twice. A gather a rise in play already
+                    // paid is skipped. A body search or an unnamed gather
                     // could have paid anything and vouches for nothing here.
                     for (auto m = g_mineYields.begin(); m != g_mineYields.end() && h.menuVouch < h.units;)
                     {
-                        if (m->row == type && !(g_changeAt && static_cast<LONG>(m->at - g_changeAt) < 0))
+                        if (m->row == type && !m->paid && !(g_changeAt && static_cast<LONG>(m->at - g_changeAt) < 0))
                         {
                             ++h.menuVouch;
                             m = g_mineYields.erase(m);
@@ -2052,6 +2060,26 @@ namespace ml::loot
                         h.fallback = true;
                         if (g_debugLog) LOG("[store] +%lld %s came from a companion's body search; offered with the mod's own",
                                             h.units, it->name.c_str());
+                    }
+                }
+                // Any rise the menu rule above did not pay marks as many unpaid
+                // gathers of this item as it has units, oldest first, so none of
+                // them can vouch for a rise read in a menu afterwards. That
+                // covers a rise in play and one held for a hand pick-up the mod
+                // can't name. A gather usually pays more than one unit, so this
+                // can mark a gather whose yield is still on its way, and that
+                // gather then stores nothing if it lands in a menu. A menu
+                // rise is only ever credited one unit per gather, so the cost
+                // is one unit left in the bag, where marking too few would let
+                // a withdrawal go to storage.
+                if (inPlay || handUnnamed)
+                {
+                    long long toMark = h.units;
+                    for (MineYield& m : g_mineYields)
+                    {
+                        if (toMark <= 0) break;
+                        if (g_changeAt && static_cast<LONG>(m.at - g_changeAt) < 0) continue;
+                        if (m.row == type && !m.paid) { m.paid = true; --toMark; }
                     }
                 }
                 if (g_heldRises.size() < 256) g_heldRises.push_back(h);
