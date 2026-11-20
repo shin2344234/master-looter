@@ -14,6 +14,7 @@
 
 #include "breakjudge.h"
 #include "scanretry.h"
+#include "respawn.h"
 #include "events.h"
 #include "game.h"
 #include "hooks.h"
@@ -762,6 +763,15 @@ namespace ml::loot
     static std::unordered_set<uint32_t>        g_containers;
     struct Spot { Vec3 p; uint16_t tid; DWORD when; uint32_t eid; };
     static std::vector<Spot> g_spots;                       // recently sent, by place and type
+    // Where the mod caught a creature, and when, so a spawner's replacement
+    // for it can be told from a creature that was already there. respawn.h
+    // has the rule. Issue #232.
+    struct CatchSpot { Vec3 p; DWORD when; uint32_t eid; };
+    static std::vector<CatchSpot> g_catchSpots;
+    static std::unordered_set<uint32_t> g_respawnEid;      // left alone as a respawn
+    // When each entity was first in the scan list at all, filled or not, so a
+    // creature that walked into catch range is not mistaken for a new one.
+    static std::unordered_map<uint32_t, DWORD> g_listedAt;
     static std::unordered_set<uint32_t> g_present;          // eids seen in the current scan
     // Creatures in the current scan that are alive, so a node can be asked whether
     // it hangs off one. Rebuilt every pass; scan thread only.
@@ -3085,6 +3095,19 @@ namespace ml::loot
         auto it = g_firstSeen.find(eid);
         if (it == g_firstSeen.end()) { g_firstSeen[eid] = now; return 0; }
         return now - it->second;
+    }
+    // The catch this creature respawned from, or null. See g_catchSpots.
+    static const CatchSpot* RespawnOf(const Cand& c, DWORD now)
+    {
+        const auto seen = g_listedAt.find(c.eid);
+        if (seen == g_listedAt.end()) return nullptr;
+        for (const CatchSpot& s : g_catchSpots)
+        {
+            const float dx = s.p.x - c.pos.x, dy = s.p.y - c.pos.y, dz = s.p.z - c.pos.z;
+            if (IsRespawnOf(c.eid, seen->second, now, s.eid, s.when, dx * dx + dy * dy + dz * dz))
+                return &s;
+        }
+        return nullptr;
     }
 
     // Watching what a break pays out, so the node can be judged by its own
@@ -6867,7 +6890,7 @@ namespace ml::loot
         }
         std::sort(list.begin(), list.end(), [](const Cand& a, const Cand& b) { return a.d < b.d; });
         g_present.clear();
-        for (const Cand& c : list) g_present.insert(c.eid);
+        for (const Cand& c : list) { g_present.insert(c.eid); g_listedAt.emplace(c.eid, now); }
 
         // Scene transitions: the list is swapped before positions settle, and a
         // dozen objects can all read as "0.6 m away" for a moment. Hold fire.
@@ -6928,6 +6951,9 @@ namespace ml::loot
                 // is not what that rock paid, and a wrong entry here is written
                 // to the ini for good.
                 g_spillWatch.clear();
+                // A catch spot is a place in the world that has just gone, and
+                // everything listed after this reads as new.
+                g_catchSpots.clear();
                 // The bag that comes back after this is not the bag we sampled.
                 InvalidateBagBaseline();
                 // And the holder the game named for the old actor is a pointer
@@ -7518,6 +7544,11 @@ namespace ml::loot
                 it = (now - it->second > 60000 && !g_present.count(it->first)) ? g_firstSeen.erase(it) : std::next(it);
             if (g_firstSeen.size() > 8192) g_firstSeen.clear();
         }
+        // The same for the respawn test's sightings, never cleared outright:
+        // a cleared map makes everything near a fresh catch read as new.
+        if (g_listedAt.size() > 8192)
+            for (auto it = g_listedAt.begin(); it != g_listedAt.end();)
+                it = (now - it->second > 60000 && !g_present.count(it->first)) ? g_listedAt.erase(it) : std::next(it);
         if (g_ownAns.size() > 4096) g_ownAns.clear();
         if (g_done.size() > 4096)
             for (auto it = g_done.begin(); it != g_done.end();)
@@ -7749,6 +7780,19 @@ namespace ml::loot
                     const uint64_t key = Key(k);
                     if (RecentlyDone(key, now, cfg.retryAfterMs) && held("sent to recently, waiting out the retry delay")) continue;
                     if (v.act != Action::Catch && SpotRecent(k.pos, k.tid, k.eid, now, cfg.retryAfterMs) && held("something of its kind was taken from this spot just now")) continue;
+                    if (v.act == Action::Catch)
+                    {
+                        if (g_respawnEid.count(k.eid)) continue;
+                        if (const CatchSpot* s = RespawnOf(k, now))
+                        {
+                            if (g_respawnEid.size() > 4096) g_respawnEid.clear();
+                            g_respawnEid.insert(k.eid);
+                            const float dx = s->p.x - k.pos.x, dy = s->p.y - k.pos.y, dz = s->p.z - k.pos.z;
+                            LOG("[catch] eid %08X %s (%.1f m) turned up %.1f m from where the mod caught %08X %lu ms before; the game respawns them there, so this one is left alone",
+                                k.eid, Label(k), k.d, std::sqrt(dx * dx + dy * dy + dz * dz), s->eid, static_cast<unsigned long>(now - s->when));
+                            continue;
+                        }
+                    }
                     // Called where the mod has asked the game for something,
                     // whether the game took it or refused it. Never above the
                     // gates below: marking there told RecentlyDone the object
@@ -7762,6 +7806,8 @@ namespace ml::loot
                         {
                             if (g_catchSent.size() > 8192) g_catchSent.clear();
                             g_catchSent.insert(k.eid);
+                            if (g_catchSpots.size() >= 64) g_catchSpots.erase(g_catchSpots.begin());
+                            g_catchSpots.push_back({ k.pos, now, k.eid });
                         }
                         else SpotMark(k.pos, k.tid, k.eid, now);
                     };

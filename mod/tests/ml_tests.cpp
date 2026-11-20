@@ -18,11 +18,13 @@
 #include "core/settings.h"
 #include "loot/breakjudge.h"
 #include "loot/scanretry.h"
+#include "loot/respawn.h"
 
 using namespace ml;
 using loot::BreakVerdict;
 using loot::JudgeBreak;
 using loot::NextScanRetryMs;
+using loot::IsRespawnOf;
 
 static int g_failed = 0, g_passed = 0;
 
@@ -68,6 +70,24 @@ static void ScanRetry()
     uint32_t w = 0, total = 0;
     for (int i = 0; i < 40; ++i) { w = NextScanRetryMs(w, w + 1); total += w; }
     Check(w == 300000 && total < 40u * 300000u, "forty faults in a row never wait longer than 5 minutes each");
+}
+
+static void Respawns()
+{
+    // omegadragonr2, issue #232: at the Hernand teleport rat B010016A was
+    // caught at 26.861 and B0100252 turned up on the same spot 3.4 s later,
+    // then a new one every 0.6 s. The replacement is left alone.
+    const uint32_t caught = 26861, next = 30268;
+    Check(IsRespawnOf(0xB0100252, next, next, 0xB010016A, caught, 0.0f), "a rat listed on the caught one's spot after the catch is a respawn");
+    Check(IsRespawnOf(0xB0100259, 30884, 30884, 0xB0100252, next - 1, 1.0f), "and so is the next one 0.6 s later");
+    Check(IsRespawnOf(0xB0100252, caught, caught + 600, 0xB010016A, caught, 0.0f), "one listed in the same pass as the catch counts too");
+    Check(!IsRespawnOf(0xB0100252, caught - 600, next, 0xB010016A, caught, 0.0f), "a creature listed before the catch was already there");
+    Check(!IsRespawnOf(0xB010016A, next, next, 0xB010016A, caught, 0.0f), "the caught creature is not its own respawn");
+    Check(!IsRespawnOf(0xB0100252, next, next, 0xB010016A, caught, 4.0f * 4.0f), "4 m away is a different creature");
+    Check(!IsRespawnOf(0xB0100252, caught + 20001, caught + 20001, 0xB010016A, caught, 0.0f), "twenty seconds on, the catch no longer counts");
+    const uint32_t w = 0xFFFFF000u;
+    Check(IsRespawnOf(1, w + 0x2000, w + 0x2000, 2, w, 0.0f), "judged across the tick counter wrapping");
+    Check(!IsRespawnOf(1, w - 1, w + 0x2000, 2, w, 0.0f), "and a creature listed before a catch near the wrap is still old");
 }
 
 static void ProtectedTags()
@@ -300,6 +320,7 @@ int main()
 
     BreakTiming();
     ScanRetry();
+    Respawns();
     ProtectedTags();
     AlwaysOverSwitch();
     PlacedHousing();
