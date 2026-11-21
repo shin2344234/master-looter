@@ -65,7 +65,13 @@ Stack Master 1.0.6 adds `StackSize` to `StackMaster.ini`, one stack size for eve
 
 ## Installing
 
-**1.6.64 needs game 2.05.01, exe 1.0.0.3732.** 1.6.62 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.05.00, exe 1.0.0.3663. That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 is there for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
+**1.6.65 needs game 2.05.01, exe 1.0.0.3732.** 1.6.62 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.05.00, exe 1.0.0.3663. That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 is there for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
+
+What changed in 1.6.65:
+
+- Rats, toads and iguanas no longer get caught over and over at the same spot. At the Hernand teleport a spawner puts a new rat down the moment the last one is taken, and one log caught 154 of them in a few minutes. A creature that first shows up within 4 m of a catch, less than 20 s after it, is now left alone. One that walked up to the spot is still caught. Reported by omegadragonr2.
+- With RivaTuner running before the game starts, the mod wraps the swapchain the way it does with the Steam overlay. Before, RivaTuner getting to `Present` first made the mod stack its hook instead, and then both its menu and Crimson Collection's F10 menu could draw one frame and nothing after it. Reported by Ratrider.
+- This build was not tested in play.
 
 What changed in 1.6.64:
 
@@ -120,7 +126,7 @@ One scanner out of seventy-one flags `MasterLooter.asi` on 1.6.64. Webroot calls
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one, 1.6.50 one, 1.6.51 one, 1.6.52 one, 1.6.53 one, 1.6.54 one, 1.6.55 one, 1.6.56 one, 1.6.57 one, 1.6.58 one, 1.6.59 one, 1.6.60 one, 1.6.61 one, 1.6.62 one, 1.6.63 one and 1.6.64 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46, then flagged only the DMM zip on 1.6.59 and nothing on 1.6.60 through 1.6.64; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.64: [the plugin](https://www.virustotal.com/gui/file/bcaa2277486d8b2e0528248ae550dac4e1d980fc529c55197e99ed5cbd0b064e) and [the package](https://www.virustotal.com/gui/file/f356c26b3ddc6afd0502ef16788b8155e269517a8b284b7bae31cbe0d3eef9e7).
+Reports for 1.6.65: [the plugin](https://www.virustotal.com/gui/file/52fd7633929999f05b3ea8e7964c8ff9fd39ba7346c36ae753700095fb9c22ee) and [the package](https://www.virustotal.com/gui/file/2c77eff3c244bb388adfa136795f7c3bceb793c8786bf35064a3845e82123ac9).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -128,11 +134,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.64:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.65:
 
-    f356c26b3ddc6afd0502ef16788b8155e269517a8b284b7bae31cbe0d3eef9e7  MasterLooter-1.6.64-DMM.zip
-    c1cd120cc5e6fdd38a3dbafdf2cdd11cc840c3aa68502007e9a568258c4d681d  MasterLooter-1.6.64.zip
-    bcaa2277486d8b2e0528248ae550dac4e1d980fc529c55197e99ed5cbd0b064e  MasterLooter.asi
+    2c77eff3c244bb388adfa136795f7c3bceb793c8786bf35064a3845e82123ac9  MasterLooter-1.6.65-DMM.zip
+    145f0b910717ec7e929c5b536b0ba4fadf7e33235c7944ce6229d363aeaf9cf8  MasterLooter-1.6.65.zip
+    52fd7633929999f05b3ea8e7964c8ff9fd39ba7346c36ae753700095fb9c22ee  MasterLooter.asi
 
 ## Controls
 
