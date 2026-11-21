@@ -1474,7 +1474,7 @@ namespace ml::hooks
     }
 
     // Detours on Present that the wrapper has always lived alongside. Steam's
-    // overlay draws and keys nothing; the frame generation interposer is the
+    // overlay and RTSS draw and key nothing; the frame generation interposer is the
     // proxy the wrapper was built to sit under. Anything else that got to
     // Present first is assumed to key its own work on the swapchain object it
     // was handed, which Crimson Route does, and such a mod must not be handed
@@ -1484,6 +1484,11 @@ namespace ml::hooks
         if (!mod || !mod[0] || mod[0] == '?') return false;
         if (IsSystemOwner(mod)) return true;
         if (_stricmp(mod, "gameoverlayrenderer64.dll") == 0) return true;
+        // RivaTuner's OSD draws on whatever chain reaches its detour, like
+        // Steam's. Stacked on it, this mod and Crimson Collection each logged
+        // one frame and then nothing (issue #237); a run where RTSS hooked
+        // Present after the wrapper went in drew both mods.
+        if (_stricmp(mod, "RTSSHooks64.dll") == 0) return true;
         if (_stricmp(mod, "MasterLooter.asi") == 0) return true;
         if (_strnicmp(mod, "sl.", 3) == 0 || _strnicmp(mod, "nvngx", 5) == 0) return true;
         return false;
