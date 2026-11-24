@@ -23,6 +23,7 @@ namespace ml::ItemDb
     static std::vector<std::pair<std::string, int>>     g_classes;
     static std::vector<std::pair<std::string, int>>     g_tags;
     static bool                                         g_loaded = false;
+    static int                                          g_healCount = 0;
     static const char*                                  g_source = "none";
 
     static void Split(const std::string& line, std::vector<std::string>& out)
@@ -51,6 +52,7 @@ namespace ml::ItemDb
         g_byKey.clear();
         g_byName.clear();
         g_byPlaced.clear();
+        int healCount = 0;
         size_t pos = 0;
         bool header = true, hasRow = false;
         int maxRow = -1;
@@ -76,6 +78,8 @@ namespace ml::ItemDb
             it.tier      = atoi(cols[c++].c_str());
             it.value     = cols[c].empty() ? -1 : atoll(cols[c].c_str());
             const std::string placed = c + 1 < cols.size() ? cols[c + 1] : std::string();
+            it.heal      = c + 2 < cols.size() ? std::max(0, atoi(cols[c + 2].c_str())) : 0;
+            if (it.heal > 0) ++healCount;
             if (it.row > maxRow) maxRow = it.row;
             classCount[it.klass]++;
             size_t a = 1;
@@ -112,6 +116,7 @@ namespace ml::ItemDb
         g_classes.assign(classCount.begin(), classCount.end());
         std::sort(g_classes.begin(), g_classes.end(), [](const auto& x, const auto& y) { return x.second != y.second ? x.second > y.second : x.first < y.first; });
         g_tags.assign(tagCount.begin(), tagCount.end());
+        g_healCount = healCount;
         g_loaded = !g_items.empty();
         if (g_loaded && !hasRow)
             LOG_ERR("MasterLooter.items.tsv has no row column; regenerate it with scripts/make_itemdb_tsv.py. Items will be matched by name only.");
@@ -122,6 +127,7 @@ namespace ml::ItemDb
     const char* Source() { return g_source; }
     int  Count()  { return static_cast<int>(g_items.size()); }
     int  RowCount() { return static_cast<int>(g_byRow.size()); }
+    int  HealCount() { return g_healCount; }
 
     const Item* Find(uint32_t key)
     {

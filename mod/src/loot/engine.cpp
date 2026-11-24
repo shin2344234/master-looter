@@ -1650,7 +1650,8 @@ namespace ml::loot
     static bool IsFilterRule(const char* why)
     {
         return why && (strcmp(why, "item override") == 0 || strcmp(why, "tag never") == 0 || strcmp(why, "class skipped") == 0 ||
-                       strcmp(why, "below value floor") == 0 || strcmp(why, "unsellable") == 0);
+                       strcmp(why, "below value floor") == 0 || strcmp(why, "below health floor") == 0 ||
+                       strcmp(why, "unsellable") == 0);
     }
 
     // Auto-store. Private Storage Master moves what this mod picked up into the
@@ -5081,7 +5082,8 @@ namespace ml::loot
     static bool NeverDestroy(const Item& it, const Rules::Verdict& r)
     {
         return NeverDelete(it, r) ||
-               strcmp(r.rule, "unsellable") == 0 || strcmp(r.rule, "below value floor") == 0;
+               strcmp(r.rule, "unsellable") == 0 || strcmp(r.rule, "below value floor") == 0 ||
+               strcmp(r.rule, "below health floor") == 0;
     }
 
     // --- refused body loot back on the ground (DROP.md) -------------------

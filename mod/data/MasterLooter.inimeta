@@ -344,6 +344,16 @@
           "unit": "copper",
           "order": 22
         },
+        "MinFoodHealth": {
+          "label": "Minimum health from food",
+          "type": "int",
+          "group": "Filters",
+          "default": "0",
+          "help": "0 turns it off. Food that gives back less health than this is left where it lies, and food at or above it is taken whatever it sells for, since this floor replaces Minimum value for anything that heals. 300 keeps Hearty Pan-Fried Rice Cakes at 860 and leaves Vegetable Porridge at 200. Dishes that heal by a percentage, raise maximum health or restore stamina have no health value and are not judged by it. Not in the in-game menu yet; this ini line is the only switch for it.",
+          "min": 0,
+          "unit": "health",
+          "order": 22
+        },
         "TakeUnknownItems": {
           "label": "Take items the database cannot name",
           "type": "bool",

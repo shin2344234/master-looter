@@ -166,6 +166,47 @@ static void ProtectedTags()
     Check(core && !Prot(Rules::Decide(*core, always)), "an always on gimmick still lifts the protection");
 }
 
+// Sov, Discord, 1 October 2026, issue #95: a floor on food by how much it
+// heals, so the 400 health dishes come in and the 120 ones stay behind.
+static void FoodHealthFloor()
+{
+    Check(ItemDb::Load(), "the item table loads");
+    Check(ItemDb::HealCount() > 250, "the table carries a health value for the dishes");
+    const Item* hearty = ItemDb::ByStringKey("Gungjung_Tteokbokki_XLarge");
+    const Item* porridge = ItemDb::ByStringKey("Vegetable_Porridge");
+    const Item* choc = ItemDb::ByStringKey("Item_Chocolate");
+    const Item* copper = ItemDb::ByStringKey("Money_Copper");
+    Check(hearty && hearty->heal == 860, "Hearty Pan-Fried Rice Cakes heal 860");
+    Check(porridge && porridge->heal == 200, "Vegetable Porridge heals 200");
+    Check(choc && choc->heal == 0, "Chocolate heals by a percentage and carries no health value");
+    Check(copper && copper->heal == 0, "copper carries no health value");
+    if (!hearty || !porridge || !choc || !copper) return;
+
+    Config off;
+    Check(off.minFoodHealth == 0, "MinFoodHealth is off by default");
+    Check(Rules::Decide(*porridge, off).loot, "with the floor off the porridge is taken as before");
+
+    Config cfg;
+    cfg.minFoodHealth = 300;
+    const Rules::Verdict low = Rules::Decide(*porridge, cfg);
+    Check(!low.loot && strcmp(low.rule, "below health floor") == 0, "a 300 floor leaves the 200 porridge");
+    Check(low.detail == "200 health, floor 300", "the refusal names the dish's health and the floor");
+    Check(Rules::Decide(*hearty, cfg).loot, "a 300 floor takes the 860 rice cakes");
+    Check(Rules::Decide(*choc, cfg).loot, "food with no health value is not judged by the floor");
+
+    Config copperFloor = cfg;
+    copperFloor.minValueCopper = 1000;
+    Check(Rules::Decide(*hearty, copperFloor).loot, "the health floor replaces the copper floor for a dish");
+    Check(!Rules::Decide(*choc, copperFloor).loot, "the copper floor still judges food with no health value");
+
+    Config skipped = cfg;
+    skipped.classRule[hearty->klass] = 0;
+    Check(!Rules::Decide(*hearty, skipped).loot, "a skipped class still refuses a dish over the floor");
+    Config always = cfg;
+    always.itemRule[porridge->key] = 1;
+    Check(Rules::Decide(*porridge, always).loot, "an item Always still takes a dish under the floor");
+}
+
 // LuxDragon, 9 November 2026: an Always on flower pots did nothing with
 // Furniture off. stinkfire, bug 1172278: shop tables are housing-only and must
 // never be taken, whatever the player sets.
@@ -294,6 +335,13 @@ static void NotVeins()
     Settings::Load();
     Check(Settings::Snapshot().dropRefusedChests, "DropRefusedChests=1 in the ini turns it on");
     Check(!Settings::Snapshot().dropRefused, "DropRefusedChests=1 leaves Drop refused loot from bodies off");
+    Check(Settings::Snapshot().minFoodHealth == 0, "MinFoodHealth is 0 when the ini does not name it");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nMinFoodHealth=300\r\n"), "the MinFoodHealth test ini is written");
+    Settings::Load();
+    Check(Settings::Snapshot().minFoodHealth == 300, "MinFoodHealth=300 in the ini sets the floor");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nMinFoodHealth=-5\r\n"), "the negative MinFoodHealth test ini is written");
+    Settings::Load();
+    Check(Settings::Snapshot().minFoodHealth == 0, "a negative MinFoodHealth reads as off");
     Check(!Settings::Snapshot().logFolder && !Settings::PeekLogFolder(), "LogFolder is off when the ini does not name it");
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nLogFolder=1\r\n"), "the LogFolder test ini is written");
     Check(Settings::PeekLogFolder(), "the early peek reads LogFolder=1 before any load");
@@ -373,6 +421,7 @@ int main()
     Respawns();
     SeaMounts();
     ProtectedTags();
+    FoodHealthFloor();
     AlwaysOverSwitch();
     PlacedHousing();
     LiveRows();

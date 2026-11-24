@@ -171,6 +171,11 @@ namespace ml
         // almost entirely quest equipment worth a single copper.
         bool  skipQuestGear  = true;
         int   minValueCopper = 0;      // 0 = no value floor
+        // A floor on food by the health it gives back, 0 = off.
+        // Sov on Discord, 1 October 2026, issue #95. A dish with a heal value
+        // is judged by this in place of the copper floor while it is set.
+        // Off by default and ini only, like PauseWhenMounted.
+        int   minFoodHealth  = 0;
         bool  takeUnknownItems = true; // items our database cannot name
         // What a body or a carcass this mod searched pays that the rules
         // refuse is put back on the ground through the game's own drop.

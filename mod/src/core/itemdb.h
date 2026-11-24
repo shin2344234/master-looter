@@ -16,6 +16,11 @@ namespace ml
         std::string tags;       // space separated, with a leading and trailing space for fast lookup
         int         tier  = 0;
         long long   value = -1; // copper sell value, -1 when unknown
+        // Health a dish or other food gives back when eaten, 0 for anything else,
+        // from the heal_hp column (see scripts/make_itemdb_tsv.py). Only the
+        // dish skills count, so raw ingredients, potions and the dishes that
+        // heal by a percentage or raise maximum health read 0.
+        int         heal  = 0;
         // The other half of a pack and what it holds, 0 for nearly everything.
         // A Delysian machine drops Cog_Pack, which turns into Cog the moment it
         // is taken; both are called Cogwheel, so the Items tab lists two rows
@@ -62,6 +67,8 @@ namespace ml
         // basename NodeDb::PrefabKey gives. Null for anything else.
         const Item* ByPlacedPrefab(const std::string& prefabKey);
         int PlacedCount();
+        // Items with a heal value, 0 when the table predates the column.
+        int HealCount();
         const std::vector<Item>& All();
         // (class, item count) sorted by count, largest first
         const std::vector<std::pair<std::string, int>>& Classes();

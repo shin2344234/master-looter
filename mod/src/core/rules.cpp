@@ -107,6 +107,18 @@ namespace ml::Rules
         // The rule name stays the global floor's on purpose: the delete paths
         // spare anything refused under it, since a floor says what is not worth
         // carrying and not what is worth losing, and that holds for this too.
+        // Sov, Discord, 1 October 2026, issue #95: keep the 400 health dishes
+        // and leave the 120 ones. A dish the table gives a heal value is
+        // judged by health in place of copper while MinFoodHealth is set, so a
+        // strong dish worth little still comes in under a copper floor. The
+        // delete paths spare it the way they spare the copper floor.
+        if (cfg.minFoodHealth > 0 && item.heal > 0)
+        {
+            if (item.heal >= cfg.minFoodHealth) return DecideClass(item.klass, cfg);
+            v.loot = false; v.rule = "below health floor";
+            v.detail = std::to_string(item.heal) + " health, floor " + std::to_string(cfg.minFoodHealth);
+            return v;
+        }
         int floor = cfg.minValueCopper;
         const auto cf = cfg.classFloor.find(item.klass);
         const bool ownFloor = cf != cfg.classFloor.end() && cf->second > 0;
