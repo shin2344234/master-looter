@@ -284,6 +284,15 @@ namespace ml::gui
         c[ImGuiCol_TextSelectedBg]       = ImVec4(kCrimson.x, kCrimson.y, kCrimson.z, 0.45f);
         c[ImGuiCol_NavCursor]            = ImVec4(kGold.x, kGold.y, kGold.z, 0.7f);
         s.ScaleAllSizes(g_scale);
+        // ScaleAllSizes truncates MouseCursorScale to a whole number, so a back
+        // buffer under 1080 tall (900p, 768p, a 1080p window less its title
+        // bar) took the scale below 1 and the cursor scale to 0. The menu's
+        // pointer was then drawn zero pixels wide: clicks still landed and
+        // nothing showed where (issue #234).
+        const float imguiCursor = s.MouseCursorScale;
+        if (s.MouseCursorScale < 1.0f) s.MouseCursorScale = 1.0f;
+        LOG("[menu] pointer drawn at scale %.2f for a menu scale of %.2f%s", s.MouseCursorScale, g_scale,
+            imguiCursor < 1.0f ? "; ImGui had made it 0, raised to 1 so the pointer shows" : "");
     }
 
     // --- toggle -------------------------------------------------------------
