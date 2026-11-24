@@ -32,4 +32,9 @@ namespace ml::Rules
     // class rule never lifts a switch, since 1 there is only a ticked box
     // and Loot all ticks every one.
     Verdict ExplicitAlways(const Item& item, const Config& cfg);
+
+    // Whether SkipCarriedGear judges this item: a weapon, a piece of armour,
+    // an accessory or damaged gear that does not stack. The classes are the
+    // menu's Weapons and armor, Damaged gear and Accessories groups.
+    bool IsUnstackableGear(const Item& item);
 }

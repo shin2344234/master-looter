@@ -364,6 +364,16 @@
           "unit": "health",
           "order": 22
         },
+        "SkipCarriedGear": {
+          "label": "Skip gear you already carry",
+          "type": "bool",
+          "group": "Filters",
+          "default": "0",
+          "true": "1",
+          "false": "0",
+          "help": "Leaves a weapon, a piece of armour, an accessory or a piece of damaged gear on the ground when your bag already holds one of that same item. It goes by the item, so a second Tauria Curved Sword is left and a different sword still comes in. Gear you wear and gear in storage do not count, only what is in the bag. Two copies lying together are handled too: the mod takes the first and leaves the second. Bodies are not covered, since searching one hands over everything it holds at once. Not in the in-game menu yet; this ini line is the only switch for it.",
+          "order": 22
+        },
         "TakeUnknownItems": {
           "label": "Take items the database cannot name",
           "type": "bool",

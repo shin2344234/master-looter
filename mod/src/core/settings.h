@@ -176,6 +176,12 @@ namespace ml
         // is judged by this in place of the copper floor while it is set.
         // Off by default and ini only, like PauseWhenMounted.
         int   minFoodHealth  = 0;
+        // Leave a piece of gear on the ground when the carried bag already
+        // holds one of that same item. Weapons, armour and accessories that do
+        // not stack, damaged gear included. sherlucky1 on the Nexus posts tab,
+        // 26 September 2026, issue #129. Off by default and ini only, like
+        // PauseWhenMounted.
+        bool  skipCarriedGear = false;
         bool  takeUnknownItems = true; // items our database cannot name
         // What a body or a carcass this mod searched pays that the rules
         // refuse is put back on the ground through the game's own drop.

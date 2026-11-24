@@ -847,6 +847,14 @@ namespace ml::game
         for (int i = 0; i < n; ++i) { types[i] = g_bagQty[i].first; qty[i] = g_bagQty[i].second; }
         return n;
     }
+    long long BagCount(uint16_t type)
+    {
+        if (!g_bagQtyOk) return -1;
+        // g_bagQty is sorted by type and merged, one entry per type.
+        const auto it = std::lower_bound(g_bagQty.begin(), g_bagQty.end(), type,
+                                         [](const std::pair<uint16_t, long long>& e, uint16_t t) { return e.first < t; });
+        return it != g_bagQty.end() && it->first == type ? it->second : 0;
+    }
     int InventoryTypes(uint16_t* types, long long* qty, int max)
     {
         const int n = static_cast<int>(g_qty.size()) < max ? static_cast<int>(g_qty.size()) : max;

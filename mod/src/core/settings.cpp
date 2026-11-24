@@ -198,6 +198,7 @@ namespace ml::Settings
         else if (k == "StopPetBodies")    c.stopPetBodies = Flag(v);
         else if (k == "MinValueCopper")   c.minValueCopper = std::max(0, atoi(v.c_str()));
         else if (k == "MinFoodHealth")    c.minFoodHealth = std::max(0, atoi(v.c_str()));
+        else if (k == "SkipCarriedGear")  c.skipCarriedGear = Flag(v);
         else if (k == "TakeUnknownItems") c.takeUnknownItems = Flag(v);
         else if (k == "DropRefused")      c.dropRefused = Flag(v);
         else if (k == "DropRefusedChests") c.dropRefusedChests = Flag(v);
@@ -755,11 +756,11 @@ namespace ml::Settings
             c.scanRange, c.lootRange, c.gatherRange, c.catchRange, c.corpseRange, c.armRange, c.minRange);
         LOG("Settings switches: auto %d ground %d plants %d crops %d ore %d wood %d furniture %d dyes %d containers %d unknown %d "
             "corpses %d bodies %d veins %d arm %d owned %d quest %d nosell %d questgear %d pet %d stoppet %d stoppetbodies %d "
-            "petstore %d minvalue %d minhealth %d spareliving %d.",
+            "petstore %d minvalue %d minhealth %d carriedgear %d spareliving %d.",
             c.enabled, c.pickUpItems, c.gatherPlants, c.gatherCrops, c.gatherOre, c.gatherWood, c.lootFurniture,
             c.lootDyes, c.lootContainers, c.gatherUnknown, c.lootCorpses, c.searchBodies, c.gatherVeins, c.autoArm,
             c.lootOwned, c.skipQuestItems, c.skipNoSell, c.skipQuestGear, c.petFilter, c.stopPetLooting, c.stopPetBodies,
-            c.petLootToStorage, c.minValueCopper, c.minFoodHealth, c.spareLiving);
+            c.petLootToStorage, c.minValueCopper, c.minFoodHealth, c.skipCarriedGear, c.spareLiving);
         // RevOGUwU, issue #82, 20 September 2026: two logs of a menu that
         // would not take a click, and neither could be read, because the
         // startup said which ranges and switches were set and never which key
@@ -817,6 +818,7 @@ namespace ml::Settings
         snprintf(b, sizeof b, "DropRefusedChests=%d\n", c.dropRefusedChests); s += b;
         snprintf(b, sizeof b, "HideItemLog=%d\n", c.hideItemLog); s += b;
         snprintf(b, sizeof b, "MinFoodHealth=%d\n", c.minFoodHealth); s += b;
+        snprintf(b, sizeof b, "SkipCarriedGear=%d\n", c.skipCarriedGear); s += b;
         if (!c.deleteTestName.empty()) { snprintf(b, sizeof b, "DeleteTestName=%s\n", c.deleteTestName.c_str()); s += b; }
         if (c.breakTest) { snprintf(b, sizeof b, "BreakTest=%d\n", c.breakTest); s += b; }
         if (c.equipStrict) { snprintf(b, sizeof b, "EquipStrict=1\n"); s += b; }

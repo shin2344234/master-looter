@@ -175,4 +175,17 @@ namespace ml::Rules
         v.detail = klass;
         return v;
     }
+
+    bool IsUnstackableGear(const Item& item)
+    {
+        // sherlucky1, issue #129: weapons, armour, bows and accessories, the
+        // things that cannot stack. Bows are class weapon. A bag is class bag
+        // and stacks, so the stackable test leaves it out; no other item in
+        // these classes carries the tag in the 3732 table.
+        static const char* gear[] = { "weapon", "shield", "helm", "body-armor", "gloves", "boots", "cloak", "armor",
+                                      "mask", "eyewear", "damaged-gear", "accessory", "necklace", "ring", "earring", "bag" };
+        if (item.HasTag("stackable")) return false;
+        for (const char* k : gear) if (item.klass == k) return true;
+        return false;
+    }
 }

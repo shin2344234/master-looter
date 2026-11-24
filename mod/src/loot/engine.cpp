@@ -1647,6 +1647,74 @@ namespace ml::loot
         return hooks::PetLootingHooked() && (cfg.petFilter || cfg.stopPetLooting) && !MercenaryOutRecently(now);
     }
 
+    // SkipCarriedGear, issue #129, sherlucky1 on the Nexus posts tab: leave a
+    // weapon, a piece of armour or an accessory that does not stack when the
+    // carried bag already holds one of that item. The bag is read every half
+    // second, so a pick-up the mod has just sent is not in it yet. Each take of
+    // gear is remembered by item type for five seconds, and a second copy on
+    // the ground in that time is left too. Scan thread only, like g_pend.
+    struct GearSent { uint16_t type; uint32_t eid; DWORD at; };
+    static std::vector<GearSent> g_gearSent;
+    static constexpr DWORD kGearSentMs = 5000;
+    static std::unordered_set<uint32_t> g_gearTold;   // eids already given a [gear] line
+
+    // How long ago another object of this type was taken, 0xFFFFFFFF when
+    // none was in the window. *self is set when this very object was, which
+    // is the copy the mod reached for and not a second one.
+    static DWORD GearSentAgo(uint16_t type, uint32_t eid, DWORD now, bool* self)
+    {
+        DWORD best = 0xFFFFFFFF;
+        *self = false;
+        for (const GearSent& g : g_gearSent)
+        {
+            if (now - g.at >= kGearSentMs) continue;
+            if (g.eid == eid) { *self = true; continue; }
+            if (g.type == type && now - g.at < best) best = now - g.at;
+        }
+        return best;
+    }
+
+    static void NoteGearSent(uint16_t type, uint32_t eid, DWORD now)
+    {
+        g_gearSent.erase(std::remove_if(g_gearSent.begin(), g_gearSent.end(),
+                                        [&](const GearSent& g) { return now - g.at >= kGearSentMs; }), g_gearSent.end());
+        g_gearSent.push_back({ type, eid, now });
+    }
+
+    // Why a piece of gear is left, or null when it is not. Writes one [gear]
+    // line per object, so a play test can show the switch at work.
+    static const char* CarriedGear(const Item& it, uint16_t type, uint32_t eid, float d, DWORD now)
+    {
+        bool self = false;
+        const DWORD ago = GearSentAgo(type, eid, now, &self);
+        // The copy the mod just reached for is still on the ground until the
+        // game takes it, and once it lands the bag holds it. Neither is a
+        // reason to refuse the object that was sent for.
+        if (self) return nullptr;
+        const long long have = game::BagCount(type);
+        if (have < 0)
+        {
+            static bool s_said = false;
+            if (!s_said)
+            {
+                s_said = true;
+                LOG("[gear] the carried bag could not be read, so SkipCarriedGear=1 cannot tell what you carry; gear is judged by the bag again once it reads");
+            }
+        }
+        if (have <= 0 && ago == 0xFFFFFFFF) return nullptr;
+        if (g_gearTold.size() > 4096) g_gearTold.clear();
+        if (g_gearTold.insert(eid).second)
+        {
+            if (have > 0)
+                LOG("[gear] left %s (%s) eid %08X %.1f m: the bag already holds %lld of it (SkipCarriedGear=1)",
+                    it.name.c_str(), it.klass.c_str(), eid, d, have);
+            else
+                LOG("[gear] left %s (%s) eid %08X %.1f m: one was picked up %lu ms ago and has not reached the bag yet (SkipCarriedGear=1)",
+                    it.name.c_str(), it.klass.c_str(), eid, d, static_cast<unsigned long>(ago));
+        }
+        return have > 0 ? "already carrying one" : "one just picked up";
+    }
+
     static bool IsFilterRule(const char* why)
     {
         return why && (strcmp(why, "item override") == 0 || strcmp(why, "tag never") == 0 || strcmp(why, "class skipped") == 0 ||
@@ -4334,6 +4402,10 @@ namespace ml::loot
                 if (!cfg.takeUnknownItems)       return skip("unnamed item");
             }
         }
+        // Issue #129. A loose piece of gear only: a body hands over everything
+        // at once, so there is nothing to choose from before it lands.
+        if (v.act == Action::Take && cfg.skipCarriedGear && c.db && c.tid && Rules::IsUnstackableGear(*c.db))
+            if (const char* why = CarriedGear(*c.db, c.tid, c.eid, c.d, GetTickCount())) return skip(why);
 
         switch (v.act)
         {
@@ -8041,6 +8113,12 @@ namespace ml::loot
                             continue;
                         }
                     }
+                    // Issue #129. Every verdict in a pass is reached before any
+                    // pick-up is sent, so two copies of one sword lying together
+                    // both pass Decide. The first one sent is remembered, and
+                    // this leaves the second.
+                    const bool gearRule = v.act == Action::Take && cfg.skipCarriedGear && k.db && k.tid && Rules::IsUnstackableGear(*k.db);
+                    if (gearRule && CarriedGear(*k.db, k.tid, k.eid, k.d, now)) continue;
                     // Called where the mod has asked the game for something,
                     // whether the game took it or refused it. Never above the
                     // gates below: marking there told RecentlyDone the object
@@ -8286,6 +8364,7 @@ namespace ml::loot
                     }
                     commit();
                     ++taken;
+                    if (gearRule) NoteGearSent(k.tid, k.eid, now);
                     {
                         const Item* y = v.act == Action::Gather ? NodeYield(k) : nullptr;
                         g_pend.push_back({ now, v.act, v.act == Action::Gather ? k.gtid : static_cast<uint16_t>(0), k.db ? ItemDb::GameRow(*k.db) : -1, false,

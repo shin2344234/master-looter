@@ -132,6 +132,9 @@ namespace ml::game
     // The same, counted in the carried bag alone. -1 when the last refresh could
     // not read the bag.
     int  BagTypes(uint16_t* types, long long* qty, int max);
+    // How many of one item type the carried bag held at the last refresh, -1
+    // when that refresh could not read the bag.
+    long long BagCount(uint16_t type);
 
     // --- tables -------------------------------------------------------------
     // Probes the live iteminfo table against our item database to learn the

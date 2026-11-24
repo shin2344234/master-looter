@@ -166,6 +166,28 @@ static void ProtectedTags()
     Check(core && !Prot(Rules::Decide(*core, always)), "an always on gimmick still lifts the protection");
 }
 
+// sherlucky1, Nexus posts tab, issue #129: SkipCarriedGear judges weapons,
+// armour, bows, accessories and damaged gear that do not stack, and nothing else.
+static void CarriedGearKinds()
+{
+    Check(ItemDb::Load(), "the item table loads");
+    const Item* sword = ItemDb::ByStringKey("Taoria_OneHandSword");
+    const Item* bow = ItemDb::ByStringKey("Robinhood_OneHandBow");
+    const Item* ring = ItemDb::ByStringKey("Legendary_Titan_Ring");
+    const Item* mail = ItemDb::ByStringKey("Luksa_ChainMail_Armor");
+    const Item* bag = ItemDb::ByStringKey("Inventory_Expansion_1");
+    const Item* copper = ItemDb::ByStringKey("Money_Copper");
+    const Item* porridge = ItemDb::ByStringKey("Vegetable_Porridge");
+    Check(sword && Rules::IsUnstackableGear(*sword), "a Tauria Curved Sword is gear the switch judges");
+    Check(bow && Rules::IsUnstackableGear(*bow), "a bow is gear the switch judges");
+    Check(ring && Rules::IsUnstackableGear(*ring), "a ring is gear the switch judges");
+    Check(mail && Rules::IsUnstackableGear(*mail), "damaged chain mail is gear the switch judges");
+    Check(bag && !Rules::IsUnstackableGear(*bag), "a bag stacks and is left to the other rules");
+    Check(copper && !Rules::IsUnstackableGear(*copper), "money is not gear");
+    Check(porridge && !Rules::IsUnstackableGear(*porridge), "food is not gear");
+    Check(!Config{}.skipCarriedGear, "SkipCarriedGear is off by default");
+}
+
 // Sov, Discord, 1 October 2026, issue #95: a floor on food by how much it
 // heals, so the 400 health dishes come in and the 120 ones stay behind.
 static void FoodHealthFloor()
@@ -349,6 +371,10 @@ static void NotVeins()
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\n\r\n[Items]\r\nHideItemLog=1\r\n"), "the misplaced HideItemLog ini is written");
     Settings::Load();
     Check(!Settings::Snapshot().hideItemLog, "HideItemLog outside [MasterLooter] does nothing");
+    Check(!Settings::Snapshot().skipCarriedGear, "SkipCarriedGear is off when the ini does not name it");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nSkipCarriedGear=1\r\n"), "the SkipCarriedGear test ini is written");
+    Settings::Load();
+    Check(Settings::Snapshot().skipCarriedGear, "SkipCarriedGear=1 in the ini turns it on");
     Check(!Settings::Snapshot().logFolder && !Settings::PeekLogFolder(), "LogFolder is off when the ini does not name it");
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nLogFolder=1\r\n"), "the LogFolder test ini is written");
     Check(Settings::PeekLogFolder(), "the early peek reads LogFolder=1 before any load");
@@ -429,6 +455,7 @@ int main()
     SeaMounts();
     ProtectedTags();
     FoodHealthFloor();
+    CarriedGearKinds();
     AlwaysOverSwitch();
     PlacedHousing();
     LiveRows();
