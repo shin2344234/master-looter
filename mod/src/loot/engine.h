@@ -58,6 +58,10 @@ namespace ml::loot
     // bag. After: what the search paid that the rules refuse goes back on the
     // ground. DROP.md.
     bool SearchParse(uintptr_t sender, uint32_t target, bool after);
+    // The same either side of its parse of a pick-up request, for a container
+    // this mod opened in the last ten seconds with DropRefusedChests on.
+    // Every other pick-up returns false at once without a word. Issue #89.
+    bool ChestParse(uintptr_t sender, uint32_t target, bool after);
     // The same either side of its parse of a discard, the request a drop by
     // hand raises. Before: reads the slot and tells the scan to expect the
     // item on the ground at `at`, the world position the payload names. After:

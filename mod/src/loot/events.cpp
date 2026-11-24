@@ -156,7 +156,7 @@ namespace ml::events
             if (discard) break;
         }
         if (!discard) { LOG_ERR("[drop] no descriptor answers as TrocTrDiscardItemReq; Drop refused loot from bodies does nothing on this build"); return; }
-        ml::loot::hooks::InstallDrop(discard, g_desc[0].ptr);
+        ml::loot::hooks::InstallDrop(discard, g_desc[0].ptr, g_desc[1].ptr);
     }
 
     // Asks the game for each descriptor id and matches the class name.

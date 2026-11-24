@@ -1367,6 +1367,22 @@ namespace ml::loot::hooks
         return r;
     }
 
+    // A pick-up request. The payload the mod builds for a gather, events.cpp:
+    // the id, FF, the mode at +3 and the target's entity id at +4. Gather is
+    // mode 05, which is how the mod opens a container; ChestParse ignores any
+    // target it did not mark, so the mode is not tested here. Issue #89.
+    static FnParse oPickUpParse = nullptr;
+    static uint64_t hkPickUpParse(void* a, void* b, void* c, void* d)
+    {
+        uintptr_t sender = 0, buf = 0; uint32_t target = 0;
+        const uintptr_t p = reinterpret_cast<uintptr_t>(c);
+        if (p && mem::ReadPtr(p, &sender) && mem::ReadPtr(p + 0x18, &buf)) mem::Read32(buf + 4, &target);
+        const bool watch = target && loot::ChestParse(sender, target, false);
+        const uint64_t r = oPickUpParse(a, b, c, d);
+        if (watch) loot::ChestParse(sender, target, true);
+        return r;
+    }
+
     // A drop by hand. The payload, DROP.md: the id, 03, the body length at
     // +3, then the inventory key, the slot, the amount and the position the
     // game is asked to put the item at. The parser refuses a packet whose
@@ -1391,7 +1407,7 @@ namespace ml::loot::hooks
         return r;
     }
 
-    void InstallDrop(uintptr_t discardDesc, uintptr_t searchDesc)
+    void InstallDrop(uintptr_t discardDesc, uintptr_t searchDesc, uintptr_t pickupDesc)
     {
         const uintptr_t parser = ParserOf(discardDesc);
         g_dropFn = FindDropCall(parser);
@@ -1415,6 +1431,14 @@ namespace ml::loot::hooks
         LOG("[drop] drops go through +0x%llX, found in the discard parser at +0x%llX; searches are watched at +0x%llX",
             static_cast<unsigned long long>(mem::Rva(g_dropFn)), static_cast<unsigned long long>(mem::Rva(parser)),
             static_cast<unsigned long long>(mem::Rva(search)));
+        // The containers the mod opens, DropRefusedChests. Hooked whatever the
+        // switch says, since the engine reads the switch on every parse; a
+        // failure here costs only the chests.
+        const uintptr_t pickup = ParserOf(pickupDesc);
+        if (!pickup || !Hook("pick-ups, server side", pickup, reinterpret_cast<void*>(&hkPickUpParse), reinterpret_cast<void**>(&oPickUpParse)))
+            LOG_ERR("[drop] the server's pick-up parser could not be hooked; DropRefusedChests does nothing on this build");
+        else
+            LOG("[drop] chests the mod opens are watched at +0x%llX", static_cast<unsigned long long>(mem::Rva(pickup)));
     }
 
     bool DropReady() { return g_dropFn && oSearchParse; }

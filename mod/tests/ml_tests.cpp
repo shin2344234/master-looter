@@ -289,6 +289,11 @@ static void NotVeins()
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nPauseWhenMounted=1\r\n"), "the third test ini is written");
     Settings::Load();
     Check(Settings::Snapshot().pauseMounted, "PauseWhenMounted=1 in the ini turns it on");
+    Check(!Settings::Snapshot().dropRefusedChests, "DropRefusedChests is off when the ini does not name it");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nDropRefusedChests=1\r\n"), "the DropRefusedChests test ini is written");
+    Settings::Load();
+    Check(Settings::Snapshot().dropRefusedChests, "DropRefusedChests=1 in the ini turns it on");
+    Check(!Settings::Snapshot().dropRefused, "DropRefusedChests=1 leaves Drop refused loot from bodies off");
     Check(!Settings::Snapshot().logFolder && !Settings::PeekLogFolder(), "LogFolder is off when the ini does not name it");
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nLogFolder=1\r\n"), "the LogFolder test ini is written");
     Check(Settings::PeekLogFolder(), "the early peek reads LogFolder=1 before any load");

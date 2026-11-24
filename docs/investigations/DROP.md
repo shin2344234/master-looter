@@ -230,3 +230,22 @@ something else of that row to the drop by position. The position match stays
 behind it for any item that turns out to get a new id when it lands. The
 opposite direction does not hold: a pick-up gives the bag a new id, which the
 duplicate probe of 15 September 2026 found on all 133 of its tries.
+
+## Chests the mod opens
+
+Issue #89. Sov asked on 27 September 2026 whether the drop could happen on
+opening a chest, and `DropRefusedChests=1` is the answer, off by default and
+ini only. The mod opens a container with the pick-up request,
+`TrocTrProcessPickUpItemOnceTimer`, in gather mode: the id, `FF`, `05` at +3
+and the target's entity id at +4. Slot 2 of that descriptor is detoured the
+same way the search's is, and `ChestParse` runs the search's bag diff either
+side of it. Every pick-up anybody makes passes through that parser, the
+player's own included, so the scan marks a container's id just before it
+sends the open, and the parse judges only a target marked in the ten seconds
+before. Anything else returns at once and writes nothing. A target counts as a
+container when the node table's kind says so or when the verdict's kind does.
+
+Unproved when it was built on 24 November 2026: whether a container pays
+during the parse of its open, the way a body pays during its search. If it
+pays later, every chest writes `put nothing new in the bag` and nothing is
+dropped, and the next step is finding the request the payout rides on.

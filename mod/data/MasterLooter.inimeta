@@ -364,6 +364,16 @@
           "help": "Searching a body or a carcass hands over everything it holds, and the mod only sees it once it is in the bag. On: whatever of that your item rules, tags, classes or value floor refuse is put straight back on the ground beside you, through the same drop the game uses when you drop something yourself, one pile per stack. It covers the mod's own searches and the bodies a pet or a companion loots, whose refused items land beside you as well. A body you search yourself keeps what it paid. Money, documents, quest items and protected items stay in the bag.",
           "order": 24
         },
+        "DropRefusedChests": {
+          "label": "Drop refused loot from chests",
+          "type": "bool",
+          "group": "Filters",
+          "default": "0",
+          "true": "1",
+          "false": "0",
+          "help": "Opening a chest, a crate or any other container hands over everything inside it, and the mod only sees it once it is in the bag. On: whatever of that your item rules, tags, classes or value floor refuse is put straight back on the ground beside you, the same way Drop refused loot from bodies does for bodies. It covers containers the mod opens, never one you open yourself. Money, documents, quest items and protected items stay in the bag. Not in the in-game menu yet; this ini line is the only switch for it.",
+          "order": 24
+        },
         "SpareLivingCreatures": {
           "label": "Leave living creatures alone",
           "type": "bool",

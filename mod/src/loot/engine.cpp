@@ -5107,13 +5107,59 @@ namespace ml::loot
     // search paid another of the same.
     //
     // The two snapshots are read and written on the server thread only.
-    static std::unordered_map<uint32_t, long long> g_searchBefore;   // instance -> count
-    static uintptr_t g_searchHolder = 0;
-    // The search being parsed was a pet's or a companion's. Its sender is that
-    // companion, so the drop goes where the player stands, not where the pet
-    // does, and GetInventoryHolder is asked about the pet: the game gives a
-    // pet the bag its loot lands in.
-    static bool g_searchByPet = false;
+    //
+    // A chest the mod opens is watched the same way, issue #89: Sov asked on
+    // 27 September 2026 whether the drop could happen on opening a chest. The
+    // mod opens one with the pick-up request in gather mode, so the server's
+    // parse of that request is detoured beside the search's, and only a target
+    // this mod opened as a container in the last ten seconds is judged. Every
+    // other pick-up, the player's own included, passes through untouched. Its
+    // own switch, DropRefusedChests, off by default. Each request keeps its own
+    // snapshot, so the two parses never share one.
+    struct BagWatch
+    {
+        std::unordered_map<uint32_t, long long> before;   // instance -> count
+        uintptr_t holder = 0;
+        // The search being parsed was a pet's or a companion's. Its sender is
+        // that companion, so the drop goes where the player stands, not where
+        // the pet does, and GetInventoryHolder is asked about the pet: the game
+        // gives a pet the bag its loot lands in. Never set for a chest.
+        bool byPet = false;
+    };
+    static BagWatch g_searchWatch, g_chestWatch;
+
+    // Containers this mod sent the open to, by target id. Written on the scan
+    // thread, read on the server thread.
+    struct ChestMark { uint32_t eid; DWORD at; };
+    static ChestMark g_chestMarks[32] = {};
+    static int g_chestMarkNext = 0;
+    static SRWLOCK g_chestMarkLock = SRWLOCK_INIT;
+
+    static int MarkChestOpen(uint32_t eid)
+    {
+        AcquireSRWLockExclusive(&g_chestMarkLock);
+        const int slot = g_chestMarkNext;
+        g_chestMarks[slot] = { eid, GetTickCount() };
+        g_chestMarkNext = (g_chestMarkNext + 1) % 32;
+        ReleaseSRWLockExclusive(&g_chestMarkLock);
+        return slot;
+    }
+    static void UnmarkChestOpen(int slot, uint32_t eid)
+    {
+        AcquireSRWLockExclusive(&g_chestMarkLock);
+        if (g_chestMarks[slot].eid == eid) g_chestMarks[slot] = {};
+        ReleaseSRWLockExclusive(&g_chestMarkLock);
+    }
+    static bool ChestOpenedRecently(uint32_t eid)
+    {
+        if (!eid) return false;
+        const DWORD now = GetTickCount();
+        bool hit = false;
+        AcquireSRWLockShared(&g_chestMarkLock);
+        for (const ChestMark& m : g_chestMarks) if (m.eid == eid && now - m.at < 10000) { hit = true; break; }
+        ReleaseSRWLockShared(&g_chestMarkLock);
+        return hit;
+    }
 
     // Where the played body stands, in the frame the drop routine wants: the
     // transform's +0x324, which +0x3D0 repeats. The +0xB4 the scan reads sits
@@ -5172,46 +5218,62 @@ namespace ml::loot
         return k;
     }
 
-    bool SearchParse(uintptr_t sender, uint32_t target, bool after)
+    // A body search when `chest` is false, a container this mod opened when it
+    // is true. The two differ only in which switch, which marks say the mod
+    // asked, and the words in the log.
+    static bool BagParse(bool chest, uintptr_t sender, uint32_t target, bool after)
     {
         static game::InvEntry ents[4096];
+        BagWatch& w = chest ? g_chestWatch : g_searchWatch;
+        const char* what = chest ? "the chest" : "the search of";
+        const char* from = chest ? "out of the chest" : "from";
         if (!after)
         {
-            g_searchHolder = 0;
-            g_searchByPet = false;
-            if (!Settings::Get().dropRefused) return false;
+            w.holder = 0;
+            w.byPet = false;
+            if (chest)
+            {
+                // Every pick-up anybody makes passes here, so only a container
+                // this mod opened gets a word in the log.
+                if (!Settings::Get().dropRefusedChests || !ChestOpenedRecently(target)) return false;
+            }
+            else if (!Settings::Get().dropRefused) return false;
             // Every way out below says so in the log. A report that a refused
             // item stayed in the bag could not be answered from the player's
             // log while these returned without a word.
             if (!hooks::DropReady())
-            { LOG("[drop] the search of %08X is not judged: the game's drop call was not found on this build", target); return false; }
+            { LOG("[drop] %s %08X is not judged: the game's drop call was not found on this build", what, target); return false; }
             if (!sender)
-            { LOG("[drop] the search of %08X is not judged: it names no sender", target); return false; }
+            { LOG("[drop] %s %08X is not judged: it names no sender", what, target); return false; }
             // A body the player searched by hand keeps what it paid. One this
-            // mod searched, or one a pet or a companion did, is judged.
+            // mod searched, or one a pet or a companion did, is judged. A chest
+            // reaches this line only when this mod opened it.
             uint32_t eid = 0;
             if (!game::Eid(sender, &eid))
-            { LOG("[drop] the search of %08X is not judged: its sender has no entity id", target); return false; }
-            if (events::SearchedRecently(target))
+            { LOG("[drop] %s %08X is not judged: its sender has no entity id", what, target); return false; }
+            if (chest || events::SearchedRecently(target))
             {
                 if ((eid >> 24) != game::kTagPlayer)
-                { LOG("[drop] the search of %08X is not judged: this mod asked for it, but the sender %08X is not a player", target, eid); return false; }
+                { LOG("[drop] %s %08X is not judged: this mod asked for it, but the sender %08X is not a player", what, target, eid); return false; }
             }
-            else if (events::CompanionSearchedRecently(target)) g_searchByPet = true;
+            else if (events::CompanionSearchedRecently(target)) w.byPet = true;
             else
             { LOG("[drop] the search of %08X is not judged: neither this mod nor a companion asked for it, so it counts as searched by hand and keeps what it pays", target); return false; }
             if (!hooks::ThreadContext())
-            { LOG("[drop] the search of %08X is not judged: no thread context on this thread", target); return false; }
+            { LOG("[drop] %s %08X is not judged: no thread context on this thread", what, target); return false; }
             const uintptr_t holder = game::HolderNow(sender);
             if (!holder)
-            { LOG("[drop] the search of %08X is not judged: the sender %08X has no bag holder", target, eid); return false; }
+            { LOG("[drop] %s %08X is not judged: the sender %08X has no bag holder", what, target, eid); return false; }
             const int n = ServerBag(holder, ents, 4096);
             if (n < 0)
-            { LOG("[drop] the search of %08X is not judged: the bag of %08X could not be read before it", target, eid); return false; }
-            g_searchBefore.clear();
-            for (int i = 0; i < n; ++i) g_searchBefore[ents[i].iid] += ents[i].count;
-            g_searchHolder = holder;
-            if (g_searchByPet)
+            { LOG("[drop] %s %08X is not judged: the bag of %08X could not be read before it", what, target, eid); return false; }
+            w.before.clear();
+            for (int i = 0; i < n; ++i) w.before[ents[i].iid] += ents[i].count;
+            w.holder = holder;
+            if (chest)
+                LOG("[drop] judging what the chest %08X pays: sender %08X, bag holder %llX, %d stacks in the bag before it opens",
+                    target, eid, static_cast<unsigned long long>(holder), n);
+            if (w.byPet)
             {
                 static int s_said = 0;
                 if (s_said++ < 3)
@@ -5220,12 +5282,12 @@ namespace ml::loot
             }
             return true;
         }
-        const uintptr_t holder = g_searchHolder;
-        g_searchHolder = 0;
+        const uintptr_t holder = w.holder;
+        w.holder = 0;
         if (!holder) return false;
         const int n = ServerBag(holder, ents, 4096);
         if (n <= 0)
-        { LOG("[drop] the search of %08X is not judged: the bag read %d stacks after it", target, n); return false; }
+        { LOG("[drop] %s %08X is not judged: the bag read %d stacks after it", what, target, n); return false; }
 
         // What each instance gained. An instance that was not there before
         // gained all of it.
@@ -5235,13 +5297,13 @@ namespace ml::loot
             for (int i = 0; i < n; ++i) now[ents[i].iid] += ents[i].count;
             for (const auto& [iid, c] : now)
             {
-                const auto b = g_searchBefore.find(iid);
-                const long long g = c - (b == g_searchBefore.end() ? 0 : b->second);
+                const auto b = w.before.find(iid);
+                const long long g = c - (b == w.before.end() ? 0 : b->second);
                 if (g > 0) gained[iid] = g;
             }
         }
         if (gained.empty())
-        { LOG("[drop] the search of %08X put nothing new in the bag (%d stacks before and after)", target, n); return true; }
+        { LOG("[drop] %s %08X put nothing new in the bag (%d stacks before and after)", what, target, n); return true; }
 
         // Beside the player and a little up, near where a hand drop lands.
         uint32_t senderEid = 0; game::Eid(sender, &senderEid);
@@ -5253,7 +5315,7 @@ namespace ml::loot
             const DropAt b = g_bodyDropAt;
             ReleaseSRWLockShared(&g_bodyDropLock);
             const uint32_t body = g_bodyEid;
-            if (g_searchByPet)
+            if (w.byPet)
             {
                 const uint32_t me = body ? body : g_meEid;
                 if (b.eid == me && GetTickCount() - b.at < 3000)
@@ -5282,17 +5344,17 @@ namespace ml::loot
                 const Item* it = ItemDb::ByRow(e.tid);
                 // No rule can be asked about a thing with no name.
                 if (!it)
-                { LOG("[drop] kept %lld of item row %u from %08X: the item table has no such row", left, static_cast<unsigned>(e.tid), target); break; }
+                { LOG("[drop] kept %lld of item row %u %s %08X: the item table has no such row", left, static_cast<unsigned>(e.tid), from, target); break; }
                 // Never a document or a quest item by any route, the rule
                 // auto-store keeps as well, and nothing the pet filter would
                 // refuse to delete.
                 if (it->klass == "document" || it->tags.find(" quest ") != std::string::npos)
-                { LOG("[drop] kept %lld %s from %08X: a document or a quest item is never dropped", left, it->name.c_str(), target); break; }
+                { LOG("[drop] kept %lld %s %s %08X: a document or a quest item is never dropped", left, it->name.c_str(), from, target); break; }
                 const Rules::Verdict v = Rules::Decide(*it, cfg);
                 if (v.loot)
-                { LOG("[drop] kept %lld %s from %08X: the rules say loot it (%s%s%s)", left, it->name.c_str(), target, v.rule, v.detail.empty() ? "" : " ", v.detail.c_str()); break; }
+                { LOG("[drop] kept %lld %s %s %08X: the rules say loot it (%s%s%s)", left, it->name.c_str(), from, target, v.rule, v.detail.empty() ? "" : " ", v.detail.c_str()); break; }
                 if (NeverDelete(*it, v))
-                { LOG("[drop] kept %lld %s from %08X: refused by %s%s%s, but it is a kind this mod never drops", left, it->name.c_str(), target, v.rule, v.detail.empty() ? "" : " ", v.detail.c_str()); break; }
+                { LOG("[drop] kept %lld %s %s %08X: refused by %s%s%s, but it is a kind this mod never drops", left, it->name.c_str(), from, target, v.rule, v.detail.empty() ? "" : " ", v.detail.c_str()); break; }
                 if (!placed)
                 {
                     LOG("[drop] no fresh world position for the body being played; %lld %s stays in the bag", left, it->name.c_str());
@@ -5304,13 +5366,16 @@ namespace ml::loot
                 if (!hooks::CallDrop(holder, &err, sender, 2, static_cast<uint16_t>(e.slot), take, tfm))
                 { LOG_ERR("[drop] the game's drop faulted on %lld %s; it stays in the bag", take, it->name.c_str()); break; }
                 if (err) { LOG_ERR("[drop] the game would not drop %lld %s: error %08X", take, it->name.c_str(), err); break; }
-                LOG("[drop] left %lld %s beside %s from %08X%s: %s%s%s", take, it->name.c_str(), where, target,
-                    g_searchByPet ? ", which a pet or a companion searched" : "", v.rule, v.detail.empty() ? "" : " ", v.detail.c_str());
+                LOG("[drop] left %lld %s beside %s %s %08X%s: %s%s%s", take, it->name.c_str(), where, from, target,
+                    w.byPet ? ", which a pet or a companion searched" : "", v.rule, v.detail.empty() ? "" : " ", v.detail.c_str());
                 left -= take; e.count -= take;
             }
         }
         return true;
     }
+
+    bool SearchParse(uintptr_t sender, uint32_t target, bool after) { return BagParse(false, sender, target, after); }
+    bool ChestParse(uintptr_t sender, uint32_t target, bool after) { return BagParse(true, sender, target, after); }
 
     // --- what the player drops by hand (HandDrop) ---------------------------
     // The slot a discard names, read on the server thread before the parse so
@@ -8138,6 +8203,15 @@ namespace ml::loot
                         held("waiting to see what the last one of these paid")) continue;
                     if (breakIt)
                         if (const char* unsafe = BreakUnsafe(k.d, now)) { held(unsafe); continue; }
+                    // A container about to be opened: marked before the send,
+                    // so the server's parse of it, which can run before Send
+                    // returns, knows this mod asked. DropRefusedChests, #89.
+                    // The table's kind or the verdict's: a container whose
+                    // named yield reads as another kind is still a container.
+                    const int chestMark = !breakIt && cfg.dropRefusedChests && v.act == Action::Gather &&
+                                          ((k.nodeType && KindFromName(k.nodeType->kind) == GatherKind::Container) ||
+                                           NodeKind(k) == GatherKind::Container)
+                                          ? MarkChestOpen(k.eid) : -1;
                     if (breakIt)
                     {
                         // Drive the game's own state machine at the node: the swing
@@ -8205,6 +8279,7 @@ namespace ml::loot
                         // in a camp clear, and a body left marked was skipped for
                         // the rest of the session. The retry delay still applies.
                         if (v.act == Action::Search) g_searched.erase(key);
+                        if (chestMark >= 0) UnmarkChestOpen(chestMark, k.eid);
                         commit(); held("the game refused the event"); continue;
                     }
                     commit();

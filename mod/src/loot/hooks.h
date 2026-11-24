@@ -97,8 +97,9 @@ namespace ml::loot::hooks
     // the first call after GetInventoryHolder in that parser, and a detour on
     // the server's parse of the mod's own search, which runs the engine's
     // SearchParse either side of it. Both come from descriptors found by
-    // class name.
-    void InstallDrop(uintptr_t discardDesc, uintptr_t searchDesc);
+    // class name. The pick-up request's parser is detoured too, for the
+    // containers this mod opens, and runs ChestParse either side of it.
+    void InstallDrop(uintptr_t discardDesc, uintptr_t searchDesc, uintptr_t pickupDesc);
     bool DropReady();
     // The per-thread context the drop routine reads out of the exe's TLS
     // block at +0x250. Only the game's server thread has one.
