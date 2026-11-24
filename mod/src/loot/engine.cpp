@@ -6473,6 +6473,29 @@ namespace ml::loot
                         break;
                     }
             }
+            // Issue #238. The actor the game's own controller drives, when it
+            // is player-tagged. Climbing a windmill tower put talkhardjmb's scan
+            // on the tower, gimmick_tower_module_a_windmill_0002, and the only
+            // way off a holder was the single-actor rule below, which stands
+            // down whenever a second player-tagged actor has been seen in
+            // twelve seconds. A tower is never barren, so the scan stayed on it
+            // and nothing was looted. The controller names who is being played
+            // whatever else is in the world. Joined here when this pass missed
+            // it, so the count below can see whether it has world around it.
+            int ctlCand = -1;
+            {
+                const uintptr_t ctlA = game::ControlledActor();
+                uint32_t ce = 0; Vec3 cq{};
+                if (ctlA && game::Eid(ctlA, &ce) && static_cast<uint8_t>(ce >> 24) == game::kTagPlayer)
+                {
+                    for (int i = 0; i < candN; ++i) if (cand[i].eid == ce) { ctlCand = i; break; }
+                    if (ctlCand < 0 && candN < 16 && game::WorldPos(ctlA, &cq))
+                    {
+                        ctlCand = candN;
+                        cand[candN++] = { ctlA, ce, cq, 0, true };
+                    }
+                }
+            }
             // Refuse to decide from a starved pass. The manager hands over one
             // entity on most ticks and a few hundred occasionally, so a single
             // enumeration is a lottery: the pass that picked last time saw only
@@ -6557,7 +6580,14 @@ namespace ml::loot
             // seconds. The window is merged across scans and is empty only
             // before the first one has run.
             if (sole >= 0 && ActorsSeen(now) > 1) sole = -1;
-            int best = sole >= 0 ? sole : -1;
+            // The controlled actor stands in for the single-actor rule when that
+            // rule cannot speak, provided it has more world round it than the
+            // two strays the barren clock allows. As Damiane the identity the
+            // controller may name sits a kilometre from anything and scores
+            // nothing here, so her body is still found the way it always was.
+            // Kept apart from sole, which arms the every-scan re-check above.
+            const bool byCtl = sole < 0 && ctlCand >= 0 && ctlCand < candN && cand[ctlCand].around > 2;
+            int best = sole >= 0 ? sole : byCtl ? ctlCand : -1;
             const bool onHolder = best < 0;
             if (onHolder)
                 for (int i = 0; i < candN; ++i) if (best < 0 || cand[i].around > cand[best].around) best = i;
@@ -6582,14 +6612,14 @@ namespace ml::loot
             if (inc >= 0) s_incSeenAt = now;
             const bool incAbsent = !noPlayer && g_meEid && inc < 0
                                    && s_incSeenAt && now - s_incSeenAt < 12000;
-            if (best >= 0 && inc >= 0 && inc != best && cand[inc].around == cand[best].around
+            if (best >= 0 && inc >= 0 && inc != best && !byCtl && cand[inc].around == cand[best].around
                 && (cand[inc].tagged || !cand[best].tagged)) best = inc;
             if (bagOnly)
             {
                 // Asked for only to name the bag's owner, below. The centre
                 // stays where it is.
             }
-            else if (incAbsent)
+            else if (incAbsent && !byCtl)
             {
                 static DWORD s_saidAbsent = 0;
                 if (g_debugLog && now - s_saidAbsent > 30000)
@@ -6621,6 +6651,9 @@ namespace ml::loot
                 if (sole >= 0 && best == sole) s_soleChoice = cand[best].eid;
                 else if (cand[best].eid != s_soleChoice) s_soleChoice = 0;
                 const bool changed = g_meEid != cand[best].eid;
+                if (changed && byCtl && best == ctlCand)
+                    LOG("[player] the game's controller drives %08X, a player-tagged actor with %d world objects within %.0f m, so the scan leaves %08X for it",
+                        cand[best].eid, cand[best].around, cfg.scanRange, g_meEid);
                 if (g_meEid && g_meEid != cand[best].eid) ForgetBody("the player actor was re-picked");
                 g_me = cand[best].ent; g_meEid = cand[best].eid;
                 if (changed || g_debugLog)
