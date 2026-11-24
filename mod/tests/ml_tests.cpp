@@ -289,6 +289,13 @@ static void NotVeins()
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nPauseWhenMounted=1\r\n"), "the third test ini is written");
     Settings::Load();
     Check(Settings::Snapshot().pauseMounted, "PauseWhenMounted=1 in the ini turns it on");
+    Check(!Settings::Snapshot().logFolder && !Settings::PeekLogFolder(), "LogFolder is off when the ini does not name it");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nLogFolder=1\r\n"), "the LogFolder test ini is written");
+    Check(Settings::PeekLogFolder(), "the early peek reads LogFolder=1 before any load");
+    Settings::Load();
+    Check(Settings::Snapshot().logFolder, "LogFolder=1 in the ini turns it on");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\n\r\n[Items]\r\nLogFolder=1\r\n"), "the misplaced LogFolder ini is written");
+    Check(!Settings::PeekLogFolder(), "the early peek ignores LogFolder outside [MasterLooter], as Load does");
     DeleteFileW(ini.c_str());
 }
 

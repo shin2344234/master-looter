@@ -16,6 +16,14 @@ namespace ml::Log
     static FILE*                    g_file    = nullptr;
     static bool                     g_claimed = false;
     static constexpr size_t         kKeep     = 400;
+    // Where the log and its rotations go. Empty means the plugin's own
+    // folder, which is bin64 for everybody who has not set LogFolder=1.
+    static std::wstring             g_dir;
+
+    static std::wstring In(const wchar_t* name) { return (g_dir.empty() ? Paths::Dir() : g_dir) + name; }
+
+    std::wstring Dir()  { std::lock_guard<std::mutex> lk(g_mu); return g_dir.empty() ? Paths::Dir() : g_dir; }
+    std::wstring Path() { std::lock_guard<std::mutex> lk(g_mu); return In(L"MasterLooter.log"); }
 
     static std::string Stamp()
     {
@@ -99,16 +107,44 @@ namespace ml::Log
         for (int i = kOldArchives; i >= kArchives; --i)
         {
             _snwprintf_s(to, _countof(to), _TRUNCATE, L"MasterLooter.%02d.log", i);
-            DeleteFileW(Paths::File(to).c_str());
+            DeleteFileW(In(to).c_str());
         }
         for (int i = kArchives - 1; i >= 1; --i)
         {
             _snwprintf_s(from, _countof(from), _TRUNCATE, L"MasterLooter.%02d.log", i);
             _snwprintf_s(to,   _countof(to),   _TRUNCATE, L"MasterLooter.%02d.log", i + 1);
-            MoveFileExW(Paths::File(from).c_str(), Paths::File(to).c_str(), MOVEFILE_REPLACE_EXISTING);
+            MoveFileExW(In(from).c_str(), In(to).c_str(), MOVEFILE_REPLACE_EXISTING);
         }
-        MoveFileExW(Paths::File(L"MasterLooter.log").c_str(),
-                    Paths::File(L"MasterLooter.01.log").c_str(), MOVEFILE_REPLACE_EXISTING);
+        MoveFileExW(In(L"MasterLooter.log").c_str(),
+                    In(L"MasterLooter.01.log").c_str(), MOVEFILE_REPLACE_EXISTING);
+    }
+
+    // LogFolder=1 sends the log into bin64\logs, made here when it is
+    // missing. The logs an earlier session left loose in bin64 go in with
+    // it, before the rotation runs, so the session before this one is still
+    // .01 and bin64 is cleared of them. A file already in logs of the same
+    // name is never overwritten: that one is newer evidence, and the loose
+    // copy simply stays where it was.
+    int UseFolder(bool logs)
+    {
+        std::lock_guard<std::mutex> lk(g_mu);
+        if (g_claimed) return 0;
+        g_dir.clear();
+        if (!logs) return 0;
+        const std::wstring dir = Paths::Dir() + L"logs\\";
+        CreateDirectoryW(dir.c_str(), nullptr);
+        const DWORD a = GetFileAttributesW(dir.c_str());
+        if (a == INVALID_FILE_ATTRIBUTES || !(a & FILE_ATTRIBUTE_DIRECTORY)) return -1;
+        int moved = 0;
+        wchar_t name[64];
+        for (int i = 0; i <= kOldArchives; ++i)
+        {
+            if (i == 0) wcscpy_s(name, L"MasterLooter.log");
+            else _snwprintf_s(name, _countof(name), _TRUNCATE, L"MasterLooter.%02d.log", i);
+            if (MoveFileExW(Paths::File(name).c_str(), (dir + name).c_str(), 0)) ++moved;
+        }
+        g_dir = dir;
+        return moved;
     }
 
     void Claim()
@@ -117,7 +153,7 @@ namespace ml::Log
         if (g_claimed) return;
         g_claimed = true;
         Rotate();
-        g_file = _wfopen(Paths::File(L"MasterLooter.log").c_str(), L"w");
+        g_file = _wfopen(In(L"MasterLooter.log").c_str(), L"w");
         if (!g_file) return;
         for (const auto& l : g_pending)
         {

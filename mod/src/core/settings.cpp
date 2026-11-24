@@ -206,6 +206,7 @@ namespace ml::Settings
         else if (k == "EquipStrict")      c.equipStrict = Flag(v);
         else if (k == "DupeProbe")        c.dupeProbe = Flag(v);
         else if (k == "DescriptorDump")   c.descriptorDump = Flag(v);
+        else if (k == "LogFolder")        c.logFolder = Flag(v);
         else if (k == "ConfigVersion")    c.configVersion = atoi(v.c_str());
     }
 
@@ -237,6 +238,39 @@ namespace ml::Settings
     static std::wstring CopyPath() { const std::wstring& d = Paths::DataDir(); return d.empty() ? std::wstring() : d + L"MasterLooter.ini"; }
     static bool g_fromCopy = false;
     bool RestoredFromCopy() { return g_fromCopy; }
+
+    // One key out of [MasterLooter], read the way ParseInto reads it but
+    // without ApplyGeneral, whose complaints about a bad key would otherwise
+    // be logged twice at every launch. An empty or missing ini falls back to
+    // the AppData copy exactly as Load does.
+    bool PeekLogFolder()
+    {
+        std::string text;
+        bool present = ReadFile(text) && text.find_first_not_of(" \t\r\n") != std::string::npos;
+        if (!present)
+        {
+            const std::wstring copy = CopyPath();
+            text.clear();
+            if (copy.empty() || !ReadWhole(copy, text)) return false;
+        }
+        std::string section;
+        bool on = false;
+        size_t pos = 0;
+        while (pos < text.size())
+        {
+            size_t nl = text.find('\n', pos);
+            if (nl == std::string::npos) nl = text.size();
+            const std::string line = Trim(text.substr(pos, nl - pos));
+            pos = nl + 1;
+            if (line.empty() || line[0] == ';' || line[0] == '#') continue;
+            if (line.front() == '[' && line.back() == ']') { section = line.substr(1, line.size() - 2); continue; }
+            if (section != "MasterLooter") continue;
+            const size_t eq = line.find('=');
+            if (eq == std::string::npos || Trim(line.substr(0, eq)) != "LogFolder") continue;
+            on = Flag(Trim(line.substr(eq + 1)));   // the last one wins, as in Load
+        }
+        return on;
+    }
     // Bring the AppData copy in line with the ini in bin64, when there is one
     // and the two differ. Only the copy of the plugin that owns the settings
     // writes anything.
@@ -782,6 +816,7 @@ namespace ml::Settings
         if (c.equipStrict) { snprintf(b, sizeof b, "EquipStrict=1\n"); s += b; }
         if (c.dupeProbe)  { snprintf(b, sizeof b, "DupeProbe=1\n"); s += b; }
         if (c.descriptorDump) { snprintf(b, sizeof b, "DescriptorDump=1\n"); s += b; }
+        snprintf(b, sizeof b, "LogFolder=%d\n", c.logFolder); s += b;
         s += "\n; class -> 1 loot, 0 skip (classes not listed are looted)\n[Classes]\n";
         for (const auto& kv : c.classRule) { s += kv.first; s += kv.second ? "=1\n" : "=0\n"; }
         s += "\n; class -> copper: items of that class worth less are skipped. Takes the place\n"

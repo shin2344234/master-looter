@@ -1517,10 +1517,10 @@ namespace ml::gui
         // Nobody thinks to look in bin64, and the log is the first thing asked
         // for in a report, so the whole path is here with a way to reach it.
         {
-            const std::wstring logPath = ml::Paths::File(L"MasterLooter.log");
+            const std::wstring logPath = ml::Log::Path();
             ImGui::Text(TR("Log: %ls"), logPath.c_str());
             ImGui::SameLine();
-            if (ImGui::SmallButton(TR("Open folder"))) ShellExecuteW(nullptr, L"open", ml::Paths::Dir().c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+            if (ImGui::SmallButton(TR("Open folder"))) ShellExecuteW(nullptr, L"open", ml::Log::Dir().c_str(), nullptr, nullptr, SW_SHOWNORMAL);
             if (ImGui::BeginItemTooltip()) { ImGui::TextUnformatted(TR("Opens the folder in Explorer. The log is rewritten every launch and is what to attach to a report.")); ImGui::EndTooltip(); }
             ImGui::SameLine();
             if (ImGui::SmallButton(TR("Copy path"))) { char buf[512]; snprintf(buf, sizeof buf, "%ls", logPath.c_str()); ImGui::SetClipboardText(buf); }

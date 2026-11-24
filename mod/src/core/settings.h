@@ -239,7 +239,14 @@ namespace ml
         // without it: how many descriptors this build has, any that moved, the
         // three the mod sends, and any it could not find.
         bool  descriptorDump = false;
-        int   configVersion  = 9;      // bumps when a default changes in a way old files should follow; Migrate() stamps a fresh file with the same number
+        // Write MasterLooter.log and its five rotations into bin64\logs
+        // instead of bin64 itself. Pio on Discord, 16 November 2026, issue
+        // #225, asked for one logs folder that every mod writes to. Off by
+        // default so nobody's log moves without asking. The log opens before
+        // Load runs, so Initialize reads this one key early with
+        // PeekLogFolder; a change takes effect at the next launch.
+        bool  logFolder = false;
+        int   configVersion  = 9;     // bumps when a default changes in a way old files should follow; Migrate() stamps a fresh file with the same number
 
         // [Classes] class -> 1 loot / 0 skip. Absent means loot.
         std::map<std::string, int> classRule;
@@ -287,7 +294,11 @@ namespace ml
         // The launch found no MasterLooter.ini in bin64 and read the copy kept
         // in %LOCALAPPDATA%\MasterLooter instead; Claim writes it back.
         bool RestoredFromCopy();
-        void MarkDirty();            // save soon (debounced)
+        // LogFolder from the ini on disk, or from the AppData copy when bin64
+        // has none, without loading anything or writing a log line. For
+        // Initialize, which has to open the log before Load runs.
+        bool PeekLogFolder();
+        void MarkDirty();           // save soon (debounced)
         void Poll();                 // once per frame: debounced save, reload after an external edit
 
         // Presets: the whole config, rules included, kept as a named file in

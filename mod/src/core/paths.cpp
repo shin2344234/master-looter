@@ -35,7 +35,7 @@ namespace ml::Paths
 
     // The environment variable rather than SHGetKnownFolderPath, which would
     // add ole32 to an import list the README spells out in full. Wine and
-    // Proton set it in every prefix. First called from Settings::Load on the
+    // Proton set it in every prefix. First called from Settings::Load or PeekLogFolder on the
     // loader thread, so later calls from other threads only read it.
     const std::wstring& DataDir()
     {

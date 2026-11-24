@@ -806,6 +806,17 @@
           "help": "Writes much more to MasterLooter.log. Turn it on for a bug report.",
           "order": 63
         },
+        "LogFolder": {
+          "label": "Logs in bin64\\logs",
+          "type": "bool",
+          "group": "Overlay and diagnostics",
+          "default": "0",
+          "true": "1",
+          "false": "0",
+          "help": "Writes MasterLooter.log and the five logs before it into a logs folder inside bin64 instead of bin64 itself, and moves the ones already in bin64 there. Takes effect at the next launch. Not in the in-game menu; this ini line is the only switch for it.",
+          "live": false,
+          "order": 63
+        },
         "EquipStrict": {
           "label": "Strict worn-gear check",
           "type": "bool",

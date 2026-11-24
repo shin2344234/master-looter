@@ -348,7 +348,7 @@ namespace ml::Mod
         const HMODULE dbghelp = LoadLibraryW(L"dbghelp.dll");
         const auto write = dbghelp ? reinterpret_cast<MiniDumpWriteDumpFn>(GetProcAddress(dbghelp, "MiniDumpWriteDump")) : nullptr;
         if (!write) { LOG_ERR("[crash] dbghelp.dll not loaded; no dump on a stack overflow this session"); return 0; }
-        LOG("[crash] a stack overflow writes MasterLooter-overflow-*.dmp beside the log; the newest %d are kept.", kKeepDumps);
+        LOG("[crash] a stack overflow writes MasterLooter-overflow-*.dmp in %ls; the newest %d are kept.", Paths::Dir().c_str(), kKeepDumps);
         if (WaitForSingleObject(g_dumpAsk, INFINITE) != WAIT_OBJECT_0) return 0;
 
         SYSTEMTIME st{}; GetLocalTime(&st);
@@ -608,6 +608,27 @@ namespace ml::Mod
         return g_prevFilter ? g_prevFilter(xp) : EXCEPTION_CONTINUE_SEARCH;
     }
 
+    // Issue #225. LogFolder is read on its own here because the log opens
+    // before Settings::Load, on purpose, and the folder has to be known by
+    // then. What it did is said after the version line, which stays the
+    // first line of every log.
+    static int g_logMoved = -2;   // -2 LogFolder off, -1 folder not made, else files moved in
+    static void ChooseLogFolder()
+    {
+        if (Settings::PeekLogFolder()) g_logMoved = Log::UseFolder(true);
+    }
+    static void SayLogFolder()
+    {
+        const int moved = g_logMoved;
+        if (moved == -2) return;
+        if (moved < 0)
+            LOG_ERR("[log] LogFolder=1, but %lslogs could not be made, so the log stays in %ls.",
+                    Paths::Dir().c_str(), Paths::Dir().c_str());
+        else
+            LOG("[log] LogFolder=1: this log and its rotations are written to %ls, and %d older log file(s) "
+                "were moved there from %ls.", Log::Dir().c_str(), moved, Paths::Dir().c_str());
+    }
+
     void Initialize(HMODULE module)
     {
         if (g_initialized)
@@ -620,9 +641,11 @@ namespace ml::Mod
             // One sharing the first copy's folder must not touch its log.
             if (g_inst && _wcsicmp(FolderOf(g_inst->first).c_str(), Paths::Dir().c_str()) != 0)
             {
+                ChooseLogFolder();
                 Log::Claim();
                 LOG_ERR("Master Looter is already running in this game from %ls, so this copy (%ls) has not started. "
                         "Delete one of the two.", g_inst->first, g_inst->second);
+                SayLogFolder();
             }
             return;
         }
@@ -631,7 +654,7 @@ namespace ml::Mod
         // and waiting meant that case left nothing behind at all. Only in the
         // game itself: this plugin gets loaded by other processes too, and one
         // of those must not truncate a real session's log.
-        if (HostIsGame()) Log::Claim();
+        if (HostIsGame()) { ChooseLogFolder(); Log::Claim(); }
         // The plugin's own file time, not __DATE__ and __TIME__. Those are
         // baked into this file's object and only move when this file recompiles,
         // so a build that changed only the loot engine reported the previous
@@ -661,6 +684,7 @@ namespace ml::Mod
         }
         LOG("Master Looter v%s for Crimson Desert %s starting%s%s%s.", ML_VERSION_FULL, ML_GAME_BUILD,
             stamp[0] ? " (" : "", stamp[0] ? stamp + 2 : "", stamp[0] ? ")" : "");
+        SayLogFolder();
         g_self = module;
         if (HostIsGame()) FindSelfCheckSections();
         g_prevFilter = SetUnhandledExceptionFilter(&LastChance);
