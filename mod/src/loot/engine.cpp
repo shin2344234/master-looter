@@ -601,6 +601,10 @@ namespace ml::loot
     struct OwnAns { DWORD when; int steal; };
     static std::unordered_map<uint32_t, OwnAns> g_ownAns;
     static constexpr DWORD kOwnAnsMs = 2000;
+    // Creatures already named in the log as someone else's to catch, so the
+    // line says each one once while the verdict is asked on every scan. Entity
+    // ids are not reused inside a session, so nothing needs purging.
+    static std::unordered_set<uint32_t> g_ownedCatchSaid;
 
     // Everything the scan has seen hanging off the player, and the last moment
     // it did. Being attached is the one thing that keeps the player's own kit
@@ -4525,6 +4529,23 @@ namespace ml::loot
         const bool hostileBody = v.act == Action::Search && c.cat2 != 0x0A;
         if (hostileBody && !cfg.lootOwned && WouldStealCached(c) == 1)
             LOG("[corpse] %08X: the ownership check says theft, searching anyway, cat %02X/%02X", c.eid, c.cat, c.cat2);
+        // A creature can belong to someone too. interactioninfo has
+        // Animal_Catch_Thief, Insect_Catch_Thief and Gimmick_Catch_Thief beside
+        // the plain catches, and the fish the fishermen keep south of Rodbel
+        // Fishing Dock were caught as theft (erikem007 and gkpfour, #236). Every
+        // catch skipped this check from the first port onward. The game's own
+        // check has been asked about wild fish and insects in the saved logs,
+        // Tench, Carp and Medium Fly among them, and answered take every time,
+        // so asking it costs a wild catch nothing. An unanswered check still
+        // lets a catch through, as every build before this did, because the
+        // catch path never needed the check armed.
+        if (!cfg.lootOwned && v.act == Action::Catch && WouldStealCached(c) == 1)
+        {
+            if (g_ownedCatchSaid.insert(c.eid).second)
+                LOG("[owner] %08X: the game says catching this would be theft, so it is left alone, cat %02X/%02X at %.1f m",
+                    c.eid, c.cat, c.cat2, c.d);
+            return skip("owned by someone (theft)");
+        }
         if (!cfg.lootOwned && v.act != Action::Catch && !hostileBody)
         {
             const int steal = WouldStealCached(c);
