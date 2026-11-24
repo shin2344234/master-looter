@@ -45,6 +45,16 @@
           "help": "How full the bag is is read from the bag itself, so the notice appears the moment it fills, whether or not you are looting. If those numbers ever stop making sense the mod falls back to watching what happens after a pick-up: three in a row that reach nothing raise the notice, and one landing clears it.",
           "order": 3
         },
+        "HideItemLog": {
+          "label": "Hide the game's pickup lines",
+          "type": "bool",
+          "group": "General",
+          "default": "0",
+          "true": "1",
+          "false": "0",
+          "help": "Stops the game listing each item you pick up on the right of the screen, whoever picked it up, the mod or you. Money lines still show. Nothing else changes: the items reach the bag the same way. Not in the in-game menu yet; this ini line is the only switch for it.",
+          "order": 5
+        },
         "Language": {
           "label": "Menu language",
           "type": "enum",

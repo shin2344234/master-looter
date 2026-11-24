@@ -183,6 +183,10 @@ namespace ml
         // The same for what a container this mod opens pays. Issue #89, Sov.
         // Off by default and ini only, like PauseWhenMounted.
         bool  dropRefusedChests = false;
+        // Keep the game's own pickup lines off the right of the screen.
+        // fraidnot and xICEMANx117, issue #124. Money lines still show.
+        // Off by default and ini only, like PauseWhenMounted.
+        bool  hideItemLog = false;
         // Leave alone anything attached to a creature that is still alive, and
         // any living creature that carries a node of its own. Sov1737, 16
         // September 2026: the mod killed a group of stone crabs by extracting

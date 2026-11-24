@@ -1245,6 +1245,73 @@ namespace ml::loot::hooks
                     "stops pets looting is reported as unavailable.", a ? "yes" : "no", b ? "yes" : "no");
     }
 
+    // The game's item log, issue #124. fraidnot and xICEMANx117 asked for a
+    // way to stop the pickup lines on the right of the screen. The push takes
+    // the queue and a slot holding the line; on success it moves the pointer
+    // out of the slot and answers 1. Answering 0 with the slot untouched is
+    // what it does itself when the queue is full: the line stays in the
+    // batch, and the game deletes the whole batch straight after the loop.
+    // The setting is read per call, so Reload in the menu turns it on or off
+    // without a restart.
+    typedef uint64_t (*FnItemLogPush)(void* queue, void* slot);
+    static FnItemLogPush oItemLogPush = nullptr;
+    static volatile LONG g_itemLogHidden = 0, g_itemLogShown = 0;
+
+    static uint64_t hkItemLogPush(void* queue, void* slot)
+    {
+        if (!Settings::Get().hideItemLog)
+        {
+            // Counted so the first line shown after it is turned off says so.
+            if (InterlockedIncrement(&g_itemLogShown) == 1 && g_itemLogHidden)
+                LOG("[itemlog] HideItemLog is off now, so the game's pickup lines show again (%ld hidden before)",
+                    static_cast<long>(g_itemLogHidden));
+            return oItemLogPush(queue, slot);
+        }
+        InterlockedExchange(&g_itemLogShown, 0);
+        uintptr_t line = 0;
+        uint16_t row = 0xFFFF;
+        int64_t count = 0;
+        if (mem::ReadPtr(reinterpret_cast<uintptr_t>(slot), &line))
+        {
+            mem::Read16(line + ml::sig::kOff_ItemLog_Row, &row);
+            mem::Read64(line + ml::sig::kOff_ItemLog_Count, reinterpret_cast<uint64_t*>(&count));
+        }
+        const Item* it = row != 0xFFFF ? ItemDb::ByRow(row) : nullptr;
+        const long n = InterlockedIncrement(&g_itemLogHidden);
+        LOG("[itemlog] hid the game's pickup line for %s x%lld (row %u, line %p), %ld hidden this session",
+            it && !it->name.empty() ? it->name.c_str() : "an item the table cannot name",
+            static_cast<long long>(count), static_cast<unsigned>(row), reinterpret_cast<void*>(line), n);
+        return 0;
+    }
+
+    static void InstallItemLog()
+    {
+        size_t hits = 0;
+        const uintptr_t at = mem::FindUnique(ml::sig::kSig_ItemLogPush, &hits);
+        if (!at)
+        {
+            LOG_ERR("[itemlog] the call that adds a line to the game's item log was not found (%d matches), so "
+                    "HideItemLog does nothing this session. The game has probably been updated.",
+                    static_cast<int>(hits));
+            return;
+        }
+        const uintptr_t site = at + ml::sig::kOff_ItemLogPush_Call;
+        const uintptr_t callee = mem::RipAt(site, 5);
+        char why[96];
+        if (!mem::InImage(callee)
+            || !farhook::InstallCallSite("item log push", site, reinterpret_cast<void*>(&hkItemLogPush),
+                                         reinterpret_cast<void**>(&oItemLogPush), why, sizeof why))
+        {
+            if (!mem::InImage(callee)) snprintf(why, sizeof why, "the call goes outside the game, to %p", reinterpret_cast<void*>(callee));
+            LOG_ERR("[itemlog] the item log call at +0x%llX could not be redirected: %s. HideItemLog does nothing "
+                    "this session.", static_cast<unsigned long long>(mem::Rva(site)), why);
+            return;
+        }
+        LOG_OK("[itemlog] item log call at +0x%llX redirected, its push is +0x%llX. HideItemLog is %s; money lines "
+               "are not touched.", static_cast<unsigned long long>(mem::Rva(site)),
+               static_cast<unsigned long long>(mem::Rva(callee)), Settings::Get().hideItemLog ? "on" : "off");
+    }
+
     bool Install()
     {
         const game::Fns& f = game::F();
@@ -1261,6 +1328,7 @@ namespace ml::loot::hooks
         }
         InstallOreBonus();
         InstallPetLooting();
+        InstallItemLog();
         // Unhooked, the routine can still be called: the mod works the context
         // out from the player and the tag from the game's code, and only loses
         // the chance to watch the game ask first. Refusing everything instead,

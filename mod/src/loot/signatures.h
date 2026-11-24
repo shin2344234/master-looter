@@ -414,6 +414,23 @@ namespace ml::sig
     inline constexpr unsigned kOff_OwnCallSite_Call = 7;    // the E8
     inline constexpr unsigned kMax_OwnCallSite_Back = 0x40; // how far back the lea r9 sits
 
+    // Issue #124, the game's item log on the right of the screen. The routine
+    // that hands a finished batch of pickup lines to the UI (+0xA478D10 on
+    // 1.0.0.3732, reached by a jmp from +0x11954F0) looks up "ItemLogView"
+    // and pushes each item line onto the panel's pending queue at panel+0x158
+    // with a generic queue push, then tests the queue's count at +0x160 and
+    // the panel's two flags at +0x1D0 and +0x1D1 to decide whether to show it.
+    // This is that push and those tests, unique in the exe. The push has about
+    // seventy other callers, so the mod redirects this one call and not the
+    // function. Money lines go to "MoneyLogView" by another call and are not
+    // touched. See docs/investigations/ITEMLOG.md.
+    inline constexpr const char* kSig_ItemLogPush = "48 8D 8B 58 01 00 00 48 89 F2 E8 ?? ?? ?? ?? 44 39 BB 60 01 00 00 75 ?? 44 38 BB D0 01 00 00 74 ?? 44 38 BB D1 01 00 00";
+    inline constexpr unsigned kOff_ItemLogPush_Call = 10;   // the E8
+    // The line itself, an ItemLogData: +8 is 0 for an item line, +0x20 the
+    // u16 item row and +0x28 the count.
+    inline constexpr unsigned kOff_ItemLog_Row   = 0x20;
+    inline constexpr unsigned kOff_ItemLog_Count = 0x28;
+
     // --- Event body layout --------------------------------------------------
     // Issue #32, build 2760: the inventory delete routine that
     // TrocTrDeleteItemFromInventoryOnceTimer's handler calls. Reached by

@@ -201,6 +201,7 @@ namespace ml::Settings
         else if (k == "TakeUnknownItems") c.takeUnknownItems = Flag(v);
         else if (k == "DropRefused")      c.dropRefused = Flag(v);
         else if (k == "DropRefusedChests") c.dropRefusedChests = Flag(v);
+        else if (k == "HideItemLog")      c.hideItemLog = Flag(v);
         else if (k == "SpareLivingCreatures") c.spareLiving = Flag(v);
         else if (k == "DebugLog")         c.debugLog = Flag(v);
         else if (k == "DeleteTestName")   c.deleteTestName = v;
@@ -814,6 +815,7 @@ namespace ml::Settings
                  c.lootOwned, c.skipQuestItems, c.skipNoSell, c.skipQuestGear, c.minValueCopper, c.takeUnknownItems, c.petFilter, c.stopPetLooting, c.stopPetBodies, c.debugLog, c.configVersion); s += b;
         snprintf(b, sizeof b, "DropRefused=%d\nSpareLivingCreatures=%d\n", c.dropRefused, c.spareLiving); s += b;
         snprintf(b, sizeof b, "DropRefusedChests=%d\n", c.dropRefusedChests); s += b;
+        snprintf(b, sizeof b, "HideItemLog=%d\n", c.hideItemLog); s += b;
         snprintf(b, sizeof b, "MinFoodHealth=%d\n", c.minFoodHealth); s += b;
         if (!c.deleteTestName.empty()) { snprintf(b, sizeof b, "DeleteTestName=%s\n", c.deleteTestName.c_str()); s += b; }
         if (c.breakTest) { snprintf(b, sizeof b, "BreakTest=%d\n", c.breakTest); s += b; }

@@ -342,6 +342,13 @@ static void NotVeins()
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nMinFoodHealth=-5\r\n"), "the negative MinFoodHealth test ini is written");
     Settings::Load();
     Check(Settings::Snapshot().minFoodHealth == 0, "a negative MinFoodHealth reads as off");
+    Check(!Settings::Snapshot().hideItemLog, "HideItemLog is off when the ini does not name it");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nHideItemLog=1\r\n"), "the HideItemLog test ini is written");
+    Settings::Load();
+    Check(Settings::Snapshot().hideItemLog, "HideItemLog=1 in the ini turns it on");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\n\r\n[Items]\r\nHideItemLog=1\r\n"), "the misplaced HideItemLog ini is written");
+    Settings::Load();
+    Check(!Settings::Snapshot().hideItemLog, "HideItemLog outside [MasterLooter] does nothing");
     Check(!Settings::Snapshot().logFolder && !Settings::PeekLogFolder(), "LogFolder is off when the ini does not name it");
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nLogFolder=1\r\n"), "the LogFolder test ini is written");
     Check(Settings::PeekLogFolder(), "the early peek reads LogFolder=1 before any load");

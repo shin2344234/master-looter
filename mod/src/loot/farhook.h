@@ -33,5 +33,13 @@ namespace ml::farhook
     // What InstallOverAbsJump would take over: the address such a patch jumps
     // to, or 0 when the entry is not one.
     uintptr_t AbsJumpTarget(uintptr_t target);
+
+    // For one call instruction rather than a whole function: `site` is an E8
+    // call rel32 in the game's code. A fourteen-byte relay to the detour goes
+    // into int3 padding in reach, the same as InstallOverJump, and only the
+    // call's four-byte offset changes to point at it. *original is the
+    // function the call went to, so every other caller of that function runs
+    // exactly as before and only this one call passes through the detour.
+    bool InstallCallSite(const char* name, uintptr_t site, void* detour, void** original, char* why, unsigned whyLen);
     void RemoveAll();
 }

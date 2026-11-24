@@ -306,6 +306,42 @@ namespace ml::farhook
         return true;
     }
 
+    bool InstallCallSite(const char* name, uintptr_t site, void* detour, void** original, char* why, unsigned whyLen)
+    {
+        Held held;
+        (void)name;
+        why[0] = 0;
+        if (!site) { snprintf(why, whyLen, "no call site"); return false; }
+        if (g_n >= 24 || g_caveN >= 8) { snprintf(why, whyLen, "hook table full"); return false; }
+        const auto* at = reinterpret_cast<const unsigned char*>(site);
+        if (at[0] != 0xE8) { snprintf(why, whyLen, "the site is not a call rel32"); return false; }
+        int32_t rel;
+        memcpy(&rel, at + 1, 4);
+        const uintptr_t callee = site + 5 + static_cast<int64_t>(rel);
+
+        const uintptr_t cave = FindCave(site + 5);
+        if (!cave) { snprintf(why, whyLen, "no int3 padding in reach for a relay"); return false; }
+        unsigned char relay[16];
+        memset(relay, 0xCC, sizeof relay);
+        relay[0] = 0xFF; relay[1] = 0x25; relay[2] = relay[3] = relay[4] = relay[5] = 0;
+        memcpy(relay + 6, &detour, 8);
+        // The callee is the original and needs no trampoline: nothing of it
+        // is overwritten. Published before the call is pointed at the relay.
+        *original = reinterpret_cast<void*>(callee);
+        if (!WriteCode(cave, relay, sizeof relay, why, whyLen)) { *original = nullptr; return false; }
+        g_caves[g_caveN++] = cave;
+
+        // Only the operand changes. A thread cannot be stopped halfway through
+        // one instruction, so it calls either the old target or the relay.
+        const int32_t toCave = static_cast<int32_t>(static_cast<int64_t>(cave) - static_cast<int64_t>(site + 5));
+        Entry& e = g_entries[g_n];
+        e.target = site + 1; e.stolen = 4;
+        memcpy(e.orig, at + 1, 4);
+        if (!WriteCode(site + 1, &toCave, 4, why, whyLen)) { *original = nullptr; return false; }
+        ++g_n;
+        return true;
+    }
+
     void RemoveAll()
     {
         Held held;
