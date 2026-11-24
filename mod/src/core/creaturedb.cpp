@@ -111,11 +111,12 @@ namespace ml::CreatureDb
             if (header) { header = false; continue; }
             // A sixth column, skin, arrived in 1.6.32. A table written before
             // it still loads, with no skinning reward for anything in it. The
-            // seventh, the item's string key, arrived in 1.6.53.
-            std::string cols[7]; int c = 0;
-            for (const char* p = line.c_str(); *p && c < 7; ++p)
+            // seventh, the item's string key, arrived in 1.6.53, and the
+            // eighth, the sea mount flag, after 1.6.65.
+            std::string cols[8]; int c = 0;
+            for (const char* p = line.c_str(); *p && c < 8; ++p)
             {
-                if (*p == '\t') { if (++c == 7) break; continue; }
+                if (*p == '\t') { if (++c == 8) break; continue; }
                 if (*p == '\r' || *p == '\n') break;
                 cols[c] += *p;
             }
@@ -127,6 +128,7 @@ namespace ml::CreatureDb
             cr.klass = cols[4];
             if (c >= 5) cr.skin = static_cast<uint32_t>(strtoul(cols[5].c_str(), nullptr, 10));
             if (c >= 6) cr.itemKey = cols[6];
+            if (c >= 7) cr.mount = cols[7] == "1";
             g_byKey[cr.stringKey] = g_rows.size();
             g_rows.push_back(std::move(cr));
         }

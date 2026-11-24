@@ -1,7 +1,11 @@
 """Export the creatures a player can catch, with the class of the item they become.
 
 Writes mod/data/MasterLooter.creatures.tsv with columns:
-character_key, string_key, name, item_row, item_class, skin
+character_key, string_key, name, item_row, item_class, skin, item_key, mount
+
+mount is 1 for a fish or seafood row whose CharacterInfo record carries a sea
+ride interaction (Shark_Ride, MantaRay_Ride, Orca_Ride, Dolphin_Ride,
+SunFish_Ride). The plugin never catches one, issue #235.
 
 skin is the interactioninfo key a hand skin of the creature is rewarded under,
 SmallAnimal_Skin or Animal_Skin, read out of its CharacterInfo record, or 0.
@@ -88,11 +92,27 @@ def main():
         assert len(found) <= 1, (key, found)
         return found[0] if found else 0
 
+    # A sea creature the player can tame and ride. The ocean DLC gave sharks,
+    # rays, the orca, dolphins and the sunfish an item of the same name, so
+    # the plugin caught them like a minnow, a registered mount
+    # included, since a tamed manta reads the same character row as a wild one
+    # (issue #235). Their records carry the ride interaction; no small fish's
+    # does. Cats carry Shark_Ride and MantaRay_Ride as well, so only a fish or
+    # seafood row is marked.
+    sea_rides = [inter[n] for n in ("Shark_Ride", "MantaRay_Ride", "Orca_Ride", "Dolphin_Ride", "SunFish_Ride")]
+
+    def mount_of(key, klass):
+        if klass not in ("fish", "seafood"):
+            return 0
+        rec = records.get(key, b"")
+        return 1 if any(struct.pack("<I", r) in rec for r in sea_rides) else 0
+
     chars = list(csv.DictReader(open(os.path.join(ROOT, "data", "character_drops.csv"), encoding="utf-8-sig")))
     n = 0
+    mounts = 0
     counts = {}
     with open(DST, "w", encoding="utf-8", newline="\n") as f:
-        f.write("character_key\tstring_key\tname\titem_row\titem_class\tskin\titem_key\n")
+        f.write("character_key\tstring_key\tname\titem_row\titem_class\tskin\titem_key\tmount\n")
         for c in chars:
             sk = c["string_key"]
             if not sk.startswith("Animal_"):
@@ -102,10 +122,12 @@ def main():
                 klass, row, ikey = it["klass"], order.get(int(it["key"]), -1), it["string_key"]
             else:
                 klass, row, ikey = guess(sk, c["name"]), -1, ""
-            f.write("%s\t%s\t%s\t%d\t%s\t%d\t%s\n" % (c["key"], sk, c["name"], row, klass, skin_of(int(c["key"])), ikey))
+            mount = mount_of(int(c["key"]), klass)
+            f.write("%s\t%s\t%s\t%d\t%s\t%d\t%s\t%d\n" % (c["key"], sk, c["name"], row, klass, skin_of(int(c["key"])), ikey, mount))
             counts[klass] = counts.get(klass, 0) + 1
+            mounts += mount
             n += 1
-    print("wrote", DST, n, "creatures", counts)
+    print("wrote", DST, n, "creatures", counts, mounts, "sea mounts")
 
 
 if __name__ == "__main__":

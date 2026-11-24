@@ -22,6 +22,13 @@ namespace ml
         // The interactioninfo key skinning this creature by hand rewards,
         // SmallAnimal_Skin or Animal_Skin, or 0 for one that is not skinned.
         uint32_t    skin = 0;
+        // A sea creature the game lets the player tame and ride: the sharks,
+        // rays, orca, dolphins, sunfish, sturgeon and paddlefish, whose
+        // CharacterInfo records carry a sea ride interaction. The table has
+        // no separate row for a tamed one, so a registered mount reads the
+        // wild row and is never caught either.
+        // Issue #235.
+        bool        mount = false;
     };
 
     namespace CreatureDb

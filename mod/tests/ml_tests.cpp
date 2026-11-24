@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "core/creaturedb.h"
 #include "core/itemdb.h"
 #include "core/paths.h"
 #include "core/rules.h"
@@ -88,6 +89,39 @@ static void Respawns()
     const uint32_t w = 0xFFFFF000u;
     Check(IsRespawnOf(1, w + 0x2000, w + 0x2000, 2, w, 0.0f), "judged across the tick counter wrapping");
     Check(!IsRespawnOf(1, w - 1, w + 0x2000, 2, w, 0.0f), "and a creature listed before a catch near the wrap is still old");
+}
+
+// Issue #235. The sea creatures the game lets you ride are marked in the
+// shipped creature table and nothing else is, so a registered manta ray or a
+// wild shark is never caught while the small fish still are.
+static void SeaMounts()
+{
+    Check(CreatureDb::Load(), "the creature table loads");
+    const char* mounts[] = { "Animal_MantaRay_Wild_1", "Animal_Giant_MantaRay_Wild_1", "Animal_pink_MantaRay_Wild_1",
+                             "Animal_EagleRay_Wild_1", "Animal_LightningRay_Wild_1", "Animal_Shark_Wild_1",
+                             "Animal_hammerhead_shark_Wild_1", "Animal_Giant_Shark_Wild_1", "Animal_gold_Shark_Wild_1",
+                             "Animal_Orca_Wild_1", "Animal_Dolphin_Wild_1", "Animal_Pink_Dolphin_Wild_1",
+                             "Animal_OceanSunfish_Wild_1", "Animal_Big_Sturgeon_Wild_1", "Animal_PaddleFish_Wild_39101",
+                             "Animal_SevenGill_Wild_39102" };
+    int marked = 0;
+    for (const char* k : mounts)
+    {
+        const Creature* cr = CreatureDb::ByKey(k);
+        Check(cr && cr->mount, k);
+        if (cr && cr->mount) ++marked;
+    }
+    Check(marked == 16, "all sixteen sea mounts are marked");
+    // Small fish stay catchable, and the striped marlin, which carries no ride
+    // interaction, is left to the switches. The cat carries Shark_Ride in its
+    // record and is not a fish, so it is not marked either.
+    const char* notMounts[] = { "Animal_Insect_Lobster", "Animal_Normal_Mackerel_Wild_1", "Animal_Middle_Red_Seabream_Wild_1",
+                                "Animal_Middle_Pikefish_Wild_1", "Animal_Electric_Eel_Wild_35234", "Animal_ClownFish_Wild_1",
+                                "Animal_VeryBig_Marlin_Wild_1", "Animal_Tricolor_Cat_Domestic" };
+    for (const char* k : notMounts)
+    {
+        const Creature* cr = CreatureDb::ByKey(k);
+        Check(cr && !cr->mount, k);
+    }
 }
 
 static void ProtectedTags()
@@ -321,6 +355,7 @@ int main()
     BreakTiming();
     ScanRetry();
     Respawns();
+    SeaMounts();
     ProtectedTags();
     AlwaysOverSwitch();
     PlacedHousing();

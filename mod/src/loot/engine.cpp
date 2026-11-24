@@ -4202,6 +4202,25 @@ namespace ml::loot
         // always name, so dropping it would lose catches.
         const bool namedGame = c.speciesExact && c.species && c.species->HasItem();
         const bool catchable = (smallGame || namedGame) && !c.inter;
+        // Issue #235. The ocean DLC gave sharks, rays, the orca, dolphins and
+        // the sunfish an item of the same name, so namedGame admitted them at
+        // any byte and the game handed each one over as a fish, a registered
+        // manta ray included. characterinfo holds one manta ray row,
+        // Animal_MantaRay_Wild_1, and no riding or domestic one, so a tamed
+        // mount can only read the wild row and nothing on it tells them apart. The game's own data marks the whole family instead, since
+        // their records carry a sea ride interaction (Shark_Ride, MantaRay_Ride,
+        // Orca_Ride, Dolphin_Ride, SunFish_Ride) and no small fish's does. That
+        // is sixteen rows, the base game's sturgeon, paddlefish and sevengill
+        // shark among them. A word match that lands on one of those rows is
+        // refused as well, because byte 05 admits by word alone.
+        if (catchable && c.dead != 1 && c.species && c.species->mount)
+        {
+            static std::unordered_set<uint32_t> s_saidMount;
+            if (s_saidMount.insert(c.eid).second)
+                LOG("[mount] %08X %.1fm is %s, a sea creature the game lets you ride, so it is never caught (%s, byte %02X)",
+                    c.eid, c.d, c.species->name.c_str(), c.speciesExact ? "exact" : "by its species word", c.cat2);
+            return skip("a sea creature you can ride, never caught");
+        }
         const bool beastCorpse = c.dead == 1 && (c.cat2 == 0x0C || c.ai);
         if (c.dead == 1 && !beastCorpse) return skip("corpse: loot drops separately");
         if (!catchable && c.dead != 1 && !c.inter && c.ai) return skip("creature");

@@ -139,6 +139,7 @@ add_executable(ml_tests EXCLUDE_FROM_ALL
     src/core/log.cpp
     src/core/settings.cpp
     src/core/itemdb.cpp
+    src/core/creaturedb.cpp
     src/core/rules.cpp
 )
 target_include_directories(ml_tests PRIVATE src)
@@ -146,5 +147,6 @@ target_compile_definitions(ml_tests PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX _CRT_SE
 target_compile_options(ml_tests PRIVATE /utf-8 /W3)
 add_custom_command(TARGET ml_tests POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv" "$<TARGET_FILE_DIR:ml_tests>/"
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv" "$<TARGET_FILE_DIR:ml_tests>/"
     VERBATIM
 )
