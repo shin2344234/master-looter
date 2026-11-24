@@ -161,6 +161,7 @@ namespace ml::Settings
         else if (k == "GatherCrops")      c.gatherCrops = Flag(v);
         else if (k == "GatherCampFarm")   c.gatherCampFarm = Flag(v);
         else if (k == "PauseAtHome")      c.pauseAtHome = Flag(v);
+        else if (k == "PauseWhenMounted") c.pauseMounted = Flag(v);
         else if (k == "GatherOre")        c.gatherOre = Flag(v);
         // Retired. Stone answers to Ore now, and a player who had this off
         // meant it, so the migration below turns that into the class rule
@@ -766,6 +767,7 @@ namespace ml::Settings
                  c.lootCorpses, c.searchBodies, c.pickUpItems, c.gatherPlants, c.gatherCrops, c.gatherOre, c.gatherWood, c.gatherUnknown); s += b;
         snprintf(b, sizeof b, "GatherCampFarm=%d\n", c.gatherCampFarm); s += b;
         snprintf(b, sizeof b, "PauseAtHome=%d\n", c.pauseAtHome); s += b;
+        snprintf(b, sizeof b, "PauseWhenMounted=%d\n", c.pauseMounted); s += b;
         snprintf(b, sizeof b, "CatchInsects=%d\nCatchFish=%d\nCatchAnimals=%d\nLootContainers=%d\nLootFurniture=%d\nLootDyes=%d\n",
                  c.catchInsects, c.catchFish, c.catchAnimals, c.lootContainers, c.lootFurniture, c.lootDyes); s += b;
         snprintf(b, sizeof b, "ScanRange=%.1f\nLootRange=%.1f\nGatherRange=%.1f\nCatchRange=%.1f\nCorpseRange=%.1f\nMinRange=%.2f\n",

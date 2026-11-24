@@ -58,6 +58,8 @@ What you drop out of the bag yourself is watched from the same parser, which the
 
 `PauseAtHome=1` in `MasterLooter.ini` stops all looting while you stand in your own camp or house. The mod knows home by three or more camp farm plots, planted seeds or pieces of furniture only a player can place within 25 m of you, and starts again 8 seconds after fewer than three are in reach. It is off by default and not in the menu yet, and each pause and restart writes a `[home]` line to the log.
 
+`PauseWhenMounted=1` in `MasterLooter.ini` stops all looting while you ride a horse or any other mount, and a Loot all press does nothing in the saddle either. A rider is attached to the animal it sits on, which is what the mod reads, and looting starts again a second after you get off. It is off by default and not in the menu yet. Each pause and restart writes a `[mounted]` line to the log.
+
 Swapping characters is noticed by who walks. As Kliff the actor the game raises your events under is your body and walks with you; as Damiane or Oongka it sits wherever the game parked it, jumps when the game moves it, and never walks. A few steps after a swap put the scan on the right character: the actor walking means Kliff, a played body walking means her, and between Damiane and Oongka the body that walked in the last three seconds takes the centre from one that has stood for ten.
 
 ## When the game will not start

@@ -454,6 +454,16 @@
           "help": "Takes nothing while you stand in your own camp or house. Home is recognised by what stands within 25 m of you: three or more camp farm plots, planted seeds or pieces of furniture only a player can place. Looting starts again 8 seconds after fewer than three are in reach. Not in the in-game menu yet; this ini line is the only switch for it.",
           "order": 32
         },
+        "PauseWhenMounted": {
+          "label": "Pause while riding",
+          "type": "bool",
+          "group": "What to collect",
+          "default": "0",
+          "true": "1",
+          "false": "0",
+          "help": "Takes nothing while you ride a horse or any other mount, and starts again a second after you get off. A Loot all press does nothing in the saddle either. Not in the in-game menu yet; this ini line is the only switch for it.",
+          "order": 32
+        },
         "GatherOre": {
           "label": "Ore and stone",
           "type": "bool",

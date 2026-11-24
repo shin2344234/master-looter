@@ -285,6 +285,10 @@ static void NotVeins()
     Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nPauseAtHome=1\r\n"), "the second test ini is written");
     Settings::Load();
     Check(Settings::Snapshot().pauseAtHome, "PauseAtHome=1 in the ini turns it on");
+    Check(!Settings::Snapshot().pauseMounted, "PauseWhenMounted is off when the ini does not name it");
+    Check(WriteText(ini, "[MasterLooter]\r\nConfigVersion=9\r\nPauseWhenMounted=1\r\n"), "the third test ini is written");
+    Settings::Load();
+    Check(Settings::Snapshot().pauseMounted, "PauseWhenMounted=1 in the ini turns it on");
     DeleteFileW(ini.c_str());
 }
 

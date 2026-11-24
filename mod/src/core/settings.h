@@ -99,6 +99,12 @@ namespace ml
         // plots, planted seeds and furniture only a player can place. Off by
         // default, and ini only for now for the same reason as the line above.
         bool  pauseAtHome    = false;
+        // Take nothing while the played character rides a mount. zkam on the
+        // Nexus posts tab, 17 November 2026, issue #230: collecting everything
+        // from the saddle felt too strong. A rider's transform names the
+        // mount as its parent, so that is the test. Off by default, ini only
+        // like the line above.
+        bool  pauseMounted   = false;
         bool  gatherOre      = true;
         bool  gatherWood     = true;
         bool  gatherUnknown  = false;  // nodes whose yield has not been seen yet (learned from what you gather by hand)

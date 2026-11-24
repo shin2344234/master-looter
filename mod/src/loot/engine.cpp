@@ -7579,8 +7579,116 @@ namespace ml::loot
         if (homePause && !settling)
             snprintf(s_holdWhy, sizeof s_holdWhy, "%s", "in your camp or house (PauseAtHome)");
 
+        // PauseWhenMounted, issue #230. A rider is attached to what it rides:
+        // the transform's parent id names the mount. Lux's log of 23 September
+        // 2026 has Damiane's body B0100002 reading parent B0100003, which is
+        // Rokade, a creature with an AI component, and the same body reading a
+        // dig spot and a jar as its parent at other times. So a parent only
+        // counts when it carries an AI component, which a horse has and a
+        // gimmick never does. The rider is whichever of the player actor, the
+        // body the scan is centred on and the actor the game's controller
+        // drives has a parent, so Kliff, Damiane and Oongka all go through the
+        // same test. The parent is looked up among this pass's objects first
+        // and the rolling window second; one that is in neither cannot be
+        // judged and does not pause anything, and the log says so. Looting
+        // starts again a second after the last pass that saw a mount, so a
+        // pass that misses the horse does not flicker the pause.
+        static DWORD    s_mountUntil = 0;
+        static bool     s_wasMounted = false;
+        static uint32_t s_mountSaid = 0, s_riderSaid = 0, s_notMountSaid = 0, s_unseenSaid = 0;
+        bool mountPause = false;
+        if (cfg.pauseMounted)
+        {
+            struct Rider { uintptr_t ent; uint32_t eid; const char* what; };
+            Rider riders[3]; int rn = 0;
+            auto addRider = [&](uintptr_t e, const char* what) {
+                uint32_t eid = 0;
+                if (!e || !game::Eid(e, &eid)) return;
+                for (int i = 0; i < rn; ++i) if (riders[i].eid == eid) return;
+                riders[rn++] = { e, eid, what };
+            };
+            addRider(g_me.load(), "the player actor");
+            if (g_bodyEid)
+            {
+                uintptr_t be = 0;
+                for (const Cand& k : list) if (k.eid == g_bodyEid) { be = k.ent; break; }
+                if (!be)
+                {
+                    auto it = g_seen.find(g_bodyEid);
+                    uint32_t e2 = 0;
+                    if (it != g_seen.end() && mem::Readable(it->second.ent, 0x100) && game::Eid(it->second.ent, &e2) && e2 == g_bodyEid)
+                        be = it->second.ent;
+                }
+                addRider(be, "the body the scan is centred on");
+            }
+            addRider(game::ControlledActor(), "the actor the game's controller drives");
+
+            bool onMount = false;
+            for (int r = 0; r < rn && !onMount; ++r)
+            {
+                const uint32_t par = game::ParentEid(riders[r].ent);
+                if (!par) continue;
+                uintptr_t pe = 0; float pd = -1.0f;
+                for (const Cand& k : list) if (k.eid == par) { pe = k.ent; pd = k.d; break; }
+                if (!pe)
+                {
+                    auto it = g_seen.find(par);
+                    uint32_t e2 = 0;
+                    if (it != g_seen.end() && mem::Readable(it->second.ent, 0x100) && game::Eid(it->second.ent, &e2) && e2 == par)
+                        pe = it->second.ent;
+                }
+                if (!pe)
+                {
+                    if (par != s_unseenSaid)
+                    {
+                        s_unseenSaid = par;
+                        LOG("[mounted] %s %08X has parent %08X, which is not among the objects the scan can see, so it cannot be judged a mount",
+                            riders[r].what, riders[r].eid, par);
+                    }
+                    continue;
+                }
+                const uintptr_t pc = game::Comps(pe);
+                const bool ai = pc && game::CompByClass(pc, kCls_Ai) != 0;
+                const bool vehicle = pc && game::CompByClass(pc, "VehicleActorComponent") != 0;
+                if (ai)
+                {
+                    onMount = true;
+                    if (par != s_mountSaid || riders[r].eid != s_riderSaid)
+                    {
+                        s_mountSaid = par; s_riderSaid = riders[r].eid;
+                        LOG("[mounted] %s %08X rides %08X (tag %02X cat %02X, ai component, vehicle component %s, %.1f m from the scan centre)",
+                            riders[r].what, riders[r].eid, par, game::TypeTag(pe), game::Cat2(pe), vehicle ? "yes" : "no", pd);
+                    }
+                }
+                else if (par != s_notMountSaid)
+                {
+                    s_notMountSaid = par;
+                    LOG("[mounted] %s %08X has parent %08X (tag %02X cat %02X, vehicle component %s) with no AI component, so it is not a mount",
+                        riders[r].what, riders[r].eid, par, game::TypeTag(pe), game::Cat2(pe), vehicle ? "yes" : "no");
+                }
+            }
+            if (onMount) s_mountUntil = now + 1000;
+            const bool mounted = s_mountUntil && static_cast<LONG>(now - s_mountUntil) < 0;
+            if (mounted != s_wasMounted)
+            {
+                if (mounted)
+                    LOG("[mounted] riding %08X, so looting pauses (PauseWhenMounted=1)", s_mountSaid);
+                else
+                {
+                    LOG("[mounted] off the mount for 1 s, so looting starts again");
+                    s_mountSaid = s_riderSaid = 0;
+                }
+                s_wasMounted = mounted;
+            }
+            mountPause = mounted;
+        }
+        else if (s_wasMounted) { s_wasMounted = false; s_mountUntil = 0; s_mountSaid = s_riderSaid = 0; }
+        if (mountPause && !homePause && !settling)
+            snprintf(s_holdWhy, sizeof s_holdWhy, "%s", "riding a mount (PauseWhenMounted)");
+        const bool userPause = homePause || mountPause;
+
         // Wind a well, if one is in reach and the switch is on.
-        if (!homePause) WellTick(list, cfg, now, act);
+        if (!userPause) WellTick(list, cfg, now, act);
 
         // Per-entity memories grow with every object ever seen; a long session
         // sees hundreds of thousands. Forget the diagnostics wholesale and the
@@ -7607,7 +7715,7 @@ namespace ml::loot
                 it = (now - it->second.when > 600000) ? g_done.erase(it) : std::next(it);
 
         int armedNow[32]; int armedN = 0;
-        if (act && !settling && !homePause)
+        if (act && !settling && !userPause)
         {
             const uint32_t route = events::RouteKnown() ? events::Route() : g_meRoute;
             if (cfg.breakTest && g_me) BreakTestPass(list, cfg, now);
@@ -8147,7 +8255,7 @@ namespace ml::loot
         g_status.playerFound = true;
         g_status.playerEid = g_meEid;
         g_status.settling = settling;
-        snprintf(g_status.hold, sizeof g_status.hold, "%s", (settling || homePause) ? s_holdWhy : "");
+        snprintf(g_status.hold, sizeof g_status.hold, "%s", (settling || userPause) ? s_holdWhy : "");
         g_status.inventoryItems = game::InventoryCount();
         g_status.bagFull = g_bagFull;
         int bagUsed = 0, bagCap = 0;
