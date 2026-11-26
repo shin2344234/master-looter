@@ -1934,6 +1934,7 @@ pa_00_veg_sea_kelp_000_0001	item	Item_Rare_Collect_Sea_Kelp	Kelp	tag	0	Item_Rare
 pa_00_veg_sea_mussel_000_0001	item	Item_Rare_Collect_Mussel	Mussel	tag	0	Item_Rare_Collect_Mussel	0	0	0
 pa_00_veg_sea_penshell_000_0001	item	Item_Rare_Collect_GiantPenShell	Giant Pen Shell	tag	0	Item_Rare_Collect_GiantPenShell	0	0	0
 pa_00_veg_sea_scallops_000_0001	item	Item_Rare_Collect_Scallops	Scallop	tag	0	Item_Rare_Collect_Scallops	0	0	0
+pa_00_veg_sea_scallops_000_0002	item		Sea scallops 000	tag	0	Item_Rare_Collect_Scallops	0	0	0
 pa_00_veg_sea_seacucumber_000_0001	item	Item_Rare_Collect_GiantSeaCucumber	Giant Sea Cucumber	tag	0	Item_Rare_Collect_GiantSeaCucumber	0	0	0
 pa_00_veg_sea_seapineapple_000_0001	item	Item_Rare_Collect_seapineapple	Sea Pineapple	tag	0	Item_Rare_Collect_seapineapple	0	0	0
 pa_00_veg_sea_seapineapple_001_0001	item	Item_Rare_Collect_GiantSeaPineapple	Giant Sea Pineapple	tag	0	Item_Rare_Collect_GiantSeaPineapple	0	0	0
