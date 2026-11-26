@@ -1379,10 +1379,100 @@ namespace ml::loot::hooks
     static FnParse oSearchParse = nullptr;
     static uintptr_t g_dropFn = 0;
 
+    // The slot as the exe file holds it. Glint Spotter swaps slot 2 of the
+    // pick-up timer's vtable for its own handler and forwards to the game's,
+    // so the live slot names a function in GlintSpotter.asi and nothing here
+    // can be read off it. The vtable sits in a section the file carries
+    // as is, so the game's pointer is the file's qword at the same RVA,
+    // moved by however far the exe loaded from its preferred base.
+    static uintptr_t SlotOnDisk(uintptr_t slot)
+    {
+        const mem::Module& g = mem::Game();
+        const uintptr_t rva = slot - g.base;
+        wchar_t path[MAX_PATH] = {};
+        if (!GetModuleFileNameW(reinterpret_cast<HMODULE>(g.base), path, MAX_PATH)) return 0;
+        HANDLE h = CreateFileW(path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                               nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+        if (h == INVALID_HANDLE_VALUE) return 0;
+        auto readAt = [h](uint64_t off, void* out, DWORD n) {
+            LARGE_INTEGER li; li.QuadPart = static_cast<LONGLONG>(off);
+            DWORD got = 0;
+            return SetFilePointerEx(h, li, nullptr, FILE_BEGIN) && ::ReadFile(h, out, n, &got, nullptr) && got == n;
+        };
+        uintptr_t result = 0;
+        uint8_t hdr[0x1000] = {};
+        if (readAt(0, hdr, sizeof hdr))
+        {
+            const auto* dos = reinterpret_cast<const IMAGE_DOS_HEADER*>(hdr);
+            const LONG pe = dos->e_lfanew;
+            if (dos->e_magic == IMAGE_DOS_SIGNATURE && pe > 0 && pe + sizeof(IMAGE_NT_HEADERS64) <= sizeof hdr)
+            {
+                const auto* nt = reinterpret_cast<const IMAGE_NT_HEADERS64*>(hdr + pe);
+                const auto* sec = IMAGE_FIRST_SECTION(nt);
+                const unsigned n = nt->FileHeader.NumberOfSections;
+                for (unsigned i = 0; i < n && reinterpret_cast<const uint8_t*>(sec + i + 1) <= hdr + sizeof hdr; ++i)
+                {
+                    const IMAGE_SECTION_HEADER& s = sec[i];
+                    if (rva < s.VirtualAddress || rva + 8 > static_cast<uint64_t>(s.VirtualAddress) + s.SizeOfRawData) continue;
+                    uint64_t q = 0;
+                    if (readAt(static_cast<uint64_t>(s.PointerToRawData) + (rva - s.VirtualAddress), &q, 8) && q)
+                        result = static_cast<uintptr_t>(q - nt->OptionalHeader.ImageBase + g.base);
+                    break;
+                }
+            }
+        }
+        CloseHandle(h);
+        return mem::InImage(result) ? result : 0;
+    }
+
+    // Since exe 1.0.0.3840 a slot can name a five-byte jmp to the body
+    // rather than the body itself; the pick-up parser's does. The thunk is
+    // followed while it stays inside the game, so the shape test and the
+    // hook both land on the code that reads the packet.
+    static uintptr_t FollowJumps(uintptr_t fn)
+    {
+        for (int hop = 0; hop < 4 && fn; ++hop)
+        {
+            uint8_t op = 0; uint32_t rel = 0;
+            if (!mem::Read8(fn, &op) || op != 0xE9 || !mem::Read32(fn + 1, &rel)) break;
+            const uintptr_t to = fn + 5 + static_cast<intptr_t>(static_cast<int32_t>(rel));
+            if (!mem::InImage(to)) break;
+            fn = to;
+        }
+        return fn;
+    }
+
     static uintptr_t ParserOf(uintptr_t desc)
     {
         uintptr_t vt = 0, fn = 0;
         if (!desc || !mem::ReadPtr(desc, &vt) || !mem::ReadPtr(vt + 0x10, &fn) || !fn) return 0;
+        if (!mem::InImage(fn))
+        {
+            char owner[MAX_PATH] = "an unknown module";
+            HMODULE m = nullptr;
+            if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                   reinterpret_cast<LPCSTR>(fn), &m) && m)
+            {
+                char full[MAX_PATH] = {};
+                if (GetModuleFileNameA(m, full, MAX_PATH))
+                {
+                    const char* slash = strrchr(full, '\\');
+                    strncpy_s(owner, slash ? slash + 1 : full, _TRUNCATE);
+                }
+            }
+            const uintptr_t disk = SlotOnDisk(vt + 0x10);
+            if (!disk)
+            {
+                LOG_ERR("[drop] slot 2 of %s's vtable points into %s, and the exe file does not say what it held",
+                        mem::RttiShort(desc) ? mem::RttiShort(desc) : "a descriptor", owner);
+                return 0;
+            }
+            LOG("[drop] slot 2 of %s's vtable points into %s, which swapped it; the game's own is +0x%llX, read from the exe file",
+                mem::RttiShort(desc) ? mem::RttiShort(desc) : "a descriptor", owner,
+                static_cast<unsigned long long>(mem::Rva(disk)));
+            fn = disk;
+        }
+        fn = FollowJumps(fn);
         for (int i = 0; i < 0x40; ++i)
         {
             uint8_t b[4] = {};
