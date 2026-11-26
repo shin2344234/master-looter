@@ -27,6 +27,11 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
+// Counted by minhook_close.h each time MinHook closes a handle, which it
+// does with other threads frozen; read for the log line after the first
+// MH_EnableHook (issue #241).
+extern "C" volatile LONG ml_minhook_closes = 0;
+
 namespace ml::hooks
 {
     // --- Original function pointers -----------------------------------------
@@ -1881,6 +1886,15 @@ namespace ml::hooks
         }
         if (added && MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
             LOG_ERR("MH_EnableHook failed; the DirectX detours are not active.");
+        if (added)
+        {
+            static bool said = false;
+            if (!said && ml_minhook_closes > 0)
+            {
+                said = true;
+                LOG("[hook] MinHook closed %ld thread handles through NtClose while patching, so a mod that detours CloseHandle cannot stall it", static_cast<long>(ml_minhook_closes));
+            }
+        }
         if (skipped && !allowProxy && wrapperWillDraw)
             LOG("%d of 6 DirectX functions were left to whoever hooked them first. The overlay comes from the wrapped swapchain instead; if that does not happen it will not draw, which is better than two mods fighting over one function.", skipped);
         else if (skipped && !allowProxy)

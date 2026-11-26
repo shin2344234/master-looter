@@ -62,36 +62,69 @@ namespace ml::farhook
         return len;
     }
 
-    // Suspends every other thread; refuses (returns false) while one of them
-    // sits inside the bytes about to change, so the caller can retry.
-    static int SuspendOthers(HANDLE* handles, int max, uintptr_t lo, uintptr_t hi, bool* inside)
+    // Nothing but OpenThread, SuspendThread, GetThreadContext and ResumeThread
+    // may run while another thread is suspended. Any call that can take a
+    // lock can wait on a thread this one has just frozen, and then neither
+    // ever moves. CloseHandle is the one that did it: OptiScaler's d3d12.dll
+    // detours it and takes a mutex inside, and its input thread holds that
+    // mutex during startup, so a patch that closed the snapshot or a thread
+    // handle with that thread frozen hung the game for good (hasewo2010, from
+    // a full dump, issue #241). So every thread id is read and the snapshot
+    // closed before the first suspend, and every handle is closed only once
+    // every thread is running again.
+    struct Frozen
+    {
+        HANDLE held[512];    // suspended, to resume
+        int    n = 0;
+        HANDLE spare[512];   // opened, never suspended, to close afterwards
+        int    nSpare = 0;
+    };
+    static volatile LONG g_lastFrozen = 0, g_lastClosed = 0;
+
+    // Suspends every other thread. Sets *inside while one of them sits inside
+    // the bytes about to change, so the caller can resume and retry.
+    static void SuspendOthers(Frozen& f, uintptr_t lo, uintptr_t hi, bool* inside)
     {
         *inside = false;
-        int n = 0;
+        f.n = f.nSpare = 0;
         const DWORD me = GetCurrentThreadId(), pid = GetCurrentProcessId();
+        static DWORD ids[1024];   // only touched under g_lock
+        int nIds = 0;
         HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
-        if (snap == INVALID_HANDLE_VALUE) return 0;
+        if (snap == INVALID_HANDLE_VALUE) return;
         THREADENTRY32 te; te.dwSize = sizeof te;
         if (Thread32First(snap, &te))
         {
             do
             {
-                if (te.th32OwnerProcessID != pid || te.th32ThreadID == me || n >= max) continue;
-                HANDLE h = OpenThread(THREAD_SUSPEND_RESUME | THREAD_GET_CONTEXT, FALSE, te.th32ThreadID);
-                if (!h) continue;
-                if (SuspendThread(h) == static_cast<DWORD>(-1)) { CloseHandle(h); continue; }
-                CONTEXT ctx; ctx.ContextFlags = CONTEXT_CONTROL;
-                if (GetThreadContext(h, &ctx) && ctx.Rip >= lo && ctx.Rip < hi) *inside = true;
-                handles[n++] = h;
+                if (te.th32OwnerProcessID != pid || te.th32ThreadID == me || nIds >= 1024) continue;
+                ids[nIds++] = te.th32ThreadID;
             } while (Thread32Next(snap, &te));
         }
         CloseHandle(snap);
-        return n;
+        for (int i = 0; i < nIds && f.n < 512 && f.nSpare < 512; ++i)
+        {
+            HANDLE h = OpenThread(THREAD_SUSPEND_RESUME | THREAD_GET_CONTEXT, FALSE, ids[i]);
+            if (!h) continue;
+            if (SuspendThread(h) == static_cast<DWORD>(-1)) { f.spare[f.nSpare++] = h; continue; }
+            CONTEXT ctx; ctx.ContextFlags = CONTEXT_CONTROL;
+            if (GetThreadContext(h, &ctx) && ctx.Rip >= lo && ctx.Rip < hi) *inside = true;
+            f.held[f.n++] = h;
+        }
     }
-    static void ResumeAll(HANDLE* handles, int n)
+    static void ResumeAll(Frozen& f)
     {
-        for (int i = 0; i < n; ++i) { ResumeThread(handles[i]); CloseHandle(handles[i]); }
+        for (int i = 0; i < f.n; ++i) ResumeThread(f.held[i]);
+        // Every thread runs again before the first handle is closed.
+        for (int i = 0; i < f.n; ++i) CloseHandle(f.held[i]);
+        for (int i = 0; i < f.nSpare; ++i) CloseHandle(f.spare[i]);
+        InterlockedExchange(&g_lastFrozen, f.n);
+        InterlockedExchange(&g_lastClosed, f.n + f.nSpare);
+        f.n = f.nSpare = 0;
     }
+
+    int LastFrozen() { return static_cast<int>(g_lastFrozen); }
+    int LastClosed() { return static_cast<int>(g_lastClosed); }
 
     // Fails rather than patch under a thread that keeps sitting inside the
     // bytes: a thread resumed halfway through a rewritten instruction crashes
@@ -100,13 +133,13 @@ namespace ml::farhook
     {
         DWORD old;
         if (!VirtualProtect(reinterpret_cast<void*>(dst), n, PAGE_EXECUTE_READWRITE, &old)) { snprintf(why, whyLen, "VirtualProtect failed"); return false; }
-        HANDLE handles[512]; bool inside = false; int cnt = 0;
+        static Frozen frozen;   // 8 KB, only touched under g_lock
+        bool inside = false;
         for (int attempt = 0; attempt < 40; ++attempt)
         {
-            cnt = SuspendOthers(handles, 512, dst, dst + n, &inside);
+            SuspendOthers(frozen, dst, dst + n, &inside);
             if (!inside) break;
-            ResumeAll(handles, cnt);
-            cnt = 0;
+            ResumeAll(frozen);
             Sleep(1);
         }
         if (inside)
@@ -117,7 +150,7 @@ namespace ml::farhook
         }
         memcpy(reinterpret_cast<void*>(dst), src, n);
         FlushInstructionCache(GetCurrentProcess(), reinterpret_cast<void*>(dst), n);
-        ResumeAll(handles, cnt);
+        ResumeAll(frozen);
         VirtualProtect(reinterpret_cast<void*>(dst), n, old, &old);
         return true;
     }

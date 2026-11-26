@@ -42,6 +42,11 @@ FetchContent_Declare(
     GIT_TAG        master
 )
 FetchContent_MakeAvailable(minhook)
+# MinHook freezes every other thread to patch and closes thread handles
+# while some are still frozen. Another mod that detours CloseHandle and
+# locks inside it can then wait forever on a thread MinHook froze (issue
+# #241, OptiScaler), so its closes go straight to ntdll instead.
+target_compile_options(minhook PRIVATE "/FI${CMAKE_SOURCE_DIR}/src/hooks/minhook_close.h")
 
 add_library(MasterLooter SHARED
     src/dllmain.cpp
@@ -76,7 +81,7 @@ set_source_files_properties(src/resources.rc PROPERTIES OBJECT_DEPENDS
     "${CMAKE_SOURCE_DIR}/data/MasterLooter.items.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.creatures.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.nodes.tsv;${CMAKE_SOURCE_DIR}/data/MasterLooter.inimeta;${ML_LANG_FILES}")
 
 target_include_directories(MasterLooter PRIVATE src ${minhook_SOURCE_DIR}/src/hde)
-target_link_libraries(MasterLooter PRIVATE imgui minhook d3d12 dxgi dwmapi imm32 xinput9_1_0)
+target_link_libraries(MasterLooter PRIVATE imgui minhook d3d12 dxgi dwmapi imm32 xinput9_1_0 ntdll)
 target_compile_definitions(MasterLooter PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX _CRT_SECURE_NO_WARNINGS)
 
 # Test switch, off for every real build. Forces the swapchain wrapper off no

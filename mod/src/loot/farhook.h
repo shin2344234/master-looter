@@ -42,4 +42,9 @@ namespace ml::farhook
     // exactly as before and only this one call passes through the detour.
     bool InstallCallSite(const char* name, uintptr_t site, void* detour, void** original, char* why, unsigned whyLen);
     void RemoveAll();
+
+    // The last patch's freeze: how many threads it suspended, and how many
+    // handles it closed, all of them after every thread was running again.
+    int LastFrozen();
+    int LastClosed();
 }

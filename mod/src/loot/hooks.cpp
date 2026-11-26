@@ -872,6 +872,17 @@ namespace ml::loot::hooks
                 "starts at the next launch.");
     }
 
+    // Said once a session, after the first loot hook goes in, so a log shows
+    // the patch closed no handle while another thread was frozen (#241).
+    static void NoteFreeze()
+    {
+        static bool said = false;
+        if (said) return;
+        said = true;
+        LOG("[hook] patching froze %d other threads and closed %d handles only once every thread was running again",
+            farhook::LastFrozen(), farhook::LastClosed());
+    }
+
     static bool Hook(const char* what, uintptr_t target, void* detour, void** original)
     {
         if (!target) return false;
@@ -891,6 +902,7 @@ namespace ml::loot::hooks
                 return false;
             }
             LOG("[hook] %s hooked at +0x%llX, stacked on another mod's jump", what, static_cast<unsigned long long>(mem::Rva(target)));
+            NoteFreeze();
             return true;
         }
         // Or an absolute jump, the shape CDAutoLoot's fifteen-byte patch takes
@@ -909,6 +921,7 @@ namespace ml::loot::hooks
             }
             LOG("[hook] %s hooked at +0x%llX, stacked on another mod's absolute jump to %p", what,
                 static_cast<unsigned long long>(mem::Rva(target)), reinterpret_cast<void*>(theirs));
+            NoteFreeze();
             return true;
         }
         char why[96];
@@ -918,6 +931,7 @@ namespace ml::loot::hooks
             return false;
         }
         LOG("[hook] %s hooked at +0x%llX", what, static_cast<unsigned long long>(mem::Rva(target)));
+        NoteFreeze();
         return true;
     }
 
