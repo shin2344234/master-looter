@@ -1,4 +1,4 @@
-"""Readers for Crimson Desert static-info tables (ItemInfo layouts for exe 1.0.0.3392 to 1.0.0.3732).
+"""Readers for Crimson Desert static-info tables (ItemInfo layouts for exe 1.0.0.3392 to 1.0.0.3840).
 
 Inputs are the files extracted from archive group 0008 (gamedata/*.staticinfobody +
 *.staticinfoheader) and the English string tables from group 0020 (gamedata/*.paloc).
@@ -91,6 +91,57 @@ def dlc_keys(name):
     return {k for k, _ in load_table(name) if k not in base}
 
 
+def _header_old(h, cs, cnt, b):
+    """Header of exe 1.0.0.3732 and older: a count, then cnt entries of key (1, 2, 4 or 8
+    bytes) and a u32 body offset. Returns [(key, offset)] or None when the bytes do not fit."""
+    rest = len(h) - cs
+    if not (cnt and rest % cnt == 0):
+        return None
+    ks = rest // cnt - 4
+    if ks not in (1, 2, 4, 8):
+        return None
+    ents = []
+    p = cs
+    for _ in range(cnt):
+        ents.append((int.from_bytes(h[p:p + ks], "little"), struct.unpack_from("<I", h, p + ks)[0]))
+        p += ks + 4
+    offs = [o for _, o in ents]
+    if len(set(offs)) != cnt or max(offs) >= len(b):
+        return None
+    return ents
+
+
+def _header_3840(h, cs, cnt, b):
+    """Header of exe 1.0.0.3840: a count, then cnt entries of key (1, 2, 4 or 8 bytes), the
+    row's string key (u32 length, bytes), the row's body offset and its body length (u32
+    each). Rows are contiguous in the body. Returns [(key, offset, size, string_key, key_size)]
+    or None."""
+    for ks in (1, 2, 4, 8):
+        p = cs
+        end = 0
+        ents = []
+        try:
+            for _ in range(cnt):
+                key = int.from_bytes(h[p:p + ks], "little")
+                p += ks
+                n, = struct.unpack_from("<I", h, p)
+                if n > 4096:
+                    raise ValueError
+                skey = h[p + 4:p + 4 + n]
+                p += 4 + n
+                off, size = struct.unpack_from("<II", h, p)
+                p += 8
+                if off != end:
+                    raise ValueError
+                end = off + size
+                ents.append((key, off, size, skey, ks))
+        except (ValueError, struct.error):
+            continue
+        if p == len(h) and end == len(b):
+            return ents
+    return None
+
+
 def _load_table(name, gamedata, kind=None):
     kind = kind or name
     h = open(os.path.join(gamedata, name + ".staticinfoheader"), "rb").read()
@@ -100,19 +151,34 @@ def _load_table(name, gamedata, kind=None):
     if cnt == 0 and rest == 0:
         return []   # the DLC ships a bare count of zero, with no body file, for tables it adds nothing to
     b = open(os.path.join(gamedata, name + ".staticinfobody"), "rb").read()
-    assert cnt and rest % cnt == 0, (name, cnt, rest)
-    ks = rest // cnt - 4
-    assert ks in (1, 2, 4, 8), (name, ks)
-    ents = []
-    p = cs
-    for _ in range(cnt):
-        key = int.from_bytes(h[p:p + ks], "little")
-        off = struct.unpack_from("<I", h, p + ks)[0]
-        ents.append((key, off))
-        p += ks + 4
-    offs = sorted(o for _, o in ents) + [len(b)]
-    nxt = {o: offs[i + 1] for i, o in enumerate(offs[:-1])}
-    return [(k, b[o:nxt[o]]) for k, o in ents]
+    ents = _header_old(h, cs, cnt, b)
+    if ents is not None:
+        offs = sorted(o for _, o in ents) + [len(b)]
+        nxt = {o: offs[i + 1] for i, o in enumerate(offs[:-1])}
+        return [(k, b[o:nxt[o]]) for k, o in ents]
+    # A table the 3840 header lists with a count width the old reader did not know (aimemoryinfo,
+    # fieldreviveinfo: u32; gamestartinfo: u8) gets the other widths tried.
+    for w in dict.fromkeys((cs, 2, 4, 1)):
+        ents = _header_3840(h, w, int.from_bytes(h[:w], "little"), b)
+        if ents is not None:
+            break
+    assert ents is not None, (name, cnt, rest)
+    # The 3840 record has no string key (the header holds it) and carries a u32 row index
+    # right after the key. Put the record back into the 3732 form, string key first and no
+    # index, so every record reader below keeps working. table_rows_3840 gives the indices.
+    return [(k, struct.pack("<I", len(sk)) + sk + b[o:o + ks] + b[o + ks + 4:o + n])
+            for k, o, n, sk, ks in ents]
+
+
+def table_row_index(name, gamedata):
+    """{key: u32 row index} for a table in the 1.0.0.3840 layout, None for an older one."""
+    h = open(os.path.join(gamedata, name + ".staticinfoheader"), "rb").read()
+    b = open(os.path.join(gamedata, name + ".staticinfobody"), "rb").read()
+    for w in (2, 4, 1):
+        ents = _header_3840(h, w, int.from_bytes(h[:w], "little"), b)
+        if ents is not None:
+            return {k: struct.unpack_from("<I", b, o + ks)[0] for k, o, n, sk, ks in ents}
+    return None
 
 
 # ----------------------------------------------------------------------------- reader
