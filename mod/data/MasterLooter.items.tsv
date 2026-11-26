@@ -3058,7 +3058,7 @@ row	key	string_key	name	class	tags	tier	value_copper	placed_prefab	heal_hp
 3056	80412	Recipe_DeerAntler_Fruit_Tea	Recipe: Antler Tea	recipe-food	document recipe recipe-food stackable tier-0	0	68		0
 3057	1003768	Recipe_Chocolate	Recipe: Chocolate	recipe-food	document recipe recipe-food stackable tier-0	0	500		0
 3058	1000257	Recipe_Pan_fried_Grain_Pancake	Recipe: Battered Grains	recipe-food	document recipe recipe-food stackable tier-0	0	62		0
-3059	1000076	Recipe_Meat_Porridge	Recipe: Clear Soup	recipe-food	document recipe recipe-food stackable tier-0	0	70		0
+3059	1000076	Recipe_Meat_Porridge	Recipe: Clear Soup	recipe-food	document quest recipe recipe-food stackable tier-0	0	70		0
 3060	1000071	Recipe_Meat_Sanjeok	Recipe: Meat Skewers	recipe-food	document recipe recipe-food stackable tier-0	0	70		0
 3061	1000072	Recipe_Braised_Meat	Recipe: Braised Meat	recipe-food	document recipe recipe-food stackable tier-0	0	70		0
 3062	1000087	Recipe_Pan_fried_Meat_Pancake	Recipe: Battered Meat	recipe-food	document recipe recipe-food stackable tier-0	0	72		0
@@ -6440,7 +6440,7 @@ row	key	string_key	name	class	tags	tier	value_copper	placed_prefab	heal_hp
 6438	1000639	FishingRod_II	Fine Fishing Rod	tool	docking equipment knowledge tier-0 tool	0	3000		0
 6439	1000640	FishingRod_III	Pororin Fishing Rod	tool	docking equipment knowledge tier-0 tool	0	5000		0
 6440	1000088	ItemCatch_FishingRod	The Claw	tool	docking equipment knowledge tier-0 tool	0	185		0
-6441	950001	Equip_Broom	Broom	tool	equipment extractable knowledge tier-0 tool	0	58		0
+6441	950001	Equip_Broom	Broom	tool	equipment extractable knowledge quest tier-0 tool	0	58		0
 6442	1003848	Equip_Sturdy_Broom	Sturdy Broom	tool	equipment knowledge tier-0 tool	0	85		0
 6443	10026	Lantern	Lantern	tool	docking equipment lantern tier-0 tool	0	10		0
 6444	10043	Light_Of_Giant_Lantern	Shiny Blue Sea Lantern	tool	docking equipment lantern tier-0 tool	0	240		0

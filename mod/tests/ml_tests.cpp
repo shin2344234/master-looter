@@ -188,6 +188,30 @@ static void CarriedGearKinds()
     Check(!Config{}.skipCarriedGear, "SkipCarriedGear is off by default");
 }
 
+// erikem007, Nexus bugs tab, issue #242: the chimney quest asks for the Broom
+// to be taken by hand, and the Greymane camp cooking quest stalled on a looted
+// Clear Soup recipe. Neither carries the game's quest tag, so the override
+// table gives them one and the Quest items switch keeps the mod off them.
+static void QuestStepItems()
+{
+    Check(ItemDb::Load(), "the item table loads");
+    Config cfg;
+    const Item* broom = ItemDb::ByStringKey("Equip_Broom");
+    const Item* recipe = ItemDb::ByStringKey("Recipe_Meat_Porridge");
+    const Item* sturdy = ItemDb::ByStringKey("Equip_Sturdy_Broom");
+    const Item* skewers = ItemDb::ByStringKey("Recipe_Meat_Sanjeok");
+    Check(broom && broom->HasTag("quest") && broom->klass == "tool", "the Broom carries the quest tag and stays a tool");
+    Check(recipe && recipe->HasTag("quest") && recipe->klass == "recipe-food", "Recipe: Clear Soup carries the quest tag and stays a cooking recipe");
+    Check(broom && std::strcmp(Rules::Decide(*broom, cfg).rule, "quest item") == 0, "the Broom is refused as a quest item by default");
+    Check(recipe && std::strcmp(Rules::Decide(*recipe, cfg).rule, "quest item") == 0, "Recipe: Clear Soup is refused as a quest item by default");
+    Check(sturdy && Rules::Decide(*sturdy, cfg).loot, "the Sturdy Broom is still taken");
+    Check(skewers && Rules::Decide(*skewers, cfg).loot, "another cooking recipe is still taken");
+    Config off; off.skipQuestItems = false;
+    Check(broom && Rules::Decide(*broom, off).loot, "with Quest items off the Broom is taken again");
+    Config lifted; if (broom) lifted.itemRule[broom->key] = 1;
+    Check(broom && Rules::Decide(*broom, lifted).loot, "an Always on the Broom lifts it");
+}
+
 // Sov, Discord, 1 October 2026, issue #95: a floor on food by how much it
 // heals, so the 400 health dishes come in and the 120 ones stay behind.
 static void FoodHealthFloor()
@@ -455,6 +479,7 @@ int main()
     SeaMounts();
     ProtectedTags();
     FoodHealthFloor();
+    QuestStepItems();
     CarriedGearKinds();
     AlwaysOverSwitch();
     PlacedHousing();

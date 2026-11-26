@@ -125,7 +125,7 @@
 - damaged-gear: 1666
 - document: 1363
 - tier-1: 1283
-- quest: 1247
+- quest: 1249
 - knowledge: 1236
 - no-sell: 1148
 - extractable: 1108
