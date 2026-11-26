@@ -41,6 +41,12 @@ RESULT_TYPE_NAMES = {
 # 0; this takes the second. parse_all decides the layout from the first sets.
 SET_3663 = False
 
+# 1.0.0.3840 took the 3663 bytes out again (the set header is the 3392 one, three
+# bytes before nee_slot_count, and the entry has no byte before its tail) and cut the
+# four u32 after result_type to seven bytes, which read as u32, u16 and u8 and are zero
+# in every entry. parse_all decides this from the first sets as well.
+SET_3840 = False
+
 
 def parse_entry(r, v3663=None):
     if v3663 is None:
@@ -49,7 +55,10 @@ def parse_entry(r, v3663=None):
     e["tag"] = r.u8("e.tag")
     e["key_raw"] = r.u64("e.key_raw")
     e["result_type"] = r.u8("e.type")
-    e["cond"] = [r.u32("e.cond%d" % i) for i in range(4)]
+    if SET_3840:
+        e["cond"] = [r.u32("e.cond0"), r.u16("e.cond1"), r.u8("e.cond2")]
+    else:
+        e["cond"] = [r.u32("e.cond%d" % i) for i in range(4)]
     e["percent"] = r.u64("e.percent")
     e["sub_percent"] = r.u64("e.sub_percent")
     e["min"] = r.i64("e.min")
@@ -96,12 +105,17 @@ def parse_dropset(rec, trace=False, r=None, v3663=None):
     return d, r
 
 
-def _fits(rec, v3663):
+def _fits(rec, v3663, v3840=False):
+    global SET_3840
+    keep = SET_3840
+    SET_3840 = v3840
     try:
         _, r = parse_dropset(rec, v3663=v3663)
         return r.p == len(rec)
     except Exception:  # noqa
         return False
+    finally:
+        SET_3840 = keep
 
 
 def detect(rows=None):
@@ -110,7 +124,12 @@ def detect(rows=None):
     global SET_3663
     rows = rows if rows is not None else load_table("dropsetinfo")
     sample = [rec for _, rec in rows[:64]]
-    SET_3663 = sum(_fits(x, True) for x in sample) > sum(_fits(x, False) for x in sample)
+    global SET_3840
+    score = {"3663": sum(_fits(x, True) for x in sample), "3392": sum(_fits(x, False) for x in sample),
+             "3840": sum(_fits(x, False, True) for x in sample)}
+    best = max(score, key=score.get)
+    SET_3840 = best == "3840"
+    SET_3663 = best == "3663"
     return SET_3663
 
 
