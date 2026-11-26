@@ -82,6 +82,35 @@ def main():
     conds = keyed("conditioninfo", 4)
     tagged = {int(r["key"]): r for r in csv.DictReader(open(os.path.join(DATA, "items_tagged.csv"), encoding="utf-8-sig"))}
 
+    def leaf_text(n):
+        # 1.0.0.3840 keeps conditions inline. The item and knowledge keys resolve through their
+        # tables. Other kinds print as kind and payload, because their names are not in the data.
+        k, pay = n["kind"], n["payload"]
+        key = int.from_bytes(pay[1:5], "little")
+        if k == 0x27:
+            return "CheckHaveItem(%s)" % items.get(key, key)
+        if k == 0x24:
+            return "CheckKnowledge(%s)" % knowledge.get(key, key)
+        if k == 0x0B:
+            return "CheckEquipItem(%s)" % items.get(key, key)
+        if k == 0x3E:
+            return "CheckSpawnPositionRegion(%d)" % int.from_bytes(pay[1:3], "little")
+        return "cond0x%02x(%s)" % (k, pay.hex())
+
+    def node_text(n):
+        if n["cls"] == 3:
+            return leaf_text(n)
+        if n["cls"] == 2:
+            return "!" + node_text(n["a"])
+        op = " && " if n["cls"] == 1 else " || "
+        return "(" + node_text(n["a"]) + op + node_text(n["b"]) + ")"
+
+    def cond_text(e):
+        if "cond_tree" not in e:
+            return " ".join(conds.get(c, str(c)) for c in e["cond"] if c)
+        parts = [node_text(ref["tree"]) for ref in e["cond_tree"] if ref]
+        return " ".join(x[1:-1] if x.startswith("(") and x.endswith(")") and x.count("(") == 1 + x[1:-1].count("(") and x.count(")") == 1 + x[1:-1].count(")") else x for x in parts)
+
     def resolve(e):
         t, k = e["result_type"], e["key_raw"]
         if t == 0:
@@ -118,7 +147,7 @@ def main():
                 share_pct=round(100.0 * e["percent"] / d["total_drop_rate"], 4) if d["total_drop_rate"] else "",
                 min=e["min"], max=e["max"],
                 enchant=None if e["enchant_level"] == 65535 else e["enchant_level"],
-                condition=" ".join(conds.get(c, str(c)) for c in e["cond"] if c),
+                condition=cond_text(e),
                 tail=e["tail"].hex(),
             )
             es.append(row)

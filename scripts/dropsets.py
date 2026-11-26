@@ -47,6 +47,51 @@ SET_3663 = False
 # in every entry. parse_all decides this from the first sets as well.
 SET_3840 = False
 
+# 1.0.0.3840 stores an entry's conditions inline instead of as conditioninfo keys. An entry
+# holds three refs and then a u32. A ref is one byte, 0 for none, or 1 followed by a byte
+# that reads 1, a condition tree and three flag bytes. A tree node is a class byte. Classes
+# 0 and 1 are binary operators (the game reads them as and/or) and each is followed by its
+# two operands. Class 2 wraps one operand (not). Class 3 is a leaf, a kind byte and a payload
+# whose size depends on the kind. The sizes below are the ones the 3840 data uses, and all
+# 17,192 sets end exactly on their last byte with them. An unseen kind raises, so a new
+# build fails loudly instead of misparsing.
+LEAF_PAYLOAD_3840 = {0x08: 6, 0x0B: 8, 0x24: 11, 0x27: 18, 0x3E: 4, 0x84: 8, 0xA8: 8}
+LEAF_NAMES_3840 = {0x24: "CheckKnowledge", 0x27: "CheckHaveItem", 0x3E: "CheckSpawnPositionRegion"}
+
+
+def _read_node(r, depth=0):
+    if depth > 64:
+        raise ValueError("condition tree too deep at 0x%x" % r.p)
+    c = r.u8("c.class")
+    if c in (0, 1):
+        a = _read_node(r, depth + 1)
+        b = _read_node(r, depth + 1)
+        return {"cls": c, "a": a, "b": b}
+    if c == 2:
+        return {"cls": 2, "a": _read_node(r, depth + 1)}
+    if c == 3:
+        kind = r.u8("c.kind")
+        n = LEAF_PAYLOAD_3840.get(kind)
+        if n is None:
+            raise ValueError("unknown condition leaf kind 0x%02x at 0x%x" % (kind, r.p))
+        pay = r.d[r.p:r.p + n]
+        if len(pay) != n:
+            raise ValueError("short condition leaf at 0x%x" % r.p)
+        r.p += n
+        return {"cls": 3, "kind": kind, "payload": pay}
+    raise ValueError("unknown condition class %d at 0x%x" % (c, r.p))
+
+
+def _read_ref(r):
+    present = r.u8("c.ref")
+    if present == 0:
+        return None
+    if present != 1 or r.u8("c.ref2") != 1:
+        raise ValueError("bad condition ref at 0x%x" % r.p)
+    tree = _read_node(r)
+    flags = bytes(r.u8("c.flag") for _ in range(3))
+    return {"tree": tree, "flags": flags}
+
 
 def parse_entry(r, v3663=None):
     if v3663 is None:
@@ -56,7 +101,9 @@ def parse_entry(r, v3663=None):
     e["key_raw"] = r.u64("e.key_raw")
     e["result_type"] = r.u8("e.type")
     if SET_3840:
-        e["cond"] = [r.u32("e.cond0"), r.u16("e.cond1"), r.u8("e.cond2")]
+        e["cond_tree"] = [_read_ref(r) for _ in range(3)]
+        e["cond_tail"] = r.u32("e.cond_tail")
+        e["cond"] = []
     else:
         e["cond"] = [r.u32("e.cond%d" % i) for i in range(4)]
     e["percent"] = r.u64("e.percent")

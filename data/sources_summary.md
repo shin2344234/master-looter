@@ -1,9 +1,9 @@
 # Drop sources, exe 1.0.0.3392
 
 - characters: 7602; with reward drop sets: 6377; with equipment: 5129; with a catch/steal set: 178
-- gimmicks: 15596; with a drop block: 511
-- drop sets used by at least one character or gimmick: 627 of 17185
-- items with at least one known source (set via character or gimmick, worn equipment, or catch): 3064 of 8379
+- gimmicks: 15596; with a drop block: 521
+- drop sets used by at least one character or gimmick: 630 of 17192
+- items with at least one known source (set via character or gimmick, worn equipment, or catch): 3071 of 8379
 
 ## How each source was found
 
