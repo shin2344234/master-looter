@@ -168,6 +168,18 @@ namespace ml::game
     // set once by ResolveAll from whichever getter pattern found iteminfo, and
     // every reader below asks these helpers instead of naming offsets.
     static bool g_table3663 = false;
+    // 1.0.0.3840: entry array at +0x18, 0x30 bytes an entry, count at +0x20, the
+    // string key in the entry. See signatures.h.
+    static bool g_table3840 = false;
+    // Gimmick component fields past +0xF0 follow the build; GimmickLayout fills these.
+    static unsigned g_gimState = kOff_Gimmick_State0;
+    static unsigned g_gimTrig = kOff_Gimmick_TrigMap0;
+    static unsigned g_gimLocked = kOff_Gimmick_Locked;
+    unsigned GimStateOff() { return g_gimState; }
+    unsigned GimTrigOff() { return g_gimTrig; }
+    unsigned GimLockedOff() { return g_gimLocked; }
+    static unsigned Key16Off() { return g_table3840 ? kOff_Entry3840_Key : kOff_Def_Key16; }
+    static unsigned StringKeyOff() { return g_table3840 ? kOff_Entry3840_Name : kOff_Def_StringKey; }
     // Set by ResolveAll when a patch over a getter covers its global, which is
     // OutfitManager's case on 3663 if its patch is longer than a jump. The
     // global is then found from ProbeItemTable by its object's class.
@@ -176,13 +188,24 @@ namespace ml::game
 
     static bool TblCount(uintptr_t table, uint32_t* count)
     {
-        return table && mem::Read32(table + (g_table3663 ? kOff_Table3663_Count : kOff_Table_Count), count);
+        return table && mem::Read32(table + (g_table3840 ? kOff_Table3840_Count : g_table3663 ? kOff_Table3663_Count : kOff_Table_Count), count);
     }
     // defsOff picks between the two pre-3663 def arrays and is ignored after.
     static bool TblDef(uintptr_t table, uint32_t row, unsigned defsOff, uintptr_t* def)
     {
         *def = 0;
         uintptr_t arr = 0;
+        if (g_table3840)
+        {
+            // The entry stands in for the def: its key and its name are what the
+            // callers read, and it exists from the moment the header is read.
+            uint32_t k = 0;
+            if (!mem::ReadPtr(table + kOff_Table3840_Entries, &arr) || !arr) return false;
+            const uintptr_t e = arr + static_cast<uintptr_t>(row) * kTable3840_EntryStride;
+            if (!mem::Read32(e + kOff_Entry3840_Key, &k) || !k) return false;
+            *def = e;
+            return true;
+        }
         if (g_table3663)
         {
             if (!mem::ReadPtr(table + kOff_Table3663_Entries, &arr) || !arr) return false;
@@ -320,6 +343,48 @@ namespace ml::game
         return mem::InImage(g) ? g : 0;
     }
 
+    // 1.0.0.3840: a manager class's vtable slot 2 is `mov [rip+global], rcx; ret`.
+    static uintptr_t GlobalFromManager(const char* rtti)
+    {
+        uintptr_t vt[4] = {};
+        const int n = mem::FindVtablesByName(rtti, vt, 4);
+        for (int i = 0; i < n; ++i)
+        {
+            uintptr_t fn = 0;
+            if (!mem::ReadPtr(vt[i] + 8ull * kVtSlot_ManagerSetter, &fn) || !mem::InImage(fn)) continue;
+            if (!mem::MatchAt(fn, kSig_ManagerSetter3840)) continue;
+            const uintptr_t g = mem::RipAt(fn, 7);
+            if (mem::InImage(g)) return g;
+        }
+        return 0;
+    }
+
+    // Reads the gimmick component's state and change-counter displacements out of
+    // the matched set_state bytes and moves the fields that sit at a fixed
+    // distance from them.
+    static void GimmickLayout()
+    {
+        size_t hits = 0;
+        const uintptr_t at = mem::FindUnique(kSig_SetState, &hits);
+        if (!at)
+        {
+            LOG_ERR("[sig] set_state has %zu hits; gimmick fields stay at the 3732 offsets (state +0x%X)", hits, g_gimState);
+            return;
+        }
+        uint32_t sd = 0, cd = 0;
+        if (!mem::Read32(at + kOff_SetState_StateDisp, &sd) || !mem::Read32(at + kOff_SetState_CounterDisp, &cd) ||
+            sd < 0x200 || sd > 0x400 || cd < 0x300 || cd > 0x500)
+        {
+            LOG_ERR("[sig] set_state displacements read %X and %X, which are not a gimmick layout; offsets stay at 3732", sd, cd);
+            return;
+        }
+        g_gimState  = sd;
+        g_gimTrig   = kOff_Gimmick_TrigMap0 + (sd - kOff_Gimmick_State0);
+        g_gimLocked = kOff_Gimmick_Locked + (cd - kOff_Gimmick_Counter0);
+        LOG("[sig] gimmick layout from set_state +0x%llX: state +0x%X, counter +0x%X, trigger map +0x%X, locked byte +0x%X",
+            static_cast<unsigned long long>(mem::Rva(at)), g_gimState, cd, g_gimTrig, g_gimLocked);
+    }
+
     bool ResolveAll()
     {
         g_sigN = 0;
@@ -348,6 +413,8 @@ namespace ml::game
             g_f.ownCheck = ScanFromCaller("own_check", kSig_OwnCheckCaller, kOff_OwnCheckCaller_Call, kSig_OwnCheckBody, kOff_OwnCheckBody);
         if (!g_f.ownCheck)
             g_f.ownCheck = ScanFromCaller("own_check", kSig_OwnCheckCaller3663, kOff_OwnCheckCaller_Call, kSig_OwnCheckBody, kOff_OwnCheckBody);
+        if (!g_f.ownCheck)
+            g_f.ownCheck = ScanFromCaller("own_check", kSig_OwnCheckCaller3840, kOff_OwnCheckCaller_Call, kSig_OwnCheckBody, kOff_OwnCheckBody);
         g_f.armFn        = Scan("node_arm", kSig_ArmDispatch, false);
         {
             // The two displacements come out of the accessor itself: the first
@@ -375,12 +442,26 @@ namespace ml::game
         g_f.stateDriver  = Scan("gimmick_driver", kSig_StateDriver, false);
         {
             size_t h = 0;
-            g_f.invHolder = mem::FindUnique(kSig_InvHolder3663, &h) ? Scan("inv_holder", kSig_InvHolder3663, false)
+            g_f.invHolder = mem::FindUnique(kSig_InvHolder3840, &h) ? Scan("inv_holder", kSig_InvHolder3840, false)
+                          : mem::FindUnique(kSig_InvHolder3663, &h) ? Scan("inv_holder", kSig_InvHolder3663, false)
                                                                      : Scan("inv_holder", kSig_InvHolder, false);
         }
-        g_f.itemTableGlobal    = TableGlobal(kStr_ItemInfoTable);
-        g_f.gimmickTableGlobal = TableGlobal(kStr_GimmickInfoTable);
-        if (!g_f.itemTableGlobal)
+        GimmickLayout();
+        if (mem::Count(kSig_TableGetter3840, 1) && !mem::Count(kSig_TableGetterPtr, 1))
+        {
+            g_table3840 = true;
+            g_f.itemTableGlobal    = GlobalFromManager(kRtti_ItemInfoManager);
+            g_f.gimmickTableGlobal = GlobalFromManager(kRtti_GimmickInfoManager);
+            LOG("[sig] tables use the 1.0.0.3840 layout: iteminfo +0x%llX, gimmickinfo +0x%llX",
+                static_cast<unsigned long long>(g_f.itemTableGlobal ? mem::Rva(g_f.itemTableGlobal) : 0),
+                static_cast<unsigned long long>(g_f.gimmickTableGlobal ? mem::Rva(g_f.gimmickTableGlobal) : 0));
+        }
+        else
+        {
+            g_f.itemTableGlobal    = TableGlobal(kStr_ItemInfoTable);
+            g_f.gimmickTableGlobal = TableGlobal(kStr_GimmickInfoTable);
+        }
+        if (!g_f.itemTableGlobal && !g_table3840)
         {
             // Each table is looked for on its own. gimmickinfo used to be
             // tried only once iteminfo was found, so one hooked getter took
@@ -973,8 +1054,8 @@ namespace ml::game
             uintptr_t def = 0;
             if (TblDef(table, r, kOff_Table_DefsA, &def) && def)
             {
-                mem::Read16(def + kOff_Def_Key16, &row.id); row.idx = static_cast<uint16_t>(r);
-                if (!mem::ReadEngineString(def + kOff_Def_StringKey, row.name, sizeof row.name)) row.name[0] = 0;
+                mem::Read16(def + Key16Off(), &row.id); row.idx = static_cast<uint16_t>(r);
+                if (!mem::ReadEngineString(def + StringKeyOff(), row.name, sizeof row.name)) row.name[0] = 0;
             }
             else strcpy_s(row.name, "(unloaded)");
             out[n++] = row;
@@ -991,6 +1072,7 @@ namespace ml::game
     {
         uint32_t flag = 0, bc = 0; uintptr_t buckets = 0, rows = 0;
         const TblMap m = TblMapOffsets();
+        if (g_table3840) return 0xFFFF; // the def scan below answers
         if (!table || !mem::Read32(table + m.flag, &flag) || !flag || !mem::Read32(table + m.buckets, &bc) || !bc) return 0xFFFF;
         if (!mem::ReadPtr(table + m.array, &buckets) || !mem::ReadPtr(table + m.nodes, &rows)) return 0xFFFF;
         const uintptr_t b = buckets + static_cast<uintptr_t>(key % bc) * 0x100;
@@ -1018,7 +1100,7 @@ namespace ml::game
         for (uint32_t r = 0; r < count; ++r)
         {
             uintptr_t def = 0; uint16_t k = 0;
-            if (TblDef(table, r, kOff_Table_DefsA, &def) && def && mem::Read16(def + kOff_Def_Key16, &k) && k == key)
+            if (TblDef(table, r, kOff_Table_DefsA, &def) && def && mem::Read16(def + Key16Off(), &k) && k == key)
                 return static_cast<uint16_t>(r);
         }
         return 0xFFFF;
@@ -1042,7 +1124,7 @@ namespace ml::game
         const uintptr_t table = InvTypeTable();
         uint32_t flag = 0, bc = 0; uintptr_t buckets = 0, rows = 0; int n = 0;
         const TblMap m = TblMapOffsets();
-        if (table && mem::Read32(table + m.flag, &flag) && flag && mem::Read32(table + m.buckets, &bc) && bc && bc <= 0x10000 &&
+        if (!g_table3840 && table && mem::Read32(table + m.flag, &flag) && flag && mem::Read32(table + m.buckets, &bc) && bc && bc <= 0x10000 &&
             mem::ReadPtr(table + m.array, &buckets) && mem::ReadPtr(table + m.nodes, &rows))
             for (uint32_t bi = 0; bi < bc && n < max; ++bi)
             {
@@ -1062,7 +1144,7 @@ namespace ml::game
         uint32_t count = 0; uintptr_t def = 0; uint16_t k = 0;
         if (!max || !table || !TblCount(table, &count) || value >= count) return 0;
         if (!TblDef(table, value, kOff_Table_DefsA, &def) || !def) return 0;
-        if (!mem::Read16(def + kOff_Def_Key16, &k)) return 0;
+        if (!mem::Read16(def + Key16Off(), &k)) return 0;
         out[0] = k;
         return 1;
     }
@@ -1189,6 +1271,7 @@ namespace ml::game
                       unsigned keyOff = kOff_Def_StringKey)
     {
         const uintptr_t def = DefFor(global, row, defsOff);
+        if (g_table3840) keyOff = kOff_Entry3840_Name;
         return def && mem::ReadEngineString(def + keyOff, out, n) && strlen(out) >= 2;
     }
 
@@ -1277,7 +1360,7 @@ namespace ml::game
     static void ClassCheck()
     {
         static bool s_done = false;
-        if (s_done || !g_table3663) return;
+        if (s_done || !g_table3663 || g_table3840) return;
         s_done = true;
         struct One { ClassHunt* c; uintptr_t global; bool fromClass; const char* table; };
         const One all[] = { { &g_itemClass, g_f.itemTableGlobal, g_itemFromClass, kStr_ItemInfoTable },
@@ -1312,7 +1395,7 @@ namespace ml::game
         if (!count) return 0; // table not built yet; try again later
         ClassCheck();
         const int dbN = ItemDb::RowCount();
-        if (g_table3663)
+        if (g_table3663 || g_table3840)
         {
             // Rows are built as the game needs them, so a fixed sample is
             // mostly empty. Walk every row and judge the ones that exist, at
@@ -1344,7 +1427,7 @@ namespace ml::game
                 {
                     s_saidLong = true;
                     LOG_ERR("[table] iteminfo: two minutes in, %d of %u rows built and %d with a readable key at +0x%X; item names unavailable, so items stay refused",
-                            built, count, readable, kOff_Def_StringKey);
+                            built, count, readable, StringKeyOff());
                 }
                 return 0;
             }
@@ -1416,7 +1499,7 @@ namespace ml::game
         return g_tableState;
     }
     int ItemTableState() { return g_tableState; }
-    bool ItemTableLazy() { return g_table3663; }
+    bool ItemTableLazy() { return g_table3663 && !g_table3840; }
 
     bool ItemKeyForType(uint16_t typeId, char* out, size_t n)
     {
@@ -1510,7 +1593,24 @@ namespace ml::game
         if (g_tableN < 0)
         {
             g_tableN = 0;
-            if (g_table3663)
+            if (g_table3840)
+            {
+                struct One { const char* name; const char* rtti; };
+                static const One tabs[] = {
+                    { "iteminfo", kRtti_ItemInfoManager }, { "gimmickinfo", kRtti_GimmickInfoManager },
+                    { "characterinfo", kRtti_CharacterInfoManager }, { "interactioninfo", kRtti_InteractionInfoManager },
+                    { "inventory", kRtti_InventoryInfoManager } };
+                for (const One& o : tabs)
+                {
+                    const uintptr_t g = GlobalFromManager(o.rtti);
+                    uintptr_t table = 0; uint32_t count = 0;
+                    if (!g || !mem::ReadPtr(g, &table) || !TblCount(table, &count) || !count || count > 0x40000) continue;
+                    TableRef& t = g_tables[g_tableN++];
+                    t.global = g; t.count = count;
+                    strncpy(t.name, o.name, sizeof t.name - 1); t.name[sizeof t.name - 1] = 0;
+                }
+            }
+            else if (g_table3663)
             {
                 mem::FindIf(kSig_TableGetterPtr, CollectTable3663, nullptr);
                 mem::FindIf(kSig_TableGetterPtrJumped, CollectTable3663Jumped, nullptr);
@@ -1547,7 +1647,7 @@ namespace ml::game
 
     bool KeyInTable(uintptr_t global, uint32_t row, char* out, size_t n)
     {
-        if (g_table3663) return KeyAt(global, row, kOff_Table_DefsA, out, n);
+        if (g_table3663 || g_table3840) return KeyAt(global, row, kOff_Table_DefsA, out, n);
         for (unsigned off : { kOff_Table_DefsA, kOff_Table_DefsB })
             if (KeyAt(global, row, off, out, n)) return true;
         return false;

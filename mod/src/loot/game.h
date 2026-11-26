@@ -39,6 +39,10 @@ namespace ml::game
     // Verified against ids captured live: wait 0x866C7489, gimmickon
     // 0x150B14D0, break 0x353C1CAD, onbreak 0xFD8F7D2C.
     uint32_t NameId(const char* lowercaseName);
+    // Gimmick component fields that moved with the build; set by ResolveAll.
+    unsigned GimStateOff();
+    unsigned GimTrigOff();
+    unsigned GimLockedOff();
 
     // Runs every pattern scan (seconds; call from a worker thread). Returns
     // true when the required set resolved: event functions, both globals and

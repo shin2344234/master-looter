@@ -115,6 +115,41 @@ def rip(buf, secs, rva, insn_len):
     return rva + insn_len + disp
 
 
+# Patterns that stand for one function on different builds: the group passes when
+# any member lands on exactly one site.
+TWIN_GROUPS = [
+    ("kSig_InvHolder", "kSig_InvHolder3663", "kSig_InvHolder3840"),
+    ("kSig_OwnCheckCaller", "kSig_OwnCheckCaller3663", "kSig_OwnCheckCaller3840"),
+]
+
+
+def manager_global(buf, secs, rtti, base):
+    """1.0.0.3840: global named by slot 2 of the manager class's vtable (mov [rip+g], rcx; ret)."""
+    i = buf.find(rtti.encode() + b"\0")
+    if i < 0:
+        return None
+    td = off2rva(secs, i) - 16
+    key = struct.pack("<I", td)
+    for m in re.finditer(re.escape(key), buf):
+        c = off2rva(secs, m.start())
+        if c is None or c < 12:
+            continue
+        c -= 12
+        co = rva2off(secs, c)
+        if co is None or struct.unpack_from("<I", buf, co)[0] != 1:
+            continue
+        for mm in re.finditer(re.escape(struct.pack("<Q", base + c)), buf):
+            vt = off2rva(secs, mm.start())
+            if vt is None:
+                continue
+            vo = rva2off(secs, vt + 8 + 16)
+            fn = struct.unpack_from("<Q", buf, vo)[0] - base
+            fo = rva2off(secs, fn)
+            if fo is not None and buf[fo:fo + 3] == b"\x48\x89\x0d" and buf[fo + 7] == 0xC3:
+                return fn, rip(buf, secs, fn, 7)
+    return None
+
+
 def main():
     buf = open(EXE, "rb").read()
     base, tstamp, secs = pe_sections(buf)
@@ -136,24 +171,22 @@ def main():
         # A pattern with a 3663 twin counts as one: the pair passes when
         # either half lands on exactly one site, so the old half missing on
         # the new exe (or the new half on the old one) is no problem.
-        twin = name[:-4] if name.endswith("3663") else name + "3663"
-        has_twin = twin in dict(pats)
+        has_twin = any(name in g for g in TWIN_GROUPS)
         if not hits and has_twin:
             tag = "alt "
         elif len(hits) != 1 and name not in ("kSig_LeaR8Rip", "kSig_TableResolver16", "kSig_TableIndex",
                                              "kSig_OwnCallSite", "kSig_MoveUpdateJumped", "kSig_OwnCheckJumped",
                                              "kSig_TableGetterPtr", "kSig_TableGetterPtrJumped",
-                                             "kSig_TableGetterBody"):
+                                             "kSig_TableGetterBody", "kSig_TableGetter3840",
+                                             "kSig_ManagerSetter3840"):
             bad += 1
         print("%-5s %-24s hits=%-3d %s" % (tag, name, len(hits), " ".join("+0x%X" % h for h in hits[:6])))
         if len(hits) == 1:
             found[name] = hits[0]
-    for name, _ in pats:
-        if name.endswith("3663"):
-            base_name = name[:-4]
-            if base_name not in found and name not in found:
-                print("MISS  neither %s nor %s resolves" % (base_name, name))
-                bad += 1
+    for g in TWIN_GROUPS:
+        if not any(n in found for n in g):
+            print("MISS  none of %s resolves" % ", ".join(g))
+            bad += 1
     for name, s in strs:
         n = buf.count(s.encode() + (bytes([0]) if name.startswith("kStr_") else b""))
         print("%-5s %-24s %d occurrence(s) of %r" % ("ok " if n else "MISS", name, n, s))
@@ -215,6 +248,18 @@ def main():
             if len(gl) != 1:
                 bad += 1
             print("%-5s table %-15s %s" % (tag, want, "  ".join("fn +0x%X global +0x%X" % h for h in sorted(hs))))
+        print("RESULT:", "all good" if not bad else "%d problem(s)" % bad)
+        return 0 if not bad else 1
+
+    if scan(buf, secs, dict(pats)["kSig_TableGetter3840"], 1):
+        print("3840 table layout: %d getters" % len(scan(buf, secs, dict(pats)["kSig_TableGetter3840"], 400)))
+        for want, cls in (("iteminfo", ".?AVItemInfoManager@pa@@"), ("gimmickinfo", ".?AVGimmickInfoManager@pa@@"),
+                          ("characterinfo", ".?AVCharacterInfoManager@pa@@"), ("interactioninfo", ".?AVInteractionInfoManager@pa@@"),
+                          ("inventory", ".?AVInventoryInfoManager@pa@@")):
+            r = manager_global(buf, secs, cls, base)
+            if r is None:
+                bad += 1
+            print("%-5s table %-15s %s" % ("ok " if r else "MISS", want, ("setter +0x%X global +0x%X" % r) if r else ""))
         print("RESULT:", "all good" if not bad else "%d problem(s)" % bad)
         return 0 if not bad else 1
 

@@ -72,10 +72,26 @@ namespace ml::sig
     // learn which layer a real pickaxe swing comes through, and with which ids.
     // The `E8` is the refcounted-temp helper and moves between builds, and the
     // counter's displacement is a wildcard so the pattern holds on both layouts.
+    // 1.0.0.3840 grew the component by 8 bytes at +0xF0 and by 8 more before
+    // +0x300: the state moved to +0x278, the pointer after it to +0x288 and the
+    // counter to +0x368. All four displacements are wildcards now, and
+    // game::GimmickLayout reads them back out of the matched bytes, so every
+    // gimmick field the mod reads past +0xF0 follows the build it runs on.
     inline constexpr const char* kSig_SetState =
         "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 20 57 48 83 EC 30 8B F2 48 8B D9 48 8B 41 08 "
         "48 8D 50 08 33 FF 48 85 C0 48 0F 44 D7 41 B0 01 48 8B 12 48 8D 4C 24 20 E8 ?? ?? ?? ?? "
-        "90 8B AB 70 02 00 00 89 B3 70 02 00 00 48 89 BB 80 02 00 00 FF 83 ?? 03 00 00";
+        "90 8B AB ?? ?? 00 00 89 B3 ?? ?? 00 00 48 89 BB ?? ?? 00 00 FF 83 ?? ?? 00 00";
+    // Where the four displacements sit in that match: the state, the same state
+    // again (the store), and the change counter.
+    inline constexpr unsigned kOff_SetState_StateDisp   = 61;
+    inline constexpr unsigned kOff_SetState_CounterDisp = 80;
+    // The state field and the change counter in the layout the mod was written
+    // against (1.0.0.3732). Every other gimmick field the mod reads sits at a
+    // fixed distance from one of the two: the trigger-name map at the state minus
+    // 0x180, and the locked byte at the counter plus 0x92.
+    inline constexpr unsigned kOff_Gimmick_State0   = 0x270;
+    inline constexpr unsigned kOff_Gimmick_Counter0 = 0x358;
+    inline constexpr unsigned kOff_Gimmick_TrigMap0 = 0xF0;
 
     // The transition driver, vtable slot +0x7D8 of ClientGimmickActorComponent
     // (+0x7D0 before 1.0.0.3392, which added a slot at +0x2B0):
@@ -111,6 +127,15 @@ namespace ml::sig
     inline constexpr const char* kSig_InvHolder3663 =
         "40 53 48 83 EC 20 48 8B 41 68 48 8B D9 48 8B 48 20 0F B7 41 30 48 8D 4C 24 30 66 89 44 24 30 E8 ?? ?? ?? ?? "
         "48 8D 88 ?? ?? 00 00 B8 FF FF 00 00 66 39 01 75 04 B0 03 EB 09 E8 ?? ?? ?? ?? 0F B6 40 ?? 0F B6 C8 84 C0 74 ?? "
+        "83 F9 01 75 ?? 48 8B 9B A0 00 00 00 48 85 DB 74 ?? 48 8B 9B D0 00 00 00";
+
+    // 1.0.0.3840 hands the character table to the lookup in rcx and the row in
+    // edx, falls back to the table's first record on a miss with a cmovne, and
+    // reads the borrowed-bag mode from a byte at row+0xA4. Unique at +0x2437980.
+    inline constexpr const char* kSig_InvHolder3840 =
+        "40 53 48 83 EC 20 48 8B 41 68 48 8B D9 48 8B 0D ?? ?? ?? ?? 48 8B 50 20 0F B7 52 30 E8 ?? ?? ?? ?? "
+        "48 8B 0D ?? ?? ?? ?? 48 85 C0 48 0F 45 C8 0F B7 91 ?? ?? 00 00 81 FA FF FF 00 00 75 04 B0 03 EB ?? "
+        "48 8B 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? 48 8B 0D ?? ?? ?? ?? 48 85 C0 48 0F 45 C8 0F B6 41 ?? 0F B6 C8 84 C0 74 ?? "
         "83 F9 01 75 ?? 48 8B 9B A0 00 00 00 48 85 DB 74 ?? 48 8B 9B D0 00 00 00";
 
     // How many item entities one drop-table row spawns. Watched, never called.
@@ -163,6 +188,8 @@ namespace ml::sig
     inline constexpr const char* kSig_OwnCheckCaller = "48 8B 89 20 01 00 00 E8 ?? ?? ?? ?? 84 C0 74 05 40 B7 02";
     // 1.0.0.3663 went back to the older tail, unique at +0x2DA26DA.
     inline constexpr const char* kSig_OwnCheckCaller3663 = "48 8B 89 20 01 00 00 E8 ?? ?? ?? ?? 84 C0 74 04 B3 02";
+    // 1.0.0.3840 keeps the answer in a stack byte, `mov byte [rbp+0x68], 2`.
+    inline constexpr const char* kSig_OwnCheckCaller3840 = "48 8B 89 20 01 00 00 E8 ?? ?? ?? ?? 84 C0 74 06 C6 45 68 02";
     inline constexpr unsigned    kOff_OwnCheckCaller_Call = 7;
     inline constexpr const char* kSig_OwnCheckBody =
         "55 41 54 41 55 41 56 41 57 48 8B EC 48 81 EC 80 00 00 00 49 8B ?? 4C 8B ?? 4C 8B ?? 0F B6 7D 50";
@@ -248,6 +275,28 @@ namespace ml::sig
     inline constexpr unsigned kOff_TableGetterBody = 0x0F; // the compare's offset in the getter
     inline constexpr unsigned kMax_TableGetterToCall     = 0x50; // the loader call sits at +0x3F on 3663
     inline constexpr unsigned kMax_LeaToPrologue = 0x180;
+
+    // Exe 1.0.0.3840 rebuilt the table container once more. Every getter takes
+    // the table object in rcx and the row in edx; the global is no longer in the
+    // getter. The object holds an entry array at +0x18, 0x30 bytes an entry, a
+    // u32 count at +0x20. An entry is {u32 key at +0, string object at +8, body
+    // offset +0x10, body size +0x14, file byte +0x18, def at +0x20, expiry at
+    // +0x28}. The string key lives in the entry, no longer in the def, and is
+    // present as soon as the header is read. Every manager class has a virtual at
+    // vtable slot 2 that is `mov [rip+global], rcx; ret`, which names its global.
+    inline constexpr const char* kSig_TableGetter3840 =
+        "48 89 5C 24 08 48 89 6C 24 18 48 89 74 24 20 57 48 83 EC 30 8B EA 48 8B F1 3B 51 20 0F 83";
+    inline constexpr const char* kSig_ManagerSetter3840 = "48 89 0D ?? ?? ?? ?? C3";
+    inline constexpr unsigned kOff_Table3840_Entries   = 0x18;
+    inline constexpr unsigned kOff_Table3840_Count     = 0x20;
+    inline constexpr unsigned kTable3840_EntryStride   = 0x30;
+    inline constexpr unsigned kOff_Entry3840_Key       = 0x00;
+    inline constexpr unsigned kOff_Entry3840_Name      = 0x08;
+    inline constexpr unsigned kOff_Entry3840_Def       = 0x20;
+    inline constexpr unsigned kVtSlot_ManagerSetter    = 2;
+    inline constexpr const char* kRtti_CharacterInfoManager   = ".?AVCharacterInfoManager@pa@@";
+    inline constexpr const char* kRtti_InteractionInfoManager = ".?AVInteractionInfoManager@pa@@";
+    inline constexpr const char* kRtti_InventoryInfoManager   = ".?AVInventoryInfoManager@pa@@";
 
     inline constexpr const char* kStr_ItemInfoTable    = "iteminfo";
     inline constexpr const char* kStr_GimmickInfoTable = "gimmickinfo";

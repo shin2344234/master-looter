@@ -3141,7 +3141,7 @@ namespace ml::loot
     static uint32_t GimmickState(uintptr_t comp)
     {
         uint32_t st = 0;
-        return (comp && mem::Read32(comp + 0x270, &st)) ? st : 0;
+        return (comp && mem::Read32(comp + game::GimStateOff(), &st)) ? st : 0;
     }
 
     // Was this the player's a moment ago? Both halves have to agree: the same
@@ -3311,9 +3311,9 @@ namespace ml::loot
         if (!comp || max <= 0) return 0;
         uint32_t buckets = 0;
         uintptr_t bucketArr = 0, entryArr = 0;
-        if (!mem::Read32(comp + 0xF0, &buckets) || !buckets) return 0;
-        if (!mem::ReadPtr(comp + 0x100, &bucketArr) || !bucketArr) return 0;
-        if (!mem::ReadPtr(comp + 0x108, &entryArr) || !entryArr) return 0;
+        if (!mem::Read32(comp + game::GimTrigOff(), &buckets) || !buckets) return 0;
+        if (!mem::ReadPtr(comp + game::GimTrigOff() + 0x10, &bucketArr) || !bucketArr) return 0;
+        if (!mem::ReadPtr(comp + game::GimTrigOff() + 0x18, &entryArr) || !entryArr) return 0;
         int n = 0;
         for (uint32_t b = 0; b < buckets && b < 64 && n < max; ++b)
         {
@@ -3367,10 +3367,10 @@ namespace ml::loot
 
         uint32_t buckets = 0, size = 0;
         uintptr_t bucketArr = 0, entryArr = 0;
-        mem::Read32(comp + 0xF0, &buckets);
-        mem::Read32(comp + 0xF4, &size);
-        mem::ReadPtr(comp + 0x100, &bucketArr);
-        mem::ReadPtr(comp + 0x108, &entryArr);
+        mem::Read32(comp + game::GimTrigOff(), &buckets);
+        mem::Read32(comp + game::GimTrigOff() + 4, &size);
+        mem::ReadPtr(comp + game::GimTrigOff() + 0x10, &bucketArr);
+        mem::ReadPtr(comp + game::GimTrigOff() + 0x18, &entryArr);
 
         if (!buckets || !bucketArr || !entryArr)
         {
@@ -3791,7 +3791,7 @@ namespace ml::loot
         }
         if (inter)
         {
-            mem::Read8(inter + kOff_Gimmick_Locked, &k.locked);
+            mem::Read8(inter + game::GimLockedOff(), &k.locked);
             // The prefab path names the node and survives a restart; the type
             // id does not, so it is only a fallback. NodeName is kept because
             // a few objects answer on it when the prefab route does not.
