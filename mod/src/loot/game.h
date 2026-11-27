@@ -40,6 +40,7 @@ namespace ml::game
     // 0x150B14D0, break 0x353C1CAD, onbreak 0xFD8F7D2C.
     uint32_t NameId(const char* lowercaseName);
     // Gimmick component fields that moved with the build; set by ResolveAll.
+    unsigned GimGatherOff();
     unsigned GimStateOff();
     unsigned GimTrigOff();
     unsigned GimLockedOff();

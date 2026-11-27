@@ -3769,7 +3769,7 @@ namespace ml::loot
         const uintptr_t inter = game::CompByClass(comps, kCls_Gimmick);
         k.inter = inter != 0;
         const uintptr_t idata = inter ? mem::Deref(inter, kOff_Gimmick_ItemData) : 0;
-        const uintptr_t gdata = inter ? mem::Deref(inter, kOff_Gimmick_GatherData) : 0;
+        const uintptr_t gdata = inter ? mem::Deref(inter, game::GimGatherOff()) : 0;
         k.item = idata != 0;
         k.gather = gdata != 0;
         // Who is dressed. An item hanging off something says that something is

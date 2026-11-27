@@ -93,6 +93,21 @@ namespace ml::sig
     inline constexpr unsigned kOff_Gimmick_Counter0 = 0x358;
     inline constexpr unsigned kOff_Gimmick_TrigMap0 = 0xF0;
 
+    // The find-or-append over the gimmick component's gather vector: a keyed
+    // list of 0x28-byte entries whose data pointer is what Fill reads as the
+    // node's gather data. The vector sat at +0xE0 on 1.0.0.3732 and at +0xE8
+    // on 1.0.0.3840, where the 8 new bytes landed between the item data at
+    // +0xC0 and this vector, not at +0xF0 as the note above says. The reset
+    // virtual (+0x2401A10 on 3840) clears this vector's count at +0xF0 and the
+    // next vector's at +0x150, 8 past both of the old ones, while the item
+    // data at +0xC0 keeps its record shape (u16 type id at +8) at every read
+    // site checked. Unique on 3840 with the displacement wildcarded; Fill read
+    // +0xE0 there, found no gather data on any plant and never picked one.
+    inline constexpr const char* kSig_GatherVec =
+        "48 89 5C 24 10 48 89 74 24 18 57 48 83 EC 50 48 8D B9 ?? ?? 00 00 4C 8B 07 8B 47 08 "
+        "48 8D 0C 80 4D 8D 0C C8 4D 39 C8 74 ?? 8B 02";
+    inline constexpr unsigned kOff_GatherVec_Disp = 18;
+
     // The transition driver, vtable slot +0x7D8 of ClientGimmickActorComponent
     // (+0x7D0 before 1.0.0.3392, which added a slot at +0x2B0):
     //   drive(component, const Event* ev, void* instigator, bool* outChanged)
@@ -411,6 +426,8 @@ namespace ml::sig
     inline constexpr unsigned kOff_Status_Cat    = 0x2E8; // u8 legacy category (quest 1, shop 0xF, decor 0x11) (0x2C8)
     inline constexpr unsigned kOff_Status_Cat2   = 0x2F0; // u8: 0x09 small creature, 0x05 fish, 0x0C beast, 0x11 worn (0x2D0)
     inline constexpr unsigned kOff_Gimmick_ItemData   = 0xC0; // -> {u32 instanceId, .., u16 typeId @+8}
+    // The 1.0.0.3732 offset. Read through game::GimGatherOff(), which takes it
+    // from kSig_GatherVec on the running build (0xE8 on 1.0.0.3840).
     inline constexpr unsigned kOff_Gimmick_GatherData = 0xE0; // -> {u16 typeId, .., u8 kind @+5}
     inline constexpr unsigned kOff_Gimmick_NodeName   = 0x68; // -> string object -> char*
     // The node's own prefab path, the only durable name it has: the reported

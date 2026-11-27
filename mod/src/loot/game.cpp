@@ -175,6 +175,8 @@ namespace ml::game
     static unsigned g_gimState = kOff_Gimmick_State0;
     static unsigned g_gimTrig = kOff_Gimmick_TrigMap0;
     static unsigned g_gimLocked = kOff_Gimmick_Locked;
+    static unsigned g_gimGather = kOff_Gimmick_GatherData;
+    unsigned GimGatherOff() { return g_gimGather; }
     unsigned GimStateOff() { return g_gimState; }
     unsigned GimTrigOff() { return g_gimTrig; }
     unsigned GimLockedOff() { return g_gimLocked; }
@@ -385,6 +387,26 @@ namespace ml::game
             static_cast<unsigned long long>(mem::Rva(at)), g_gimState, cd, g_gimTrig, g_gimLocked);
     }
 
+    // Reads where the gather vector sits out of its own accessor. Without it
+    // the offset follows the state field, which moved by the same 8 bytes on
+    // 1.0.0.3840; when neither answers it stays at the 3732 offset.
+    static void GatherLayout()
+    {
+        size_t hits = 0;
+        const uintptr_t at = mem::FindUnique(kSig_GatherVec, &hits);
+        uint32_t disp = 0;
+        if (at && mem::Read32(at + kOff_GatherVec_Disp, &disp) && disp >= 0xC8 && disp <= 0x140)
+        {
+            g_gimGather = disp;
+            LOG("[sig] gather data +0x%X from the gather accessor +0x%llX (it was +0x%X on 3732)", g_gimGather,
+                static_cast<unsigned long long>(mem::Rva(at)), kOff_Gimmick_GatherData);
+            return;
+        }
+        g_gimGather = kOff_Gimmick_GatherData + (g_gimState - kOff_Gimmick_State0);
+        LOG_ERR("[sig] gather accessor has %zu hits (displacement %X); gather data +0x%X, moved with the state field",
+                hits, disp, g_gimGather);
+    }
+
     bool ResolveAll()
     {
         g_sigN = 0;
@@ -447,6 +469,7 @@ namespace ml::game
                                                                      : Scan("inv_holder", kSig_InvHolder, false);
         }
         GimmickLayout();
+        GatherLayout();
         if (mem::Count(kSig_TableGetter3840, 1) && !mem::Count(kSig_TableGetterPtr, 1))
         {
             g_table3840 = true;
