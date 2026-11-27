@@ -71,7 +71,7 @@ container (off)	入れ物（オフ）
 Containers	入れ物
 containers off	入れ物オフ
 Controller	コントローラー
-Copper	銅貨
+List price	定価
 Copy	コピー
 Copy path	パスをコピー
 Copy to the clipboard.	クリップボードにコピーします。
@@ -139,7 +139,7 @@ Items lying in the world, including drops from enemies.	世界に落ちている
 Items no shop will buy, in every class but currency.	通貨を除き、クラスを問わずどの店でも買い取ってもらえないアイテム。
 Items on the ground	地面のアイテム
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	クエストのタグが付いたアイテムはそのまま残されるので、パズルや物語のアイテムが自動で取られることはありません。アイテム自身のタグを読むため、あなたが拾うものすべてと、中身をこのMODが名指しできる採集ポイントすべてを対象とします。二つだけ対象外があります。名指しできない採集ポイントは、その種類のスイッチで決まります。そこにはタグを読み取るアイテムが存在しないからです。もう一つ、死骸の皮剥ぎは、MODが何が届いたかを一度も見ないまま報酬を出します。
-Items with an unknown value are never filtered by it.	価値が不明なアイテムはこれによる絞り込みの対象になりません。
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	ゲームデータにあるアイテムの定価で判定します。店に売るときの買取額はこれより低くなります。定価のないアイテムはこれによる絞り込みの対象になりません。
 Keep the menu on screen while you play. %s brings it back, %s closes it.	プレイ中もメニューを画面に表示したままにします。%sで呼び戻し、%sで閉じます。
 Keys	キー
 Keys and tools	鍵と道具
@@ -165,7 +165,7 @@ Materials	素材
 mechanism part	機関の部品
 Memory chips and puzzle parts	記憶チップとパズルの部品
 Mine ore veins for you	鉱脈を代わりに採掘する
-Minimum value (copper)	最低価値（銅貨）
+Minimum list price (copper)	最低定価（銅貨）
 missing	見つかりません
 missing MasterLooter.items.tsv	MasterLooter.items.tsvが見つかりません
 mission object	ミッションオブジェクト
@@ -255,7 +255,7 @@ Skip all	全てスキップ
 Skip quest equipment	クエスト装備を拾わない
 Quest equipment	クエスト装備
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	ゲームが重要と印を付け、どの店も買い取らない装備を、すべての分類で対象にします。オフにすると、クエスト用の道具はその場に残ります。
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	ゲームが重要と印を付け、どの店も買い取らない道具と装備です。肥料散布器と潤滑剤散布器、ククの槍、斥候の指輪と首飾りなど251点で、ほぼすべてが銅貨1枚の価値しかありません。地面から早く拾ってしまうと、クエストの手順が前後することがあります。\n\n二つの印を合わせて見るため、片方しか持たない品は対象外です。フィールド散布器は売却できませんが重要の印がないので、これまでどおり拾います。
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	ゲームが重要と印を付け、どの店も買い取らない道具と装備です。肥料散布器と潤滑剤散布器、ククの槍、斥候の指輪と首飾りなど251点で、ほぼすべてが定価銅貨1枚です。地面から早く拾ってしまうと、クエストの手順が前後することがあります。\n\n二つの印を合わせて見るため、片方しか持たない品は対象外です。フィールド散布器は売却できませんが重要の印がないので、これまでどおり拾います。
 Skip items shops refuse to buy	店が買い取らないアイテムをスキップ
 Skip quest items	クエストアイテムをスキップ
 skip: %s	スキップ：%s
@@ -266,7 +266,7 @@ someone is wearing this; taking it would copy it	これは誰かが装備して�
 stack at one point (storage contents)	1か所に集積（格納物）
 Status	状態
 Stop pets looting	ペットの収集を止める
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	テーブル、椅子、ベッド、カーペット、ランプ、キャンドル、絵画、壺など、床から拾う場合も専用の採集ポイントから取得する場合も含む、家具一式。ほとんどは銅貨数枚程度の価値ですが、カーペットや高級ベッドは数千に達するため、家を家具で整える前にオンにしてください。何かを収納する宝箱などは代わりに「入れ物」が対象です。初期値はオフです。
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	テーブル、椅子、ベッド、カーペット、ランプ、キャンドル、絵画、壺など、床から拾う場合も専用の採集ポイントから取得する場合も含む、家具一式。ほとんどは定価が銅貨数枚程度ですが、カーペットや高級ベッドは数千に達するため、家を家具で整える前にオンにしてください。何かを収納する宝箱などは代わりに「入れ物」が対象です。初期値はオフです。
 Tag	タグ
 Tags	タグ
 tags, any of which can be set to never in the Tags tab:	タグ。「タグ」タブでそれぞれを「決して」に設定できます。
@@ -319,7 +319,7 @@ World (actor manager)	ワールド（アクターマネージャー）
 worn by someone	誰かが装備中
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	敵が死亡時に落とす装備品。安価で重いものの、数は豊富です。
 worn or carried by you	自分が装備または所持
-worth %lld copper	価値 %lld 銅貨
+list price %lld copper	定価 %lld 銅貨
 Wrap the swapchain	スワップチェーンをラップする
 Write translation template	翻訳テンプレートを書き出す
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	プラグイン横にMasterLooter.template.txtを書き出し、このセッションでメニューに表示されたすべての行を収めます。行は描画されて初めて現れるため、先に全てのタブを開いてください。各項目の右側を翻訳し、MasterLooter.<language>.txtとして保存し、その言語名をここに入力してください。
@@ -473,7 +473,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	下限をクリア
 Floor	下限
 general	一般
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	このクラスのアイテムのうち、この銅貨数より価値が低いものは、一般タブの最低価値の代わりにこの値で判定されて拾われません。ドラッグするか、Ctrl+クリックで数値を入力します。0 のときは一般タブに従います。
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	このクラスのアイテムのうち、定価がこの銅貨数より低いものは、一般タブの最低定価の代わりにこの値で判定されて拾われません。ドラッグするか、Ctrl+クリックで数値を入力します。0 のときは一般タブに従います。
 %s, %d rules	%s、ルール %d 件
 %s, no rules	%s、ルールなし
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	前回から設定が変わった状態でゲームが起動するとバックアップが書き込まれ、最新の12件が保持されます。バックアップ、プリセット、MasterLooter.ini のコピーは %s に保存され、プラグインを再インストールするMODマネージャーからは届きません。MasterLooter.ini がなくなっていた場合は、次回起動時にこのコピーから戻されます。

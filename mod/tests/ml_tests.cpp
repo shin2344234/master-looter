@@ -245,6 +245,20 @@ static void FoodHealthFloor()
     Check(Rules::Decide(*hearty, copperFloor).loot, "the health floor replaces the copper floor for a dish");
     Check(!Rules::Decide(*choc, copperFloor).loot, "the copper floor still judges food with no health value");
 
+    // Issue #243: the floor compares the list price, and the refusal says so.
+    const Item* shield = ItemDb::ByStringKey("Old_Wood_OneHandShield");
+    Check(shield && shield->value == 151, "the Bekker Shield lists at 151 copper");
+    if (shield)
+    {
+        Config listFloor;
+        listFloor.minValueCopper = 200;
+        const Rules::Verdict cheap = Rules::Decide(*shield, listFloor);
+        Check(!cheap.loot && strcmp(cheap.rule, "below value floor") == 0, "a 200 floor leaves the 151 shield");
+        Check(cheap.detail == "list price 151 copper", "the refusal names the list price");
+        listFloor.classFloor[shield->klass] = 300;
+        Check(Rules::Decide(*shield, listFloor).detail == "list price 151 copper, shield floor 300", "a class floor is named after the list price");
+    }
+
     Config skipped = cfg;
     skipped.classRule[hearty->klass] = 0;
     Check(!Rules::Decide(*hearty, skipped).loot, "a skipped class still refuses a dish over the floor");

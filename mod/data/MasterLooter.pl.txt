@@ -74,7 +74,7 @@ container (off)	pojemnik (wyłączony)
 Containers	Pojemniki
 containers off	pojemniki wyłączone
 Controller	Kontroler
-Copper	Miedziaki
+List price	Cena katalogowa
 Copy	Kopiuj
 Copy path	Kopiuj ścieżkę
 Copy to the clipboard.	Kopiuje do schowka.
@@ -142,7 +142,7 @@ Items lying in the world, including drops from enemies.	Przedmioty leżące w ś
 Items no shop will buy, in every class but currency.	Przedmioty, których nie kupi żaden sklep, w każdej klasie oprócz waluty.
 Items on the ground	Przedmioty na ziemi
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Przedmioty oznaczone jako zadaniowe są zostawiane w spokoju, żeby przedmioty z zagadek i z fabuły nie były zabierane automatycznie. Czyta własne znaczniki przedmiotu, więc obejmuje wszystko, co podnosisz, i każdy punkt, którego zawartość mod potrafi nazwać. Dwie rzeczy zostają poza tym. O punkcie, którego nie potrafi nazwać, decyduje przełącznik jego rodzaju, bo nie ma tam przedmiotu, z którego dałoby się odczytać znacznik. A oprawianie padliny wypłaca, zanim mod w ogóle zobaczy, co przyszło.
-Items with an unknown value are never filtered by it.	Przedmioty o nieznanej wartości nigdy nie są przez to filtrowane.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Liczy się cena katalogowa przedmiotu z danych gry, a sklep przy sprzedaży płaci mniej. Przedmioty bez ceny katalogowej nigdy nie są przez to filtrowane.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Utrzymuje menu na ekranie podczas gry. %s przywraca je, %s zamyka.
 Keys	Klawisze
 Keys and tools	Klucze i narzędzia
@@ -168,7 +168,7 @@ Materials	Materiały
 mechanism part	część mechanizmu
 Memory chips and puzzle parts	Chipy pamięci i elementy łamigłówek
 Mine ore veins for you	Wydobywaj żyły rudy za ciebie
-Minimum value (copper)	Minimalna wartość (miedziaki)
+Minimum list price (copper)	Minimalna cena katalogowa (miedziaki)
 missing	brak
 missing MasterLooter.items.tsv	brak pliku MasterLooter.items.tsv
 mission object	obiekt misji
@@ -258,7 +258,7 @@ Skip all	Pomiń wszystko
 Skip quest equipment	Pomijaj ekwipunek zadaniowy
 Quest equipment	Ekwipunek zadaniowy
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Ekwipunek oznaczony przez grę jako ważny, którego żaden sklep nie kupi, we wszystkich klasach. Wyłączone: narzędzia zadaniowe zostają na miejscu.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Narzędzia i ekwipunek, które gra oznacza jako ważne i których żaden sklep nie kupi: opryskiwacze nawozu i smaru, włócznie Kuku, pierścienie i naszyjniki zwiadowcy. 251 przedmiotów, prawie wszystkie warte jedną miedziówkę, a podniesienie jednego z ziemi za wcześnie może zaburzyć krok zadania.\n\nCzyta oba oznaczenia razem, więc przedmiot z tylko jednym z nich nie jest objęty. Opryskiwacz polowy jest niesprzedawalny i nie jest oznaczony jako ważny, i nadal trafia do torby.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Narzędzia i ekwipunek, które gra oznacza jako ważne i których żaden sklep nie kupi: opryskiwacze nawozu i smaru, włócznie Kuku, pierścienie i naszyjniki zwiadowcy. 251 przedmiotów, prawie wszystkie o cenie katalogowej jednej miedziówki, a podniesienie jednego z ziemi za wcześnie może zaburzyć krok zadania.\n\nCzyta oba oznaczenia razem, więc przedmiot z tylko jednym z nich nie jest objęty. Opryskiwacz polowy jest niesprzedawalny i nie jest oznaczony jako ważny, i nadal trafia do torby.
 Skip items shops refuse to buy	Pomijaj przedmioty, których nie kupują sklepy
 Skip quest items	Pomijaj przedmioty zadaniowe
 skip: %s	pomiń: %s
@@ -269,7 +269,7 @@ someone is wearing this; taking it would copy it	ktoś to nosi; zabranie tego st
 stack at one point (storage contents)	stos w jednym miejscu (zawartość magazynu)
 Status	Stan
 Stop pets looting	Powstrzymaj zwierzęta przed zbieraniem
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Stoły, krzesła, łóżka, dywany, lampy, świece, obrazy, wazony i reszta umeblowanego pomieszczenia, niezależnie od tego, czy podnosisz coś z podłogi, czy bierzesz je z jego własnego punktu interakcji. Większość jest warta miedziak lub dwa, ale dywany i luksusowe łóżka sięgają tysięcy, więc włącz to przed umeblowaniem domu. Skrzynie i inne rzeczy, które coś przechowują, podlegają zamiast tego kategorii Pojemniki. Domyślnie wyłączone.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Stoły, krzesła, łóżka, dywany, lampy, świece, obrazy, wazony i reszta umeblowanego pomieszczenia, niezależnie od tego, czy podnosisz coś z podłogi, czy bierzesz je z jego własnego punktu interakcji. Większość ma cenę katalogową miedziaka lub dwóch, ale dywany i luksusowe łóżka sięgają tysięcy, więc włącz to przed umeblowaniem domu. Skrzynie i inne rzeczy, które coś przechowują, podlegają zamiast tego kategorii Pojemniki. Domyślnie wyłączone.
 Tag	Etykieta
 Tags	Etykiety
 tags, any of which can be set to never in the Tags tab:	etykiety, z których każdą można ustawić na „nigdy” w zakładce Etykiety:
@@ -322,7 +322,7 @@ World (actor manager)	Świat (menedżer aktorów)
 worn by someone	noszone przez kogoś
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Noszony ekwipunek, który wrogowie upuszczają, gdy giną. Tani i ciężki, ale liczny.
 worn or carried by you	noszone lub przenoszone przez ciebie
-worth %lld copper	warte %lld miedziaków
+list price %lld copper	cena katalogowa %lld miedziaków
 Wrap the swapchain	Opakuj swapchain
 Write translation template	Zapisz szablon tłumaczenia
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Zapisuje MasterLooter.template.txt obok wtyczki, zawierający każdy wiersz, który menu pokazało w tej sesji. Otwórz najpierw wszystkie zakładki, bo wiersz pojawia się dopiero po narysowaniu. Przetłumacz prawą stronę każdego wpisu, zapisz plik jako MasterLooter.<language>.txt i wpisz ten język tutaj.
@@ -476,7 +476,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Wyczyść progi
 Floor	Próg
 general	ogólny
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Przedmioty tej klasy warte mniej niż tyle miedziaków są pomijane, zamiast według Minimalnej wartości z karty Ogólne. Przeciągnij albo Ctrl+kliknij, aby wpisać liczbę. Przy 0 klasa stosuje się do karty Ogólne.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Przedmioty tej klasy o cenie katalogowej niższej niż tyle miedziaków są pomijane, zamiast według Minimalnej ceny katalogowej z karty Ogólne. Przeciągnij albo Ctrl+kliknij, aby wpisać liczbę. Przy 0 klasa stosuje się do karty Ogólne.
 %s, %d rules	%s, reguł: %d
 %s, no rules	%s, brak reguł
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Kopia zapasowa jest zapisywana, gdy gra startuje z ustawieniami zmienionymi od ostatniej, a przechowywanych jest dwanaście najnowszych. Kopie, presety i kopia MasterLooter.ini są trzymane w %s, poza zasięgiem menedżera modów, który instaluje wtyczkę od nowa, a brakujący MasterLooter.ini jest przywracany z tej kopii przy następnym uruchomieniu.

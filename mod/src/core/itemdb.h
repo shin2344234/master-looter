@@ -15,7 +15,10 @@ namespace ml
         std::string klass;      // first tag in the priority order (see build_item_db.py)
         std::string tags;       // space separated, with a leading and trailing space for fast lookup
         int         tier  = 0;
-        long long   value = -1; // copper sell value, -1 when unknown
+        // The item's list price in copper from iteminfo's price_list, -1 when
+        // unknown. It is not what a shop pays: the Bekker Shield lists at 151
+        // and a player read 57 for it in game (issue #243).
+        long long   value = -1;
         // Health a dish or other food gives back when eaten, 0 for anything else,
         // from the heal_hp column (see scripts/make_itemdb_tsv.py). Only the
         // dish skills count, so raw ingredients, potions and the dishes that

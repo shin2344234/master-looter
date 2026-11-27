@@ -345,11 +345,11 @@
           "order": 21
         },
         "MinValueCopper": {
-          "label": "Minimum value",
+          "label": "Minimum list price",
           "type": "int",
           "group": "Filters",
           "default": "0",
-          "help": "0 turns the floor off. Items with an unknown value are never filtered by it. A class listed under ClassFloors uses its own floor instead.",
+          "help": "0 turns the floor off. It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it. A class listed under ClassFloors uses its own floor instead.",
           "min": 0,
           "unit": "copper",
           "order": 22
@@ -359,7 +359,7 @@
           "type": "int",
           "group": "Filters",
           "default": "0",
-          "help": "0 turns it off. Food that gives back less health than this is left where it lies, and food at or above it is taken whatever it sells for, since this floor replaces Minimum value for anything that heals. 300 keeps Hearty Pan-Fried Rice Cakes at 860 and leaves Vegetable Porridge at 200. Dishes that heal by a percentage, raise maximum health or restore stamina have no health value and are not judged by it. Not in the in-game menu yet; this ini line is the only switch for it.",
+          "help": "0 turns it off. Food that gives back less health than this is left where it lies, and food at or above it is taken whatever its list price, since this floor replaces Minimum list price for anything that heals. 300 keeps Hearty Pan-Fried Rice Cakes at 860 and leaves Vegetable Porridge at 200. Dishes that heal by a percentage, raise maximum health or restore stamina have no health value and are not judged by it. Not in the in-game menu yet; this ini line is the only switch for it.",
           "min": 0,
           "unit": "health",
           "order": 22
@@ -930,7 +930,7 @@
     "ClassFloors": {
       "label": "Class floors",
       "order": 3,
-      "description": "One line per item class: an item of that class worth fewer copper than the number is skipped. It takes the place of Minimum value for that class; classes not listed follow Minimum value."
+      "description": "One line per item class: an item of that class with a list price under the number, in copper, is skipped. It takes the place of Minimum list price for that class; classes not listed follow Minimum list price."
     },
     "ClassMultipliers": {
       "label": "Class multipliers",

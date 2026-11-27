@@ -71,7 +71,7 @@ container (off)	container (uit)
 Containers	Containers
 containers off	containers uit
 Controller	Controller
-Copper	Koper
+List price	Catalogusprijs
 Copy	Kopiëren
 Copy path	Pad kopiëren
 Copy to the clipboard.	Kopiëren naar het klembord.
@@ -139,7 +139,7 @@ Items lying in the world, including drops from enemies.	Voorwerpen die in de wer
 Items no shop will buy, in every class but currency.	Items die geen enkele winkel opkoopt, in elke klasse behalve valuta.
 Items on the ground	Items op de grond
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Items met het label missie worden met rust gelaten, zodat puzzel- en verhaalvoorwerpen niet automatisch worden meegenomen. Het leest de eigen labels van het item, dus het dekt alles wat je oppakt en elk punt waarvan de mod de inhoud kan benoemen. Twee dingen vallen erbuiten. Over een punt dat hij niet kan benoemen beslist de schakelaar van zijn soort, want daar is geen item om een label van af te lezen. En het villen van een kadaver keert uit zonder dat de mod ooit ziet wat er binnenkwam.
-Items with an unknown value are never filtered by it.	Items met een onbekende waarde worden er nooit door gefilterd.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Het gebruikt de catalogusprijs van het voorwerp uit de spelgegevens, en een winkel betaalt minder als je verkoopt. Items zonder catalogusprijs worden er nooit door gefilterd.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Houd het menu op het scherm terwijl je speelt. %s brengt het terug, %s sluit het.
 Keys	Toetsen
 Keys and tools	Sleutels en gereedschap
@@ -165,7 +165,7 @@ Materials	Materialen
 mechanism part	mechanismeonderdeel
 Memory chips and puzzle parts	Geheugenchips en puzzelstukken
 Mine ore veins for you	Ertsaders voor je delven
-Minimum value (copper)	Minimumwaarde (koper)
+Minimum list price (copper)	Minimale catalogusprijs (koper)
 missing	ontbreekt
 missing MasterLooter.items.tsv	MasterLooter.items.tsv ontbreekt
 mission object	missievoorwerp
@@ -255,7 +255,7 @@ Skip all	Alles overslaan
 Skip quest equipment	Questuitrusting overslaan
 Quest equipment	Questuitrusting
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Uitrusting die het spel als belangrijk markeert en die geen winkel koopt, in alle klassen. Uit: questgereedschap blijft liggen.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Gereedschap en uitrusting die het spel als belangrijk markeert en die geen winkel koopt: de mest- en smeermiddelsproeiers, de Kuku-speren, de verkennersringen en -kettingen. 251 voorwerpen, bijna allemaal één koper waard, en er een te vroeg van de grond oppakken kan een queststap uit de volgorde halen.\n\nHet leest de twee markeringen samen, dus een voorwerp met er maar één is niet gedekt. De veldsproeier is onverkoopbaar en niet als belangrijk gemarkeerd, en komt nog steeds binnen.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Gereedschap en uitrusting die het spel als belangrijk markeert en die geen winkel koopt: de mest- en smeermiddelsproeiers, de Kuku-speren, de verkennersringen en -kettingen. 251 voorwerpen, bijna allemaal met een catalogusprijs van één koper, en er een te vroeg van de grond oppakken kan een queststap uit de volgorde halen.\n\nHet leest de twee markeringen samen, dus een voorwerp met er maar één is niet gedekt. De veldsproeier is onverkoopbaar en niet als belangrijk gemarkeerd, en komt nog steeds binnen.
 Skip items shops refuse to buy	Items overslaan die winkels weigeren op te kopen
 Skip quest items	Missie-items overslaan
 skip: %s	overslaan: %s
@@ -266,7 +266,7 @@ someone is wearing this; taking it would copy it	iemand draagt dit; het meenemen
 stack at one point (storage contents)	stapel op één punt (opslaginhoud)
 Status	Status
 Stop pets looting	Huisdieren beletten te plunderen
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Tafels, stoelen, bedden, tapijten, lampen, kaarsen, schilderijen, potten en de rest van een ingerichte kamer, of je ze nu van de vloer oppakt of uit hun eigen interactiepunt haalt. Het meeste is een koperstuk of twee waard, maar de tapijten en luxe bedden lopen op tot duizenden, dus zet dit aan voordat je een huis inricht. Kisten en andere dingen die iets bevatten, vallen in plaats daarvan onder Containers. Standaard uit.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Tafels, stoelen, bedden, tapijten, lampen, kaarsen, schilderijen, potten en de rest van een ingerichte kamer, of je ze nu van de vloer oppakt of uit hun eigen interactiepunt haalt. Het meeste heeft een catalogusprijs van een koperstuk of twee, maar de tapijten en luxe bedden lopen op tot duizenden, dus zet dit aan voordat je een huis inricht. Kisten en andere dingen die iets bevatten, vallen in plaats daarvan onder Containers. Standaard uit.
 Tag	Label
 Tags	Labels
 tags, any of which can be set to never in the Tags tab:	labels, elk daarvan kan op nooit worden gezet in het tabblad Labels:
@@ -319,7 +319,7 @@ World (actor manager)	Wereld (actormanager)
 worn by someone	gedragen door iemand
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Gedragen uitrusting die vijanden laten vallen als ze sterven. Goedkoop en zwaar, maar in overvloed.
 worn or carried by you	door jou gedragen of vastgehouden
-worth %lld copper	waard %lld koper
+list price %lld copper	catalogusprijs %lld koper
 Wrap the swapchain	De swapchain wrappen
 Write translation template	Vertaalsjabloon schrijven
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Schrijft MasterLooter.template.txt naast de plugin, met elke regel die het menu deze sessie heeft getoond. Open eerst elk tabblad, want een regel verschijnt pas nadat hij getekend is. Vertaal de rechterkant van elk record, sla het op als MasterLooter.<language>.txt en vul die taal hier in.
@@ -473,7 +473,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Drempels wissen
 Floor	Drempel
 general	algemeen
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Voorwerpen van deze klasse die minder dan zoveel koper waard zijn, worden overgeslagen, in plaats van volgens Minimumwaarde op het tabblad Algemeen. Sleep, of Ctrl+klik om een getal in te typen. Bij 0 volgt de klasse het tabblad Algemeen.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Voorwerpen van deze klasse met een catalogusprijs onder zoveel koper worden overgeslagen, in plaats van volgens Minimale catalogusprijs op het tabblad Algemeen. Sleep, of Ctrl+klik om een getal in te typen. Bij 0 volgt de klasse het tabblad Algemeen.
 %s, %d rules	%s, %d regels
 %s, no rules	%s, geen regels
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Er wordt een back-up geschreven wanneer het spel start met instellingen die sinds de vorige zijn gewijzigd, en de laatste twaalf worden bewaard. Back-ups, voorinstellingen en een kopie van MasterLooter.ini staan in %s, buiten bereik van een modmanager die de plug-in opnieuw installeert, en een ontbrekende MasterLooter.ini wordt bij de volgende start uit die kopie teruggezet.

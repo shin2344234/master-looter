@@ -72,7 +72,7 @@ container (off)	용기 (꺼짐)
 Containers	용기
 containers off	용기 끄기
 Controller	컨트롤러
-Copper	구리
+List price	정가
 Copy	복사
 Copy path	경로 복사
 Copy to the clipboard.	클립보드에 복사합니다.
@@ -140,7 +140,7 @@ Items lying in the world, including drops from enemies.	적의 드롭을 포함�
 Items no shop will buy, in every class but currency.	화폐를 제외한 모든 분류에서 어떤 상점도 사들이지 않는 아이템.
 Items on the ground	바닥에 있는 아이템
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	퀘스트 태그가 붙은 아이템은 그대로 두므로 수수께끼와 이야기용 아이템이 자동으로 수거되지 않습니다. 아이템 자체의 태그를 읽기 때문에 당신이 줍는 모든 것과, 내용물을 모드가 이름 지을 수 있는 모든 노드를 포함합니다. 두 가지는 여기서 벗어납니다. 이름을 알 수 없는 노드는 그 종류의 설정이 결정합니다. 거기에는 태그를 읽어 낼 아이템이 없기 때문입니다. 그리고 사체 가죽 벗기기는 모드가 무엇이 들어왔는지 한 번도 보지 못한 채 보상을 지급합니다.
-Items with an unknown value are never filtered by it.	가치를 알 수 없는 아이템은 이 기준으로 걸러지지 않습니다.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	게임 데이터에 있는 아이템의 정가로 판단하며, 상점에 팔 때 받는 값은 이보다 낮습니다. 정가가 없는 아이템은 이 기준으로 걸러지지 않습니다.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	플레이 중에도 메뉴를 화면에 유지합니다. %s로 다시 불러오고, %s로 닫습니다.
 Keys	키
 Keys and tools	열쇠와 도구
@@ -166,7 +166,7 @@ Materials	재료
 mechanism part	기계 부품
 Memory chips and puzzle parts	기억 칩과 퍼즐 조각
 Mine ore veins for you	광맥을 대신 채굴
-Minimum value (copper)	최소 가치 (구리)
+Minimum list price (copper)	최소 정가 (구리)
 missing	누락
 missing MasterLooter.items.tsv	MasterLooter.items.tsv 누락
 mission object	임무 대상물
@@ -256,7 +256,7 @@ Skip all	전부 건너뛰기
 Skip quest equipment	퀘스트 장비 줍지 않기
 Quest equipment	퀘스트 장비
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	게임이 중요 표시를 하고 어느 상점도 사지 않는 장비를 모든 분류에서 대상으로 합니다. 끄면 퀘스트 도구는 그 자리에 남습니다.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	게임이 중요하다고 표시하고 어느 상점도 사지 않는 도구와 장비입니다. 비료 살포기와 윤활제 살포기, 쿠쿠 창, 정찰 반지와 목걸이 등 251개이며 거의 전부 동전 한 닢 값입니다. 바닥에서 미리 주워버리면 퀘스트 단계가 어긋날 수 있습니다.\n\n두 표시를 함께 읽기 때문에 한쪽만 가진 물건은 해당되지 않습니다. 필드 살포기는 팔 수 없지만 중요 표시가 없어 계속 들어옵니다.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	게임이 중요하다고 표시하고 어느 상점도 사지 않는 도구와 장비입니다. 비료 살포기와 윤활제 살포기, 쿠쿠 창, 정찰 반지와 목걸이 등 251개이며 거의 전부 정가가 동전 한 닢입니다. 바닥에서 미리 주워버리면 퀘스트 단계가 어긋날 수 있습니다.\n\n두 표시를 함께 읽기 때문에 한쪽만 가진 물건은 해당되지 않습니다. 필드 살포기는 팔 수 없지만 중요 표시가 없어 계속 들어옵니다.
 Skip items shops refuse to buy	상점이 사들이지 않는 아이템 건너뛰기
 Skip quest items	퀘스트 아이템 건너뛰기
 skip: %s	건너뜀: %s
@@ -267,7 +267,7 @@ someone is wearing this; taking it would copy it	누군가 착용 중입니다. 
 stack at one point (storage contents)	한 지점에 쌓임 (보관함 내용물)
 Status	상태
 Stop pets looting	펫이 줍지 못하게 하기
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	탁자, 의자, 침대, 카펫, 램프, 초, 그림, 단지 등 가구가 갖춰진 방을 이루는 나머지 것들로, 바닥에서 줍든 고유의 상호작용 노드에서 획득하든 마찬가지입니다. 대부분 구리 한두 닢 가치이지만 카펫과 고급 침대는 수천에 이르므로, 집을 꾸미기 전에 이 항목을 켜 두세요. 무언가를 담고 있는 상자 등은 대신 "용기"에 해당합니다. 기본값은 끔.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	탁자, 의자, 침대, 카펫, 램프, 초, 그림, 단지 등 가구가 갖춰진 방을 이루는 나머지 것들로, 바닥에서 줍든 고유의 상호작용 노드에서 획득하든 마찬가지입니다. 대부분 정가가 구리 한두 닢이지만 카펫과 고급 침대는 수천에 이르므로, 집을 꾸미기 전에 이 항목을 켜 두세요. 무언가를 담고 있는 상자 등은 대신 "용기"에 해당합니다. 기본값은 끔.
 Tag	태그
 Tags	태그
 tags, any of which can be set to never in the Tags tab:	태그, 각각을 "태그" 탭에서 "절대 안 함"으로 설정할 수 있습니다:
@@ -320,7 +320,7 @@ World (actor manager)	월드 (액터 매니저)
 worn by someone	누군가 착용 중
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	적이 죽으면서 떨어뜨리는 착용 장비. 값싸고 무겁지만 흔합니다.
 worn or carried by you	본인이 착용 또는 소지 중
-worth %lld copper	구리 %lld 가치
+list price %lld copper	정가 %lld 구리
 Wrap the swapchain	스왑체인 래핑
 Write translation template	번역 템플릿 작성
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	플러그인 옆에 MasterLooter.template.txt를 기록하며, 이번 세션에서 메뉴에 표시된 모든 줄을 담습니다. 줄은 한 번 그려져야 나타나므로 먼저 모든 탭을 열어 두세요. 각 항목의 오른쪽 부분을 번역해 MasterLooter.<language>.txt로 저장한 다음, 그 언어를 여기에 입력하세요.
@@ -474,7 +474,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	하한 지우기
 Floor	하한
 general	일반
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	이 분류의 아이템 중 이 구리 수보다 가치가 낮은 것은 일반 탭의 최소 가치 대신 이 값으로 판단해 건너뜁니다. 드래그하거나 Ctrl+클릭해 숫자를 입력하세요. 0이면 일반 탭을 따릅니다.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	이 분류의 아이템 중 정가가 이 구리 수보다 낮은 것은 일반 탭의 최소 정가 대신 이 값으로 판단해 건너뜁니다. 드래그하거나 Ctrl+클릭해 숫자를 입력하세요. 0이면 일반 탭을 따릅니다.
 %s, %d rules	%s, 규칙 %d개
 %s, no rules	%s, 규칙 없음
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	마지막 백업 이후 설정이 바뀐 상태로 게임이 시작되면 백업을 쓰고, 최근 12개를 보관합니다. 백업, 프리셋, MasterLooter.ini 사본은 %s에 보관되어 플러그인을 다시 설치하는 모드 관리자가 건드릴 수 없으며, MasterLooter.ini가 없어지면 다음 실행 때 이 사본으로 되돌립니다.

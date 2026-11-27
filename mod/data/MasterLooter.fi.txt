@@ -74,7 +74,7 @@ container (off)	säiliö (pois päältä)
 Containers	Säiliöt
 containers off	säiliöt pois päältä
 Controller	Ohjain
-Copper	Kupari
+List price	Listahinta
 Copy	Kopioi
 Copy path	Kopioi polku
 Copy to the clipboard.	Kopioi leikepöydälle.
@@ -142,7 +142,7 @@ Items lying in the world, including drops from enemies.	Maailmassa lojuvat esine
 Items no shop will buy, in every class but currency.	Esineet, joita mikään kauppa ei osta, kaikissa luokissa paitsi valuutassa.
 Items on the ground	Maassa olevat esineet
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Tehtäväksi merkityt esineet jätetään rauhaan, jotta pulma- ja tarinaesineitä ei oteta automaattisesti. Se lukee esineen omat tunnisteet, joten se kattaa kaiken minkä poimit ja jokaisen pisteen, jonka sisällön modi osaa nimetä. Kaksi asiaa jää ulkopuolelle. Pisteestä, jota se ei osaa nimetä, päättää sen lajin kytkin, sillä siellä ei ole esinettä, josta tunniste luettaisiin. Ja raadon nylkeminen maksaa ilman että modi näkee koskaan, mitä saapui.
-Items with an unknown value are never filtered by it.	Esineitä, joiden arvo on tuntematon, ei koskaan suodateta tällä.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Se käyttää esineen listahintaa pelin tiedoista, ja kauppa maksaa myydessä vähemmän. Esineitä, joilla ei ole listahintaa, ei koskaan suodateta tällä.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Pidä valikko näytöllä pelin aikana. %s tuo sen takaisin, %s sulkee sen.
 Keys	Avaimet
 Keys and tools	Avaimet ja työkalut
@@ -168,7 +168,7 @@ Materials	Materiaalit
 mechanism part	mekanismin osa
 Memory chips and puzzle parts	Muistisirut ja pulmapelin osat
 Mine ore veins for you	Louhi malmisuonet puolestasi
-Minimum value (copper)	Vähimmäisarvo (kupari)
+Minimum list price (copper)	Vähimmäislistahinta (kupari)
 missing	puuttuu
 missing MasterLooter.items.tsv	MasterLooter.items.tsv puuttuu
 mission object	tehtäväkohde
@@ -258,7 +258,7 @@ Skip all	Ohita kaikki
 Skip quest equipment	Ohita tehtävävarusteet
 Quest equipment	Tehtävävarusteet
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Varusteet, jotka peli merkitsee tärkeiksi ja joita mikään kauppa ei osta, kaikissa luokissa. Pois: tehtävätyökalut jäävät paikoilleen.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Työkalut ja varusteet, jotka peli merkitsee tärkeiksi ja joita mikään kauppa ei osta: lannoite- ja voiteluruiskut, Kuku-keihäät, tiedustelijan sormukset ja kaulakorut. 251 esinettä, lähes kaikki yhden kuparin arvoisia, ja yhden poimiminen maasta liian aikaisin voi sotkea tehtävän vaiheen.\n\nSe lukee molemmat merkinnät yhdessä, joten esine jossa on vain toinen niistä ei kuulu tähän. Peltoruisku on myyntikelvoton eikä merkitty tärkeäksi, ja tulee edelleen mukaan.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Työkalut ja varusteet, jotka peli merkitsee tärkeiksi ja joita mikään kauppa ei osta: lannoite- ja voiteluruiskut, Kuku-keihäät, tiedustelijan sormukset ja kaulakorut. 251 esinettä, lähes kaikkien listahinta yksi kupari, ja yhden poimiminen maasta liian aikaisin voi sotkea tehtävän vaiheen.\n\nSe lukee molemmat merkinnät yhdessä, joten esine jossa on vain toinen niistä ei kuulu tähän. Peltoruisku on myyntikelvoton eikä merkitty tärkeäksi, ja tulee edelleen mukaan.
 Skip items shops refuse to buy	Ohita esineet, joita kaupat eivät osta
 Skip quest items	Ohita tehtäväesineet
 skip: %s	ohita: %s
@@ -269,7 +269,7 @@ someone is wearing this; taking it would copy it	joku pitää tätä yllään; s
 stack at one point (storage contents)	pino yhdessä pisteessä (varaston sisältö)
 Status	Tila
 Stop pets looting	Estä lemmikkejä ryöstämästä
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Pöydät, tuolit, sängyt, matot, lamput, kynttilät, taulut, ruukut ja loput sisustetun huoneen tavarasta, poiminetpa sen lattialta tai otat sen omasta vuorovaikutuspisteestään. Suurin osa on arvoltaan kupari tai pari, mutta matot ja luksussängyt nousevat tuhansiin, joten kytke tämä päälle ennen talon sisustamista. Arkut ja muut jotain säilyttävät esineet kuuluvat sen sijaan kohtaan Säiliöt. Oletuksena pois päältä.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Pöydät, tuolit, sängyt, matot, lamput, kynttilät, taulut, ruukut ja loput sisustetun huoneen tavarasta, poiminetpa sen lattialta tai otat sen omasta vuorovaikutuspisteestään. Suurimman osan listahinta on kupari tai pari, mutta matot ja luksussängyt nousevat tuhansiin, joten kytke tämä päälle ennen talon sisustamista. Arkut ja muut jotain säilyttävät esineet kuuluvat sen sijaan kohtaan Säiliöt. Oletuksena pois päältä.
 Tag	Tunniste
 Tags	Tunnisteet
 tags, any of which can be set to never in the Tags tab:	tunnisteet, joista minkä tahansa voi asettaa arvoon ei koskaan Tunnisteet-välilehdellä:
@@ -322,7 +322,7 @@ World (actor manager)	Maailma (aktorien hallinta)
 worn by someone	jonkun yllä
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Puetut varusteet, jotka viholliset pudottavat kuollessaan. Halpoja ja painavia, mutta runsaita.
 worn or carried by you	sinun yllä tai mukanasi
-worth %lld copper	arvoltaan %lld kuparia
+list price %lld copper	listahinta %lld kuparia
 Wrap the swapchain	Kääri swapchain
 Write translation template	Kirjoita käännösmalli
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Kirjoittaa tiedoston MasterLooter.template.txt liitännäisen viereen, ja se sisältää jokaisen rivin, jonka valikko on näyttänyt tällä pelikerralla. Avaa ensin jokainen välilehti, sillä rivi ilmestyy vasta, kun se on piirretty. Käännä jokaisen tietueen oikea puoli, tallenna se nimellä MasterLooter.<kieli>.txt, ja kirjoita se kieli tähän.
@@ -476,7 +476,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Tyhjennä rajat
 Floor	Raja
 general	yleinen
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Tämän luokan esineet, joiden arvo on alle näin monta kuparia, ohitetaan Yleiset-välilehden Vähimmäisarvon sijaan. Vedä, tai Ctrl+napsauta kirjoittaaksesi luvun. Arvolla 0 luokka noudattaa Yleiset-välilehteä.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Tämän luokan esineet, joiden listahinta on alle näin monta kuparia, ohitetaan Yleiset-välilehden Vähimmäislistahinnan sijaan. Vedä, tai Ctrl+napsauta kirjoittaaksesi luvun. Arvolla 0 luokka noudattaa Yleiset-välilehteä.
 %s, %d rules	%s, %d sääntöä
 %s, no rules	%s, ei sääntöjä
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Varmuuskopio kirjoitetaan, kun peli käynnistyy edellisen jälkeen muutetuilla asetuksilla, ja kaksitoista viimeisintä säilytetään. Varmuuskopiot, esiasetukset ja kopio MasterLooter.ini-tiedostosta säilytetään kansiossa %s, johon liitännäisen uudelleen asentava modien hallinta ei ulotu, ja puuttuva MasterLooter.ini palautetaan kopiosta seuraavalla käynnistyksellä.

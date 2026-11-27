@@ -74,7 +74,7 @@ container (off)	δοχείο (ανενεργό)
 Containers	Δοχεία
 containers off	δοχεία ανενεργά
 Controller	Χειριστήριο
-Copper	Χαλκός
+List price	Τιμή καταλόγου
 Copy	Αντιγραφή
 Copy path	Αντιγραφή διαδρομής
 Copy to the clipboard.	Αντιγραφή στο πρόχειρο.
@@ -142,7 +142,7 @@ Items lying in the world, including drops from enemies.	Αντικείμενα �
 Items no shop will buy, in every class but currency.	Αντικείμενα που κανένα μαγαζί δεν αγοράζει, σε κάθε κατηγορία εκτός από το νόμισμα.
 Items on the ground	Αντικείμενα στο έδαφος
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Τα αντικείμενα με ετικέτα αποστολής αφήνονται ήσυχα, ώστε τα αντικείμενα γρίφων και ιστορίας να μην παίρνονται αυτόματα. Διαβάζει τις δικές του ετικέτες του αντικειμένου, οπότε καλύπτει ό,τι μαζεύεις και κάθε κόμβο του οποίου το περιεχόμενο μπορεί να ονομάσει το mod. Δύο πράγματα μένουν έξω. Έναν κόμβο που δεν μπορεί να ονομάσει τον αποφασίζει ο διακόπτης του είδους του, γιατί εκεί δεν υπάρχει αντικείμενο από το οποίο να διαβαστεί ετικέτα. Και το γδάρσιμο ενός κουφαριού πληρώνει χωρίς το mod να δει ποτέ τι έφτασε.
-Items with an unknown value are never filtered by it.	Αντικείμενα με άγνωστη αξία δεν φιλτράρονται ποτέ από αυτό.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Μετράει η τιμή καταλόγου του αντικειμένου από τα δεδομένα του παιχνιδιού, και ένα μαγαζί πληρώνει λιγότερα όταν πουλάς. Αντικείμενα χωρίς τιμή καταλόγου δεν φιλτράρονται ποτέ από αυτό.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Κράτα το μενού στην οθόνη ενώ παίζεις. Το %s το επαναφέρει, το %s το κλείνει.
 Keys	Πλήκτρα
 Keys and tools	Κλειδιά και εργαλεία
@@ -168,7 +168,7 @@ Materials	Υλικά
 mechanism part	μέρος μηχανισμού
 Memory chips and puzzle parts	Τσιπ μνήμης και κομμάτια γρίφων
 Mine ore veins for you	Εξόρυξε φλέβες μεταλλεύματος για σένα
-Minimum value (copper)	Ελάχιστη αξία (χαλκός)
+Minimum list price (copper)	Ελάχιστη τιμή καταλόγου (χαλκός)
 missing	λείπει
 missing MasterLooter.items.tsv	λείπει το MasterLooter.items.tsv
 mission object	αντικείμενο αποστολής
@@ -258,7 +258,7 @@ Skip all	Παράλειψη όλων
 Skip quest equipment	Παράλειψη εξοπλισμού αποστολών
 Quest equipment	Εξοπλισμός αποστολών
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Εξοπλισμός που το παιχνίδι σημειώνει ως σημαντικό και δεν αγοράζει κανένα μαγαζί, σε όλες τις κατηγορίες. Ανενεργό: τα εργαλεία αποστολών μένουν εκεί που είναι.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Εργαλεία και εξοπλισμός που το παιχνίδι σημειώνει ως σημαντικά και δεν τα αγοράζει κανένα μαγαζί: οι ψεκαστήρες λιπάσματος και λιπαντικού, τα δόρατα Kuku, τα δαχτυλίδια και τα κολιέ ανιχνευτή. 251 αντικείμενα, σχεδόν όλα αξίας ενός χάλκινου, και το να σηκώσεις ένα από το πάτωμα νωρίς μπορεί να βγάλει ένα βήμα αποστολής εκτός σειράς.\n\nΔιαβάζει τα δύο σημάδια μαζί, οπότε ένα αντικείμενο με μόνο το ένα δεν καλύπτεται. Ο ψεκαστήρας πεδίου δεν πωλείται και δεν είναι σημειωμένος ως σημαντικός, και εξακολουθεί να μαζεύεται.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Εργαλεία και εξοπλισμός που το παιχνίδι σημειώνει ως σημαντικά και δεν τα αγοράζει κανένα μαγαζί: οι ψεκαστήρες λιπάσματος και λιπαντικού, τα δόρατα Kuku, τα δαχτυλίδια και τα κολιέ ανιχνευτή. 251 αντικείμενα, σχεδόν όλα με τιμή καταλόγου ένα χάλκινο, και το να σηκώσεις ένα από το πάτωμα νωρίς μπορεί να βγάλει ένα βήμα αποστολής εκτός σειράς.\n\nΔιαβάζει τα δύο σημάδια μαζί, οπότε ένα αντικείμενο με μόνο το ένα δεν καλύπτεται. Ο ψεκαστήρας πεδίου δεν πωλείται και δεν είναι σημειωμένος ως σημαντικός, και εξακολουθεί να μαζεύεται.
 Skip items shops refuse to buy	Παράλειψε αντικείμενα που τα μαγαζιά αρνούνται να αγοράσουν
 Skip quest items	Παράλειψε αντικείμενα αποστολής
 skip: %s	παράλειψη: %s
@@ -269,7 +269,7 @@ someone is wearing this; taking it would copy it	κάποιος το φοράε�
 stack at one point (storage contents)	στοίβα σε ένα σημείο (περιεχόμενα αποθήκευσης)
 Status	Κατάσταση
 Stop pets looting	Εμπόδισε τα κατοικίδια να μαζεύουν
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Τραπέζια, καρέκλες, κρεβάτια, χαλιά, λάμπες, κεριά, πίνακες, δοχεία και τα υπόλοιπα ενός επιπλωμένου δωματίου, είτε τα μαζεύεις από το πάτωμα είτε τα παίρνεις από τον δικό τους κόμβο αλληλεπίδρασης. Τα περισσότερα αξίζουν ένα-δύο χαλκά, αλλά τα χαλιά και τα πολυτελή κρεβάτια φτάνουν στις χιλιάδες, οπότε ενεργοποίησέ το πριν επιπλώσεις ένα σπίτι. Τα κιβώτια και τα άλλα πράγματα που κρατούν κάτι υπάγονται στα Δοχεία αντί για εδώ. Ανενεργό εξ ορισμού.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Τραπέζια, καρέκλες, κρεβάτια, χαλιά, λάμπες, κεριά, πίνακες, δοχεία και τα υπόλοιπα ενός επιπλωμένου δωματίου, είτε τα μαζεύεις από το πάτωμα είτε τα παίρνεις από τον δικό τους κόμβο αλληλεπίδρασης. Τα περισσότερα έχουν τιμή καταλόγου ένα-δύο χαλκά, αλλά τα χαλιά και τα πολυτελή κρεβάτια φτάνουν στις χιλιάδες, οπότε ενεργοποίησέ το πριν επιπλώσεις ένα σπίτι. Τα κιβώτια και τα άλλα πράγματα που κρατούν κάτι υπάγονται στα Δοχεία αντί για εδώ. Ανενεργό εξ ορισμού.
 Tag	Ετικέτα
 Tags	Ετικέτες
 tags, any of which can be set to never in the Tags tab:	ετικέτες, καθεμία από τις οποίες μπορεί να οριστεί σε ποτέ στην καρτέλα Ετικέτες:
@@ -322,7 +322,7 @@ World (actor manager)	Κόσμος (διαχειριστής actor)
 worn by someone	φοριέται από κάποιον
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Φορεμένος εξοπλισμός που ρίχνουν οι εχθροί καθώς πεθαίνουν. Φτηνός και βαρύς, αλλά άφθονος.
 worn or carried by you	φοριέται ή κουβαλιέται από σένα
-worth %lld copper	αξίζει %lld χαλκό
+list price %lld copper	τιμή καταλόγου %lld χαλκός
 Wrap the swapchain	Τύλιξε το swapchain
 Write translation template	Εγγραφή προτύπου μετάφρασης
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Γράφει το MasterLooter.template.txt δίπλα στο plugin, με κάθε γραμμή που έχει εμφανίσει το μενού σε αυτή τη συνεδρία. Άνοιξε πρώτα κάθε καρτέλα, αφού μια γραμμή εμφανίζεται μόνο αφού έχει σχεδιαστεί. Μετάφρασε τη δεξιά πλευρά κάθε εγγραφής, αποθήκευσέ το ως MasterLooter.<γλώσσα>.txt, και βάλε αυτή τη γλώσσα εδώ.
@@ -476,7 +476,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Καθαρισμός ορίων
 Floor	Όριο
 general	γενικό
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Τα αντικείμενα αυτής της κατηγορίας που αξίζουν λιγότερο από τόσα χάλκινα παραλείπονται, στη θέση της Ελάχιστης αξίας της καρτέλας Γενικά. Σύρε, ή Ctrl+κλικ για να πληκτρολογήσεις αριθμό. Στο 0 η κατηγορία ακολουθεί την καρτέλα Γενικά.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Τα αντικείμενα αυτής της κατηγορίας με τιμή καταλόγου κάτω από τόσα χάλκινα παραλείπονται, στη θέση της Ελάχιστης τιμής καταλόγου της καρτέλας Γενικά. Σύρε, ή Ctrl+κλικ για να πληκτρολογήσεις αριθμό. Στο 0 η κατηγορία ακολουθεί την καρτέλα Γενικά.
 %s, %d rules	%s, %d κανόνες
 %s, no rules	%s, χωρίς κανόνες
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Ένα αντίγραφο ασφαλείας γράφεται όταν το παιχνίδι ξεκινά με ρυθμίσεις που άλλαξαν από το τελευταίο, και κρατιούνται τα δώδεκα πιο πρόσφατα. Τα αντίγραφα ασφαλείας, οι προεπιλογές και ένα αντίγραφο του MasterLooter.ini φυλάσσονται στο %s, όπου ένας διαχειριστής mod που επανεγκαθιστά το πρόσθετο δεν τα φτάνει, και ένα MasterLooter.ini που λείπει επανέρχεται από αυτό το αντίγραφο στην επόμενη εκκίνηση.

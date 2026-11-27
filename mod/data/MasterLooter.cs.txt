@@ -71,7 +71,7 @@ container (off)	kontejner (vypnuto)
 Containers	Kontejnery
 containers off	kontejnery vypnuty
 Controller	Ovladač
-Copper	Měďáky
+List price	Ceníková cena
 Copy	Kopírovat
 Copy path	Kopírovat cestu
 Copy to the clipboard.	Zkopírovat do schránky.
@@ -139,7 +139,7 @@ Items lying in the world, including drops from enemies.	Předměty ležící ve 
 Items no shop will buy, in every class but currency.	Předměty, které nekoupí žádný obchod, ve všech třídách kromě měny.
 Items on the ground	Předměty ležící na zemi
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Předměty označené jako questovní se nechávají být, aby se předměty z hádanek a z příběhu nebraly automaticky. Čte vlastní štítky předmětu, takže pokrývá vše, co sebereš, a každý uzel, jehož obsah umí mod pojmenovat. Dvě věci zůstávají mimo. O uzlu, který pojmenovat neumí, rozhoduje přepínač jeho druhu, protože tam není žádný předmět, ze kterého by se štítek dal přečíst. A stažení zdechliny vyplatí, aniž by mod kdy viděl, co přišlo.
-Items with an unknown value are never filtered by it.	Předměty s neznámou hodnotou tímto nikdy nejsou filtrovány.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Bere se ceníková cena předmětu z dat hry a obchod při prodeji zaplatí méně. Předměty bez ceníkové ceny tímto nikdy nejsou filtrovány.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Nech menu na obrazovce, zatímco hraješ. %s ho vrátí zpět, %s ho zavře.
 Keys	Klávesy
 Keys and tools	Klíče a nástroje
@@ -165,7 +165,7 @@ Materials	Materiály
 mechanism part	část mechanismu
 Memory chips and puzzle parts	Paměťové čipy a části hádanek
 Mine ore veins for you	Těžit rudné žíly za tebe
-Minimum value (copper)	Minimální hodnota (měďáky)
+Minimum list price (copper)	Minimální ceníková cena (měďáky)
 missing	chybí
 missing MasterLooter.items.tsv	chybí MasterLooter.items.tsv
 mission object	misijní objekt
@@ -255,7 +255,7 @@ Skip all	Přeskočit vše
 Skip quest equipment	Přeskakovat questové vybavení
 Quest equipment	Questové vybavení
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Vybavení označené jako důležité, které žádný obchod nekoupí, napříč všemi třídami. Vypnuto: questové nástroje zůstanou ležet.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Nástroje a vybavení, které hra označuje jako důležité a žádný obchod je nekoupí: rozprašovače hnojiva a maziva, kuku oštěpy, zvědské prsteny a náhrdelníky. 251 předmětů, téměř všechny za jediný měďák, a sebrat jeden ze země příliš brzy může rozhodit krok questu.\n\nČte se obojí označení dohromady, takže předmět jen s jedním z nich pokrytý není. Polní rozprašovač je neprodejný a není označen jako důležitý, a stále se sbírá.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Nástroje a vybavení, které hra označuje jako důležité a žádný obchod je nekoupí: rozprašovače hnojiva a maziva, kuku oštěpy, zvědské prsteny a náhrdelníky. 251 předmětů, téměř všechny s ceníkovou cenou jediný měďák, a sebrat jeden ze země příliš brzy může rozhodit krok questu.\n\nČte se obojí označení dohromady, takže předmět jen s jedním z nich pokrytý není. Polní rozprašovač je neprodejný a není označen jako důležitý, a stále se sbírá.
 Skip items shops refuse to buy	Přeskočit předměty, které obchody odmítají koupit
 Skip quest items	Přeskočit questovní předměty
 skip: %s	přeskočit: %s
@@ -266,7 +266,7 @@ someone is wearing this; taking it would copy it	někdo to má na sobě; vzít t
 stack at one point (storage contents)	hromada na jednom místě (obsah úložiště)
 Status	Stav
 Stop pets looting	Zabránit mazlíčkům ve sbírání
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Stoly, židle, postele, koberce, lampy, svíčky, obrazy, hrnce a zbytek zařízené místnosti, ať už to seberes z podlahy nebo to vezmeš z vlastního interakčního uzlu. Většina toho má hodnotu měďák nebo dva, ale koberce a luxusní postele se šplhají do tisíců, takže tohle zapni, než si zařídíš dům. Truhly a další věci, které něco obsahují, spadají místo toho pod Kontejnery. Ve výchozím stavu vypnuto.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Stoly, židle, postele, koberce, lampy, svíčky, obrazy, hrnce a zbytek zařízené místnosti, ať už to seberes z podlahy nebo to vezmeš z vlastního interakčního uzlu. Většina toho má ceníkovou cenu měďák nebo dva, ale koberce a luxusní postele se šplhají do tisíců, takže tohle zapni, než si zařídíš dům. Truhly a další věci, které něco obsahují, spadají místo toho pod Kontejnery. Ve výchozím stavu vypnuto.
 Tag	Štítek
 Tags	Štítky
 tags, any of which can be set to never in the Tags tab:	štítky, z nichž kterýkoli lze v záložce Štítky nastavit na nikdy:
@@ -319,7 +319,7 @@ World (actor manager)	Svět (actor manager)
 worn by someone	nošeno někým
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Nošené vybavení, které nepřátelé upustí, když zemřou. Levné a těžké, ale je ho hodně.
 worn or carried by you	nošeno nebo neseno tebou
-worth %lld copper	hodnota %lld měďáků
+list price %lld copper	ceníková cena %lld měďáků
 Wrap the swapchain	Zabalit swapchain
 Write translation template	Zapsat překladovou šablonu
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Zapíše MasterLooter.template.txt vedle pluginu, obsahující každý řádek, který menu v této relaci zobrazilo. Nejdřív otevři všechny záložky, protože řádek se objeví, až jakmile je vykreslen. Přelož pravou stranu každého záznamu, ulož to jako MasterLooter.<jazyk>.txt a ten jazyk zadej sem.
@@ -473,7 +473,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Vymazat prahy
 Floor	Práh
 general	obecný
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Předměty této třídy v hodnotě nižší než tolik měďáků se přeskočí, místo podle Minimální hodnoty na kartě Obecné. Táhni, nebo Ctrl+klikni a zadej číslo. Při 0 se třída řídí kartou Obecné.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Předměty této třídy s ceníkovou cenou nižší než tolik měďáků se přeskočí, místo podle Minimální ceníkové ceny na kartě Obecné. Táhni, nebo Ctrl+klikni a zadej číslo. Při 0 se třída řídí kartou Obecné.
 %s, %d rules	%s, pravidel: %d
 %s, no rules	%s, žádná pravidla
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Záloha se zapíše, když hra začne s nastavením změněným od poslední zálohy, a uchovává se posledních dvanáct. Zálohy, předvolby a kopie MasterLooter.ini jsou uloženy v %s, kam správce modů při přeinstalaci pluginu nedosáhne, a chybějící MasterLooter.ini se z této kopie obnoví při dalším spuštění.

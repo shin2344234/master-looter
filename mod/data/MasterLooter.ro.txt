@@ -72,7 +72,7 @@ container (off)	recipient (dezactivat)
 Containers	Recipiente
 containers off	recipiente dezactivate
 Controller	Controler
-Copper	Aramă
+List price	Preț de listă
 Copy	Copiază
 Copy path	Copiază calea
 Copy to the clipboard.	Copiază în clipboard.
@@ -140,7 +140,7 @@ Items lying in the world, including drops from enemies.	Obiecte aflate în lume,
 Items no shop will buy, in every class but currency.	Obiecte pe care niciun magazin nu le cumpără, din orice clasă în afară de monedă.
 Items on the ground	Obiecte de pe jos
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Obiectele etichetate ca misiune sunt lăsate în pace, astfel încât obiectele de puzzle și cele de poveste să nu fie luate automat. Citește etichetele proprii ale obiectului, deci acoperă tot ce ridici și fiecare punct al cărui conținut modul îl poate numi. Două lucruri rămân pe dinafară. Un punct pe care nu îl poate numi este decis de comutatorul tipului său, fiindcă acolo nu există niciun obiect de pe care să citești o etichetă. Iar jupuirea unei carcase plătește fără ca modul să vadă vreodată ce a sosit.
-Items with an unknown value are never filtered by it.	Obiectele cu valoare necunoscută nu sunt niciodată filtrate după ea.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Se folosește prețul de listă al obiectului din datele jocului, iar un magazin plătește mai puțin când vinzi. Obiectele fără preț de listă nu sunt niciodată filtrate după el.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Ține meniul pe ecran cât timp joci. %s îl aduce înapoi, %s îl închide.
 Keys	Taste
 Keys and tools	Chei și unelte
@@ -166,7 +166,7 @@ Materials	Materiale
 mechanism part	piesă de mecanism
 Memory chips and puzzle parts	Cipuri de memorie și piese de puzzle
 Mine ore veins for you	Minează zăcămintele pentru tine
-Minimum value (copper)	Valoare minimă (aramă)
+Minimum list price (copper)	Preț de listă minim (aramă)
 missing	lipsă
 missing MasterLooter.items.tsv	lipsește MasterLooter.items.tsv
 mission object	obiect de misiune
@@ -256,7 +256,7 @@ Skip all	Ignoră tot
 Skip quest equipment	Sari peste echipamentul de misiune
 Quest equipment	Echipament de misiune
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Echipamentul pe care jocul îl marchează ca important și pe care niciun magazin nu îl cumpără, în toate clasele. Oprit: uneltele de misiune rămân pe loc.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Unelte și echipament pe care jocul le marchează ca importante și pe care niciun magazin nu le cumpără: pulverizatoarele de îngrășământ și de lubrifiant, sulițele Kuku, inelele și colierele de cercetaș. 251 de obiecte, aproape toate valorând un singur aramă, iar ridicarea unuia de pe jos prea devreme poate scoate din ordine un pas de misiune.\n\nCitește cele două marcaje împreună, așa că un obiect care poartă doar unul dintre ele nu este acoperit. Pulverizatorul de câmp nu se poate vinde și nu este marcat ca important, și intră în continuare.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Unelte și echipament pe care jocul le marchează ca importante și pe care niciun magazin nu le cumpără: pulverizatoarele de îngrășământ și de lubrifiant, sulițele Kuku, inelele și colierele de cercetaș. 251 de obiecte, aproape toate cu prețul de listă de un singur aramă, iar ridicarea unuia de pe jos prea devreme poate scoate din ordine un pas de misiune.\n\nCitește cele două marcaje împreună, așa că un obiect care poartă doar unul dintre ele nu este acoperit. Pulverizatorul de câmp nu se poate vinde și nu este marcat ca important, și intră în continuare.
 Skip items shops refuse to buy	Ignoră obiectele pe care magazinele refuză să le cumpere
 Skip quest items	Ignoră obiectele de misiune
 skip: %s	ignoră: %s
@@ -267,7 +267,7 @@ someone is wearing this; taking it would copy it	cineva poartă asta; luarea ei 
 stack at one point (storage contents)	grămadă într-un singur punct (conținut de depozitare)
 Status	Stare
 Stop pets looting	Împiedică animalele să jefuiască
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Mese, scaune, paturi, covoare, lămpi, lumânări, tablouri, oale și restul unei camere mobilate, fie că ridici un obiect de pe jos, fie că-l iei din propriul lui punct de interacțiune. Majoritatea valorează una-două monede de aramă, dar covoarele și paturile de lux ajung la mii, așa că activează asta înainte să mobilezi o casă. Cuferele și celelalte lucruri care conțin ceva răspund la Recipiente în loc de asta. Dezactivat implicit.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Mese, scaune, paturi, covoare, lămpi, lumânări, tablouri, oale și restul unei camere mobilate, fie că ridici un obiect de pe jos, fie că-l iei din propriul lui punct de interacțiune. Majoritatea au prețul de listă de una-două monede de aramă, dar covoarele și paturile de lux ajung la mii, așa că activează asta înainte să mobilezi o casă. Cuferele și celelalte lucruri care conțin ceva răspund la Recipiente în loc de asta. Dezactivat implicit.
 Tag	Etichetă
 Tags	Etichete
 tags, any of which can be set to never in the Tags tab:	etichete, oricare dintre ele poate fi setată la niciodată în fila Etichete:
@@ -320,7 +320,7 @@ World (actor manager)	Lume (administrator de actori)
 worn by someone	purtat de cineva
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Echipament purtat pe care inamicii îl lasă când mor. Ieftin și greu, dar din abundență.
 worn or carried by you	purtat sau cărat de tine
-worth %lld copper	valorează %lld aramă
+list price %lld copper	preț de listă %lld aramă
 Wrap the swapchain	Încapsulează swapchain-ul
 Write translation template	Scrie șablonul de traducere
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Scrie MasterLooter.template.txt lângă plugin, conținând fiecare linie afișată de meniu în această sesiune. Deschide mai întâi fiecare filă, pentru că o linie apare doar după ce a fost desenată. Tradu partea dreaptă a fiecărei înregistrări, salveaz-o ca MasterLooter.<language>.txt și pune acea limbă aici.
@@ -474,7 +474,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Șterge pragurile
 Floor	Prag
 general	general
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Obiectele din această clasă care valorează mai puțin de atâția bani de aramă sunt sărite, în locul Valorii minime din fila General. Trage, sau Ctrl+clic pentru a scrie un număr. La 0 clasa urmează fila General.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Obiectele din această clasă cu prețul de listă sub atâția bani de aramă sunt sărite, în locul Prețului de listă minim din fila General. Trage, sau Ctrl+clic pentru a scrie un număr. La 0 clasa urmează fila General.
 %s, %d rules	%s, %d reguli
 %s, no rules	%s, fără reguli
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	O copie de rezervă este scrisă când jocul pornește cu setări schimbate de la ultima, iar ultimele douăsprezece sunt păstrate. Copiile de rezervă, presetările și o copie a MasterLooter.ini sunt păstrate în %s, unde un manager de moduri care reinstalează pluginul nu le poate atinge, iar un MasterLooter.ini lipsă este pus la loc din acea copie la următoarea pornire.

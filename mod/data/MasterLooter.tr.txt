@@ -72,7 +72,7 @@ container (off)	konteyner (kapalı)
 Containers	Konteynerler
 containers off	konteynerler kapalı
 Controller	Kumanda
-Copper	Bakır
+List price	Liste fiyatı
 Copy	Kopyala
 Copy path	Yolu kopyala
 Copy to the clipboard.	Panoya kopyala.
@@ -140,7 +140,7 @@ Items lying in the world, including drops from enemies.	Dünyada duran eşyalar,
 Items no shop will buy, in every class but currency.	Hiçbir dükkanın satın almadığı eşyalar, para birimi dışındaki her sınıfta.
 Items on the ground	Yerde duran eşyalar
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Görev etiketli eşyalar rahat bırakılır, böylece bulmaca ve hikâye eşyaları kendiliğinden alınmaz. Eşyanın kendi etiketlerini okur, dolayısıyla aldığın her şeyi ve içeriğini modun adlandırabildiği her noktayı kapsar. İki şey bunun dışında kalır. Adlandıramadığı bir noktaya türünün anahtarı karar verir, çünkü orada etiket okunacak bir eşya yoktur. Bir leşi yüzmek ise, mod gelenin ne olduğunu hiç görmeden ödeme yapar.
-Items with an unknown value are never filtered by it.	Değeri bilinmeyen eşyalar bu filtreyle asla elenmez.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Eşyanın oyun verilerindeki liste fiyatına bakar, dükkân ise satarken bundan az öder. Liste fiyatı olmayan eşyalar bu filtreyle asla elenmez.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Oynarken menüyü ekranda tut. %s onu geri getirir, %s kapatır.
 Keys	Tuşlar
 Keys and tools	Anahtarlar ve aletler
@@ -166,7 +166,7 @@ Materials	Malzemeler
 mechanism part	mekanizma parçası
 Memory chips and puzzle parts	Hafıza çipleri ve bulmaca parçaları
 Mine ore veins for you	Maden damarlarını senin yerine kaz
-Minimum value (copper)	Minimum değer (bakır)
+Minimum list price (copper)	Minimum liste fiyatı (bakır)
 missing	eksik
 missing MasterLooter.items.tsv	MasterLooter.items.tsv eksik
 mission object	görev nesnesi
@@ -256,7 +256,7 @@ Skip all	Tümünü atla
 Skip quest equipment	Görev ekipmanını atla
 Quest equipment	Görev ekipmanı
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Oyunun önemli olarak işaretlediği ve hiçbir dükkânın satın almadığı ekipman, tüm sınıflarda. Kapalıyken görev aletleri olduğu yerde kalır.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Oyunun önemli olarak işaretlediği ve hiçbir dükkânın satın almadığı aletler ve ekipman: gübre ve yağ püskürtücüleri, Kuku mızrakları, izci yüzükleri ve kolyeleri. 251 eşya, neredeyse hepsi tek bir bakır değerinde, ve birini yerden erken almak bir görev adımını sıradan çıkarabilir.\n\nİki işareti birlikte okur, bu yüzden yalnızca birini taşıyan bir eşya kapsama girmez. Tarla Püskürtücüsü satılamaz ama önemli işareti yoktur, ve alınmaya devam eder.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Oyunun önemli olarak işaretlediği ve hiçbir dükkânın satın almadığı aletler ve ekipman: gübre ve yağ püskürtücüleri, Kuku mızrakları, izci yüzükleri ve kolyeleri. 251 eşya, neredeyse hepsinin liste fiyatı tek bir bakır, ve birini yerden erken almak bir görev adımını sıradan çıkarabilir.\n\nİki işareti birlikte okur, bu yüzden yalnızca birini taşıyan bir eşya kapsama girmez. Tarla Püskürtücüsü satılamaz ama önemli işareti yoktur, ve alınmaya devam eder.
 Skip items shops refuse to buy	Dükkanların satın almayı reddettiği eşyaları atla
 Skip quest items	Görev eşyalarını atla
 skip: %s	atla: %s
@@ -267,7 +267,7 @@ someone is wearing this; taking it would copy it	bunu biri giyiyor; almak onu ko
 stack at one point (storage contents)	tek noktada yığın (depo içeriği)
 Status	Durum
 Stop pets looting	Evcil hayvanların toplamasını engelle
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Masalar, sandalyeler, yataklar, halılar, lambalar, mumlar, tablolar, çömlekler ve döşeli bir odanın geri kalanı; ister yerden alınsın ister kendi etkileşim noktasından. Çoğu bir iki bakıra değer, ama halılar ve lüks yataklar binlere çıkar, bu yüzden bir ev döşemeden önce bunu aç. Sandıklar ve bir şey barındıran diğer nesneler bunun yerine Konteynerlere yanıt verir. Varsayılan olarak kapalı.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Masalar, sandalyeler, yataklar, halılar, lambalar, mumlar, tablolar, çömlekler ve döşeli bir odanın geri kalanı; ister yerden alınsın ister kendi etkileşim noktasından. Çoğunun liste fiyatı bir iki bakır, ama halılar ve lüks yataklar binlere çıkar, bu yüzden bir ev döşemeden önce bunu aç. Sandıklar ve bir şey barındıran diğer nesneler bunun yerine Konteynerlere yanıt verir. Varsayılan olarak kapalı.
 Tag	Etiket
 Tags	Etiketler
 tags, any of which can be set to never in the Tags tab:	etiketler, herhangi biri Etiketler sekmesinde “asla” olarak ayarlanabilir:
@@ -320,7 +320,7 @@ World (actor manager)	Dünya (aktör yöneticisi)
 worn by someone	biri tarafından giyiliyor
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Düşmanların ölürken bıraktığı giyilen ekipman. Ucuz ve ağır, ama bol.
 worn or carried by you	senin giydiğin veya taşıdığın
-worth %lld copper	%lld bakır değerinde
+list price %lld copper	liste fiyatı %lld bakır
 Wrap the swapchain	Swapchain'i sar
 Write translation template	Çeviri şablonu yaz
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Eklentinin yanına, menünün bu oturumda gösterdiği her satırı tutan MasterLooter.template.txt dosyasını yazar. Önce her sekmeyi aç, çünkü bir satır ancak çizildikten sonra görünür. Her kaydın sağ tarafını çevir, MasterLooter.<language>.txt olarak kaydet ve dili buraya gir.
@@ -474,7 +474,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Eşikleri temizle
 Floor	Eşik
 general	genel
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Bu sınıftaki, bu kadar bakırdan az değerli eşyalar Genel sekmesindeki Minimum değer yerine bununla atlanır. Sürükle ya da sayı yazmak için Ctrl+tıkla. 0'da sınıf Genel sekmesini izler.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Bu sınıftaki, liste fiyatı bu kadar bakırın altında olan eşyalar Genel sekmesindeki Minimum liste fiyatı yerine bununla atlanır. Sürükle ya da sayı yazmak için Ctrl+tıkla. 0'da sınıf Genel sekmesini izler.
 %s, %d rules	%s, %d kural
 %s, no rules	%s, kural yok
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Oyun, sonuncusundan beri değişmiş ayarlarla başladığında bir yedek yazılır ve son on iki yedek tutulur. Yedekler, ön ayarlar ve MasterLooter.ini'nin bir kopyası %s konumunda tutulur; eklentiyi yeniden kuran bir mod yöneticisi oraya ulaşamaz ve eksik bir MasterLooter.ini bir sonraki açılışta bu kopyadan geri konur.

@@ -72,7 +72,7 @@ container (off)	behållare (av)
 Containers	Behållare
 containers off	behållare av
 Controller	Handkontroll
-Copper	Koppar
+List price	Listpris
 Copy	Kopiera
 Copy path	Kopiera sökväg
 Copy to the clipboard.	Kopiera till urklipp.
@@ -140,7 +140,7 @@ Items lying in the world, including drops from enemies.	Föremål som ligger i v
 Items no shop will buy, in every class but currency.	Föremål som ingen butik köper, i alla klasser utom valuta.
 Items on the ground	Föremål på marken
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Föremål märkta uppdrag lämnas i fred, så att pussel- och berättelseföremål inte tas automatiskt. Den läser föremålets egna etiketter, så den täcker allt du plockar upp och varje nod vars innehåll modden kan namnge. Två saker faller utanför. En nod den inte kan namnge avgörs av inställningen för dess sort, för där finns inget föremål att läsa en etikett från. Och att flå ett kadaver betalar ut utan att modden någonsin ser vad som kom in.
-Items with an unknown value are never filtered by it.	Föremål med okänt värde filtreras aldrig av det.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Den använder föremålets listpris i spelets data, och en butik betalar mindre när du säljer. Föremål utan listpris filtreras aldrig av det.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Håll menyn kvar på skärmen medan du spelar. %s tar tillbaka den, %s stänger den.
 Keys	Tangenter
 Keys and tools	Nycklar och verktyg
@@ -166,7 +166,7 @@ Materials	Material
 mechanism part	mekanismdel
 Memory chips and puzzle parts	Minneschips och pusseldelar
 Mine ore veins for you	Bryter malmådror åt dig
-Minimum value (copper)	Minsta värde (koppar)
+Minimum list price (copper)	Lägsta listpris (koppar)
 missing	saknas
 missing MasterLooter.items.tsv	MasterLooter.items.tsv saknas
 mission object	uppdragsobjekt
@@ -256,7 +256,7 @@ Skip all	Hoppa över alla
 Skip quest equipment	Hoppa över uppdragsutrustning
 Quest equipment	Uppdragsutrustning
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Utrustning som spelet markerar som viktig och som ingen butik köper, i alla klasser. Av: uppdragsverktyg blir liggande.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Verktyg och utrustning som spelet markerar som viktiga och som ingen butik köper: gödsel- och smörjmedelssprutorna, Kuku-spjuten, spanarringarna och -halsbanden. 251 föremål, nästan alla värda ett enda koppar, och att plocka upp ett från marken för tidigt kan få ett uppdragssteg ur ordning.\n\nDen läser de två märkena tillsammans, så ett föremål med bara det ena omfattas inte. Fältsprutan går inte att sälja och är inte märkt som viktig, och kommer fortfarande in.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Verktyg och utrustning som spelet markerar som viktiga och som ingen butik köper: gödsel- och smörjmedelssprutorna, Kuku-spjuten, spanarringarna och -halsbanden. 251 föremål, nästan alla med ett listpris på ett enda koppar, och att plocka upp ett från marken för tidigt kan få ett uppdragssteg ur ordning.\n\nDen läser de två märkena tillsammans, så ett föremål med bara det ena omfattas inte. Fältsprutan går inte att sälja och är inte märkt som viktig, och kommer fortfarande in.
 Skip items shops refuse to buy	Hoppa över föremål som butiker vägrar köpa
 Skip quest items	Hoppa över uppdragsföremål
 skip: %s	hoppa över: %s
@@ -267,7 +267,7 @@ someone is wearing this; taking it would copy it	någon bär det här; att ta de
 stack at one point (storage contents)	stapel på en plats (förrådsinnehåll)
 Status	Status
 Stop pets looting	Hindra husdjur från att plundra
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bord, stolar, sängar, mattor, lampor, ljus, tavlor, krukor och resten av ett möblerat rum, oavsett om du plockar upp det från golvet eller tar det från sin egen interaktionsnod. Det mesta är värt en koppar eller två, men mattorna och lyxsängarna går upp i tusental, så slå på det här innan du möblerar ett hus. Kistor och andra saker som rymmer något lyder under Behållare i stället. Av som standard.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bord, stolar, sängar, mattor, lampor, ljus, tavlor, krukor och resten av ett möblerat rum, oavsett om du plockar upp det från golvet eller tar det från sin egen interaktionsnod. Det mesta har ett listpris på en koppar eller två, men mattorna och lyxsängarna går upp i tusental, så slå på det här innan du möblerar ett hus. Kistor och andra saker som rymmer något lyder under Behållare i stället. Av som standard.
 Tag	Tagg
 Tags	Taggar
 tags, any of which can be set to never in the Tags tab:	taggar, som var och en kan sättas till aldrig i fliken Taggar:
@@ -320,7 +320,7 @@ World (actor manager)	Värld (aktörshanterare)
 worn by someone	bärs av någon
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Buren utrustning som fiender tappar när de dör. Billigt och tungt, men rikligt.
 worn or carried by you	bärs av dig
-worth %lld copper	värt %lld koppar
+list price %lld copper	listpris %lld koppar
 Wrap the swapchain	Linda in swapchain
 Write translation template	Skriv översättningsmall
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Skriver MasterLooter.template.txt bredvid pluginen, med varje rad menyn har visat denna session. Öppna varje flik först, eftersom en rad bara dyker upp när den har ritats. Översätt högerkolumnen i varje post, spara den som MasterLooter.<språk>.txt, och ange det språket här.
@@ -474,7 +474,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Rensa gränser
 Floor	Gräns
 general	allmän
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Föremål i den här klassen som är värda mindre än så många koppar hoppas över, i stället för Minsta värde på fliken Allmänt. Dra, eller Ctrl+klicka för att skriva in ett tal. Vid 0 följer klassen fliken Allmänt.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Föremål i den här klassen med ett listpris under så många koppar hoppas över, i stället för Lägsta listpris på fliken Allmänt. Dra, eller Ctrl+klicka för att skriva in ett tal. Vid 0 följer klassen fliken Allmänt.
 %s, %d rules	%s, %d regler
 %s, no rules	%s, inga regler
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	En säkerhetskopia skrivs när spelet startar med inställningar som ändrats sedan den senaste, och de tolv senaste sparas. Säkerhetskopior, förinställningar och en kopia av MasterLooter.ini sparas i %s, utom räckhåll för en modhanterare som installerar om pluginet, och en saknad MasterLooter.ini läggs tillbaka från kopian vid nästa start.

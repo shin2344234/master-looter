@@ -77,7 +77,7 @@ container (off)	容器 (已关闭)
 Containers	容器
 containers off	容器已关闭
 Controller	手柄
-Copper	铜币
+List price	标价
 Copy	复制
 Copy path	复制路径
 Copy to the clipboard.	复制到剪贴板。
@@ -145,7 +145,7 @@ Items lying in the world, including drops from enemies.	散落在世界各处的
 Items no shop will buy, in every class but currency.	除货币外，所有类别中没有任何商店愿意收购的物品。
 Items on the ground	地面上的物品
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	带有任务标签的物品会被原样留下，这样解谜和剧情物品就不会被自动取走。它读取物品自身的标签，因此涵盖你捡起的一切，以及模组能叫出内容物名字的每一个资源点。有两样不在其列。它叫不出名字的资源点由其种类的开关决定，因为那里没有可供读取标签的物品。另外，剥取动物尸体的产出会直接入账，模组根本看不到来的是什么。
-Items with an unknown value are never filtered by it.	价值未知的物品绝不会按价值进行过滤。
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	按游戏数据中物品的标价判断，卖给商店时得到的钱比这个少。没有标价的物品绝不会按此过滤。
 Keep the menu on screen while you play. %s brings it back, %s closes it.	游玩时保持菜单显示。按 %s 重新呼出，按 %s 关闭。
 Keys	按键
 Keys and tools	钥匙与工具
@@ -171,7 +171,7 @@ Materials	材料
 mechanism part	机关零件
 Memory chips and puzzle parts	记忆碎片与解谜构件
 Mine ore veins for you	自动为你开采矿脉
-Minimum value (copper)	最低价值（铜币）
+Minimum list price (copper)	最低标价（铜币）
 missing	缺失
 missing MasterLooter.items.tsv	缺失 MasterLooter.items.tsv
 mission object	任务目标对象
@@ -262,7 +262,7 @@ Skip all	全部跳过
 Skip quest equipment	跳过任务装备
 Quest equipment	任务装备
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	游戏标记为重要且没有商店收购的装备，涵盖所有分类。关闭后，任务用的工具会留在原地。
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	游戏标记为重要且没有商店收购的工具和装备：施肥喷雾器和润滑喷雾器、库库长枪、斥候戒指和项链，共251件，几乎全都只值一枚铜币。过早从地上捡起其中一件，可能让任务步骤乱了顺序。\n\n它是把两个标记合起来看的，所以只带其中一个的物品不在此列。田野喷雾器无法出售，但没有重要标记，仍然会被捡走。
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	游戏标记为重要且没有商店收购的工具和装备：施肥喷雾器和润滑喷雾器、库库长枪、斥候戒指和项链，共251件，几乎全都标价只有一枚铜币。过早从地上捡起其中一件，可能让任务步骤乱了顺序。\n\n它是把两个标记合起来看的，所以只带其中一个的物品不在此列。田野喷雾器无法出售，但没有重要标记，仍然会被捡走。
 Skip items shops refuse to buy	跳过商店拒收的物品
 Skip quest items	跳过任务物品
 skip: %s	跳过：%s
@@ -274,7 +274,7 @@ stack at one point (storage contents)	堆叠在单点 (容器内容物)
 Status	状态
 Stop pets looting	阻止宠物拾取
 Stop pets looting at all	完全阻止宠物拾取
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	桌子、椅子、床、地毯、灯具、蜡烛、油画、花盆等布置在房间中的物品，无论是从地面拾取还是通过其自身的交互资源点获取。大多数只值一两枚铜币，但地毯和豪华床铺能卖到数千铜币，所以在布置房屋之前请先开启此项。箱子等能装东西的物品则归“容器”管理。默认关闭。
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	桌子、椅子、床、地毯、灯具、蜡烛、油画、花盆等布置在房间中的物品，无论是从地面拾取还是通过其自身的交互资源点获取。大多数标价只有一两枚铜币，但地毯和豪华床铺的标价能到数千铜币，所以在布置房屋之前请先开启此项。箱子等能装东西的物品则归“容器”管理。默认关闭。
 Tag	标签
 Tags	标签
 tags, any of which can be set to never in the Tags tab:	标签，均可在“标签”页中设为“从不”：
@@ -330,7 +330,7 @@ World (actor manager)	世界（Actor 管理器）
 worn by someone	他人穿戴中
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	敌人死亡时掉落的破损装备。廉价且沉重，但数量很多。
 worn or carried by you	自身穿戴或携带
-worth %lld copper	价值 %lld 铜币
+list price %lld copper	标价 %lld 铜币
 Wrap the swapchain	封装交换链
 Write translation template	导出翻译模板
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	在插件同目录下导出 MasterLooter.template.txt，其中包含本次会话中菜单显示过的每一行文本。请先打开所有标签页，因为文本只有在被绘制过一次后才会出现。翻译每条记录右侧的内容，另存为 MasterLooter.<language>.txt，并在本项填入该语言代号。
@@ -489,7 +489,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	清除下限
 Floor	下限
 general	常规
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	此类别中价值低于这么多铜币的物品会被跳过，替代常规页的最低价值。拖动，或按住 Ctrl 点击输入数字。为 0 时该类别沿用常规页。
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	此类别中标价低于这么多铜币的物品会被跳过，替代常规页的最低标价。拖动，或按住 Ctrl 点击输入数字。为 0 时该类别沿用常规页。
 %s, %d rules	%s，%d 条规则
 %s, no rules	%s，无规则
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	游戏启动时如果设置与上一个备份不同，就会写入一个备份，并保留最近十二个。备份、预设和 MasterLooter.ini 的副本保存在 %s，重新安装插件的模组管理器碰不到那里；如果 MasterLooter.ini 不见了，下次启动时会从该副本放回。

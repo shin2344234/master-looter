@@ -125,7 +125,7 @@ namespace ml::Rules
         if (ownFloor) floor = cf->second;
         if (floor > 0 && item.value >= 0 && item.value < floor)
         {
-            v.loot = false; v.rule = "below value floor"; v.detail = std::to_string(item.value) + " copper";
+            v.loot = false; v.rule = "below value floor"; v.detail = "list price " + std::to_string(item.value) + " copper";
             if (ownFloor) v.detail += ", " + item.klass + " floor " + std::to_string(floor);
             return v;
         }

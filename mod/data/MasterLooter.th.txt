@@ -71,7 +71,7 @@ container (off)	กล่อง (ปิด)
 Containers	กล่อง
 containers off	กล่อง: ปิด
 Controller	คอนโทรลเลอร์
-Copper	ทองแดง
+List price	ราคาตั้ง
 Copy	คัดลอก
 Copy path	คัดลอกพาธ
 Copy to the clipboard.	คัดลอกไปยังคลิปบอร์ด
@@ -139,7 +139,7 @@ Items lying in the world, including drops from enemies.	ไอเทมที่
 Items no shop will buy, in every class but currency.	ไอเทมที่ไม่มีร้านค้าใดรับซื้อ ทุกประเภทยกเว้นเงินตรา
 Items on the ground	ไอเทมบนพื้น
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	ไอเทมที่ติดแท็กเควสต์จะถูกปล่อยไว้ เพื่อไม่ให้ไอเทมปริศนาและไอเทมเนื้อเรื่องถูกเก็บอัตโนมัติ มันอ่านแท็กของตัวไอเทมเอง จึงครอบคลุมทุกอย่างที่คุณเก็บ และทุกจุดเก็บของที่ม็อดเรียกชื่อของข้างในได้ มีสองอย่างที่อยู่นอกเหนือจากนี้ จุดเก็บของที่มันเรียกชื่อไม่ได้จะถูกตัดสินโดยสวิตช์ของชนิดนั้น เพราะตรงนั้นไม่มีไอเทมให้อ่านแท็ก และการชำแหละซากสัตว์จะจ่ายผลผลิตโดยที่ม็อดไม่เคยเห็นเลยว่าอะไรเข้ามา
-Items with an unknown value are never filtered by it.	ไอเทมที่ไม่ทราบมูลค่าจะไม่ถูกกรองด้วยเงื่อนไขนี้เลย
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	ใช้ราคาตั้งของไอเทมจากข้อมูลเกม ซึ่งร้านค้าจะจ่ายน้อยกว่านั้นเมื่อคุณขาย ไอเทมที่ไม่มีราคาตั้งจะไม่ถูกกรองด้วยเงื่อนไขนี้เลย
 Keep the menu on screen while you play. %s brings it back, %s closes it.	เปิดเมนูค้างไว้ขณะเล่น กด %s เพื่อเรียกกลับมา กด %s เพื่อปิด
 Keys	ปุ่ม
 Keys and tools	ปุ่มและเครื่องมือ
@@ -165,7 +165,7 @@ Materials	วัตถุดิบ
 mechanism part	ชิ้นส่วนกลไก
 Memory chips and puzzle parts	ชิปความทรงจำและชิ้นส่วนปริศนา
 Mine ore veins for you	ทุบสายแร่ให้คุณ
-Minimum value (copper)	มูลค่าต่ำสุด (ทองแดง)
+Minimum list price (copper)	ราคาตั้งต่ำสุด (ทองแดง)
 missing	ขาดหาย
 missing MasterLooter.items.tsv	ไม่พบ MasterLooter.items.tsv
 mission object	วัตถุภารกิจ
@@ -255,7 +255,7 @@ Skip all	ข้ามทั้งหมด
 Skip quest equipment	ข้ามอุปกรณ์เควส
 Quest equipment	อุปกรณ์เควส
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	อุปกรณ์ที่เกมทำเครื่องหมายว่าสำคัญและไม่มีร้านไหนรับซื้อ ครอบคลุมทุกประเภท ปิดไว้แล้วเครื่องมือเควสจะถูกทิ้งไว้ที่เดิม
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	เครื่องมือและอุปกรณ์ที่เกมทำเครื่องหมายว่าสำคัญและไม่มีร้านไหนรับซื้อ ได้แก่ เครื่องพ่นปุ๋ยและเครื่องพ่นน้ำมันหล่อลื่น หอกคุคุ แหวนและสร้อยคอลาดตระเวน รวม 251 ชิ้น เกือบทั้งหมดมีค่าเพียงเหรียญทองแดงเดียว และการเก็บขึ้นมาจากพื้นเร็วเกินไปอาจทำให้ขั้นตอนของเควสสลับลำดับ\n\nระบบอ่านเครื่องหมายทั้งสองอย่างร่วมกัน ของที่มีเพียงอย่างเดียวจึงไม่เข้าข่าย เครื่องพ่นภาคสนามขายไม่ได้แต่ไม่ได้ทำเครื่องหมายว่าสำคัญ จึงยังถูกเก็บอยู่
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	เครื่องมือและอุปกรณ์ที่เกมทำเครื่องหมายว่าสำคัญและไม่มีร้านไหนรับซื้อ ได้แก่ เครื่องพ่นปุ๋ยและเครื่องพ่นน้ำมันหล่อลื่น หอกคุคุ แหวนและสร้อยคอลาดตระเวน รวม 251 ชิ้น เกือบทั้งหมดมีราคาตั้งเพียงเหรียญทองแดงเดียว และการเก็บขึ้นมาจากพื้นเร็วเกินไปอาจทำให้ขั้นตอนของเควสสลับลำดับ\n\nระบบอ่านเครื่องหมายทั้งสองอย่างร่วมกัน ของที่มีเพียงอย่างเดียวจึงไม่เข้าข่าย เครื่องพ่นภาคสนามขายไม่ได้แต่ไม่ได้ทำเครื่องหมายว่าสำคัญ จึงยังถูกเก็บอยู่
 Skip items shops refuse to buy	ข้ามไอเทมที่ร้านค้าไม่รับซื้อ
 Skip quest items	ข้ามไอเทมเควสต์
 skip: %s	ข้าม: %s
@@ -266,7 +266,7 @@ someone is wearing this; taking it would copy it	มีคนสวมใส่�
 stack at one point (storage contents)	กองรวมที่จุดเดียว (เนื้อหาคลังเก็บ)
 Status	สถานะ
 Stop pets looting	ห้ามสัตว์เลี้ยงเก็บของ
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	โต๊ะ, เก้าอี้, เตียง, พรม, โคมไฟ, เทียน, ภาพวาด, หม้อ และของที่เหลือในห้องที่ตกแต่งไว้ ไม่ว่าจะเก็บจากพื้นหรือเก็บจากจุดโต้ตอบของมันเอง ส่วนใหญ่มีค่าแค่หนึ่งหรือสองทองแดง แต่พรมและเตียงหรูอาจมีมูลค่าถึงหลักพัน จึงควรเปิดสวิตช์นี้ก่อนตกแต่งบ้าน หีบและสิ่งอื่นที่เก็บของไว้ข้างในจะขึ้นกับสวิตช์กล่องแทน ปิดไว้เป็นค่าเริ่มต้น
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	โต๊ะ, เก้าอี้, เตียง, พรม, โคมไฟ, เทียน, ภาพวาด, หม้อ และของที่เหลือในห้องที่ตกแต่งไว้ ไม่ว่าจะเก็บจากพื้นหรือเก็บจากจุดโต้ตอบของมันเอง ส่วนใหญ่มีราคาตั้งแค่หนึ่งหรือสองทองแดง แต่พรมและเตียงหรูอาจมีมูลค่าถึงหลักพัน จึงควรเปิดสวิตช์นี้ก่อนตกแต่งบ้าน หีบและสิ่งอื่นที่เก็บของไว้ข้างในจะขึ้นกับสวิตช์กล่องแทน ปิดไว้เป็นค่าเริ่มต้น
 Tag	แท็ก
 Tags	แท็ก
 tags, any of which can be set to never in the Tags tab:	แท็กใดก็ได้ ที่สามารถตั้งเป็นไม่เลยได้ในแท็บแท็ก:
@@ -319,7 +319,7 @@ World (actor manager)	โลกเกม (actor manager)
 worn by someone	สวมใส่โดยผู้อื่น
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	อุปกรณ์สวมใส่ที่ศัตรูทำหล่นตอนตาย ราคาถูกแต่หนัก ทว่ามีเยอะ
 worn or carried by you	สวมใส่หรือถืออยู่โดยคุณ
-worth %lld copper	มูลค่า %lld ทองแดง
+list price %lld copper	ราคาตั้ง %lld ทองแดง
 Wrap the swapchain	ห่อ swapchain
 Write translation template	เขียนเทมเพลตคำแปล
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	เขียน MasterLooter.template.txt ไว้ข้างปลั๊กอิน โดยมีทุกบรรทัดที่เมนูแสดงในเซสชันนี้ ควรเปิดทุกแท็บก่อน เพราะบรรทัดจะปรากฏก็ต่อเมื่อถูกวาดแล้วเท่านั้น แปลฝั่งขวาของแต่ละรายการ บันทึกเป็น MasterLooter.<language>.txt แล้วใส่ชื่อภาษานั้นที่นี่
@@ -473,7 +473,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	ล้างเกณฑ์
 Floor	เกณฑ์
 general	ทั่วไป
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	ไอเท็มในประเภทนี้ที่มีมูลค่าต่ำกว่าจำนวนทองแดงนี้จะถูกข้าม โดยใช้แทนมูลค่าต่ำสุดในแท็บทั่วไป ลากหรือกด Ctrl+คลิกเพื่อพิมพ์ตัวเลข ที่ 0 ประเภทนี้จะทำตามแท็บทั่วไป
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	ไอเท็มในประเภทนี้ที่มีราคาตั้งต่ำกว่าจำนวนทองแดงนี้จะถูกข้าม โดยใช้แทนราคาตั้งต่ำสุดในแท็บทั่วไป ลากหรือกด Ctrl+คลิกเพื่อพิมพ์ตัวเลข ที่ 0 ประเภทนี้จะทำตามแท็บทั่วไป
 %s, %d rules	%s, %d กฎ
 %s, no rules	%s, ไม่มีกฎ
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	ระบบจะเขียนข้อมูลสำรองเมื่อเกมเริ่มด้วยการตั้งค่าที่เปลี่ยนไปจากครั้งล่าสุด และเก็บไว้สิบสองชุดล่าสุด ข้อมูลสำรอง พรีเซ็ต และสำเนาของ MasterLooter.ini เก็บไว้ที่ %s ซึ่งตัวจัดการม็อดที่ติดตั้งปลั๊กอินใหม่เข้าไม่ถึง และถ้า MasterLooter.ini หายไป จะถูกนำกลับมาจากสำเนานี้เมื่อเปิดเกมครั้งถัดไป

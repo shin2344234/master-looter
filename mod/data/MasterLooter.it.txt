@@ -78,7 +78,7 @@ container (off)	contenitore (disattivato)
 Containers	Contenitori
 containers off	contenitori disattivati
 Controller	Controller
-Copper	Rame
+List price	Prezzo di listino
 Copy	Copia
 Copy path	Copia percorso
 Copy to the clipboard.	Copia negli appunti.
@@ -146,7 +146,7 @@ Items lying in the world, including drops from enemies.	Oggetti sparsi nel mondo
 Items no shop will buy, in every class but currency.	Oggetti che nessun negozio compra, in ogni classe tranne la valuta.
 Items on the ground	Oggetti a terra
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Gli oggetti etichettati come missione vengono lasciati stare, così gli oggetti di enigmi e di storia non vengono presi automaticamente. Legge le etichette proprie dell'oggetto, quindi copre tutto ciò che raccogli e ogni punto il cui contenuto la mod sa nominare. Due cose restano fuori. Un punto che non sa nominare è deciso dall'interruttore del suo tipo, perché lì non c'è alcun oggetto da cui leggere un'etichetta. E scuoiare una carcassa paga senza che la mod veda mai che cosa è arrivato.
-Items with an unknown value are never filtered by it.	Gli oggetti dal valore sconosciuto non vengono mai filtrati da questa opzione.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Usa il prezzo di listino dell'oggetto nei dati del gioco, e un negozio paga meno quando vendi. Gli oggetti senza prezzo di listino non vengono mai filtrati da questa opzione.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Tiene il menu a schermo mentre giochi. %s lo richiama, %s lo chiude.
 Keys	Tasti
 Keys and tools	Chiavi e attrezzi
@@ -172,7 +172,7 @@ Materials	Materiali
 mechanism part	parte di meccanismo
 Memory chips and puzzle parts	Chip di memoria e pezzi di enigmi
 Mine ore veins for you	Estrae le vene di minerale al posto tuo
-Minimum value (copper)	Valore minimo (rame)
+Minimum list price (copper)	Prezzo di listino minimo (rame)
 missing	mancante
 missing MasterLooter.items.tsv	MasterLooter.items.tsv mancante
 mission object	oggetto di missione
@@ -262,7 +262,7 @@ Skip all	Salta tutto
 Skip quest equipment	Salta l'equipaggiamento di missione
 Quest equipment	Equipaggiamento di missione
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Equipaggiamento che il gioco segna come importante e che nessun negozio compra, in ogni classe. Spento: gli attrezzi di missione restano dove sono.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Attrezzi ed equipaggiamento che il gioco segna come importanti e che nessun negozio compra: gli spruzzatori di fertilizzante e lubrificante, le lance Kuku, gli anelli e le collane da esploratore. 251 oggetti, quasi tutti da un singolo rame, e raccoglierne uno da terra troppo presto può mandare fuori ordine un passaggio di missione.\n\nLegge i due contrassegni insieme, quindi un oggetto che ne porta uno solo non è coperto. Lo spruzzatore da campo è invendibile e non è segnato come importante, e continua a entrare.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Attrezzi ed equipaggiamento che il gioco segna come importanti e che nessun negozio compra: gli spruzzatori di fertilizzante e lubrificante, le lance Kuku, gli anelli e le collane da esploratore. 251 oggetti, quasi tutti con un prezzo di listino di un singolo rame, e raccoglierne uno da terra troppo presto può mandare fuori ordine un passaggio di missione.\n\nLegge i due contrassegni insieme, quindi un oggetto che ne porta uno solo non è coperto. Lo spruzzatore da campo è invendibile e non è segnato come importante, e continua a entrare.
 Skip items shops refuse to buy	Salta gli oggetti che i negozi rifiutano di comprare
 Skip quest items	Salta gli oggetti di missione
 skip: %s	salta: %s
@@ -273,7 +273,7 @@ someone is wearing this; taking it would copy it	qualcuno lo indossa; prenderlo 
 stack at one point (storage contents)	accatastati in un punto (contenuto di un deposito)
 Status	Stato
 Stop pets looting	Impedire agli animali di saccheggiare
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Tavoli, sedie, letti, tappeti, lampade, candele, quadri, vasi e il resto di una stanza arredata, che tu lo raccolga da terra o lo prenda dal suo punto di interazione. La maggior parte vale una moneta di rame o due, ma i tappeti e i letti di lusso arrivano a migliaia, quindi attiva questa opzione prima di arredare una casa. I forzieri e le altre cose che contengono qualcosa rispondono invece a Contenitori. Disattivato per impostazione predefinita.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Tavoli, sedie, letti, tappeti, lampade, candele, quadri, vasi e il resto di una stanza arredata, che tu lo raccolga da terra o lo prenda dal suo punto di interazione. La maggior parte ha un prezzo di listino di una moneta di rame o due, ma i tappeti e i letti di lusso arrivano a migliaia, quindi attiva questa opzione prima di arredare una casa. I forzieri e le altre cose che contengono qualcosa rispondono invece a Contenitori. Disattivato per impostazione predefinita.
 Tag	Etichetta
 Tags	Etichette
 tags, any of which can be set to never in the Tags tab:	etichette, ognuna delle quali può essere impostata su \"mai\" nella scheda Etichette:
@@ -326,7 +326,7 @@ World (actor manager)	Mondo (gestore degli attori)
 worn by someone	indossato da qualcuno
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Equipaggiamento indossato che i nemici lasciano cadere quando muoiono. Economico e pesante, ma abbondante.
 worn or carried by you	indossato o portato da te
-worth %lld copper	vale %lld rame
+list price %lld copper	prezzo di listino %lld rame
 Wrap the swapchain	Incapsula lo swapchain
 Write translation template	Scrivi il modello di traduzione
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Scrive MasterLooter.template.txt accanto al plugin, con tutte le righe che il menu ha mostrato in questa sessione. Apri prima ogni scheda, perché una riga compare solo dopo essere stata disegnata. Traduci il lato destro di ogni record, salvalo come MasterLooter.<language>.txt, e indica qui quella lingua.
@@ -480,7 +480,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Cancella soglie
 Floor	Soglia
 general	generale
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Gli oggetti di questa classe che valgono meno di questo numero di monete di rame vengono saltati, al posto del Valore minimo della scheda Generale. Trascina, o Ctrl+clic per digitare un numero. A 0 la classe segue la scheda Generale.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Gli oggetti di questa classe con un prezzo di listino inferiore a questo numero di monete di rame vengono saltati, al posto del Prezzo di listino minimo della scheda Generale. Trascina, o Ctrl+clic per digitare un numero. A 0 la classe segue la scheda Generale.
 %s, %d rules	%s, %d regole
 %s, no rules	%s, nessuna regola
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Un backup viene scritto quando il gioco parte con impostazioni cambiate dall'ultimo, e vengono tenuti gli ultimi dodici. Backup, preset e una copia di MasterLooter.ini sono conservati in %s, fuori dalla portata di un gestore di mod che reinstalla il plugin, e un MasterLooter.ini mancante viene ripristinato da quella copia all'avvio successivo.

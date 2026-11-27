@@ -71,7 +71,7 @@ container (off)	wadah (nonaktif)
 Containers	Wadah
 containers off	wadah nonaktif
 Controller	Kontroler
-Copper	Tembaga
+List price	Harga daftar
 Copy	Salin
 Copy path	Salin jalur
 Copy to the clipboard.	Salin ke clipboard.
@@ -139,7 +139,7 @@ Items lying in the world, including drops from enemies.	Barang yang tergeletak d
 Items no shop will buy, in every class but currency.	Item yang tidak dibeli toko mana pun, di semua kelas kecuali mata uang.
 Items on the ground	Barang di tanah
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Item bertag quest dibiarkan, sehingga item teka-teki dan item cerita tidak diambil otomatis. Ia membaca tag milik item itu sendiri, jadi mencakup semua yang kamu pungut dan setiap node yang isinya bisa disebutkan oleh mod. Dua hal berada di luarnya. Node yang tidak bisa disebutkan namanya diputuskan oleh sakelar untuk jenisnya, karena di sana tidak ada item untuk dibaca tagnya. Dan menguliti bangkai membayar tanpa mod pernah melihat apa yang datang.
-Items with an unknown value are never filtered by it.	Item dengan nilai tidak diketahui tidak pernah difilter olehnya.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Ini memakai harga daftar barang dari data gim, dan toko membayar lebih sedikit saat kamu menjual. Item tanpa harga daftar tidak pernah difilter olehnya.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Jaga menu tetap di layar selagi kamu bermain. %s memunculkannya lagi, %s menutupnya.
 Keys	Tombol
 Keys and tools	Kunci dan alat
@@ -165,7 +165,7 @@ Materials	Material
 mechanism part	bagian mekanisme
 Memory chips and puzzle parts	Chip memori dan bagian teka-teki
 Mine ore veins for you	Tambang urat bijih untukmu
-Minimum value (copper)	Nilai minimum (tembaga)
+Minimum list price (copper)	Harga daftar minimum (tembaga)
 missing	tidak ada
 missing MasterLooter.items.tsv	MasterLooter.items.tsv tidak ditemukan
 mission object	objek misi
@@ -255,7 +255,7 @@ Skip all	Lewati semua
 Skip quest equipment	Lewati perlengkapan misi
 Quest equipment	Perlengkapan misi
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Perlengkapan yang ditandai penting oleh gim dan tidak dibeli toko mana pun, di semua kelas. Mati: peralatan misi dibiarkan di tempatnya.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Peralatan dan perlengkapan yang ditandai penting oleh gim dan tidak dibeli toko mana pun: penyemprot pupuk dan pelumas, tombak Kuku, cincin dan kalung pengintai. 251 barang, hampir semuanya bernilai satu tembaga, dan memungut satu dari tanah terlalu awal bisa mengacaukan langkah misi.\n\nIa membaca kedua tanda bersamaan, jadi barang yang hanya membawa salah satunya tidak tercakup. Penyemprot Lapangan tidak bisa dijual dan tidak ditandai penting, dan tetap terambil.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Peralatan dan perlengkapan yang ditandai penting oleh gim dan tidak dibeli toko mana pun: penyemprot pupuk dan pelumas, tombak Kuku, cincin dan kalung pengintai. 251 barang, hampir semuanya berharga daftar satu tembaga, dan memungut satu dari tanah terlalu awal bisa mengacaukan langkah misi.\n\nIa membaca kedua tanda bersamaan, jadi barang yang hanya membawa salah satunya tidak tercakup. Penyemprot Lapangan tidak bisa dijual dan tidak ditandai penting, dan tetap terambil.
 Skip items shops refuse to buy	Lewati item yang ditolak semua toko
 Skip quest items	Lewati item quest
 skip: %s	lewati: %s
@@ -266,7 +266,7 @@ someone is wearing this; taking it would copy it	ada yang memakainya; mengambiln
 stack at one point (storage contents)	tumpukan di satu titik (isi penyimpanan)
 Status	Status
 Stop pets looting	Cegah hewan peliharaan menjarah
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Meja, kursi, ranjang, karpet, lampu, lilin, lukisan, pot, dan sisa perabot ruangan lainnya, entah kamu mengambilnya dari lantai atau dari node interaksinya sendiri. Kebanyakan hanya bernilai satu-dua tembaga, tapi karpet dan ranjang mewah bisa mencapai ribuan, jadi aktifkan ini sebelum memperabot rumah. Peti dan benda lain yang menyimpan sesuatu diatur lewat Wadah, bukan ini. Nonaktif secara default.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Meja, kursi, ranjang, karpet, lampu, lilin, lukisan, pot, dan sisa perabot ruangan lainnya, entah kamu mengambilnya dari lantai atau dari node interaksinya sendiri. Kebanyakan hanya berharga daftar satu-dua tembaga, tapi karpet dan ranjang mewah bisa mencapai ribuan, jadi aktifkan ini sebelum memperabot rumah. Peti dan benda lain yang menyimpan sesuatu diatur lewat Wadah, bukan ini. Nonaktif secara default.
 Tag	Tag
 Tags	Tag
 tags, any of which can be set to never in the Tags tab:	tag, yang masing-masing bisa diatur ke tidak pernah di tab Tag:
@@ -319,7 +319,7 @@ World (actor manager)	Dunia (actor manager)
 worn by someone	dikenakan orang lain
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Perlengkapan yang dikenakan yang dijatuhkan musuh saat mati. Murah dan berat, tapi berlimpah.
 worn or carried by you	dikenakan atau dibawa olehmu
-worth %lld copper	senilai %lld tembaga
+list price %lld copper	harga daftar %lld tembaga
 Wrap the swapchain	Bungkus swapchain
 Write translation template	Tulis template terjemahan
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Menulis MasterLooter.template.txt di sebelah plugin, berisi setiap baris yang sudah ditampilkan menu di sesi ini. Buka semua tab dulu, karena satu baris baru muncul setelah digambar. Terjemahkan sisi kanan tiap catatan, simpan sebagai MasterLooter.<language>.txt, lalu masukkan nama bahasa itu di sini.
@@ -473,7 +473,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Hapus batas
 Floor	Batas
 general	umum
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Item dari kelas ini yang bernilai kurang dari sekian tembaga dilewati, menggantikan Nilai minimum di tab Umum. Seret, atau Ctrl+klik untuk mengetik angka. Pada 0 kelas ini mengikuti tab Umum.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Item dari kelas ini dengan harga daftar di bawah sekian tembaga dilewati, menggantikan Harga daftar minimum di tab Umum. Seret, atau Ctrl+klik untuk mengetik angka. Pada 0 kelas ini mengikuti tab Umum.
 %s, %d rules	%s, %d aturan
 %s, no rules	%s, tanpa aturan
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Cadangan ditulis saat game dimulai dengan pengaturan yang berubah sejak cadangan terakhir, dan dua belas yang terbaru disimpan. Cadangan, preset, dan salinan MasterLooter.ini disimpan di %s, tempat yang tidak terjangkau oleh pengelola mod yang memasang ulang plugin, dan MasterLooter.ini yang hilang dipulihkan dari salinan itu saat peluncuran berikutnya.

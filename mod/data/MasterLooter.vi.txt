@@ -72,7 +72,7 @@ container (off)	vật chứa (tắt)
 Containers	Vật chứa
 containers off	vật chứa tắt
 Controller	Tay cầm
-Copper	Đồng
+List price	Giá niêm yết
 Copy	Sao chép
 Copy path	Sao chép đường dẫn
 Copy to the clipboard.	Sao chép vào bộ nhớ tạm.
@@ -140,7 +140,7 @@ Items lying in the world, including drops from enemies.	Vật phẩm nằm trong
 Items no shop will buy, in every class but currency.	Vật phẩm không cửa hàng nào mua, ở mọi loại trừ tiền tệ.
 Items on the ground	Vật phẩm trên mặt đất
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Vật phẩm có thẻ nhiệm vụ được để yên, để vật phẩm câu đố và vật phẩm cốt truyện không bị tự động lấy. Nó đọc chính các thẻ của vật phẩm, nên bao gồm mọi thứ bạn nhặt và mọi điểm mà mod gọi tên được phần bên trong. Hai thứ nằm ngoài phạm vi đó. Một điểm mà nó không gọi tên được sẽ do công tắc của loại điểm đó quyết định, vì ở đấy không có vật phẩm nào để đọc thẻ. Và việc lột da một xác thú trả về chiến lợi phẩm mà mod không hề thấy thứ gì đã tới.
-Items with an unknown value are never filtered by it.	Vật phẩm có giá trị không xác định không bao giờ bị lọc theo tiêu chí này.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Nó dùng giá niêm yết của vật phẩm trong dữ liệu trò chơi, và cửa hàng trả ít hơn khi bạn bán. Vật phẩm không có giá niêm yết không bao giờ bị lọc theo tiêu chí này.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Giữ menu trên màn hình trong khi chơi. %s đưa nó trở lại, %s đóng nó.
 Keys	Phím
 Keys and tools	Chìa khóa và công cụ
@@ -166,7 +166,7 @@ Materials	Nguyên liệu
 mechanism part	một phần cơ cấu
 Memory chips and puzzle parts	Chip ký ức và mảnh ghép câu đố
 Mine ore veins for you	Tự động khai thác vỉa quặng cho bạn
-Minimum value (copper)	Giá trị tối thiểu (đồng)
+Minimum list price (copper)	Giá niêm yết tối thiểu (đồng)
 missing	thiếu
 missing MasterLooter.items.tsv	thiếu MasterLooter.items.tsv
 mission object	vật thể nhiệm vụ
@@ -256,7 +256,7 @@ Skip all	Bỏ qua tất cả
 Skip quest equipment	Bỏ qua trang bị nhiệm vụ
 Quest equipment	Trang bị nhiệm vụ
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Trang bị được trò chơi đánh dấu quan trọng mà không cửa hàng nào mua, ở mọi phân loại. Tắt thì công cụ nhiệm vụ được để nguyên tại chỗ.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Công cụ và trang bị được trò chơi đánh dấu là quan trọng mà không cửa hàng nào mua: bình phun phân bón và bình phun dầu bôi trơn, giáo Kuku, nhẫn và vòng cổ trinh sát. 251 món, gần như tất cả chỉ đáng một đồng đồng, và nhặt một món lên quá sớm có thể làm lệch thứ tự một bước nhiệm vụ.\n\nNó đọc cả hai dấu cùng lúc, nên món chỉ mang một trong hai thì không thuộc diện này. Bình Phun Đồng Ruộng không bán được nhưng không được đánh dấu quan trọng, và vẫn được nhặt.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Công cụ và trang bị được trò chơi đánh dấu là quan trọng mà không cửa hàng nào mua: bình phun phân bón và bình phun dầu bôi trơn, giáo Kuku, nhẫn và vòng cổ trinh sát. 251 món, gần như tất cả có giá niêm yết chỉ một đồng, và nhặt một món lên quá sớm có thể làm lệch thứ tự một bước nhiệm vụ.\n\nNó đọc cả hai dấu cùng lúc, nên món chỉ mang một trong hai thì không thuộc diện này. Bình Phun Đồng Ruộng không bán được nhưng không được đánh dấu quan trọng, và vẫn được nhặt.
 Skip items shops refuse to buy	Bỏ qua vật phẩm mà cửa hàng từ chối mua
 Skip quest items	Bỏ qua vật phẩm nhiệm vụ
 skip: %s	bỏ qua: %s
@@ -267,7 +267,7 @@ someone is wearing this; taking it would copy it	có người đang mặc thứ 
 stack at one point (storage contents)	chồng tại một điểm (nội dung kho chứa)
 Status	Trạng thái
 Stop pets looting	Ngăn thú cưng nhặt đồ
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bàn, ghế, giường, thảm, đèn, nến, tranh, chậu cây và những thứ còn lại của một căn phòng có nội thất, dù bạn nhặt từ sàn hay lấy từ chính điểm tương tác của nó. Hầu hết chỉ đáng giá một hoặc hai đồng, nhưng thảm và giường sang trọng có thể lên tới hàng nghìn, nên hãy bật mục này trước khi trang trí một căn nhà. Rương và những thứ khác dùng để đựng đồ được xử lý bởi mục Vật chứa thay vào đó. Mặc định là tắt.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bàn, ghế, giường, thảm, đèn, nến, tranh, chậu cây và những thứ còn lại của một căn phòng có nội thất, dù bạn nhặt từ sàn hay lấy từ chính điểm tương tác của nó. Hầu hết có giá niêm yết chỉ một hoặc hai đồng, nhưng thảm và giường sang trọng có thể lên tới hàng nghìn, nên hãy bật mục này trước khi trang trí một căn nhà. Rương và những thứ khác dùng để đựng đồ được xử lý bởi mục Vật chứa thay vào đó. Mặc định là tắt.
 Tag	Thẻ
 Tags	Thẻ
 tags, any of which can be set to never in the Tags tab:	thẻ, bất kỳ thẻ nào trong số này cũng có thể được đặt thành “không bao giờ” trong tab Thẻ:
@@ -320,7 +320,7 @@ World (actor manager)	Thế giới (actor manager)
 worn by someone	đang được người khác mặc
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Trang bị đang mặc mà kẻ địch thả ra khi chết. Rẻ và nặng, nhưng có nhiều.
 worn or carried by you	bạn đang mặc hoặc mang theo
-worth %lld copper	đáng giá %lld đồng
+list price %lld copper	giá niêm yết %lld đồng
 Wrap the swapchain	Bọc swapchain
 Write translation template	Ghi mẫu bản dịch
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Ghi MasterLooter.template.txt cạnh plugin, chứa mọi dòng menu đã hiển thị trong phiên này. Hãy mở hết các tab trước, vì một dòng chỉ xuất hiện sau khi đã được vẽ ra. Dịch phần bên phải của mỗi bản ghi, lưu thành MasterLooter.<language>.txt, rồi điền ngôn ngữ đó vào đây.
@@ -474,7 +474,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Xóa ngưỡng
 Floor	Ngưỡng
 general	chung
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Vật phẩm thuộc loại này có giá trị dưới số đồng này sẽ bị bỏ qua, thay cho Giá trị tối thiểu ở thẻ Chung. Kéo, hoặc Ctrl+nhấp để gõ số. Ở 0, loại này theo thẻ Chung.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Vật phẩm thuộc loại này có giá niêm yết dưới số đồng này sẽ bị bỏ qua, thay cho Giá niêm yết tối thiểu ở thẻ Chung. Kéo, hoặc Ctrl+nhấp để gõ số. Ở 0, loại này theo thẻ Chung.
 %s, %d rules	%s, %d quy tắc
 %s, no rules	%s, không có quy tắc
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Bản sao lưu được ghi khi game khởi động với thiết lập đã đổi kể từ bản trước, và giữ lại mười hai bản gần nhất. Bản sao lưu, preset và một bản sao của MasterLooter.ini được giữ ở %s, nơi trình quản lý mod cài lại plugin không với tới, và MasterLooter.ini bị mất sẽ được đặt lại từ bản sao đó ở lần khởi động sau.

@@ -532,7 +532,7 @@ namespace ml::loot
     // vouched for the prefab. It is sent as a pick-up but it is reached like a
     // node, so it answers to the gather range and not the longer loot one.
     // sack: a burlap sack, broken and its drop event sent, issue #223.
-    struct Verdict { bool loot = false; bool own = false; bool nodeReach = false; bool pick = false; bool sack = false; Action act = Action::Take; const char* why = ""; char detail[40] = ""; };
+    struct Verdict { bool loot = false; bool own = false; bool nodeReach = false; bool pick = false; bool sack = false; Action act = Action::Take; const char* why = ""; char detail[64] = ""; };
 
     // The event the game itself sends at a plant that is picked by hand, read
     // out of LuxDragon's log of 17 September 2026: three Palmar Leaves picked

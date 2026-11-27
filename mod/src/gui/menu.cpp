@@ -974,10 +974,10 @@ namespace ml::gui
         dirty |= ImGui::Checkbox(TR("Skip quest items"), &c.skipQuestItems);
         Help(TR("Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived."));
         dirty |= ImGui::Checkbox(TR("Skip quest equipment"), &c.skipQuestGear);
-        Help(TR("Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in."));
+        Help(TR("Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in."));
         dirty |= ImGui::Checkbox(TR("Skip items shops refuse to buy"), &c.skipNoSell);
-        dirty |= ImGui::SliderInt(TR("Minimum value (copper)"), &c.minValueCopper, 0, 10000, c.minValueCopper ? "%d" : "off", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_AlwaysClamp);
-        Help((std::string(TR("Items with an unknown value are never filtered by it.")) + " " + TR("A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.")).c_str());
+        dirty |= ImGui::SliderInt(TR("Minimum list price (copper)"), &c.minValueCopper, 0, 10000, c.minValueCopper ? "%d" : "off", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_AlwaysClamp);
+        Help((std::string(TR("It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.")) + " " + TR("A floor set for a class on the Classes tab takes the place of this one for that class. Ctrl+click the slider to type a number.")).c_str());
         dirty |= ImGui::Checkbox(TR("Take items the database cannot name"), &c.takeUnknownItems);
         Help(TR("Some world objects carry no readable item name. On: take them anyway. Off: leave them alone.\n\nThis covers loose items only. A pick-up the node table vouches for, such as a coin pile or a stack of gold bars, is taken whichever way this is set: the table naming the prefab is what identifies it, and the item inside it having no name is a separate question. Its own category switch still applies."));
         dirty |= ImGui::Checkbox(TR("Drop refused loot from bodies"), &c.dropRefused);
@@ -1014,7 +1014,7 @@ namespace ml::gui
             { "Small animals",  &c.catchAnimals,   "Rats, squirrels, birds, lizards, frogs and salamanders: anything else the game puts in the bag whole." },
             { "Containers",     &c.lootContainers, "Two things that hold things. The chests, crates and drop-set nodes you open, which rarely answer the loot event. And anything on the ground whose job is to hold something: bottles, jars, clay pots, waterskins, vases and the storage boxes you place. Off by default, and off means a shelf of pottery is left where it stands. Reward boxes are not covered, since those are loot in their own right and belong to Treasure and keepsakes on the Classes tab.\n\nWhat comes out of a chest is not checked against your filters. The game hands the contents over in one go and the mod never sees them as objects, so for those this switch is all or nothing." },
             { "Dyes",           &c.lootDyes,       "The 60 dyes, the ones you already know and the ones you do not. The game tags every dye as furniture too, but this switch is the one that decides them. Dyes on a shop shelf belong to the shopkeeper and are left alone unless Take goods that belong to someone is on. Off by default." },
-            { "Furniture", &c.lootFurniture, "Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default." },
+            { "Furniture", &c.lootFurniture, "Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default." },
         };
         // Where to say this, because the Items tab is the answer and nobody
         // thinks to look for a live animal there. A creature that can be caught
@@ -1310,7 +1310,7 @@ namespace ml::gui
                     if (floor > 0) c.classFloor[kv.first] = floor; else c.classFloor.erase(kv.first);
                     Settings::MarkDirty();
                 }
-                if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted(TR("Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.")); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
+                if (ImGui::BeginItemTooltip()) { ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f); ImGui::TextUnformatted(TR("Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.")); ImGui::PopTextWrapPos(); ImGui::EndTooltip(); }
                 ImGui::PopID();
                 // Issue #28. A dev item is never multiplied, so it gets no control.
                 ImGui::TableSetColumnIndex(4);
@@ -1413,7 +1413,7 @@ namespace ml::gui
             ImGui::TableSetupScrollFreeze(0, 1);
             ImGui::TableSetupColumn(TR("Item"), ImGuiTableColumnFlags_WidthStretch);
             ImGui::TableSetupColumn(TR("Class"), ImGuiTableColumnFlags_WidthFixed, 120 * g_scale);
-            ImGui::TableSetupColumn(TR("Copper"), ImGuiTableColumnFlags_WidthFixed, 60 * g_scale);
+            ImGui::TableSetupColumn(TR("List price"), ImGuiTableColumnFlags_WidthFixed, 80 * g_scale);
             ImGui::TableSetupColumn(TR("Verdict"), ImGuiTableColumnFlags_WidthFixed, 170 * g_scale);
             ImGui::TableSetupColumn(TR("Override"), ImGuiTableColumnFlags_WidthFixed, 260 * g_scale);
             ImGui::TableHeadersRow();
@@ -1478,7 +1478,7 @@ namespace ml::gui
                     // verdict was seen: the class for the Classes tab, the tags
                     // for the Tags tab.
                     if (rows[i].klass[0]) ImGui::Text(TR("class %s"), rows[i].klass);
-                    if (rows[i].value >= 0) ImGui::Text(TR("worth %lld copper"), rows[i].value);
+                    if (rows[i].value >= 0) ImGui::Text(TR("list price %lld copper"), rows[i].value);
                     if (rows[i].tags[0])
                     {
                         ImGui::TextDisabled(TR("tags, any of which can be set to never in the Tags tab:"));

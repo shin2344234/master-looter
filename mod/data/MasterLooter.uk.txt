@@ -72,7 +72,7 @@ container (off)	контейнер (вимкнено)
 Containers	Контейнери
 containers off	контейнери вимкнено
 Controller	Геймпад
-Copper	Мідь
+List price	Базова ціна
 Copy	Копіювати
 Copy path	Копіювати шлях
 Copy to the clipboard.	Копіювати в буфер обміну.
@@ -140,7 +140,7 @@ Items lying in the world, including drops from enemies.	Предмети, що �
 Items no shop will buy, in every class but currency.	Предмети, які не купить жоден магазин, у будь-якому класі, крім валюти.
 Items on the ground	Предмети на землі
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Предмети з міткою завдання лишаються недоторканими, щоб предмети головоломок і сюжету не забиралися автоматично. Читаються власні мітки предмета, тож охоплюється все, що ти підбираєш, і кожна точка, вміст якої мод здатен назвати. Дві речі лишаються поза цим. Точку, яку він назвати не може, вирішує перемикач її різновиду, бо там немає предмета, з якого можна прочитати мітку. А білування туші виплачує здобич так, що мод узагалі не бачить, що надійшло.
-Items with an unknown value are never filtered by it.	Предмети з невідомою вартістю ним ніколи не фільтруються.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Береться базова ціна предмета з даних гри, а крамниця під час продажу платить менше. Предмети без базової ціни ним ніколи не фільтруються.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Тримати меню на екрані під час гри. %s повертає його, %s закриває.
 Keys	Клавіші
 Keys and tools	Ключі та інструменти
@@ -166,7 +166,7 @@ Materials	Матеріали
 mechanism part	частина механізму
 Memory chips and puzzle parts	Чипи пам'яті та частини головоломок
 Mine ore veins for you	Видобувати рудні жили за вас
-Minimum value (copper)	Мінімальна вартість (мідь)
+Minimum list price (copper)	Мінімальна базова ціна (мідь)
 missing	відсутньо
 missing MasterLooter.items.tsv	відсутній MasterLooter.items.tsv
 mission object	об'єкт місії
@@ -256,7 +256,7 @@ Skip all	Пропускати все
 Skip quest equipment	Пропускати квестове спорядження
 Quest equipment	Квестове спорядження
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Спорядження, яке гра позначає як важливе і якого не купить жодна крамниця, у всіх класах. Вимкнено: квестові інструменти лишаються на місці.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Інструменти та спорядження, які гра позначає як важливі і яких не купить жодна крамниця: обприскувачі добрива та мастила, списи Куку, розвідницькі персні та намиста. 251 предметів, майже всі вартістю в одну мідь, і підняти такий із землі зарано означає збити крок завдання.\n\nОбидві позначки читаються разом, тож предмет лише з однією з них сюди не потрапляє. Польовий обприскувач не продається, але не позначений як важливий, і його й далі підбирають.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Інструменти та спорядження, які гра позначає як важливі і яких не купить жодна крамниця: обприскувачі добрива та мастила, списи Куку, розвідницькі персні та намиста. 251 предметів, майже всі з базовою ціною в одну мідь, і підняти такий із землі зарано означає збити крок завдання.\n\nОбидві позначки читаються разом, тож предмет лише з однією з них сюди не потрапляє. Польовий обприскувач не продається, але не позначений як важливий, і його й далі підбирають.
 Skip items shops refuse to buy	Пропускати предмети, які магазини відмовляються купувати
 Skip quest items	Пропускати предмети завдань
 skip: %s	пропуск: %s
@@ -267,7 +267,7 @@ someone is wearing this; taking it would copy it	це на комусь наді
 stack at one point (storage contents)	стос в одній точці (вміст сховища)
 Status	Стан
 Stop pets looting	Заборонити улюбленцям підбирати
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Столи, стільці, ліжка, килими, лампи, свічки, картини, горщики та решта умеблювання кімнати — байдуже, підбираєте ви це з підлоги чи берете з власної точки взаємодії. Більшість цього варта мідяк-два, але килими та розкішні ліжка сягають тисяч, тож увімкніть це перед умеблюванням будинку. Скрині та інші речі, що щось у собі тримають, підпорядковуються натомість «Контейнерам». Вимкнено за замовчуванням.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Столи, стільці, ліжка, килими, лампи, свічки, картини, горщики та решта умеблювання кімнати — байдуже, підбираєте ви це з підлоги чи берете з власної точки взаємодії. Базова ціна більшості з цього мідяк-два, але килими та розкішні ліжка сягають тисяч, тож увімкніть це перед умеблюванням будинку. Скрині та інші речі, що щось у собі тримають, підпорядковуються натомість «Контейнерам». Вимкнено за замовчуванням.
 Tag	Тег
 Tags	Теги
 tags, any of which can be set to never in the Tags tab:	теги, кожен з яких на вкладці «Теги» можна встановити на «ніколи»:
@@ -320,7 +320,7 @@ World (actor manager)	Світ (менеджер акторів)
 worn by someone	носить хтось
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Спорядження, яке носили вороги і яке випадає з них при смерті. Дешеве й важке, але його багато.
 worn or carried by you	надягнуто чи несеться вами
-worth %lld copper	варте %lld міді
+list price %lld copper	базова ціна %lld міді
 Wrap the swapchain	Обгорнути swapchain
 Write translation template	Записати шаблон перекладу
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Записує MasterLooter.template.txt поряд із плагіном з усіма рядками, які меню показало цієї сесії. Спершу відкрийте кожну вкладку, бо рядок з'являється лише після того, як його намальовано. Перекладіть праву частину кожного запису, збережіть як MasterLooter.<language>.txt і вкажіть цю мову тут.
@@ -474,7 +474,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Скинути пороги
 Floor	Поріг
 general	загальний
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Предмети цього класу, дешевші за вказану кількість міді, пропускаються замість Мінімальної вартості з вкладки Загальні. Перетягніть або натисніть Ctrl+клацання, щоб ввести число. При 0 клас дотримується вкладки Загальні.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Предмети цього класу з базовою ціною нижче вказаної кількості міді пропускаються замість Мінімальної базової ціни з вкладки Загальні. Перетягніть або натисніть Ctrl+клацання, щоб ввести число. При 0 клас дотримується вкладки Загальні.
 %s, %d rules	%s, правил: %d
 %s, no rules	%s, без правил
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Резервна копія записується, коли гра запускається з налаштуваннями, зміненими після останньої, і зберігаються дванадцять останніх. Резервні копії, пресети та копія MasterLooter.ini зберігаються в %s, куди не дістанеться менеджер модів, що перевстановлює плагін, а зниклий MasterLooter.ini відновлюється з цієї копії під час наступного запуску.

@@ -75,7 +75,7 @@ container (off)	tároló (kikapcsolva)
 Containers	Tárolók
 containers off	tárolók kikapcsolva
 Controller	Kontroller
-Copper	Réz
+List price	Listaár
 Copy	Másolás
 Copy path	Elérési út másolása
 Copy to the clipboard.	Másolás a vágólapra.
@@ -143,7 +143,7 @@ Items lying in the world, including drops from enemies.	A világban heverő tár
 Items no shop will buy, in every class but currency.	Tárgyak, amelyeket egyetlen bolt sem vesz meg, minden kategóriában a pénz kivételével.
 Items on the ground	Földön heverő tárgyak
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	A küldetés címkével ellátott tárgyakat békén hagyja, hogy a fejtörők és a történet tárgyait ne vegye fel magától. A tárgy saját címkéit olvassa, így mindenre kiterjed, amit felveszel, és minden pontra, amelynek tartalmát a mod meg tudja nevezni. Két dolog kívül esik ezen. Azt a pontot, amelyet nem tud megnevezni, a fajtájához tartozó kapcsoló dönti el, mert ott nincs tárgy, amelyről címkét lehetne leolvasni. A tetem megnyúzása pedig úgy fizet, hogy a mod soha nem látja, mi érkezett.
-Items with an unknown value are never filtered by it.	Az ismeretlen értékű tárgyakat ez sosem szűri ki.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	A tárgy listaárát nézi a játék adataiban, és eladáskor egy bolt ennél kevesebbet fizet. A listaár nélküli tárgyakat ez sosem szűri ki.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Tartsd a menüt a képernyőn, miközben játszol. A(z) %s visszahozza, a(z) %s bezárja.
 Keys	Kulcsok
 Keys and tools	Kulcsok és szerszámok
@@ -169,7 +169,7 @@ Materials	Alapanyagok
 mechanism part	mechanizmus alkatrésze
 Memory chips and puzzle parts	Memóriachipek és rejtvénydarabok
 Mine ore veins for you	Ércerek bányászata helyetted
-Minimum value (copper)	Minimum érték (réz)
+Minimum list price (copper)	Minimum listaár (réz)
 missing	hiányzik
 missing MasterLooter.items.tsv	hiányzik a MasterLooter.items.tsv
 mission object	küldetéstárgy
@@ -259,7 +259,7 @@ Skip all	Összes kihagyása
 Skip quest equipment	Küldetésfelszerelés kihagyása
 Quest equipment	Küldetésfelszerelés
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	A játék által fontosnak jelölt felszerelés, amelyet egyetlen bolt sem vesz meg, minden osztályban. Kikapcsolva: a küldetéseszközök a helyükön maradnak.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Eszközök és felszerelés, amelyeket a játék fontosnak jelöl és egyetlen bolt sem vásárol meg: a műtrágya- és kenőanyag-permetezők, a Kuku lándzsák, a felderítőgyűrűk és -nyakláncok. 251 tárgy, szinte mind egyetlen rézérme értékű, és egy ilyet korán felvenni a földről felboríthat egy küldetéslépést.\n\nA két jelölést együtt olvassa, így egy csak az egyiket viselő tárgyra nem vonatkozik. A tábori permetező eladhatatlan, de nincs fontosnak jelölve, és továbbra is bekerül.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Eszközök és felszerelés, amelyeket a játék fontosnak jelöl és egyetlen bolt sem vásárol meg: a műtrágya- és kenőanyag-permetezők, a Kuku lándzsák, a felderítőgyűrűk és -nyakláncok. 251 tárgy, szinte mind egyetlen rézérme listaárú, és egy ilyet korán felvenni a földről felboríthat egy küldetéslépést.\n\nA két jelölést együtt olvassa, így egy csak az egyiket viselő tárgyra nem vonatkozik. A tábori permetező eladhatatlan, de nincs fontosnak jelölve, és továbbra is bekerül.
 Skip items shops refuse to buy	Azon tárgyak kihagyása, amelyeket a boltok nem vesznek meg
 Skip quest items	Küldetéstárgyak kihagyása
 skip: %s	kihagyva: %s
@@ -270,7 +270,7 @@ someone is wearing this; taking it would copy it	valaki ezt viseli; elvenni más
 stack at one point (storage contents)	egy ponton halmozódik (tárolt tartalom)
 Status	Állapot
 Stop pets looting	Akadályozd meg, hogy a háziállatok szedjenek
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Asztalok, székek, ágyak, szőnyegek, lámpák, gyertyák, festmények, edények és egy berendezett szoba minden más darabja, akár a földről veszed fel, akár a saját interakciós pontjáról. A legtöbbjük egy-két rezet ér, de a szőnyegek és a luxuságyak akár ezreket is érhetnek, ezért kapcsold be, mielőtt berendezel egy házat. A ládák és más tárolásra alkalmas dolgok inkább a Tárolókhoz tartoznak. Alapértelmezésben kikapcsolva.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Asztalok, székek, ágyak, szőnyegek, lámpák, gyertyák, festmények, edények és egy berendezett szoba minden más darabja, akár a földről veszed fel, akár a saját interakciós pontjáról. A legtöbbjük listaára egy-két réz, de a szőnyegek és a luxuságyak akár ezreket is érhetnek, ezért kapcsold be, mielőtt berendezel egy házat. A ládák és más tárolásra alkalmas dolgok inkább a Tárolókhoz tartoznak. Alapértelmezésben kikapcsolva.
 Tag	Címke
 Tags	Címkék
 tags, any of which can be set to never in the Tags tab:	címkék, bármelyik beállítható sohára a Címkék fülön:
@@ -323,7 +323,7 @@ World (actor manager)	Világ (actor manager)
 worn by someone	valaki viseli
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Viselt felszerelés, amit az ellenségek haláluk közben ejtenek. Olcsó és nehéz, de bőséges.
 worn or carried by you	viseled vagy nálad van
-worth %lld copper	%lld réz értékű
+list price %lld copper	listaár %lld réz
 Wrap the swapchain	Swapchain becsomagolása
 Write translation template	Fordítási sablon írása
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Kiírja a MasterLooter.template.txt fájlt a plugin mellé, benne minden sorral, amit a menü ebben a munkamenetben megjelenített. Először nyisd meg az összes fület, mert egy sor csak akkor jelenik meg, ha már ki lett rajzolva. Fordítsd le minden rekord jobb oldalát, mentsd el MasterLooter.<nyelv>.txt néven, és add meg itt azt a nyelvet.
@@ -477,7 +477,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Küszöbök törlése
 Floor	Küszöb
 general	általános
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Az ebbe a kategóriába tartozó, ennyi réznél kevesebbet érő tárgyak kimaradnak, az Általános fül Minimum értéke helyett. Húzd, vagy Ctrl+kattintással írj be számot. 0-nál a kategória az Általános fület követi.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Az ebbe a kategóriába tartozó, ennyi réznél alacsonyabb listaárú tárgyak kimaradnak, az Általános fül Minimum listaára helyett. Húzd, vagy Ctrl+kattintással írj be számot. 0-nál a kategória az Általános fület követi.
 %s, %d rules	%s, %d szabály
 %s, no rules	%s, nincs szabály
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	Biztonsági mentés készül, ha a játék a legutóbbi óta megváltozott beállításokkal indul, és az utolsó tizenkettő megmarad. A mentések, a profilok és a MasterLooter.ini egy másolata itt van: %s, ahová a bővítményt újratelepítő modkezelő nem ér el, és a hiányzó MasterLooter.ini a következő indításkor ebből a másolatból áll vissza.

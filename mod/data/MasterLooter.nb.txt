@@ -76,7 +76,7 @@ container (off)	beholder (av)
 Containers	Beholdere
 containers off	beholdere av
 Controller	Kontroller
-Copper	Kobber
+List price	Listepris
 Copy	Kopier
 Copy path	Kopier sti
 Copy to the clipboard.	Kopier til utklippstavlen.
@@ -144,7 +144,7 @@ Items lying in the world, including drops from enemies.	Gjenstander som ligger i
 Items no shop will buy, in every class but currency.	Gjenstander ingen butikk vil kjøpe, i alle klasser unntatt valuta.
 Items on the ground	Gjenstander på bakken
 Items tagged quest are left alone, so puzzles and story pickups are not auto-taken. It reads the item's own tags, so it covers anything you pick up and every node whose contents the mod can name. Two things fall outside it. A node it cannot name is decided by the switch for its kind, because there is no item there to read a tag from. And skinning a carcass pays out without the mod ever seeing what arrived.	Gjenstander merket quest lates i fred, slik at gåte- og historiegjenstander ikke tas automatisk. Den leser gjenstandens egne merkelapper, så den dekker alt du plukker opp og hvert punkt hvis innhold modden kan navngi. To ting faller utenfor. Et punkt den ikke kan navngi avgjøres av bryteren for sitt slag, for der finnes ingen gjenstand å lese en merkelapp av. Og å flå et kadaver betaler ut uten at modden noen gang ser hva som kom inn.
-Items with an unknown value are never filtered by it.	Gjenstander med ukjent verdi blir aldri filtrert av den.
+It reads the item's list price in the game data, and a shop pays less than that when you sell. Items with no list price are never filtered by it.	Den bruker gjenstandens listepris fra spilldataene, og en butikk betaler mindre når du selger. Gjenstander uten listepris blir aldri filtrert av den.
 Keep the menu on screen while you play. %s brings it back, %s closes it.	Hold menyen på skjermen mens du spiller. %s henter den tilbake, %s lukker den.
 Keys	Nøkler
 Keys and tools	Nøkler og verktøy
@@ -170,7 +170,7 @@ Materials	Materialer
 mechanism part	mekanismedel
 Memory chips and puzzle parts	Minnebrikker og puslespilldeler
 Mine ore veins for you	Bryt malmårer for deg
-Minimum value (copper)	Minimumsverdi (kobber)
+Minimum list price (copper)	Minste listepris (kobber)
 missing	mangler
 missing MasterLooter.items.tsv	MasterLooter.items.tsv mangler
 mission object	oppdragsobjekt
@@ -260,7 +260,7 @@ Skip all	Hopp over alt
 Skip quest equipment	Hopp over oppdragsutstyr
 Quest equipment	Oppdragsutstyr
 Gear marked important that no shop will buy, across every class. Off leaves quest tools where they lie.	Utstyr spillet merker som viktig og som ingen butikk kjøper, på tvers av alle klasser. Av: oppdragsverktøy blir liggende.
-Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all worth a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Verktøy og utstyr spillet merker som viktig og som ingen butikk kjøper: gjødsel- og smøresprøytene, Kuku-spydene, speiderringene og -halskjedene. 251 gjenstander, nesten alle verdt en enkelt kobber, og å plukke opp en for tidlig kan bringe et oppdragstrinn ut av rekkefølge.\n\nDen leser de to merkene sammen, så en gjenstand med bare det ene er ikke dekket. Feltsprøyten kan ikke selges og er ikke merket som viktig, og kommer fortsatt inn.
+Tools and gear the game marks important that no shop will buy: the fertilizer and lubricant sprayers, the Kuku spears, the scout rings and necklaces. 251 items, nearly all with a list price of a single copper, and taking one off the floor early can put a quest step out of order.\n\nIt reads the two marks together, so an item carrying only one of them is not covered. The Field Sprayer is unsellable and not marked important, and still comes in.	Verktøy og utstyr spillet merker som viktig og som ingen butikk kjøper: gjødsel- og smøresprøytene, Kuku-spydene, speiderringene og -halskjedene. 251 gjenstander, nesten alle med listepris på en enkelt kobber, og å plukke opp en for tidlig kan bringe et oppdragstrinn ut av rekkefølge.\n\nDen leser de to merkene sammen, så en gjenstand med bare det ene er ikke dekket. Feltsprøyten kan ikke selges og er ikke merket som viktig, og kommer fortsatt inn.
 Skip items shops refuse to buy	Hopp over gjenstander butikker nekter å kjøpe
 Skip quest items	Hopp over questgjenstander
 skip: %s	hopp over: %s
@@ -271,7 +271,7 @@ someone is wearing this; taking it would copy it	noen har dette på seg; å ta d
 stack at one point (storage contents)	stables på ett sted (lagerinnhold)
 Status	Status
 Stop pets looting	Hindre kjæledyr i å plyndre
-Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it is worth a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bord, stoler, senger, tepper, lamper, lys, malerier, krukker og resten av et møblert rom, enten du plukker det opp fra gulvet eller tar det fra sitt eget interaksjonspunkt. Det meste er verdt en kobber eller to, men teppene og luksussengene går opp i tusener, så slå dette på før du møblerer et hus. Kister og andre ting som inneholder noe hører til Beholdere i stedet. Av som standard.
+Tables, chairs, beds, carpets, lamps, candles, paintings, pots and the rest of a furnished room, whether you pick one up off the floor or take it from its own interaction node. Most of it has a list price of a copper or two, but the carpets and the luxury beds run to thousands, so turn this on before furnishing a house. Chests and the other things that hold something answer to Containers instead. Off by default.	Bord, stoler, senger, tepper, lamper, lys, malerier, krukker og resten av et møblert rom, enten du plukker det opp fra gulvet eller tar det fra sitt eget interaksjonspunkt. Det meste har en listepris på en kobber eller to, men teppene og luksussengene går opp i tusener, så slå dette på før du møblerer et hus. Kister og andre ting som inneholder noe hører til Beholdere i stedet. Av som standard.
 Tag	Tagg
 Tags	Tagger
 tags, any of which can be set to never in the Tags tab:	tagger, som hver kan settes til aldri i Tagger-fanen:
@@ -324,7 +324,7 @@ World (actor manager)	Verden (actor manager)
 worn by someone	båret av noen
 Worn gear that enemies drop as they die. Cheap and heavy, but plentiful.	Utstyr fiender bærer og slipper når de dør. Billig og tungt, men rikelig.
 worn or carried by you	båret eller holdt av deg
-worth %lld copper	verdt %lld kobber
+list price %lld copper	listepris %lld kobber
 Wrap the swapchain	Pakk inn swapchainen
 Write translation template	Skriv oversettelsesmal
 Writes MasterLooter.template.txt beside the plugin, holding every line the menu has shown this session. Open every tab first, since a line only appears once it has been drawn. Translate the right-hand side of each record, save it as MasterLooter.<language>.txt, and put that language here.	Skriver MasterLooter.template.txt ved siden av pluginen, med hver linje menyen har vist denne økten. Åpne alle fanene først, siden en linje bare dukker opp etter at den er tegnet. Oversett høyre side av hver oppføring, lagre den som MasterLooter.<språk>.txt, og skriv det språket her.
@@ -478,7 +478,7 @@ A floor set for a class on the Classes tab takes the place of this one for that 
 Clear floors	Fjern grenser
 Floor	Grense
 general	generell
-Items of this class worth less than this many copper are skipped, in place of Minimum value on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Gjenstander i denne klassen som er verdt mindre enn så mange kobber, hoppes over i stedet for Minimumsverdi på fanen Generelt. Dra, eller Ctrl+klikk for å skrive inn et tall. Ved 0 følger klassen fanen Generelt.
+Items of this class with a list price under this many copper are skipped, in place of Minimum list price on the General tab. Drag it, or Ctrl+click to type a number. At 0 the class follows the General tab.	Gjenstander i denne klassen med listepris under så mange kobber hoppes over i stedet for Minste listepris på fanen Generelt. Dra, eller Ctrl+klikk for å skrive inn et tall. Ved 0 følger klassen fanen Generelt.
 %s, %d rules	%s, %d regler
 %s, no rules	%s, ingen regler
 A backup is written when the game starts with settings changed since the last one, and the last twelve are kept. Backups, presets and a copy of MasterLooter.ini are kept in %s, where a mod manager reinstalling the plugin cannot reach them, and a missing MasterLooter.ini is put back from that copy at the next launch.	En sikkerhetskopi skrives når spillet starter med innstillinger som er endret siden forrige, og de tolv siste beholdes. Sikkerhetskopier, forhåndsinnstillinger og en kopi av MasterLooter.ini ligger i %s, utenfor rekkevidde for en modbehandler som installerer utvidelsen på nytt, og en manglende MasterLooter.ini legges tilbake fra kopien ved neste oppstart.
