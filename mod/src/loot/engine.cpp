@@ -605,6 +605,8 @@ namespace ml::loot
     // line says each one once while the verdict is asked on every scan. Entity
     // ids are not reused inside a session, so nothing needs purging.
     static std::unordered_set<uint32_t> g_ownedCatchSaid;
+    // The same for a dead mount or pack animal the ownership check refused.
+    static std::unordered_set<uint32_t> g_ownedBeastSaid;
 
     // Everything the scan has seen hanging off the player, and the last moment
     // it did. Being attached is the one thing that keeps the player's own kit
@@ -4599,7 +4601,15 @@ namespace ml::loot
         // the same category bytes as the bodies it passed, so Ahplla's raiders
         // and thieves were left lying for no reason the game shares. A body
         // that reads peaceful keeps the old test.
-        const bool hostileBody = v.act == Action::Search && c.cat2 != 0x0A;
+        //
+        // So does a mount or a pack animal. Type tag 05 is every horse, cow,
+        // bull and packhorse in 270 saved logs, wagon horses and trade goods
+        // packhorses among them, and no raider or wild beast wears it. A horse
+        // has Horse_OpenInventory, so a dead one belonging to a traveller still
+        // carries that traveller's goods, and DANic-git counted 12 of 33 bodies
+        // searched as theft were tag 05 with a dung spawner on them (#244).
+        const bool ownedBeast = v.act == Action::Search && c.type == 0x05;
+        const bool hostileBody = v.act == Action::Search && c.cat2 != 0x0A && !ownedBeast;
         if (hostileBody && !cfg.lootOwned && WouldStealCached(c) == 1)
             LOG("[corpse] %08X: the ownership check says theft, searching anyway, cat %02X/%02X", c.eid, c.cat, c.cat2);
         // A creature can belong to someone too. interactioninfo has
@@ -4622,6 +4632,9 @@ namespace ml::loot
         if (!cfg.lootOwned && v.act != Action::Catch && !hostileBody)
         {
             const int steal = WouldStealCached(c);
+            if (steal == 1 && ownedBeast && g_ownedBeastSaid.insert(c.eid).second)
+                LOG("[corpse] %08X: a mount or pack animal, tag 05, and the ownership check says theft, so it is left alone, cat %02X/%02X at %.1f m",
+                    c.eid, c.cat, c.cat2, c.d);
             if (steal == 1)  return skip("owned by someone (theft)");
             // Not "owner unknown": nothing at all can be taken yet. The game
             // has to run its own ownership check once before the mod can ask
