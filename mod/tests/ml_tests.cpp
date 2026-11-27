@@ -460,11 +460,14 @@ static void ClassMultipliers()
 
 // LlexX, posts tab, 15 November 2026: the mod gathered a Greymane Dwelling
 // Tent whatever the filter said. The node table has no row for the prefab, so
-// the item table's placed_prefab column is what names it.
+// the item table's placed_prefab column is what names it. Game 1.0.0.3840
+// cleared the housing-only flag on nine DLC pieces, the Oak Barrel Stool,
+// Captain's Bed of Dignity and three Ancient Runic Stone Sconces among them,
+// so 572 became 563.
 static void PlacedHousing()
 {
     const Config cfg;
-    Check(ItemDb::PlacedCount() == 572, "every housing-only item names the prefab it is placed as");
+    Check(ItemDb::PlacedCount() == 563, "every housing-only item names the prefab it is placed as");
     const Item* tent = ItemDb::ByPlacedPrefab("gimmick_tent_graymane_01");
     Check(tent && tent->stringKey == "tent_graymane_01", "gimmick_tent_graymane_01 is the Greymane Dwelling Tent");
     if (tent)
