@@ -1,6 +1,6 @@
 # Master Looter
 
-Auto-loot for Crimson Desert with an in-game menu, built for the DLC update and game 2.05.01 (exe 1.0.0.3732).
+Auto-loot for Crimson Desert with an in-game menu, built for the DLC update and game 2.06.00 (exe 1.0.0.3840).
 
 > [!IMPORTANT]
 > **New in 1.6.28: loot can go straight into storage.** Install [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) 1.1.0 or later beside Master Looter, and what Master Looter picks up can be moved into your storage as it lands. Nothing you pick up by hand is touched. It starts off; see [Storing loot](#storing-loot) for how to turn it on.
@@ -38,7 +38,7 @@ Walk past it and it is in your bag: dropped items, herbs and flowers, ore and st
 
 New in 1.6.28. With [Private Storage Master](https://www.nexusmods.com/crimsondesert/mods/3521) installed beside it, whatever Master Looter picks up can be moved into your storage a moment after it lands in the bag, the same move you would make standing at the storage.
 
-You need Master Looter 1.6.28 or later and Private Storage Master 1.1.0 or later, both in `bin64`. On game 2.05.00 that is Master Looter 1.6.60 and Private Storage Master 1.1.12. Playing as Damiane or Oongka takes Master Looter 1.6.29 and Private Storage Master 1.1.1 or later, because neither of them carries a bag of their own and the game fills the one it lends them. Master Looter only stores what it picks up itself, so it has to be looting: auto-loot on, or the loot-everything key.
+You need Master Looter 1.6.28 or later and Private Storage Master 1.1.0 or later, both in `bin64`. On game 2.05.00 that is Master Looter 1.6.60 and Private Storage Master 1.1.12. On game 2.06.00, exe 1.0.0.3840, it is Master Looter 1.6.66 and Private Storage Master 1.1.16, the first one that reads the record layout 3840 changed. Playing as Damiane or Oongka takes Master Looter 1.6.29 and Private Storage Master 1.1.1 or later, because neither of them carries a bag of their own and the game fills the one it lends them. Master Looter only stores what it picks up itself, so it has to be looting: auto-loot on, or the loot-everything key.
 
 To turn it on:
 
@@ -71,7 +71,19 @@ Stack Master 1.0.6 adds `StackSize` to `StackMaster.ini`, one stack size for eve
 
 ## Installing
 
-**1.6.65 needs game 2.05.01, exe 1.0.0.3732.** 1.6.62 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.05.00, exe 1.0.0.3663. That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 is there for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
+**1.6.66 is built for game 2.06.00, exe 1.0.0.3840.** On game 2.05.01, exe 1.0.0.3732, use 1.6.65 from [Releases](https://github.com/shin2344234/master-looter/releases). 1.6.66 still resolves its signatures on 3732, but the item table was rebuilt for 3840 and nobody has played 1.6.66 on 3732, so 1.6.65 is the one made for it. 1.6.62 stays on [Releases](https://github.com/shin2344234/master-looter/releases) for game 2.05.00, exe 1.0.0.3663. That update moved every table the plugin reads item and gimmick names from. 1.6.56 still loads on it, but with no names it treats every item as unidentified, and with Unidentified nodes on it takes things it should leave. 1.6.56 is there for game 2.04.08, exe 1.0.0.3576, and 1.6.50 for a game still on exe 1.0.0.2976. The DLC update moved every function the plugin hooks, so 1.6.50 loots nothing on anything newer.
+
+What changed in 1.6.66:
+
+- Built for the 26 November game update, exe 1.0.0.3840. The game took each table record's name out of the record and moved the gimmick fields, so the plugin now reads the table layout and the gimmick layout of both 3732 and 3840. The item, creature and node tables were rebuilt from its data. Iteminfo dropped one wagon recipe and added `PS_Portal_Lantern`, which moved every item row after 3340 by one, and the node table gained one row, Sea scallops. The 3840 port ran in the author's game on 26 November, and the log showed the ownership check armed and the chest hook installed.
+- The Broom from the chimney sweeping quest and the Clear Soup recipe from the Greymane camp quest count as quest items, so Quest items keeps the mod from taking them. Both quests stopped moving when the mod took them. A Broom a worker drops is no longer picked up either, and an Always on either item still lifts it. Reported by erikem007.
+- A fix for the game hanging on a save load when OptiScaler is loaded as `d3d12.dll`. Writing a hook freezes every other thread, and the mod closed thread handles while some were still frozen. OptiScaler takes a lock inside `CloseHandle` that one of its own frozen threads held. The handles now close after every thread has resumed. Found by hasewo2010 from a memory dump.
+- A catch goes through the game's Take-or-Steal check now. With Take goods that belong to someone off, the mod stops catching the fish the fishermen keep south of Rodbel Fishing Dock. The log says `catching this would be theft`. Reported by erikem007 and gkpfour.
+- The mod never catches the sea creatures the game lets you ride, which are the sharks, rays, orca, dolphins, sunfish, sturgeon and paddlefish, and a tamed manta ray stays in the mount list. The log says `[mount]`.
+- The menu pointer shows on a screen or window under 1080 pixels high. Its scale rounded to zero there, so clicks landed while the pointer was invisible.
+- Climbing a windmill tower no longer leaves the scan on the tower. It moves back to the character the game controls when that character stands among world objects.
+- Six new switches in `MasterLooter.ini`, all off by default and not in the menu, are described in the list above. `PauseWhenMounted` stops looting in the saddle. `DropRefusedChests` puts back what your rules refuse from a chest. `HideItemLog` hides the game's pickup lines. `MinFoodHealth` sets a floor on food by the health it gives back. `SkipCarriedGear` leaves gear the bag already holds. `LogFolder` moves the logs into `bin64\logs`.
+- This build was not tested in play.
 
 What changed in 1.6.65:
 
@@ -132,7 +144,7 @@ One scanner out of seventy-one flags `MasterLooter.asi` on 1.6.65. Webroot calls
 
 The number moves release to release without the code changing character: 1.2.1 scored four, 1.4.0 four, 1.5.0 two, 1.5.1 four, 1.6.0 two, 1.6.1 three, 1.6.2 three, 1.6.3 three, 1.6.4 four, 1.6.5 four, 1.6.6 four, 1.6.7 three, 1.6.8 four, 1.6.9 four, 1.6.10, the first signed build, two, 1.6.12 one, 1.6.13 one, 1.6.14 one, 1.6.15 two, 1.6.16 two, 1.6.17 one, 1.6.18 two, 1.6.19 two, 1.6.20 one, 1.6.21 one, 1.6.22 one, 1.6.23 one, 1.6.24 one, 1.6.25 two, 1.6.26 one, 1.6.27 one, 1.6.28 one, 1.6.29 one, 1.6.30 one, 1.6.31 one, 1.6.32 one, 1.6.33 two, 1.6.34 two, 1.6.35 one, 1.6.36 one, 1.6.37 one, 1.6.38 one, 1.6.39 one, 1.6.40 one, 1.6.41 one, 1.6.42 one, 1.6.43 one, 1.6.44 none, with Webroot timing out, 1.6.45 two, 1.6.46 one, 1.6.47 two, 1.6.48 one, 1.6.49 one, 1.6.50 one, 1.6.51 one, 1.6.52 one, 1.6.53 one, 1.6.54 one, 1.6.55 one, 1.6.56 one, 1.6.57 one, 1.6.58 one, 1.6.59 one, 1.6.60 one, 1.6.61 one, 1.6.62 one, 1.6.63 one, 1.6.64 one and 1.6.65 one. Microsoft flagged every one of them up to the signature, went quiet for five releases, came back for two, dropped off for five more, returned on 1.6.25, left again on 1.6.26, came back on 1.6.45 and left on 1.6.46, then flagged only the DMM zip on 1.6.59 and nothing on 1.6.60 through 1.6.65; Symantec flagged every unsigned build and none since. Everything else comes and goes: Deep Instinct flagged early builds, went quiet, came back for 1.6.33 and 1.6.34 and left on 1.6.35, CrowdStrike Falcon stayed three releases and dropped off on 1.6.6, Cynet appeared on 1.6.4, was gone by 1.6.5, came back on 1.6.6, left on 1.6.7, returned on 1.6.9 and left again with the signature, Webroot arrived on 1.6.5, a build whose one change is that it no longer creates a Direct3D device at startup, and Elastic arrived on 1.6.8, was gone again on 1.6.9, came back on 1.6.47 and left on 1.6.48. That is what a model guessing looks like, as against a scanner recognising something.
 
-Reports for 1.6.65: [the plugin](https://www.virustotal.com/gui/file/52fd7633929999f05b3ea8e7964c8ff9fd39ba7346c36ae753700095fb9c22ee) and [the package](https://www.virustotal.com/gui/file/2c77eff3c244bb388adfa136795f7c3bceb793c8786bf35064a3845e82123ac9).
+Reports for 1.6.66: [the plugin](https://www.virustotal.com/gui/file/89c92d1388d5f95a382faa8cf4dc9048eae27803d869c73822ea23db65740d45) and [the package](https://www.virustotal.com/gui/file/8f531f4743682b171c2e0b842788ee39c0e110e9b13aa2d3fb8abe83de19f6fe).
 
 The guess is easy to explain. The plugin is a DLL that a loader puts inside the game, and once there it rewrites instructions in memory, searches the game's code for byte patterns, reads the keyboard before the game does and draws over Direct3D 12. A trainer does the same things, so a model trained on trainers answers trainer, and a release a day old has no install history to argue back with.
 
@@ -140,11 +152,11 @@ What it does not do is reach the network. It imports no networking library, and 
 
 Since 1.6.10 the plugin is code signed: right-click `MasterLooter.asi`, Properties, Digital Signatures shows Seth Walker, issued through Microsoft's identity-verified signing service and timestamped. A signature carries reputation from one release to the next, where a false-positive report to a vendor clears one file only, so the numbers above should move over the coming releases; this section will say whether they do.
 
-If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.65:
+If Defender or your browser quarantines the download, restore it and exclude the game's `bin64` folder, or build from source and use your own binary. SHA-256 for 1.6.66:
 
-    2c77eff3c244bb388adfa136795f7c3bceb793c8786bf35064a3845e82123ac9  MasterLooter-1.6.65-DMM.zip
-    145f0b910717ec7e929c5b536b0ba4fadf7e33235c7944ce6229d363aeaf9cf8  MasterLooter-1.6.65.zip
-    52fd7633929999f05b3ea8e7964c8ff9fd39ba7346c36ae753700095fb9c22ee  MasterLooter.asi
+    8f531f4743682b171c2e0b842788ee39c0e110e9b13aa2d3fb8abe83de19f6fe  MasterLooter-1.6.66-DMM.zip
+    dc42ad929e6ee09b111130bf7ebdf0824d71eba9749e7a740399f51c41a910fd  MasterLooter-1.6.66.zip
+    89c92d1388d5f95a382faa8cf4dc9048eae27803d869c73822ea23db65740d45  MasterLooter.asi
 
 ## Controls
 
@@ -187,7 +199,7 @@ Visual Studio 2022 Build Tools with the C++ workload (CMake and Ninja come with 
     build.bat
     powershell -ExecutionPolicy Bypass -File scripts\package.ps1 -Unsigned
 
-`dist\` receives the plugin and the documents, and `package.ps1` builds the two release archives from them. Releases are signed first with `scripts\sign.ps1`, which is why a local build needs `-Unsigned`. The item database and the creature table in `mod\data` are current for exe 1.0.0.3392, DLC items included, and are compiled into the plugin; regenerating them after a game patch is described in [scripts/README.md](scripts/README.md). After a patch, `py -3 mod\scripts\sigcheck.py` reports which signatures still resolve against the installed exe.
+`dist\` receives the plugin and the documents, and `package.ps1` builds the two release archives from them. Releases are signed first with `scripts\sign.ps1`, which is why a local build needs `-Unsigned`. The item database and the creature table in `mod\data` are current for exe 1.0.0.3840, DLC items included, and are compiled into the plugin; regenerating them after a game patch is described in [scripts/README.md](scripts/README.md). After a patch, `py -3 mod\scripts\sigcheck.py` reports which signatures still resolve against the installed exe.
 
 ## Repository layout
 
