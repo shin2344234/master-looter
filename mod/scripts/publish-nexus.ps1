@@ -222,10 +222,10 @@ foreach ($e in $entries) {
 
 Write-Host ""
 if ($Apply) {
-    Write-Host "Still by hand, because the v3 API has no endpoint for either:" -ForegroundColor Yellow
+    Write-Host "Still to do, with release.ps1 -Stage web:" -ForegroundColor Yellow
 } else {
-    Write-Host "REPORT ONLY. Nothing was sent. After -Apply, these stay by hand:" -ForegroundColor Yellow
+    Write-Host "REPORT ONLY. Nothing was sent. After -Apply, release.ps1 -Stage web does these:" -ForegroundColor Yellow
 }
-Write-Host ("  paste the page description   private\nexus\nexus-description.bbcode")
-Write-Host ("  post the update              private\nexus\nexus-post-{0}.bbcode" -f $Version)
+Write-Host ("  the page description   private\nexus\nexus-description.bbcode, through the API")
+Write-Host ("  the update post        private\nexus\nexus-post-{0}.bbcode, in the browser" -f $Version)
 if ($problems) { exit 1 }

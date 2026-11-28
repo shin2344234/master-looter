@@ -22,14 +22,25 @@
     23 September 2026, after notes in several mods had said no such endpoint
     existed.
 
-    WHAT THIS SCRIPT CANNOT DO, because the v3 API has no endpoint for it as of
-    2026-09-08 (verified against the OpenAPI spec and a v2 GraphQL introspection):
+    WHAT THIS SCRIPT DOES NOT DO. Checked against the OpenAPI spec on
+    2026-11-27 (spec version 3.0.0):
 
-        * Edit the mod page description       - no endpoint exists
-        * Post a news/article/update post     - no endpoint exists
-        * Create a brand new mod page         - on Nexus' roadmap, not shipped
+        * Edit the mod page description. web\nexus_web.py does that, through
+          PATCH /mods/{id} (Experimental, taking `summary` of at most 350
+          characters and `description` in BBCode) with the browser as its
+          fallback.
+        * Post a Posts-tab comment or an update post - no endpoint exists.
+        * Create a brand new mod page - no endpoint exists.
 
-    Those three still need the web UI or browser automation.
+    The same check found the bug endpoints, all Experimental. nexus_web.py
+    posts bugs-tab replies through POST /mod-bugs/{id}/replies, and
+    board-watch reads the bugs tab through GET /mod-bugs and GET
+    /mod-bugs/{id}. PATCH /mod-bugs/{id} (status, priority, fixed version)
+    has no caller, because Seth sets a row's status himself. On 2026-09-08
+    none of these existed.
+
+    POST /uploads requires `md5` from 2026-12-01. This script already sends it
+    and the matching Content-MD5 header.
 
 .NOTES
     Written for Windows PowerShell 5.1. No PS7-only syntax is used, so this runs
